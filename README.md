@@ -43,9 +43,6 @@ Please follow the [installation procedure](#installation--usage) and then run th
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write.point import Point
 
-if __name__ == '__main__':
-    pass
-
 bucket = "test_bucket"
 
 client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
