@@ -2,23 +2,7 @@ import inspect
 
 
 class FluxStructure:
-
-    def __str__(self):
-        return self.__to_string(str)
-
-    def __repr__(self):
-        return self.__to_string(repr)
-
-    def __to_string(self, strfunc):
-        sig = inspect.signature(self.__init__)
-        values = []
-        for attr in sig.parameters:
-            value = getattr(self, attr)
-            values.append(attr + ": " + strfunc(value))
-
-        clsname = type(self).__name__
-        args = ', '.join(values)
-        return '{}({})'.format(clsname, args)
+    pass
 
 
 class FluxTable(FluxStructure):
@@ -29,6 +13,10 @@ class FluxTable(FluxStructure):
 
     def get_group_key(self):
         return list(filter(lambda column: (column.group is True), self.columns))
+
+    def __str__(self):
+        cls_name = type(self).__name__
+        return cls_name + "() columns: " + str(len(self.columns)) + ", records: " + str(len(self.records))
 
 
 class FluxColumn(FluxStructure):
@@ -42,9 +30,11 @@ class FluxColumn(FluxStructure):
 
 class FluxRecord(FluxStructure):
 
-    def __init__(self, table) -> None:
+    def __init__(self, table, values=None) -> None:
+        if values is None:
+            values = {}
         self.table = table
-        self.values = {}
+        self.values = values
 
     def get_start(self):
         return self.values.get("_start")
@@ -63,3 +53,7 @@ class FluxRecord(FluxStructure):
 
     def get_measurement(self):
         return self.values.get("_measurement")
+
+    def __str__(self):
+        cls_name = type(self).__name__
+        return cls_name + "() table: " + str(self.table) + ", " + str(self.values)

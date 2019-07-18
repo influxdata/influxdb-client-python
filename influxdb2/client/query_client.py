@@ -26,7 +26,8 @@ class QueryClient(object):
             org = self._influxdb_client.org
         result = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
                                                 _preload_content=False)
-        return codecs.iterdecode(result, 'utf-8')
+        return result
+        # return codecs.iterdecode(result, 'utf-8')
 
     def query(self, query, org=None, dialect=default_dialect):
         if org is None:

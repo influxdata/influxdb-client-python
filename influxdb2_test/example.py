@@ -1,4 +1,9 @@
+import codecs
+import io
+import builtins
 from datetime import datetime
+
+import pandas
 
 from influxdb2 import WritePrecision
 from influxdb2.client.influxdb_client import InfluxDBClient
@@ -14,25 +19,29 @@ query_client = client.query_client()
 p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3).time(datetime.now(), WritePrecision.MS)
 
 # write using point structure
-write_client.write(bucket=bucket, org="my-org", record=p)
+write_client.write(org="my-org", bucket=bucket, record=p)
 
 line_protocol = p.to_line_protocol()
 print(line_protocol)
 
 # write using line protocol string
-write_client.write(bucket=bucket, org="my-org", record=line_protocol)
+write_client.write(org="my-org", bucket=bucket, record=line_protocol)
 
 # using Table structure
 tables = query_client.query('from(bucket:"my-bucket") |> range(start: -1m)')
-
 for table in tables:
     print(table)
-    for row in table.records:
-        print(row.values)
+    for record in table.records:
+        # process record
+        print(record.values)
 
 # using csv library
 csv_result = query_client.query_csv('from(bucket:"my-bucket") |> range(start: -10m)')
 val_count = 0
-for row in csv_result:
-    for cell in row:
+for record in csv_result:
+    for cell in record:
         val_count += 1
+print("val count: ", val_count)
+
+response = query_client.query_raw('from(bucket:"my-bucket") |> range(start: -10m)')
+print (codecs.decode(response.data))

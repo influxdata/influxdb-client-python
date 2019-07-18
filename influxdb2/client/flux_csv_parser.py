@@ -31,7 +31,8 @@ class FluxCsvParser(object):
         reader = csv_parser.reader(codecs.iterdecode(response, 'utf-8'))
 
         for csv in reader:
-
+            # debug
+            # print("parsing: ", csv)
             if (cancellable is not None) and cancellable.canceled:
                 return
 
@@ -43,7 +44,7 @@ class FluxCsvParser(object):
                 parsing_state_error = True
                 continue
 
-            # Throw  InfluxExceptionwith error response
+            # Throw  InfluxException with error response
             if parsing_state_error:
                 error = csv[1]
                 reference_value = csv[2]
@@ -83,12 +84,14 @@ class FluxCsvParser(object):
                     # create    new        table       with previous column headers settings
                     flux_columns = table.columns
                     table = FluxTable()
-                    table.columns.AddRange(flux_columns)
-                    consumer.accept(table_index, cancellable, table)
+                    table.columns.extend(flux_columns)
+                    consumer.accept_table(table_index, cancellable, table)
                     table_index = table_index + 1
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
                 consumer.accept_record(table_index - 1, cancellable, flux_record)
+                # debug
+                # print(flux_record)
 
     def parse_record(self, table_index, table, csv):
         record = FluxRecord(table_index)

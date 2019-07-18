@@ -4,6 +4,7 @@
 from rx.scheduler import NewThreadScheduler
 from rx.subject import Subject
 
+from influxdb2 import WritePrecision
 from influxdb2.client.abstract_client import AbstractClient
 from influxdb2.client.write.point import Point
 
@@ -20,8 +21,6 @@ class WriteOptions(object):
         self.buffer_limit = buffer_limit
         self.write_scheduler = write_scheduler
 
-        # todo back pressure strategy
-
 
 class WriteApiClient(AbstractClient):
 
@@ -31,18 +30,29 @@ class WriteApiClient(AbstractClient):
 
         _subject = Subject
 
-    def write_record(self, org, bucket, record):
-        # self.service.post
-        #
-        print(self._write_api)
+    def write(self, bucket, org, record, write_precision=None):
 
-    def write(self, bucket, record, org=None):
+        if write_precision is None:
+            write_precision = WritePrecision.NS
+
+        final_string = ''
+
+        if isinstance(record, str):
+            final_string = record
 
         if isinstance(record, Point):
-            self._write_api.post_write(org, bucket, record.to_line_protocol())
-        if isinstance(record, str):
-            self._write_api.post_write(org, bucket, record)
-        pass
+            final_string = record.to_line_protocol()
+
+        if isinstance(record, list):
+            lines = []
+            for item in record:
+                if isinstance(item, str):
+                    lines.append(item)
+                if isinstance(item, Point):
+                    lines.append(item.to_line_protocol())
+            final_string = '\n'.join(lines)
+
+        return self._write_api.post_write(org=org, bucket=bucket, body=final_string, precision=write_precision)
 
     def flush(self):
         # TODO

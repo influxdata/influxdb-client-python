@@ -2,61 +2,79 @@
 
 from __future__ import absolute_import
 
+import datetime
 import unittest
 
-from influxdb2 import QueryApi, OrganizationsApi
-from influxdb2_test.base_test import BaseTest
+from influxdb2 import QueryApi, OrganizationsApi, WritePrecision, BucketsApi
+from influxdb2_test.base_test import BaseTest, generate_bucket_name
 
 
 class SimpleWriteTest(BaseTest):
 
-    def test_post_write(self):
-        self.client.write_client().write(org="my-org", bucket="my-bucket", record="air,location=Python humidity=99")
+    def test_write_line_protocol(self):
+        bucket = self.create_test_bucket()
+
+        record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        self.write_client.write(bucket.name, self.org, record)
+        self.write_client.flush()
+
+        result = self.query_client.query(
+            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
+        self.assertEqual(result[0].records[0].get_value(), 1.0)
+        self.assertEqual(result[0].records[0].get_field(), "level water_level")
+        self.assertEqual(result[0].records[0].get_time(),
+                         datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc))
+
+        self.delete_test_bucket(bucket)
+
+    #####################################
+
+    def test_write_precission(self):
+        bucket = self.create_test_bucket()
+
+        self.client.write_client().write(org="my-org", bucket=bucket.name, record="air,location=Python humidity=99",
+                                         write_precision=WritePrecision.MS)
+
+        result = self.query_client.query(
+            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 1)
+
+        self.delete_test_bucket(bucket)
 
     def test_WriteRecordsList(self):
-        _bucketName = "test_bucket"
+        bucket = self.create_test_bucket()
+
         _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
 
-        self.client.write_client().write(self.org, _bucketName, _record1)
-        self.client.write_client().write(self.org, _bucketName, _record2)
+        list = [_record1, _record2]
+
+        self.client.write_client().write(bucket.name, self.org, list)
 
         self.client.write_client().flush()
 
-        query = 'from(bucket:"' + _bucketName + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
         print(query)
 
-        csv = self.client.query_client().query_csv(query)
-        for line in csv:
-            print(line)
+        flux_result = self.client.query_client().query(query)
 
-        query_client = QueryApi(self.api_client)
+        self.assertEqual(1, len(flux_result))
 
-        # query = await _queryApi.Query(
-        #     "from(bucket:\"" + bucketName + "\") |> range(start: 1970-01-01T00:00:00.000000001Z)",
-        #     _organization.Id);
+        records = flux_result[0].records
 
-        # Assert.AreEqual(1, query.Count);
-        #
-        # records = query[0].Records;
-        # Assert.AreEqual(2, records.Count);
-        #
-        # Assert.AreEqual("h2o_feet", records[0].GetMeasurement());
-        # Assert.AreEqual(1, records[0].GetValue());
-        # Assert.AreEqual("level water_level", records[0].GetField());
-        #
-        # Assert.AreEqual("h2o_feet", records[1].GetMeasurement());
-        # Assert.AreEqual(2, records[1].GetValue());
-        # Assert.AreEqual("level water_level", records[1].GetField());
+        self.assertEqual(2, len(records))
 
-    def test_FindMyOrg(self):
-        org_api = OrganizationsApi(self.api_client)
-        orgs = org_api.post_orgs()
-        print(orgs)
+        self.assertEqual("h2o_feet", records[0].get_measurement())
+        self.assertEqual(1, records[0].get_value())
+        self.assertEqual("level water_level", records[0].get_field())
 
-
-        # return (await Client.GetOrganizationsApi().FindOrganizations())
-        # .First(organization= > organization.Name.Equals("my-org"));
+        self.assertEqual("h2o_feet", records[1].get_measurement())
+        self.assertEqual(2, records[1].get_value())
+        self.assertEqual("level water_level", records[1].get_field())
 
 
 if __name__ == '__main__':
