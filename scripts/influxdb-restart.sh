@@ -46,7 +46,6 @@ docker pull ${INFLUXDB_V2_IMAGE} || true
 docker run \
        --detach \
        --name influxdb_v2 \
-       --link=influxdb \
        --publish 9999:9999 \
        ${INFLUXDB_V2_IMAGE}
 
