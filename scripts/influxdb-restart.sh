@@ -40,12 +40,12 @@ echo
 echo "Restarting InfluxDB 2.0 [${INFLUXDB_V2_IMAGE}] ... "
 echo
 
-docker kill influxdb_v2 || true
-docker rm influxdb_v2 || true
+docker kill my-influxdb2 || true
+docker rm my-influxdb2 || true
 docker pull ${INFLUXDB_V2_IMAGE} || true
 docker run \
        --detach \
-       --name influxdb_v2 \
+       --name my-influxdb2 \
        --publish 9999:9999 \
        ${INFLUXDB_V2_IMAGE}
 
@@ -55,29 +55,12 @@ sleep 5
 echo
 echo "Post onBoarding request, to setup initial user (my-user@my-password), org (my-org) and bucketSetup (my-bucket)"
 echo
-curl -i -X POST http://localhost:9999/api/v2/setup -H 'accept: application/json' \
-    -d '{
-            "username": "my-user",
-            "password": "my-password",
-            "org": "my-org",
-            "bucket": "my-bucket"
-        }'
 
-#
-# InfluxDB 2.0
-#
-echo
-echo "Restarting InfluxDB 2.0 for onboarding test... "
-echo
+docker exec -it my-influxdb2 influx setup --username my-user --password my-password \
+    --token my-token-123 --org my-org --bucket my-bucket --retention 48 --force
 
-docker kill influxdb_v2_onboarding || true
-docker rm influxdb_v2_onboarding || true
-docker run \
-       --detach \
-       --name influxdb_v2_onboarding\
-       --publish 9990:9999 \
-       ${INFLUXDB_V2_IMAGE}
-
-
+## show created orgId
+ORGID=`docker exec -it my-influxdb2 influx org find | grep my-org  | awk '{ print $1 }'`
+echo "orgId="${ORGID}
 
 
