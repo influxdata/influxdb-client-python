@@ -1,5 +1,8 @@
 # influxdb-client-python
 
+[![Build Status](https://travis-ci.org/bonitoo-io/influxdb-client-python.svg?branch=master)](https://travis-ci.org/bonitoo-io/influxdb-client-python)
+
+
 InfluxDB 2.0 python client library. TODO...
 
 ## Requirements.
