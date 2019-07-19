@@ -1,7 +1,6 @@
-from __future__ import absolute_import
+import unittest
 
 import datetime
-import unittest
 
 import influxdb2
 from influxdb2.client.influxdb_client import InfluxDBClient
@@ -36,7 +35,8 @@ class BaseTest(unittest.TestCase):
 
     def create_test_bucket(self):
         bucket_name = generate_bucket_name()
-        bucket = self.buckets_client.create_bucket(bucket_name=bucket_name, org_id=self.my_organization.id)
+        bucket = self.buckets_client.create_bucket(bucket_name=bucket_name, org_id=self.my_organization.id,
+                                                   description=bucket_name + "description")
         return bucket
 
     def delete_test_bucket(self, bucket):

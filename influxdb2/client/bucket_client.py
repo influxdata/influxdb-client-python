@@ -7,7 +7,7 @@ class BucketsClient(object):
         self._influxdb_client = influxdb_client
         self._buckets_api = BucketsApi(influxdb_client.api_client)
 
-    def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None):
+    def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None, description=None):
         """Create a bucket  # noqa: E501
 
 
@@ -32,7 +32,7 @@ class BucketsClient(object):
 
         if bucket is None:
 
-            bucket = Bucket(name=bucket_name, retention_rules=rules)
+            bucket = Bucket(name=bucket_name, retention_rules=rules, description=description)
 
             if org_id is None:
                 org_id = self._influxdb_client.org_id
@@ -67,9 +67,8 @@ class BucketsClient(object):
     def find_bucket_by_name(self, bucket_name):
         """Find bucket by name
 
-        :param id:
-
-        :return:
+        :param bucket_name: bucket name
+        :return: Bucket
         """
 
         buckets = self._buckets_api.get_buckets(name=bucket_name)
@@ -78,4 +77,10 @@ class BucketsClient(object):
             return buckets.buckets[0]
         else:
             return None
+
+    def find_buckets(self):
+        """Gets all buckets
+        """
+        return self._buckets_api.get_buckets()
+
 
