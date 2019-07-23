@@ -1,6 +1,5 @@
-import unittest
-
 import datetime
+import unittest
 
 import influxdb2
 from influxdb2.client.influxdb_client import InfluxDBClient
@@ -28,7 +27,10 @@ class BaseTest(unittest.TestCase):
 
         self.query_client = self.client.query_client()
         self.buckets_client = self.client.buckets_client()
-        self.my_organization = self.client.find_my_org()
+        self.my_organization = self.find_my_org()
+        self.users_client = self.client.users_client()
+        self.organizations_client = self.client.organizations_client()
+        self.authorizations_client = self.client.authorizations_client()
 
     def tearDown(self) -> None:
         self.client.__del__()
@@ -41,3 +43,16 @@ class BaseTest(unittest.TestCase):
 
     def delete_test_bucket(self, bucket):
         return self.buckets_client.delete_bucket(bucket)
+
+    def find_my_org(self):
+        org_api = influxdb2.api.organizations_api.OrganizationsApi(self.api_client)
+        orgs = org_api.get_orgs()
+        for org in orgs.orgs:
+            if org.name == self.org:
+                return org
+
+        return None
+
+    @staticmethod
+    def log(args):
+        print(">>>", args)

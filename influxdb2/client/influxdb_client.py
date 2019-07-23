@@ -1,8 +1,11 @@
 from __future__ import absolute_import
 
 import influxdb2
+from influxdb2.client.authorizations_client import AuthorizationsClient
 from influxdb2.client.bucket_client import BucketsClient
+from influxdb2.client.organizations_client import OrganizationsClient
 from influxdb2.client.query_client import QueryClient
+from influxdb2.client.users_client import UsersClient
 from influxdb2.client.write_api import WriteApiClient
 
 
@@ -35,14 +38,6 @@ class InfluxDBClient(object):
         self.api_client = influxdb2.ApiClient(configuration=conf, header_name=auth_header_name,
                                               header_value=auth_header_value)
 
-    def find_my_org(self):
-        org_api = influxdb2.api.organizations_api.OrganizationsApi(self.api_client)
-        orgs = org_api.get_orgs()
-        for org in orgs.orgs:
-            if org.name == self.org:
-                return org
-
-        return None
 
     def write_client(self):
         service = influxdb2.api.write_api.WriteApi(self.api_client)
@@ -57,3 +52,12 @@ class InfluxDBClient(object):
 
     def buckets_client(self):
         return BucketsClient(self)
+
+    def authorizations_client(self):
+        return AuthorizationsClient(self)
+
+    def users_client(self):
+        return UsersClient(self)
+
+    def organizations_client(self):
+        return OrganizationsClient(self)

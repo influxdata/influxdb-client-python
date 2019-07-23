@@ -1,6 +1,3 @@
-import inspect
-
-
 class FluxStructure:
     pass
 
@@ -17,6 +14,9 @@ class FluxTable(FluxStructure):
     def __str__(self):
         cls_name = type(self).__name__
         return cls_name + "() columns: " + str(len(self.columns)) + ", records: " + str(len(self.records))
+
+    def __iter__(self):
+        return iter(self.records)
 
 
 class FluxColumn(FluxStructure):

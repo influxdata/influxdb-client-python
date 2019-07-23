@@ -1,5 +1,4 @@
 import unittest
-import codecs
 
 from influxdb2_test.base_test import BaseTest
 
@@ -28,7 +27,7 @@ class SimpleQueryTest(BaseTest):
 
         val_count = 0
         for table in tables:
-            for row in table.records:
+            for row in table:
                 for cell in row.values:
                     val_count += 1
 

@@ -1,4 +1,4 @@
-from influxdb2 import BucketsApi, Bucket, BucketRetentionRules
+from influxdb2 import BucketsApi, Bucket
 
 
 class BucketsClient(object):
@@ -13,6 +13,7 @@ class BucketsClient(object):
 
         :param Bucket bucket: bucket to create (required)
         :param bucket_name: bucket name
+        :param description: bucket description
         :param org_id: org_id
         :param bucket_name: bucket name
         :param retention_rules: retention rules array or single BucketRetentionRules
@@ -82,5 +83,3 @@ class BucketsClient(object):
         """Gets all buckets
         """
         return self._buckets_api.get_buckets()
-
-
