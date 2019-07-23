@@ -19,7 +19,7 @@ class BucketsClientTest(BaseTest):
                 self.buckets_client.delete_bucket(bucket)
 
     def test_create_delete_bucket(self):
-        my_org = self.client.find_my_org()
+        my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
         my_bucket = self.buckets_client.create_bucket(bucket_name=bucket_name, org_id=my_org.id)
@@ -38,7 +38,7 @@ class BucketsClientTest(BaseTest):
         assert "bucket not found" in e.value.body
 
     def test_find_by_name(self):
-        my_org = self.client.find_my_org()
+        my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
         my_bucket = self.buckets_client.create_bucket(bucket_name=bucket_name, org_id=my_org.id)
@@ -51,7 +51,7 @@ class BucketsClientTest(BaseTest):
         self.assertIsNone(none)
 
     def test_create_bucket_retention(self):
-        my_org = self.client.find_my_org()
+        my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
 
@@ -65,7 +65,7 @@ class BucketsClientTest(BaseTest):
         print(my_bucket)
 
     def test_create_bucket_retention_list(self):
-        my_org = self.client.find_my_org()
+        my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
 
