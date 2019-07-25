@@ -1,8 +1,12 @@
 import datetime
+import time
 import unittest
 
 import influxdb2
+from influxdb2 import BucketRetentionRules
 from influxdb2.client.influxdb_client import InfluxDBClient
+
+current_milli_time = lambda: int(round(time.time() * 1000))
 
 
 def generate_bucket_name():
@@ -56,3 +60,12 @@ class BaseTest(unittest.TestCase):
     @staticmethod
     def log(args):
         print(">>>", args)
+
+    @staticmethod
+    def generate_name(prefix):
+        assert prefix != "" or prefix is not None
+        return prefix + str(current_milli_time) + "-IT"
+
+    @classmethod
+    def retention_rule(cls) -> BucketRetentionRules:
+        return BucketRetentionRules(type='expire', every_seconds=3600)

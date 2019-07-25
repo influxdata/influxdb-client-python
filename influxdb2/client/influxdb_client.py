@@ -38,7 +38,6 @@ class InfluxDBClient(object):
         self.api_client = influxdb2.ApiClient(configuration=conf, header_name=auth_header_name,
                                               header_value=auth_header_value)
 
-
     def write_client(self):
         service = influxdb2.api.write_api.WriteApi(self.api_client)
         return WriteApiClient(service=service)
@@ -50,14 +49,14 @@ class InfluxDBClient(object):
     def __del__(self):
         self.api_client.__del__()
 
-    def buckets_client(self):
+    def buckets_client(self) -> BucketsClient:
         return BucketsClient(self)
 
-    def authorizations_client(self):
+    def authorizations_client(self) -> AuthorizationsClient:
         return AuthorizationsClient(self)
 
-    def users_client(self):
+    def users_client(self) -> UsersClient:
         return UsersClient(self)
 
-    def organizations_client(self):
+    def organizations_client(self) -> OrganizationsClient:
         return OrganizationsClient(self)

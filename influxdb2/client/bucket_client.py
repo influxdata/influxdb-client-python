@@ -7,7 +7,8 @@ class BucketsClient(object):
         self._influxdb_client = influxdb_client
         self._buckets_api = BucketsApi(influxdb_client.api_client)
 
-    def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None, description=None):
+    def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None,
+                      description=None) -> Bucket:
         """Create a bucket  # noqa: E501
 
 
