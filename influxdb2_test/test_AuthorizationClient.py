@@ -1,6 +1,7 @@
 import pytest
 
 from influxdb2 import PermissionResource, Permission, Authorization
+from influxdb2.client.authorizations_client import AuthorizationsClient
 from influxdb2.rest import ApiException
 from influxdb2_test.base_test import BaseTest
 
@@ -104,44 +105,106 @@ class AuthorizationsClientTest(BaseTest):
 
     def test_findAuthorizationsByID(self):
         with pytest.raises(ApiException) as e:
-            self.client.authorizations_client().find_authorization_by_id("020f755c3c082000")
+            self.authorization_api().find_authorization_by_id("020f755c3c082000")
         self.assertEquals(e.value.status, 404)
         self.assertIn("authorization not found", e.value.body)
 
     def test_findAuthorizations(self):
-        authorizations = self.client.authorizations_client().find_authorizations()
+        authorizations = self.authorization_api().find_authorizations()
         size = len(authorizations)
-        self.client.authorizations_client().create_authorization(org_id=self.organization.id,
-                                                                 permissions=self.new_permissions())
+        self.authorization_api().create_authorization(org_id=self.organization.id,
+                                                      permissions=self.new_permissions())
 
     def test_findAuthorizationsByUser(self):
-        size = len(self.client.authorizations_client().find_authorizations_by_user(self.user))
-        self.client.authorizations_client().create_authorization(org_id=self.organization.id,
-                                                                 permissions=self.new_permissions())
+        size = len(self.authorization_api().find_authorizations_by_user(self.user))
+        self.authorization_api().create_authorization(org_id=self.organization.id,
+                                                      permissions=self.new_permissions())
 
-        self.assertEquals(len(self.client.authorizations_client().find_authorizations_by_user(user=self.user)),
+        self.assertEquals(len(self.authorization_api().find_authorizations_by_user(user=self.user)),
                           size + 1)
 
     def test_findAuthorizationsByUserName(self):
-        size = len(self.client.authorizations_client().find_authorizations_by_user_name(self.user.name))
-        self.client.authorizations_client().create_authorization(org_id=self.organization.id,
-                                                                 permissions=self.new_permissions())
+        size = len(self.authorization_api().find_authorizations_by_user_name(self.user.name))
+        self.authorization_api().create_authorization(org_id=self.organization.id,
+                                                      permissions=self.new_permissions())
 
         self.assertEquals(
-            len(self.client.authorizations_client().find_authorizations_by_user_name(user_name=self.user.name)),
+            len(self.authorization_api().find_authorizations_by_user_name(user_name=self.user.name)),
             size + 1)
 
     def test_findAuthorizationsByOrg(self):
-        size = len(self.client.authorizations_client().find_authorizations_by_org(self.organization))
-        self.client.authorizations_client().create_authorization(org_id=self.organization.id,
-                                                                 permissions=self.new_permissions())
+        size = len(self.authorization_api().find_authorizations_by_org(self.organization))
+        self.authorization_api().create_authorization(org_id=self.organization.id,
+                                                      permissions=self.new_permissions())
 
-        self.assertEquals(len(self.client.authorizations_client().find_authorizations_by_org(self.organization)),
+        self.assertEquals(len(self.authorization_api().find_authorizations_by_org(self.organization)),
                           size + 1)
 
     def test_findAuthorizationsByOrgNotFound(self):
-        authorizationsByOrgID = self.client.authorizations_client().find_authorizations_by_org_id("ffffffffffffffff")
-        self.assertEquals(len(authorizationsByOrgID), 0)
+        authorizations_by_org_id = self.authorization_api().find_authorizations_by_org_id("ffffffffffffffff")
+        self.assertEquals(len(authorizations_by_org_id), 0)
+
+    @pytest.mark.skip("todo inheritence codegen bug")
+    def test_updateAuthorizationStatus(self):
+        resource = PermissionResource(org_id=self.organization.id, type="users")
+        read_user = Permission(action="read", resource=resource)
+        permissions = [read_user]
+
+        authorization = self.authorization_api().create_authorization(org_id=self.my_organization.id,
+                                                                      permissions=permissions)
+        self.assertEquals(authorization.status, "active")
+
+        authorization.status = "inactive"
+        authorization = self.authorization_api().update_authorization(authorization)
+
+        self.assertEquals(authorization.status, "inactive")
+
+        authorization.status = "active"
+        authorization = self.authorization_api().update_authorization(authorization)
+        self.assertEquals(authorization.status, "active")
+
+    def test_deleteAuthorization(self):
+        create_authorization = self.authorization_api().create_authorization(self.organization.id,
+                                                                             self.new_permissions())
+        self.assertIsNotNone(create_authorization)
+
+        found_authorization = self.authorization_api().find_authorization_by_id(create_authorization.id)
+        self.assertIsNotNone(found_authorization)
+
+        self.authorization_api().delete_authorization(create_authorization)
+
+        with pytest.raises(ApiException) as e:
+            self.authorization_api().find_authorization_by_id(create_authorization.id)
+        self.assertIn("authorization not found", e.value.body)
+
+    def test_clone_authorization(self):
+        source = self.authorization_api().create_authorization(self.organization.id, self.new_permissions())
+        cloned = self.authorization_api().clone_authorization(source.id)
+
+        self.assertIsNotNone(cloned.token)
+        self.assertNotEqual(source.token, cloned.token)
+        self.assertNotEqual(source.id, cloned.id)
+
+        self.assertEquals(source.user_id, cloned.user_id)
+        self.assertEquals(source.user, cloned.user)
+        self.assertEquals(source.org_id, cloned.org_id)
+        self.assertEquals(source.org, cloned.org)
+        ## todo
+        # self.assertEquals(source.status, cloned.status)
+        # self.assertEquals(source.description, cloned.description)
+
+        self.assertTrue(len(cloned.permissions), 1)
+        self.assertEqual(cloned.permissions[0].action, "read")
+        self.assertEqual(cloned.permissions[0].resource.type, "users")
+        self.assertEqual(cloned.permissions[0].resource.org_id, self.organization.id)
+
+    def test_cloneAuthorizationNotFound(self):
+        with pytest.raises(ApiException) as e:
+            self.authorization_api().find_authorization_by_id("020f755c3c082000")
+        self.assertIn("authorization not found", e.value.body)
+
+    def authorization_api(self) -> AuthorizationsClient:
+        return self.client.authorizations_client()
 
     def new_permissions(self):
         resource = PermissionResource(org_id=self.organization.id, type="users")

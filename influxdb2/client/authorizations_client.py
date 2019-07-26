@@ -7,7 +7,8 @@ class AuthorizationsClient(object):
         self._influxdb_client = influxdb_client
         self._authorizations_client = AuthorizationsApi(influxdb_client.api_client)
 
-    def create_authorization(self, org_id=None, permissions: list = None, authorization: Authorization = None):
+    def create_authorization(self, org_id=None, permissions: list = None,
+                             authorization: Authorization = None) -> Authorization:
         """
         Creates an authorization
         :type permissions: list of Permission
@@ -87,3 +88,33 @@ class AuthorizationsClient(object):
         :return: Authorization list
         """
         return self.find_authorizations(org_id=org_id)
+
+    def update_authorization(self, auth):
+        """
+        Updates authorization object
+        :param auth:
+        :return:
+        """
+        return self._authorizations_client.patch_authorizations_id(auth_id=auth.id, authorization_update_request=auth)
+
+    def clone_authorization(self, auth) -> Authorization:
+
+        if isinstance(auth, Authorization):
+            cloned = Authorization(org_id=auth.org_id, permissions=auth.permissions)
+            # cloned.description = auth.description
+            # cloned.status = auth.status
+            return self.create_authorization(authorization=cloned)
+
+        if isinstance(auth, str):
+            authorization = self.find_authorization_by_id(auth)
+            return self.clone_authorization(auth=authorization)
+
+        raise ValueError("Invalid argument")
+
+    def delete_authorization(self, auth):
+        if isinstance(auth, Authorization):
+            return self._authorizations_client.delete_authorizations_id(auth_id=auth.id)
+
+        if isinstance(auth, str):
+            return self._authorizations_client.delete_authorizations_id(auth_id=auth)
+        raise ValueError("Invalid argument")
