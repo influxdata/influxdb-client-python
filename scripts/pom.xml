@@ -35,7 +35,6 @@
                     <output>${project.basedir}/..</output>
                     <addCompileSourceRoot>false</addCompileSourceRoot>
                     <library>${library}</library>
-
                 </configuration>
                 <dependencies>
                     <dependency>

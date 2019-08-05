@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 
 import influxdb2
-from influxdb2.client.authorizations_client import AuthorizationsClient
-from influxdb2.client.bucket_client import BucketsClient
-from influxdb2.client.organizations_client import OrganizationsClient
-from influxdb2.client.query_client import QueryClient
-from influxdb2.client.users_client import UsersClient
+from influxdb2.client.authorizations_api import AuthorizationsApi
+from influxdb2.client.bucket_api import BucketsApi
+from influxdb2.client.organizations_api import OrganizationsApi
+from influxdb2.client.query_api import QueryApi
+from influxdb2.client.users_api import UsersApi
 from influxdb2.client.write_api import WriteApiClient
 
 
@@ -38,25 +38,25 @@ class InfluxDBClient(object):
         self.api_client = influxdb2.ApiClient(configuration=conf, header_name=auth_header_name,
                                               header_value=auth_header_value)
 
-    def write_client(self):
-        service = influxdb2.api.write_api.WriteApi(self.api_client)
+    def write_api(self):
+        service = influxdb2.service.write_service.WriteService(self.api_client)
         return WriteApiClient(service=service)
         # return
 
-    def query_client(self):
-        return QueryClient(self)
+    def query_api(self):
+        return QueryApi(self)
 
     def __del__(self):
         self.api_client.__del__()
 
-    def buckets_client(self) -> BucketsClient:
-        return BucketsClient(self)
+    def buckets_api(self) -> BucketsApi:
+        return BucketsApi(self)
 
-    def authorizations_client(self) -> AuthorizationsClient:
-        return AuthorizationsClient(self)
+    def authorizations_api(self) -> AuthorizationsApi:
+        return AuthorizationsApi(self)
 
-    def users_client(self) -> UsersClient:
-        return UsersClient(self)
+    def users_api(self) -> UsersApi:
+        return UsersApi(self)
 
-    def organizations_client(self) -> OrganizationsClient:
-        return OrganizationsClient(self)
+    def organizations_api(self) -> OrganizationsApi:
+        return OrganizationsApi(self)

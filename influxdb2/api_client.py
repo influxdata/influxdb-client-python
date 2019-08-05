@@ -23,7 +23,7 @@ import six
 from six.moves.urllib.parse import quote
 
 from influxdb2.configuration import Configuration
-import influxdb2.models
+import influxdb2.domain
 from influxdb2 import rest
 
 
@@ -271,7 +271,7 @@ class ApiClient(object):
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(influxdb2.models, klass)
+                klass = getattr(influxdb2.domain, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)

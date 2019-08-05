@@ -25,7 +25,7 @@ class WriteOptions(object):
 class WriteApiClient(AbstractClient):
 
     def __init__(self, service, write_options=None) -> None:
-        self._write_api = service
+        self._write_service = service
         self.write_options = write_options
 
         _subject = Subject
@@ -52,7 +52,7 @@ class WriteApiClient(AbstractClient):
                     lines.append(item.to_line_protocol())
             final_string = '\n'.join(lines)
 
-        return self._write_api.post_write(org=org, bucket=bucket, body=final_string, precision=write_precision)
+        return self._write_service.post_write(org=org, bucket=bucket, body=final_string, precision=write_precision)
 
     def flush(self):
         # TODO

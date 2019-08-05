@@ -26,15 +26,15 @@ class BaseTest(unittest.TestCase):
         self.client = InfluxDBClient(conf.host, auth_token, debug=conf.debug, org="my-org")
         self.api_client = self.client.api_client
 
-        self.write_api = influxdb2.api.write_api.WriteApi(self.api_client)
-        self.write_client = self.client.write_client()
+        self.write_api = influxdb2.service.write_service.WriteService(self.api_client)
+        self.write_client = self.client.write_api()
 
-        self.query_client = self.client.query_client()
-        self.buckets_client = self.client.buckets_client()
+        self.query_client = self.client.query_api()
+        self.buckets_client = self.client.buckets_api()
         self.my_organization = self.find_my_org()
-        self.users_client = self.client.users_client()
-        self.organizations_client = self.client.organizations_client()
-        self.authorizations_client = self.client.authorizations_client()
+        self.users_client = self.client.users_api()
+        self.organizations_client = self.client.organizations_api()
+        self.authorizations_client = self.client.authorizations_api()
 
     def tearDown(self) -> None:
         self.client.__del__()
@@ -49,7 +49,7 @@ class BaseTest(unittest.TestCase):
         return self.buckets_client.delete_bucket(bucket)
 
     def find_my_org(self):
-        org_api = influxdb2.api.organizations_api.OrganizationsApi(self.api_client)
+        org_api = influxdb2.service.organizations_service.OrganizationsService(self.api_client)
         orgs = org_api.get_orgs()
         for org in orgs.orgs:
             if org.name == self.org:
