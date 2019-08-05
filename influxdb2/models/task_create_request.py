@@ -33,7 +33,7 @@ class TaskCreateRequest(object):
     openapi_types = {
         'org_id': 'str',
         'org': 'str',
-        'status': 'str',
+        'status': 'TaskStatusType',
         'flux': 'str',
         'description': 'str',
         'token': 'str'
@@ -48,7 +48,7 @@ class TaskCreateRequest(object):
         'token': 'token'
     }
 
-    def __init__(self, org_id=None, org=None, status='active', flux=None, description=None, token=None):  # noqa: E501
+    def __init__(self, org_id=None, org=None, status=None, flux=None, description=None, token=None):  # noqa: E501
         """TaskCreateRequest - a model defined in OpenAPI"""  # noqa: E501
 
         self._org_id = None
@@ -68,8 +68,7 @@ class TaskCreateRequest(object):
         self.flux = flux
         if description is not None:
             self.description = description
-        if token is not None:
-            self.token = token
+        self.token = token
 
     @property
     def org_id(self):
@@ -121,10 +120,9 @@ class TaskCreateRequest(object):
     def status(self):
         """Gets the status of this TaskCreateRequest.  # noqa: E501
 
-        Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'  # noqa: E501
 
         :return: The status of this TaskCreateRequest.  # noqa: E501
-        :rtype: str
+        :rtype: TaskStatusType
         """
         return self._status
 
@@ -132,17 +130,10 @@ class TaskCreateRequest(object):
     def status(self, status):
         """Sets the status of this TaskCreateRequest.
 
-        Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'  # noqa: E501
 
         :param status: The status of this TaskCreateRequest.  # noqa: E501
-        :type: str
+        :type: TaskStatusType
         """
-        allowed_values = ["active", "inactive"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
 
         self._status = status
 
@@ -198,7 +189,7 @@ class TaskCreateRequest(object):
     def token(self):
         """Gets the token of this TaskCreateRequest.  # noqa: E501
 
-        The token to use for authenticating this task when it executes queries. If omitted, uses the token associated with the request that creates the task.  # noqa: E501
+        The token to use for authenticating this task when it executes queries.  # noqa: E501
 
         :return: The token of this TaskCreateRequest.  # noqa: E501
         :rtype: str
@@ -209,11 +200,13 @@ class TaskCreateRequest(object):
     def token(self, token):
         """Sets the token of this TaskCreateRequest.
 
-        The token to use for authenticating this task when it executes queries. If omitted, uses the token associated with the request that creates the task.  # noqa: E501
+        The token to use for authenticating this task when it executes queries.  # noqa: E501
 
         :param token: The token of this TaskCreateRequest.  # noqa: E501
         :type: str
         """
+        if token is None:
+            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
 

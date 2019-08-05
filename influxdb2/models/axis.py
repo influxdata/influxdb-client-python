@@ -31,12 +31,12 @@ class Axis(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'bounds': 'list[int]',
+        'bounds': 'list[str]',
         'label': 'str',
         'prefix': 'str',
         'suffix': 'str',
         'base': 'str',
-        'scale': 'str'
+        'scale': 'AxisScale'
     }
 
     attribute_map = {
@@ -79,7 +79,7 @@ class Axis(object):
         The extents of an axis in the form [lower, upper]. Clients determine whether bounds are to be inclusive or exclusive of their limits  # noqa: E501
 
         :return: The bounds of this Axis.  # noqa: E501
-        :rtype: list[int]
+        :rtype: list[str]
         """
         return self._bounds
 
@@ -90,7 +90,7 @@ class Axis(object):
         The extents of an axis in the form [lower, upper]. Clients determine whether bounds are to be inclusive or exclusive of their limits  # noqa: E501
 
         :param bounds: The bounds of this Axis.  # noqa: E501
-        :type: list[int]
+        :type: list[str]
         """
 
         self._bounds = bounds
@@ -184,6 +184,12 @@ class Axis(object):
         :param base: The base of this Axis.  # noqa: E501
         :type: str
         """
+        allowed_values = ["", "2", "10"]  # noqa: E501
+        if base not in allowed_values:
+            raise ValueError(
+                "Invalid value for `base` ({0}), must be one of {1}"  # noqa: E501
+                .format(base, allowed_values)
+            )
 
         self._base = base
 
@@ -191,10 +197,9 @@ class Axis(object):
     def scale(self):
         """Gets the scale of this Axis.  # noqa: E501
 
-        Scale is the axis formatting scale. Supported: \"log\", \"linear\"  # noqa: E501
 
         :return: The scale of this Axis.  # noqa: E501
-        :rtype: str
+        :rtype: AxisScale
         """
         return self._scale
 
@@ -202,10 +207,9 @@ class Axis(object):
     def scale(self, scale):
         """Sets the scale of this Axis.
 
-        Scale is the axis formatting scale. Supported: \"log\", \"linear\"  # noqa: E501
 
         :param scale: The scale of this Axis.  # noqa: E501
-        :type: str
+        :type: AxisScale
         """
 
         self._scale = scale

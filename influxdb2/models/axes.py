@@ -32,30 +32,23 @@ class Axes(object):
     """
     openapi_types = {
         'x': 'Axis',
-        'y': 'Axis',
-        'y2': 'Axis'
+        'y': 'Axis'
     }
 
     attribute_map = {
         'x': 'x',
-        'y': 'y',
-        'y2': 'y2'
+        'y': 'y'
     }
 
-    def __init__(self, x=None, y=None, y2=None):  # noqa: E501
+    def __init__(self, x=None, y=None):  # noqa: E501
         """Axes - a model defined in OpenAPI"""  # noqa: E501
 
         self._x = None
         self._y = None
-        self._y2 = None
         self.discriminator = None
 
-        if x is not None:
-            self.x = x
-        if y is not None:
-            self.y = y
-        if y2 is not None:
-            self.y2 = y2
+        self.x = x
+        self.y = y
 
     @property
     def x(self):
@@ -75,6 +68,8 @@ class Axes(object):
         :param x: The x of this Axes.  # noqa: E501
         :type: Axis
         """
+        if x is None:
+            raise ValueError("Invalid value for `x`, must not be `None`")  # noqa: E501
 
         self._x = x
 
@@ -96,29 +91,10 @@ class Axes(object):
         :param y: The y of this Axes.  # noqa: E501
         :type: Axis
         """
+        if y is None:
+            raise ValueError("Invalid value for `y`, must not be `None`")  # noqa: E501
 
         self._y = y
-
-    @property
-    def y2(self):
-        """Gets the y2 of this Axes.  # noqa: E501
-
-
-        :return: The y2 of this Axes.  # noqa: E501
-        :rtype: Axis
-        """
-        return self._y2
-
-    @y2.setter
-    def y2(self, y2):
-        """Sets the y2 of this Axes.
-
-
-        :param y2: The y2 of this Axes.  # noqa: E501
-        :type: Axis
-        """
-
-        self._y2 = y2
 
     def to_dict(self):
         """Returns the model properties as a dict"""

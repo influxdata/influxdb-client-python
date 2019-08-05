@@ -1666,13 +1666,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Check"
+                $ref: "#/components/schemas/HealthCheck"
         '503':
           description: the instance is unhealthy
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Check"
+                $ref: "#/components/schemas/HealthCheck"
         default:
           description: unexpected error
           content:
@@ -1852,13 +1852,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Check"
+                $ref: "#/components/schemas/HealthCheck"
         '503':
           description: the source is not healthy
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Check"
+                $ref: "#/components/schemas/HealthCheck"
         default:
           description: unexpected error
           content:
@@ -2841,19 +2841,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /query/suggestions/{name}:
-    parameters:
-      - $ref: '#/components/parameters/TraceSpan'
-      - in: path
-        name: name
-        schema:
-          type: string
-        required: true
-        description: name of branching suggestion
+  '/query/suggestions/{name}':
     get:
       operationId: GetQuerySuggestionsName
       tags:
         - Query
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: name of branching suggestion
       responses:
         '200':
           description: Suggestions for next functions in call chain
@@ -3074,6 +3074,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/TraceSpan'
         - in: header
+          name: Accept-Encoding
+          description: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
+          schema:
+            type: string
+            description: specifies that the query response in the body should be encoded with gzip or not encoded with identity.
+            default: identity
+            enum:
+              - gzip
+              - identity
+        - in: header
           name: Content-Type
           schema:
             type: string
@@ -3102,6 +3112,16 @@ paths:
       responses:
           '200':
             description: query results
+            headers:
+              Content-Encoding:
+                description: The Content-Encoding entity header is used to compress the media-type.  When present, its value indicates which encodings were applied to the entity-body
+                schema:
+                    type: string
+                    description: specifies that the response in the body is encoded with gzip or not encoded with identity.
+                    default: identity
+                    enum:
+                    - gzip
+                    - identity
             content:
               text/csv:
                 schema:
@@ -4441,10 +4461,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
+      operationId: DeleteTasksIDRunsID
       tags:
         - Tasks
-      summary: Cancel a run
-      description: cancels a currently running run.
+      summary: Cancel a single running task
       parameters:
         - $ref: '#/components/parameters/TraceSpan'
         - in: path
@@ -4461,7 +4481,7 @@ paths:
           description: run ID
       responses:
         '204':
-          description: Cancel has been accepted
+          description: delete has been accepted
         default:
           description: unexpected error
           content:
@@ -5079,6 +5099,491 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /checks:
+    get:
+      operationId: GetChecks
+      tags:
+          - Checks
+      summary: Get all checks
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - in: query
+          name: orgID
+          required: true
+          description: only show checks belonging to specified organization
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of checks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Checks"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+    post:
+      operationId: CreateCheck
+      tags:
+        - Checks
+      summary: Add new check
+      requestBody:
+        description: check to create
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/Check"
+      responses:
+        '201':
+          description: Check created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Check"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/checks/{checkID}':
+    get:
+      operationId: GetChecksID
+      tags:
+        - Checks
+      summary: Get an check
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of check
+      responses:
+        '200':
+          description: the check requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Check"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: PatchChecksID
+      tags:
+        - Checks
+      summary: Update a check
+      requestBody:
+        description: check update to apply
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/Check"
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of check
+      responses:
+        '200':
+          description: An updated check
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Check"
+        '404':
+          description: The check was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: DeleteChecksID
+      tags:
+        - Checks
+      summary: Delete a check
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of check
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: The check was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notificationRules:
+    get:
+      operationId: GetNotificationRules
+      tags:
+          - NotificationRules
+      summary: Get all notification rules
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - in: query
+          name: orgID
+          required: true
+          description: only show notification rules belonging to specified organization
+          schema:
+            type: string
+        - in: query
+          name: checkID
+          description: only show notifications that belong to the specified check
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of notification rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRules"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+    post:
+      operationId: CreateNotificationRule
+      tags:
+        - NotificationRules
+      summary: Add new notification rule
+      requestBody:
+        description: notificationRule to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationRule"
+      responses:
+        '201':
+          description: Notification rule created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRule"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/notificationRules/{ruleID}':
+    get:
+      operationId: GetNotificationRulesID
+      tags:
+        - NotificationRules
+      summary: Get a notification rule
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of notification rule
+      responses:
+        '200':
+          description: the notification rule requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRule"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: PutNotificationRulesID
+      tags:
+        - NotificationRules
+      summary: Update a notification rule
+      requestBody:
+        description: notification rule update to apply
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationRule"
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of notification rule
+      responses:
+        '200':
+          description: An updated notification rule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRule"
+        '404':
+          description: The notification rule was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: PatchNotificationRulesID
+      tags:
+        - NotificationRules
+      summary: Update a notification rule
+      requestBody:
+        description: notification rule update to apply
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationRuleUpdate"
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of notification rule
+      responses:
+        '200':
+          description: An updated notification rule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRule"
+        '404':
+          description: The notification rule was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: DeleteNotificationRulesID
+      tags:
+        - NotificationRules
+      summary: Delete a notification rule
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of notification rule
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: The check was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notificationEndpoints:
+    get:
+      operationId: GetNotificationEndpoints
+      tags:
+          - NotificationEndpoints
+      summary: Get all notification endpoints
+      parameters:
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+        - in: query
+          name: orgID
+          required: true
+          description: only show notification endpoints belonging to specified organization
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of notification rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationEndpoints"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Error"
+    post:
+      operationId: CreateNotificationEndpoint
+      tags:
+        - NotificationEndpoints
+      summary: Add new notification endpoint
+      requestBody:
+        description: notificationEndpoint to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationEndpoint"
+      responses:
+        '201':
+          description: Notification rule created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationRule"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/notificationEndpoints/{endpointID}':
+    get:
+      operationId: GetNotificationEndpointsID
+      tags:
+        - NotificationEndpoints
+      summary: Get a notification endpoint
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of notification endpoint
+      responses:
+        '200':
+          description: the notification endpoint requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationEndpoint"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: PatchNotificationEndpointsID
+      tags:
+        - NotificationEndpoints
+      summary: Update a notification endpoint
+      requestBody:
+        description: check update to apply
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationEndpoint"
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of notification endpoint
+      responses:
+        '200':
+          description: An updated notification endpoint
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationEndpoint"
+        '404':
+          description: The notification endpoint was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: DeleteNotificationEndpointsID
+      tags:
+        - NotificationEndpoints
+      summary: Delete a notification endpoint
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of notification endpoint
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: The endpoint was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   parameters:
     Offset:
@@ -5634,6 +6139,9 @@ components:
                 - labels
                 - views
                 - documents
+                - notificationRules
+                - notificationEndpoints
+                - checks
             id:
               type: string
               nullable: true
@@ -6050,12 +6558,7 @@ components:
           description: An optional description of the task.
           type: string
         status:
-          description: The current status of the task. When updated to 'inactive', cancels all queued jobs of this task.
-          default: active
-          type: string
-          enum:
-            - active
-            - inactive
+          $ref: "#/components/schemas/TaskStatusType"
         labels:
           $ref: "#/components/schemas/Labels"
         authorizationID:
@@ -6110,10 +6613,15 @@ components:
             labels:
               $ref: "#/components/schemas/Link"
       required: [id, name, orgID, flux]
+    TaskStatusType:
+      type: string
+      enum: [active, inactive]
     User:
       properties:
         id:
           readOnly: true
+          type: string
+        oauthID:
           type: string
         name:
           type: string
@@ -6401,88 +6909,55 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Field'
-    QueryConfig:
+    BuilderConfig:
       type: object
-      required:
-        - database
-        - measurement
-        - retentionPolicy
-        - areTagsAccepted
-        - tags
-        - groupBy
-        - fields
       properties:
-        id:
-          type: string
-        database:
-          type: string
-        measurement:
-          type: string
-        retentionPolicy:
-          type: string
-        areTagsAccepted:
-          type: boolean
-        rawText:
-          type: string
-        tags:
-          type: object
-        groupBy:
-          type: object
-          properties:
-            time:
-              type: string
-            tags:
-              type: array
-              items:
-                type: string
-          required:
-            - time
-            - tags
-        fields:
+        buckets:
           type: array
           items:
-            $ref: '#/components/schemas/Field'
-        range:
+            type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuilderTagsType'
+        functions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuilderFunctionsType'
+        aggregateWindow:
           type: object
           properties:
-            lower:
+            period:
               type: string
-            upper:
-              type: string
-          required:
-            - lower
-            - upper
+    BuilderTagsType:
+      type: object
+      properties:
+        key:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    BuilderFunctionsType:
+      type: object
+      properties:
+        name:
+          type: string
     DashboardQuery:
       type: object
-      required:
-        - query
       properties:
-        label:
+        text:
           type: string
-          description: Optional Y-axis user-facing label
-        range:
-          description: Optional default range of the Y-axis
-          type: object
-          required:
-            - upper
-            - lower
-          properties:
-            upper:
-              description: Upper bound of the display range of the Y-axis
-              type: integer
-              format: int64
-            lower:
-              description: Lower bound of the display range of the Y-axis
-              type: integer
-              format: int64
-        query:
+          description: The text of the flux query
+        editMode:
+          $ref: '#/components/schemas/QueryEditMode'
+        name:
           type: string
-        source:
-          type: string
-          format: uri
-          description: Optional URI for data source for this query
-        queryConfig:
-          $ref: '#/components/schemas/QueryConfig'
+        builderConfig:
+          $ref: '#/components/schemas/BuilderConfig'
+    QueryEditMode:
+      type: string
+      enum: ['builder', 'advanced']
     Axis:
       type: object
       description: A description of a particular axis for a visualization
@@ -6495,8 +6970,7 @@ components:
             The extents of an axis in the form [lower, upper]. Clients determine
             whether bounds are to be inclusive or exclusive of their limits
           items:
-            type: integer
-            format: int64
+            type: string
         label:
           description: label is a description of this Axis
           type: string
@@ -6509,12 +6983,17 @@ components:
         base:
           description: Base represents the radix for formatting axis values.
           type: string
+          enum: ['', '2', '10']
         scale:
-          description: 'Scale is the axis formatting scale. Supported: "log", "linear"'
-          type: string
+          $ref: '#/components/schemas/AxisScale'
+    AxisScale:
+      description: 'Scale is the axis formatting scale. Supported: "log", "linear"'
+      type: string
+      enum: ['log', 'linear']
     DashboardColor:
       type: object
       description: Color defines an encoding of data value into color space
+      required: [id, type, hex, name, value]
       properties:
         id:
           description: ID is the unique id of the view color
@@ -6526,6 +7005,9 @@ components:
             - min
             - max
             - threshold
+            - scale
+            - text
+            - background
         hex:
           description: Hex is the hex number of the color
           type: string
@@ -6536,7 +7018,8 @@ components:
           type: string
         value:
           description: Value is the data value mapped to this color
-          type: string
+          type: number
+          format: float
     RenamableField:
       description: Describes a field that can be renamed and made visible or invisible
       type: object
@@ -6551,100 +7034,22 @@ components:
         visible:
           description: Indicates whether this field should be visible on the table
           type: boolean
-    LogViewProperties:
-      description: Contains the configuration for the log viewer
+    XYViewProperties:
       type: object
       required:
-      - columns
-      - shape
-      - type
+        - type
+        - geom
+        - queries
+        - shape
+        - axes
+        - colors
+        - legend
+        - note
+        - showNoteWhenEmpty
       properties:
-        shape:
-            type: string
-            enum: ["chronograf-v2"]
         type:
-            type: string
-            enum: ["log-viewer"]
-        columns:
-          description: Defines the order, names, and visibility of columns in the log
-            viewer table
-          type: array
-          items:
-            "$ref": "#/components/schemas/LogViewerColumn"
-      example:
-        columns:
-        - name: severity
-          position: 0
-          settings:
-          - type: label
-            value: icon
-          - type: label
-            value: text
-          - type: visibility
-            value: visible
-          - type: color
-            name: ruby
-            value: emergency
-          - type: color
-            name: rainforest
-            value: info
-          - type: displayName
-            value: Log Severity!
-        - name: messages
-          position: 1
-          settings:
-          - type: visibility
-            value: hidden
-    LogViewerColumn:
-      description: Contains a specific column's settings.
-      type: object
-      required:
-      - name
-      - position
-      - settings
-      properties:
-        name:
-          description: Unique identifier name of the column
           type: string
-        position:
-          type: integer
-          format: int32
-        settings:
-          description: Composable settings options for the column
-          type: array
-          items:
-            description: Type and value and optional name of a setting.
-            type: object
-            required:
-            - type
-            - value
-            properties:
-              type:
-                type: string
-              value:
-                type: string
-              name:
-                type: string
-      example:
-        name: severity
-        position: 0
-        settings:
-        - type: label
-          value: icon
-        - type: label
-          value: text
-        - type: visibility
-          value: visible
-        - type: color
-          name: ruby
-          value: emergency
-        - type: color
-          name: rainforest
-          value: info
-        - type: displayName
-          value: Log Severity!
-    ViewProperties:
-      properties:
+          enum: [xy]
         queries:
           type: array
           items:
@@ -6654,190 +7059,473 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
         note:
           type: string
         showNoteWhenEmpty:
           description: if true, will display note when empty
           type: boolean
-    LinePlusSingleStatProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            axes:
-              $ref: '#/components/schemas/Axes'
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["line-plus-single-stat"]
-            legend:
-              $ref: '#/components/schemas/Legend'
-            prefix:
-              type: string
-            suffix:
-              type: string
-            decimalPlaces:
-              $ref: '#/components/schemas/DecimalPlaces'
-    XYViewProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            axes:
-              $ref: '#/components/schemas/Axes'
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["xy"]
-            legend:
-              $ref: '#/components/schemas/Legend'
-            geom:
-              type: string
-              enum: ["line", "step", "stacked", "bar"]
-    SingleStatViewProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["single-stat"]
-            prefix:
-              type: string
-            suffix:
-              type: string
-            legend:
-              $ref: '#/components/schemas/Legend'
-            decimalPlaces:
-              $ref: "#/components/schemas/DecimalPlaces"
-    HistogramViewProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["histogram"]
-            xColumn:
-              type: string
-            fillColumns:
-              type: array
-              items:
-                type: string
-            xDomain:
-              type: array
-              items:
-                type: number
-                format: float
-            xAxisLabel:
-              type: string
-            position:
-              type: string
-            binCount:
-              type: integer
-    GaugeViewProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["gauge"]
-            prefix:
-              type: string
-            suffix:
-              type: string
-            legend:
-              $ref: '#/components/schemas/Legend'
-            decimalPlaces:
-              $ref: '#/components/schemas/DecimalPlaces'
-    TableViewProperties:
-      allOf:
-        - $ref: '#/components/schemas/ViewProperties'
-        - type: object
-          properties:
-            shape:
-              type: string
-              enum: ["chronograf-v2"]
-            type:
-              type: string
-              enum: ["table"]
-            tableOptions:
-              properties:
-                verticalTimeAxis:
-                  description: >-
-                    verticalTimeAxis describes the orientation of the table by
-                    indicating whether the time axis will be displayed vertically
-                  type: boolean
-                sortBy:
-                  $ref: "#/components/schemas/RenamableField"
-                wrapping:
-                  description: wrapping describes the text wrapping style to be used in table views
-                  type: string
-                  enum:
-                    - truncate
-                    - wrap
-                    - single-line
-                fixFirstColumn:
-                  description: >-
-                    fixFirstColumn indicates whether the first column of the table
-                    should be locked
-                  type: boolean
-            fieldOptions:
-              description: >-
-                fieldOptions represent the fields retrieved by the query with
-                customization options
-              type: array
-              items:
-                $ref: '#/components/schemas/RenamableField'
-            timeFormat:
-              description: >-
-                timeFormat describes the display format for time values according to
-                moment.js date formatting
-              type: string
-            decimalPlaces:
-              $ref: '#/components/schemas/DecimalPlaces'
-    MarkdownViewProperties:
-      type: object
-      properties:
-        shape:
+        axes:
+          $ref: '#/components/schemas/Axes'
+        legend:
+          $ref: '#/components/schemas/Legend'
+        xColumn:
           type: string
-          enum: ["chronograf-v2"]
+        yColumn:
+          type: string
+        shadeBelow:
+          type: boolean
+        geom:
+          $ref: '#/components/schemas/XYGeom'
+    XYGeom:
+      type: string
+      enum: [line, step, stacked, bar, monotoneX]
+    LinePlusSingleStatProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - shape
+        - axes
+        - colors
+        - legend
+        - note
+        - showNoteWhenEmpty
+        - prefix
+        - suffix
+        - decimalPlaces
+      properties:
         type:
           type: string
-          enum: ["markdown"]
+          enum: [line-plus-single-stat]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
         note:
           type: string
-    EmptyViewProperties:
-      properties:
-        shape:
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        axes:
+          $ref: '#/components/schemas/Axes'
+        legend:
+          $ref: '#/components/schemas/Legend'
+        xColumn:
           type: string
-          enum: ["chronograf-v2"]
+        yColumn:
+          type: string
+        shadeBelow:
+          type: boolean
+        prefix:
+          type: string
+        suffix:
+          type: string
+        decimalPlaces:
+          $ref: '#/components/schemas/DecimalPlaces'
+    ScatterViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - xColumn
+        - yColumn
+        - fillColumns
+        - symbolColumns
+        - xDomain
+        - yDomain
+        - xAxisLabel
+        - yAxisLabel
+        - xPrefix
+        - yPrefix
+        - xSuffix
+        - ySuffix
+      properties:
         type:
           type: string
-          enum: ["empty"]
+          enum: [scatter]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            type: string
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        xColumn:
+          type: string
+        yColumn:
+          type: string
+        fillColumns:
+          type: array
+          items:
+            type: string
+        symbolColumns:
+          type: array
+          items:
+            type: string
+        xDomain:
+          type: array
+          items:
+            type: number
+          maxItems: 2
+        yDomain:
+          type: array
+          items:
+            type: number
+          maxItems: 2
+        xAxisLabel:
+          type: string
+        yAxisLabel:
+          type: string
+        xPrefix:
+          type: string
+        xSuffix:
+          type: string
+        yPrefix:
+          type: string
+        ySuffix:
+          type: string
+    HeatmapViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - xColumn
+        - yColumn
+        - xDomain
+        - yDomain
+        - xAxisLabel
+        - yAxisLabel
+        - xPrefix
+        - yPrefix
+        - xSuffix
+        - ySuffix
+        - binSize
+      properties:
+        type:
+          type: string
+          enum: [heatmap]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            type: string
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        xColumn:
+          type: string
+        yColumn:
+          type: string
+        xDomain:
+          type: array
+          items:
+            type: number
+          maxItems: 2
+        yDomain:
+          type: array
+          items:
+            type: number
+          maxItems: 2
+        xAxisLabel:
+          type: string
+        yAxisLabel:
+          type: string
+        xPrefix:
+          type: string
+        xSuffix:
+          type: string
+        yPrefix:
+          type: string
+        ySuffix:
+          type: string
+        binSize:
+          type: number
+    SingleStatViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - prefix
+        - suffix
+        - legend
+        - decimalPlaces
+      properties:
+        type:
+          type: string
+          enum: [single-stat]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        prefix:
+          type: string
+        suffix:
+          type: string
+        legend:
+          $ref: '#/components/schemas/Legend'
+        decimalPlaces:
+          $ref: "#/components/schemas/DecimalPlaces"
+    HistogramViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - xColumn
+        - fillColumns
+        - xDomain
+        - xAxisLabel
+        - position
+        - binCount
+      properties:
+        type:
+          type: string
+          enum: [histogram]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        xColumn:
+          type: string
+        fillColumns:
+          type: array
+          items:
+            type: string
+        xDomain:
+          type: array
+          items:
+            type: number
+            format: float
+        xAxisLabel:
+          type: string
+        position:
+          type: string
+          enum: [overlaid, stacked]
+        binCount:
+          type: integer
+    GaugeViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - prefix
+        - suffix
+        - legend
+        - decimalPlaces
+      properties:
+        type:
+          type: string
+          enum: [gauge]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        prefix:
+          type: string
+        suffix:
+          type: string
+        legend:
+          $ref: '#/components/schemas/Legend'
+        decimalPlaces:
+          $ref: "#/components/schemas/DecimalPlaces"
+    TableViewProperties:
+      type: object
+      required:
+        - type
+        - queries
+        - colors
+        - shape
+        - note
+        - showNoteWhenEmpty
+        - tableOptions
+        - fieldOptions
+        - timeFormat
+        - decimalPlaces
+      properties:
+        type:
+          type: string
+          enum: [table]
+        queries:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardQuery"
+        colors:
+          description: Colors define color encoding of data into a visualization
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardColor"
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+        showNoteWhenEmpty:
+          description: if true, will display note when empty
+          type: boolean
+        tableOptions:
+          properties:
+            verticalTimeAxis:
+              description: >-
+                verticalTimeAxis describes the orientation of the table by
+                indicating whether the time axis will be displayed vertically
+              type: boolean
+            sortBy:
+              $ref: "#/components/schemas/RenamableField"
+            wrapping:
+              description: wrapping describes the text wrapping style to be used in table views
+              type: string
+              enum:
+                - truncate
+                - wrap
+                - single-line
+            fixFirstColumn:
+              description: >-
+                fixFirstColumn indicates whether the first column of the table
+                should be locked
+              type: boolean
+        fieldOptions:
+          description: >-
+            fieldOptions represent the fields retrieved by the query with
+            customization options
+          type: array
+          items:
+            $ref: '#/components/schemas/RenamableField'
+        timeFormat:
+          description: >-
+            timeFormat describes the display format for time values according to
+            moment.js date formatting
+          type: string
+        decimalPlaces:
+          $ref: '#/components/schemas/DecimalPlaces'
+    MarkdownViewProperties:
+      type: object
+      required:
+        - type
+        - shape
+        - note
+      properties:
+        type:
+          type: string
+          enum: [markdown]
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        note:
+          type: string
+    CheckViewProperties:
+      type: object
+      required:
+        - type
+        - shape
+        - checkID
+        - check
+      properties:
+        type:
+          type: string
+          enum: [check]
+        shape:
+          type: string
+          enum: ['chronograf-v2']
+        checkID:
+          type: string
+        check:
+          $ref: '#/components/schemas/Check'
     Axes:
       description: The viewport for a View's visualizations
       type: object
+      required: ['x', 'y']
       properties:
         x:
           $ref: '#/components/schemas/Axis'
         "y": # Quoted to prevent YAML parser from interpreting y as shorthand for true.
-          $ref: '#/components/schemas/Axis'
-        y2:
           $ref: '#/components/schemas/Axis'
     Legend:
       description: Legend define encoding of data into a view's legend
@@ -6873,7 +7561,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["constant"]
+          enum: [constant]
         values:
           type: array
           items:
@@ -6882,7 +7570,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["map"]
+          enum: [map]
         values:
           type: object
           additionalProperties:
@@ -6891,7 +7579,7 @@ components:
       properties:
         type:
           type: string
-          enum: ["query"]
+          enum: [query]
         values:
           type: object
           properties:
@@ -6933,13 +7621,19 @@ components:
           items:
             type: string
         labels:
-            $ref: "#/components/schemas/Labels"
+          $ref: "#/components/schemas/Labels"
         arguments:
           type: object
           oneOf:
             - $ref: "#/components/schemas/QueryVariableProperties"
             - $ref: "#/components/schemas/ConstantVariableProperties"
             - $ref: "#/components/schemas/MapVariableProperties"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     Variables:
       type: object
       example:
@@ -6979,7 +7673,22 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Variable"
+    ViewProperties:
+      oneOf:
+        - $ref: "#/components/schemas/LinePlusSingleStatProperties"
+        - $ref: "#/components/schemas/XYViewProperties"
+        - $ref: "#/components/schemas/SingleStatViewProperties"
+        - $ref: "#/components/schemas/HistogramViewProperties"
+        - $ref: "#/components/schemas/GaugeViewProperties"
+        - $ref: "#/components/schemas/TableViewProperties"
+        - $ref: "#/components/schemas/MarkdownViewProperties"
+        - $ref: "#/components/schemas/CheckViewProperties"
+        - $ref: "#/components/schemas/ScatterViewProperties"
+        - $ref: "#/components/schemas/HeatmapViewProperties"
     View:
+      required:
+        - name
+        - properties
       properties:
         links:
           type: object
@@ -6993,16 +7702,19 @@ components:
         name:
           type: string
         properties:
-          oneOf:
-            - $ref: "#/components/schemas/LinePlusSingleStatProperties"
-            - $ref: "#/components/schemas/XYViewProperties"
-            - $ref: "#/components/schemas/SingleStatViewProperties"
-            - $ref: "#/components/schemas/HistogramViewProperties"
-            - $ref: "#/components/schemas/GaugeViewProperties"
-            - $ref: "#/components/schemas/TableViewProperties"
-            - $ref: "#/components/schemas/MarkdownViewProperties"
-            - $ref: "#/components/schemas/LogViewProperties"
-            - $ref: "#/components/schemas/EmptyViewProperties"
+          $ref: '#/components/schemas/ViewProperties'
+    Views:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+        views:
+          type: array
+          items:
+            $ref: "#/components/schemas/View"
     CellUpdate:
       type: object
       properties:
@@ -7170,7 +7882,7 @@ components:
             cells:
                 $ref: "#/components/schemas/Cells"
             labels:
-                $ref: "#/components/schemas/Labels"
+              $ref: "#/components/schemas/Labels"
     Dashboards:
       type: object
       properties:
@@ -7991,7 +8703,7 @@ components:
         up:
           type: string
           example: "14m45.911966424s"
-    Check:
+    HealthCheck:
       type: object
       required:
         - name
@@ -8004,7 +8716,7 @@ components:
         checks:
           type: array
           items:
-            $ref: "#/components/schemas/Check"
+            $ref: "#/components/schemas/HealthCheck"
         status:
           type: string
           enum:
@@ -8096,12 +8808,7 @@ components:
           description: The name of the organization that owns this Task.
           type: string
         status:
-          description: Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'
-          default: active
-          type: string
-          enum:
-            - active
-            - inactive
+          $ref: "#/components/schemas/TaskStatusType"
         flux:
           description: The Flux script to run for this task.
           type: string
@@ -8109,19 +8816,14 @@ components:
           description: An optional description of the task.
           type: string
         token:
-          description: The token to use for authenticating this task when it executes queries. If omitted, uses the token associated with the request that creates the task.
+          description: The token to use for authenticating this task when it executes queries.
           type: string
-      required: [flux]
+      required: [flux, token]
     TaskUpdateRequest:
       type: object
       properties:
         status:
-          description: Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'
-          default: active
-          type: string
-          enum:
-            - active
-            - inactive
+          $ref: "#/components/schemas/TaskStatusType"
         flux:
           description: The Flux script to run for this task.
           type: string
@@ -8143,6 +8845,360 @@ components:
         token:
           description: Override the existing token associated with the task.
           type: string
+    Check:
+      oneOf:
+        - $ref: "#/components/schemas/DeadmanCheck"
+        - $ref: "#/components/schemas/ThresholdCheck"
+    Checks:
+      properties:
+        checks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Check"
+        links:
+          $ref: "#/components/schemas/Links"
+    CheckBase:
+      properties:
+        id:
+          readOnly: true
+          type: string
+        name:
+          type: string
+        orgID:
+          description: the ID of the organization that owns this check.
+          type: string
+        authorizationID:
+          description: The ID of the authorization used to create this check.
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        query:
+          $ref: "#/components/schemas/DashboardQuery"
+        status:
+          $ref: "#/components/schemas/TaskStatusType"
+        every:
+          description: Check repetition interval
+          type: string
+        offset:
+          description: Duration to delay after the schedule, before executing check.
+          type: string
+        cron:
+          description: Check repetition interval in the form '* * * * * *';
+          type: string
+        tags:
+          description: tags to write to each status
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+        description:
+          description: An optional description of the check
+          type: string
+        statusMessageTemplate:
+          description: template that is used to generate and write a status message
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labels"
+      required: [name, orgID, query]
+    ThresholdCheck:
+      allOf:
+        - $ref: "#/components/schemas/CheckBase"
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [threshold]
+            thresholds:
+              type: array
+              items:
+                $ref: "#/components/schemas/Threshold"
+    DeadmanCheck:
+      allOf:
+        - $ref: "#/components/schemas/CheckBase"
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [deadman]
+            timeSince:
+              description: seconds before deadman triggers
+              type: integer
+            reportZero:
+              description: if only zero values reported since time, trigger alert
+              type: boolean
+            level:
+              $ref: "#/components/schemas/CheckStatusLevel"
+    Threshold:
+      properties:
+        level:
+         $ref: "#/components/schemas/CheckStatusLevel"
+        allValues:
+          description: if true, only alert if all values meet threshold
+          type: boolean
+        lowerBound:
+          type: number
+          format: float
+        upperBound:
+          type: number
+          format: float
+    CheckStatusLevel:
+      description: the state to record if check matches a criteria
+      type: string
+      enum: ["UNKNOWN", "OK", "INFO", "CRIT", "WARN"]
+    NotificationRuleUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+    NotificationRule:
+      oneOf:
+        - $ref: "#/components/schemas/SlackNotificationRule"
+        - $ref: "#/components/schemas/SMTPNotificationRule"
+        - $ref: "#/components/schemas/PagerDutyNotificationRule"
+    NotificationRules:
+      properties:
+        notificationRules:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationRule"
+        links:
+          $ref: "#/components/schemas/Links"
+    NotificationRuleBase:
+      type: object
+      required:
+        - id
+        - orgid
+        - status
+        - name
+        - tagRules
+        - statusRules
+      properties:
+        id:
+          readOnly: true
+          type: string
+        notifyEndpointID:
+          type: string
+          readOnly: true
+        orgID:
+          description: the ID of the organization that owns this notification rule.
+          type: string
+        authorizationID:
+          description: The ID of the authorization used to create this notification rule.
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: "#/components/schemas/TaskStatusType"
+        name:
+          description: human-readable name describing the notification rule
+          type: string
+        sleepUntil:
+          type: string
+        every:
+          description: notification repetition interval
+          type: string
+        offset:
+          description: Duration to delay after the schedule, before executing check.
+          type: string
+        cron:
+          description: notification repetition interval in the form '* * * * * *';
+          type: string
+        runbookLink:
+          type: string
+        limitEvery:
+          description: don't notify me more than <limit> times every <limitEvery> seconds. If set, limit cannot be empty.
+          type: integer
+        limit:
+          description: don't notify me more than <limit> times every <limitEvery> seconds. If set, limitEvery cannot be empty.
+          type: integer
+        tagRules:
+          description: list of tag rules the notification rule attempts to match
+          type: array
+          items:
+            $ref: "#/components/schemas/TagRule"
+        description:
+          description: An optional description of the notification rule
+          type: string
+        statusRules:
+          description: list of status rules the notification rule attempts to match
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/StatusRule"
+        labels:
+          $ref: "#/components/schemas/Labels"
+    TagRule:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        operator:
+          type: string
+          enum: ["equal", "notequal", "equalregex","notequalregex"]
+    StatusRule:
+      type: object
+      properties:
+        currentLevel:
+          $ref: "#/components/schemas/LevelRule"
+        previousLevel:
+          $ref: "#/components/schemas/LevelRule"
+        count:
+          type: integer
+        period:
+          type: string
+    LevelRule:
+      type: object
+      properties:
+        level:
+          $ref: "#/components/schemas/CheckStatusLevel"
+        operation:
+          type: string
+          enum: ["equal", "notequal"]
+    SlackNotificationRule:
+      allOf:
+        - $ref: "#/components/schemas/NotificationRuleBase"
+        - type: object
+          required: [type, messageTemplate]
+          properties:
+            type:
+              type: string
+              enum: [slack]
+            channel:
+              type: string
+            messageTemplate:
+              type: string
+    SMTPNotificationRule:
+      allOf:
+        - $ref: "#/components/schemas/NotificationRuleBase"
+        - type: object
+          required: [type, subjectTemplate, to]
+          properties:
+            type:
+              type: string
+              enum: [smtp]
+            subjectTemplate:
+              type: string
+            bodyTemplate:
+              type: string
+            to:
+              type: string
+    PagerDutyNotificationRule:
+      allOf:
+        - $ref: "#/components/schemas/NotificationRuleBase"
+        - type: object
+          required: [type, messageTemplate]
+          properties:
+            type:
+              type: string
+              enum: [pagerduty]
+            messageTemplate:
+              type: string
+    NotificationEndpoint:
+      oneOf:
+        - $ref: "#/components/schemas/SlackNotificationEndpoint"
+        - $ref: "#/components/schemas/SMTPNotificationEndpoint"
+        - $ref: "#/components/schemas/PagerDutyNotificationEndpoint"
+        - $ref: "#/components/schemas/WebhookNotificationEndpoint"
+    NotificationEndpoints:
+      type: object
+      properties:
+        notificationEndpoints:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationEndpoint"
+        links:
+          $ref: "#/components/schemas/Links"
+    NotificationEndpointBase:
+      type: object
+      properties:
+        id:
+          type: string
+        orgID:
+          type: string
+        userID:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        description:
+          description: An optional description of the notification endpoint
+          type: string
+        status:
+          description: The status of the endpoint.
+          default: active
+          type: string
+          enum: ["active", "inactive"]
+        labels:
+          $ref: "#/components/schemas/Labels"
+      required: [type]
+    SlackNotificationEndpoint:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/NotificationEndpointBase"
+        - type: object
+          properties:
+            name:
+              type: string
+              enum: ["slack"]
+    SMTPNotificationEndpoint:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/NotificationEndpointBase"
+        - type: object
+          properties:
+            name:
+              type: string
+              enum: ["smtp"]
+    PagerDutyNotificationEndpoint:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/NotificationEndpointBase"
+        - type: object
+          properties:
+            name:
+              type: string
+              enum: ["pagerduty"]
+    WebhookNotificationEndpoint:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/NotificationEndpointBase"
+        - type: object
+          properties:
+            name:
+              type: string
+              enum: ["webhook"]
   securitySchemes:
     BasicAuth:
       type: http

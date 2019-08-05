@@ -1,5 +1,9 @@
 package org.influxdata.codegen;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.openapitools.codegen.languages.PythonClientCodegen;
 
 public class InfluxPythonGenerator extends PythonClientCodegen {
@@ -24,4 +28,20 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
         return "Generates a influx-python client library.";
     }
 
+    @Override
+    public void processOpts() {
+
+        super.processOpts();
+
+        List<String> useless = Arrays.asList(
+                ".gitignore", ".travis.yml", "README.md", "setup.py", "requirements.txt", "test-requirements.txt",
+                "git_push.sh");
+
+        //
+        // Remove useless supports file
+        //
+        supportingFiles = supportingFiles.stream()
+                .filter(supportingFile -> !useless.contains(supportingFile.destinationFilename))
+                .collect(Collectors.toList());
+    }
 }

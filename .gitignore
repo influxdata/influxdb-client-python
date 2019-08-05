@@ -104,3 +104,10 @@ venv.bak/
 .mypy_cache/
 
 sandbox
+
+# PyCharm
+**/.idea
+**/*.iml
+
+# OpenAPI-generator
+/.openapi-generator*

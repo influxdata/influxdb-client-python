@@ -28,16 +28,12 @@
                     <generateModelDocumentation>false</generateModelDocumentation>
                     <generateApiDocumentation>false</generateApiDocumentation>
                     <generateApis>true</generateApis>
-                    <generateApiTests>true</generateApiTests>
+                    <generateApiTests>false</generateApiTests>
                     <generateSupportingFiles>true</generateSupportingFiles>
                     <generateModelTests>false</generateModelTests>
                     <verbose>false</verbose>
                     <output>${project.basedir}/..</output>
                     <addCompileSourceRoot>false</addCompileSourceRoot>
-<!--                    <modelPackage>domain</modelPackage>-->
-<!--                    <apiPackage>service</apiPackage>-->
-                    <!--                    <modelPackage>domain</modelPackage>-->
-<!--                    <apiPackage>api_asyncio</apiPackage>-->
                     <library>${library}</library>
 
                 </configuration>

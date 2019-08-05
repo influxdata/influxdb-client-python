@@ -31,128 +31,14 @@ class Check(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
-        'message': 'str',
-        'checks': 'list[Check]',
-        'status': 'str'
     }
 
     attribute_map = {
-        'name': 'name',
-        'message': 'message',
-        'checks': 'checks',
-        'status': 'status'
     }
 
-    def __init__(self, name=None, message=None, checks=None, status=None):  # noqa: E501
+    def __init__(self):  # noqa: E501
         """Check - a model defined in OpenAPI"""  # noqa: E501
-
-        self._name = None
-        self._message = None
-        self._checks = None
-        self._status = None
         self.discriminator = None
-
-        self.name = name
-        if message is not None:
-            self.message = message
-        if checks is not None:
-            self.checks = checks
-        self.status = status
-
-    @property
-    def name(self):
-        """Gets the name of this Check.  # noqa: E501
-
-
-        :return: The name of this Check.  # noqa: E501
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this Check.
-
-
-        :param name: The name of this Check.  # noqa: E501
-        :type: str
-        """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
-
-        self._name = name
-
-    @property
-    def message(self):
-        """Gets the message of this Check.  # noqa: E501
-
-
-        :return: The message of this Check.  # noqa: E501
-        :rtype: str
-        """
-        return self._message
-
-    @message.setter
-    def message(self, message):
-        """Sets the message of this Check.
-
-
-        :param message: The message of this Check.  # noqa: E501
-        :type: str
-        """
-
-        self._message = message
-
-    @property
-    def checks(self):
-        """Gets the checks of this Check.  # noqa: E501
-
-
-        :return: The checks of this Check.  # noqa: E501
-        :rtype: list[Check]
-        """
-        return self._checks
-
-    @checks.setter
-    def checks(self, checks):
-        """Sets the checks of this Check.
-
-
-        :param checks: The checks of this Check.  # noqa: E501
-        :type: list[Check]
-        """
-
-        self._checks = checks
-
-    @property
-    def status(self):
-        """Gets the status of this Check.  # noqa: E501
-
-
-        :return: The status of this Check.  # noqa: E501
-        :rtype: str
-        """
-        return self._status
-
-    @status.setter
-    def status(self, status):
-        """Sets the status of this Check.
-
-
-        :param status: The status of this Check.  # noqa: E501
-        :type: str
-        """
-        if status is None:
-            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
-        allowed_values = ["pass", "fail"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
-
-        self._status = status
 
     def to_dict(self):
         """Returns the model properties as a dict"""

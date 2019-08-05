@@ -31,151 +31,122 @@ class DashboardQuery(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'label': 'str',
-        'range': 'DashboardQueryRange',
-        'query': 'str',
-        'source': 'str',
-        'query_config': 'QueryConfig'
+        'text': 'str',
+        'edit_mode': 'QueryEditMode',
+        'name': 'str',
+        'builder_config': 'BuilderConfig'
     }
 
     attribute_map = {
-        'label': 'label',
-        'range': 'range',
-        'query': 'query',
-        'source': 'source',
-        'query_config': 'queryConfig'
+        'text': 'text',
+        'edit_mode': 'editMode',
+        'name': 'name',
+        'builder_config': 'builderConfig'
     }
 
-    def __init__(self, label=None, range=None, query=None, source=None, query_config=None):  # noqa: E501
+    def __init__(self, text=None, edit_mode=None, name=None, builder_config=None):  # noqa: E501
         """DashboardQuery - a model defined in OpenAPI"""  # noqa: E501
 
-        self._label = None
-        self._range = None
-        self._query = None
-        self._source = None
-        self._query_config = None
+        self._text = None
+        self._edit_mode = None
+        self._name = None
+        self._builder_config = None
         self.discriminator = None
 
-        if label is not None:
-            self.label = label
-        if range is not None:
-            self.range = range
-        self.query = query
-        if source is not None:
-            self.source = source
-        if query_config is not None:
-            self.query_config = query_config
+        if text is not None:
+            self.text = text
+        if edit_mode is not None:
+            self.edit_mode = edit_mode
+        if name is not None:
+            self.name = name
+        if builder_config is not None:
+            self.builder_config = builder_config
 
     @property
-    def label(self):
-        """Gets the label of this DashboardQuery.  # noqa: E501
+    def text(self):
+        """Gets the text of this DashboardQuery.  # noqa: E501
 
-        Optional Y-axis user-facing label  # noqa: E501
+        The text of the flux query  # noqa: E501
 
-        :return: The label of this DashboardQuery.  # noqa: E501
+        :return: The text of this DashboardQuery.  # noqa: E501
         :rtype: str
         """
-        return self._label
+        return self._text
 
-    @label.setter
-    def label(self, label):
-        """Sets the label of this DashboardQuery.
+    @text.setter
+    def text(self, text):
+        """Sets the text of this DashboardQuery.
 
-        Optional Y-axis user-facing label  # noqa: E501
+        The text of the flux query  # noqa: E501
 
-        :param label: The label of this DashboardQuery.  # noqa: E501
+        :param text: The text of this DashboardQuery.  # noqa: E501
         :type: str
         """
 
-        self._label = label
+        self._text = text
 
     @property
-    def range(self):
-        """Gets the range of this DashboardQuery.  # noqa: E501
+    def edit_mode(self):
+        """Gets the edit_mode of this DashboardQuery.  # noqa: E501
 
 
-        :return: The range of this DashboardQuery.  # noqa: E501
-        :rtype: DashboardQueryRange
+        :return: The edit_mode of this DashboardQuery.  # noqa: E501
+        :rtype: QueryEditMode
         """
-        return self._range
+        return self._edit_mode
 
-    @range.setter
-    def range(self, range):
-        """Sets the range of this DashboardQuery.
+    @edit_mode.setter
+    def edit_mode(self, edit_mode):
+        """Sets the edit_mode of this DashboardQuery.
 
 
-        :param range: The range of this DashboardQuery.  # noqa: E501
-        :type: DashboardQueryRange
+        :param edit_mode: The edit_mode of this DashboardQuery.  # noqa: E501
+        :type: QueryEditMode
         """
 
-        self._range = range
+        self._edit_mode = edit_mode
 
     @property
-    def query(self):
-        """Gets the query of this DashboardQuery.  # noqa: E501
+    def name(self):
+        """Gets the name of this DashboardQuery.  # noqa: E501
 
 
-        :return: The query of this DashboardQuery.  # noqa: E501
+        :return: The name of this DashboardQuery.  # noqa: E501
         :rtype: str
         """
-        return self._query
+        return self._name
 
-    @query.setter
-    def query(self, query):
-        """Sets the query of this DashboardQuery.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this DashboardQuery.
 
 
-        :param query: The query of this DashboardQuery.  # noqa: E501
-        :type: str
-        """
-        if query is None:
-            raise ValueError("Invalid value for `query`, must not be `None`")  # noqa: E501
-
-        self._query = query
-
-    @property
-    def source(self):
-        """Gets the source of this DashboardQuery.  # noqa: E501
-
-        Optional URI for data source for this query  # noqa: E501
-
-        :return: The source of this DashboardQuery.  # noqa: E501
-        :rtype: str
-        """
-        return self._source
-
-    @source.setter
-    def source(self, source):
-        """Sets the source of this DashboardQuery.
-
-        Optional URI for data source for this query  # noqa: E501
-
-        :param source: The source of this DashboardQuery.  # noqa: E501
+        :param name: The name of this DashboardQuery.  # noqa: E501
         :type: str
         """
 
-        self._source = source
+        self._name = name
 
     @property
-    def query_config(self):
-        """Gets the query_config of this DashboardQuery.  # noqa: E501
+    def builder_config(self):
+        """Gets the builder_config of this DashboardQuery.  # noqa: E501
 
 
-        :return: The query_config of this DashboardQuery.  # noqa: E501
-        :rtype: QueryConfig
+        :return: The builder_config of this DashboardQuery.  # noqa: E501
+        :rtype: BuilderConfig
         """
-        return self._query_config
+        return self._builder_config
 
-    @query_config.setter
-    def query_config(self, query_config):
-        """Sets the query_config of this DashboardQuery.
+    @builder_config.setter
+    def builder_config(self, builder_config):
+        """Sets the builder_config of this DashboardQuery.
 
 
-        :param query_config: The query_config of this DashboardQuery.  # noqa: E501
-        :type: QueryConfig
+        :param builder_config: The builder_config of this DashboardQuery.  # noqa: E501
+        :type: BuilderConfig
         """
 
-        self._query_config = query_config
+        self._builder_config = builder_config
 
     def to_dict(self):
         """Returns the model properties as a dict"""

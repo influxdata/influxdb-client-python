@@ -35,7 +35,7 @@ class DashboardColor(object):
         'type': 'str',
         'hex': 'str',
         'name': 'str',
-        'value': 'str'
+        'value': 'float'
     }
 
     attribute_map = {
@@ -56,16 +56,11 @@ class DashboardColor(object):
         self._value = None
         self.discriminator = None
 
-        if id is not None:
-            self.id = id
-        if type is not None:
-            self.type = type
-        if hex is not None:
-            self.hex = hex
-        if name is not None:
-            self.name = name
-        if value is not None:
-            self.value = value
+        self.id = id
+        self.type = type
+        self.hex = hex
+        self.name = name
+        self.value = value
 
     @property
     def id(self):
@@ -87,6 +82,8 @@ class DashboardColor(object):
         :param id: The id of this DashboardColor.  # noqa: E501
         :type: str
         """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
 
@@ -110,7 +107,9 @@ class DashboardColor(object):
         :param type: The type of this DashboardColor.  # noqa: E501
         :type: str
         """
-        allowed_values = ["min", "max", "threshold"]  # noqa: E501
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
+        allowed_values = ["min", "max", "threshold", "scale", "text", "background"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"  # noqa: E501
@@ -139,6 +138,8 @@ class DashboardColor(object):
         :param hex: The hex of this DashboardColor.  # noqa: E501
         :type: str
         """
+        if hex is None:
+            raise ValueError("Invalid value for `hex`, must not be `None`")  # noqa: E501
         if hex is not None and len(hex) > 7:
             raise ValueError("Invalid value for `hex`, length must be less than or equal to `7`")  # noqa: E501
         if hex is not None and len(hex) < 7:
@@ -166,6 +167,8 @@ class DashboardColor(object):
         :param name: The name of this DashboardColor.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -176,7 +179,7 @@ class DashboardColor(object):
         Value is the data value mapped to this color  # noqa: E501
 
         :return: The value of this DashboardColor.  # noqa: E501
-        :rtype: str
+        :rtype: float
         """
         return self._value
 
@@ -187,8 +190,10 @@ class DashboardColor(object):
         Value is the data value mapped to this color  # noqa: E501
 
         :param value: The value of this DashboardColor.  # noqa: E501
-        :type: str
+        :type: float
         """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value
 

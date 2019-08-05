@@ -31,7 +31,7 @@ class TaskUpdateRequest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'status': 'str',
+        'status': 'TaskStatusType',
         'flux': 'str',
         'name': 'str',
         'every': 'str',
@@ -52,7 +52,7 @@ class TaskUpdateRequest(object):
         'token': 'token'
     }
 
-    def __init__(self, status='active', flux=None, name=None, every=None, cron=None, offset=None, description=None, token=None):  # noqa: E501
+    def __init__(self, status=None, flux=None, name=None, every=None, cron=None, offset=None, description=None, token=None):  # noqa: E501
         """TaskUpdateRequest - a model defined in OpenAPI"""  # noqa: E501
 
         self._status = None
@@ -86,10 +86,9 @@ class TaskUpdateRequest(object):
     def status(self):
         """Gets the status of this TaskUpdateRequest.  # noqa: E501
 
-        Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'  # noqa: E501
 
         :return: The status of this TaskUpdateRequest.  # noqa: E501
-        :rtype: str
+        :rtype: TaskStatusType
         """
         return self._status
 
@@ -97,17 +96,10 @@ class TaskUpdateRequest(object):
     def status(self, status):
         """Sets the status of this TaskUpdateRequest.
 
-        Starting state of the task. 'inactive' tasks are not run until they are updated to 'active'  # noqa: E501
 
         :param status: The status of this TaskUpdateRequest.  # noqa: E501
-        :type: str
+        :type: TaskStatusType
         """
-        allowed_values = ["active", "inactive"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
 
         self._status = status
 

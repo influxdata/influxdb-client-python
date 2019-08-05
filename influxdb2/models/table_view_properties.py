@@ -31,8 +31,12 @@ class TableViewProperties(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'shape': 'str',
         'type': 'str',
+        'queries': 'list[DashboardQuery]',
+        'colors': 'list[DashboardColor]',
+        'shape': 'str',
+        'note': 'str',
+        'show_note_when_empty': 'bool',
         'table_options': 'object',
         'field_options': 'list[RenamableField]',
         'time_format': 'str',
@@ -40,64 +44,43 @@ class TableViewProperties(object):
     }
 
     attribute_map = {
-        'shape': 'shape',
         'type': 'type',
+        'queries': 'queries',
+        'colors': 'colors',
+        'shape': 'shape',
+        'note': 'note',
+        'show_note_when_empty': 'showNoteWhenEmpty',
         'table_options': 'tableOptions',
         'field_options': 'fieldOptions',
         'time_format': 'timeFormat',
         'decimal_places': 'decimalPlaces'
     }
 
-    def __init__(self, shape=None, type=None, table_options=None, field_options=None, time_format=None, decimal_places=None):  # noqa: E501
+    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, table_options=None, field_options=None, time_format=None, decimal_places=None):  # noqa: E501
         """TableViewProperties - a model defined in OpenAPI"""  # noqa: E501
 
-        self._shape = None
         self._type = None
+        self._queries = None
+        self._colors = None
+        self._shape = None
+        self._note = None
+        self._show_note_when_empty = None
         self._table_options = None
         self._field_options = None
         self._time_format = None
         self._decimal_places = None
         self.discriminator = None
 
-        if shape is not None:
-            self.shape = shape
-        if type is not None:
-            self.type = type
-        if table_options is not None:
-            self.table_options = table_options
-        if field_options is not None:
-            self.field_options = field_options
-        if time_format is not None:
-            self.time_format = time_format
-        if decimal_places is not None:
-            self.decimal_places = decimal_places
-
-    @property
-    def shape(self):
-        """Gets the shape of this TableViewProperties.  # noqa: E501
-
-
-        :return: The shape of this TableViewProperties.  # noqa: E501
-        :rtype: str
-        """
-        return self._shape
-
-    @shape.setter
-    def shape(self, shape):
-        """Sets the shape of this TableViewProperties.
-
-
-        :param shape: The shape of this TableViewProperties.  # noqa: E501
-        :type: str
-        """
-        allowed_values = ["chronograf-v2"]  # noqa: E501
-        if shape not in allowed_values:
-            raise ValueError(
-                "Invalid value for `shape` ({0}), must be one of {1}"  # noqa: E501
-                .format(shape, allowed_values)
-            )
-
-        self._shape = shape
+        self.type = type
+        self.queries = queries
+        self.colors = colors
+        self.shape = shape
+        self.note = note
+        self.show_note_when_empty = show_note_when_empty
+        self.table_options = table_options
+        self.field_options = field_options
+        self.time_format = time_format
+        self.decimal_places = decimal_places
 
     @property
     def type(self):
@@ -117,6 +100,8 @@ class TableViewProperties(object):
         :param type: The type of this TableViewProperties.  # noqa: E501
         :type: str
         """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
         allowed_values = ["table"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
@@ -125,6 +110,131 @@ class TableViewProperties(object):
             )
 
         self._type = type
+
+    @property
+    def queries(self):
+        """Gets the queries of this TableViewProperties.  # noqa: E501
+
+
+        :return: The queries of this TableViewProperties.  # noqa: E501
+        :rtype: list[DashboardQuery]
+        """
+        return self._queries
+
+    @queries.setter
+    def queries(self, queries):
+        """Sets the queries of this TableViewProperties.
+
+
+        :param queries: The queries of this TableViewProperties.  # noqa: E501
+        :type: list[DashboardQuery]
+        """
+        if queries is None:
+            raise ValueError("Invalid value for `queries`, must not be `None`")  # noqa: E501
+
+        self._queries = queries
+
+    @property
+    def colors(self):
+        """Gets the colors of this TableViewProperties.  # noqa: E501
+
+        Colors define color encoding of data into a visualization  # noqa: E501
+
+        :return: The colors of this TableViewProperties.  # noqa: E501
+        :rtype: list[DashboardColor]
+        """
+        return self._colors
+
+    @colors.setter
+    def colors(self, colors):
+        """Sets the colors of this TableViewProperties.
+
+        Colors define color encoding of data into a visualization  # noqa: E501
+
+        :param colors: The colors of this TableViewProperties.  # noqa: E501
+        :type: list[DashboardColor]
+        """
+        if colors is None:
+            raise ValueError("Invalid value for `colors`, must not be `None`")  # noqa: E501
+
+        self._colors = colors
+
+    @property
+    def shape(self):
+        """Gets the shape of this TableViewProperties.  # noqa: E501
+
+
+        :return: The shape of this TableViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._shape
+
+    @shape.setter
+    def shape(self, shape):
+        """Sets the shape of this TableViewProperties.
+
+
+        :param shape: The shape of this TableViewProperties.  # noqa: E501
+        :type: str
+        """
+        if shape is None:
+            raise ValueError("Invalid value for `shape`, must not be `None`")  # noqa: E501
+        allowed_values = ["chronograf-v2"]  # noqa: E501
+        if shape not in allowed_values:
+            raise ValueError(
+                "Invalid value for `shape` ({0}), must be one of {1}"  # noqa: E501
+                .format(shape, allowed_values)
+            )
+
+        self._shape = shape
+
+    @property
+    def note(self):
+        """Gets the note of this TableViewProperties.  # noqa: E501
+
+
+        :return: The note of this TableViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._note
+
+    @note.setter
+    def note(self, note):
+        """Sets the note of this TableViewProperties.
+
+
+        :param note: The note of this TableViewProperties.  # noqa: E501
+        :type: str
+        """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
+
+        self._note = note
+
+    @property
+    def show_note_when_empty(self):
+        """Gets the show_note_when_empty of this TableViewProperties.  # noqa: E501
+
+        if true, will display note when empty  # noqa: E501
+
+        :return: The show_note_when_empty of this TableViewProperties.  # noqa: E501
+        :rtype: bool
+        """
+        return self._show_note_when_empty
+
+    @show_note_when_empty.setter
+    def show_note_when_empty(self, show_note_when_empty):
+        """Sets the show_note_when_empty of this TableViewProperties.
+
+        if true, will display note when empty  # noqa: E501
+
+        :param show_note_when_empty: The show_note_when_empty of this TableViewProperties.  # noqa: E501
+        :type: bool
+        """
+        if show_note_when_empty is None:
+            raise ValueError("Invalid value for `show_note_when_empty`, must not be `None`")  # noqa: E501
+
+        self._show_note_when_empty = show_note_when_empty
 
     @property
     def table_options(self):
@@ -144,6 +254,8 @@ class TableViewProperties(object):
         :param table_options: The table_options of this TableViewProperties.  # noqa: E501
         :type: object
         """
+        if table_options is None:
+            raise ValueError("Invalid value for `table_options`, must not be `None`")  # noqa: E501
 
         self._table_options = table_options
 
@@ -167,6 +279,8 @@ class TableViewProperties(object):
         :param field_options: The field_options of this TableViewProperties.  # noqa: E501
         :type: list[RenamableField]
         """
+        if field_options is None:
+            raise ValueError("Invalid value for `field_options`, must not be `None`")  # noqa: E501
 
         self._field_options = field_options
 
@@ -190,6 +304,8 @@ class TableViewProperties(object):
         :param time_format: The time_format of this TableViewProperties.  # noqa: E501
         :type: str
         """
+        if time_format is None:
+            raise ValueError("Invalid value for `time_format`, must not be `None`")  # noqa: E501
 
         self._time_format = time_format
 
@@ -211,6 +327,8 @@ class TableViewProperties(object):
         :param decimal_places: The decimal_places of this TableViewProperties.  # noqa: E501
         :type: DecimalPlaces
         """
+        if decimal_places is None:
+            raise ValueError("Invalid value for `decimal_places`, must not be `None`")  # noqa: E501
 
         self._decimal_places = decimal_places
 

@@ -230,6 +230,7 @@ class QueryApi(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
         :param str org: specifies the name of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
         :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
@@ -255,6 +256,7 @@ class QueryApi(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
         :param str org: specifies the name of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
         :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
@@ -266,7 +268,7 @@ class QueryApi(object):
 
         local_var_params = locals()
 
-        all_params = ['zap_trace_span', 'content_type', 'org', 'org_id', 'query']  # noqa: E501
+        all_params = ['zap_trace_span', 'accept_encoding', 'content_type', 'org', 'org_id', 'query']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -294,6 +296,8 @@ class QueryApi(object):
         header_params = {}
         if 'zap_trace_span' in local_var_params:
             header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'accept_encoding' in local_var_params:
+            header_params['Accept-Encoding'] = local_var_params['accept_encoding']  # noqa: E501
         if 'content_type' in local_var_params:
             header_params['Content-Type'] = local_var_params['content_type']  # noqa: E501
 

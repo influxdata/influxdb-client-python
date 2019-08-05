@@ -34,7 +34,7 @@ class View(object):
         'links': 'ViewLinks',
         'id': 'str',
         'name': 'str',
-        'properties': 'object'
+        'properties': 'ViewProperties'
     }
 
     attribute_map = {
@@ -57,10 +57,8 @@ class View(object):
             self.links = links
         if id is not None:
             self.id = id
-        if name is not None:
-            self.name = name
-        if properties is not None:
-            self.properties = properties
+        self.name = name
+        self.properties = properties
 
     @property
     def links(self):
@@ -122,6 +120,8 @@ class View(object):
         :param name: The name of this View.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -131,7 +131,7 @@ class View(object):
 
 
         :return: The properties of this View.  # noqa: E501
-        :rtype: object
+        :rtype: ViewProperties
         """
         return self._properties
 
@@ -141,8 +141,10 @@ class View(object):
 
 
         :param properties: The properties of this View.  # noqa: E501
-        :type: object
+        :type: ViewProperties
         """
+        if properties is None:
+            raise ValueError("Invalid value for `properties`, must not be `None`")  # noqa: E501
 
         self._properties = properties
 

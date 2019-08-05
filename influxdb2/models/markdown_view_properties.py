@@ -31,58 +31,28 @@ class MarkdownViewProperties(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'shape': 'str',
         'type': 'str',
+        'shape': 'str',
         'note': 'str'
     }
 
     attribute_map = {
-        'shape': 'shape',
         'type': 'type',
+        'shape': 'shape',
         'note': 'note'
     }
 
-    def __init__(self, shape=None, type=None, note=None):  # noqa: E501
+    def __init__(self, type=None, shape=None, note=None):  # noqa: E501
         """MarkdownViewProperties - a model defined in OpenAPI"""  # noqa: E501
 
-        self._shape = None
         self._type = None
+        self._shape = None
         self._note = None
         self.discriminator = None
 
-        if shape is not None:
-            self.shape = shape
-        if type is not None:
-            self.type = type
-        if note is not None:
-            self.note = note
-
-    @property
-    def shape(self):
-        """Gets the shape of this MarkdownViewProperties.  # noqa: E501
-
-
-        :return: The shape of this MarkdownViewProperties.  # noqa: E501
-        :rtype: str
-        """
-        return self._shape
-
-    @shape.setter
-    def shape(self, shape):
-        """Sets the shape of this MarkdownViewProperties.
-
-
-        :param shape: The shape of this MarkdownViewProperties.  # noqa: E501
-        :type: str
-        """
-        allowed_values = ["chronograf-v2"]  # noqa: E501
-        if shape not in allowed_values:
-            raise ValueError(
-                "Invalid value for `shape` ({0}), must be one of {1}"  # noqa: E501
-                .format(shape, allowed_values)
-            )
-
-        self._shape = shape
+        self.type = type
+        self.shape = shape
+        self.note = note
 
     @property
     def type(self):
@@ -102,6 +72,8 @@ class MarkdownViewProperties(object):
         :param type: The type of this MarkdownViewProperties.  # noqa: E501
         :type: str
         """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
         allowed_values = ["markdown"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
@@ -110,6 +82,35 @@ class MarkdownViewProperties(object):
             )
 
         self._type = type
+
+    @property
+    def shape(self):
+        """Gets the shape of this MarkdownViewProperties.  # noqa: E501
+
+
+        :return: The shape of this MarkdownViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._shape
+
+    @shape.setter
+    def shape(self, shape):
+        """Sets the shape of this MarkdownViewProperties.
+
+
+        :param shape: The shape of this MarkdownViewProperties.  # noqa: E501
+        :type: str
+        """
+        if shape is None:
+            raise ValueError("Invalid value for `shape`, must not be `None`")  # noqa: E501
+        allowed_values = ["chronograf-v2"]  # noqa: E501
+        if shape not in allowed_values:
+            raise ValueError(
+                "Invalid value for `shape` ({0}), must be one of {1}"  # noqa: E501
+                .format(shape, allowed_values)
+            )
+
+        self._shape = shape
 
     @property
     def note(self):
@@ -129,6 +130,8 @@ class MarkdownViewProperties(object):
         :param note: The note of this MarkdownViewProperties.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 

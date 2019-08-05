@@ -36,7 +36,7 @@ class Task(object):
         'org': 'str',
         'name': 'str',
         'description': 'str',
-        'status': 'str',
+        'status': 'TaskStatusType',
         'labels': 'list[Label]',
         'authorization_id': 'str',
         'flux': 'str',
@@ -68,7 +68,7 @@ class Task(object):
         'links': 'links'
     }
 
-    def __init__(self, id=None, org_id=None, org=None, name=None, description=None, status='active', labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, created_at=None, updated_at=None, links=None):  # noqa: E501
+    def __init__(self, id=None, org_id=None, org=None, name=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, created_at=None, updated_at=None, links=None):  # noqa: E501
         """Task - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -241,10 +241,9 @@ class Task(object):
     def status(self):
         """Gets the status of this Task.  # noqa: E501
 
-        The current status of the task. When updated to 'inactive', cancels all queued jobs of this task.  # noqa: E501
 
         :return: The status of this Task.  # noqa: E501
-        :rtype: str
+        :rtype: TaskStatusType
         """
         return self._status
 
@@ -252,17 +251,10 @@ class Task(object):
     def status(self, status):
         """Sets the status of this Task.
 
-        The current status of the task. When updated to 'inactive', cancels all queued jobs of this task.  # noqa: E501
 
         :param status: The status of this Task.  # noqa: E501
-        :type: str
+        :type: TaskStatusType
         """
-        allowed_values = ["active", "inactive"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
 
         self._status = status
 

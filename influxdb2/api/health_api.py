@@ -42,7 +42,7 @@ class HealthApi(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :return: Check
+        :return: HealthCheck
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -63,7 +63,7 @@ class HealthApi(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :return: Check
+        :return: HealthCheck
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -114,7 +114,7 @@ class HealthApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Check',  # noqa: E501
+            response_type='HealthCheck',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

@@ -32,6 +32,7 @@ class User(object):
     """
     openapi_types = {
         'id': 'str',
+        'oauth_id': 'str',
         'name': 'str',
         'status': 'str',
         'links': 'UserLinks'
@@ -39,15 +40,17 @@ class User(object):
 
     attribute_map = {
         'id': 'id',
+        'oauth_id': 'oauthID',
         'name': 'name',
         'status': 'status',
         'links': 'links'
     }
 
-    def __init__(self, id=None, name=None, status='active', links=None):  # noqa: E501
+    def __init__(self, id=None, oauth_id=None, name=None, status='active', links=None):  # noqa: E501
         """User - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
+        self._oauth_id = None
         self._name = None
         self._status = None
         self._links = None
@@ -55,6 +58,8 @@ class User(object):
 
         if id is not None:
             self.id = id
+        if oauth_id is not None:
+            self.oauth_id = oauth_id
         self.name = name
         if status is not None:
             self.status = status
@@ -81,6 +86,27 @@ class User(object):
         """
 
         self._id = id
+
+    @property
+    def oauth_id(self):
+        """Gets the oauth_id of this User.  # noqa: E501
+
+
+        :return: The oauth_id of this User.  # noqa: E501
+        :rtype: str
+        """
+        return self._oauth_id
+
+    @oauth_id.setter
+    def oauth_id(self, oauth_id):
+        """Sets the oauth_id of this User.
+
+
+        :param oauth_id: The oauth_id of this User.  # noqa: E501
+        :type: str
+        """
+
+        self._oauth_id = oauth_id
 
     @property
     def name(self):

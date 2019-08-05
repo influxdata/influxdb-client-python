@@ -6,9 +6,12 @@ from __future__ import absolute_import
 from influxdb2.api.authorizations_api import AuthorizationsApi
 from influxdb2.api.buckets_api import BucketsApi
 from influxdb2.api.cells_api import CellsApi
+from influxdb2.api.checks_api import ChecksApi
 from influxdb2.api.dashboards_api import DashboardsApi
 from influxdb2.api.health_api import HealthApi
 from influxdb2.api.labels_api import LabelsApi
+from influxdb2.api.notification_endpoints_api import NotificationEndpointsApi
+from influxdb2.api.notification_rules_api import NotificationRulesApi
 from influxdb2.api.operation_logs_api import OperationLogsApi
 from influxdb2.api.organizations_api import OrganizationsApi
 from influxdb2.api.query_api import QueryApi
