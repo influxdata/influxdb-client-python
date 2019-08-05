@@ -16,7 +16,7 @@
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>3.3.4</version>
                 <configuration>
-                    <inputSpec>${project.basedir}/swagger.yaml</inputSpec>
+                    <inputSpec>${project.basedir}/swagger.yml</inputSpec>
                     <generatorName>influx-python</generatorName>
                     <configOptions>
                         <additional-properties>optionalProjectFile=true</additional-properties>
@@ -28,18 +28,13 @@
                     <generateModelDocumentation>false</generateModelDocumentation>
                     <generateApiDocumentation>false</generateApiDocumentation>
                     <generateApis>true</generateApis>
-                    <generateApiTests>true</generateApiTests>
+                    <generateApiTests>false</generateApiTests>
                     <generateSupportingFiles>true</generateSupportingFiles>
                     <generateModelTests>false</generateModelTests>
                     <verbose>false</verbose>
                     <output>${project.basedir}/..</output>
                     <addCompileSourceRoot>false</addCompileSourceRoot>
-<!--                    <modelPackage>domain</modelPackage>-->
-<!--                    <apiPackage>service</apiPackage>-->
-                    <!--                    <modelPackage>domain</modelPackage>-->
-<!--                    <apiPackage>api_asyncio</apiPackage>-->
                     <library>${library}</library>
-
                 </configuration>
                 <dependencies>
                     <dependency>

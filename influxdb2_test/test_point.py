@@ -16,7 +16,7 @@ from datetime import datetime, timezone, timedelta
 from pytz import UTC, timezone
 
 from influxdb2.client.write.point import Point
-from influxdb2.models.write_precision import WritePrecision
+from influxdb2.domain.write_precision import WritePrecision
 from influxdb2_test.base_test import BaseTest
 
 

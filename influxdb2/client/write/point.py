@@ -6,7 +6,7 @@ import dateutil.parser
 from pytz import UTC
 from six import iteritems, binary_type, PY2
 
-from influxdb2.models.write_precision import WritePrecision
+from influxdb2.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
 
