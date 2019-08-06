@@ -4,12 +4,22 @@ from __future__ import absolute_import
 
 import datetime
 import unittest
+from multiprocessing.pool import ApplyResult
 
 from influxdb2 import WritePrecision
+from influxdb2.client.write_api import SYNCHRONOUS, ASYNCHRONOUS
 from influxdb2_test.base_test import BaseTest
 
 
-class SimpleWriteTest(BaseTest):
+class SynchronousWriteTest(BaseTest):
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
+
+    def tearDown(self) -> None:
+        self.write_client.__del__()
+        super().tearDown()
 
     def test_write_line_protocol(self):
         bucket = self.create_test_bucket()
@@ -32,11 +42,11 @@ class SimpleWriteTest(BaseTest):
 
     #####################################
 
-    def test_write_precission(self):
+    def test_write_precision(self):
         bucket = self.create_test_bucket()
 
-        self.client.write_api().write(org="my-org", bucket=bucket.name, record="air,location=Python humidity=99",
-                                      write_precision=WritePrecision.MS)
+        self.write_client.write(org="my-org", bucket=bucket.name, record="air,location=Python humidity=99",
+                                write_precision=WritePrecision.MS)
 
         result = self.query_client.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
@@ -45,17 +55,17 @@ class SimpleWriteTest(BaseTest):
 
         self.delete_test_bucket(bucket)
 
-    def test_WriteRecordsList(self):
+    def test_write_records_list(self):
         bucket = self.create_test_bucket()
 
         _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
 
-        list = [_record1, _record2]
+        record_list = [_record1, _record2]
 
-        self.client.write_api().write(bucket.name, self.org, list)
+        self.write_client.write(bucket.name, self.org, record_list)
 
-        self.client.write_api().flush()
+        self.write_client.flush()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
         print(query)
@@ -75,6 +85,36 @@ class SimpleWriteTest(BaseTest):
         self.assertEqual("h2o_feet", records[1].get_measurement())
         self.assertEqual(2, records[1].get_value())
         self.assertEqual("level water_level", records[1].get_field())
+
+    def test_write_result(self):
+
+        _bucket = self.create_test_bucket()
+
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        result = self.write_client.write(_bucket.name, self.org, _record)
+
+        # The success response is 204 - No Content
+        self.assertEqual(None, result)
+
+
+class AsynchronousWriteTest(BaseTest):
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.write_client = self.client.write_api(write_options=ASYNCHRONOUS)
+
+    def tearDown(self) -> None:
+        self.write_client.__del__()
+        super().tearDown()
+
+    def test_write_result(self):
+        _bucket = self.create_test_bucket()
+
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        result = self.write_client.write(_bucket.name, self.org, _record)
+
+        self.assertEqual(ApplyResult, type(result))
+        self.assertEqual(None, result.get())
 
 
 if __name__ == '__main__':

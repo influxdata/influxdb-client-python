@@ -26,9 +26,6 @@ class BaseTest(unittest.TestCase):
         self.client = InfluxDBClient(conf.host, auth_token, debug=conf.debug, org="my-org")
         self.api_client = self.client.api_client
 
-        self.write_api = influxdb2.service.write_service.WriteService(self.api_client)
-        self.write_client = self.client.write_api()
-
         self.query_client = self.client.query_api()
         self.buckets_client = self.client.buckets_api()
         self.my_organization = self.find_my_org()

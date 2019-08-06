@@ -2,10 +2,14 @@
 
 [![Build Status](https://travis-ci.org/bonitoo-io/influxdb-client-python.svg?branch=master)](https://travis-ci.org/bonitoo-io/influxdb-client-python)
 
-
 InfluxDB 2.0 python client library. TODO...
 
-## Requirements.
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [How To Use](#how-to-use)
+    - [To write into InfluxDB 2.0](#writes)
+
+## Requirements
 
 Python 2.7 and 3.4+
 
@@ -45,12 +49,13 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```python
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write.point import Point
+from influxdb2.client.write_api import SYNCHRONOUS
 
 bucket = "test_bucket"
 
 client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
 
-write_api = client.write_api()
+write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
 
 p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
@@ -72,7 +77,22 @@ val_count = 0
 for row in csv_result:
     for cell in row:
         val_count += 1
-
-
-
 ```
+
+## How to use
+
+### Writes
+
+The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) that supports synchronous, asynchronous and batching writes into InfluxDB 2.0.
+
+The write client could be configured by `WriteOptions`:
+
+| Property | Description | Default Value |
+| --- | --- | --- |
+| [**write_type**](#write_type) | how the client writes data ; allowed values: `batching`, `asynchronous`, `synchronous`| `batching` |
+| **batch_size** | the number of data point to collect in batch | `1000` |
+
+##### write_type
+* `batching` - data are writes in batches defined by `batch_size`, `flush_interval`, ...
+* `asynchronous` - data are writes in asynchronous HTTP request
+* `synchronous` - data are writes in synchronous HTTP request
