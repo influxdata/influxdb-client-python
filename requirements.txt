@@ -1,4 +1,4 @@
-rx >= 3.0.0b4
+rx >= 3.0.1
 certifi >= 14.05.14
 six >= 1.10
 python_dateutil >= 2.5.3

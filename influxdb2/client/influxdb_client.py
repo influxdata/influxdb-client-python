@@ -46,7 +46,9 @@ class InfluxDBClient(object):
         return QueryApi(self)
 
     def __del__(self):
-        self.api_client.__del__()
+        if self.api_client:
+            self.api_client.__del__()
+            self.api_client = None
 
     def buckets_api(self) -> BucketsApi:
         return BucketsApi(self)

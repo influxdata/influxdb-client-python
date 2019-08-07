@@ -83,13 +83,11 @@ for row in csv_result:
 
 ### Writes
 
-The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) that supports synchronous, asynchronous and batching writes into InfluxDB 2.0.
-
-The write client could be configured by `WriteOptions`:
+The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0 and could be configured by `WriteOptions`:
 
 | Property | Description | Default Value |
 | --- | --- | --- |
-| [**write_type**](#write_type) | how the client writes data ; allowed values: `batching`, `asynchronous`, `synchronous`| `batching` |
+| [**write_type**](#write_type) | how the client writes data; allowed values: `batching`, `asynchronous`, `synchronous`| `batching` |
 | **batch_size** | the number of data point to collect in batch | `1000` |
 
 ##### write_type

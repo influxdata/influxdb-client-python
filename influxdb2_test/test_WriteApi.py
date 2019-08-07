@@ -8,6 +8,7 @@ from multiprocessing.pool import ApplyResult
 
 from influxdb2 import WritePrecision
 from influxdb2.client.write_api import SYNCHRONOUS, ASYNCHRONOUS
+from influxdb2.rest import ApiException
 from influxdb2_test.base_test import BaseTest
 
 
@@ -87,7 +88,6 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual("level water_level", records[1].get_field())
 
     def test_write_result(self):
-
         _bucket = self.create_test_bucket()
 
         _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
@@ -95,6 +95,18 @@ class SynchronousWriteTest(BaseTest):
 
         # The success response is 204 - No Content
         self.assertEqual(None, result)
+
+    def test_write_error(self):
+        _bucket = self.create_test_bucket()
+
+        _record = "h2o_feet,location=coyote_creek level\\"
+
+        with self.assertRaises(ApiException) as cm:
+            self.write_client.write(_bucket.name, self.org, _record)
+        exception = cm.exception
+
+        self.assertEqual(400, exception.status)
+        self.assertEqual("Bad Request", exception.reason)
 
 
 class AsynchronousWriteTest(BaseTest):
