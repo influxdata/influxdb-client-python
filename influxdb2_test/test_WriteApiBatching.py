@@ -6,9 +6,11 @@ import time
 import unittest
 
 import httpretty
+import rx
 
 import influxdb2
 from influxdb2 import WritePrecision, WriteService
+from influxdb2.client.write.point import Point
 from influxdb2.client.write_api import WriteOptions, WriteApiClient
 from influxdb2_test.base_test import BaseTest
 
@@ -132,7 +134,6 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_recover_from_error(self):
-
         httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=400)
 
@@ -152,10 +153,48 @@ class BatchingWriteTest(BaseTest):
 
         pass
 
-    @unittest.skip(reason="TODO")
     def test_record_types(self):
-        self.assertTrue(False, msg="TODO")
-        self.assertTrue(False, msg="Add observable")
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+
+        # Record item
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        self._write_client.write("my-bucket", "my-org", _record)
+
+        # Point item
+        _point = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 2.0).time(2)
+        self._write_client.write("my-bucket", "my-org", _point)
+
+        # Record list
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"])
+
+        # Point list
+        _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0).time(5)
+        _point2 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 6.0).time(6)
+        self._write_client.write("my-bucket", "my-org", [_point1, _point2])
+
+        # Observable
+        _recordObs = "h2o_feet,location=coyote_creek level\\ water_level=7.0 7"
+        _pointObs = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 8.0).time(8)
+
+        self._write_client.write("my-bucket", "my-org", rx.of(_recordObs, _pointObs))
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(4, len(_requests))
+
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=4.0 4", _requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5.0 5\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[2].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=7.0 7\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=8.0 8", _requests[3].parsed_body)
+
         pass
 
     def test_write_result(self):

@@ -4,7 +4,7 @@ import time
 from enum import Enum
 
 import rx
-from rx import operators as ops
+from rx import operators as ops, Observable
 from rx.core import GroupedObservable
 from rx.scheduler import NewThreadScheduler
 from rx.subject import Subject
@@ -185,13 +185,15 @@ class WriteApiClient(AbstractClient):
 
         elif isinstance(data, Point):
             self._subject.on_next(_BatchItem(key=_key, data=data.to_line_protocol()))
+
         elif isinstance(data, list):
             for item in data:
-                if isinstance(item, str):
-                    self._subject.on_next(
-                        _BatchItem(key=_key, data=item))
-                if isinstance(item, Point):
-                    self._subject.on_next(_BatchItem(key=_key, data=item.to_line_protocol()))
+                self._write_batching(bucket, org, item, precision)
+
+        elif isinstance(data, Observable):
+            data.subscribe(lambda it: self._write_batching(bucket, org, it, precision))
+            pass
+
         return None
 
     def _http(self, batch_item: _BatchItem):
