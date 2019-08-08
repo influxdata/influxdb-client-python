@@ -34,7 +34,8 @@ class BatchingWriteTest(BaseTest):
                                                header_value="Token my-token")
 
         self._write_client = WriteApiClient(service=WriteService(api_client=self._api_client),
-                                            write_options=WriteOptions(batch_size=2, flush_interval=5_000))
+                                            write_options=WriteOptions(batch_size=2, flush_interval=5_000,
+                                                                       retry_interval=3_000))
 
     def tearDown(self) -> None:
         pass
@@ -183,6 +184,38 @@ class BatchingWriteTest(BaseTest):
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
                          httpretty.httpretty.latest_requests[1].parsed_body)
+
+    def test_retry_interval(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=429)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=503)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+
+        time.sleep(1)
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+        time.sleep(3)
+
+        self.assertEqual(2, len(httpretty.httpretty.latest_requests))
+
+        time.sleep(3)
+
+        self.assertEqual(3, len(httpretty.httpretty.latest_requests))
+
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                         httpretty.httpretty.latest_requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                         httpretty.httpretty.latest_requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                         httpretty.httpretty.latest_requests[2].parsed_body)
+
+        pass
 
     def test_recover_from_error(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)

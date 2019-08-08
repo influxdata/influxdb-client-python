@@ -33,22 +33,23 @@ class _Notification(object):
         pass
 
     def __str__(self) -> str:
-        return '_Notification[status:\'{}\', \'{}\']'\
+        return '_Notification[status:\'{}\', \'{}\']' \
             .format("failed" if self.exception else "success", self.data)
 
 
 class _RxWriter(object):
-
     success_count = 0
     failed_count = 0
+    raise_retry_exception = 0
 
     def __init__(self) -> None:
         self._subject = Subject()
-        obs = self._subject.pipe(ops.observe_on(ThreadPoolScheduler(max_workers=1)))
+        self._scheduler = ThreadPoolScheduler(max_workers=1)
+        obs = self._subject.pipe(ops.observe_on(self._scheduler))
         self._disposable = obs \
             .pipe(ops.window_with_time_or_count(count=5, timespan=datetime.timedelta(milliseconds=10_000)),
                   ops.flat_map(lambda x: self._window_to_group(x)),
-                  ops.map(mapper=lambda x: self._retryable(x)),
+                  ops.map(mapper=lambda x: self._retryable(data=x, delay=self._jitter_delay(jitter_interval=1000))),
                   ops.merge_all()) \
             .subscribe(self._result)
         pass
@@ -73,18 +74,27 @@ class _RxWriter(object):
                 ops.group_by(_group_by), ops.map(_group_to_batch), ops.merge_all())),
             ops.merge_all())
 
-    def _retryable(self, data: str):
+    def _retryable(self, data: str, delay: datetime.timedelta):
 
         return rx.of(data).pipe(
-            ops.delay(duetime=self._jitter_delay(jitter_interval=1000)),
+            ops.delay(duetime=delay, scheduler=self._scheduler),
             ops.map(lambda x: self._http(x)),
-            ops.catch(handler=lambda exception, source: _retry_handler(exception, source, data)),
+            ops.catch(handler=lambda exception, source: self._retry_handler(exception, source, data)),
         )
 
     def _http(self, data: str):
         if "gamma" in data:
             print('bad request[{}]: {}'.format(current_thread().name, data))
             raise Exception('unexpected token: {}'.format(data))
+            pass
+
+        if "alpha" in data:
+            if self.raise_retry_exception < 2:
+                self.raise_retry_exception += 1
+                print('server is temporarily unavailable to accept writes[{}]: {}'.format(current_thread().name, data))
+                raise Exception('server is temporarily unavailable to accept writes: {}'.format(data))
+            else:
+                print("server is OK: {}".format(datetime.datetime.now()))
             pass
 
         print("http[" + current_thread().name + "]: " + data)
@@ -111,12 +121,16 @@ class _RxWriter(object):
         print('jitter: {}'.format(_jitter))
         return _jitter
 
+    def _retry_handler(self, exception, source, data):
+        print('retry_handler: {}, source: {}'.format(exception, source))
 
-def _retry_handler(exception, source, data):
-    print('retry_handler: {}, source: {}'.format(exception, source))
-    notification = _Notification(exception=exception, data=data)
+        if "server is temporarily" in str(exception):
+            print("RETRY!!!: {}".format(datetime.datetime.now()))
+            return self._retryable(data, delay=datetime.timedelta(seconds=2))
 
-    return rx.just(notification)
+        notification = _Notification(exception=exception, data=data)
+
+        return rx.just(notification)
 
 
 def _create_batch(group: GroupedObservable):
@@ -159,7 +173,7 @@ rxWriter.write("giant")
 rxWriter.write("balloon")
 
 print("\n== finish writing ==\n")
-time.sleep(2)
+time.sleep(5)
 
 print("\n== __del__ ==\n")
 rxWriter.__del__()

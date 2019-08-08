@@ -91,6 +91,7 @@ The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/m
 | **batch_size** | the number of data point to collect in batch | `1000` |
 | **flush_interval** | the number of milliseconds before the batch is written | `1000` |
 | **jitter_interval** | the number of milliseconds to increase the batch flush interval by a random amount | `0` |
+| **retry_interval** | the number of milliseconds to retry unsuccessful write. The retry interval is used when the InfluxDB server does not specify "Retry-After" header. | `1000` |
 
 ##### write_type
 * `batching` - data are writes in batches defined by `batch_size`, `flush_interval`, ...

@@ -8,12 +8,13 @@ from time import sleep
 import rx
 from rx import operators as ops, Observable
 from rx.core import GroupedObservable
-from rx.scheduler import NewThreadScheduler
+from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb2 import WritePrecision
 from influxdb2.client.abstract_client import AbstractClient
 from influxdb2.client.write.point import Point
+from influxdb2.rest import ApiException
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class WriteType(Enum):
 class WriteOptions(object):
 
     def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=1_000, jitter_interval=0,
-                 retry_interval=None, write_scheduler=NewThreadScheduler()) -> None:
+                 retry_interval=1_000, write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         self.write_type = write_type
         self.batch_size = batch_size
         self.flush_interval = flush_interval
@@ -100,10 +101,6 @@ def _group_to_batch(group: GroupedObservable):
                       ops.map(_create_batch(group)))
 
 
-def _retry_handler(exception, source, data):
-    return rx.just(_BatchResponse(exception=exception, data=data))
-
-
 def _window_to_group(value):
     return value.pipe(
         ops.to_iterable(),
@@ -124,7 +121,7 @@ class WriteApiClient(AbstractClient):
                 .pipe(ops.window_with_time_or_count(count=write_options.batch_size,
                                                     timespan=timedelta(milliseconds=write_options.flush_interval)),
                       ops.flat_map(lambda v: _window_to_group(v)),
-                      ops.map(mapper=lambda x: self._retryable(x)),
+                      ops.map(mapper=lambda x: self._retryable(data=x, delay=self._jitter_delay())),
                       ops.merge_all()) \
                 .subscribe(self._on_next, self._on_error)
         else:
@@ -207,13 +204,23 @@ class WriteApiClient(AbstractClient):
         return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
                                               async_req=_async_req)
 
-    def _retryable(self, data: str):
+    def _retryable(self, data: str, delay: timedelta):
 
         return rx.of(data).pipe(
-            ops.delay(duetime=self._jitter_delay()),
+            ops.delay(duetime=delay, scheduler=self._write_options.write_scheduler),
             ops.map(lambda x: self._http(x)),
-            ops.catch(handler=lambda exception, source: _retry_handler(exception, source, data)),
+            ops.catch(handler=lambda exception, source: self._retry_handler(exception, source, data)),
         )
+
+    def _retry_handler(self, exception, source, data):
+
+        if isinstance(exception, ApiException):
+
+            if exception.status == 429 or exception.status == 503:
+                _delay = self._jitter_delay() + timedelta(milliseconds=self._write_options.retry_interval)
+                return self._retryable(data, delay=_delay)
+
+        return rx.just(_BatchResponse(exception=exception, data=data))
 
     def _jitter_delay(self):
         return timedelta(milliseconds=random() * self._write_options.jitter_interval)
