@@ -156,6 +156,34 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
+    def test_jitter_interval(self):
+        self._write_client.__del__()
+        self._write_client = WriteApiClient(service=WriteService(api_client=self._api_client),
+                                            write_options=WriteOptions(batch_size=2, flush_interval=5_000,
+                                                                       jitter_interval=3_000))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+
+        time.sleep(3)
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
+
+        time.sleep(2)
+
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+        time.sleep(6)
+
+        self.assertEqual(2, len(httpretty.httpretty.latest_requests))
+
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
+                         httpretty.httpretty.latest_requests[1].parsed_body)
+
     def test_recover_from_error(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=400)

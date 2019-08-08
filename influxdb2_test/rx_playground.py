@@ -1,5 +1,6 @@
 import datetime
 import time
+from random import random
 from threading import current_thread
 
 import rx
@@ -45,7 +46,7 @@ class _RxWriter(object):
         self._subject = Subject()
         obs = self._subject.pipe(ops.observe_on(ThreadPoolScheduler(max_workers=1)))
         self._disposable = obs \
-            .pipe(ops.window_with_time_or_count(count=5, timespan=datetime.timedelta(days=3, milliseconds=4)),
+            .pipe(ops.window_with_time_or_count(count=5, timespan=datetime.timedelta(milliseconds=10_000)),
                   ops.flat_map(lambda x: self._window_to_group(x)),
                   ops.map(mapper=lambda x: self._retryable(x)),
                   ops.merge_all()) \
@@ -75,6 +76,7 @@ class _RxWriter(object):
     def _retryable(self, data: str):
 
         return rx.of(data).pipe(
+            ops.delay(duetime=self._jitter_delay(jitter_interval=1000)),
             ops.map(lambda x: self._http(x)),
             ops.catch(handler=lambda exception, source: _retry_handler(exception, source, data)),
         )
@@ -103,6 +105,11 @@ class _RxWriter(object):
 
     def _error(self, error):
         print(error)
+
+    def _jitter_delay(self, jitter_interval=0):
+        _jitter = datetime.timedelta(milliseconds=random() * jitter_interval)
+        print('jitter: {}'.format(_jitter))
+        return _jitter
 
 
 def _retry_handler(exception, source, data):

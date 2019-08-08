@@ -2,6 +2,7 @@
 import logging
 from datetime import timedelta
 from enum import Enum
+from random import random
 from time import sleep
 
 import rx
@@ -25,14 +26,13 @@ class WriteType(Enum):
 
 class WriteOptions(object):
 
-    def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=1_000, jitter_interval=None,
-                 retry_interval=None, buffer_limit=None, write_scheduler=NewThreadScheduler()) -> None:
+    def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=1_000, jitter_interval=0,
+                 retry_interval=None, write_scheduler=NewThreadScheduler()) -> None:
         self.write_type = write_type
         self.batch_size = batch_size
         self.flush_interval = flush_interval
         self.jitter_interval = jitter_interval
         self.retry_interval = retry_interval
-        self.buffer_limit = buffer_limit
         self.write_scheduler = write_scheduler
 
 
@@ -48,7 +48,7 @@ class _BatchItem(object):
         pass
 
     def __str__(self) -> str:
-        return '_BatchItem[key:\'{}\', \'{}\']'\
+        return '_BatchItem[key:\'{}\', \'{}\']' \
             .format(str(self.key), str(self.data))
 
 
@@ -67,7 +67,7 @@ class _BatchItemKey(object):
                and self.bucket == o.bucket and self.org == o.org and self.precision == o.precision
 
     def __str__(self) -> str:
-        return '_BatchItemKey[bucket:\'{}\', org:\'{}\', precision:\'{}\']'\
+        return '_BatchItemKey[bucket:\'{}\', org:\'{}\', precision:\'{}\']' \
             .format(str(self.bucket), str(self.org), str(self.precision))
 
 
@@ -78,7 +78,7 @@ class _BatchResponse(object):
         pass
 
     def __str__(self) -> str:
-        return '_BatchResponse[status:\'{}\', \'{}\']'\
+        return '_BatchResponse[status:\'{}\', \'{}\']' \
             .format("failed" if self.exception else "success", str(self.data))
 
 
@@ -120,7 +120,7 @@ class WriteApiClient(AbstractClient):
             self._subject = Subject()
 
             observable = self._subject.pipe(ops.observe_on(self._write_options.write_scheduler))
-            self._disposable = observable\
+            self._disposable = observable \
                 .pipe(ops.window_with_time_or_count(count=write_options.batch_size,
                                                     timespan=timedelta(milliseconds=write_options.flush_interval)),
                       ops.flat_map(lambda v: _window_to_group(v)),
@@ -164,10 +164,6 @@ class WriteApiClient(AbstractClient):
         # TODO
         pass
 
-    def _post_write(self, _async_req, bucket, org, body, precision):
-        return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
-                                              async_req=_async_req)
-
     def __del__(self):
         if self._subject:
             self._subject.on_completed()
@@ -207,12 +203,20 @@ class WriteApiClient(AbstractClient):
 
         return _BatchResponse(data=batch_item)
 
+    def _post_write(self, _async_req, bucket, org, body, precision):
+        return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
+                                              async_req=_async_req)
+
     def _retryable(self, data: str):
 
         return rx.of(data).pipe(
+            ops.delay(duetime=self._jitter_delay()),
             ops.map(lambda x: self._http(x)),
             ops.catch(handler=lambda exception, source: _retry_handler(exception, source, data)),
         )
+
+    def _jitter_delay(self):
+        return timedelta(milliseconds=random() * self._write_options.jitter_interval)
 
     @staticmethod
     def _on_next(response: _BatchResponse):
@@ -224,4 +228,3 @@ class WriteApiClient(AbstractClient):
     @staticmethod
     def _on_error(ex):
         logger.error("unexpected error during batching: %s", ex)
-

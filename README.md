@@ -90,6 +90,7 @@ The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/m
 | [**write_type**](#write_type) | how the client writes data; allowed values: `batching`, `asynchronous`, `synchronous`| `batching` |
 | **batch_size** | the number of data point to collect in batch | `1000` |
 | **flush_interval** | the number of milliseconds before the batch is written | `1000` |
+| **jitter_interval** | the number of milliseconds to increase the batch flush interval by a random amount | `0` |
 
 ##### write_type
 * `batching` - data are writes in batches defined by `batch_size`, `flush_interval`, ...
