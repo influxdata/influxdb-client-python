@@ -11,7 +11,6 @@
 
 
 import pprint
-import re  # noqa: F401
 
 import six
 
@@ -31,6 +30,7 @@ class TaskCreateRequest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'type': 'str',
         'org_id': 'str',
         'org': 'str',
         'status': 'TaskStatusType',
@@ -40,6 +40,7 @@ class TaskCreateRequest(object):
     }
 
     attribute_map = {
+        'type': 'type',
         'org_id': 'orgID',
         'org': 'org',
         'status': 'status',
@@ -48,9 +49,10 @@ class TaskCreateRequest(object):
         'token': 'token'
     }
 
-    def __init__(self, org_id=None, org=None, status=None, flux=None, description=None, token=None):  # noqa: E501
+    def __init__(self, type=None, org_id=None, org=None, status=None, flux=None, description=None, token=None):  # noqa: E501
         """TaskCreateRequest - a model defined in OpenAPI"""  # noqa: E501
 
+        self._type = None
         self._org_id = None
         self._org = None
         self._status = None
@@ -59,6 +61,8 @@ class TaskCreateRequest(object):
         self._token = None
         self.discriminator = None
 
+        if type is not None:
+            self.type = type
         if org_id is not None:
             self.org_id = org_id
         if org is not None:
@@ -69,6 +73,29 @@ class TaskCreateRequest(object):
         if description is not None:
             self.description = description
         self.token = token
+
+    @property
+    def type(self):
+        """Gets the type of this TaskCreateRequest.  # noqa: E501
+
+        The type of task, this can be used for filtering tasks on list actions.  # noqa: E501
+
+        :return: The type of this TaskCreateRequest.  # noqa: E501
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this TaskCreateRequest.
+
+        The type of task, this can be used for filtering tasks on list actions.  # noqa: E501
+
+        :param type: The type of this TaskCreateRequest.  # noqa: E501
+        :type: str
+        """
+
+        self._type = type
 
     @property
     def org_id(self):

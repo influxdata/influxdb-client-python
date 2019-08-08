@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -232,8 +230,8 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
-        :param str org: specifies the name of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
-        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
+        :param str org: specifies the name of the organization executing the query; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence.
+        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, org takes precedence.
         :param Query query: flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -258,8 +256,8 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
-        :param str org: specifies the name of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
-        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, orgID takes precedence.
+        :param str org: specifies the name of the organization executing the query; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence.
+        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, org takes precedence.
         :param Query query: flux query or specification to execute
         :return: str
                  If the method is called asynchronously,

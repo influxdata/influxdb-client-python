@@ -11,7 +11,6 @@
 
 
 import pprint
-import re  # noqa: F401
 
 import six
 
@@ -32,6 +31,7 @@ class Task(object):
     """
     openapi_types = {
         'id': 'str',
+        'type': 'str',
         'org_id': 'str',
         'org': 'str',
         'name': 'str',
@@ -51,6 +51,7 @@ class Task(object):
 
     attribute_map = {
         'id': 'id',
+        'type': 'type',
         'org_id': 'orgID',
         'org': 'org',
         'name': 'name',
@@ -68,10 +69,11 @@ class Task(object):
         'links': 'links'
     }
 
-    def __init__(self, id=None, org_id=None, org=None, name=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, created_at=None, updated_at=None, links=None):  # noqa: E501
+    def __init__(self, id=None, type=None, org_id=None, org=None, name=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, created_at=None, updated_at=None, links=None):  # noqa: E501
         """Task - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
+        self._type = None
         self._org_id = None
         self._org = None
         self._name = None
@@ -90,6 +92,8 @@ class Task(object):
         self.discriminator = None
 
         self.id = id
+        if type is not None:
+            self.type = type
         self.org_id = org_id
         if org is not None:
             self.org = org
@@ -140,6 +144,29 @@ class Task(object):
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
+
+    @property
+    def type(self):
+        """Gets the type of this Task.  # noqa: E501
+
+        The type of task, this can be used for filtering tasks on list actions.  # noqa: E501
+
+        :return: The type of this Task.  # noqa: E501
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Task.
+
+        The type of task, this can be used for filtering tasks on list actions.  # noqa: E501
+
+        :param type: The type of this Task.  # noqa: E501
+        :type: str
+        """
+
+        self._type = type
 
     @property
     def org_id(self):

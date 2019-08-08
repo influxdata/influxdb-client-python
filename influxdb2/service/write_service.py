@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -41,7 +39,7 @@ class WriteService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: specifies the destination organization for writes (required)
+        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
         :param str body: line protocol body (required)
         :param str zap_trace_span: OpenTracing span context
@@ -49,6 +47,7 @@ class WriteService(object):
         :param str content_type: Content-Type is used to indicate the format of the data sent to the server.
         :param int content_length: Content-Length is an entity header is indicating the size of the entity-body, in bytes, sent to the database. If the length is greater than the database max body configuration option, a 413 response is sent.
         :param str accept: specifies the return content format.
+        :param str org_id: specifies the ID of the destination organization for writes; if both orgID and org are specified, org takes precedence.
         :param WritePrecision precision: specifies the precision for the unix timestamps within the body line-protocol
         :return: None
                  If the method is called asynchronously,
@@ -70,7 +69,7 @@ class WriteService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: specifies the destination organization for writes (required)
+        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
         :param str body: line protocol body (required)
         :param str zap_trace_span: OpenTracing span context
@@ -78,6 +77,7 @@ class WriteService(object):
         :param str content_type: Content-Type is used to indicate the format of the data sent to the server.
         :param int content_length: Content-Length is an entity header is indicating the size of the entity-body, in bytes, sent to the database. If the length is greater than the database max body configuration option, a 413 response is sent.
         :param str accept: specifies the return content format.
+        :param str org_id: specifies the ID of the destination organization for writes; if both orgID and org are specified, org takes precedence.
         :param WritePrecision precision: specifies the precision for the unix timestamps within the body line-protocol
         :return: None
                  If the method is called asynchronously,
@@ -86,7 +86,7 @@ class WriteService(object):
 
         local_var_params = locals()
 
-        all_params = ['org', 'bucket', 'body', 'zap_trace_span', 'content_encoding', 'content_type', 'content_length', 'accept', 'precision']  # noqa: E501
+        all_params = ['org', 'bucket', 'body', 'zap_trace_span', 'content_encoding', 'content_type', 'content_length', 'accept', 'org_id', 'precision']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -120,6 +120,8 @@ class WriteService(object):
         query_params = []
         if 'org' in local_var_params:
             query_params.append(('org', local_var_params['org']))  # noqa: E501
+        if 'org_id' in local_var_params:
+            query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
         if 'bucket' in local_var_params:
             query_params.append(('bucket', local_var_params['bucket']))  # noqa: E501
         if 'precision' in local_var_params:

@@ -11,7 +11,6 @@
 
 
 import pprint
-import re  # noqa: F401
 
 import six
 
@@ -34,29 +33,38 @@ class CheckViewProperties(object):
         'type': 'str',
         'shape': 'str',
         'check_id': 'str',
-        'check': 'Check'
+        'check': 'Check',
+        'queries': 'list[DashboardQuery]',
+        'colors': 'list[str]'
     }
 
     attribute_map = {
         'type': 'type',
         'shape': 'shape',
         'check_id': 'checkID',
-        'check': 'check'
+        'check': 'check',
+        'queries': 'queries',
+        'colors': 'colors'
     }
 
-    def __init__(self, type=None, shape=None, check_id=None, check=None):  # noqa: E501
+    def __init__(self, type=None, shape=None, check_id=None, check=None, queries=None, colors=None):  # noqa: E501
         """CheckViewProperties - a model defined in OpenAPI"""  # noqa: E501
 
         self._type = None
         self._shape = None
         self._check_id = None
         self._check = None
+        self._queries = None
+        self._colors = None
         self.discriminator = None
 
         self.type = type
         self.shape = shape
         self.check_id = check_id
-        self.check = check
+        if check is not None:
+            self.check = check
+        self.queries = queries
+        self.colors = colors
 
     @property
     def type(self):
@@ -157,10 +165,56 @@ class CheckViewProperties(object):
         :param check: The check of this CheckViewProperties.  # noqa: E501
         :type: Check
         """
-        if check is None:
-            raise ValueError("Invalid value for `check`, must not be `None`")  # noqa: E501
 
         self._check = check
+
+    @property
+    def queries(self):
+        """Gets the queries of this CheckViewProperties.  # noqa: E501
+
+
+        :return: The queries of this CheckViewProperties.  # noqa: E501
+        :rtype: list[DashboardQuery]
+        """
+        return self._queries
+
+    @queries.setter
+    def queries(self, queries):
+        """Sets the queries of this CheckViewProperties.
+
+
+        :param queries: The queries of this CheckViewProperties.  # noqa: E501
+        :type: list[DashboardQuery]
+        """
+        if queries is None:
+            raise ValueError("Invalid value for `queries`, must not be `None`")  # noqa: E501
+
+        self._queries = queries
+
+    @property
+    def colors(self):
+        """Gets the colors of this CheckViewProperties.  # noqa: E501
+
+        Colors define color encoding of data into a visualization  # noqa: E501
+
+        :return: The colors of this CheckViewProperties.  # noqa: E501
+        :rtype: list[str]
+        """
+        return self._colors
+
+    @colors.setter
+    def colors(self, colors):
+        """Sets the colors of this CheckViewProperties.
+
+        Colors define color encoding of data into a visualization  # noqa: E501
+
+        :param colors: The colors of this CheckViewProperties.  # noqa: E501
+        :type: list[str]
+        """
+        if colors is None:
+            raise ValueError("Invalid value for `colors`, must not be `None`")  # noqa: E501
+
+        self._colors = colors
 
     def to_dict(self):
         """Returns the model properties as a dict"""
