@@ -1,7 +1,8 @@
 # coding: utf-8
 import logging
-import time
+from datetime import timedelta
 from enum import Enum
+from time import sleep
 
 import rx
 from rx import operators as ops, Observable
@@ -24,8 +25,8 @@ class WriteType(Enum):
 
 class WriteOptions(object):
 
-    def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=None, jitter_interval=None,
-                 retry_interval=None, buffer_limit=None, write_scheduler=None) -> None:
+    def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=1_000, jitter_interval=None,
+                 retry_interval=None, buffer_limit=None, write_scheduler=NewThreadScheduler()) -> None:
         self.write_type = write_type
         self.batch_size = batch_size
         self.flush_interval = flush_interval
@@ -118,9 +119,10 @@ class WriteApiClient(AbstractClient):
         if self._write_options.write_type is WriteType.batching:
             self._subject = Subject()
 
-            observable = self._subject.pipe(ops.observe_on(NewThreadScheduler()))
+            observable = self._subject.pipe(ops.observe_on(self._write_options.write_scheduler))
             self._disposable = observable\
-                .pipe(ops.window_with_count(write_options.batch_size),
+                .pipe(ops.window_with_time_or_count(count=write_options.batch_size,
+                                                    timespan=timedelta(milliseconds=write_options.flush_interval)),
                       ops.flat_map(lambda v: _window_to_group(v)),
                       ops.map(mapper=lambda x: self._retryable(x)),
                       ops.merge_all()) \
@@ -172,7 +174,7 @@ class WriteApiClient(AbstractClient):
             self._subject.dispose()
             self._subject = None
             # TODO remove sleep
-            time.sleep(2)
+            sleep(2)
         if self._disposable:
             self._disposable.dispose()
             self._disposable = None
