@@ -85,20 +85,45 @@ for row in csv_result:
 
 ### Writes
 
-The [WriteApiClient](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0 and could be configured by `WriteOptions`:
+The [WriteApi](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0. 
+The data should be passed as a InfluxDB Line Protocol, Data Point or Observable stream. 
+
+_The default instance of `WriteApi` use batching._
+
+#### Batching
+
+The batching is configurable by `write_options`:
 
 | Property | Description | Default Value |
 | --- | --- | --- |
-| [**write_type**](#write_type) | how the client writes data; allowed values: `batching`, `asynchronous`, `synchronous`| `batching` |
 | **batch_size** | the number of data point to collect in batch | `1000` |
 | **flush_interval** | the number of milliseconds before the batch is written | `1000` |
 | **jitter_interval** | the number of milliseconds to increase the batch flush interval by a random amount | `0` |
 | **retry_interval** | the number of milliseconds to retry unsuccessful write. The retry interval is used when the InfluxDB server does not specify "Retry-After" header. | `1000` |
 
-##### write_type
-* `batching` - data are writes in batches defined by `batch_size`, `flush_interval`, ...
-* `asynchronous` - data are writes in asynchronous HTTP request
-* `synchronous` - data are writes in synchronous HTTP request
+
+##### Asynchronous client
+Data are writes in an asynchronous HTTP request.
+ 
+```python
+from influxdb2.client.influxdb_client import InfluxDBClient
+from influxdb2.client.write_api import ASYNCHRONOUS
+
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+write_client = client.write_api(write_options=ASYNCHRONOUS)
+```
+
+##### Synchronous client
+
+Data are writes in a synchronous HTTP request.
+
+```python
+from influxdb2.client.influxdb_client import InfluxDBClient
+from influxdb2.client.write_api import SYNCHRONOUS
+
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+write_client = client.write_api(write_options=SYNCHRONOUS)
+```
 
 #### How to efficiently import large dataset
 

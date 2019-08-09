@@ -11,9 +11,8 @@ from rx.core import GroupedObservable
 from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
-from influxdb2 import WritePrecision
 from influxdb2.client.abstract_client import AbstractClient
-from influxdb2.client.write.point import Point
+from influxdb2.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb2.rest import ApiException
 
 logger = logging.getLogger(__name__)
@@ -37,7 +36,6 @@ class WriteOptions(object):
         self.write_scheduler = write_scheduler
 
 
-DEFAULT_WRITE_PRECISION = WritePrecision.NS
 SYNCHRONOUS = WriteOptions(write_type=WriteType.synchronous)
 ASYNCHRONOUS = WriteOptions(write_type=WriteType.asynchronous)
 

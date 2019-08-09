@@ -9,7 +9,7 @@ from six import iteritems, binary_type, PY2
 from influxdb2.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
-
+DEFAULT_WRITE_PRECISION = WritePrecision.NS
 
 class Point(object):
     """
@@ -27,9 +27,9 @@ class Point(object):
         self._fields = {}
         self._name = measurement_name
         self._time = None
-        self._write_precision = WritePrecision.NS
+        self._write_precision = DEFAULT_WRITE_PRECISION
 
-    def time(self, time, write_precision=WritePrecision.NS):
+    def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         self._write_precision = write_precision
         self._time = time
         return self
@@ -111,7 +111,7 @@ def escape_value(value):
     return value.translate(str.maketrans({'\"': r"\"", "\\": r"\\"}))
 
 
-def _convert_timestamp(timestamp, precision=WritePrecision.NS):
+def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
     if isinstance(timestamp, Integral):
         return timestamp  # assume precision is correct if timestamp is int
 
