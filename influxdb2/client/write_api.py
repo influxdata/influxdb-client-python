@@ -123,7 +123,7 @@ class WriteApiClient(AbstractClient):
                       ops.flat_map(lambda v: _window_to_group(v)),
                       ops.map(mapper=lambda x: self._retryable(data=x, delay=self._jitter_delay())),
                       ops.merge_all()) \
-                .subscribe(self._on_next, self._on_error)
+                .subscribe(self._on_next, self._on_error, self._on_complete)
         else:
             self._subject = None
             self._disposable = None
@@ -166,10 +166,12 @@ class WriteApiClient(AbstractClient):
             self._subject.on_completed()
             self._subject.dispose()
             self._subject = None
-            # TODO remove sleep
-            sleep(2)
+
+            # Wait for finish writing
+            while not self._disposable.is_disposed:
+                sleep(0.1)
+
         if self._disposable:
-            self._disposable.dispose()
             self._disposable = None
         pass
 
@@ -235,3 +237,7 @@ class WriteApiClient(AbstractClient):
     @staticmethod
     def _on_error(ex):
         logger.error("unexpected error during batching: %s", ex)
+
+    def _on_complete(self):
+        self._disposable.dispose()
+        logger.info("the batching processor was dispose")

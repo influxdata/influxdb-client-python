@@ -51,7 +51,7 @@ class _RxWriter(object):
                   ops.flat_map(lambda x: self._window_to_group(x)),
                   ops.map(mapper=lambda x: self._retryable(data=x, delay=self._jitter_delay(jitter_interval=1000))),
                   ops.merge_all()) \
-            .subscribe(self._result)
+            .subscribe(self._result, self._error, self._on_complete)
         pass
 
     def __del__(self):
@@ -60,10 +60,10 @@ class _RxWriter(object):
             self._subject.dispose()
             self._subject = None
 
-        time.sleep(2)
+            while not self._disposable.is_disposed:
+                time.sleep(0.1)
 
         if self._disposable:
-            self._disposable.dispose()
             self._disposable = None
         pass
 
@@ -115,6 +115,10 @@ class _RxWriter(object):
 
     def _error(self, error):
         print(error)
+
+    def _on_complete(self):
+        self._disposable.dispose()
+        print("on complete")
 
     def _jitter_delay(self, jitter_interval=0):
         _jitter = datetime.timedelta(milliseconds=random() * jitter_interval)
@@ -179,6 +183,5 @@ print("\n== __del__ ==\n")
 rxWriter.__del__()
 
 print("\n== finished ==\n")
-time.sleep(2)
 
 print('success: {}, failed: {}'.format(rxWriter.success_count, rxWriter.failed_count))
