@@ -108,7 +108,7 @@ def _window_to_group(value):
             ops.group_by(_group_by), ops.map(_group_to_batch), ops.merge_all())), ops.merge_all())
 
 
-class WriteApiClient(AbstractClient):
+class WriteApi(AbstractClient):
 
     def __init__(self, service, write_options=WriteOptions()) -> None:
         self._write_service = service

@@ -6,7 +6,7 @@ from influxdb2.client.bucket_api import BucketsApi
 from influxdb2.client.organizations_api import OrganizationsApi
 from influxdb2.client.query_api import QueryApi
 from influxdb2.client.users_api import UsersApi
-from influxdb2.client.write_api import WriteApiClient, WriteOptions
+from influxdb2.client.write_api import WriteApi, WriteOptions
 
 
 class InfluxDBClient(object):
@@ -40,7 +40,7 @@ class InfluxDBClient(object):
 
     def write_api(self, write_options=WriteOptions()):
         service = influxdb2.service.write_service.WriteService(self.api_client)
-        return WriteApiClient(service=service, write_options=write_options)
+        return WriteApi(service=service, write_options=write_options)
 
     def query_api(self):
         return QueryApi(self)

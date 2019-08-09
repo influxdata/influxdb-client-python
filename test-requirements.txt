@@ -5,4 +5,5 @@ py>=1.4.31
 randomize>=0.13
 pytest>=5.0.0
 httpretty>=0.9.6
+psutil>=5.6.3
 
