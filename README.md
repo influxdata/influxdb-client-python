@@ -86,7 +86,7 @@ for row in csv_result:
 ### Writes
 
 The [WriteApi](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0. 
-The data should be passed as a InfluxDB Line Protocol, Data Point or Observable stream. 
+The data should be passed as a [InfluxDB Line Protocol](https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial/), [Data Point](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write/point.py) or Observable stream. 
 
 _The default instance of `WriteApi` use batching._
 
@@ -101,6 +101,49 @@ The batching is configurable by `write_options`:
 | **jitter_interval** | the number of milliseconds to increase the batch flush interval by a random amount | `0` |
 | **retry_interval** | the number of milliseconds to retry unsuccessful write. The retry interval is used when the InfluxDB server does not specify "Retry-After" header. | `1000` |
 
+```python
+import rx
+from rx import operators as ops
+
+from influxdb2.client.influxdb_client import InfluxDBClient
+from influxdb2.client.write_api import WriteOptions
+from influxdb2.client.write.point import Point
+
+_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+_write_client = _client.write_api(write_options=WriteOptions(batch_size=500, 
+                                                             flush_interval=10_000, 
+                                                             jitter_interval=2_000, 
+                                                             retry_interval=5_000))
+
+"""
+Write Line Protocol
+"""
+_write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
+_write_client.write("my-bucket", "my-org", ["h2o_feet,location=coyote_creek water_level=2.0 2",
+                                            "h2o_feet,location=coyote_creek water_level=3.0 3"])
+
+"""
+Write Data Point
+"""
+_write_client.write("my-bucket", "my-org", Point("h2o_feet").tag("location", "coyote_creek").field("water_level", 4.0).time(4))
+_write_client.write("my-bucket", "my-org", [Point("h2o_feet").tag("location", "coyote_creek").field("water_level", 5.0).time(5),
+                                            Point("h2o_feet").tag("location", "coyote_creek").field("water_level", 6.0).time(6)])
+
+"""
+Write Observable stream
+"""
+_data = rx \
+    .range(7, 11) \
+    .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek water_level={0}.0 {0}".format(i)))
+_write_client.write("my-bucket", "my-org", _data)
+
+
+"""
+Close client
+"""
+_write_client.__del__()
+_client.__del__()
+```
 
 ##### Asynchronous client
 Data are writes in an asynchronous HTTP request.
@@ -109,8 +152,12 @@ Data are writes in an asynchronous HTTP request.
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write_api import ASYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
 write_client = client.write_api(write_options=ASYNCHRONOUS)
+
+...
+
+client.__del__()
 ```
 
 ##### Synchronous client
@@ -121,8 +168,12 @@ Data are writes in a synchronous HTTP request.
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write_api import SYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
 write_client = client.write_api(write_options=SYNCHRONOUS)
+
+...
+
+client.__del__()
 ```
 
 #### How to efficiently import large dataset

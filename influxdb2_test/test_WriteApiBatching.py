@@ -7,6 +7,7 @@ import unittest
 
 import httpretty
 import rx
+from rx import operators as ops
 
 import influxdb2
 from influxdb2 import WritePrecision, WriteService
@@ -264,11 +265,16 @@ class BatchingWriteTest(BaseTest):
 
         self._write_client.write("my-bucket", "my-org", rx.of(_recordObs, _pointObs))
 
+        _data = rx \
+            .range(9, 13) \
+            .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek level\\ water_level={0}.0 {0}".format(i)))
+        self._write_client.write("my-bucket", "my-org", _data)
+
         time.sleep(1)
 
         _requests = httpretty.httpretty.latest_requests
 
-        self.assertEqual(4, len(_requests))
+        self.assertEqual(6, len(_requests))
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[0].parsed_body)
@@ -278,6 +284,10 @@ class BatchingWriteTest(BaseTest):
                          "h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[2].parsed_body)
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=7.0 7\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=8.0 8", _requests[3].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=9.0 9\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=10.0 10", _requests[4].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=11.0 11\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=12.0 12", _requests[5].parsed_body)
 
         pass
 
