@@ -46,7 +46,8 @@ def parse_row(row: OrderedDict):
 """
 Converts vix-daily.csv into sequence of data point
 """
-data = rx.from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
+data = rx \
+    .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
     .pipe(ops.map(lambda row: parse_row(row)))
 
 client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)

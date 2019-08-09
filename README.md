@@ -153,7 +153,8 @@ def parse_row(row: OrderedDict):
 """
 Converts vix-daily.csv into sequence of data point
 """
-data = rx.from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
+data = rx \
+    .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
     .pipe(ops.map(lambda row: parse_row(row)))
 
 client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
@@ -257,7 +258,8 @@ def line_protocol(temperature):
 """
 Read temperature every minute; distinct_until_changed - produce only if temperature change
 """
-data = rx.interval(period=timedelta(seconds=60))\
+data = rx\
+    .interval(period=timedelta(seconds=60))\
     .pipe(ops.map(lambda t: sensor_temperature()),
           ops.map(lambda temperature: line_protocol(temperature)),
           ops.distinct_until_changed())
