@@ -135,6 +135,7 @@ Write Observable stream
 _data = rx \
     .range(7, 11) \
     .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek water_level={0}.0 {0}".format(i)))
+
 _write_client.write("my-bucket", "my-org", _data)
 
 
