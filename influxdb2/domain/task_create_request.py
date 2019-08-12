@@ -11,6 +11,7 @@
 
 
 import pprint
+import re  # noqa: F401
 
 import six
 
