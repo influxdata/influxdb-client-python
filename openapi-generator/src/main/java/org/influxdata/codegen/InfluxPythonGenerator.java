@@ -1,9 +1,16 @@
 package org.influxdata.codegen;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -54,6 +61,36 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
     }
 
     @Override
+    public CodegenModel fromModel(final String name, final Schema model, final Map<String, Schema> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+
+        return codegenModel;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
+
+        Map<String, Object> allModels = super.postProcessAllModels(models);
+
+        for (Map.Entry<String, Object> entry : allModels.entrySet()) {
+
+            String modelName = entry.getKey();
+            Object modelConfig = entry.getValue();
+
+            CodegenModel model = getModel((HashMap) modelConfig);
+
+            if (model.getParent() != null) {
+                CodegenModel parentModel = getModel((HashMap) allModels.get(model.getParent()));
+                model.vendorExtensions.put("x-parent-classFilename", parentModel.getClassFilename());
+                model.vendorExtensions.put("x-has-parent-vars", Boolean.TRUE);
+                model.vendorExtensions.put("x-parent-vars", parentModel.getVars());
+            }
+        }
+
+        return allModels;
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultService";
@@ -78,5 +115,13 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
 
         // e.g. PhoneNumberService.py => phone_number_service.py
         return underscore(name) + "_service";
+    }
+
+    @Nonnull
+    private CodegenModel getModel(@Nonnull final HashMap modelConfig) {
+
+        HashMap models = (HashMap) ((ArrayList) modelConfig.get("models")).get(0);
+
+        return (CodegenModel) models.get("model");
     }
 }
