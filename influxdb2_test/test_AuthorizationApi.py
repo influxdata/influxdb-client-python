@@ -31,8 +31,7 @@ class AuthorizationsClientTest(BaseTest):
         self.assertEqual(authorization.user, self.user.name)
         self.assertEqual(authorization.org_id, self.organization.id)
         self.assertEqual(authorization.org, self.organization.name)
-        # todo
-        # self.assertEqual(authorization.status, "active")
+        self.assertEqual(authorization.status, "active")
         self.assertTrue(len(authorization.permissions) == 2)
         self.assertEqual(authorization.permissions[0].resource.type, "users")
         self.assertEqual(authorization.permissions[0].resource.org_id, self.organization.id)
@@ -51,17 +50,15 @@ class AuthorizationsClientTest(BaseTest):
         organization = self.my_organization
 
         resource = PermissionResource(org_id=organization.id, type="sources")
-        createSource = Permission(action="write", resource=resource)
+        create_source = Permission(action="write", resource=resource)
 
-        permissions = [createSource]
+        permissions = [create_source]
         authorization = Authorization(org_id=organization.id, permissions=permissions)
-        # todo
-        # authorization.setStatus(Authorization.StatusEnum.ACTIVE);
-        # authorization.setDescription("My description!");
+        authorization.status = "active"
+        authorization.description = "My description!"
         created = self.authorizations_client.create_authorization(authorization=authorization)
         self.assertIsNotNone(created)
-        # todo
-        # self.assertEqual(created.description, "My description")
+        self.assertEqual(created.description, "My description!")
 
     def test_createAuthorizationTask(self):
         resource = PermissionResource(org_id=self.organization.id, type="tasks")
@@ -144,7 +141,6 @@ class AuthorizationsClientTest(BaseTest):
         authorizations_by_org_id = self.authorization_api().find_authorizations_by_org_id("ffffffffffffffff")
         self.assertEqual(len(authorizations_by_org_id), 0)
 
-    @pytest.mark.skip("todo inheritence codegen bug")
     def test_updateAuthorizationStatus(self):
         resource = PermissionResource(org_id=self.organization.id, type="users")
         read_user = Permission(action="read", resource=resource)
@@ -189,9 +185,8 @@ class AuthorizationsClientTest(BaseTest):
         self.assertEqual(source.user, cloned.user)
         self.assertEqual(source.org_id, cloned.org_id)
         self.assertEqual(source.org, cloned.org)
-        ## todo
-        # self.assertEqual(source.status, cloned.status)
-        # self.assertEqual(source.description, cloned.description)
+        self.assertEqual(source.status, cloned.status)
+        self.assertEqual(source.description, cloned.description)
 
         self.assertTrue(len(cloned.permissions), 1)
         self.assertEqual(cloned.permissions[0].action, "read")
