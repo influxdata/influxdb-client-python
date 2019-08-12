@@ -64,6 +64,24 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
     public CodegenModel fromModel(final String name, final Schema model, final Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
 
+        if (name.endsWith("ViewProperties") && !name.equals("ViewProperties"))
+        {
+            codegenModel.setParent("ViewProperties");
+            codegenModel.setParentSchema("ViewProperties");
+        }
+
+        if (allDefinitions.containsKey(name + "Base")) {
+            codegenModel.setParent(name + "Base");
+            codegenModel.setParentSchema(name + "Base");
+        }
+
+        if (name.equals("ViewProperties"))  {
+            codegenModel.setReadWriteVars(new ArrayList<>());
+            codegenModel.setRequiredVars(new ArrayList<>());
+            codegenModel.hasOnlyReadOnly = true;
+            codegenModel.hasRequired = false;
+        }
+
         return codegenModel;
     }
 
@@ -82,7 +100,7 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
             if (model.getParent() != null) {
                 CodegenModel parentModel = getModel((HashMap) allModels.get(model.getParent()));
                 model.vendorExtensions.put("x-parent-classFilename", parentModel.getClassFilename());
-                model.vendorExtensions.put("x-has-parent-vars", Boolean.TRUE);
+                model.vendorExtensions.put("x-has-parent-vars", !parentModel.getVars().isEmpty());
                 model.vendorExtensions.put("x-parent-vars", parentModel.getVars());
             }
         }
