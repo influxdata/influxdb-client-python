@@ -39,7 +39,6 @@ class BatchingWriteTest(BaseTest):
                                                                  retry_interval=3_000))
 
     def tearDown(self) -> None:
-        pass
         self._write_client.__del__()
         httpretty.disable()
 

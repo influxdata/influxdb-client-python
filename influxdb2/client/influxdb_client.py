@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import influxdb2
+from influxdb2 import Configuration
 from influxdb2.client.authorizations_api import AuthorizationsApi
 from influxdb2.client.bucket_api import BucketsApi
 from influxdb2.client.organizations_api import OrganizationsApi
@@ -18,7 +19,14 @@ class InfluxDBClient(object):
                  username=None,
                  password=None,
                  debug=None,
-                 timeout=10000, org=None) -> None:
+                 timeout=10000,
+                 enable_gzip=False,
+                 org=None) -> None:
+        """
+
+        :param enable_gzip: Enable Gzip compress for http requests. Currently only the "Write" and "Query" endpoints
+                            supports the Gzip compression.
+        """
         self.url = url
         self.auth_scheme = auth_scheme
         self.token = token
@@ -27,8 +35,9 @@ class InfluxDBClient(object):
         self.timeout = timeout
         self.org = org
 
-        conf = influxdb2.configuration.Configuration()
+        conf = _Configuration()
         conf.host = self.url
+        conf.enable_gzip = enable_gzip
         conf.debug = debug
 
         auth_token = self.token
@@ -61,3 +70,36 @@ class InfluxDBClient(object):
 
     def organizations_api(self) -> OrganizationsApi:
         return OrganizationsApi(self)
+
+
+class _Configuration(Configuration):
+
+    def __init__(self):
+        Configuration.__init__(self)
+        self.enable_gzip = False
+
+    def update_request_header_params(self, path: str, params: dict):
+        super().update_request_header_params(path, params)
+        if self.enable_gzip:
+            # GZIP Request
+            if path == '/write':
+                params["Content-Encoding"] = "gzip"
+                params["Accept-Encoding"] = "identity"
+                pass
+            # GZIP Response
+            if path == '/query':
+                # params["Content-Encoding"] = "gzip"
+                params["Accept-Encoding"] = "gzip"
+                pass
+            pass
+        pass
+
+    def update_request_body(self, path: str, body):
+        _body = super().update_request_body(path, body)
+        if self.enable_gzip:
+            # GZIP Request
+            if path == '/write':
+                import gzip
+                return gzip.compress(bytes(_body, "utf-8"))
+        return _body
+

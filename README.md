@@ -10,6 +10,8 @@ InfluxDB 2.0 python client library. TODO...
     - [Writing data](#writes)
         - [How to efficiently import large dataset](#how-to-efficiently-import-large-dataset)
         - [Efficiency write data from IOT sensor](#efficiency-write-data-from-iot-sensor)
+- [Advanced Usage](#advanced-usage)
+    - [Gzip support](#gzip-support)
 
 ## Requirements
 
@@ -356,4 +358,15 @@ Call after terminate a script
 atexit.register(on_exit, _db_client, _write_api)
 
 input()
+```
+
+## Advanced Usage
+
+### Gzip support
+`InfluxDBClient` does not enable gzip compress for http request by default. If you want to enable gzip to reduce transfer data's size, you can call:
+
+```python
+from influxdb2.client.influxdb_client import InfluxDBClient
+
+_db_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org", enable_gzip=True)
 ```
