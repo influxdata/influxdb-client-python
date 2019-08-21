@@ -32,65 +32,91 @@ class PagerDutyNotificationEndpoint(NotificationEndpointBase):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
+        'url': 'str',
+        'routing_key': 'str',
         'id': 'str',
         'org_id': 'str',
         'user_id': 'str',
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'description': 'str',
+        'name': 'str',
         'status': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'type': 'NotificationEndpointType'
     }
 
     attribute_map = {
-        'name': 'name',
+        'url': 'url',
+        'routing_key': 'routingKey',
         'id': 'id',
         'org_id': 'orgID',
         'user_id': 'userID',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'description': 'description',
+        'name': 'name',
         'status': 'status',
-        'labels': 'labels'
+        'labels': 'labels',
+        'type': 'type'
     }
 
-    def __init__(self, name=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, status='active', labels=None):  # noqa: E501
+    def __init__(self, url=None, routing_key=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
         """PagerDutyNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, status=status, labels=labels)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
 
-        self._name = None
+        self._url = None
+        self._routing_key = None
         self.discriminator = None
 
-        if name is not None:
-            self.name = name
+        self.url = url
+        self.routing_key = routing_key
 
     @property
-    def name(self):
-        """Gets the name of this PagerDutyNotificationEndpoint.  # noqa: E501
+    def url(self):
+        """Gets the url of this PagerDutyNotificationEndpoint.  # noqa: E501
 
 
-        :return: The name of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :return: The url of this PagerDutyNotificationEndpoint.  # noqa: E501
         :rtype: str
         """
-        return self._name
+        return self._url
 
-    @name.setter
-    def name(self, name):
-        """Sets the name of this PagerDutyNotificationEndpoint.
+    @url.setter
+    def url(self, url):
+        """Sets the url of this PagerDutyNotificationEndpoint.
 
 
-        :param name: The name of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :param url: The url of this PagerDutyNotificationEndpoint.  # noqa: E501
         :type: str
         """
-        allowed_values = ["pagerduty"]  # noqa: E501
-        if name not in allowed_values:
-            raise ValueError(
-                "Invalid value for `name` ({0}), must be one of {1}"  # noqa: E501
-                .format(name, allowed_values)
-            )
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._url = url
+
+    @property
+    def routing_key(self):
+        """Gets the routing_key of this PagerDutyNotificationEndpoint.  # noqa: E501
+
+
+        :return: The routing_key of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._routing_key
+
+    @routing_key.setter
+    def routing_key(self, routing_key):
+        """Sets the routing_key of this PagerDutyNotificationEndpoint.
+
+
+        :param routing_key: The routing_key of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+        if routing_key is None:
+            raise ValueError("Invalid value for `routing_key`, must not be `None`")  # noqa: E501
+
+        self._routing_key = routing_key
 
     def to_dict(self):
         """Returns the model properties as a dict"""

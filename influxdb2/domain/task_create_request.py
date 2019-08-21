@@ -36,8 +36,7 @@ class TaskCreateRequest(object):
         'org': 'str',
         'status': 'TaskStatusType',
         'flux': 'str',
-        'description': 'str',
-        'token': 'str'
+        'description': 'str'
     }
 
     attribute_map = {
@@ -46,11 +45,10 @@ class TaskCreateRequest(object):
         'org': 'org',
         'status': 'status',
         'flux': 'flux',
-        'description': 'description',
-        'token': 'token'
+        'description': 'description'
     }
 
-    def __init__(self, type=None, org_id=None, org=None, status=None, flux=None, description=None, token=None):  # noqa: E501
+    def __init__(self, type=None, org_id=None, org=None, status=None, flux=None, description=None):  # noqa: E501
         """TaskCreateRequest - a model defined in OpenAPI"""  # noqa: E501
 
         self._type = None
@@ -59,7 +57,6 @@ class TaskCreateRequest(object):
         self._status = None
         self._flux = None
         self._description = None
-        self._token = None
         self.discriminator = None
 
         if type is not None:
@@ -73,7 +70,6 @@ class TaskCreateRequest(object):
         self.flux = flux
         if description is not None:
             self.description = description
-        self.token = token
 
     @property
     def type(self):
@@ -212,31 +208,6 @@ class TaskCreateRequest(object):
         """
 
         self._description = description
-
-    @property
-    def token(self):
-        """Gets the token of this TaskCreateRequest.  # noqa: E501
-
-        The token to use for authenticating this task when it executes queries.  # noqa: E501
-
-        :return: The token of this TaskCreateRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._token
-
-    @token.setter
-    def token(self, token):
-        """Sets the token of this TaskCreateRequest.
-
-        The token to use for authenticating this task when it executes queries.  # noqa: E501
-
-        :param token: The token of this TaskCreateRequest.  # noqa: E501
-        :type: str
-        """
-        if token is None:
-            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
-
-        self._token = token
 
     def to_dict(self):
         """Returns the model properties as a dict"""

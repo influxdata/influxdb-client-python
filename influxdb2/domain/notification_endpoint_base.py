@@ -37,8 +37,10 @@ class NotificationEndpointBase(object):
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'description': 'str',
+        'name': 'str',
         'status': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'type': 'NotificationEndpointType'
     }
 
     attribute_map = {
@@ -48,11 +50,13 @@ class NotificationEndpointBase(object):
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'description': 'description',
+        'name': 'name',
         'status': 'status',
-        'labels': 'labels'
+        'labels': 'labels',
+        'type': 'type'
     }
 
-    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, status='active', labels=None):  # noqa: E501
+    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
         """NotificationEndpointBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -61,8 +65,10 @@ class NotificationEndpointBase(object):
         self._created_at = None
         self._updated_at = None
         self._description = None
+        self._name = None
         self._status = None
         self._labels = None
+        self._type = None
         self.discriminator = None
 
         if id is not None:
@@ -77,10 +83,13 @@ class NotificationEndpointBase(object):
             self.updated_at = updated_at
         if description is not None:
             self.description = description
+        if name is not None:
+            self.name = name
         if status is not None:
             self.status = status
         if labels is not None:
             self.labels = labels
+        self.type = type
 
     @property
     def id(self):
@@ -211,6 +220,27 @@ class NotificationEndpointBase(object):
         self._description = description
 
     @property
+    def name(self):
+        """Gets the name of this NotificationEndpointBase.  # noqa: E501
+
+
+        :return: The name of this NotificationEndpointBase.  # noqa: E501
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this NotificationEndpointBase.
+
+
+        :param name: The name of this NotificationEndpointBase.  # noqa: E501
+        :type: str
+        """
+
+        self._name = name
+
+    @property
     def status(self):
         """Gets the status of this NotificationEndpointBase.  # noqa: E501
 
@@ -259,6 +289,29 @@ class NotificationEndpointBase(object):
         """
 
         self._labels = labels
+
+    @property
+    def type(self):
+        """Gets the type of this NotificationEndpointBase.  # noqa: E501
+
+
+        :return: The type of this NotificationEndpointBase.  # noqa: E501
+        :rtype: NotificationEndpointType
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this NotificationEndpointBase.
+
+
+        :param type: The type of this NotificationEndpointBase.  # noqa: E501
+        :type: NotificationEndpointType
+        """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
+
+        self._type = type
 
     def to_dict(self):
         """Returns the model properties as a dict"""

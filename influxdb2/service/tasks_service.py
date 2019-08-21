@@ -566,6 +566,7 @@ class TasksService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str name: only returns tasks with the specified name
         :param str after: returns tasks after specified ID
         :param str user: filter tasks to a specific user ID
         :param str org: filter tasks to a specific organization name
@@ -592,6 +593,7 @@ class TasksService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str name: only returns tasks with the specified name
         :param str after: returns tasks after specified ID
         :param str user: filter tasks to a specific user ID
         :param str org: filter tasks to a specific organization name
@@ -604,7 +606,7 @@ class TasksService(object):
 
         local_var_params = locals()
 
-        all_params = ['zap_trace_span', 'after', 'user', 'org', 'org_id', 'limit']  # noqa: E501
+        all_params = ['zap_trace_span', 'name', 'after', 'user', 'org', 'org_id', 'limit']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -628,6 +630,8 @@ class TasksService(object):
         path_params = {}
 
         query_params = []
+        if 'name' in local_var_params:
+            query_params.append(('name', local_var_params['name']))  # noqa: E501
         if 'after' in local_var_params:
             query_params.append(('after', local_var_params['after']))  # noqa: E501
         if 'user' in local_var_params:

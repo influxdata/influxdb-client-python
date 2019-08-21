@@ -33,6 +33,7 @@ class DocumentMeta(object):
     openapi_types = {
         'name': 'str',
         'type': 'str',
+        'template_id': 'str',
         'description': 'str',
         'version': 'str',
         'created_at': 'datetime',
@@ -42,17 +43,19 @@ class DocumentMeta(object):
     attribute_map = {
         'name': 'name',
         'type': 'type',
+        'template_id': 'templateID',
         'description': 'description',
         'version': 'version',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt'
     }
 
-    def __init__(self, name=None, type=None, description=None, version=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, name=None, type=None, template_id=None, description=None, version=None, created_at=None, updated_at=None):  # noqa: E501
         """DocumentMeta - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
         self._type = None
+        self._template_id = None
         self._description = None
         self._version = None
         self._created_at = None
@@ -62,6 +65,8 @@ class DocumentMeta(object):
         self.name = name
         if type is not None:
             self.type = type
+        if template_id is not None:
+            self.template_id = template_id
         if description is not None:
             self.description = description
         self.version = version
@@ -113,6 +118,27 @@ class DocumentMeta(object):
         """
 
         self._type = type
+
+    @property
+    def template_id(self):
+        """Gets the template_id of this DocumentMeta.  # noqa: E501
+
+
+        :return: The template_id of this DocumentMeta.  # noqa: E501
+        :rtype: str
+        """
+        return self._template_id
+
+    @template_id.setter
+    def template_id(self, template_id):
+        """Sets the template_id of this DocumentMeta.
+
+
+        :param template_id: The template_id of this DocumentMeta.  # noqa: E501
+        :type: str
+        """
+
+        self._template_id = template_id
 
     @property
     def description(self):

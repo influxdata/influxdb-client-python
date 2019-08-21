@@ -79,6 +79,9 @@ from influxdb2.domain.flux_suggestion import FluxSuggestion
 from influxdb2.domain.flux_suggestions import FluxSuggestions
 from influxdb2.domain.function_expression import FunctionExpression
 from influxdb2.domain.gauge_view_properties import GaugeViewProperties
+from influxdb2.domain.greater_threshold import GreaterThreshold
+from influxdb2.domain.http_notification_rule import HTTPNotificationRule
+from influxdb2.domain.http_notification_rule_base import HTTPNotificationRuleBase
 from influxdb2.domain.health_check import HealthCheck
 from influxdb2.domain.heatmap_view_properties import HeatmapViewProperties
 from influxdb2.domain.histogram_view_properties import HistogramViewProperties
@@ -95,6 +98,7 @@ from influxdb2.domain.label_update import LabelUpdate
 from influxdb2.domain.labels_response import LabelsResponse
 from influxdb2.domain.language_request import LanguageRequest
 from influxdb2.domain.legend import Legend
+from influxdb2.domain.lesser_threshold import LesserThreshold
 from influxdb2.domain.level_rule import LevelRule
 from influxdb2.domain.line_plus_single_stat_properties import LinePlusSingleStatProperties
 from influxdb2.domain.line_protocol_error import LineProtocolError
@@ -111,6 +115,7 @@ from influxdb2.domain.model_property import ModelProperty
 from influxdb2.domain.node import Node
 from influxdb2.domain.notification_endpoint import NotificationEndpoint
 from influxdb2.domain.notification_endpoint_base import NotificationEndpointBase
+from influxdb2.domain.notification_endpoint_type import NotificationEndpointType
 from influxdb2.domain.notification_endpoints import NotificationEndpoints
 from influxdb2.domain.notification_rule import NotificationRule
 from influxdb2.domain.notification_rule_base import NotificationRuleBase
@@ -130,6 +135,7 @@ from influxdb2.domain.package import Package
 from influxdb2.domain.package_clause import PackageClause
 from influxdb2.domain.pager_duty_notification_endpoint import PagerDutyNotificationEndpoint
 from influxdb2.domain.pager_duty_notification_rule import PagerDutyNotificationRule
+from influxdb2.domain.pager_duty_notification_rule_base import PagerDutyNotificationRuleBase
 from influxdb2.domain.password_reset_body import PasswordResetBody
 from influxdb2.domain.permission import Permission
 from influxdb2.domain.permission_resource import PermissionResource
@@ -140,6 +146,7 @@ from influxdb2.domain.query import Query
 from influxdb2.domain.query_edit_mode import QueryEditMode
 from influxdb2.domain.query_variable_properties import QueryVariableProperties
 from influxdb2.domain.query_variable_properties_values import QueryVariablePropertiesValues
+from influxdb2.domain.range_threshold import RangeThreshold
 from influxdb2.domain.ready import Ready
 from influxdb2.domain.regexp_literal import RegexpLiteral
 from influxdb2.domain.renamable_field import RenamableField
@@ -157,8 +164,8 @@ from influxdb2.domain.run_links import RunLinks
 from influxdb2.domain.run_log import RunLog
 from influxdb2.domain.run_manually import RunManually
 from influxdb2.domain.runs import Runs
-from influxdb2.domain.smtp_notification_endpoint import SMTPNotificationEndpoint
 from influxdb2.domain.smtp_notification_rule import SMTPNotificationRule
+from influxdb2.domain.smtp_notification_rule_base import SMTPNotificationRuleBase
 from influxdb2.domain.scatter_view_properties import ScatterViewProperties
 from influxdb2.domain.scraper_target_request import ScraperTargetRequest
 from influxdb2.domain.scraper_target_response import ScraperTargetResponse
@@ -168,6 +175,7 @@ from influxdb2.domain.secret_keys_response import SecretKeysResponse
 from influxdb2.domain.single_stat_view_properties import SingleStatViewProperties
 from influxdb2.domain.slack_notification_endpoint import SlackNotificationEndpoint
 from influxdb2.domain.slack_notification_rule import SlackNotificationRule
+from influxdb2.domain.slack_notification_rule_base import SlackNotificationRuleBase
 from influxdb2.domain.source import Source
 from influxdb2.domain.source_links import SourceLinks
 from influxdb2.domain.sources import Sources
@@ -222,6 +230,7 @@ from influxdb2.domain.telegraf_request_plugin import TelegrafRequestPlugin
 from influxdb2.domain.telegrafs import Telegrafs
 from influxdb2.domain.test_statement import TestStatement
 from influxdb2.domain.threshold import Threshold
+from influxdb2.domain.threshold_base import ThresholdBase
 from influxdb2.domain.threshold_check import ThresholdCheck
 from influxdb2.domain.unary_expression import UnaryExpression
 from influxdb2.domain.unsigned_integer_literal import UnsignedIntegerLiteral

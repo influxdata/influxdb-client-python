@@ -37,8 +37,7 @@ class TaskUpdateRequest(object):
         'every': 'str',
         'cron': 'str',
         'offset': 'str',
-        'description': 'str',
-        'token': 'str'
+        'description': 'str'
     }
 
     attribute_map = {
@@ -48,11 +47,10 @@ class TaskUpdateRequest(object):
         'every': 'every',
         'cron': 'cron',
         'offset': 'offset',
-        'description': 'description',
-        'token': 'token'
+        'description': 'description'
     }
 
-    def __init__(self, status=None, flux=None, name=None, every=None, cron=None, offset=None, description=None, token=None):  # noqa: E501
+    def __init__(self, status=None, flux=None, name=None, every=None, cron=None, offset=None, description=None):  # noqa: E501
         """TaskUpdateRequest - a model defined in OpenAPI"""  # noqa: E501
 
         self._status = None
@@ -62,7 +60,6 @@ class TaskUpdateRequest(object):
         self._cron = None
         self._offset = None
         self._description = None
-        self._token = None
         self.discriminator = None
 
         if status is not None:
@@ -79,8 +76,6 @@ class TaskUpdateRequest(object):
             self.offset = offset
         if description is not None:
             self.description = description
-        if token is not None:
-            self.token = token
 
     @property
     def status(self):
@@ -240,29 +235,6 @@ class TaskUpdateRequest(object):
         """
 
         self._description = description
-
-    @property
-    def token(self):
-        """Gets the token of this TaskUpdateRequest.  # noqa: E501
-
-        Override the existing token associated with the task.  # noqa: E501
-
-        :return: The token of this TaskUpdateRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._token
-
-    @token.setter
-    def token(self, token):
-        """Sets the token of this TaskUpdateRequest.
-
-        Override the existing token associated with the task.  # noqa: E501
-
-        :param token: The token of this TaskUpdateRequest.  # noqa: E501
-        :type: str
-        """
-
-        self._token = token
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -34,7 +34,7 @@ class NotificationRuleBase(object):
         'id': 'str',
         'notify_endpoint_id': 'str',
         'org_id': 'str',
-        'authorization_id': 'str',
+        'owner_id': 'str',
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'status': 'TaskStatusType',
@@ -56,7 +56,7 @@ class NotificationRuleBase(object):
         'id': 'id',
         'notify_endpoint_id': 'notifyEndpointID',
         'org_id': 'orgID',
-        'authorization_id': 'authorizationID',
+        'owner_id': 'ownerID',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'status': 'status',
@@ -74,13 +74,13 @@ class NotificationRuleBase(object):
         'labels': 'labels'
     }
 
-    def __init__(self, id=None, notify_endpoint_id=None, org_id=None, authorization_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
+    def __init__(self, id=None, notify_endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
         """NotificationRuleBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
         self._notify_endpoint_id = None
         self._org_id = None
-        self._authorization_id = None
+        self._owner_id = None
         self._created_at = None
         self._updated_at = None
         self._status = None
@@ -101,10 +101,9 @@ class NotificationRuleBase(object):
         self.id = id
         if notify_endpoint_id is not None:
             self.notify_endpoint_id = notify_endpoint_id
-        if org_id is not None:
-            self.org_id = org_id
-        if authorization_id is not None:
-            self.authorization_id = authorization_id
+        self.org_id = org_id
+        if owner_id is not None:
+            self.owner_id = owner_id
         if created_at is not None:
             self.created_at = created_at
         if updated_at is not None:
@@ -196,31 +195,33 @@ class NotificationRuleBase(object):
         :param org_id: The org_id of this NotificationRuleBase.  # noqa: E501
         :type: str
         """
+        if org_id is None:
+            raise ValueError("Invalid value for `org_id`, must not be `None`")  # noqa: E501
 
         self._org_id = org_id
 
     @property
-    def authorization_id(self):
-        """Gets the authorization_id of this NotificationRuleBase.  # noqa: E501
+    def owner_id(self):
+        """Gets the owner_id of this NotificationRuleBase.  # noqa: E501
 
-        The ID of the authorization used to create this notification rule.  # noqa: E501
+        The ID of creator used to create this notification rule.  # noqa: E501
 
-        :return: The authorization_id of this NotificationRuleBase.  # noqa: E501
+        :return: The owner_id of this NotificationRuleBase.  # noqa: E501
         :rtype: str
         """
-        return self._authorization_id
+        return self._owner_id
 
-    @authorization_id.setter
-    def authorization_id(self, authorization_id):
-        """Sets the authorization_id of this NotificationRuleBase.
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this NotificationRuleBase.
 
-        The ID of the authorization used to create this notification rule.  # noqa: E501
+        The ID of creator used to create this notification rule.  # noqa: E501
 
-        :param authorization_id: The authorization_id of this NotificationRuleBase.  # noqa: E501
+        :param owner_id: The owner_id of this NotificationRuleBase.  # noqa: E501
         :type: str
         """
 
-        self._authorization_id = authorization_id
+        self._owner_id = owner_id
 
     @property
     def created_at(self):

@@ -32,65 +32,234 @@ class WebhookNotificationEndpoint(NotificationEndpointBase):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
+        'url': 'str',
+        'username': 'str',
+        'password': 'str',
+        'token': 'str',
+        'method': 'str',
+        'authmethod': 'str',
+        'content_template': 'str',
         'id': 'str',
         'org_id': 'str',
         'user_id': 'str',
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'description': 'str',
+        'name': 'str',
         'status': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'type': 'NotificationEndpointType'
     }
 
     attribute_map = {
-        'name': 'name',
+        'url': 'url',
+        'username': 'username',
+        'password': 'password',
+        'token': 'token',
+        'method': 'method',
+        'authmethod': 'authmethod',
+        'content_template': 'contentTemplate',
         'id': 'id',
         'org_id': 'orgID',
         'user_id': 'userID',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'description': 'description',
+        'name': 'name',
         'status': 'status',
-        'labels': 'labels'
+        'labels': 'labels',
+        'type': 'type'
     }
 
-    def __init__(self, name=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, status='active', labels=None):  # noqa: E501
+    def __init__(self, url=None, username=None, password=None, token=None, method=None, authmethod=None, content_template=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
         """WebhookNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, status=status, labels=labels)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
 
-        self._name = None
+        self._url = None
+        self._username = None
+        self._password = None
+        self._token = None
+        self._method = None
+        self._authmethod = None
+        self._content_template = None
         self.discriminator = None
 
-        if name is not None:
-            self.name = name
+        self.url = url
+        if username is not None:
+            self.username = username
+        if password is not None:
+            self.password = password
+        if token is not None:
+            self.token = token
+        self.method = method
+        self.authmethod = authmethod
+        if content_template is not None:
+            self.content_template = content_template
 
     @property
-    def name(self):
-        """Gets the name of this WebhookNotificationEndpoint.  # noqa: E501
+    def url(self):
+        """Gets the url of this WebhookNotificationEndpoint.  # noqa: E501
 
 
-        :return: The name of this WebhookNotificationEndpoint.  # noqa: E501
+        :return: The url of this WebhookNotificationEndpoint.  # noqa: E501
         :rtype: str
         """
-        return self._name
+        return self._url
 
-    @name.setter
-    def name(self, name):
-        """Sets the name of this WebhookNotificationEndpoint.
+    @url.setter
+    def url(self, url):
+        """Sets the url of this WebhookNotificationEndpoint.
 
 
-        :param name: The name of this WebhookNotificationEndpoint.  # noqa: E501
+        :param url: The url of this WebhookNotificationEndpoint.  # noqa: E501
         :type: str
         """
-        allowed_values = ["webhook"]  # noqa: E501
-        if name not in allowed_values:
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
+
+        self._url = url
+
+    @property
+    def username(self):
+        """Gets the username of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The username of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        """Sets the username of this WebhookNotificationEndpoint.
+
+
+        :param username: The username of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+
+        self._username = username
+
+    @property
+    def password(self):
+        """Gets the password of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The password of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this WebhookNotificationEndpoint.
+
+
+        :param password: The password of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+
+        self._password = password
+
+    @property
+    def token(self):
+        """Gets the token of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The token of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._token
+
+    @token.setter
+    def token(self, token):
+        """Sets the token of this WebhookNotificationEndpoint.
+
+
+        :param token: The token of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+
+        self._token = token
+
+    @property
+    def method(self):
+        """Gets the method of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The method of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._method
+
+    @method.setter
+    def method(self, method):
+        """Sets the method of this WebhookNotificationEndpoint.
+
+
+        :param method: The method of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+        if method is None:
+            raise ValueError("Invalid value for `method`, must not be `None`")  # noqa: E501
+        allowed_values = ["POST", "GET", "PUT"]  # noqa: E501
+        if method not in allowed_values:
             raise ValueError(
-                "Invalid value for `name` ({0}), must be one of {1}"  # noqa: E501
-                .format(name, allowed_values)
+                "Invalid value for `method` ({0}), must be one of {1}"  # noqa: E501
+                .format(method, allowed_values)
             )
 
-        self._name = name
+        self._method = method
+
+    @property
+    def authmethod(self):
+        """Gets the authmethod of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The authmethod of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._authmethod
+
+    @authmethod.setter
+    def authmethod(self, authmethod):
+        """Sets the authmethod of this WebhookNotificationEndpoint.
+
+
+        :param authmethod: The authmethod of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+        if authmethod is None:
+            raise ValueError("Invalid value for `authmethod`, must not be `None`")  # noqa: E501
+        allowed_values = ["none", "basic", "bearer"]  # noqa: E501
+        if authmethod not in allowed_values:
+            raise ValueError(
+                "Invalid value for `authmethod` ({0}), must be one of {1}"  # noqa: E501
+                .format(authmethod, allowed_values)
+            )
+
+        self._authmethod = authmethod
+
+    @property
+    def content_template(self):
+        """Gets the content_template of this WebhookNotificationEndpoint.  # noqa: E501
+
+
+        :return: The content_template of this WebhookNotificationEndpoint.  # noqa: E501
+        :rtype: str
+        """
+        return self._content_template
+
+    @content_template.setter
+    def content_template(self, content_template):
+        """Sets the content_template of this WebhookNotificationEndpoint.
+
+
+        :param content_template: The content_template of this WebhookNotificationEndpoint.  # noqa: E501
+        :type: str
+        """
+
+        self._content_template = content_template
 
     def to_dict(self):
         """Returns the model properties as a dict"""

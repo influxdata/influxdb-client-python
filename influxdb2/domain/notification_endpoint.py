@@ -38,8 +38,10 @@ class NotificationEndpoint(NotificationEndpointBase):
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'description': 'str',
+        'name': 'str',
         'status': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'type': 'NotificationEndpointType'
     }
 
     attribute_map = {
@@ -49,14 +51,26 @@ class NotificationEndpoint(NotificationEndpointBase):
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'description': 'description',
+        'name': 'name',
         'status': 'status',
-        'labels': 'labels'
+        'labels': 'labels',
+        'type': 'type'
     }
 
-    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, status='active', labels=None):  # noqa: E501
+    discriminator_value_class_map = {
+        
+    }
+
+    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
         """NotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, status=status, labels=labels)
-        self.discriminator = None
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
+        self.discriminator = 'type'
+
+    def get_real_child_model(self, data):
+        """Returns the real base class specified by the discriminator"""
+        discriminator_key = self.attribute_map[self.discriminator]
+        discriminator_value = data[discriminator_key]
+        return self.discriminator_value_class_map.get(discriminator_value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""
