@@ -15,7 +15,7 @@ InfluxDB 2.0 python client library. TODO...
 
 ## Requirements
 
-Python 2.7 and 3.4+
+Python 3.6+
 
 ## Installation & Usage
 ### pip install
