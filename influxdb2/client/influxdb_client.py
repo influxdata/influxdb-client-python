@@ -6,6 +6,7 @@ from influxdb2.client.authorizations_api import AuthorizationsApi
 from influxdb2.client.bucket_api import BucketsApi
 from influxdb2.client.organizations_api import OrganizationsApi
 from influxdb2.client.query_api import QueryApi
+from influxdb2.client.tasks_api import TasksApi
 from influxdb2.client.users_api import UsersApi
 from influxdb2.client.write_api import WriteApi, WriteOptions
 
@@ -54,6 +55,9 @@ class InfluxDBClient(object):
     def query_api(self):
         return QueryApi(self)
 
+    def close(self):
+        self.__del__()
+
     def __del__(self):
         if self.api_client:
             self.api_client.__del__()
@@ -70,6 +74,9 @@ class InfluxDBClient(object):
 
     def organizations_api(self) -> OrganizationsApi:
         return OrganizationsApi(self)
+
+    def tasks_api(self) -> TasksApi:
+        return TasksApi(self)
 
 
 class _Configuration(Configuration):
