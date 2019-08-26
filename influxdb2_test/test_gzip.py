@@ -63,7 +63,7 @@ class GzipSupportTest(BaseTest):
         self.assertEqual("identity", _requests[0].headers['Accept-Encoding'])
         # Write
         self.assertEqual("/write?org=my-org&bucket=my-bucket&precision=ns", _requests[1].path)
-        self.assertEqual("utf-8", _requests[1].headers['Content-Encoding'])
+        self.assertEqual("identity", _requests[1].headers['Content-Encoding'])
         self.assertEqual("identity", _requests[1].headers['Accept-Encoding'])
         self.assertEqual("h2o_feet,location=coyote_creek water_level=1.0 1", _requests[1].parsed_body)
         # Query
