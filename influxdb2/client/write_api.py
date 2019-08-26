@@ -202,7 +202,8 @@ class WriteApi(AbstractClient):
 
     def _post_write(self, _async_req, bucket, org, body, precision):
         return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
-                                              async_req=_async_req, content_encoding="utf-8")
+                                              async_req=_async_req, content_encoding="identity",
+                                              content_type="text/plain; charset=utf-8")
 
     def _retryable(self, data: str, delay: timedelta):
 
