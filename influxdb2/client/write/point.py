@@ -1,5 +1,7 @@
+import math
 from builtins import int
 from datetime import datetime, timedelta
+from decimal import Decimal
 from numbers import Integral
 
 import dateutil.parser
@@ -45,7 +47,10 @@ class Point(object):
     def to_line_protocol(self):
         ret = _escape_tag(self._name)
         ret += _append_tags(self._tags)
-        ret += _append_fields(self._fields)
+        _fields = _append_fields(self._fields)
+        if not _fields:
+            return ""
+        ret += _fields
         ret += _append_time(self._time, self._write_precision)
         return ret
 
@@ -71,7 +76,9 @@ def _append_fields(fields):
         if value is None:
             continue
 
-        if isinstance(value, float):
+        if isinstance(value, float) or isinstance(value, Decimal):
+            if not math.isfinite(value):
+                continue
             _ret += _escape_tag(field) + '=' + str(value) + ','
         elif isinstance(value, int) and not isinstance(value, bool):
             _ret += _escape_tag(field) + '=' + str(value) + 'i' + ','

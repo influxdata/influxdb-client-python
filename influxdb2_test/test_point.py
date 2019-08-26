@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+
 from datetime import datetime
 
 from pytz import UTC
@@ -13,6 +14,7 @@ EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
 import unittest
 
 from datetime import datetime, timezone, timedelta
+from decimal import Decimal
 from pytz import UTC, timezone
 
 from influxdb2.client.write.point import Point
@@ -84,11 +86,13 @@ class PointTest(BaseTest):
             .field("ushort", 13) \
             .field("point", 13.3) \
             .field("decimal", 25.6) \
+            .field("decimal-object", Decimal('0.142857')) \
             .field("boolean", False) \
             .field("string", "string value")
 
-        expected = "h2o,location=europe boolean=false,byte=9i,decimal=25.6,double=250.69,float=35.0,integer=7i,long=1i," \
-                   + "point=13.3,sbyte=12i,short=8i,string=\"string value\",uint=11i,ulong=10i,ushort=13i"
+        expected = "h2o,location=europe boolean=false,byte=9i,decimal=25.6,decimal-object=0.142857,double=250.69," \
+                   "float=35.0,integer=7i,long=1i,point=13.3,sbyte=12i,short=8i,string=\"string value\"," \
+                   "uint=11i,ulong=10i,ushort=13i"
 
         self.assertEqual(expected, point.to_line_protocol())
 
@@ -270,6 +274,31 @@ class PointTest(BaseTest):
         self.assertEqual(point.time(utc).to_line_protocol(), exp_utc)
         self.assertEqual(point.time(berlin).to_line_protocol(), exp_est)
         self.assertEqual(point.time(eastern).to_line_protocol(), exp_est)
+
+    def test_infinity_values(self):
+        _point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("decimal-infinity-positive", Decimal('Infinity')) \
+            .field("decimal-infinity-negative", Decimal('-Infinity')) \
+            .field("decimal-nan", Decimal('NaN')) \
+            .field("flout-infinity-positive", float('inf')) \
+            .field("flout-infinity-negative", float('-inf')) \
+            .field("flout-nan", float('nan')) \
+            .field("level", 2)
+
+        self.assertEqual("h2o,location=europe level=2i", _point.to_line_protocol())
+
+    def test_only_infinity_values(self):
+        _point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("decimal-infinity-positive", Decimal('Infinity')) \
+            .field("decimal-infinity-negative", Decimal('-Infinity')) \
+            .field("decimal-nan", Decimal('NaN')) \
+            .field("flout-infinity-positive", float('inf')) \
+            .field("flout-infinity-negative", float('-inf')) \
+            .field("flout-nan", float('nan'))
+
+        self.assertEqual("", _point.to_line_protocol())
 
 
 if __name__ == '__main__':

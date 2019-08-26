@@ -8851,7 +8851,7 @@ components:
         description:
           description: An optional description of the task.
           type: string
-      required: [flux, token]
+      required: [flux]
     TaskUpdateRequest:
       type: object
       properties:
@@ -9222,7 +9222,6 @@ components:
           pagerduty:  "#/components/schemas/PagerDutyNotificationEndpoint"
           webhook: "#/components/schemas/WebhookNotificationEndpoint"
     NotificationEndpoints:
-      type: object
       properties:
         notificationEndpoints:
           type: array
