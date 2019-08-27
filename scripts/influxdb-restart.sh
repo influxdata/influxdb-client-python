@@ -57,7 +57,7 @@ echo "Post onBoarding request, to setup initial user (my-user@my-password), org 
 echo
 
 docker exec -it my-influxdb2 influx setup --username my-user --password my-password \
-    --token my-token-123 --org my-org --bucket my-bucket --retention 48 --force
+    --token my-token --org my-org --bucket my-bucket --retention 48 --force
 
 ## show created orgId
 ORGID=`docker exec -it my-influxdb2 influx org find | grep my-org  | awk '{ print $1 }'`

@@ -20,7 +20,7 @@ class BaseTest(unittest.TestCase):
         self.conf = influxdb2.configuration.Configuration()
         self.host = "http://localhost:9999/api/v2"
         self.debug = False
-        self.auth_token = "my-token-123"
+        self.auth_token = "my-token"
         self.org = "my-org"
         self.bucket = "test_bucket"
 

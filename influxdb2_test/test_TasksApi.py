@@ -115,3 +115,38 @@ class TasksApiTest(BaseTest):
         self.assertEqual(task.every, "1h")
         self.assertEqual(task.cron, None)
         self.assertTrue(task.flux.endswith(self.TASK_FLUX))
+
+    def test_create_task_cron(self):
+        task_name = self.generate_name("it task")
+        task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+
+        self.assertIsNotNone(task)
+        self.assertGreater(len(task.id), 1)
+
+        self.assertEqual(task.name, task_name)
+        self.assertEqual(task.org_id, self.organization.id)
+        self.assertEqual(task.status, "active")
+        self.assertEqual(task.every, None)
+        self.assertEqual(task.cron, "0 2 * * *")
+        # self.assertEqualIgnoringWhitespace(task.flux, flux)
+
+        self.assertTrue(task.flux.endswith(self.TASK_FLUX))
+        # self.assertEqual(task.links, "active")
+
+        links = task.links
+        self.assertIsNotNone(task.links)
+        self.assertEqual(links.logs, "/api/v2/tasks/" + task.id + "/logs")
+        self.assertEqual(links.members, "/api/v2/tasks/" + task.id + "/members")
+        self.assertEqual(links.owners, "/api/v2/tasks/" + task.id + "/owners")
+        self.assertEqual(links.runs, "/api/v2/tasks/" + task.id + "/runs")
+        self.assertEqual(links._self, "/api/v2/tasks/" + task.id)
+
+        # TODO missing get labels
+        self.assertEqual(links.labels, "/api/v2/tasks/" + task.id + "/labels")
+
+    def test_find_task_by_id(self):
+        task_name = self.generate_name("it task")
+        task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+
+        task_by_id = self.tasks_api.find_task_by_id(task.id)
+        self.assertEquals(task, task_by_id)

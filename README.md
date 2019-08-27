@@ -57,7 +57,7 @@ from influxdb2.client.write_api import SYNCHRONOUS
 
 bucket = "test_bucket"
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org")
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
@@ -111,7 +111,7 @@ from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write_api import WriteOptions
 from influxdb2.client.write.point import Point
 
-_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org")
 _write_client = _client.write_api(write_options=WriteOptions(batch_size=500, 
                                                              flush_interval=10_000, 
                                                              jitter_interval=2_000, 
@@ -155,7 +155,7 @@ Data are writes in an asynchronous HTTP request.
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write_api import ASYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org")
 write_client = client.write_api(write_options=ASYNCHRONOUS)
 
 ...
@@ -171,7 +171,7 @@ Data are writes in a synchronous HTTP request.
 from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.client.write_api import SYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org")
 write_client = client.write_api(write_options=SYNCHRONOUS)
 
 ...
@@ -236,7 +236,7 @@ data = rx \
     .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
     .pipe(ops.map(lambda row: parse_row(row)))
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org", debug=True)
 
 """
 Create client that writes data in batches with 500 items.
@@ -343,7 +343,7 @@ data = rx\
           ops.distinct_until_changed(),
           ops.map(lambda temperature: line_protocol(temperature)))
 
-_db_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org", debug=True)
+_db_client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org", debug=True)
 
 """
 Create client that writes data into InfluxDB

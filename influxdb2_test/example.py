@@ -8,7 +8,7 @@ from influxdb2.client.write_api import SYNCHRONOUS
 
 bucket = "test_bucket"
 
-client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token-123", org="my-org")
+client = InfluxDBClient(url="http://localhost:9999/api/v2", token="my-token", org="my-org")
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
