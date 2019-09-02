@@ -1,5 +1,11 @@
+import datetime
+import time
+
+import pytest
+
 from influxdb2 import PermissionResource, Permission, Task
 from influxdb2.client.influxdb_client import InfluxDBClient
+from influxdb2.rest import ApiException
 from influxdb2_test.base_test import BaseTest
 
 
@@ -46,7 +52,6 @@ class TasksApiTest(BaseTest):
                                                                      permissions=[create_task, delete_task, create_org,
                                                                                   read_org, create_users, create_labels,
                                                                                   create_auth, read_bucket,
-
                                                                                   write_bucket])
 
     def test_create_task(self):
@@ -149,4 +154,135 @@ class TasksApiTest(BaseTest):
         task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
 
         task_by_id = self.tasks_api.find_task_by_id(task.id)
-        self.assertEquals(task, task_by_id)
+        self.assertEqual(task, task_by_id)
+
+    @pytest.mark.skip(reason="TODO https://github.com/influxdata/influxdb/issues/13576")
+    @pytest.mark.skip(reason="TODO set user password -> https://github.com/influxdata/influxdb/issues/11590")
+    def test_find_task_by_user_id(self):
+        task_user = self.users_api.create_user(self.generate_name("TaskUser"))
+        self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+                                        self.organization.id)
+        tasks = self.tasks_api.find_tasks_by_user(task_user_id=task_user.id)
+        print(tasks)
+        self.assertEquals(len(tasks), 1)
+
+    def test_delete_task(self):
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+                                               self.organization.id)
+        self.assertIsNotNone(task)
+
+        self.tasks_api.delete_task(task.id)
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.find_task_by_id(task_id=task.id)
+        assert "failed to find task" in e.value.body
+
+    def test_update_task(self):
+        task_name = self.generate_name("it task")
+        cron_task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+
+        flux = '''
+        option task = {{
+            name: "{task_name}",
+            every: 3m
+        }}
+        
+        {flux}
+        '''.format(task_name=task_name, flux=self.TASK_FLUX)
+
+        cron_task.cron = None
+        cron_task.every = "3m"
+        cron_task.status = "inactive"
+        cron_task.description = "Updated description"
+
+        updated_task = self.tasks_api.update_task(cron_task)
+        time.sleep(1)
+
+        self.assertIsNotNone(updated_task)
+        self.assertGreater(len(updated_task.id), 1)
+
+        self.assertEqual(updated_task.name, task_name)
+        self.assertEqual(updated_task.org_id, cron_task.org_id)
+        self.assertEqual(updated_task.status, "inactive")
+        self.assertEqual(updated_task.every, "3m")
+        self.assertEqual(updated_task.cron, None)
+        self.assertIsNotNone(updated_task.updated_at)
+        now = datetime.datetime.now()
+        now.astimezone()
+        self.assertLess(updated_task.updated_at, now.astimezone(tz=datetime.timezone.utc))
+        self.assertEqualIgnoringWhitespace(updated_task.flux, flux)
+
+        self.assertEqual(updated_task.description, "Updated description")
+
+    def test_member(self):
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+                                               self.organization.id)
+        members = self.tasks_api.get_members(task_id=task.id)
+        self.assertEqual(len(members), 0)
+        user = self.users_api.create_user(self.generate_name("Luke Health"))
+
+        resource_member = self.tasks_api.add_member(member_id=user.id, task_id=task.id)
+        self.assertIsNotNone(resource_member)
+        self.assertEqual(resource_member.id, user.id)
+        self.assertEqual(resource_member.name, user.name)
+        self.assertEqual(resource_member.role, "member")
+
+        members = self.tasks_api.get_members(task_id=task.id)
+        resource_member = members[0]
+        self.assertEqual(len(members), 1)
+        self.assertEqual(resource_member.id, user.id)
+        self.assertEqual(resource_member.name, user.name)
+        self.assertEqual(resource_member.role, "member")
+
+        self.tasks_api.delete_member(member_id=user.id, task_id=task.id)
+        members = self.tasks_api.get_members(task_id=task.id)
+        self.assertEqual(len(members), 0)
+
+    def test_owner(self):
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+                                               self.organization.id)
+        owners = self.tasks_api.get_owners(task_id=task.id)
+        self.assertEqual(len(owners), 1)
+
+        user = self.users_api.create_user(self.generate_name("Luke Health"))
+        resource_member = self.tasks_api.add_owner(owner_id=user.id, task_id=task.id)
+
+        self.assertIsNotNone(resource_member)
+        self.assertEqual(resource_member.id, user.id)
+        self.assertEqual(resource_member.name, user.name)
+        self.assertEqual(resource_member.role, "owner")
+
+        owners = self.tasks_api.get_owners(task_id=task.id)
+        self.assertEqual(len(owners), 2)
+        resource_member = owners[1]
+        self.assertEqual(resource_member.id, user.id)
+        self.assertEqual(resource_member.name, user.name)
+        self.assertEqual(resource_member.role, "owner")
+
+        self.tasks_api.delete_owner(owner_id=user.id, task_id=task.id)
+        owners = self.tasks_api.get_owners(task_id=task.id)
+        self.assertEqual(len(owners), 1)
+
+    def test_runs(self):
+        task_name = self.generate_name("it task")
+        task = self.tasks_api.create_task_every(task_name, self.TASK_FLUX, "1s", self.organization)
+        time.sleep(3)
+
+        runs = self.tasks_api.get_runs(task_id=task.id, limit=10)
+        self.assertGreater(len(runs), 2)
+
+        success_runs = list(filter(lambda x: x.status == "success", runs))
+        run = success_runs[0]
+        self.assertIsNotNone(run.id)
+        self.assertEqual(run.task_id, task.id)
+        self.assertEqual(run.status, "success")
+        now = datetime.datetime.now()
+        self.assertLess(run.scheduled_for, now.astimezone(tz=datetime.timezone.utc))
+        self.assertLess(run.started_at, now.astimezone(tz=datetime.timezone.utc))
+        self.assertLess(run.finished_at, now.astimezone(tz=datetime.timezone.utc))
+        self.assertIsNone(run.requested_at)
+        self.assertIsNotNone(run.links)
+
+        self.assertEqual(run.links.logs, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/logs")
+        self.assertEqual(run.links.retry, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/retry")
+        self.assertEqual(run.links._self, "/api/v2/tasks/" + task.id + "/runs/" + run.id)
+        self.assertEqual(run.links.task, "/api/v2/tasks/" + task.id)

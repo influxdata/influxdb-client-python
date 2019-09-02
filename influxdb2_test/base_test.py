@@ -30,7 +30,7 @@ class BaseTest(unittest.TestCase):
         self.query_client = self.client.query_api()
         self.buckets_client = self.client.buckets_api()
         self.my_organization = self.find_my_org()
-        self.users_client = self.client.users_api()
+        self.users_api = self.client.users_api()
         self.organizations_client = self.client.organizations_api()
         self.authorizations_client = self.client.authorizations_api()
 

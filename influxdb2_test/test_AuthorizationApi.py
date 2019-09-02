@@ -10,7 +10,7 @@ class AuthorizationsClientTest(BaseTest):
 
     def setUp(self) -> None:
         super(AuthorizationsClientTest, self).setUp()
-        self.user = self.users_client.me()
+        self.user = self.users_api.me()
         self.organization = self.find_my_org()
 
     def test_createAuthorization(self):

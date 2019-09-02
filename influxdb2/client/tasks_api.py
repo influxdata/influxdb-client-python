@@ -92,7 +92,7 @@ class TasksApi(object):
         return self._service.delete_tasks_id_labels_id(task_id=task_id, label_id=label_id)
 
     def get_members(self, task_id: str):
-        return self._service.get_tasks_id_members(task_id=task_id)
+        return self._service.get_tasks_id_members(task_id=task_id).users
 
     def add_member(self, member_id, task_id):
         user = AddResourceMemberRequestBody(id=member_id)
@@ -102,27 +102,27 @@ class TasksApi(object):
         return self._service.delete_tasks_id_members_id(user_id=member_id, task_id=task_id)
 
     def get_owners(self, task_id):
-        return self._service.get_tasks_id_owners(task_id=task_id)
+        return self._service.get_tasks_id_owners(task_id=task_id).users
 
     def add_owner(self, owner_id, task_id):
         user = AddResourceMemberRequestBody(id=owner_id)
-        self._service.post_tasks_id_owners(task_id=task_id, add_resource_member_request_body=user)
+        return self._service.post_tasks_id_owners(task_id=task_id, add_resource_member_request_body=user)
 
     def delete_owner(self, owner_id, task_id):
         return self._service.delete_tasks_id_owners_id(user_id=owner_id, task_id=task_id)
 
-    def get_runs(self, task_id, after=None, limit=None, after_time=None, before_time=None):
+    def get_runs(self, task_id, **kwargs):
         """
         Retrieve list of run records for a task
 
+        :param task_id: task id
         :param str after: returns runs after specified ID
         :param int limit: the number of runs to return
         :param datetime after_time: filter runs to those scheduled after this time, RFC3339
         :param datetime before_time: filter runs to those scheduled before this time, RFC3339
         """
 
-        return self._service.get_tasks_id_runs(task_id=task_id, after=after, limit=limit, after_time=after_time,
-                                               before_time=before_time)
+        return self._service.get_tasks_id_runs(task_id=task_id, **kwargs).runs
 
     def get_run(self, task_id: str, run_id: str):
         """
@@ -171,3 +171,6 @@ class TasksApi(object):
         :return:
         """
         self._service.get_tasks_id_logs(task_id=task_id)
+
+    def find_tasks_by_user(self, task_user_id):
+        return self.find_tasks(user=task_user_id)
