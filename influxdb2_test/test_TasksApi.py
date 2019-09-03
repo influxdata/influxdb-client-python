@@ -8,9 +8,10 @@ from influxdb2.client.influxdb_client import InfluxDBClient
 from influxdb2.rest import ApiException
 from influxdb2_test.base_test import BaseTest
 
+TASK_FLUX = 'from(bucket: "my-bucket") |> range(start: -2m) |> last()'
+
 
 class TasksApiTest(BaseTest):
-    TASK_FLUX = 'from(bucket: "my-bucket") |> range(start: -2m) |> last()'
 
     def setUp(self) -> None:
         super(TasksApiTest, self).setUp()
@@ -63,7 +64,7 @@ class TasksApiTest(BaseTest):
                 every: 1h
             }}
             {flux}
-            '''.format(task_name=task_name, flux=self.TASK_FLUX)
+            '''.format(task_name=task_name, flux=TASK_FLUX)
 
         task = Task(id=0, name=task_name, org_id=self.organization.id, flux=flux, status="active",
                     description="Task Description")
@@ -94,7 +95,7 @@ class TasksApiTest(BaseTest):
                 offset: 30m
             }}
             {flux}
-            '''.format(task_name=task_name, flux=self.TASK_FLUX)
+            '''.format(task_name=task_name, flux=TASK_FLUX)
 
         task = Task(id=0, name=task_name, org_id=self.organization.id, flux=flux, status="active",
                     description="Task Description")
@@ -108,7 +109,7 @@ class TasksApiTest(BaseTest):
 
     def test_create_task_every(self):
         task_name = self.generate_name("it_task")
-        task = self.tasks_api.create_task_every(task_name, self.TASK_FLUX, "1h", self.organization)
+        task = self.tasks_api.create_task_every(task_name, TASK_FLUX, "1h", self.organization)
         print(task)
 
         self.assertIsNotNone(task)
@@ -119,11 +120,11 @@ class TasksApiTest(BaseTest):
         self.assertEqual(task.status, "active")
         self.assertEqual(task.every, "1h")
         self.assertEqual(task.cron, None)
-        self.assertTrue(task.flux.endswith(self.TASK_FLUX))
+        self.assertTrue(task.flux.endswith(TASK_FLUX))
 
     def test_create_task_cron(self):
         task_name = self.generate_name("it task")
-        task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+        task = self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
 
         self.assertIsNotNone(task)
         self.assertGreater(len(task.id), 1)
@@ -135,7 +136,7 @@ class TasksApiTest(BaseTest):
         self.assertEqual(task.cron, "0 2 * * *")
         # self.assertEqualIgnoringWhitespace(task.flux, flux)
 
-        self.assertTrue(task.flux.endswith(self.TASK_FLUX))
+        self.assertTrue(task.flux.endswith(TASK_FLUX))
         # self.assertEqual(task.links, "active")
 
         links = task.links
@@ -151,23 +152,23 @@ class TasksApiTest(BaseTest):
 
     def test_find_task_by_id(self):
         task_name = self.generate_name("it task")
-        task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+        task = self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
 
         task_by_id = self.tasks_api.find_task_by_id(task.id)
         self.assertEqual(task, task_by_id)
 
-    @pytest.mark.skip(reason="TODO https://github.com/influxdata/influxdb/issues/13576")
-    @pytest.mark.skip(reason="TODO set user password -> https://github.com/influxdata/influxdb/issues/11590")
+    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/13576")
+    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/11590")
     def test_find_task_by_user_id(self):
         task_user = self.users_api.create_user(self.generate_name("TaskUser"))
-        self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+        self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                         self.organization.id)
         tasks = self.tasks_api.find_tasks_by_user(task_user_id=task_user.id)
         print(tasks)
         self.assertEquals(len(tasks), 1)
 
     def test_delete_task(self):
-        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)
         self.assertIsNotNone(task)
 
@@ -178,7 +179,7 @@ class TasksApiTest(BaseTest):
 
     def test_update_task(self):
         task_name = self.generate_name("it task")
-        cron_task = self.tasks_api.create_task_cron(task_name, self.TASK_FLUX, "0 2 * * *", self.organization.id)
+        cron_task = self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
 
         flux = '''
         option task = {{
@@ -187,7 +188,7 @@ class TasksApiTest(BaseTest):
         }}
         
         {flux}
-        '''.format(task_name=task_name, flux=self.TASK_FLUX)
+        '''.format(task_name=task_name, flux=TASK_FLUX)
 
         cron_task.cron = None
         cron_task.every = "3m"
@@ -214,7 +215,7 @@ class TasksApiTest(BaseTest):
         self.assertEqual(updated_task.description, "Updated description")
 
     def test_member(self):
-        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)
         members = self.tasks_api.get_members(task_id=task.id)
         self.assertEqual(len(members), 0)
@@ -238,7 +239,7 @@ class TasksApiTest(BaseTest):
         self.assertEqual(len(members), 0)
 
     def test_owner(self):
-        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), self.TASK_FLUX, "0 2 * * *",
+        task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)
         owners = self.tasks_api.get_owners(task_id=task.id)
         self.assertEqual(len(owners), 1)
@@ -264,7 +265,7 @@ class TasksApiTest(BaseTest):
 
     def test_runs(self):
         task_name = self.generate_name("it task")
-        task = self.tasks_api.create_task_every(task_name, self.TASK_FLUX, "1s", self.organization)
+        task = self.tasks_api.create_task_every(task_name, TASK_FLUX, "1s", self.organization)
         time.sleep(3)
 
         runs = self.tasks_api.get_runs(task_id=task.id, limit=10)
@@ -286,3 +287,94 @@ class TasksApiTest(BaseTest):
         self.assertEqual(run.links.retry, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/retry")
         self.assertEqual(run.links._self, "/api/v2/tasks/" + task.id + "/runs/" + run.id)
         self.assertEqual(run.links.task, "/api/v2/tasks/" + task.id)
+
+    def test_runs_not_exist(self):
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.get_runs("020f755c3c082000")
+        assert "task not found" in e.value.body
+
+    def test_run_task_manually(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+
+        run = self.tasks_api.run_manually(task_id=task.id)
+        print(run)
+
+        self.assertIsNotNone(run)
+        self.assertTrue(run.status, "scheduled")
+
+    def test_run_task_manually_not_exist(self):
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.run_manually(task_id="020f755c3c082000")
+        assert "failed to force run" in e.value.body
+
+    def test_retry_run(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+
+        time.sleep(2)
+
+        runs = self.tasks_api.get_runs(task.id)
+        self.assertGreater(len(runs), 1)
+
+        run = self.tasks_api.retry_run(task_id=runs[0].task_id, run_id=runs[0].id)
+        self.assertIsNotNone(run)
+        self.assertEqual(run.task_id, runs[0].task_id)
+
+        self.assertEqual(run.status, "scheduled")
+        self.assertEqual(run.task_id, task.id)
+
+    def test_retry_run_not_exists(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "5s", self.organization)
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.retry_run(task_id=task.id, run_id="020f755c3c082000")
+        assert "failed to retry run" in e.value.body
+
+    def test_logs(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "3s", self.organization)
+        time.sleep(6)
+
+        logs = self.tasks_api.get_logs(task_id=task.id)
+
+        for log in logs:
+            self.assertIsNotNone(log.time)
+            self.assertIsNotNone(log.message)
+            print(log)
+
+        self.tasks_api.delete_task(task_id=task.id)
+
+    def test_logs_not_exist(self):
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.get_logs(task_id="020f755c3c082000")
+        assert "failed to find task logs" in e.value.body
+
+    def test_run_logs(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+        time.sleep(5)
+        runs = self.tasks_api.get_runs(task_id=task.id)
+        self.assertGreater(len(runs), 0)
+
+        logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
+        self.assertGreater(len(logs), 0)
+        self.assertTrue(logs[-1].message.endswith("Completed successfully"))
+
+    def test_runs_not_exists(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.get_run_logs(task_id=task.id, run_id="020f755c3c082000")
+        assert "failed to find task logs" in e.value.body
+
+    def test_cancel_run_not_exist(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+        time.sleep(5)
+        runs = self.tasks_api.get_runs(task.id)
+
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.cancel_run(task_id=task.id, run_id=runs[0].id)
+        assert "failed to cancel run" in e.value.body
+        assert "run not found" in e.value.body
+
+    def test_cancel_task_not_exist(self):
+        with pytest.raises(ApiException) as e:
+            assert self.tasks_api.cancel_run("020f755c3c082000", "020f755c3c082000")
+        assert "failed to cancel run" in e.value.body
+        assert "task not found" in e.value.body

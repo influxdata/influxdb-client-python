@@ -1,7 +1,8 @@
 import datetime
+from typing import List
 
 from influxdb2 import TasksService, Task, TaskCreateRequest, TaskUpdateRequest, LabelResponse, LabelMapping, \
-    AddResourceMemberRequestBody, RunManually
+    AddResourceMemberRequestBody, RunManually, Run, LogEvent
 
 
 class TasksApi(object):
@@ -111,7 +112,7 @@ class TasksApi(object):
     def delete_owner(self, owner_id, task_id):
         return self._service.delete_tasks_id_owners_id(user_id=owner_id, task_id=task_id)
 
-    def get_runs(self, task_id, **kwargs):
+    def get_runs(self, task_id, **kwargs) -> List['Run']:
         """
         Retrieve list of run records for a task
 
@@ -121,10 +122,9 @@ class TasksApi(object):
         :param datetime after_time: filter runs to those scheduled after this time, RFC3339
         :param datetime before_time: filter runs to those scheduled before this time, RFC3339
         """
-
         return self._service.get_tasks_id_runs(task_id=task_id, **kwargs).runs
 
-    def get_run(self, task_id: str, run_id: str):
+    def get_run(self, task_id: str, run_id: str) -> Run:
         """
         Get run record for specific task and run id
         :param task_id: task id
@@ -133,8 +133,8 @@ class TasksApi(object):
         """
         return self._service.get_tasks_id_runs(task_id=task_id, run_id=run_id)
 
-    def get_run_logs(self, task_id: str, run_id: str):
-        return self._service.get_tasks_id_runs_id_logs(task_id=task_id, run_id=run_id)
+    def get_run_logs(self, task_id: str, run_id: str) -> List['LogEvent']:
+        return self._service.get_tasks_id_runs_id_logs(task_id=task_id, run_id=run_id).events
 
     def run_manually(self, task_id: str, scheduled_for: datetime = None):
         """
@@ -162,15 +162,15 @@ class TasksApi(object):
         :param run_id:
         :return:
         """
-        self._service.delete_tasks_id_runs_id(task_id=task_id, run_id=run_id)
+        return self._service.delete_tasks_id_runs_id(task_id=task_id, run_id=run_id)
 
-    def get_logs(self, task_id: str):
+    def get_logs(self, task_id: str) -> List['LogEvent']:
         """
         Retrieve all logs for a task.
         :param task_id: task id
         :return:
         """
-        self._service.get_tasks_id_logs(task_id=task_id)
+        return self._service.get_tasks_id_logs(task_id=task_id).events
 
     def find_tasks_by_user(self, task_user_id):
         return self.find_tasks(user=task_user_id)
