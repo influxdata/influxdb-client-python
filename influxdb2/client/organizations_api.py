@@ -22,3 +22,6 @@ class OrganizationsApi(object):
         if organization is None:
             organization = Organization(name=name)
         return self._organizations_service.post_orgs(organization)
+
+    def delete_organization(self, org_id: str):
+        return self._organizations_service.delete_orgs_id(org_id=org_id)

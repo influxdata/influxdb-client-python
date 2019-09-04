@@ -4,6 +4,7 @@ import influxdb2
 from influxdb2 import Configuration
 from influxdb2.client.authorizations_api import AuthorizationsApi
 from influxdb2.client.bucket_api import BucketsApi
+from influxdb2.client.labels_api import LabelsApi
 from influxdb2.client.organizations_api import OrganizationsApi
 from influxdb2.client.query_api import QueryApi
 from influxdb2.client.tasks_api import TasksApi
@@ -78,6 +79,9 @@ class InfluxDBClient(object):
     def tasks_api(self) -> TasksApi:
         return TasksApi(self)
 
+    def labels_api(self) -> LabelsApi:
+        return LabelsApi(self)
+
 
 class _Configuration(Configuration):
 
@@ -109,4 +113,3 @@ class _Configuration(Configuration):
                 import gzip
                 return gzip.compress(bytes(_body, "utf-8"))
         return _body
-

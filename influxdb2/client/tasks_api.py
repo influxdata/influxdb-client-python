@@ -17,7 +17,18 @@ class TasksApi(object):
         return task
 
     def find_tasks(self, **kwargs):
-        return self._service.get_tasks(**kwargs)
+        """List tasks.
+
+        :param str name: only returns tasks with the specified name
+        :param str after: returns tasks after specified ID
+        :param str user: filter tasks to a specific user ID
+        :param str org: filter tasks to a specific organization name
+        :param str org_id: filter tasks to a specific organization ID
+        :param int limit: the number of tasks to return
+        :return: Tasks
+        """
+
+        return self._service.get_tasks(**kwargs).tasks
 
     def create_task(self, task: Task = None, task_create_request: TaskCreateRequest = None) -> Task:
 
@@ -33,7 +44,7 @@ class TasksApi(object):
         raise ValueError("task or task_create_request must be not None")
 
     @staticmethod
-    def _create_task(name: str, flux: str, every: str, cron: str, org_id: str) -> Task:
+    def _create_task(name: str, flux: str, every, cron, org_id: str) -> Task:
 
         task = Task(id=0, name=name, org_id=org_id, status="active", flux=flux)
 
@@ -51,11 +62,11 @@ class TasksApi(object):
 
         return task
 
-    def create_task_every(self, name, flux, every, organization):
+    def create_task_every(self, name, flux, every, organization) -> Task:
         task = self._create_task(name, flux, every, None, organization.id)
         return self.create_task(task)
 
-    def create_task_cron(self, name: str, flux: str, cron: str, org_id: str):
+    def create_task_cron(self, name: str, flux: str, cron: str, org_id: str) -> Task:
         task = self._create_task(name=name, flux=flux, cron=cron, org_id=org_id, every=None)
         return self.create_task(task)
 
@@ -70,7 +81,7 @@ class TasksApi(object):
 
         return self.update_task_request(task_id=task.id, task_update_request=req)
 
-    def update_task_request(self, task_id, task_update_request: TaskUpdateRequest):
+    def update_task_request(self, task_id, task_update_request: TaskUpdateRequest) -> Task:
         return self._service.patch_tasks_id(task_id=task_id, task_update_request=task_update_request)
 
     def clone_task(self, task: Task) -> Task:

@@ -21,7 +21,7 @@ class AuthorizationsClientTest(BaseTest):
         write_organizations = Permission(action="write", resource=org_resource)
 
         permissions = [read_users, write_organizations]
-        authorization = self.authorizations_client.create_authorization(self.organization.id, permissions)
+        authorization = self.authorizations_api.create_authorization(self.organization.id, permissions)
 
         self.log(authorization)
 
@@ -56,7 +56,7 @@ class AuthorizationsClientTest(BaseTest):
         authorization = Authorization(org_id=organization.id, permissions=permissions)
         authorization.status = "active"
         authorization.description = "My description!"
-        created = self.authorizations_client.create_authorization(authorization=authorization)
+        created = self.authorizations_api.create_authorization(authorization=authorization)
         self.assertIsNotNone(created)
         self.assertEqual(created.description, "My description!")
 
@@ -67,7 +67,7 @@ class AuthorizationsClientTest(BaseTest):
         delete_task = Permission(action="write", resource=resource)
 
         permissions = [create_task, delete_task]
-        authorization = self.authorizations_client.create_authorization(self.organization.id, permissions)
+        authorization = self.authorizations_api.create_authorization(self.organization.id, permissions)
 
         self.assertTrue(len(authorization.permissions) == 2)
 
@@ -89,7 +89,7 @@ class AuthorizationsClientTest(BaseTest):
         delete_bucket = Permission(action="write", resource=resource)
         permissions = [create_bucket, delete_bucket]
 
-        authorization = self.authorizations_client.create_authorization(organization.id, permissions)
+        authorization = self.authorizations_api.create_authorization(organization.id, permissions)
 
         self.log(authorization)
         self.assertTrue(len(authorization.permissions) == 2)

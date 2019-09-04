@@ -29,7 +29,7 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(bucket.name, self.org, record)
         self.write_client.flush()
 
-        result = self.query_client.query(
+        result = self.query_api.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
 
         self.assertEqual(len(result), 1)
@@ -49,7 +49,7 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(org="my-org", bucket=bucket.name, record="air,location=Python humidity=99",
                                 write_precision=WritePrecision.MS)
 
-        result = self.query_client.query(
+        result = self.query_api.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
 
         self.assertEqual(len(result), 1)

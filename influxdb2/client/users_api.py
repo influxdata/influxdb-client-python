@@ -7,7 +7,7 @@ class UsersApi(object):
         self._influxdb_client = influxdb_client
         self._service = UsersService(influxdb_client.api_client)
 
-    def me(self):
+    def me(self) -> User:
         user = self._service.get_me()
         return user
 

@@ -23,7 +23,10 @@ class TasksApiTest(BaseTest):
         self.client = InfluxDBClient(self.host, self.authorization.token, debug=self.conf.debug, org=self.org)
         self.tasks_api = self.client.tasks_api()
 
-        # self.tasks_api.find_tasks()
+        tasks = self.tasks_api.find_tasks()
+        for task in tasks:
+            if task.name.endswith("-IT"):
+                self.tasks_api.delete_task(task.id)
 
     def add_tasks_authorization(self, organization):
         resource = PermissionResource(org=organization.name, type="tasks")
