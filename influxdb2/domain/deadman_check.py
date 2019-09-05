@@ -33,7 +33,8 @@ class DeadmanCheck(CheckBase):
     """
     openapi_types = {
         'type': 'str',
-        'time_since': 'int',
+        'time_since': 'str',
+        'stale_time': 'str',
         'report_zero': 'bool',
         'level': 'CheckStatusLevel',
         'id': 'str',
@@ -56,6 +57,7 @@ class DeadmanCheck(CheckBase):
     attribute_map = {
         'type': 'type',
         'time_since': 'timeSince',
+        'stale_time': 'staleTime',
         'report_zero': 'reportZero',
         'level': 'level',
         'id': 'id',
@@ -75,12 +77,13 @@ class DeadmanCheck(CheckBase):
         'labels': 'labels'
     }
 
-    def __init__(self, type=None, time_since=None, report_zero=None, level=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
+    def __init__(self, type=None, time_since=None, stale_time=None, report_zero=None, level=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
         """DeadmanCheck - a model defined in OpenAPI"""  # noqa: E501
         CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, cron=cron, tags=tags, description=description, status_message_template=status_message_template, labels=labels)
 
         self._type = None
         self._time_since = None
+        self._stale_time = None
         self._report_zero = None
         self._level = None
         self.discriminator = None
@@ -89,6 +92,8 @@ class DeadmanCheck(CheckBase):
             self.type = type
         if time_since is not None:
             self.time_since = time_since
+        if stale_time is not None:
+            self.stale_time = stale_time
         if report_zero is not None:
             self.report_zero = report_zero
         if level is not None:
@@ -125,10 +130,10 @@ class DeadmanCheck(CheckBase):
     def time_since(self):
         """Gets the time_since of this DeadmanCheck.  # noqa: E501
 
-        seconds before deadman triggers  # noqa: E501
+        string duration before deadman triggers  # noqa: E501
 
         :return: The time_since of this DeadmanCheck.  # noqa: E501
-        :rtype: int
+        :rtype: str
         """
         return self._time_since
 
@@ -136,13 +141,36 @@ class DeadmanCheck(CheckBase):
     def time_since(self, time_since):
         """Sets the time_since of this DeadmanCheck.
 
-        seconds before deadman triggers  # noqa: E501
+        string duration before deadman triggers  # noqa: E501
 
         :param time_since: The time_since of this DeadmanCheck.  # noqa: E501
-        :type: int
+        :type: str
         """
 
         self._time_since = time_since
+
+    @property
+    def stale_time(self):
+        """Gets the stale_time of this DeadmanCheck.  # noqa: E501
+
+        string duration for time that a series is considered stale and should not trigger deadman  # noqa: E501
+
+        :return: The stale_time of this DeadmanCheck.  # noqa: E501
+        :rtype: str
+        """
+        return self._stale_time
+
+    @stale_time.setter
+    def stale_time(self, stale_time):
+        """Sets the stale_time of this DeadmanCheck.
+
+        string duration for time that a series is considered stale and should not trigger deadman  # noqa: E501
+
+        :param stale_time: The stale_time of this DeadmanCheck.  # noqa: E501
+        :type: str
+        """
+
+        self._stale_time = stale_time
 
     @property
     def report_zero(self):

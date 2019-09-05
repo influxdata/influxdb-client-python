@@ -75,11 +75,13 @@ from influxdb2.domain.expression_statement import ExpressionStatement
 from influxdb2.domain.field import Field
 from influxdb2.domain.file import File
 from influxdb2.domain.float_literal import FloatLiteral
+from influxdb2.domain.flux_response import FluxResponse
 from influxdb2.domain.flux_suggestion import FluxSuggestion
 from influxdb2.domain.flux_suggestions import FluxSuggestions
 from influxdb2.domain.function_expression import FunctionExpression
 from influxdb2.domain.gauge_view_properties import GaugeViewProperties
 from influxdb2.domain.greater_threshold import GreaterThreshold
+from influxdb2.domain.http_notification_endpoint import HTTPNotificationEndpoint
 from influxdb2.domain.http_notification_rule import HTTPNotificationRule
 from influxdb2.domain.http_notification_rule_base import HTTPNotificationRuleBase
 from influxdb2.domain.health_check import HealthCheck
@@ -99,7 +101,6 @@ from influxdb2.domain.labels_response import LabelsResponse
 from influxdb2.domain.language_request import LanguageRequest
 from influxdb2.domain.legend import Legend
 from influxdb2.domain.lesser_threshold import LesserThreshold
-from influxdb2.domain.level_rule import LevelRule
 from influxdb2.domain.line_plus_single_stat_properties import LinePlusSingleStatProperties
 from influxdb2.domain.line_protocol_error import LineProtocolError
 from influxdb2.domain.line_protocol_length_error import LineProtocolLengthError
@@ -116,6 +117,7 @@ from influxdb2.domain.node import Node
 from influxdb2.domain.notification_endpoint import NotificationEndpoint
 from influxdb2.domain.notification_endpoint_base import NotificationEndpointBase
 from influxdb2.domain.notification_endpoint_type import NotificationEndpointType
+from influxdb2.domain.notification_endpoint_update import NotificationEndpointUpdate
 from influxdb2.domain.notification_endpoints import NotificationEndpoints
 from influxdb2.domain.notification_rule import NotificationRule
 from influxdb2.domain.notification_rule_base import NotificationRuleBase
@@ -159,6 +161,7 @@ from influxdb2.domain.routes import Routes
 from influxdb2.domain.routes_external import RoutesExternal
 from influxdb2.domain.routes_query import RoutesQuery
 from influxdb2.domain.routes_system import RoutesSystem
+from influxdb2.domain.rule_status_level import RuleStatusLevel
 from influxdb2.domain.run import Run
 from influxdb2.domain.run_links import RunLinks
 from influxdb2.domain.run_log import RunLog
@@ -246,7 +249,6 @@ from influxdb2.domain.view import View
 from influxdb2.domain.view_links import ViewLinks
 from influxdb2.domain.view_properties import ViewProperties
 from influxdb2.domain.views import Views
-from influxdb2.domain.webhook_notification_endpoint import WebhookNotificationEndpoint
 from influxdb2.domain.write_precision import WritePrecision
 from influxdb2.domain.xy_geom import XYGeom
 from influxdb2.domain.xy_view_properties import XYViewProperties
