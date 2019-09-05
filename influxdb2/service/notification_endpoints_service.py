@@ -42,7 +42,7 @@ class NotificationEndpointsService(object):
 
         :param async_req bool
         :param NotificationEndpoint notification_endpoint: notificationEndpoint to create (required)
-        :return: NotificationRule
+        :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -63,7 +63,7 @@ class NotificationEndpointsService(object):
 
         :param async_req bool
         :param NotificationEndpoint notification_endpoint: notificationEndpoint to create (required)
-        :return: NotificationRule
+        :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -122,7 +122,7 @@ class NotificationEndpointsService(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='NotificationRule',  # noqa: E501
+            response_type='NotificationEndpoint',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -214,6 +214,112 @@ class NotificationEndpointsService(object):
 
         return self.api_client.call_api(
             '/notificationEndpoints/{endpointID}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def delete_notification_endpoints_id_labels_id(self, endpoint_id, label_id, **kwargs):  # noqa: E501
+        """delete label from a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_notification_endpoints_id_labels_id(endpoint_id, label_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str label_id: the label id to delete (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.delete_notification_endpoints_id_labels_id_with_http_info(endpoint_id, label_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_notification_endpoints_id_labels_id_with_http_info(endpoint_id, label_id, **kwargs)  # noqa: E501
+            return data
+
+    def delete_notification_endpoints_id_labels_id_with_http_info(self, endpoint_id, label_id, **kwargs):  # noqa: E501
+        """delete label from a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_notification_endpoints_id_labels_id_with_http_info(endpoint_id, label_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str label_id: the label id to delete (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['endpoint_id', 'label_id', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_notification_endpoints_id_labels_id" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'endpoint_id' is set
+        if ('endpoint_id' not in local_var_params or
+                local_var_params['endpoint_id'] is None):
+            raise ValueError("Missing the required parameter `endpoint_id` when calling `delete_notification_endpoints_id_labels_id`")  # noqa: E501
+        # verify the required parameter 'label_id' is set
+        if ('label_id' not in local_var_params or
+                local_var_params['label_id'] is None):
+            raise ValueError("Missing the required parameter `label_id` when calling `delete_notification_endpoints_id_labels_id`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'endpoint_id' in local_var_params:
+            path_params['endpointID'] = local_var_params['endpoint_id']  # noqa: E501
+        if 'label_id' in local_var_params:
+            path_params['labelID'] = local_var_params['label_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -434,17 +540,115 @@ class NotificationEndpointsService(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def patch_notification_endpoints_id(self, endpoint_id, notification_endpoint, **kwargs):  # noqa: E501
+    def get_notification_endpoints_id_labels(self, endpoint_id, **kwargs):  # noqa: E501
+        """list all labels for a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_notification_endpoints_id_labels(endpoint_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelsResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_notification_endpoints_id_labels_with_http_info(endpoint_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_notification_endpoints_id_labels_with_http_info(endpoint_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_notification_endpoints_id_labels_with_http_info(self, endpoint_id, **kwargs):  # noqa: E501
+        """list all labels for a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_notification_endpoints_id_labels_with_http_info(endpoint_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelsResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['endpoint_id', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_notification_endpoints_id_labels" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'endpoint_id' is set
+        if ('endpoint_id' not in local_var_params or
+                local_var_params['endpoint_id'] is None):
+            raise ValueError("Missing the required parameter `endpoint_id` when calling `get_notification_endpoints_id_labels`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'endpoint_id' in local_var_params:
+            path_params['endpointID'] = local_var_params['endpoint_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/notificationEndpoints/{endpointID}/labels', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='LabelsResponse',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def patch_notification_endpoints_id(self, endpoint_id, notification_endpoint_update, **kwargs):  # noqa: E501
         """Update a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.patch_notification_endpoints_id(endpoint_id, notification_endpoint, async_req=True)
+        >>> thread = api.patch_notification_endpoints_id(endpoint_id, notification_endpoint_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpoint notification_endpoint: check update to apply (required)
+        :param NotificationEndpointUpdate notification_endpoint_update: check update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -452,22 +656,242 @@ class NotificationEndpointsService(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
+            return self.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint_update, **kwargs)  # noqa: E501
         else:
-            (data) = self.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
+            (data) = self.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint_update, **kwargs)  # noqa: E501
             return data
 
-    def patch_notification_endpoints_id_with_http_info(self, endpoint_id, notification_endpoint, **kwargs):  # noqa: E501
+    def patch_notification_endpoints_id_with_http_info(self, endpoint_id, notification_endpoint_update, **kwargs):  # noqa: E501
         """Update a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, async_req=True)
+        >>> thread = api.patch_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpoint notification_endpoint: check update to apply (required)
+        :param NotificationEndpointUpdate notification_endpoint_update: check update to apply (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: NotificationEndpoint
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['endpoint_id', 'notification_endpoint_update', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method patch_notification_endpoints_id" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'endpoint_id' is set
+        if ('endpoint_id' not in local_var_params or
+                local_var_params['endpoint_id'] is None):
+            raise ValueError("Missing the required parameter `endpoint_id` when calling `patch_notification_endpoints_id`")  # noqa: E501
+        # verify the required parameter 'notification_endpoint_update' is set
+        if ('notification_endpoint_update' not in local_var_params or
+                local_var_params['notification_endpoint_update'] is None):
+            raise ValueError("Missing the required parameter `notification_endpoint_update` when calling `patch_notification_endpoints_id`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'endpoint_id' in local_var_params:
+            path_params['endpointID'] = local_var_params['endpoint_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'notification_endpoint_update' in local_var_params:
+            body_params = local_var_params['notification_endpoint_update']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/notificationEndpoints/{endpointID}', 'PATCH',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='NotificationEndpoint',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def post_notification_endpoint_id_labels(self, endpoint_id, label_mapping, **kwargs):  # noqa: E501
+        """add a label to a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_notification_endpoint_id_labels(endpoint_id, label_mapping, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param LabelMapping label_mapping: label to add (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.post_notification_endpoint_id_labels_with_http_info(endpoint_id, label_mapping, **kwargs)  # noqa: E501
+        else:
+            (data) = self.post_notification_endpoint_id_labels_with_http_info(endpoint_id, label_mapping, **kwargs)  # noqa: E501
+            return data
+
+    def post_notification_endpoint_id_labels_with_http_info(self, endpoint_id, label_mapping, **kwargs):  # noqa: E501
+        """add a label to a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_notification_endpoint_id_labels_with_http_info(endpoint_id, label_mapping, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of the notification endpoint (required)
+        :param LabelMapping label_mapping: label to add (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['endpoint_id', 'label_mapping', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method post_notification_endpoint_id_labels" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'endpoint_id' is set
+        if ('endpoint_id' not in local_var_params or
+                local_var_params['endpoint_id'] is None):
+            raise ValueError("Missing the required parameter `endpoint_id` when calling `post_notification_endpoint_id_labels`")  # noqa: E501
+        # verify the required parameter 'label_mapping' is set
+        if ('label_mapping' not in local_var_params or
+                local_var_params['label_mapping'] is None):
+            raise ValueError("Missing the required parameter `label_mapping` when calling `post_notification_endpoint_id_labels`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'endpoint_id' in local_var_params:
+            path_params['endpointID'] = local_var_params['endpoint_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'label_mapping' in local_var_params:
+            body_params = local_var_params['label_mapping']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/notificationEndpoints/{endpointID}/labels', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='LabelResponse',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def put_notification_endpoints_id(self, endpoint_id, notification_endpoint, **kwargs):  # noqa: E501
+        """Update a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.put_notification_endpoints_id(endpoint_id, notification_endpoint, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of notification endpoint (required)
+        :param NotificationEndpoint notification_endpoint: a new notification endpoint to replace the existing endpoint with (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: NotificationEndpoint
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.put_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
+        else:
+            (data) = self.put_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
+            return data
+
+    def put_notification_endpoints_id_with_http_info(self, endpoint_id, notification_endpoint, **kwargs):  # noqa: E501
+        """Update a notification endpoint  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.put_notification_endpoints_id_with_http_info(endpoint_id, notification_endpoint, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str endpoint_id: ID of notification endpoint (required)
+        :param NotificationEndpoint notification_endpoint: a new notification endpoint to replace the existing endpoint with (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -486,18 +910,18 @@ class NotificationEndpointsService(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_notification_endpoints_id" % key
+                    " to method put_notification_endpoints_id" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'endpoint_id' is set
         if ('endpoint_id' not in local_var_params or
                 local_var_params['endpoint_id'] is None):
-            raise ValueError("Missing the required parameter `endpoint_id` when calling `patch_notification_endpoints_id`")  # noqa: E501
+            raise ValueError("Missing the required parameter `endpoint_id` when calling `put_notification_endpoints_id`")  # noqa: E501
         # verify the required parameter 'notification_endpoint' is set
         if ('notification_endpoint' not in local_var_params or
                 local_var_params['notification_endpoint'] is None):
-            raise ValueError("Missing the required parameter `notification_endpoint` when calling `patch_notification_endpoints_id`")  # noqa: E501
+            raise ValueError("Missing the required parameter `notification_endpoint` when calling `put_notification_endpoints_id`")  # noqa: E501
 
         collection_formats = {}
 
@@ -529,7 +953,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}', 'PATCH',
+            '/notificationEndpoints/{endpointID}', 'PUT',
             path_params,
             query_params,
             header_params,

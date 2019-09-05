@@ -32,7 +32,7 @@ class NotificationRuleBase(object):
     """
     openapi_types = {
         'id': 'str',
-        'notify_endpoint_id': 'str',
+        'endpoint_id': 'str',
         'org_id': 'str',
         'owner_id': 'str',
         'created_at': 'datetime',
@@ -54,7 +54,7 @@ class NotificationRuleBase(object):
 
     attribute_map = {
         'id': 'id',
-        'notify_endpoint_id': 'notifyEndpointID',
+        'endpoint_id': 'endpointID',
         'org_id': 'orgID',
         'owner_id': 'ownerID',
         'created_at': 'createdAt',
@@ -74,11 +74,11 @@ class NotificationRuleBase(object):
         'labels': 'labels'
     }
 
-    def __init__(self, id=None, notify_endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
+    def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
         """NotificationRuleBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
-        self._notify_endpoint_id = None
+        self._endpoint_id = None
         self._org_id = None
         self._owner_id = None
         self._created_at = None
@@ -99,8 +99,8 @@ class NotificationRuleBase(object):
         self.discriminator = None
 
         self.id = id
-        if notify_endpoint_id is not None:
-            self.notify_endpoint_id = notify_endpoint_id
+        if endpoint_id is not None:
+            self.endpoint_id = endpoint_id
         self.org_id = org_id
         if owner_id is not None:
             self.owner_id = owner_id
@@ -155,25 +155,25 @@ class NotificationRuleBase(object):
         self._id = id
 
     @property
-    def notify_endpoint_id(self):
-        """Gets the notify_endpoint_id of this NotificationRuleBase.  # noqa: E501
+    def endpoint_id(self):
+        """Gets the endpoint_id of this NotificationRuleBase.  # noqa: E501
 
 
-        :return: The notify_endpoint_id of this NotificationRuleBase.  # noqa: E501
+        :return: The endpoint_id of this NotificationRuleBase.  # noqa: E501
         :rtype: str
         """
-        return self._notify_endpoint_id
+        return self._endpoint_id
 
-    @notify_endpoint_id.setter
-    def notify_endpoint_id(self, notify_endpoint_id):
-        """Sets the notify_endpoint_id of this NotificationRuleBase.
+    @endpoint_id.setter
+    def endpoint_id(self, endpoint_id):
+        """Sets the endpoint_id of this NotificationRuleBase.
 
 
-        :param notify_endpoint_id: The notify_endpoint_id of this NotificationRuleBase.  # noqa: E501
+        :param endpoint_id: The endpoint_id of this NotificationRuleBase.  # noqa: E501
         :type: str
         """
 
-        self._notify_endpoint_id = notify_endpoint_id
+        self._endpoint_id = endpoint_id
 
     @property
     def org_id(self):

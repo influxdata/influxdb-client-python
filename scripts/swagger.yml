@@ -5175,7 +5175,7 @@ paths:
       operationId: GetChecksID
       tags:
         - Checks
-      summary: Get an check
+      summary: Get a check
       parameters:
         - $ref: '#/components/parameters/TraceSpan'
         - in: path
@@ -5264,6 +5264,101 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  '/checks/{checkID}/labels':
+    get:
+      operationId: GetChecksIDLabels
+      tags:
+        - Checks
+      summary: list all labels for a check
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of the check
+      responses:
+        '200':
+          description: a list of all labels for a check
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelsResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: PostChecksIDLabels
+      tags:
+        - Checks
+      summary: add a label to a check
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of the check
+      requestBody:
+        description: label to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabelMapping"
+      responses:
+        '201':
+          description: the label was added to the check
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/checks/{checkID}/labels/{labelID}':
+    delete:
+      operationId: DeleteChecksIDLabelsID
+      tags:
+        - Checks
+      summary: delete label from a check
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of the check
+        - in: path
+          name: labelID
+          schema:
+            type: string
+          required: true
+          description: the label id to delete
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: check or label not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /notificationRules:
     get:
       operationId: GetNotificationRules
@@ -5284,6 +5379,13 @@ paths:
           description: only show notifications that belong to the specified check
           schema:
             type: string
+        - in: query
+          name: tag
+          description: only show notification rules that match a tag pair. Uses AND logic if multiple tags are specified.
+          schema:
+            type: string
+            pattern: ^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$
+            example: env:prod
       responses:
         '200':
           description: A list of notification rules
@@ -5316,6 +5418,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/NotificationRule"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/checks/{checkID}/query':
+    get:
+      operationId: GetChecksIDQuery
+      tags:
+        - Checks
+      summary: Get an check query
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: checkID
+          schema:
+            type: string
+          required: true
+          description: ID of check
+      responses:
+        '200':
+          description: the check query requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FluxResponse"
+        '400':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: check not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         default:
           description: unexpected error
           content:
@@ -5455,6 +5596,101 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  '/notificationRules/{ruleID}/labels':
+    get:
+      operationId: GetNotificationRulesIDLabels
+      tags:
+        - NotificationRules
+      summary: list all labels for a notification rule
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification rule
+      responses:
+        '200':
+          description: a list of all labels for a notification rule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelsResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: PostNotificationRuleIDLabels
+      tags:
+        - NotificationRules
+      summary: add a label to a notification rule
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification rule
+      requestBody:
+        description: label to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabelMapping"
+      responses:
+        '201':
+          description: the label was added to the notification rule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/notificationRules/{ruleID}/labels/{labelID}':
+    delete:
+      operationId: DeleteNotificationRulesIDLabelsID
+      tags:
+        - NotificationRules
+      summary: delete label from a notification rule
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: ruleID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification rule
+        - in: path
+          name: labelID
+          schema:
+            type: string
+          required: true
+          description: the label id to delete
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: rule or label not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /notificationEndpoints:
     get:
       operationId: GetNotificationEndpoints
@@ -5472,7 +5708,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A list of notification rules
+          description: A list of notification endpoints
           content:
             application/json:
               schema:
@@ -5501,7 +5737,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NotificationRule"
+                $ref: "#/components/schemas/NotificationEndpoint"
         default:
           description: unexpected error
           content:
@@ -5535,6 +5771,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    put:
+      operationId: PutNotificationEndpointsID
+      tags:
+        - NotificationEndpoints
+      summary: Update a notification endpoint
+      requestBody:
+        description: a new notification endpoint to replace the existing endpoint with
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationEndpoint"
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of notification endpoint
+      responses:
+        '200':
+          description: An updated notification endpoint
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationEndpoint"
+        '404':
+          description: The notification endpoint was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     patch:
       operationId: PatchNotificationEndpointsID
       tags:
@@ -5546,7 +5821,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NotificationEndpoint"
+              $ref: "#/components/schemas/NotificationEndpointUpdate"
       parameters:
         - $ref: '#/components/parameters/TraceSpan'
         - in: path
@@ -5592,6 +5867,101 @@ paths:
           description: delete has been accepted
         '404':
           description: The endpoint was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/notificationEndpoints/{endpointID}/labels':
+    get:
+      operationId: GetNotificationEndpointsIDLabels
+      tags:
+        - NotificationEndpoints
+      summary: list all labels for a notification endpoint
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification endpoint
+      responses:
+        '200':
+          description: a list of all labels for a notification endpoint
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelsResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: PostNotificationEndpointIDLabels
+      tags:
+        - NotificationEndpoints
+      summary: add a label to a notification endpoint
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification endpoint
+      requestBody:
+        description: label to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabelMapping"
+      responses:
+        '201':
+          description: the label was added to the notification endpoint
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  '/notificationEndpoints/{endpointID}/labels/{labelID}':
+    delete:
+      operationId: DeleteNotificationEndpointsIDLabelsID
+      tags:
+        - NotificationEndpoints
+      summary: delete label from a notification endpoint
+      parameters:
+        - $ref: '#/components/parameters/TraceSpan'
+        - in: path
+          name: endpointID
+          schema:
+            type: string
+          required: true
+          description: ID of the notification endpoint
+        - in: path
+          name: labelID
+          schema:
+            type: string
+          required: true
+          description: the label id to delete
+      responses:
+        '204':
+          description: delete has been accepted
+        '404':
+          description: endpoint or label not found
           content:
             application/json:
               schema:
@@ -8875,6 +9245,11 @@ components:
         description:
           description: An optional description of the task.
           type: string
+    FluxResponse:
+      description: Rendered flux that backs the check or notification.
+      properties:
+        flux:
+          type: string
     Check:
       oneOf:
         - $ref: "#/components/schemas/DeadmanCheck"
@@ -8940,7 +9315,7 @@ components:
           type: string
         labels:
           $ref: "#/components/schemas/Labels"
-      required: [name, orgID, query]
+      required: [name, type, orgID, query]
     ThresholdCheck:
       allOf:
         - $ref: "#/components/schemas/CheckBase"
@@ -8967,8 +9342,11 @@ components:
               type: string
               enum: [deadman]
             timeSince:
-              description: seconds before deadman triggers
-              type: integer
+              description: string duration before deadman triggers
+              type: string
+            staleTime:
+              description: string duration for time that a series is considered stale and should not trigger deadman
+              type: string
             reportZero:
               description: if only zero values reported since time, trigger alert
               type: boolean
@@ -9026,6 +9404,10 @@ components:
       description: the state to record if check matches a criteria
       type: string
       enum: ["UNKNOWN", "OK", "INFO", "CRIT", "WARN"]
+    RuleStatusLevel:
+      description: the state to record if check matches a criteria
+      type: string
+      enum: ["UNKNOWN", "OK", "INFO", "CRIT", "WARN", "ANY"]
     NotificationRuleUpdate:
       type: object
       properties:
@@ -9065,7 +9447,7 @@ components:
         id:
           readOnly: true
           type: string
-        notifyEndpointID:
+        endpointID:
           type: string
           readOnly: true
         orgID:
@@ -9137,21 +9519,13 @@ components:
       type: object
       properties:
         currentLevel:
-          $ref: "#/components/schemas/LevelRule"
+          $ref: "#/components/schemas/RuleStatusLevel"
         previousLevel:
-          $ref: "#/components/schemas/LevelRule"
+          $ref: "#/components/schemas/RuleStatusLevel"
         count:
           type: integer
         period:
           type: string
-    LevelRule:
-      type: object
-      properties:
-        level:
-          $ref: "#/components/schemas/CheckStatusLevel"
-        operation:
-          type: string
-          enum: ["equal", "notequal"]
     HTTPNotificationRuleBase:
       type: object
       required: [type, url]
@@ -9210,17 +9584,29 @@ components:
           enum: [pagerduty]
         messageTemplate:
           type: string
+    NotificationEndpointUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
     NotificationEndpoint:
       oneOf:
         - $ref: "#/components/schemas/SlackNotificationEndpoint"
         - $ref: "#/components/schemas/PagerDutyNotificationEndpoint"
-        - $ref: "#/components/schemas/WebhookNotificationEndpoint"
+        - $ref: "#/components/schemas/HTTPNotificationEndpoint"
       discriminator:
         propertyName: type
         mapping:
           slack: "#/components/schemas/SlackNotificationEndpoint"
           pagerduty:  "#/components/schemas/PagerDutyNotificationEndpoint"
-          webhook: "#/components/schemas/WebhookNotificationEndpoint"
+          http: "#/components/schemas/HTTPNotificationEndpoint"
     NotificationEndpoints:
       properties:
         notificationEndpoints:
@@ -9283,12 +9669,12 @@ components:
               type: string
             routingKey:
               type: string
-    WebhookNotificationEndpoint:
+    HTTPNotificationEndpoint:
       type: object
       allOf:
         - $ref: "#/components/schemas/NotificationEndpointBase"
         - type: object
-          required: [url, authmethod, method]
+          required: [url, authMethod, method]
           properties:
             url:
               type: string
@@ -9301,14 +9687,14 @@ components:
             method:
               type: string
               enum: ['POST', 'GET', 'PUT']
-            authmethod:
+            authMethod:
               type: string
               enum: ['none', 'basic', 'bearer']
             contentTemplate:
               type: string
     NotificationEndpointType:
       type: string
-      enum: ['slack', 'pagerduty', 'webhook']
+      enum: ['slack', 'pagerduty', 'http']
   securitySchemes:
     BasicAuth:
       type: http

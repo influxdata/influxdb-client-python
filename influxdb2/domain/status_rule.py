@@ -31,8 +31,8 @@ class StatusRule(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'current_level': 'LevelRule',
-        'previous_level': 'LevelRule',
+        'current_level': 'RuleStatusLevel',
+        'previous_level': 'RuleStatusLevel',
         'count': 'int',
         'period': 'str'
     }
@@ -68,7 +68,7 @@ class StatusRule(object):
 
 
         :return: The current_level of this StatusRule.  # noqa: E501
-        :rtype: LevelRule
+        :rtype: RuleStatusLevel
         """
         return self._current_level
 
@@ -78,7 +78,7 @@ class StatusRule(object):
 
 
         :param current_level: The current_level of this StatusRule.  # noqa: E501
-        :type: LevelRule
+        :type: RuleStatusLevel
         """
 
         self._current_level = current_level
@@ -89,7 +89,7 @@ class StatusRule(object):
 
 
         :return: The previous_level of this StatusRule.  # noqa: E501
-        :rtype: LevelRule
+        :rtype: RuleStatusLevel
         """
         return self._previous_level
 
@@ -99,7 +99,7 @@ class StatusRule(object):
 
 
         :param previous_level: The previous_level of this StatusRule.  # noqa: E501
-        :type: LevelRule
+        :type: RuleStatusLevel
         """
 
         self._previous_level = previous_level

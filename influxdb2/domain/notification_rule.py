@@ -33,7 +33,7 @@ class NotificationRule(NotificationRuleBase):
     """
     openapi_types = {
         'id': 'str',
-        'notify_endpoint_id': 'str',
+        'endpoint_id': 'str',
         'org_id': 'str',
         'owner_id': 'str',
         'created_at': 'datetime',
@@ -55,7 +55,7 @@ class NotificationRule(NotificationRuleBase):
 
     attribute_map = {
         'id': 'id',
-        'notify_endpoint_id': 'notifyEndpointID',
+        'endpoint_id': 'endpointID',
         'org_id': 'orgID',
         'owner_id': 'ownerID',
         'created_at': 'createdAt',
@@ -75,9 +75,9 @@ class NotificationRule(NotificationRuleBase):
         'labels': 'labels'
     }
 
-    def __init__(self, id=None, notify_endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
+    def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
         """NotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        NotificationRuleBase.__init__(self, id=id, notify_endpoint_id=notify_endpoint_id, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, status=status, name=name, sleep_until=sleep_until, every=every, offset=offset, cron=cron, runbook_link=runbook_link, limit_every=limit_every, limit=limit, tag_rules=tag_rules, description=description, status_rules=status_rules, labels=labels)
+        NotificationRuleBase.__init__(self, id=id, endpoint_id=endpoint_id, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, status=status, name=name, sleep_until=sleep_until, every=every, offset=offset, cron=cron, runbook_link=runbook_link, limit_every=limit_every, limit=limit, tag_rules=tag_rules, description=description, status_rules=status_rules, labels=labels)
         self.discriminator = None
 
     def to_dict(self):

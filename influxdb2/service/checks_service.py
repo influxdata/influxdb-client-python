@@ -228,6 +228,112 @@ class ChecksService(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def delete_checks_id_labels_id(self, check_id, label_id, **kwargs):  # noqa: E501
+        """delete label from a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_checks_id_labels_id(check_id, label_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param str label_id: the label id to delete (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.delete_checks_id_labels_id_with_http_info(check_id, label_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_checks_id_labels_id_with_http_info(check_id, label_id, **kwargs)  # noqa: E501
+            return data
+
+    def delete_checks_id_labels_id_with_http_info(self, check_id, label_id, **kwargs):  # noqa: E501
+        """delete label from a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_checks_id_labels_id_with_http_info(check_id, label_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param str label_id: the label id to delete (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['check_id', 'label_id', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_checks_id_labels_id" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'check_id' is set
+        if ('check_id' not in local_var_params or
+                local_var_params['check_id'] is None):
+            raise ValueError("Missing the required parameter `check_id` when calling `delete_checks_id_labels_id`")  # noqa: E501
+        # verify the required parameter 'label_id' is set
+        if ('label_id' not in local_var_params or
+                local_var_params['label_id'] is None):
+            raise ValueError("Missing the required parameter `label_id` when calling `delete_checks_id_labels_id`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'check_id' in local_var_params:
+            path_params['checkID'] = local_var_params['check_id']  # noqa: E501
+        if 'label_id' in local_var_params:
+            path_params['labelID'] = local_var_params['label_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/checks/{checkID}/labels/{labelID}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_checks(self, org_id, **kwargs):  # noqa: E501
         """Get all checks  # noqa: E501
 
@@ -337,7 +443,7 @@ class ChecksService(object):
             collection_formats=collection_formats)
 
     def get_checks_id(self, check_id, **kwargs):  # noqa: E501
-        """Get an check  # noqa: E501
+        """Get a check  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -359,7 +465,7 @@ class ChecksService(object):
             return data
 
     def get_checks_id_with_http_info(self, check_id, **kwargs):  # noqa: E501
-        """Get an check  # noqa: E501
+        """Get a check  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -427,6 +533,202 @@ class ChecksService(object):
             post_params=form_params,
             files=local_var_files,
             response_type='Check',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_checks_id_labels(self, check_id, **kwargs):  # noqa: E501
+        """list all labels for a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_checks_id_labels(check_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelsResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_checks_id_labels_with_http_info(check_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_checks_id_labels_with_http_info(check_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_checks_id_labels_with_http_info(self, check_id, **kwargs):  # noqa: E501
+        """list all labels for a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_checks_id_labels_with_http_info(check_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelsResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['check_id', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_checks_id_labels" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'check_id' is set
+        if ('check_id' not in local_var_params or
+                local_var_params['check_id'] is None):
+            raise ValueError("Missing the required parameter `check_id` when calling `get_checks_id_labels`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'check_id' in local_var_params:
+            path_params['checkID'] = local_var_params['check_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/checks/{checkID}/labels', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='LabelsResponse',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_checks_id_query(self, check_id, **kwargs):  # noqa: E501
+        """Get an check query  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_checks_id_query(check_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of check (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: FluxResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_checks_id_query_with_http_info(check_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_checks_id_query_with_http_info(check_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_checks_id_query_with_http_info(self, check_id, **kwargs):  # noqa: E501
+        """Get an check query  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_checks_id_query_with_http_info(check_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of check (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: FluxResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['check_id', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_checks_id_query" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'check_id' is set
+        if ('check_id' not in local_var_params or
+                local_var_params['check_id'] is None):
+            raise ValueError("Missing the required parameter `check_id` when calling `get_checks_id_query`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'check_id' in local_var_params:
+            path_params['checkID'] = local_var_params['check_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/checks/{checkID}/query', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='FluxResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -537,6 +839,116 @@ class ChecksService(object):
             post_params=form_params,
             files=local_var_files,
             response_type='Check',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def post_checks_id_labels(self, check_id, label_mapping, **kwargs):  # noqa: E501
+        """add a label to a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_checks_id_labels(check_id, label_mapping, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param LabelMapping label_mapping: label to add (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.post_checks_id_labels_with_http_info(check_id, label_mapping, **kwargs)  # noqa: E501
+        else:
+            (data) = self.post_checks_id_labels_with_http_info(check_id, label_mapping, **kwargs)  # noqa: E501
+            return data
+
+    def post_checks_id_labels_with_http_info(self, check_id, label_mapping, **kwargs):  # noqa: E501
+        """add a label to a check  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_checks_id_labels_with_http_info(check_id, label_mapping, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str check_id: ID of the check (required)
+        :param LabelMapping label_mapping: label to add (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: LabelResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['check_id', 'label_mapping', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method post_checks_id_labels" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'check_id' is set
+        if ('check_id' not in local_var_params or
+                local_var_params['check_id'] is None):
+            raise ValueError("Missing the required parameter `check_id` when calling `post_checks_id_labels`")  # noqa: E501
+        # verify the required parameter 'label_mapping' is set
+        if ('label_mapping' not in local_var_params or
+                local_var_params['label_mapping'] is None):
+            raise ValueError("Missing the required parameter `label_mapping` when calling `post_checks_id_labels`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'check_id' in local_var_params:
+            path_params['checkID'] = local_var_params['check_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'label_mapping' in local_var_params:
+            body_params = local_var_params['label_mapping']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/checks/{checkID}/labels', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='LabelResponse',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
