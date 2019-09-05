@@ -5,7 +5,7 @@
 1. [#5](https://github.com/bonitoo-io/influxdb-client-python/issues/5): Added support for gzip compression of query response and write body 
  
 ### API
-1. [#9](https://github.com/bonitoo-io/influxdb-client-python/issues/9): Updated swagger to latest version
+1. [#10](https://github.com/bonitoo-io/influxdb-client-python/issues/10): Updated swagger to latest version
 
 ### Bugs
 1. [#3](https://github.com/bonitoo-io/influxdb-client-python/issues/3): The management API correctly supports inheritance defined in Influx API
