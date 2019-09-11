@@ -6,7 +6,7 @@ from numbers import Integral
 
 import dateutil.parser
 from pytz import UTC
-from six import iteritems, binary_type, PY2
+from six import iteritems
 
 from influxdb2.domain.write_precision import WritePrecision
 
@@ -104,7 +104,7 @@ def _append_time(time, write_precission):
 
 
 def _escape_tag(tag):
-    return _get_unicode(str(tag)).replace("\\", "\\\\").replace(" ", "\\ ").replace(",", "\\,").replace("=", "\\=")
+    return str(tag).replace("\\", "\\\\").replace(" ", "\\ ").replace(",", "\\,").replace("=", "\\=")
 
 
 def _escape_tag_value(value):
@@ -149,18 +149,3 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
         #     return ns / 1e9 / 3600
 
     raise ValueError(timestamp)
-
-
-def _get_unicode(data, force=False):
-    """Try to return a text aka unicode object from the given data."""
-    if isinstance(data, binary_type):
-        return data.decode('utf-8')
-    elif data is None:
-        return ''
-    elif force:
-        if PY2:
-            return unicode(data)
-        else:
-            return str(data)
-    else:
-        return data

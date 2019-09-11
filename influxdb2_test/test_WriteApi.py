@@ -7,6 +7,7 @@ import unittest
 from multiprocessing.pool import ApplyResult
 
 from influxdb2 import WritePrecision
+from influxdb2.client.write.point import Point
 from influxdb2.client.write_api import SYNCHRONOUS, ASYNCHRONOUS
 from influxdb2.rest import ApiException
 from influxdb2_test.base_test import BaseTest
@@ -86,6 +87,32 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual("h2o_feet", records[1].get_measurement())
         self.assertEqual(2, records[1].get_value())
         self.assertEqual("level water_level", records[1].get_field())
+
+    def test_write_points_unicode(self):
+        bucket = self.create_test_bucket()
+
+        measurement = "h2o_feet_ěščřĚŠČŘ"
+        field_name = "field_ěščř"
+        utf8_val = "Přerov 🍺"
+        tag = "tag_ěščř"
+        tag_value = "tag_value_ěščř"
+
+        p = Point(measurement)
+        p.field(field_name, utf8_val)
+        p.tag(tag, tag_value)
+        record_list = [p]
+
+        self.write_client.write(bucket.name, self.org, record_list)
+        self.write_client.flush()
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        flux_result = self.client.query_api().query(query)
+        self.assertEqual(1, len(flux_result))
+        rec = flux_result[0].records[0]
+
+        self.assertEqual(measurement, rec.get_measurement())
+        self.assertEqual(utf8_val, rec.get_value())
+        self.assertEqual(field_name, rec.get_field())
 
     def test_write_result(self):
         _bucket = self.create_test_bucket()

@@ -26,8 +26,20 @@ class WriteType(Enum):
 
 class WriteOptions(object):
 
-    def __init__(self, write_type=WriteType.batching, batch_size=1_000, flush_interval=1_000, jitter_interval=0,
-                 retry_interval=1_000, write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
+    def __init__(self, write_type: WriteType = WriteType.batching,
+                 batch_size=1_000, flush_interval=1_000,
+                 jitter_interval=0,
+                 retry_interval=1_000,
+                 write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
+        """
+        Creates configuration
+        :param write_type: methods of write (batching, asynchronous, synchronous)
+        :param batch_size:
+        :param flush_interval:
+        :param jitter_interval:
+        :param retry_interval:
+        :param write_scheduler:
+        """
         self.write_type = write_type
         self.batch_size = batch_size
         self.flush_interval = flush_interval
@@ -108,7 +120,7 @@ def _window_to_group(value):
 
 class WriteApi(AbstractClient):
 
-    def __init__(self, service, write_options=WriteOptions()) -> None:
+    def __init__(self, service, write_options: WriteOptions = WriteOptions()) -> None:
         self._write_service = service
         self._write_options = write_options
         if self._write_options.write_type is WriteType.batching:
@@ -201,7 +213,7 @@ class WriteApi(AbstractClient):
         return _BatchResponse(data=batch_item)
 
     def _post_write(self, _async_req, bucket, org, body, precision):
-        return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
+        return self._write_service.post_write(org=org, bucket=bucket, body=body.encode("utf-8"), precision=precision,
                                               async_req=_async_req, content_encoding="identity",
                                               content_type="text/plain; charset=utf-8")
 

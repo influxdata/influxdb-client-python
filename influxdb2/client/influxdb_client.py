@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
-import influxdb2
-from influxdb2 import Configuration
+from influxdb2 import Configuration, ApiClient, WriteService
 from influxdb2.client.authorizations_api import AuthorizationsApi
 from influxdb2.client.bucket_api import BucketsApi
 from influxdb2.client.labels_api import LabelsApi
@@ -14,26 +13,20 @@ from influxdb2.client.write_api import WriteApi, WriteOptions
 
 class InfluxDBClient(object):
 
-    def __init__(self,
-                 url,
-                 token,
-                 auth_scheme='token',
-                 username=None,
-                 password=None,
-                 debug=None,
-                 timeout=10000,
-                 enable_gzip=False,
-                 org=None) -> None:
+    def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None) -> None:
         """
-
+        Creates a new client instance
+        :param url: InfluxDB server API url (ex. http://localhost:9999/api/v2)
+        :param token: auth token
+        :param debug: enable verbose logging of http requests
+        :param timeout: default http client timeout
         :param enable_gzip: Enable Gzip compress for http requests. Currently only the "Write" and "Query" endpoints
                             supports the Gzip compression.
+        :param org: organization name (used as a default in query and write API)
+
         """
         self.url = url
-        self.auth_scheme = auth_scheme
         self.token = token
-        self.username = username
-        self.password = password
         self.timeout = timeout
         self.org = org
 
@@ -46,17 +39,29 @@ class InfluxDBClient(object):
         auth_header_name = "Authorization"
         auth_header_value = "Token " + auth_token
 
-        self.api_client = influxdb2.ApiClient(configuration=conf, header_name=auth_header_name,
-                                              header_value=auth_header_value)
+        self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
+                                    header_value=auth_header_value)
 
-    def write_api(self, write_options=WriteOptions()):
-        service = influxdb2.service.write_service.WriteService(self.api_client)
+    def write_api(self, write_options=WriteOptions()) -> WriteApi:
+        """
+        Creates a Write API instance
+        :param write_options: write api configuration
+        :return: write api instance
+        """
+        service = WriteService(self.api_client)
         return WriteApi(service=service, write_options=write_options)
 
-    def query_api(self):
+    def query_api(self) -> QueryApi:
+        """
+        Creates a Query API instance
+        :return: Query api instance
+        """
         return QueryApi(self)
 
     def close(self):
+        """
+        Shutdowns the client
+        """
         self.__del__()
 
     def __del__(self):
@@ -65,26 +70,49 @@ class InfluxDBClient(object):
             self.api_client = None
 
     def buckets_api(self) -> BucketsApi:
+        """
+        Creates the Bucket API instance
+        :return: buckets api
+        """
         return BucketsApi(self)
 
     def authorizations_api(self) -> AuthorizationsApi:
+        """
+        Creates the Authorizations API instance
+        :return: authorizations api
+        """
         return AuthorizationsApi(self)
 
     def users_api(self) -> UsersApi:
+        """
+        Creates the Users api
+        :return: users api
+        """
         return UsersApi(self)
 
     def organizations_api(self) -> OrganizationsApi:
+        """
+        Creates the Organizations api
+        :return: organizations api
+        """
         return OrganizationsApi(self)
 
     def tasks_api(self) -> TasksApi:
+        """
+        Creates the Tasks api
+        :return: tasks api
+        """
         return TasksApi(self)
 
     def labels_api(self) -> LabelsApi:
+        """
+        Creates the Labels api
+        :return: labels api
+        """
         return LabelsApi(self)
 
 
 class _Configuration(Configuration):
-
     def __init__(self):
         Configuration.__init__(self)
         self.enable_gzip = False
@@ -111,5 +139,9 @@ class _Configuration(Configuration):
             # GZIP Request
             if path == '/write':
                 import gzip
-                return gzip.compress(bytes(_body, "utf-8"))
+                if isinstance(_body, bytes):
+                    return gzip.compress(data=_body)
+                else:
+                    return gzip.compress(bytes(_body, "utf-8"))
+
         return _body

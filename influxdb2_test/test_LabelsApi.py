@@ -13,15 +13,15 @@ class TestLabelsApi(BaseTest):
         for label in labels:
             self.labels_api.delete_label(label)
 
-    def test_create_label(self):
-        name = self.generate_name("Cool resource")
-        properties = {"color": "red", "source": "remote api"}
+    def test_create_label_unicode(self):
+        name = self.generate_name("Cool resource 🍺")
+        properties = {"color": "red 🍺", "source": "remote api"}
 
         label = self.labels_api.create_label(name, self.organization.id, properties)
         self.assertIsNotNone(label)
         self.assertIsNotNone(label.id)
         self.assertEqual(label.name, name)
-        self.assertEqual(label.properties["color"], "red")
+        self.assertEqual(label.properties["color"], "red 🍺")
         self.assertEqual(label.properties["source"], "remote api")
 
     def test_create_label_empty_properties(self):
@@ -115,5 +115,5 @@ class TestLabelsApi(BaseTest):
         self.organizations_api.delete_organization(organization.id)
 
         with pytest.raises(ApiException) as e:
-            assert self.organizations_api.find_organization(id=organization.id)
+            assert self.organizations_api.find_organization(org_id=organization.id)
         assert "organization not found" in e.value.body

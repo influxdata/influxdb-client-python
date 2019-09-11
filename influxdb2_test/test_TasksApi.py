@@ -20,7 +20,7 @@ class TasksApiTest(BaseTest):
         self.authorization = self.add_tasks_authorization(self.organization)
         self.client.close()
 
-        self.client = InfluxDBClient(self.host, self.authorization.token, debug=self.conf.debug, org=self.org)
+        self.client = InfluxDBClient(self.host, self.authorization.token, debug=self.conf.debug)
         self.tasks_api = self.client.tasks_api()
 
         tasks = self.tasks_api.find_tasks()
@@ -313,7 +313,7 @@ class TasksApiTest(BaseTest):
     def test_retry_run(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
 
-        time.sleep(2)
+        time.sleep(3)
 
         runs = self.tasks_api.get_runs(task.id)
         self.assertGreater(len(runs), 1)
@@ -357,6 +357,10 @@ class TasksApiTest(BaseTest):
 
         logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
         self.assertGreater(len(logs), 0)
+
+        for log in logs:
+            print(log)
+
         self.assertTrue(logs[-1].message.endswith("Completed successfully"))
 
     def test_runs_not_exists(self):

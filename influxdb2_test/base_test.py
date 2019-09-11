@@ -24,7 +24,7 @@ class BaseTest(unittest.TestCase):
         self.org = "my-org"
         self.bucket = "test_bucket"
 
-        self.client = InfluxDBClient(self.host, self.auth_token, debug=self.conf.debug, org="my-org")
+        self.client = InfluxDBClient(url=self.host, token=self.auth_token, debug=self.conf.debug, org=self.org)
         self.api_client = self.client.api_client
 
         self.query_api = self.client.query_api()
