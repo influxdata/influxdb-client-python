@@ -21,8 +21,8 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-<< parameters.python-version >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
-            - pip-cache-<< parameters.python-version >>-
+            - &cache-key pip-cache-v2-<< parameters.python-version >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
+            - pip-cache-v2-<< parameters.python-version >>-
       - run:
           name: "Running tests"
           command: |
@@ -37,7 +37,7 @@ commands:
           name: Saving Pip Cache
           key: *cache-key
           paths:
-            - ${PWD}/.cache
+            - ./cache
           when: always
 jobs:
   tests-python-3:
@@ -48,6 +48,9 @@ jobs:
           python-version: *default-python-version
       - store_test_results:
           path: test-reports
+      - run:
+          name: "Collecting coverage reports"
+          command: bash <(curl -s https://codecov.io/bash) -f ./coverage.xml || echo "Codecov did not collect coverage reports"
 
 workflows:
   version: 2
