@@ -129,7 +129,7 @@ class GzipSupportTest(BaseTest):
     def test_write_query_gzip(self):
         httpretty.disable()
 
-        self.client = InfluxDBClient("http://localhost:9999/api/v2", token="my-token", org="my-org", debug=False,
+        self.client = InfluxDBClient(self.host, token="my-token", org="my-org", debug=False,
                                      enable_gzip=True)
         self.api_client = self.client.api_client
         self.buckets_client = self.client.buckets_api()

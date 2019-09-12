@@ -32,6 +32,10 @@ INFLUXDB_V2_IMAGE=${DOCKER_REGISTRY}influx:${INFLUXDB_V2_VERSION}
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
+docker kill influxdb_v2 || true
+docker rm influxdb_v2 || true
+docker network rm influx_network || true
+docker network create -d bridge influx_network --subnet 192.168.0.0/24 --gateway 192.168.0.1
 
 #
 # InfluxDB 2.0
@@ -40,12 +44,11 @@ echo
 echo "Restarting InfluxDB 2.0 [${INFLUXDB_V2_IMAGE}] ... "
 echo
 
-docker kill my-influxdb2 || true
-docker rm my-influxdb2 || true
 docker pull ${INFLUXDB_V2_IMAGE} || true
 docker run \
        --detach \
-       --name my-influxdb2 \
+       --name influxdb_v2 \
+       --network influx_network \
        --publish 9999:9999 \
        ${INFLUXDB_V2_IMAGE}
 
@@ -55,12 +58,11 @@ wget -S --spider --tries=20 --retry-connrefused --waitretry=5 http://localhost:9
 echo
 echo "Post onBoarding request, to setup initial user (my-user@my-password), org (my-org) and bucketSetup (my-bucket)"
 echo
-
-docker exec -it my-influxdb2 influx setup --username my-user --password my-password \
-    --token my-token --org my-org --bucket my-bucket --retention 48 --force
-
-## show created orgId
-ORGID=`docker exec -it my-influxdb2 influx org find | grep my-org  | awk '{ print $1 }'`
-echo "orgId="${ORGID}
-
-
+curl -i -X POST http://localhost:9999/api/v2/setup -H 'accept: application/json' \
+    -d '{
+            "username": "my-user",
+            "password": "my-password",
+            "org": "my-org",
+            "bucket": "my-bucket",
+            "token": "my-token"
+        }'

@@ -1,4 +1,5 @@
 import datetime
+import os
 import re
 import time
 import unittest
@@ -18,7 +19,7 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.conf = influxdb2.configuration.Configuration()
-        self.host = "http://localhost:9999/api/v2"
+        self.host = "http://{0}:9999/api/v2".format(os.getenv("INFLUXDB_IP", "localhost"))
         self.debug = False
         self.auth_token = "my-token"
         self.org = "my-org"
