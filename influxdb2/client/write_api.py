@@ -4,6 +4,7 @@ from datetime import timedelta
 from enum import Enum
 from random import random
 from time import sleep
+from typing import Union, List
 
 import rx
 from rx import operators as ops, Observable
@@ -11,6 +12,7 @@ from rx.core import GroupedObservable
 from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
+from influxdb2 import WritePrecision, WriteService
 from influxdb2.client.abstract_client import AbstractClient
 from influxdb2.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb2.rest import ApiException
@@ -34,10 +36,11 @@ class WriteOptions(object):
         """
         Creates configuration
         :param write_type: methods of write (batching, asynchronous, synchronous)
-        :param batch_size:
-        :param flush_interval:
-        :param jitter_interval:
-        :param retry_interval:
+        :param batch_size: the number of data point to collect in batch
+        :param flush_interval: flush data at least in this interval
+        :param jitter_interval: this is primarily to avoid large write spikes for users running a large number of
+               client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
+        :param retry_interval: the time to wait before retry unsuccessful write
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -120,8 +123,9 @@ def _window_to_group(value):
 
 class WriteApi(AbstractClient):
 
-    def __init__(self, service, write_options: WriteOptions = WriteOptions()) -> None:
-        self._write_service = service
+    def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions()) -> None:
+        self._influxdb_client = influxdb_client
+        self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
         if self._write_options.write_type is WriteType.batching:
             self._subject = Subject()
@@ -138,10 +142,17 @@ class WriteApi(AbstractClient):
             self._subject = None
             self._disposable = None
 
-    def write(self, bucket, org, record, write_precision=None):
+    def write(self, bucket: str, org: str, record: Union[str, List['str'], Point, List['Point']],
+              write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
+        """
+        Writes time-series data into influxdb.
 
-        if write_precision is None:
-            write_precision = DEFAULT_WRITE_PRECISION
+        :return: None
+        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
+        :param str bucket: specifies the destination bucket for writes (required)
+        :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol
+        :param record: Points or line protocol to write
+        """
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record, write_precision)

@@ -99,6 +99,7 @@ class AuthorizationsClientTest(BaseTest):
         self.assertEqual(authorization.permissions[1].resource.id, bucket.id)
         self.assertEqual(authorization.permissions[1].resource.type, "buckets")
         self.assertEqual(authorization.permissions[1].action, "write")
+        self.delete_test_bucket(bucket)
 
     def test_findAuthorizationsByID(self):
         with pytest.raises(ApiException) as e:

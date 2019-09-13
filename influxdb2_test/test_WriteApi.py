@@ -87,6 +87,7 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual("h2o_feet", records[1].get_measurement())
         self.assertEqual(2, records[1].get_value())
         self.assertEqual("level water_level", records[1].get_field())
+        self.delete_test_bucket(bucket)
 
     def test_write_points_unicode(self):
         bucket = self.create_test_bucket()
@@ -154,6 +155,7 @@ class AsynchronousWriteTest(BaseTest):
 
         self.assertEqual(ApplyResult, type(result))
         self.assertEqual(None, result.get())
+        self.delete_test_bucket(_bucket)
 
 
 if __name__ == '__main__':

@@ -269,7 +269,7 @@ class TasksApiTest(BaseTest):
     def test_runs(self):
         task_name = self.generate_name("it task")
         task = self.tasks_api.create_task_every(task_name, TASK_FLUX, "1s", self.organization)
-        time.sleep(3)
+        time.sleep(5)
 
         runs = self.tasks_api.get_runs(task_id=task.id, limit=10)
         self.assertGreater(len(runs), 2)
@@ -313,7 +313,7 @@ class TasksApiTest(BaseTest):
     def test_retry_run(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
 
-        time.sleep(3)
+        time.sleep(5)
 
         runs = self.tasks_api.get_runs(task.id)
         self.assertGreater(len(runs), 1)
@@ -358,10 +358,13 @@ class TasksApiTest(BaseTest):
         logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
         self.assertGreater(len(logs), 0)
 
+        success = False
         for log in logs:
             print(log)
+            if log.message.endswith("Completed successfully"):
+                success = True
 
-        self.assertTrue(logs[-1].message.endswith("Completed successfully"))
+        self.assertTrue(success, "Completed successfully not found in log")
 
     def test_runs_not_exists(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)

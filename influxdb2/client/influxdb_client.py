@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from influxdb2 import Configuration, ApiClient, WriteService
+from influxdb2 import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb2.client.authorizations_api import AuthorizationsApi
 from influxdb2.client.bucket_api import BucketsApi
 from influxdb2.client.labels_api import LabelsApi
@@ -48,8 +48,7 @@ class InfluxDBClient(object):
         :param write_options: write api configuration
         :return: write api instance
         """
-        service = WriteService(self.api_client)
-        return WriteApi(service=service, write_options=write_options)
+        return WriteApi(influxdb_client=self, write_options=write_options)
 
     def query_api(self) -> QueryApi:
         """
@@ -110,6 +109,23 @@ class InfluxDBClient(object):
         :return: labels api
         """
         return LabelsApi(self)
+
+    def health(self) -> HealthCheck:
+        """
+        Get the health of an instance
+        :return:
+        """
+        health_service = HealthService(self.api_client)
+        return health_service.get_health()
+
+    def ready(self) -> Ready:
+        """
+        Gets The readiness of the InfluxDB 2.0.
+        :return:
+        """
+        ready_service = ReadyService(api_client=self)
+        return ready_service.get_ready()
+
 
 
 class _Configuration(Configuration):

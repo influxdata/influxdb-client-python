@@ -10,7 +10,8 @@ import rx
 from rx import operators as ops
 
 import influxdb2
-from influxdb2 import WritePrecision, WriteService
+from influxdb2 import WritePrecision
+from influxdb2.client import InfluxDBClient
 from influxdb2.client.write.point import Point
 from influxdb2.client.write_api import WriteOptions, WriteApi
 from influxdb2_test.base_test import BaseTest
@@ -31,12 +32,13 @@ class BatchingWriteTest(BaseTest):
         conf.host = "http://localhost"
         conf.debug = False
 
-        self._api_client = influxdb2.ApiClient(configuration=conf, header_name="Authorization",
-                                               header_value="Token my-token")
+        self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
 
-        self._write_client = WriteApi(service=WriteService(api_client=self._api_client),
-                                      write_options=WriteOptions(batch_size=2, flush_interval=5_000,
-                                                                 retry_interval=3_000))
+        # self._api_client = influxdb2.ApiClient(configuration=conf, header_name="Authorization",
+        #                                        header_value="Token my-token")
+
+        write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=3_000)
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=write_options)
 
     def tearDown(self) -> None:
         self._write_client.__del__()
@@ -159,7 +161,7 @@ class BatchingWriteTest(BaseTest):
 
     def test_jitter_interval(self):
         self._write_client.__del__()
-        self._write_client = WriteApi(service=WriteService(api_client=self._api_client),
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
                                       write_options=WriteOptions(batch_size=2, flush_interval=5_000,
                                                                  jitter_interval=3_000))
 

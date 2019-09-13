@@ -31,7 +31,7 @@ class BucketsClientTest(BaseTest):
         print(result)
         self.assertEqual(my_bucket, result)
 
-        self.buckets_api.delete_bucket(my_bucket.id)
+        self.delete_test_bucket(my_bucket)
 
         with pytest.raises(ApiException) as e:
             assert self.buckets_api.find_bucket_by_id(my_bucket.id)
@@ -50,6 +50,7 @@ class BucketsClientTest(BaseTest):
 
         none = self.buckets_api.find_bucket_by_name(bucket_name="non-existent-bucket")
         self.assertIsNone(none)
+        self.buckets_api.delete_bucket(my_bucket)
 
     def test_create_bucket_retention(self):
         my_org = self.find_my_org()
@@ -64,6 +65,7 @@ class BucketsClientTest(BaseTest):
         self.assertEqual(my_bucket.description, desc)
 
         print(my_bucket)
+        self.buckets_api.delete_bucket(my_bucket)
 
     def test_create_bucket_retention_list(self):
         my_org = self.find_my_org()
