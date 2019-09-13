@@ -31,7 +31,7 @@ commands:
                    --volume ${PWD}/.cache:/root/.cache/pip/ \
                    --workdir /usr/src/project \
                    --network influx_network \
-                   --env INFLUXDB_V2_URL="http://localhost:9999/api/v2" \
+                   --env INFLUXDB_V2_URL="http://192.168.0.2:9999/api/v2" \
                    python:<< parameters.python-version >> /bin/bash -c "./scripts/ci-test.sh"
       - save_cache:
           name: Saving Pip Cache
