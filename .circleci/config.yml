@@ -1,0 +1,70 @@
+version: 2.1
+
+commands:
+  influxdb-restart:
+    steps:
+      - run:
+          name: "Start InfluxDB service"
+          command: ./scripts/influxdb-restart.sh
+  prepare:
+    description: "Prepare environment to tests"
+    steps:
+      - checkout
+      - influxdb-restart
+  client-test:
+    description: "Run tests"
+    parameters:
+      python-version:
+        type: string
+        default: &default-python-version "3"
+    steps:
+      - restore_cache:
+          name: Restoring Pip Cache
+          keys:
+            - &cache-key pip-cache-v2-<< parameters.python-version >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
+            - pip-cache-v2-<< parameters.python-version >>-
+      - run:
+          name: "Running tests"
+          command: |
+            docker run -it --rm \
+                   --volume ${PWD}:/usr/src/project \
+                   --volume ${PWD}/.cache:/root/.cache/pip/ \
+                   --workdir /usr/src/project \
+                   --network influx_network \
+                   --env INFLUXDB_IP=192.168.0.2 \
+                   python:<< parameters.python-version >> /bin/bash -c "./scripts/ci-test.sh"
+      - save_cache:
+          name: Saving Pip Cache
+          key: *cache-key
+          paths:
+            - ./cache
+          when: always
+jobs:
+  tests-python-3:
+    machine: true
+    steps:
+      - prepare
+      - client-test:
+          python-version: *default-python-version
+      - store_test_results:
+          path: test-reports
+      - run:
+          name: "Collecting coverage reports"
+          command: bash <(curl -s https://codecov.io/bash) -f ./coverage.xml || echo "Codecov did not collect coverage reports"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - tests-python-3
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - tests-python-3
