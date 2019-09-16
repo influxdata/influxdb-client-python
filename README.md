@@ -1,7 +1,7 @@
 # influxdb-client-python
 
-[![CircleCI](https://circleci.com/gh/bonitoo-io/influxdb-client-python.svg?style=svg)](https://circleci.com/gh/bonitoo-io/influxdb-client-python)
-[![codecov](https://codecov.io/gh/bonitoo-io/influxdb-client-python/branch/master/graph/badge.svg)](https://codecov.io/gh/bonitoo-io/influxdb-client-python)
+[![CircleCI](https://circleci.com/gh/influxdata/influxdb-client-python.svg?style=svg)](https://circleci.com/gh/influxdata/influxdb-client-python)
+[![codecov](https://codecov.io/gh/influxdata/influxdb-client-python/branch/master/graph/badge.svg)](https://codecov.io/gh/influxdata/influxdb-client-python)
 
 InfluxDB 2.0 python client library. TODO...
 
@@ -24,9 +24,9 @@ Python 3.6+
 If the python package is hosted on Github, you can install directly from Github
 
 ```sh
-pip install git+https://github.com/bonitoo-io/influxdb-client-python.git
+pip install git+https://github.com/influxdata/influxdb-client-python.git
 ```
-(you may need to run `pip` with root permission: `sudo pip install git+https://github.com/bonitoo-io/influxdb-client-python.git`)
+(you may need to run `pip` with root permission: `sudo pip install git+https://github.com/influxdata/influxdb-client-python.git`)
 
 Then import the package:
 ```python
@@ -88,8 +88,8 @@ for row in csv_result:
 
 ### Writes
 
-The [WriteApi](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0. 
-The data should be passed as a [InfluxDB Line Protocol](https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial/), [Data Point](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2/client/write/point.py) or Observable stream. 
+The [WriteApi](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb2/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0. 
+The data should be passed as a [InfluxDB Line Protocol](https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial/), [Data Point](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb2/client/write/point.py) or Observable stream. 
 
 _The default instance of `WriteApi` use batching._
 
@@ -182,7 +182,7 @@ client.__del__()
 
 #### How to efficiently import large dataset
 
-- sources - [import_data_set.py](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2_test/import_data_set.py)
+- sources - [import_data_set.py](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb2_test/import_data_set.py)
 
 ```python
 """
@@ -277,7 +277,7 @@ client.__del__()
 
 #### Efficiency write data from IOT sensor 
 
-- sources - [iot_sensor.py](https://github.com/bonitoo-io/influxdb-client-python/blob/master/influxdb2_test/iot_sensor.py)
+- sources - [iot_sensor.py](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb2_test/iot_sensor.py)
 
 ```python
 """
