@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}', 'DELETE',
+            '/api/v2/documents/templates/{templateID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}/labels/{labelID}', 'DELETE',
+            '/api/v2/documents/templates/{templateID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates', 'GET',
+            '/api/v2/documents/templates', 'GET',
             path_params,
             query_params,
             header_params,
@@ -417,7 +415,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}', 'GET',
+            '/api/v2/documents/templates/{templateID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -515,7 +513,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}/labels', 'GET',
+            '/api/v2/documents/templates/{templateID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -617,7 +615,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates', 'POST',
+            '/api/v2/documents/templates', 'POST',
             path_params,
             query_params,
             header_params,
@@ -727,7 +725,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}/labels', 'POST',
+            '/api/v2/documents/templates/{templateID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -837,7 +835,7 @@ class TemplatesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/documents/templates/{templateID}', 'PUT',
+            '/api/v2/documents/templates/{templateID}', 'PUT',
             path_params,
             query_params,
             header_params,

@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints', 'POST',
+            '/api/v2/notificationEndpoints', 'POST',
             path_params,
             query_params,
             header_params,
@@ -213,7 +211,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}', 'DELETE',
+            '/api/v2/notificationEndpoints/{endpointID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
+            '/api/v2/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -427,7 +425,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints', 'GET',
+            '/api/v2/notificationEndpoints', 'GET',
             path_params,
             query_params,
             header_params,
@@ -525,7 +523,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}', 'GET',
+            '/api/v2/notificationEndpoints/{endpointID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -623,7 +621,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}/labels', 'GET',
+            '/api/v2/notificationEndpoints/{endpointID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -733,7 +731,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}', 'PATCH',
+            '/api/v2/notificationEndpoints/{endpointID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -843,7 +841,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}/labels', 'POST',
+            '/api/v2/notificationEndpoints/{endpointID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -953,7 +951,7 @@ class NotificationEndpointsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationEndpoints/{endpointID}', 'PUT',
+            '/api/v2/notificationEndpoints/{endpointID}', 'PUT',
             path_params,
             query_params,
             header_params,

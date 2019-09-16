@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class LabelsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/labels/{labelID}', 'DELETE',
+            '/api/v2/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -209,7 +207,7 @@ class LabelsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/labels', 'GET',
+            '/api/v2/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -307,7 +305,7 @@ class LabelsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/labels/{labelID}', 'GET',
+            '/api/v2/labels/{labelID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -417,7 +415,7 @@ class LabelsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/labels/{labelID}', 'PATCH',
+            '/api/v2/labels/{labelID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -515,7 +513,7 @@ class LabelsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/labels', 'POST',
+            '/api/v2/labels', 'POST',
             path_params,
             query_params,
             header_params,

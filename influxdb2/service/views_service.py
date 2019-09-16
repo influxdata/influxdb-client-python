@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -123,7 +121,7 @@ class ViewsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
             path_params,
             query_params,
             header_params,
@@ -241,7 +239,7 @@ class ViewsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
             path_params,
             query_params,
             header_params,

@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/labels/{labelID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -327,7 +325,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members/{userID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -433,7 +431,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners/{userID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -549,7 +547,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets', 'GET',
+            '/api/v2/buckets', 'GET',
             path_params,
             query_params,
             header_params,
@@ -647,7 +645,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}', 'GET',
+            '/api/v2/buckets/{bucketID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -745,7 +743,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/labels', 'GET',
+            '/api/v2/buckets/{bucketID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -857,7 +855,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/logs', 'GET',
+            '/api/v2/buckets/{bucketID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -955,7 +953,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members', 'GET',
+            '/api/v2/buckets/{bucketID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1053,7 +1051,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners', 'GET',
+            '/api/v2/buckets/{bucketID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1155,7 +1153,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}/buckets', 'GET',
+            '/api/v2/sources/{sourceID}/buckets', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1265,7 +1263,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}', 'PATCH',
+            '/api/v2/buckets/{bucketID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1367,7 +1365,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets', 'POST',
+            '/api/v2/buckets', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1477,7 +1475,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/labels', 'POST',
+            '/api/v2/buckets/{bucketID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1587,7 +1585,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members', 'POST',
+            '/api/v2/buckets/{bucketID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1697,7 +1695,7 @@ class BucketsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners', 'POST',
+            '/api/v2/buckets/{bucketID}/owners', 'POST',
             path_params,
             query_params,
             header_params,

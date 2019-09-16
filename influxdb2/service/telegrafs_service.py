@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/labels/{labelID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -327,7 +325,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -433,7 +431,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -527,7 +525,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs', 'GET',
+            '/api/v2/telegrafs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -629,7 +627,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}', 'GET',
+            '/api/v2/telegrafs/{telegrafID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -727,7 +725,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/labels', 'GET',
+            '/api/v2/telegrafs/{telegrafID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -825,7 +823,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members', 'GET',
+            '/api/v2/telegrafs/{telegrafID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -923,7 +921,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners', 'GET',
+            '/api/v2/telegrafs/{telegrafID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1025,7 +1023,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs', 'POST',
+            '/api/v2/telegrafs', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1135,7 +1133,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/labels', 'POST',
+            '/api/v2/telegrafs/{telegrafID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1245,7 +1243,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members', 'POST',
+            '/api/v2/telegrafs/{telegrafID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1355,7 +1353,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners', 'POST',
+            '/api/v2/telegrafs/{telegrafID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1465,7 +1463,7 @@ class TelegrafsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}', 'PUT',
+            '/api/v2/telegrafs/{telegrafID}', 'PUT',
             path_params,
             query_params,
             header_params,

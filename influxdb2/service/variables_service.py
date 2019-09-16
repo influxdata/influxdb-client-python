@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}', 'DELETE',
+            '/api/v2/variables/{variableID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}/labels/{labelID}', 'DELETE',
+            '/api/v2/variables/{variableID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables', 'GET',
+            '/api/v2/variables', 'GET',
             path_params,
             query_params,
             header_params,
@@ -417,7 +415,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}', 'GET',
+            '/api/v2/variables/{variableID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -515,7 +513,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}/labels', 'GET',
+            '/api/v2/variables/{variableID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -625,7 +623,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}', 'PATCH',
+            '/api/v2/variables/{variableID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -727,7 +725,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables', 'POST',
+            '/api/v2/variables', 'POST',
             path_params,
             query_params,
             header_params,
@@ -837,7 +835,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}/labels', 'POST',
+            '/api/v2/variables/{variableID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -947,7 +945,7 @@ class VariablesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/variables/{variableID}', 'PUT',
+            '/api/v2/variables/{variableID}', 'PUT',
             path_params,
             query_params,
             header_params,

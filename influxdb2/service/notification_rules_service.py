@@ -115,7 +115,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules', 'POST',
+            '/api/v2/notificationRules', 'POST',
             path_params,
             query_params,
             header_params,
@@ -213,7 +213,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}', 'DELETE',
+            '/api/v2/notificationRules/{ruleID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -319,7 +319,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}/labels/{labelID}', 'DELETE',
+            '/api/v2/notificationRules/{ruleID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -437,7 +437,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules', 'GET',
+            '/api/v2/notificationRules', 'GET',
             path_params,
             query_params,
             header_params,
@@ -535,7 +535,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}', 'GET',
+            '/api/v2/notificationRules/{ruleID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -633,7 +633,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}/labels', 'GET',
+            '/api/v2/notificationRules/{ruleID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -743,7 +743,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}', 'PATCH',
+            '/api/v2/notificationRules/{ruleID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -853,7 +853,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}/labels', 'POST',
+            '/api/v2/notificationRules/{ruleID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -963,7 +963,7 @@ class NotificationRulesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/notificationRules/{ruleID}', 'PUT',
+            '/api/v2/notificationRules/{ruleID}', 'PUT',
             path_params,
             query_params,
             header_params,

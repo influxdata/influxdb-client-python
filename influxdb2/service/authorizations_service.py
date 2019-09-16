@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class AuthorizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/authorizations/{authID}', 'DELETE',
+            '/api/v2/authorizations/{authID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class AuthorizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/authorizations', 'GET',
+            '/api/v2/authorizations', 'GET',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class AuthorizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/authorizations/{authID}', 'GET',
+            '/api/v2/authorizations/{authID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -429,7 +427,7 @@ class AuthorizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/authorizations/{authID}', 'PATCH',
+            '/api/v2/authorizations/{authID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -531,7 +529,7 @@ class AuthorizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/authorizations', 'POST',
+            '/api/v2/authorizations', 'POST',
             path_params,
             query_params,
             header_params,

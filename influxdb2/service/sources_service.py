@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}', 'DELETE',
+            '/api/v2/sources/{sourceID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -209,7 +207,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources', 'GET',
+            '/api/v2/sources', 'GET',
             path_params,
             query_params,
             header_params,
@@ -307,7 +305,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}', 'GET',
+            '/api/v2/sources/{sourceID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -409,7 +407,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}/buckets', 'GET',
+            '/api/v2/sources/{sourceID}/buckets', 'GET',
             path_params,
             query_params,
             header_params,
@@ -507,7 +505,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}/health', 'GET',
+            '/api/v2/sources/{sourceID}/health', 'GET',
             path_params,
             query_params,
             header_params,
@@ -617,7 +615,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources/{sourceID}', 'PATCH',
+            '/api/v2/sources/{sourceID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -719,7 +717,7 @@ class SourcesService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/sources', 'POST',
+            '/api/v2/sources', 'POST',
             path_params,
             query_params,
             header_params,

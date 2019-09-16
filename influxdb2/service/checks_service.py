@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks', 'POST',
+            '/api/v2/checks', 'POST',
             path_params,
             query_params,
             header_params,
@@ -213,7 +211,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}', 'DELETE',
+            '/api/v2/checks/{checkID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}/labels/{labelID}', 'DELETE',
+            '/api/v2/checks/{checkID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -427,7 +425,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks', 'GET',
+            '/api/v2/checks', 'GET',
             path_params,
             query_params,
             header_params,
@@ -525,7 +523,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}', 'GET',
+            '/api/v2/checks/{checkID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -623,7 +621,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}/labels', 'GET',
+            '/api/v2/checks/{checkID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -721,7 +719,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}/query', 'GET',
+            '/api/v2/checks/{checkID}/query', 'GET',
             path_params,
             query_params,
             header_params,
@@ -831,7 +829,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}', 'PATCH',
+            '/api/v2/checks/{checkID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -941,7 +939,7 @@ class ChecksService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/checks/{checkID}/labels', 'POST',
+            '/api/v2/checks/{checkID}/labels', 'POST',
             path_params,
             query_params,
             header_params,

@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -123,7 +121,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -229,7 +227,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
             path_params,
             query_params,
             header_params,
@@ -347,7 +345,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -465,7 +463,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -575,7 +573,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells', 'POST',
+            '/api/v2/dashboards/{dashboardID}/cells', 'POST',
             path_params,
             query_params,
             header_params,
@@ -685,7 +683,7 @@ class CellsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells', 'PUT',
+            '/api/v2/dashboards/{dashboardID}/cells', 'PUT',
             path_params,
             query_params,
             header_params,

@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}', 'DELETE',
+            '/api/v2/orgs/{orgID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/labels/{labelID}', 'DELETE',
+            '/api/v2/orgs/{orgID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -327,7 +325,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members/{userID}', 'DELETE',
+            '/api/v2/orgs/{orgID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -433,7 +431,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners/{userID}', 'DELETE',
+            '/api/v2/orgs/{orgID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -531,7 +529,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs', 'GET',
+            '/api/v2/orgs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -629,7 +627,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}', 'GET',
+            '/api/v2/orgs/{orgID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -727,7 +725,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/labels', 'GET',
+            '/api/v2/orgs/{orgID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -839,7 +837,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/logs', 'GET',
+            '/api/v2/orgs/{orgID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -937,7 +935,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members', 'GET',
+            '/api/v2/orgs/{orgID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1035,7 +1033,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners', 'GET',
+            '/api/v2/orgs/{orgID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1133,7 +1131,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets', 'GET',
+            '/api/v2/orgs/{orgID}/secrets', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1243,7 +1241,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}', 'PATCH',
+            '/api/v2/orgs/{orgID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1353,7 +1351,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets', 'PATCH',
+            '/api/v2/orgs/{orgID}/secrets', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1455,7 +1453,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs', 'POST',
+            '/api/v2/orgs', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1565,7 +1563,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/labels', 'POST',
+            '/api/v2/orgs/{orgID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1675,7 +1673,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members', 'POST',
+            '/api/v2/orgs/{orgID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1785,7 +1783,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners', 'POST',
+            '/api/v2/orgs/{orgID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1895,7 +1893,7 @@ class OrganizationsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets/delete', 'POST',
+            '/api/v2/orgs/{orgID}/secrets/delete', 'POST',
             path_params,
             query_params,
             header_params,

@@ -11,7 +11,6 @@ from rx import operators as ops
 
 import influxdb2
 from influxdb2 import WritePrecision
-from influxdb2.client import InfluxDBClient
 from influxdb2.client.write.point import Point
 from influxdb2.client.write_api import WriteOptions, WriteApi
 from influxdb2_test.base_test import BaseTest
@@ -32,7 +31,7 @@ class BatchingWriteTest(BaseTest):
         conf.host = "http://localhost"
         conf.debug = False
 
-        self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
+        self.influxdb_client = influxdb2.client.InfluxDBClient(url=conf.host, token="my-token")
 
         # self._api_client = influxdb2.ApiClient(configuration=conf, header_name="Authorization",
         #                                        header_value="Token my-token")
@@ -45,10 +44,10 @@ class BatchingWriteTest(BaseTest):
         httpretty.disable()
 
     def test_batch_size(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        _result = self._write_client.write("my-bucket", "my-org",
+        self._write_client.write("my-bucket", "my-org",
                                            ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
                                             "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
                                             "h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
@@ -69,7 +68,7 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_subscribe_wait(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
         self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=2.0 2")
@@ -86,25 +85,25 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual(_request, _requests[0].parsed_body)
 
     def test_batch_size_group_by(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        _result = self._write_client.write("my-bucket", "my-org",
+        self._write_client.write("my-bucket", "my-org",
                                            "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
 
-        _result = self._write_client.write("my-bucket", "my-org",
+        self._write_client.write("my-bucket", "my-org",
                                            "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
-                                           write_precision=WritePrecision.S)
+                                 write_precision=WritePrecision.S)
 
-        _result = self._write_client.write("my-bucket", "my-org-a",
+        self._write_client.write("my-bucket", "my-org-a",
                                            "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
 
-        _result = self._write_client.write("my-bucket", "my-org-a",
+        self._write_client.write("my-bucket", "my-org-a",
                                            "h2o_feet,location=coyote_creek level\\ water_level=4.0 4")
 
-        _result = self._write_client.write("my-bucket2", "my-org-a",
+        self._write_client.write("my-bucket2", "my-org-a",
                                            "h2o_feet,location=coyote_creek level\\ water_level=5.0 5")
 
-        _result = self._write_client.write("my-bucket", "my-org-a",
+        self._write_client.write("my-bucket", "my-org-a",
                                            "h2o_feet,location=coyote_creek level\\ water_level=6.0 6")
 
         time.sleep(1)
@@ -137,7 +136,7 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_flush_interval(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
@@ -165,7 +164,7 @@ class BatchingWriteTest(BaseTest):
                                       write_options=WriteOptions(batch_size=2, flush_interval=5_000,
                                                                  jitter_interval=3_000))
 
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
@@ -188,9 +187,9 @@ class BatchingWriteTest(BaseTest):
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_retry_interval(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=429)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=503)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
@@ -220,8 +219,8 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_recover_from_error(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=400)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=400)
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek",
@@ -240,7 +239,7 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_record_types(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         # Record item
         _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
@@ -293,7 +292,7 @@ class BatchingWriteTest(BaseTest):
         pass
 
     def test_write_result(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         _result = self._write_client.write("my-bucket", "my-org", _record)
@@ -301,7 +300,7 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual(None, _result)
 
     def test_del(self):
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         _result = self._write_client.write("my-bucket", "my-org", _record)

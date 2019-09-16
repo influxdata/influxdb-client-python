@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -107,7 +105,7 @@ class DefaultService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/', 'GET',
+            '/api/v2/', 'GET',
             path_params,
             query_params,
             header_params,
@@ -197,7 +195,7 @@ class DefaultService(object):
         auth_settings = ['BasicAuth']  # noqa: E501
 
         return self.api_client.call_api(
-            '/signin', 'POST',
+            '/api/v2/signin', 'POST',
             path_params,
             query_params,
             header_params,
@@ -287,7 +285,7 @@ class DefaultService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/signout', 'POST',
+            '/api/v2/signout', 'POST',
             path_params,
             query_params,
             header_params,
