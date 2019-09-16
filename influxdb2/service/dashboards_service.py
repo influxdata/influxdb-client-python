@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -327,7 +325,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/labels/{labelID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -433,7 +431,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members/{userID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -539,7 +537,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -650,7 +648,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards', 'GET',
+            '/api/v2/dashboards', 'GET',
             path_params,
             query_params,
             header_params,
@@ -748,7 +746,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}', 'GET',
+            '/api/v2/dashboards/{dashboardID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -854,7 +852,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
             path_params,
             query_params,
             header_params,
@@ -952,7 +950,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/labels', 'GET',
+            '/api/v2/dashboards/{dashboardID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1064,7 +1062,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/logs', 'GET',
+            '/api/v2/dashboards/{dashboardID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1162,7 +1160,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members', 'GET',
+            '/api/v2/dashboards/{dashboardID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1260,7 +1258,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners', 'GET',
+            '/api/v2/dashboards/{dashboardID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1370,7 +1368,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1488,7 +1486,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1606,7 +1604,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
+            '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1708,7 +1706,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards', 'POST',
+            '/api/v2/dashboards', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1818,7 +1816,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells', 'POST',
+            '/api/v2/dashboards/{dashboardID}/cells', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1928,7 +1926,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/labels', 'POST',
+            '/api/v2/dashboards/{dashboardID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -2038,7 +2036,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members', 'POST',
+            '/api/v2/dashboards/{dashboardID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -2148,7 +2146,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners', 'POST',
+            '/api/v2/dashboards/{dashboardID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -2258,7 +2256,7 @@ class DashboardsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/cells', 'PUT',
+            '/api/v2/dashboards/{dashboardID}/cells', 'PUT',
             path_params,
             query_params,
             header_params,

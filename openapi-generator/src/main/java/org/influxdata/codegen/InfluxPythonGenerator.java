@@ -9,8 +9,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -43,7 +46,34 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
         return "Generates a influx-python client library.";
     }
 
-    @Override
+
+
+	@Override
+	public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+
+		CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+
+		//
+		// Set base path
+		//
+		String url;
+		if (operation.getServers() != null) {
+			url = operation.getServers().get(0).getUrl();
+		} else if (openAPI.getPaths().get(path).getServers() != null) {
+			url = openAPI.getPaths().get(path).getServers().get(0).getUrl();
+		} else {
+			url = openAPI.getServers().get(0).getUrl();
+		}
+
+		if (!url.equals("/")) {
+			op.path = url + op.path;
+		}
+
+		return op;
+	}
+
+
+	@Override
     public void processOpts() {
 
         super.processOpts();

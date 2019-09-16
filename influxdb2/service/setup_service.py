@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -107,7 +105,7 @@ class SetupService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/setup', 'GET',
+            '/api/v2/setup', 'GET',
             path_params,
             query_params,
             header_params,
@@ -209,7 +207,7 @@ class SetupService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/setup', 'POST',
+            '/api/v2/setup', 'POST',
             path_params,
             query_params,
             header_params,

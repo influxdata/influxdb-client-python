@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -159,7 +157,7 @@ class WriteService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/write', 'POST',
+            '/api/v2/write', 'POST',
             path_params,
             query_params,
             header_params,

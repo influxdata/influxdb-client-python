@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class SecretsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets', 'GET',
+            '/api/v2/orgs/{orgID}/secrets', 'GET',
             path_params,
             query_params,
             header_params,
@@ -225,7 +223,7 @@ class SecretsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets', 'PATCH',
+            '/api/v2/orgs/{orgID}/secrets', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -335,7 +333,7 @@ class SecretsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/secrets/delete', 'POST',
+            '/api/v2/orgs/{orgID}/secrets/delete', 'POST',
             path_params,
             query_params,
             header_params,

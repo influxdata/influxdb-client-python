@@ -20,7 +20,7 @@ class BaseTest(unittest.TestCase):
     def setUp(self) -> None:
         self.conf = influxdb2.configuration.Configuration()
 
-        self.host = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999/api/v2")
+        self.host = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999")
         self.debug = False
         self.auth_token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         self.org = os.getenv('INFLUXDB_V2_ORG', "my-org")

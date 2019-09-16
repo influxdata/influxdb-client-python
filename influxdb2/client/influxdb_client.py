@@ -116,16 +116,21 @@ class InfluxDBClient(object):
         :return:
         """
         health_service = HealthService(self.api_client)
-        return health_service.get_health()
+
+        try:
+            health = health_service.get_health()
+            return health
+        except Exception as e:
+            print(e)
+            return HealthCheck(name="influxdb", message=str(e), status="fail")
 
     def ready(self) -> Ready:
         """
         Gets The readiness of the InfluxDB 2.0.
         :return:
         """
-        ready_service = ReadyService(api_client=self)
+        ready_service = ReadyService(self.api_client)
         return ready_service.get_ready()
-
 
 
 class _Configuration(Configuration):
@@ -137,12 +142,12 @@ class _Configuration(Configuration):
         super().update_request_header_params(path, params)
         if self.enable_gzip:
             # GZIP Request
-            if path == '/write':
+            if path == '/api/v2/write':
                 params["Content-Encoding"] = "gzip"
                 params["Accept-Encoding"] = "identity"
                 pass
             # GZIP Response
-            if path == '/query':
+            if path == '/api/v2/query':
                 # params["Content-Encoding"] = "gzip"
                 params["Accept-Encoding"] = "gzip"
                 pass
@@ -153,7 +158,7 @@ class _Configuration(Configuration):
         _body = super().update_request_body(path, body)
         if self.enable_gzip:
             # GZIP Request
-            if path == '/write':
+            if path == '/api/v2/write':
                 import gzip
                 if isinstance(_body, bytes):
                     return gzip.compress(data=_body)

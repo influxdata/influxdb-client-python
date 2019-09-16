@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -129,7 +127,7 @@ class OperationLogsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/logs', 'GET',
+            '/api/v2/buckets/{bucketID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -241,7 +239,7 @@ class OperationLogsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/logs', 'GET',
+            '/api/v2/dashboards/{dashboardID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -353,7 +351,7 @@ class OperationLogsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/logs', 'GET',
+            '/api/v2/orgs/{orgID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -465,7 +463,7 @@ class OperationLogsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}/logs', 'GET',
+            '/api/v2/users/{userID}/logs', 'GET',
             path_params,
             query_params,
             header_params,

@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -115,7 +113,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -221,7 +219,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/labels/{labelID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -327,7 +325,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -433,7 +431,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -540,7 +538,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers', 'GET',
+            '/api/v2/scrapers', 'GET',
             path_params,
             query_params,
             header_params,
@@ -638,7 +636,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -736,7 +734,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/labels', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}/labels', 'GET',
             path_params,
             query_params,
             header_params,
@@ -834,7 +832,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -932,7 +930,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1042,7 +1040,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}', 'PATCH',
+            '/api/v2/scrapers/{scraperTargetID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1160,7 +1158,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/labels/{labelID}', 'PATCH',
+            '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -1262,7 +1260,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers', 'POST',
+            '/api/v2/scrapers', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1372,7 +1370,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/labels', 'POST',
+            '/api/v2/scrapers/{scraperTargetID}/labels', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1482,7 +1480,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members', 'POST',
+            '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -1592,7 +1590,7 @@ class ScraperTargetsService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners', 'POST',
+            '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',
             path_params,
             query_params,
             header_params,

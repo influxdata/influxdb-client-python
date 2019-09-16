@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -123,7 +121,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members/{userID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -229,7 +227,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners/{userID}', 'DELETE',
+            '/api/v2/buckets/{bucketID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -335,7 +333,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members/{userID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -441,7 +439,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
+            '/api/v2/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -547,7 +545,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members/{userID}', 'DELETE',
+            '/api/v2/orgs/{orgID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -653,7 +651,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners/{userID}', 'DELETE',
+            '/api/v2/orgs/{orgID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -759,7 +757,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -865,7 +863,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
+            '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -971,7 +969,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/members/{userID}', 'DELETE',
+            '/api/v2/tasks/{taskID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -1077,7 +1075,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/owners/{userID}', 'DELETE',
+            '/api/v2/tasks/{taskID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -1183,7 +1181,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -1289,7 +1287,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
+            '/api/v2/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -1387,7 +1385,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}', 'DELETE',
+            '/api/v2/users/{userID}', 'DELETE',
             path_params,
             query_params,
             header_params,
@@ -1485,7 +1483,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members', 'GET',
+            '/api/v2/buckets/{bucketID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1583,7 +1581,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners', 'GET',
+            '/api/v2/buckets/{bucketID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1681,7 +1679,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members', 'GET',
+            '/api/v2/dashboards/{dashboardID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1779,7 +1777,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners', 'GET',
+            '/api/v2/dashboards/{dashboardID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1869,7 +1867,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/me', 'GET',
+            '/api/v2/me', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1967,7 +1965,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members', 'GET',
+            '/api/v2/orgs/{orgID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2065,7 +2063,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners', 'GET',
+            '/api/v2/orgs/{orgID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2163,7 +2161,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2261,7 +2259,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners', 'GET',
+            '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2359,7 +2357,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/members', 'GET',
+            '/api/v2/tasks/{taskID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2457,7 +2455,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/owners', 'GET',
+            '/api/v2/tasks/{taskID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2555,7 +2553,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members', 'GET',
+            '/api/v2/telegrafs/{telegrafID}/members', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2653,7 +2651,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners', 'GET',
+            '/api/v2/telegrafs/{telegrafID}/owners', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2743,7 +2741,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users', 'GET',
+            '/api/v2/users', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2841,7 +2839,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}', 'GET',
+            '/api/v2/users/{userID}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2953,7 +2951,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}/logs', 'GET',
+            '/api/v2/users/{userID}/logs', 'GET',
             path_params,
             query_params,
             header_params,
@@ -3063,7 +3061,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}', 'PATCH',
+            '/api/v2/users/{userID}', 'PATCH',
             path_params,
             query_params,
             header_params,
@@ -3173,7 +3171,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/members', 'POST',
+            '/api/v2/buckets/{bucketID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3283,7 +3281,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/buckets/{bucketID}/owners', 'POST',
+            '/api/v2/buckets/{bucketID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3393,7 +3391,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/members', 'POST',
+            '/api/v2/dashboards/{dashboardID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3503,7 +3501,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/dashboards/{dashboardID}/owners', 'POST',
+            '/api/v2/dashboards/{dashboardID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3613,7 +3611,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/members', 'POST',
+            '/api/v2/orgs/{orgID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3723,7 +3721,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/orgs/{orgID}/owners', 'POST',
+            '/api/v2/orgs/{orgID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3833,7 +3831,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/members', 'POST',
+            '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -3943,7 +3941,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/scrapers/{scraperTargetID}/owners', 'POST',
+            '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4053,7 +4051,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/members', 'POST',
+            '/api/v2/tasks/{taskID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4163,7 +4161,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/tasks/{taskID}/owners', 'POST',
+            '/api/v2/tasks/{taskID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4273,7 +4271,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/members', 'POST',
+            '/api/v2/telegrafs/{telegrafID}/members', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4383,7 +4381,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/telegrafs/{telegrafID}/owners', 'POST',
+            '/api/v2/telegrafs/{telegrafID}/owners', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4485,7 +4483,7 @@ class UsersService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/users', 'POST',
+            '/api/v2/users', 'POST',
             path_params,
             query_params,
             header_params,
@@ -4587,7 +4585,7 @@ class UsersService(object):
         auth_settings = ['BasicAuth']  # noqa: E501
 
         return self.api_client.call_api(
-            '/me/password', 'PUT',
+            '/api/v2/me/password', 'PUT',
             path_params,
             query_params,
             header_params,
@@ -4697,7 +4695,7 @@ class UsersService(object):
         auth_settings = ['BasicAuth']  # noqa: E501
 
         return self.api_client.call_api(
-            '/users/{userID}/password', 'PUT',
+            '/api/v2/users/{userID}/password', 'PUT',
             path_params,
             query_params,
             header_params,

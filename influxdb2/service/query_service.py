@@ -12,8 +12,6 @@
 
 from __future__ import absolute_import
 
-import re  # noqa: F401
-
 # python 2 and python 3 compatibility library
 import six
 
@@ -107,7 +105,7 @@ class QueryService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/query/suggestions', 'GET',
+            '/api/v2/query/suggestions', 'GET',
             path_params,
             query_params,
             header_params,
@@ -205,7 +203,7 @@ class QueryService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/query/suggestions/{name}', 'GET',
+            '/api/v2/query/suggestions/{name}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -319,7 +317,7 @@ class QueryService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/query', 'POST',
+            '/api/v2/query', 'POST',
             path_params,
             query_params,
             header_params,
@@ -421,7 +419,7 @@ class QueryService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/query/analyze', 'POST',
+            '/api/v2/query/analyze', 'POST',
             path_params,
             query_params,
             header_params,
@@ -525,7 +523,7 @@ class QueryService(object):
         auth_settings = []  # noqa: E501
 
         return self.api_client.call_api(
-            '/query/ast', 'POST',
+            '/api/v2/query/ast', 'POST',
             path_params,
             query_params,
             header_params,
