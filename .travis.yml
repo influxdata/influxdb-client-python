@@ -9,4 +9,4 @@ install:
 # command to run tests
 script:
   - ./scripts/influxdb-restart.sh
-  - pytest influxdb2_test
+  - pytest tests

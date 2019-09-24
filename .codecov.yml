@@ -1,4 +1,4 @@
 ignore:
-  - "influxdb2/domain/*.py"
-  - "influxdb2/service/*.py"
-  - "influxdb2_test/*.py"
+  - "influxdb_client/domain/*.py"
+  - "influxdb_client/service/*.py"
+  - "tests/*.py"

@@ -9,7 +9,7 @@ import six
 {{#models}}
 {{#model}}
 {{#parent}}
-from influxdb2.domain.{{{vendorExtensions.x-parent-classFilename}}} import {{{parent}}}
+from influxdb_client.domain.{{{vendorExtensions.x-parent-classFilename}}} import {{{parent}}}
 {{/parent}}
 {{/model}}
 {{/models}}
