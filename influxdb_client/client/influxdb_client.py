@@ -15,7 +15,9 @@ class InfluxDBClient(object):
 
     def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None) -> None:
         """
-        Creates a new client instance
+        :class:`influxdb_client.InfluxDBClient` is client for HTTP API defined
+        in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml.
+
         :param url: InfluxDB server API url (ex. http://localhost:9999/api/v2)
         :param token: auth token
         :param debug: enable verbose logging of http requests

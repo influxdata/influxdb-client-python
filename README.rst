@@ -1,7 +1,5 @@
-
 influxdb-client-python
 ======================
-
 
 .. image:: https://circleci.com/gh/influxdata/influxdb-client-python.svg?style=svg
    :target: https://circleci.com/gh/influxdata/influxdb-client-python
@@ -12,34 +10,36 @@ influxdb-client-python
    :target: https://codecov.io/gh/influxdata/influxdb-client-python
    :alt: codecov
 
+.. image:: https://img.shields.io/circleci/project/github/influxdata/influxdb-client-python/master.svg
+   :target: https://circleci.com/gh/influxdata/influxdb-client-python
+   :alt: CI status
+
+.. image:: https://img.shields.io/codecov/c/github/influxdata/influxdb-client-python.svg
+   :target: https://codecov.io/gh/influxdata/influxdb-client-python
+   :alt: Coverage
+
+.. image:: https://img.shields.io/pypi/v/influxdb-client-python.svg
+   :target: https://pypi.python.org/pypi/influxdb-client-python
+   :alt: PyPI package
+
+.. image:: https://img.shields.io/pypi/pyversions/influxdb-client-python.svg
+   :target: https://pypi.python.org/pypi/influxdb-client-python
+   :alt: Supported Python versions
+
+.. image:: https://readthedocs.org/projects/influxdb-client-python/badge/?version=stable
+   :target: https://influxdb-client-python.readthedocs.io/en/stable/?badge=stable
+   :alt: Documentation status
+
+.. _RxPY: https://github.com/ReactiveX/RxPY
 
 InfluxDB 2.0 python client library.
-
-
-* `Requirements <#requirements>`_
-* `Getting Started <#getting-started>`_
-* `Features <#how-to-use>`_
-
-  * `Writing data <#writes>`_
-    * `How to efficiently import large dataset <#how-to-efficiently-import-large-dataset>`_
-    * `Efficiency write data from IOT sensor <#efficiency-write-data-from-iot-sensor>`_
-
-* `Advanced Usage <#advanced-usage>`_
-
-  * `Gzip support <#gzip-support>`_
-
-* InfluxDB 2.0 API client (generated from swagger)
-
-  * Bucket
-  * Organizations
-  * Authorizations
-  * Labels
-  * Tasks
 
 Requirements
 ------------
 
-Python 3.6+
+InfluxDB python library uses `Rxpy`_ - The Reactive Extensions for Python (RxPY).
+
+**Python 3.6** or later is required.
 
 Installation & Usage
 --------------------
@@ -51,9 +51,9 @@ If the python package is hosted on Github, you can install directly from Github
 
 .. code-block:: sh
 
-   pip install git+https://github.com/influxdata/influxdb-client-python.git
+   pip3 install git+https://github.com/influxdata/influxdb-client-python.git
 
-(you may need to run ``pip`` with root permission: ``sudo pip install git+https://github.com/influxdata/influxdb-client-python.git``\ )
+(you may need to run ``pip`` with root permission: ``sudo pip3 install git+https://github.com/influxdata/influxdb-client-python.git``\ )
 
 Then import the package:
 
