@@ -55,7 +55,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
-    'sphinx.ext.viewcode',
+    'sphinx.ext.viewcode'
     # 'sphinx_autodoc_typehints'
 ]
 
