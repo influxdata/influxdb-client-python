@@ -18,5 +18,5 @@ mkdir test-reports || true
 #
 # Test
 #
-pytest influxdb2_test --junitxml=test-reports/junit.xml --cov=./ --cov-report xml:coverage.xml
+pytest tests --junitxml=test-reports/junit.xml --cov=./ --cov-report xml:coverage.xml
 

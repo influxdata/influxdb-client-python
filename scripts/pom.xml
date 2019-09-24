@@ -21,7 +21,7 @@
                     <configOptions>
                         <additional-properties>optionalProjectFile=true</additional-properties>
                         <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                        <packageName>influxdb2</packageName>
+                        <packageName>influxdb_client</packageName>
                         <sourceFolder>/</sourceFolder>
                         <validatable>false</validatable>
                     </configOptions>
