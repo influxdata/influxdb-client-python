@@ -28,10 +28,6 @@ influxdb-client-python
    :target: https://pypi.python.org/pypi/influxdb-client-python
    :alt: Supported Python versions
 
-.. image:: https://readthedocs.org/projects/influxdb-client/badge/?version=stable
-   :target: https://influxdb-client.readthedocs.io/en/stable/?badge=stable
-   :alt: Documentation status
-
 .. image:: https://readthedocs.org/projects/influxdb-client/badge/?version=latest
    :target: https://influxdb-client.readthedocs.io/en/stable/?badge=latest
    :alt: Documentation status
