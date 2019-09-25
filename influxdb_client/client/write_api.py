@@ -34,7 +34,8 @@ class WriteOptions(object):
                  retry_interval=1_000,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
-        Creates configuration
+        Creates write api configuration.
+
         :param write_type: methods of write (batching, asynchronous, synchronous)
         :param batch_size: the number of data point to collect in batch
         :param flush_interval: flush data at least in this interval
@@ -146,10 +147,12 @@ class WriteApi(AbstractClient):
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
         """
         Writes time-series data into influxdb.
+
         :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol
-        :param record: Points or line protocol to write
+        :param record: Points, line protocol, RxPY Observable to write
+
         """
 
         if self._write_options.write_type is WriteType.batching:

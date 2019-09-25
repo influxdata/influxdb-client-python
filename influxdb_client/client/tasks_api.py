@@ -167,7 +167,7 @@ class TasksApi(object):
 
     def cancel_run(self, task_id: str, run_id: str):
         """
-         Cancels a currently running run.
+        Cancels a currently running run.
         :param task_id:
         :param run_id:
         """

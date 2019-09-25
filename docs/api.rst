@@ -6,42 +6,52 @@ API Reference
 
 InfluxDBClient
 """"""""""""""
-
 .. autoclass:: influxdb_client.InfluxDBClient
    :members:
-   .. automethod:: __init__
 
-Query
-"""""
+QueryApi
+""""""""
 .. autoclass:: influxdb_client.QueryApi
    :members:
 
-Write
-"""""
+WriteApi
+""""""""
 .. autoclass:: influxdb_client.WriteApi
    :members:
 
-Buckets
-"""""""
+BucketsApi
+""""""""""
 .. autoclass:: influxdb_client.BucketsApi
    :members:
 
-Labels
-""""""
+.. autoclass:: influxdb_client.domain.Bucket
+   :members:
+
+LabelsApi
+"""""""""
 .. autoclass:: influxdb_client.LabelsApi
    :members:
 
-Organizations
-"""""""""""""
+OrganizationsApi
+""""""""""""""""
 .. autoclass:: influxdb_client.OrganizationsApi
    :members:
 
-Users
-"""""
+.. autoclass:: influxdb_client.domain.Organization
+   :members:
+
+UsersApi
+""""""""
 .. autoclass:: influxdb_client.UsersApi
    :members:
 
-Tasks
-"""""
+.. autoclass:: influxdb_client.domain.User
+   :members:
+
+TasksApi
+""""""""
 .. autoclass:: influxdb_client.TasksApi
+   :members:
+
+.. autoclass:: influxdb_client.domain.Task
    :members:

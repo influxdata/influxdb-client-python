@@ -2,7 +2,6 @@ import codecs
 from datetime import datetime
 
 from influxdb_client import WritePrecision, InfluxDBClient, Point
-
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 bucket = "my-bucket"

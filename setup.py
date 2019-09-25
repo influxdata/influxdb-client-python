@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import sys
-from setuptools import setup
 from pathlib import Path
+
 from setuptools import setup, find_packages  # noqa: H301
 
 with open('requirements.txt', 'r') as f:
@@ -20,9 +19,6 @@ NAME = "influxdb_client"
 meta = {}
 with open(Path(__file__).parent / 'influxdb_client' / '__init__.py') as f:
     exec('\n'.join(l for l in f if l.startswith('__')), meta)
-
-
-REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil" , "rx >= 3.0.1", "ciso8601 >= 2.1.1" ]
 
 setup(
     name=NAME,

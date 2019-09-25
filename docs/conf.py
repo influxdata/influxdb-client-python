@@ -34,6 +34,8 @@ project = 'influxdb_client'
 copyright = '2019, Bonitoo.io'
 author = 'Robert Hajek, Jakub Bednar'
 
+autoclass_content = 'both'
+
 # The short X.Y version
 version = meta['__version__']
 # The full version, including alpha/beta/rc tags
