@@ -1,7 +1,7 @@
-
 influxdb-client-python
 ======================
 
+.. marker-index-start
 
 .. image:: https://circleci.com/gh/influxdata/influxdb-client-python.svg?style=svg
    :target: https://circleci.com/gh/influxdata/influxdb-client-python
@@ -12,48 +12,72 @@ influxdb-client-python
    :target: https://codecov.io/gh/influxdata/influxdb-client-python
    :alt: codecov
 
+.. image:: https://img.shields.io/circleci/project/github/influxdata/influxdb-client-python/master.svg
+   :target: https://circleci.com/gh/influxdata/influxdb-client-python
+   :alt: CI status
 
-InfluxDB 2.0 python client library.
+.. image:: https://img.shields.io/codecov/c/github/influxdata/influxdb-client-python.svg
+   :target: https://codecov.io/gh/influxdata/influxdb-client-python
+   :alt: Coverage
 
+.. image:: https://img.shields.io/pypi/v/influxdb-client-python.svg
+   :target: https://pypi.python.org/pypi/influxdb-client-python
+   :alt: PyPI package
 
-* `Requirements <#requirements>`_
-* `Getting Started <#getting-started>`_
-* `Features <#how-to-use>`_
+.. image:: https://img.shields.io/pypi/pyversions/influxdb-client-python.svg
+   :target: https://pypi.python.org/pypi/influxdb-client-python
+   :alt: Supported Python versions
 
-  * `Writing data <#writes>`_
-    * `How to efficiently import large dataset <#how-to-efficiently-import-large-dataset>`_
-    * `Efficiency write data from IOT sensor <#efficiency-write-data-from-iot-sensor>`_
+.. image:: https://readthedocs.org/projects/influxdb-client/badge/?version=latest
+   :target: https://influxdb-client.readthedocs.io/en/stable/?badge=latest
+   :alt: Documentation status
 
-* `Advanced Usage <#advanced-usage>`_
+InfluxDB 2.0 python client library. The library covers InfluxDB 2.0
 
-  * `Gzip support <#gzip-support>`_
+InfluxDB 2.0 client features
+----------------------------
 
-* InfluxDB 2.0 API client (generated from swagger)
+    - Querying data
+        - using the Flux language
+        - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+    - Writing data using
+        - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
+        - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`_
+        - `RxPY`_ Observable
+        - Not implemented yet
+          - write user types using decorator
+          - write Pandas DataFrame
+    - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
+        - the client is generated from `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
+        - organizations & users management
+        - buckets management
+        - tasks management
+        - authorizations
+        - health check
 
-  * Bucket
-  * Organizations
-  * Authorizations
-  * Labels
-  * Tasks
-
-Requirements
+Installation
 ------------
+.. marker-install-start
 
-Python 3.6+
+InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`_ - The Reactive Extensions for Python (RxPY).
 
-Installation & Usage
---------------------
+**Python 3.6** or later is required.
+
 
 pip install
 ^^^^^^^^^^^
 
-If the python package is hosted on Github, you can install directly from Github
+If the python package is hosted on Github, you can install latest version directly from Github
 
 .. code-block:: sh
 
-   pip install git+https://github.com/influxdata/influxdb-client-python.git
+   pip3 install git+https://github.com/influxdata/influxdb-client-python.git
 
-(you may need to run ``pip`` with root permission: ``sudo pip install git+https://github.com/influxdata/influxdb-client-python.git``\ )
+(you may need to run ``pip`` with root permission:
+
+.. code-block:: sh
+
+    sudo pip3 install git+https://github.com/influxdata/influxdb-client-python.git
 
 Then import the package:
 
@@ -78,10 +102,14 @@ Then import the package:
 
    import influxdb_client
 
+.. marker-install-end
+
 Getting Started
 ---------------
 
-Please follow the `installation procedure <#installation--usage>`_ and then run the following:
+Please follow the `installation procedure <#installation>`_ and then run the following:
+
+.. marker-query-start
 
 .. code-block:: python
 
@@ -115,11 +143,16 @@ Please follow the `installation procedure <#installation--usage>`_ and then run 
        for cell in row:
            val_count += 1
 
+.. marker-query-end
+.. marker-index-end
+
+
 How to use
 ----------
 
 Writes
 ^^^^^^
+.. marker-writes-start
 
 The `WriteApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write_api.py>`_ supports synchronous, asynchronous and batching writes into InfluxDB 2.0.
 The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial/>`_\ , `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py>`_ or Observable stream.
@@ -127,7 +160,9 @@ The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.
 *The default instance of ``WriteApi`` use batching.*
 
 Batching
-~~~~~~~~
+""""""""
+
+.. marker-batching-start
 
 The batching is configurable by ``write_options``\ :
 
@@ -195,6 +230,8 @@ The batching is configurable by ``write_options``\ :
    _write_client.__del__()
    _client.__del__()
 
+.. marker-batching-end
+
 Asynchronous client
 """""""""""""""""""
 
@@ -230,7 +267,7 @@ Data are writes in a synchronous HTTP request.
    client.__del__()
 
 How to efficiently import large dataset
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""""""""""""""""""""""""""""""""""""""
 
 
 * sources - `import_data_set.py <https://github.com/influxdata/influxdb-client-python/blob/master/tests/import_data_set.py>`_
@@ -323,9 +360,12 @@ How to efficiently import large dataset
    """
    client.__del__()
 
-Efficiency write data from IOT sensor
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. marker-writes-end
 
+
+Efficiency write data from IOT sensor
+"""""""""""""""""""""""""""""""""""""
+.. marker-iot-start
 
 * sources - `iot_sensor.py <https://github.com/influxdata/influxdb-client-python/blob/master/tests/iot_sensor.py>`_
 
@@ -408,11 +448,14 @@ Efficiency write data from IOT sensor
 
    input()
 
+.. marker-iot-end
+
 Advanced Usage
 --------------
 
 Gzip support
 ^^^^^^^^^^^^
+.. marker-gzip-start
 
 ``InfluxDBClient`` does not enable gzip compress for http request by default. If you want to enable gzip to reduce transfer data's size, you can call:
 
@@ -421,3 +464,5 @@ Gzip support
    from influxdb_client import InfluxDBClient
 
    _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", enable_gzip=True)
+
+.. marker-gzip-end

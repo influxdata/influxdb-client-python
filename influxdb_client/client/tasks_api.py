@@ -150,28 +150,26 @@ class TasksApi(object):
     def run_manually(self, task_id: str, scheduled_for: datetime = None):
         """
         Manually start a run of the task now overriding the current schedule.
+
         :param task_id:
         :param scheduled_for: planned execution
-        :return:
         """
         r = RunManually(scheduled_for=scheduled_for)
         return self._service.post_tasks_id_runs(task_id=task_id, run_manually=r)
 
     def retry_run(self, task_id: str, run_id: str):
         """
-        Retry a task run
+        Retry a task run.
         :param task_id: task id
         :param run_id: run id
-        :return:
         """
         return self._service.post_tasks_id_runs_id_retry(task_id=task_id, run_id=run_id)
 
     def cancel_run(self, task_id: str, run_id: str):
         """
-         Cancels a currently running run.
+        Cancels a currently running run.
         :param task_id:
         :param run_id:
-        :return:
         """
         return self._service.delete_tasks_id_runs_id(task_id=task_id, run_id=run_id)
 
@@ -179,7 +177,6 @@ class TasksApi(object):
         """
         Retrieve all logs for a task.
         :param task_id: task id
-        :return:
         """
         return self._service.get_tasks_id_logs(task_id=task_id).events
 

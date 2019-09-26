@@ -15,12 +15,14 @@ class InfluxDBClient(object):
 
     def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None) -> None:
         """
-        Creates a new client instance
-        :param url: InfluxDB server API url (ex. http://localhost:9999/api/v2)
+        :class:`influxdb_client.InfluxDBClient` is client for HTTP API defined
+        in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml.
+
+        :param url: InfluxDB server API url (ex. http://localhost:9999).
         :param token: auth token
         :param debug: enable verbose logging of http requests
         :param timeout: default http client timeout
-        :param enable_gzip: Enable Gzip compress for http requests. Currently only the "Write" and "Query" endpoints
+        :param enable_gzip: Enable Gzip compression for http requests. Currently only the "Write" and "Query" endpoints
                             supports the Gzip compression.
         :param org: organization name (used as a default in query and write API)
 
@@ -45,6 +47,7 @@ class InfluxDBClient(object):
     def write_api(self, write_options=WriteOptions()) -> WriteApi:
         """
         Creates a Write API instance
+
         :param write_options: write api configuration
         :return: write api instance
         """
@@ -53,6 +56,7 @@ class InfluxDBClient(object):
     def query_api(self) -> QueryApi:
         """
         Creates a Query API instance
+
         :return: Query api instance
         """
         return QueryApi(self)
@@ -70,50 +74,57 @@ class InfluxDBClient(object):
 
     def buckets_api(self) -> BucketsApi:
         """
-        Creates the Bucket API instance
+        Creates the Bucket API instance.
+
         :return: buckets api
         """
         return BucketsApi(self)
 
     def authorizations_api(self) -> AuthorizationsApi:
         """
-        Creates the Authorizations API instance
+        Creates the Authorizations API instance.
+
         :return: authorizations api
         """
         return AuthorizationsApi(self)
 
     def users_api(self) -> UsersApi:
         """
-        Creates the Users api
+        Creates the Users API instance.
+
         :return: users api
         """
         return UsersApi(self)
 
     def organizations_api(self) -> OrganizationsApi:
         """
-        Creates the Organizations api
+        Creates the Organizations API instance.
+
         :return: organizations api
         """
         return OrganizationsApi(self)
 
     def tasks_api(self) -> TasksApi:
         """
-        Creates the Tasks api
+        Creates the Tasks API instance.
+
         :return: tasks api
         """
         return TasksApi(self)
 
     def labels_api(self) -> LabelsApi:
         """
-        Creates the Labels api
+        Creates the Labels API instance.
+
         :return: labels api
         """
         return LabelsApi(self)
 
     def health(self) -> HealthCheck:
         """
-        Get the health of an instance
-        :return:
+        Get the health of an instance.
+
+        :return: HealthCheck
         """
         health_service = HealthService(self.api_client)
 
@@ -127,7 +138,8 @@ class InfluxDBClient(object):
     def ready(self) -> Ready:
         """
         Gets The readiness of the InfluxDB 2.0.
-        :return:
+
+        :return: Ready
         """
         ready_service = ReadyService(self.api_client)
         return ready_service.get_ready()

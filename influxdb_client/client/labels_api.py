@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from influxdb_client import LabelsService, LabelCreateRequest, Label, LabelUpdate
 
@@ -15,6 +15,7 @@ class LabelsApi(object):
     def create_label(self, name: str, org_id: str, properties: Dict[str, str] = None) -> Label:
         """
         Creates a new label.
+
         :param name: label name
         :param org_id: organization id
         :param properties: optional label properties
@@ -26,6 +27,7 @@ class LabelsApi(object):
     def update_label(self, label: Label):
         """
         Updates an existing label name and properties.
+
         :param label: label
         :return: the updated label
         """
@@ -34,11 +36,11 @@ class LabelsApi(object):
         label_update.name = label.name
         return self._service.patch_labels_id(label_id=label.id, label_update=label_update).label
 
-    def delete_label(self, label):
+    def delete_label(self, label: Union[str, Label]):
         """
         Deletes the label.
+
         :param label: label id or Label
-        :type label str or Label
         """
         label_id = None
 
@@ -53,9 +55,10 @@ class LabelsApi(object):
     def clone_label(self, cloned_name: str, label: Label) -> Label:
         """
         Creates the new instance of the label as a copy existing label.
+
         :param cloned_name: new label name
         :param label: existing label
-        :return:
+        :return: clonned Label
         """
         cloned_properties = None
         if label.properties is not None:
@@ -66,13 +69,15 @@ class LabelsApi(object):
     def find_labels(self) -> List['Label']:
         """
         Gets all available labels.
+
         :return: labels
         """
         return self._service.get_labels().labels
 
     def find_label_by_id(self, label_id: str):
         """
-        Retrieves the label by id
+        Retrieves the label by id.
+
         :param label_id:
         :return: Label
         """
@@ -80,7 +85,8 @@ class LabelsApi(object):
 
     def find_label_by_org(self, org_id) -> List['Label']:
         """
-        Gets the list of all labels for given organization
+        Gets the list of all labels for given organization.
+
         :param org_id: organization id
         :return: list of labels
         """

@@ -14,7 +14,8 @@ class QueryApi(object):
 
     def __init__(self, influxdb_client):
         """
-        Initialize query client
+        Initializes query client.
+
         :param influxdb_client: influxdb client
         """
         self._influxdb_client = influxdb_client
@@ -22,12 +23,13 @@ class QueryApi(object):
 
     def query_csv(self, query: str, org=None, dialect: Dialect = default_dialect):
         """
-        Executes the Flux query and return results as a CSV iterator.
-        Each iteration returns a row of the CSV file
+        Executes the Flux query and return results as a CSV iterator. Each iteration returns a row of the CSV file.
+
         :param query: a Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
         :param dialect: csv dialect format
-        :return: returns CSV iterator
+        :return: The returned object is an iterator.  Each iteration returns a row of the CSV file
+                 (which can span multiple input lines).
         """
         if org is None:
             org = self._influxdb_client.org
@@ -38,6 +40,7 @@ class QueryApi(object):
     def query_raw(self, query: str, org=None, dialect=default_dialect):
         """
         Synchronously executes the Flux query and return result as raw unprocessed result as a str
+
         :param query: a Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
         :param dialect: csv dialect format
@@ -50,9 +53,10 @@ class QueryApi(object):
         return result
         # return codecs.iterdecode(result, 'utf-8')
 
-    def query(self, query, org=None, dialect=default_dialect) -> List['FluxTable']:
+    def query(self, query: str, org=None, dialect=default_dialect) -> List['FluxTable']:
         """
         Synchronously executes the Flux query and return result as a List['FluxTable']
+
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
         :param dialect: csv dialect format
