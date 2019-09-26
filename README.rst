@@ -50,7 +50,7 @@ InfluxDB 2.0 client features
       - write user types using decorator
       - write Pandas DataFrame
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
-    - the client is generated from `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
+    - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
     - organizations & users management
     - buckets management
     - tasks management
@@ -69,17 +69,11 @@ InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`_ - The R
 pip install
 ^^^^^^^^^^^
 
-If the python package is hosted on Github, you can install latest version directly from Github
+The python package is hosted on Github, you can install latest version directly:
 
 .. code-block:: sh
 
    pip3 install git+https://github.com/influxdata/influxdb-client-python.git
-
-(you may need to run ``pip`` with root permission:
-
-.. code-block:: sh
-
-    sudo pip3 install git+https://github.com/influxdata/influxdb-client-python.git
 
 Then import the package:
 
@@ -98,18 +92,12 @@ Install via `Setuptools <http://pypi.python.org/pypi/setuptools>`_.
 
 (or ``sudo python setup.py install`` to install the package for all users)
 
-Then import the package:
-
-.. code-block:: python
-
-   import influxdb_client
-
 .. marker-install-end
 
 Getting Started
 ---------------
 
-Please follow the `installation procedure <#installation>`_ and then run the following:
+Please follow the `Installation`_ and then run the following:
 
 .. marker-query-start
 
@@ -459,7 +447,7 @@ Gzip support
 ^^^^^^^^^^^^
 .. marker-gzip-start
 
-``InfluxDBClient`` does not enable gzip compress for http request by default. If you want to enable gzip to reduce transfer data's size, you can call:
+``InfluxDBClient`` does not enable gzip compression for http requests by default. If you want to enable gzip to reduce transfer data's size, you can call:
 
 .. code-block:: python
 
