@@ -20,12 +20,12 @@ influxdb-client-python
    :target: https://codecov.io/gh/influxdata/influxdb-client-python
    :alt: Coverage
 
-.. image:: https://img.shields.io/pypi/v/influxdb-client-python.svg
-   :target: https://pypi.python.org/pypi/influxdb-client-python
+.. image:: https://img.shields.io/pypi/v/influxdb-client.svg
+   :target: https://pypi.python.org/pypi/influxdb-python
    :alt: PyPI package
 
-.. image:: https://img.shields.io/pypi/pyversions/influxdb-client-python.svg
-   :target: https://pypi.python.org/pypi/influxdb-client-python
+.. image:: https://img.shields.io/pypi/pyversions/influxdb-client.svg
+   :target: https://pypi.python.org/pypi/influxdb-client
    :alt: Supported Python versions
 
 .. image:: https://readthedocs.org/projects/influxdb-client/badge/?version=latest
