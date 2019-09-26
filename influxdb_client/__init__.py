@@ -14,27 +14,42 @@
 
 from __future__ import absolute_import
 
-######################
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
+# import apis into sdk package
+from influxdb_client.service.authorizations_service import AuthorizationsService
+from influxdb_client.service.buckets_service import BucketsService
+from influxdb_client.service.cells_service import CellsService
+from influxdb_client.service.checks_service import ChecksService
+from influxdb_client.service.dashboards_service import DashboardsService
+from influxdb_client.service.health_service import HealthService
+from influxdb_client.service.labels_service import LabelsService
+from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
+from influxdb_client.service.notification_rules_service import NotificationRulesService
+from influxdb_client.service.operation_logs_service import OperationLogsService
+from influxdb_client.service.organizations_service import OrganizationsService
+from influxdb_client.service.query_service import QueryService
+from influxdb_client.service.ready_service import ReadyService
+from influxdb_client.service.scraper_targets_service import ScraperTargetsService
+from influxdb_client.service.secrets_service import SecretsService
+from influxdb_client.service.setup_service import SetupService
+from influxdb_client.service.sources_service import SourcesService
+from influxdb_client.service.tasks_service import TasksService
+from influxdb_client.service.telegrafs_service import TelegrafsService
+from influxdb_client.service.templates_service import TemplatesService
+from influxdb_client.service.users_service import UsersService
+from influxdb_client.service.variables_service import VariablesService
+from influxdb_client.service.views_service import ViewsService
+from influxdb_client.service.write_service import WriteService
+from influxdb_client.service.default_service import DefaultService
+
 # import ApiClient
 from influxdb_client.api_client import ApiClient
-from influxdb_client.client.authorizations_api import AuthorizationsApi
-from influxdb_client.client.bucket_api import BucketsApi
-from influxdb_client.client.influxdb_client import InfluxDBClient
-from influxdb_client.client.labels_api import LabelsApi
-from influxdb_client.client.organizations_api import OrganizationsApi
-from influxdb_client.client.query_api import QueryApi
-from influxdb_client.client.tasks_api import TasksApi
-from influxdb_client.client.users_api import UsersApi
-from influxdb_client.client.write.point import Point
-from influxdb_client.client.write_api import WriteApi, WriteOptions
 from influxdb_client.configuration import Configuration
+# import models into sdk package
+from influxdb_client.domain.ast_response import ASTResponse
 from influxdb_client.domain.add_resource_member_request_body import AddResourceMemberRequestBody
 from influxdb_client.domain.analyze_query_response import AnalyzeQueryResponse
 from influxdb_client.domain.analyze_query_response_errors import AnalyzeQueryResponseErrors
 from influxdb_client.domain.array_expression import ArrayExpression
-# import models into sdk package
-from influxdb_client.domain.ast_response import ASTResponse
 from influxdb_client.domain.authorization import Authorization
 from influxdb_client.domain.authorization_update_request import AuthorizationUpdateRequest
 from influxdb_client.domain.authorizations import Authorizations
@@ -97,12 +112,12 @@ from influxdb_client.domain.flux_suggestions import FluxSuggestions
 from influxdb_client.domain.function_expression import FunctionExpression
 from influxdb_client.domain.gauge_view_properties import GaugeViewProperties
 from influxdb_client.domain.greater_threshold import GreaterThreshold
-from influxdb_client.domain.health_check import HealthCheck
-from influxdb_client.domain.heatmap_view_properties import HeatmapViewProperties
-from influxdb_client.domain.histogram_view_properties import HistogramViewProperties
 from influxdb_client.domain.http_notification_endpoint import HTTPNotificationEndpoint
 from influxdb_client.domain.http_notification_rule import HTTPNotificationRule
 from influxdb_client.domain.http_notification_rule_base import HTTPNotificationRuleBase
+from influxdb_client.domain.health_check import HealthCheck
+from influxdb_client.domain.heatmap_view_properties import HeatmapViewProperties
+from influxdb_client.domain.histogram_view_properties import HistogramViewProperties
 from influxdb_client.domain.identifier import Identifier
 from influxdb_client.domain.import_declaration import ImportDeclaration
 from influxdb_client.domain.index_expression import IndexExpression
@@ -183,6 +198,8 @@ from influxdb_client.domain.run_links import RunLinks
 from influxdb_client.domain.run_log import RunLog
 from influxdb_client.domain.run_manually import RunManually
 from influxdb_client.domain.runs import Runs
+from influxdb_client.domain.smtp_notification_rule import SMTPNotificationRule
+from influxdb_client.domain.smtp_notification_rule_base import SMTPNotificationRuleBase
 from influxdb_client.domain.scatter_view_properties import ScatterViewProperties
 from influxdb_client.domain.scraper_target_request import ScraperTargetRequest
 from influxdb_client.domain.scraper_target_response import ScraperTargetResponse
@@ -193,8 +210,6 @@ from influxdb_client.domain.single_stat_view_properties import SingleStatViewPro
 from influxdb_client.domain.slack_notification_endpoint import SlackNotificationEndpoint
 from influxdb_client.domain.slack_notification_rule import SlackNotificationRule
 from influxdb_client.domain.slack_notification_rule_base import SlackNotificationRuleBase
-from influxdb_client.domain.smtp_notification_rule import SMTPNotificationRule
-from influxdb_client.domain.smtp_notification_rule_base import SMTPNotificationRuleBase
 from influxdb_client.domain.source import Source
 from influxdb_client.domain.source_links import SourceLinks
 from influxdb_client.domain.sources import Sources
@@ -268,32 +283,19 @@ from influxdb_client.domain.views import Views
 from influxdb_client.domain.write_precision import WritePrecision
 from influxdb_client.domain.xy_geom import XYGeom
 from influxdb_client.domain.xy_view_properties import XYViewProperties
-# import apis into sdk package
-from influxdb_client.service.authorizations_service import AuthorizationsService
-from influxdb_client.service.buckets_service import BucketsService
-from influxdb_client.service.cells_service import CellsService
-from influxdb_client.service.checks_service import ChecksService
-from influxdb_client.service.dashboards_service import DashboardsService
-from influxdb_client.service.default_service import DefaultService
-from influxdb_client.service.health_service import HealthService
-from influxdb_client.service.labels_service import LabelsService
-from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
-from influxdb_client.service.notification_rules_service import NotificationRulesService
-from influxdb_client.service.operation_logs_service import OperationLogsService
-from influxdb_client.service.organizations_service import OrganizationsService
-from influxdb_client.service.query_service import QueryService
-from influxdb_client.service.ready_service import ReadyService
-from influxdb_client.service.scraper_targets_service import ScraperTargetsService
-from influxdb_client.service.secrets_service import SecretsService
-from influxdb_client.service.setup_service import SetupService
-from influxdb_client.service.sources_service import SourcesService
-from influxdb_client.service.tasks_service import TasksService
-from influxdb_client.service.telegrafs_service import TelegrafsService
-from influxdb_client.service.templates_service import TemplatesService
-from influxdb_client.service.users_service import UsersService
-from influxdb_client.service.variables_service import VariablesService
-from influxdb_client.service.views_service import ViewsService
-from influxdb_client.service.write_service import WriteService
+
+from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
+from influxdb_client.client.authorizations_api import AuthorizationsApi
+from influxdb_client.client.bucket_api import BucketsApi
+from influxdb_client.client.labels_api import LabelsApi
+from influxdb_client.client.organizations_api import OrganizationsApi
+from influxdb_client.client.query_api import QueryApi
+from influxdb_client.client.tasks_api import TasksApi
+from influxdb_client.client.users_api import UsersApi
+from influxdb_client.client.write_api import WriteApi, WriteOptions
+from influxdb_client.client.influxdb_client import InfluxDBClient
+from influxdb_client.client.write.point import Point
 
 __version__ = '0.0.1'
+
 
