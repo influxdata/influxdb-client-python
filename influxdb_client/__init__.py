@@ -14,6 +14,7 @@
 
 from __future__ import absolute_import
 
+######################
 from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 # import ApiClient
 from influxdb_client.api_client import ApiClient
@@ -295,5 +296,4 @@ from influxdb_client.service.views_service import ViewsService
 from influxdb_client.service.write_service import WriteService
 
 __version__ = '0.0.1'
-
 
