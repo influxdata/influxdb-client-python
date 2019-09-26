@@ -29,31 +29,33 @@ influxdb-client-python
    :alt: Supported Python versions
 
 .. image:: https://readthedocs.org/projects/influxdb-client/badge/?version=latest
-   :target: https://influxdb-client.readthedocs.io/en/stable/?badge=latest
+   :target: https://influxdb-client.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
+
+.. _documentation: https://influxdb-client.readthedocs.io
 
 InfluxDB 2.0 python client library. The library covers InfluxDB 2.0
 
 InfluxDB 2.0 client features
 ----------------------------
 
-    - Querying data
-        - using the Flux language
-        - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
-    - Writing data using
-        - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
-        - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`_
-        - `RxPY`_ Observable
-        - Not implemented yet
-          - write user types using decorator
-          - write Pandas DataFrame
-    - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
-        - the client is generated from `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
-        - organizations & users management
-        - buckets management
-        - tasks management
-        - authorizations
-        - health check
+- Querying data
+    - using the Flux language
+    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+- Writing data using
+    - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
+    - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
+    - `RxPY`_ Observable
+    - Not implemented yet
+      - write user types using decorator
+      - write Pandas DataFrame
+- `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
+    - the client is generated from `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
+    - organizations & users management
+    - buckets management
+    - tasks management
+    - authorizations
+    - health check
 
 Installation
 ------------
@@ -173,7 +175,7 @@ The batching is configurable by ``write_options``\ :
      - Description
      - Default Value
    * - **batch_size**
-     - the number of data point to collect in batch
+     - the number of data pointx to collect in a batch
      - ``1000``
    * - **flush_interval**
      - the number of milliseconds before the batch is written
@@ -317,7 +319,7 @@ How to efficiently import large dataset
 
 
    """
-   Converts vix-daily.csv into sequence of data point
+   Converts vix-daily.csv into sequence of datad point
    """
    data = rx \
        .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
