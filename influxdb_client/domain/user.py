@@ -11,7 +11,6 @@
 
 
 import pprint
-import re  # noqa: F401
 
 import six
 
@@ -152,11 +151,13 @@ class User(object):
         :type: str
         """
         allowed_values = ["active", "inactive"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
+
+        # temporary fix https://github.com/influxdata/influxdb/issues/15274
+        # if status not in allowed_values:
+        #     raise ValueError(
+        #         "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
+        #         .format(status, allowed_values)
+        #     )
 
         self._status = status
 
