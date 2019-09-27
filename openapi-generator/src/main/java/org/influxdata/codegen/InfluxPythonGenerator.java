@@ -80,7 +80,7 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
 
         List<String> useless = Arrays.asList(
                 ".gitignore", ".travis.yml", "README.md", "setup.py", "requirements.txt", "test-requirements.txt",
-                "git_push.sh");
+                "tox.ini", "git_push.sh");
 
         //
         // Remove useless supports file

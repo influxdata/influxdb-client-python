@@ -2,7 +2,7 @@ import gzip
 
 import httpretty
 
-from influxdb_client.client.influxdb_client import InfluxDBClient
+from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 from tests.base_test import BaseTest
 

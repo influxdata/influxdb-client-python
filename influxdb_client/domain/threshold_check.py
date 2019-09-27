@@ -102,12 +102,6 @@ class ThresholdCheck(CheckBase):
         :param type: The type of this ThresholdCheck.  # noqa: E501
         :type: str
         """
-        allowed_values = ["threshold"]  # noqa: E501
-        if type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"  # noqa: E501
-                .format(type, allowed_values)
-            )
 
         self._type = type
 

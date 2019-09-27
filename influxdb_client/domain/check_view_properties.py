@@ -89,12 +89,6 @@ class CheckViewProperties(ViewProperties):
         """
         if type is None:
             raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
-        allowed_values = ["check"]  # noqa: E501
-        if type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"  # noqa: E501
-                .format(type, allowed_values)
-            )
 
         self._type = type
 
@@ -118,12 +112,6 @@ class CheckViewProperties(ViewProperties):
         """
         if shape is None:
             raise ValueError("Invalid value for `shape`, must not be `None`")  # noqa: E501
-        allowed_values = ["chronograf-v2"]  # noqa: E501
-        if shape not in allowed_values:
-            raise ValueError(
-                "Invalid value for `shape` ({0}), must be one of {1}"  # noqa: E501
-                .format(shape, allowed_values)
-            )
 
         self._shape = shape
 

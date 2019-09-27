@@ -147,12 +147,6 @@ class Run(object):
         :param status: The status of this Run.  # noqa: E501
         :type: str
         """
-        allowed_values = ["scheduled", "started", "failed", "success", "canceled"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
 
         self._status = status
 

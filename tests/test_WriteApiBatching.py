@@ -10,7 +10,7 @@ import rx
 from rx import operators as ops
 
 import influxdb_client
-from influxdb_client import WritePrecision
+from influxdb_client import WritePrecision, InfluxDBClient
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi
 from tests.base_test import BaseTest
@@ -31,7 +31,7 @@ class BatchingWriteTest(BaseTest):
         conf.host = "http://localhost"
         conf.debug = False
 
-        self.influxdb_client = influxdb_client.client.InfluxDBClient(url=conf.host, token="my-token")
+        self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
 
         # self._api_client = influxdb_client.ApiClient(configuration=conf, header_name="Authorization",
         #                                        header_value="Token my-token")

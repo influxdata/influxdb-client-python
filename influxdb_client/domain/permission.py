@@ -70,12 +70,6 @@ class Permission(object):
         """
         if action is None:
             raise ValueError("Invalid value for `action`, must not be `None`")  # noqa: E501
-        allowed_values = ["read", "write"]  # noqa: E501
-        if action not in allowed_values:
-            raise ValueError(
-                "Invalid value for `action` ({0}), must be one of {1}"  # noqa: E501
-                .format(action, allowed_values)
-            )
 
         self._action = action
 

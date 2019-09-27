@@ -1,4 +1,9 @@
-## 1.0.0 [unreleased]
+## 0.0.3 [unreleased]
+
+### Bugs
+1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
+
+## 0.0.2 [2019-09-26]
 
 ### Features
 1. [#2](https://github.com/bonitoo-io/influxdb-client-python/issues/2): The write client is able to write data in batches (configuration: `batch_size`, `flush_interval`, `jitter_interval`, `retry_interval`)

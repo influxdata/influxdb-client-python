@@ -77,12 +77,6 @@ class ResourceMember(User):
         :param role: The role of this ResourceMember.  # noqa: E501
         :type: str
         """
-        allowed_values = ["member"]  # noqa: E501
-        if role not in allowed_values:
-            raise ValueError(
-                "Invalid value for `role` ({0}), must be one of {1}"  # noqa: E501
-                .format(role, allowed_values)
-            )
 
         self._role = role
 
