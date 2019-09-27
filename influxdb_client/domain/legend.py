@@ -72,12 +72,6 @@ class Legend(object):
         :param type: The type of this Legend.  # noqa: E501
         :type: str
         """
-        allowed_values = ["static"]  # noqa: E501
-        if type not in allowed_values:
-            raise ValueError(
-                "Invalid value for `type` ({0}), must be one of {1}"  # noqa: E501
-                .format(type, allowed_values)
-            )
 
         self._type = type
 
@@ -101,12 +95,6 @@ class Legend(object):
         :param orientation: The orientation of this Legend.  # noqa: E501
         :type: str
         """
-        allowed_values = ["top", "bottom", "left", "right"]  # noqa: E501
-        if orientation not in allowed_values:
-            raise ValueError(
-                "Invalid value for `orientation` ({0}), must be one of {1}"  # noqa: E501
-                .format(orientation, allowed_values)
-            )
 
         self._orientation = orientation
 

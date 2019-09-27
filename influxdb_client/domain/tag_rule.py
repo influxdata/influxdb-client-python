@@ -117,12 +117,6 @@ class TagRule(object):
         :param operator: The operator of this TagRule.  # noqa: E501
         :type: str
         """
-        allowed_values = ["equal", "notequal", "equalregex", "notequalregex"]  # noqa: E501
-        if operator not in allowed_values:
-            raise ValueError(
-                "Invalid value for `operator` ({0}), must be one of {1}"  # noqa: E501
-                .format(operator, allowed_values)
-            )
 
         self._operator = operator
 

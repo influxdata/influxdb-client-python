@@ -284,7 +284,6 @@ from influxdb_client.domain.write_precision import WritePrecision
 from influxdb_client.domain.xy_geom import XYGeom
 from influxdb_client.domain.xy_view_properties import XYViewProperties
 
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.labels_api import LabelsApi
@@ -296,6 +295,4 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions
 from influxdb_client.client.influxdb_client import InfluxDBClient
 from influxdb_client.client.write.point import Point
 
-__version__ = '0.0.2'
-
-
+__version__ = '0.0.3dev'

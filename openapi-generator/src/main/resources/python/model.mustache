@@ -141,14 +141,6 @@ class {{classname}}({{#parent}}{{{parent}}}{{/parent}}{{^parent}}object{{/parent
             )
 {{/isMapContainer}}
 {{/isContainer}}
-{{^isContainer}}
-        allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
-        if {{{name}}} not in allowed_values:
-            raise ValueError(
-                "Invalid value for `{{{name}}}` ({0}), must be one of {1}"  # noqa: E501
-                .format({{{name}}}, allowed_values)
-            )
-{{/isContainer}}
 {{/isEnum}}
 {{^isEnum}}
 {{#hasValidation}}

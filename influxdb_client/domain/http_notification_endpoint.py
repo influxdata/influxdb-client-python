@@ -202,12 +202,6 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         """
         if method is None:
             raise ValueError("Invalid value for `method`, must not be `None`")  # noqa: E501
-        allowed_values = ["POST", "GET", "PUT"]  # noqa: E501
-        if method not in allowed_values:
-            raise ValueError(
-                "Invalid value for `method` ({0}), must be one of {1}"  # noqa: E501
-                .format(method, allowed_values)
-            )
 
         self._method = method
 
@@ -231,12 +225,6 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         """
         if auth_method is None:
             raise ValueError("Invalid value for `auth_method`, must not be `None`")  # noqa: E501
-        allowed_values = ["none", "basic", "bearer"]  # noqa: E501
-        if auth_method not in allowed_values:
-            raise ValueError(
-                "Invalid value for `auth_method` ({0}), must be one of {1}"  # noqa: E501
-                .format(auth_method, allowed_values)
-            )
 
         self._auth_method = auth_method
 

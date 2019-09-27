@@ -1,6 +1,6 @@
 import datetime
 
-from influxdb_client.client import InfluxDBClient
+from influxdb_client import InfluxDBClient
 from tests.base_test import BaseTest
 
 

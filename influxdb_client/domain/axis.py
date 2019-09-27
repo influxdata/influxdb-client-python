@@ -184,12 +184,6 @@ class Axis(object):
         :param base: The base of this Axis.  # noqa: E501
         :type: str
         """
-        allowed_values = ["", "2", "10"]  # noqa: E501
-        if base not in allowed_values:
-            raise ValueError(
-                "Invalid value for `base` ({0}), must be one of {1}"  # noqa: E501
-                .format(base, allowed_values)
-            )
 
         self._base = base
 

@@ -194,12 +194,6 @@ class Dialect(object):
         :param date_time_format: The date_time_format of this Dialect.  # noqa: E501
         :type: str
         """
-        allowed_values = ["RFC3339", "RFC3339Nano"]  # noqa: E501
-        if date_time_format not in allowed_values:
-            raise ValueError(
-                "Invalid value for `date_time_format` ({0}), must be one of {1}"  # noqa: E501
-                .format(date_time_format, allowed_values)
-            )
 
         self._date_time_format = date_time_format
 

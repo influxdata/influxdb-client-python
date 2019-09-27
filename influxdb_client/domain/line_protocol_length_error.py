@@ -76,12 +76,6 @@ class LineProtocolLengthError(object):
         """
         if code is None:
             raise ValueError("Invalid value for `code`, must not be `None`")  # noqa: E501
-        allowed_values = ["invalid"]  # noqa: E501
-        if code not in allowed_values:
-            raise ValueError(
-                "Invalid value for `code` ({0}), must be one of {1}"  # noqa: E501
-                .format(code, allowed_values)
-            )
 
         self._code = code
 

@@ -77,12 +77,6 @@ class ResourceOwner(User):
         :param role: The role of this ResourceOwner.  # noqa: E501
         :type: str
         """
-        allowed_values = ["owner"]  # noqa: E501
-        if role not in allowed_values:
-            raise ValueError(
-                "Invalid value for `role` ({0}), must be one of {1}"  # noqa: E501
-                .format(role, allowed_values)
-            )
 
         self._role = role
 
