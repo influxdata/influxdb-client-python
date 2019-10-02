@@ -207,7 +207,7 @@ class Cell(object):
     def view_id(self):
         """Gets the view_id of this Cell.  # noqa: E501
 
-        The reference to a view from the views API  # noqa: E501
+        The reference to a view from the views API.  # noqa: E501
 
         :return: The view_id of this Cell.  # noqa: E501
         :rtype: str
@@ -218,7 +218,7 @@ class Cell(object):
     def view_id(self, view_id):
         """Sets the view_id of this Cell.
 
-        The reference to a view from the views API  # noqa: E501
+        The reference to a view from the views API.  # noqa: E501
 
         :param view_id: The view_id of this Cell.  # noqa: E501
         :type: str

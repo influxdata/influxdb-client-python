@@ -33,7 +33,7 @@ class VariablesService(object):
         self.api_client = api_client
 
     def delete_variables_id(self, variable_id, **kwargs):  # noqa: E501
-        """delete a variable  # noqa: E501
+        """Delete a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -55,7 +55,7 @@ class VariablesService(object):
             return data
 
     def delete_variables_id_with_http_info(self, variable_id, **kwargs):  # noqa: E501
-        """delete a variable  # noqa: E501
+        """Delete a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -63,7 +63,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def delete_variables_id_labels_id(self, variable_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a variable  # noqa: E501
+        """Delete a label from a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
-        :param str label_id: the label id to delete (required)
+        :param str variable_id: The variable ID. (required)
+        :param str label_id: The label ID to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class VariablesService(object):
             return data
 
     def delete_variables_id_labels_id_with_http_info(self, variable_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a variable  # noqa: E501
+        """Delete a label from a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
-        :param str label_id: the label id to delete (required)
+        :param str variable_id: The variable ID. (required)
+        :param str label_id: The label ID to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def get_variables(self, **kwargs):  # noqa: E501
-        """get all variables  # noqa: E501
+        """Get all variables  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -246,8 +246,8 @@ class VariablesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization name of the resource
-        :param str org_id: specifies the organization id of the resource
+        :param str org: The organization name.
+        :param str org_id: The organization ID.
         :return: Variables
                  If the method is called asynchronously,
                  returns the request thread.
@@ -260,7 +260,7 @@ class VariablesService(object):
             return data
 
     def get_variables_with_http_info(self, **kwargs):  # noqa: E501
-        """get all variables  # noqa: E501
+        """Get all variables  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -269,8 +269,8 @@ class VariablesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization name of the resource
-        :param str org_id: specifies the organization id of the resource
+        :param str org: The organization name.
+        :param str org_id: The organization ID.
         :return: Variables
                  If the method is called asynchronously,
                  returns the request thread.
@@ -335,7 +335,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def get_variables_id(self, variable_id, **kwargs):  # noqa: E501
-        """get a variable  # noqa: E501
+        """Get a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -343,7 +343,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -357,7 +357,7 @@ class VariablesService(object):
             return data
 
     def get_variables_id_with_http_info(self, variable_id, **kwargs):  # noqa: E501
-        """get a variable  # noqa: E501
+        """Get a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -365,7 +365,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -433,7 +433,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def get_variables_id_labels(self, variable_id, **kwargs):  # noqa: E501
-        """list all labels for a variable  # noqa: E501
+        """List all labels for a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -441,7 +441,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -455,7 +455,7 @@ class VariablesService(object):
             return data
 
     def get_variables_id_labels_with_http_info(self, variable_id, **kwargs):  # noqa: E501
-        """list all labels for a variable  # noqa: E501
+        """List all labels for a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -463,7 +463,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
+        :param str variable_id: The variable ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -531,7 +531,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def patch_variables_id(self, variable_id, variable, **kwargs):  # noqa: E501
-        """update a variable  # noqa: E501
+        """Update a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -539,8 +539,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
-        :param Variable variable: variable update to apply (required)
+        :param str variable_id: The variable ID. (required)
+        :param Variable variable: Variable update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -554,7 +554,7 @@ class VariablesService(object):
             return data
 
     def patch_variables_id_with_http_info(self, variable_id, variable, **kwargs):  # noqa: E501
-        """update a variable  # noqa: E501
+        """Update a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -562,8 +562,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
-        :param Variable variable: variable update to apply (required)
+        :param str variable_id: The variable ID. (required)
+        :param Variable variable: Variable update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -641,7 +641,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def post_variables(self, variable, **kwargs):  # noqa: E501
-        """create a variable  # noqa: E501
+        """Create a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -649,7 +649,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Variable variable: variable to create (required)
+        :param Variable variable: Variable to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -663,7 +663,7 @@ class VariablesService(object):
             return data
 
     def post_variables_with_http_info(self, variable, **kwargs):  # noqa: E501
-        """create a variable  # noqa: E501
+        """Create a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -671,7 +671,7 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Variable variable: variable to create (required)
+        :param Variable variable: Variable to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -743,7 +743,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def post_variables_id_labels(self, variable_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a variable  # noqa: E501
+        """Add a label to a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -751,8 +751,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str variable_id: The variable ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -766,7 +766,7 @@ class VariablesService(object):
             return data
 
     def post_variables_id_labels_with_http_info(self, variable_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a variable  # noqa: E501
+        """Add a label to a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -774,8 +774,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: ID of the variable (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str variable_id: The variable ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -853,7 +853,7 @@ class VariablesService(object):
             collection_formats=collection_formats)
 
     def put_variables_id(self, variable_id, variable, **kwargs):  # noqa: E501
-        """replace a variable  # noqa: E501
+        """Replace a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -861,8 +861,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
-        :param Variable variable: variable to replace (required)
+        :param str variable_id: The variable ID. (required)
+        :param Variable variable: Variable to replace (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,
@@ -876,7 +876,7 @@ class VariablesService(object):
             return data
 
     def put_variables_id_with_http_info(self, variable_id, variable, **kwargs):  # noqa: E501
-        """replace a variable  # noqa: E501
+        """Replace a variable  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -884,8 +884,8 @@ class VariablesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str variable_id: id of the variable (required)
-        :param Variable variable: variable to replace (required)
+        :param str variable_id: The variable ID. (required)
+        :param Variable variable: Variable to replace (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Variable
                  If the method is called asynchronously,

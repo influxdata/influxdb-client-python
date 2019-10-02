@@ -61,7 +61,7 @@ class ImportDeclaration(object):
     def type(self):
         """Gets the type of this ImportDeclaration.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this ImportDeclaration.  # noqa: E501
         :rtype: str
@@ -72,7 +72,7 @@ class ImportDeclaration(object):
     def type(self, type):
         """Sets the type of this ImportDeclaration.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this ImportDeclaration.  # noqa: E501
         :type: str

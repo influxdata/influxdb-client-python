@@ -33,7 +33,7 @@ class NotificationEndpointsService(object):
         self.api_client = api_client
 
     def create_notification_endpoint(self, notification_endpoint, **kwargs):  # noqa: E501
-        """Add new notification endpoint  # noqa: E501
+        """Add a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationEndpoint notification_endpoint: notificationEndpoint to create (required)
+        :param NotificationEndpoint notification_endpoint: Notification endpoint to create (required)
         :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
@@ -54,7 +54,7 @@ class NotificationEndpointsService(object):
             return data
 
     def create_notification_endpoint_with_http_info(self, notification_endpoint, **kwargs):  # noqa: E501
-        """Add new notification endpoint  # noqa: E501
+        """Add a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -62,7 +62,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationEndpoint notification_endpoint: notificationEndpoint to create (required)
+        :param NotificationEndpoint notification_endpoint: Notification endpoint to create (required)
         :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
@@ -139,7 +139,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -161,7 +161,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -229,7 +229,7 @@ class NotificationEndpointsService(object):
             collection_formats=collection_formats)
 
     def delete_notification_endpoints_id_labels_id(self, endpoint_id, label_id, **kwargs):  # noqa: E501
-        """delete label from a notification endpoint  # noqa: E501
+        """Delete a label from a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -237,8 +237,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
-        :param str label_id: the label id to delete (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -252,7 +252,7 @@ class NotificationEndpointsService(object):
             return data
 
     def delete_notification_endpoints_id_labels_id_with_http_info(self, endpoint_id, label_id, **kwargs):  # noqa: E501
-        """delete label from a notification endpoint  # noqa: E501
+        """Delete a label from a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -260,8 +260,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
-        :param str label_id: the label id to delete (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: only show notification endpoints belonging to specified organization (required)
+        :param str org_id: Only show notification endpoints that belong to specific organization ID. (required)
+        :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
         :return: NotificationEndpoints
@@ -366,7 +367,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: only show notification endpoints belonging to specified organization (required)
+        :param str org_id: Only show notification endpoints that belong to specific organization ID. (required)
+        :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
         :return: NotificationEndpoints
@@ -376,7 +378,7 @@ class NotificationEndpointsService(object):
 
         local_var_params = locals()
 
-        all_params = ['org_id', 'offset', 'limit']  # noqa: E501
+        all_params = ['org_id', 'zap_trace_span', 'offset', 'limit']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -414,6 +416,8 @@ class NotificationEndpointsService(object):
             query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
 
         header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
 
         form_params = []
         local_var_files = {}
@@ -451,7 +455,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -473,7 +477,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -541,7 +545,7 @@ class NotificationEndpointsService(object):
             collection_formats=collection_formats)
 
     def get_notification_endpoints_id_labels(self, endpoint_id, **kwargs):  # noqa: E501
-        """list all labels for a notification endpoint  # noqa: E501
+        """List all labels for a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -549,7 +553,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -563,7 +567,7 @@ class NotificationEndpointsService(object):
             return data
 
     def get_notification_endpoints_id_labels_with_http_info(self, endpoint_id, **kwargs):  # noqa: E501
-        """list all labels for a notification endpoint  # noqa: E501
+        """List all labels for a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -571,7 +575,7 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -647,8 +651,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpointUpdate notification_endpoint_update: check update to apply (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param NotificationEndpointUpdate notification_endpoint_update: Check update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -670,8 +674,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpointUpdate notification_endpoint_update: check update to apply (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param NotificationEndpointUpdate notification_endpoint_update: Check update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -749,7 +753,7 @@ class NotificationEndpointsService(object):
             collection_formats=collection_formats)
 
     def post_notification_endpoint_id_labels(self, endpoint_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a notification endpoint  # noqa: E501
+        """Add a label to a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -757,8 +761,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -772,7 +776,7 @@ class NotificationEndpointsService(object):
             return data
 
     def post_notification_endpoint_id_labels_with_http_info(self, endpoint_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a notification endpoint  # noqa: E501
+        """Add a label to a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -780,8 +784,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of the notification endpoint (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -867,8 +871,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpoint notification_endpoint: a new notification endpoint to replace the existing endpoint with (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param NotificationEndpoint notification_endpoint: A new notification endpoint to replace the existing endpoint with (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,
@@ -890,8 +894,8 @@ class NotificationEndpointsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str endpoint_id: ID of notification endpoint (required)
-        :param NotificationEndpoint notification_endpoint: a new notification endpoint to replace the existing endpoint with (required)
+        :param str endpoint_id: The notification endpoint ID. (required)
+        :param NotificationEndpoint notification_endpoint: A new notification endpoint to replace the existing endpoint with (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationEndpoint
                  If the method is called asynchronously,

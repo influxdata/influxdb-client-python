@@ -89,7 +89,7 @@ class Field(object):
     def type(self):
         """Gets the type of this Field.  # noqa: E501
 
-        type describes the field type. func is a function; field is a field reference  # noqa: E501
+        `type` describes the field type. `func` is a function. `field` is a field reference.  # noqa: E501
 
         :return: The type of this Field.  # noqa: E501
         :rtype: str
@@ -100,7 +100,7 @@ class Field(object):
     def type(self, type):
         """Sets the type of this Field.
 
-        type describes the field type. func is a function; field is a field reference  # noqa: E501
+        `type` describes the field type. `func` is a function. `field` is a field reference.  # noqa: E501
 
         :param type: The type of this Field.  # noqa: E501
         :type: str

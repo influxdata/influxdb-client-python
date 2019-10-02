@@ -33,7 +33,7 @@ class WriteService(object):
         self.api_client = api_client
 
     def post_write(self, org, bucket, body, **kwargs):  # noqa: E501
-        """write time-series data into influxdb  # noqa: E501
+        """Write time series data into InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,16 +41,16 @@ class WriteService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
-        :param str bucket: specifies the destination bucket for writes (required)
-        :param str body: line protocol body (required)
+        :param str org: Specifies the destination organization for writes. Takes either the ID or Name interchangeably. If both `orgID` and `org` are specified, `org` takes precedence. (required)
+        :param str bucket: The destination bucket for writes. (required)
+        :param str body: Line protocol body (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: when present, its value indicates to the database that compression is applied to the line-protocol body.
+        :param str content_encoding: When present, its value indicates to the database that compression is applied to the line-protocol body.
         :param str content_type: Content-Type is used to indicate the format of the data sent to the server.
         :param int content_length: Content-Length is an entity header is indicating the size of the entity-body, in bytes, sent to the database. If the length is greater than the database max body configuration option, a 413 response is sent.
-        :param str accept: specifies the return content format.
-        :param str org_id: specifies the ID of the destination organization for writes; if both orgID and org are specified, org takes precedence.
-        :param WritePrecision precision: specifies the precision for the unix timestamps within the body line-protocol
+        :param str accept: Specifies the return content format.
+        :param str org_id: Specifies the ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param WritePrecision precision: The precision for the unix timestamps within the body line-protocol.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -63,7 +63,7 @@ class WriteService(object):
             return data
 
     def post_write_with_http_info(self, org, bucket, body, **kwargs):  # noqa: E501
-        """write time-series data into influxdb  # noqa: E501
+        """Write time series data into InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -71,16 +71,16 @@ class WriteService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
-        :param str bucket: specifies the destination bucket for writes (required)
-        :param str body: line protocol body (required)
+        :param str org: Specifies the destination organization for writes. Takes either the ID or Name interchangeably. If both `orgID` and `org` are specified, `org` takes precedence. (required)
+        :param str bucket: The destination bucket for writes. (required)
+        :param str body: Line protocol body (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: when present, its value indicates to the database that compression is applied to the line-protocol body.
+        :param str content_encoding: When present, its value indicates to the database that compression is applied to the line-protocol body.
         :param str content_type: Content-Type is used to indicate the format of the data sent to the server.
         :param int content_length: Content-Length is an entity header is indicating the size of the entity-body, in bytes, sent to the database. If the length is greater than the database max body configuration option, a 413 response is sent.
-        :param str accept: specifies the return content format.
-        :param str org_id: specifies the ID of the destination organization for writes; if both orgID and org are specified, org takes precedence.
-        :param WritePrecision precision: specifies the precision for the unix timestamps within the body line-protocol
+        :param str accept: Specifies the return content format.
+        :param str org_id: Specifies the ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param WritePrecision precision: The precision for the unix timestamps within the body line-protocol.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.

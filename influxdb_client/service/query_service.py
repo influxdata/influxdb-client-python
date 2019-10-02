@@ -131,7 +131,7 @@ class QueryService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: name of branching suggestion (required)
+        :param str name: The name of the branching suggestion. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: FluxSuggestion
                  If the method is called asynchronously,
@@ -153,7 +153,7 @@ class QueryService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: name of branching suggestion (required)
+        :param str name: The name of the branching suggestion. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: FluxSuggestion
                  If the method is called asynchronously,
@@ -221,7 +221,7 @@ class QueryService(object):
             collection_formats=collection_formats)
 
     def post_query(self, **kwargs):  # noqa: E501
-        """query an influx  # noqa: E501
+        """Query InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -232,9 +232,9 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
-        :param str org: specifies the name of the organization executing the query; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence.
-        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, org takes precedence.
-        :param Query query: flux query or specification to execute
+        :param str org: Specifies the name of the organization executing the query. Takes either the ID or Name interchangeably. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param str org_id: Specifies the ID of the organization executing the query. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
@@ -247,7 +247,7 @@ class QueryService(object):
             return data
 
     def post_query_with_http_info(self, **kwargs):  # noqa: E501
-        """query an influx  # noqa: E501
+        """Query InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -258,9 +258,9 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The Accept-Encoding request HTTP header advertises which content encoding, usually a compression algorithm, the client is able to understand.
         :param str content_type:
-        :param str org: specifies the name of the organization executing the query; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence.
-        :param str org_id: specifies the ID of the organization executing the query; if both orgID and org are specified, org takes precedence.
-        :param Query query: flux query or specification to execute
+        :param str org: Specifies the name of the organization executing the query. Takes either the ID or Name interchangeably. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param str org_id: Specifies the ID of the organization executing the query. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
@@ -309,7 +309,7 @@ class QueryService(object):
             body_params = local_var_params['query']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['text/csv', 'application/vnd.influx.arrow'])  # noqa: E501
+            ['text/csv', 'application/vnd.influx.arrow', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -335,7 +335,7 @@ class QueryService(object):
             collection_formats=collection_formats)
 
     def post_query_analyze(self, **kwargs):  # noqa: E501
-        """analyze an influxql or flux query  # noqa: E501
+        """Analyze an InfluxQL or Flux query  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -345,7 +345,7 @@ class QueryService(object):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param Query query: flux or influxql query to analyze
+        :param Query query: Flux or InfluxQL query to analyze
         :return: AnalyzeQueryResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -358,7 +358,7 @@ class QueryService(object):
             return data
 
     def post_query_analyze_with_http_info(self, **kwargs):  # noqa: E501
-        """analyze an influxql or flux query  # noqa: E501
+        """Analyze an InfluxQL or Flux query  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -368,7 +368,7 @@ class QueryService(object):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param Query query: flux or influxql query to analyze
+        :param Query query: Flux or InfluxQL query to analyze
         :return: AnalyzeQueryResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -439,7 +439,7 @@ class QueryService(object):
     def post_query_ast(self, **kwargs):  # noqa: E501
         """post_query_ast  # noqa: E501
 
-        analyzes flux query and generates a query specification.  # noqa: E501
+        Analyzes flux query and generates a query specification.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_ast(async_req=True)
@@ -448,7 +448,7 @@ class QueryService(object):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param LanguageRequest language_request: analyzed flux query to generate abstract syntax tree.
+        :param LanguageRequest language_request: Analyzed Flux query to generate abstract syntax tree.
         :return: ASTResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -463,7 +463,7 @@ class QueryService(object):
     def post_query_ast_with_http_info(self, **kwargs):  # noqa: E501
         """post_query_ast  # noqa: E501
 
-        analyzes flux query and generates a query specification.  # noqa: E501
+        Analyzes flux query and generates a query specification.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_ast_with_http_info(async_req=True)
@@ -472,7 +472,7 @@ class QueryService(object):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param LanguageRequest language_request: analyzed flux query to generate abstract syntax tree.
+        :param LanguageRequest language_request: Analyzed Flux query to generate abstract syntax tree.
         :return: ASTResponse
                  If the method is called asynchronously,
                  returns the request thread.

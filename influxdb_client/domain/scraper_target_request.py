@@ -71,7 +71,7 @@ class ScraperTargetRequest(object):
     def name(self):
         """Gets the name of this ScraperTargetRequest.  # noqa: E501
 
-        name of the scraper target  # noqa: E501
+        The name of the scraper target.  # noqa: E501
 
         :return: The name of this ScraperTargetRequest.  # noqa: E501
         :rtype: str
@@ -82,7 +82,7 @@ class ScraperTargetRequest(object):
     def name(self, name):
         """Sets the name of this ScraperTargetRequest.
 
-        name of the scraper target  # noqa: E501
+        The name of the scraper target.  # noqa: E501
 
         :param name: The name of this ScraperTargetRequest.  # noqa: E501
         :type: str
@@ -94,7 +94,7 @@ class ScraperTargetRequest(object):
     def type(self):
         """Gets the type of this ScraperTargetRequest.  # noqa: E501
 
-        type of the metrics to be parsed  # noqa: E501
+        The type of the metrics to be parsed.  # noqa: E501
 
         :return: The type of this ScraperTargetRequest.  # noqa: E501
         :rtype: str
@@ -105,7 +105,7 @@ class ScraperTargetRequest(object):
     def type(self, type):
         """Sets the type of this ScraperTargetRequest.
 
-        type of the metrics to be parsed  # noqa: E501
+        The type of the metrics to be parsed.  # noqa: E501
 
         :param type: The type of this ScraperTargetRequest.  # noqa: E501
         :type: str
@@ -117,7 +117,7 @@ class ScraperTargetRequest(object):
     def url(self):
         """Gets the url of this ScraperTargetRequest.  # noqa: E501
 
-        url of the metrics endpoint  # noqa: E501
+        The URL of the metrics endpoint.  # noqa: E501
 
         :return: The url of this ScraperTargetRequest.  # noqa: E501
         :rtype: str
@@ -128,7 +128,7 @@ class ScraperTargetRequest(object):
     def url(self, url):
         """Sets the url of this ScraperTargetRequest.
 
-        url of the metrics endpoint  # noqa: E501
+        The URL of the metrics endpoint.  # noqa: E501
 
         :param url: The url of this ScraperTargetRequest.  # noqa: E501
         :type: str
@@ -140,7 +140,7 @@ class ScraperTargetRequest(object):
     def org_id(self):
         """Gets the org_id of this ScraperTargetRequest.  # noqa: E501
 
-        id of the organization  # noqa: E501
+        The organization ID.  # noqa: E501
 
         :return: The org_id of this ScraperTargetRequest.  # noqa: E501
         :rtype: str
@@ -151,7 +151,7 @@ class ScraperTargetRequest(object):
     def org_id(self, org_id):
         """Sets the org_id of this ScraperTargetRequest.
 
-        id of the organization  # noqa: E501
+        The organization ID.  # noqa: E501
 
         :param org_id: The org_id of this ScraperTargetRequest.  # noqa: E501
         :type: str
@@ -163,7 +163,7 @@ class ScraperTargetRequest(object):
     def bucket_id(self):
         """Gets the bucket_id of this ScraperTargetRequest.  # noqa: E501
 
-        id of the bucket to be written  # noqa: E501
+        The ID of the bucket to write to.  # noqa: E501
 
         :return: The bucket_id of this ScraperTargetRequest.  # noqa: E501
         :rtype: str
@@ -174,7 +174,7 @@ class ScraperTargetRequest(object):
     def bucket_id(self, bucket_id):
         """Sets the bucket_id of this ScraperTargetRequest.
 
-        id of the bucket to be written  # noqa: E501
+        The ID of the bucket to write to.  # noqa: E501
 
         :param bucket_id: The bucket_id of this ScraperTargetRequest.  # noqa: E501
         :type: str

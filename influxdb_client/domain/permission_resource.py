@@ -89,7 +89,7 @@ class PermissionResource(object):
     def id(self):
         """Gets the id of this PermissionResource.  # noqa: E501
 
-        if id is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
+        If ID is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
 
         :return: The id of this PermissionResource.  # noqa: E501
         :rtype: str
@@ -100,7 +100,7 @@ class PermissionResource(object):
     def id(self, id):
         """Sets the id of this PermissionResource.
 
-        if id is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
+        If ID is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
 
         :param id: The id of this PermissionResource.  # noqa: E501
         :type: str
@@ -112,7 +112,7 @@ class PermissionResource(object):
     def name(self):
         """Gets the name of this PermissionResource.  # noqa: E501
 
-        optional name of the resource if the resource has a name field.  # noqa: E501
+        Optional name of the resource if the resource has a name field.  # noqa: E501
 
         :return: The name of this PermissionResource.  # noqa: E501
         :rtype: str
@@ -123,7 +123,7 @@ class PermissionResource(object):
     def name(self, name):
         """Sets the name of this PermissionResource.
 
-        optional name of the resource if the resource has a name field.  # noqa: E501
+        Optional name of the resource if the resource has a name field.  # noqa: E501
 
         :param name: The name of this PermissionResource.  # noqa: E501
         :type: str
@@ -135,7 +135,7 @@ class PermissionResource(object):
     def org_id(self):
         """Gets the org_id of this PermissionResource.  # noqa: E501
 
-        if orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
+        If orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
 
         :return: The org_id of this PermissionResource.  # noqa: E501
         :rtype: str
@@ -146,7 +146,7 @@ class PermissionResource(object):
     def org_id(self, org_id):
         """Sets the org_id of this PermissionResource.
 
-        if orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
+        If orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.  # noqa: E501
 
         :param org_id: The org_id of this PermissionResource.  # noqa: E501
         :type: str
@@ -158,7 +158,7 @@ class PermissionResource(object):
     def org(self):
         """Gets the org of this PermissionResource.  # noqa: E501
 
-        optional name of the organization of the organization with orgID.  # noqa: E501
+        Optional name of the organization of the organization with orgID.  # noqa: E501
 
         :return: The org of this PermissionResource.  # noqa: E501
         :rtype: str
@@ -169,7 +169,7 @@ class PermissionResource(object):
     def org(self, org):
         """Sets the org of this PermissionResource.
 
-        optional name of the organization of the organization with orgID.  # noqa: E501
+        Optional name of the organization of the organization with orgID.  # noqa: E501
 
         :param org: The org of this PermissionResource.  # noqa: E501
         :type: str

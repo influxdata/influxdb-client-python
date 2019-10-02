@@ -33,6 +33,7 @@ class Bucket(object):
     openapi_types = {
         'links': 'BucketLinks',
         'id': 'str',
+        'type': 'str',
         'name': 'str',
         'description': 'str',
         'org_id': 'str',
@@ -46,6 +47,7 @@ class Bucket(object):
     attribute_map = {
         'links': 'links',
         'id': 'id',
+        'type': 'type',
         'name': 'name',
         'description': 'description',
         'org_id': 'orgID',
@@ -56,11 +58,12 @@ class Bucket(object):
         'labels': 'labels'
     }
 
-    def __init__(self, links=None, id=None, name=None, description=None, org_id=None, rp=None, created_at=None, updated_at=None, retention_rules=None, labels=None):  # noqa: E501
+    def __init__(self, links=None, id=None, type='user', name=None, description=None, org_id=None, rp=None, created_at=None, updated_at=None, retention_rules=None, labels=None):  # noqa: E501
         """Bucket - a model defined in OpenAPI"""  # noqa: E501
 
         self._links = None
         self._id = None
+        self._type = None
         self._name = None
         self._description = None
         self._org_id = None
@@ -75,6 +78,8 @@ class Bucket(object):
             self.links = links
         if id is not None:
             self.id = id
+        if type is not None:
+            self.type = type
         self.name = name
         if description is not None:
             self.description = description
@@ -131,6 +136,27 @@ class Bucket(object):
         """
 
         self._id = id
+
+    @property
+    def type(self):
+        """Gets the type of this Bucket.  # noqa: E501
+
+
+        :return: The type of this Bucket.  # noqa: E501
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Bucket.
+
+
+        :param type: The type of this Bucket.  # noqa: E501
+        :type: str
+        """
+
+        self._type = type
 
     @property
     def name(self):
@@ -264,7 +290,7 @@ class Bucket(object):
     def retention_rules(self):
         """Gets the retention_rules of this Bucket.  # noqa: E501
 
-        rules to expire or retain data.  No rules means data never expires.  # noqa: E501
+        Rules to expire or retain data.  No rules means data never expires.  # noqa: E501
 
         :return: The retention_rules of this Bucket.  # noqa: E501
         :rtype: list[BucketRetentionRules]
@@ -275,7 +301,7 @@ class Bucket(object):
     def retention_rules(self, retention_rules):
         """Sets the retention_rules of this Bucket.
 
-        rules to expire or retain data.  No rules means data never expires.  # noqa: E501
+        Rules to expire or retain data.  No rules means data never expires.  # noqa: E501
 
         :param retention_rules: The retention_rules of this Bucket.  # noqa: E501
         :type: list[BucketRetentionRules]

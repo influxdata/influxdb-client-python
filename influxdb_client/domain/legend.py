@@ -56,7 +56,7 @@ class Legend(object):
     def type(self):
         """Gets the type of this Legend.  # noqa: E501
 
-        type is the style of the legend  # noqa: E501
+        The style of the legend.  # noqa: E501
 
         :return: The type of this Legend.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class Legend(object):
     def type(self, type):
         """Sets the type of this Legend.
 
-        type is the style of the legend  # noqa: E501
+        The style of the legend.  # noqa: E501
 
         :param type: The type of this Legend.  # noqa: E501
         :type: str

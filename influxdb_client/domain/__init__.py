@@ -44,7 +44,9 @@ from influxdb_client.domain.cell_links import CellLinks
 from influxdb_client.domain.cell_update import CellUpdate
 from influxdb_client.domain.check import Check
 from influxdb_client.domain.check_base import CheckBase
+from influxdb_client.domain.check_base_links import CheckBaseLinks
 from influxdb_client.domain.check_base_tags import CheckBaseTags
+from influxdb_client.domain.check_patch import CheckPatch
 from influxdb_client.domain.check_status_level import CheckStatusLevel
 from influxdb_client.domain.check_view_properties import CheckViewProperties
 from influxdb_client.domain.checks import Checks
@@ -116,11 +118,13 @@ from influxdb_client.domain.model_property import ModelProperty
 from influxdb_client.domain.node import Node
 from influxdb_client.domain.notification_endpoint import NotificationEndpoint
 from influxdb_client.domain.notification_endpoint_base import NotificationEndpointBase
+from influxdb_client.domain.notification_endpoint_base_links import NotificationEndpointBaseLinks
 from influxdb_client.domain.notification_endpoint_type import NotificationEndpointType
 from influxdb_client.domain.notification_endpoint_update import NotificationEndpointUpdate
 from influxdb_client.domain.notification_endpoints import NotificationEndpoints
 from influxdb_client.domain.notification_rule import NotificationRule
 from influxdb_client.domain.notification_rule_base import NotificationRuleBase
+from influxdb_client.domain.notification_rule_base_links import NotificationRuleBaseLinks
 from influxdb_client.domain.notification_rule_update import NotificationRuleUpdate
 from influxdb_client.domain.notification_rules import NotificationRules
 from influxdb_client.domain.object_expression import ObjectExpression
@@ -138,6 +142,7 @@ from influxdb_client.domain.package_clause import PackageClause
 from influxdb_client.domain.pager_duty_notification_endpoint import PagerDutyNotificationEndpoint
 from influxdb_client.domain.pager_duty_notification_rule import PagerDutyNotificationRule
 from influxdb_client.domain.pager_duty_notification_rule_base import PagerDutyNotificationRuleBase
+from influxdb_client.domain.paren_expression import ParenExpression
 from influxdb_client.domain.password_reset_body import PasswordResetBody
 from influxdb_client.domain.permission import Permission
 from influxdb_client.domain.permission_resource import PermissionResource

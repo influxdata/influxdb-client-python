@@ -71,7 +71,7 @@ class File(object):
     def type(self):
         """Gets the type of this File.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this File.  # noqa: E501
         :rtype: str
@@ -82,7 +82,7 @@ class File(object):
     def type(self, type):
         """Sets the type of this File.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this File.  # noqa: E501
         :type: str
@@ -94,7 +94,7 @@ class File(object):
     def name(self):
         """Gets the name of this File.  # noqa: E501
 
-        name of the file  # noqa: E501
+        The name of the file.  # noqa: E501
 
         :return: The name of this File.  # noqa: E501
         :rtype: str
@@ -105,7 +105,7 @@ class File(object):
     def name(self, name):
         """Sets the name of this File.
 
-        name of the file  # noqa: E501
+        The name of the file.  # noqa: E501
 
         :param name: The name of this File.  # noqa: E501
         :type: str
@@ -138,7 +138,7 @@ class File(object):
     def imports(self):
         """Gets the imports of this File.  # noqa: E501
 
-        a list of package imports  # noqa: E501
+        A list of package imports  # noqa: E501
 
         :return: The imports of this File.  # noqa: E501
         :rtype: list[ImportDeclaration]
@@ -149,7 +149,7 @@ class File(object):
     def imports(self, imports):
         """Sets the imports of this File.
 
-        a list of package imports  # noqa: E501
+        A list of package imports  # noqa: E501
 
         :param imports: The imports of this File.  # noqa: E501
         :type: list[ImportDeclaration]
@@ -161,7 +161,7 @@ class File(object):
     def body(self):
         """Gets the body of this File.  # noqa: E501
 
-        list of Flux statements  # noqa: E501
+        List of Flux statements  # noqa: E501
 
         :return: The body of this File.  # noqa: E501
         :rtype: list[Statement]
@@ -172,7 +172,7 @@ class File(object):
     def body(self, body):
         """Sets the body of this File.
 
-        list of Flux statements  # noqa: E501
+        List of Flux statements  # noqa: E501
 
         :param body: The body of this File.  # noqa: E501
         :type: list[Statement]

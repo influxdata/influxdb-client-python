@@ -33,7 +33,7 @@ class TemplatesService(object):
         self.api_client = api_client
 
     def delete_documents_templates_id(self, template_id, **kwargs):  # noqa: E501
-        """delete a template document  # noqa: E501
+        """Delete a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -55,7 +55,7 @@ class TemplatesService(object):
             return data
 
     def delete_documents_templates_id_with_http_info(self, template_id, **kwargs):  # noqa: E501
-        """delete a template document  # noqa: E501
+        """Delete a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -63,7 +63,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class TemplatesService(object):
             collection_formats=collection_formats)
 
     def delete_documents_templates_id_labels_id(self, template_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a template  # noqa: E501
+        """Delete a label from a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param str label_id: the label ID (required)
+        :param str template_id: The template ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class TemplatesService(object):
             return data
 
     def delete_documents_templates_id_labels_id_with_http_info(self, template_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a template  # noqa: E501
+        """Delete a label from a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param str label_id: the label ID (required)
+        :param str template_id: The template ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -246,8 +246,8 @@ class TemplatesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the name of the organization of the template
-        :param str org_id: specifies the organization id of the template
+        :param str org: Specifies the name of the organization of the template.
+        :param str org_id: Specifies the organization ID of the template.
         :return: Documents
                  If the method is called asynchronously,
                  returns the request thread.
@@ -269,8 +269,8 @@ class TemplatesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the name of the organization of the template
-        :param str org_id: specifies the organization id of the template
+        :param str org: Specifies the name of the organization of the template.
+        :param str org_id: Specifies the organization ID of the template.
         :return: Documents
                  If the method is called asynchronously,
                  returns the request thread.
@@ -343,7 +343,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,
@@ -365,7 +365,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,
@@ -433,7 +433,7 @@ class TemplatesService(object):
             collection_formats=collection_formats)
 
     def get_documents_templates_id_labels(self, template_id, **kwargs):  # noqa: E501
-        """list all labels for a template  # noqa: E501
+        """List all labels for a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -441,7 +441,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -455,7 +455,7 @@ class TemplatesService(object):
             return data
 
     def get_documents_templates_id_labels_with_http_info(self, template_id, **kwargs):  # noqa: E501
-        """list all labels for a template  # noqa: E501
+        """List all labels for a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -463,7 +463,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
+        :param str template_id: The template ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -539,7 +539,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param DocumentCreate document_create: template that will be created (required)
+        :param DocumentCreate document_create: Template that will be created (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,
@@ -561,7 +561,7 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param DocumentCreate document_create: template that will be created (required)
+        :param DocumentCreate document_create: Template that will be created (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,
@@ -633,7 +633,7 @@ class TemplatesService(object):
             collection_formats=collection_formats)
 
     def post_documents_templates_id_labels(self, template_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a template  # noqa: E501
+        """Add a label to a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -641,8 +641,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str template_id: The template ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -656,7 +656,7 @@ class TemplatesService(object):
             return data
 
     def post_documents_templates_id_labels_with_http_info(self, template_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a template  # noqa: E501
+        """Add a label to a template  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -664,8 +664,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str template_id: The template ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -751,8 +751,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param DocumentUpdate document_update: template that will be updated (required)
+        :param str template_id: The template ID. (required)
+        :param DocumentUpdate document_update: Template that will be updated (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,
@@ -774,8 +774,8 @@ class TemplatesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str template_id: ID of template (required)
-        :param DocumentUpdate document_update: template that will be updated (required)
+        :param str template_id: The template ID. (required)
+        :param DocumentUpdate document_update: Template that will be updated (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Document
                  If the method is called asynchronously,

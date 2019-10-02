@@ -51,7 +51,7 @@ class IsOnboarding(object):
     def allowed(self):
         """Gets the allowed of this IsOnboarding.  # noqa: E501
 
-        true means that the influxdb instance has NOT had initial setup; false means that the database has been setup.  # noqa: E501
+        True means that the influxdb instance has NOT had initial setup; false means that the database has been setup.  # noqa: E501
 
         :return: The allowed of this IsOnboarding.  # noqa: E501
         :rtype: bool
@@ -62,7 +62,7 @@ class IsOnboarding(object):
     def allowed(self, allowed):
         """Sets the allowed of this IsOnboarding.
 
-        true means that the influxdb instance has NOT had initial setup; false means that the database has been setup.  # noqa: E501
+        True means that the influxdb instance has NOT had initial setup; false means that the database has been setup.  # noqa: E501
 
         :param allowed: The allowed of this IsOnboarding.  # noqa: E501
         :type: bool

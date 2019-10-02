@@ -66,7 +66,7 @@ class Package(object):
     def type(self):
         """Gets the type of this Package.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this Package.  # noqa: E501
         :rtype: str
@@ -77,7 +77,7 @@ class Package(object):
     def type(self, type):
         """Sets the type of this Package.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this Package.  # noqa: E501
         :type: str
@@ -89,7 +89,7 @@ class Package(object):
     def path(self):
         """Gets the path of this Package.  # noqa: E501
 
-        package import path  # noqa: E501
+        Package import path  # noqa: E501
 
         :return: The path of this Package.  # noqa: E501
         :rtype: str
@@ -100,7 +100,7 @@ class Package(object):
     def path(self, path):
         """Sets the path of this Package.
 
-        package import path  # noqa: E501
+        Package import path  # noqa: E501
 
         :param path: The path of this Package.  # noqa: E501
         :type: str
@@ -112,7 +112,7 @@ class Package(object):
     def package(self):
         """Gets the package of this Package.  # noqa: E501
 
-        package name  # noqa: E501
+        Package name  # noqa: E501
 
         :return: The package of this Package.  # noqa: E501
         :rtype: str
@@ -123,7 +123,7 @@ class Package(object):
     def package(self, package):
         """Sets the package of this Package.
 
-        package name  # noqa: E501
+        Package name  # noqa: E501
 
         :param package: The package of this Package.  # noqa: E501
         :type: str
@@ -135,7 +135,7 @@ class Package(object):
     def files(self):
         """Gets the files of this Package.  # noqa: E501
 
-        package files  # noqa: E501
+        Package files  # noqa: E501
 
         :return: The files of this Package.  # noqa: E501
         :rtype: list[File]
@@ -146,7 +146,7 @@ class Package(object):
     def files(self, files):
         """Sets the files of this Package.
 
-        package files  # noqa: E501
+        Package files  # noqa: E501
 
         :param files: The files of this Package.  # noqa: E501
         :type: list[File]

@@ -41,7 +41,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to delete (required)
+        :param str org_id: The ID of the organization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to delete (required)
+        :param str org_id: The ID of the organization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def delete_orgs_id_labels_id(self, org_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from an organization  # noqa: E501
+        """Delete a label from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param str label_id: the label id (required)
+        :param str org_id: The organization ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class OrganizationsService(object):
             return data
 
     def delete_orgs_id_labels_id_with_http_info(self, org_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from an organization  # noqa: E501
+        """Delete a label from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param str label_id: the label id (required)
+        :param str org_id: The organization ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def delete_orgs_id_members_id(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes a member from an organization  # noqa: E501
+        """Remove a member from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -245,8 +245,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -260,7 +260,7 @@ class OrganizationsService(object):
             return data
 
     def delete_orgs_id_members_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes a member from an organization  # noqa: E501
+        """Remove a member from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -268,8 +268,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def delete_orgs_id_owners_id(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes an owner from an organization  # noqa: E501
+        """Remove an owner from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -351,8 +351,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -366,7 +366,7 @@ class OrganizationsService(object):
             return data
 
     def delete_orgs_id_owners_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes an owner from an organization  # noqa: E501
+        """Remove an owner from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -374,8 +374,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -458,8 +458,8 @@ class OrganizationsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: filter organizations to a specific organization name
-        :param str org_id: filter organizations to a specific organization ID
+        :param str org: Filter organizations to a specific organization name.
+        :param str org_id: Filter organizations to a specific organization ID.
         :return: Organizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -481,8 +481,8 @@ class OrganizationsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: filter organizations to a specific organization name
-        :param str org_id: filter organizations to a specific organization ID
+        :param str org: Filter organizations to a specific organization name.
+        :param str org_id: Filter organizations to a specific organization ID.
         :return: Organizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -555,7 +555,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to get (required)
+        :param str org_id: The ID of the organization to get. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -577,7 +577,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to get (required)
+        :param str org_id: The ID of the organization to get. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -645,7 +645,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def get_orgs_id_labels(self, org_id, **kwargs):  # noqa: E501
-        """list all labels for a organization  # noqa: E501
+        """List all labels for a organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -653,7 +653,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -667,7 +667,7 @@ class OrganizationsService(object):
             return data
 
     def get_orgs_id_labels_with_http_info(self, org_id, **kwargs):  # noqa: E501
-        """list all labels for a organization  # noqa: E501
+        """List all labels for a organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -675,7 +675,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -751,7 +751,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -775,7 +775,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -863,7 +863,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -885,7 +885,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -961,7 +961,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -983,7 +983,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1059,7 +1059,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: SecretKeysResponse
                  If the method is called asynchronously,
@@ -1081,7 +1081,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: SecretKeysResponse
                  If the method is called asynchronously,
@@ -1157,8 +1157,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to get (required)
-        :param Organization organization: organization update to apply (required)
+        :param str org_id: The ID of the organization to get. (required)
+        :param Organization organization: Organization update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -1180,8 +1180,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of organization to get (required)
-        :param Organization organization: organization update to apply (required)
+        :param str org_id: The ID of the organization to get. (required)
+        :param Organization organization: Organization update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -1259,7 +1259,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def patch_orgs_id_secrets(self, org_id, request_body, **kwargs):  # noqa: E501
-        """Apply patch to the provided secrets  # noqa: E501
+        """Update secrets in an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1267,8 +1267,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param dict(str, str) request_body: secret key value pairs to update/add (required)
+        :param str org_id: The organization ID. (required)
+        :param dict(str, str) request_body: Secret key value pairs to update/add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1282,7 +1282,7 @@ class OrganizationsService(object):
             return data
 
     def patch_orgs_id_secrets_with_http_info(self, org_id, request_body, **kwargs):  # noqa: E501
-        """Apply patch to the provided secrets  # noqa: E501
+        """Update secrets in an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1290,8 +1290,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param dict(str, str) request_body: secret key value pairs to update/add (required)
+        :param str org_id: The organization ID. (required)
+        :param dict(str, str) request_body: Secret key value pairs to update/add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1377,7 +1377,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Organization organization: organization to create (required)
+        :param Organization organization: Organization to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -1399,7 +1399,7 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Organization organization: organization to create (required)
+        :param Organization organization: Organization to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -1471,7 +1471,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_labels(self, org_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to an organization  # noqa: E501
+        """Add a label to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1479,8 +1479,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str org_id: The organization ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1494,7 +1494,7 @@ class OrganizationsService(object):
             return data
 
     def post_orgs_id_labels_with_http_info(self, org_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to an organization  # noqa: E501
+        """Add a label to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1502,8 +1502,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str org_id: The organization ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1581,7 +1581,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_members(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization member  # noqa: E501
+        """Add a member to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1589,8 +1589,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1604,7 +1604,7 @@ class OrganizationsService(object):
             return data
 
     def post_orgs_id_members_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization member  # noqa: E501
+        """Add a member to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1612,8 +1612,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1691,7 +1691,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_owners(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization owner  # noqa: E501
+        """Add an owner to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1699,8 +1699,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1714,7 +1714,7 @@ class OrganizationsService(object):
             return data
 
     def post_orgs_id_owners_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization owner  # noqa: E501
+        """Add an owner to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1722,8 +1722,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1801,7 +1801,7 @@ class OrganizationsService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_secrets(self, org_id, secret_keys, **kwargs):  # noqa: E501
-        """delete provided secrets  # noqa: E501
+        """Delete secrets from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1809,8 +1809,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param SecretKeys secret_keys: secret key to deleted (required)
+        :param str org_id: The organization ID. (required)
+        :param SecretKeys secret_keys: Secret key to delete (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1824,7 +1824,7 @@ class OrganizationsService(object):
             return data
 
     def post_orgs_id_secrets_with_http_info(self, org_id, secret_keys, **kwargs):  # noqa: E501
-        """delete provided secrets  # noqa: E501
+        """Delete secrets from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1832,8 +1832,8 @@ class OrganizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param SecretKeys secret_keys: secret key to deleted (required)
+        :param str org_id: The organization ID. (required)
+        :param SecretKeys secret_keys: Secret key to delete (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,

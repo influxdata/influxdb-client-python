@@ -77,7 +77,7 @@ class BucketRetentionRules(object):
     def every_seconds(self):
         """Gets the every_seconds of this BucketRetentionRules.  # noqa: E501
 
-        duration in seconds for how long data will be kept in the database.  # noqa: E501
+        Duration in seconds for how long data will be kept in the database.  # noqa: E501
 
         :return: The every_seconds of this BucketRetentionRules.  # noqa: E501
         :rtype: int
@@ -88,7 +88,7 @@ class BucketRetentionRules(object):
     def every_seconds(self, every_seconds):
         """Sets the every_seconds of this BucketRetentionRules.
 
-        duration in seconds for how long data will be kept in the database.  # noqa: E501
+        Duration in seconds for how long data will be kept in the database.  # noqa: E501
 
         :param every_seconds: The every_seconds of this BucketRetentionRules.  # noqa: E501
         :type: int

@@ -40,6 +40,7 @@ class NotificationEndpointBase(object):
         'name': 'str',
         'status': 'str',
         'labels': 'list[Label]',
+        'links': 'NotificationEndpointBaseLinks',
         'type': 'NotificationEndpointType'
     }
 
@@ -53,10 +54,11 @@ class NotificationEndpointBase(object):
         'name': 'name',
         'status': 'status',
         'labels': 'labels',
+        'links': 'links',
         'type': 'type'
     }
 
-    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
+    def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """NotificationEndpointBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -68,6 +70,7 @@ class NotificationEndpointBase(object):
         self._name = None
         self._status = None
         self._labels = None
+        self._links = None
         self._type = None
         self.discriminator = None
 
@@ -83,12 +86,13 @@ class NotificationEndpointBase(object):
             self.updated_at = updated_at
         if description is not None:
             self.description = description
-        if name is not None:
-            self.name = name
+        self.name = name
         if status is not None:
             self.status = status
         if labels is not None:
             self.labels = labels
+        if links is not None:
+            self.links = links
         self.type = type
 
     @property
@@ -200,7 +204,7 @@ class NotificationEndpointBase(object):
     def description(self):
         """Gets the description of this NotificationEndpointBase.  # noqa: E501
 
-        An optional description of the notification endpoint  # noqa: E501
+        An optional description of the notification endpoint.  # noqa: E501
 
         :return: The description of this NotificationEndpointBase.  # noqa: E501
         :rtype: str
@@ -211,7 +215,7 @@ class NotificationEndpointBase(object):
     def description(self, description):
         """Sets the description of this NotificationEndpointBase.
 
-        An optional description of the notification endpoint  # noqa: E501
+        An optional description of the notification endpoint.  # noqa: E501
 
         :param description: The description of this NotificationEndpointBase.  # noqa: E501
         :type: str
@@ -237,6 +241,8 @@ class NotificationEndpointBase(object):
         :param name: The name of this NotificationEndpointBase.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -283,6 +289,27 @@ class NotificationEndpointBase(object):
         """
 
         self._labels = labels
+
+    @property
+    def links(self):
+        """Gets the links of this NotificationEndpointBase.  # noqa: E501
+
+
+        :return: The links of this NotificationEndpointBase.  # noqa: E501
+        :rtype: NotificationEndpointBaseLinks
+        """
+        return self._links
+
+    @links.setter
+    def links(self, links):
+        """Sets the links of this NotificationEndpointBase.
+
+
+        :param links: The links of this NotificationEndpointBase.  # noqa: E501
+        :type: NotificationEndpointBaseLinks
+        """
+
+        self._links = links
 
     @property
     def type(self):

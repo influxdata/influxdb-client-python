@@ -41,10 +41,20 @@ class Threshold(ThresholdBase):
         'all_values': 'allValues'
     }
 
+    discriminator_value_class_map = {
+        
+    }
+
     def __init__(self, level=None, all_values=None):  # noqa: E501
         """Threshold - a model defined in OpenAPI"""  # noqa: E501
         ThresholdBase.__init__(self, level=level, all_values=all_values)
-        self.discriminator = None
+        self.discriminator = 'type'
+
+    def get_real_child_model(self, data):
+        """Returns the real base class specified by the discriminator"""
+        discriminator_key = self.attribute_map[self.discriminator]
+        discriminator_value = data[discriminator_key]
+        return self.discriminator_value_class_map.get(discriminator_value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

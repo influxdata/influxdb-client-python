@@ -61,7 +61,7 @@ class RenamableField(object):
     def internal_name(self):
         """Gets the internal_name of this RenamableField.  # noqa: E501
 
-        This is the calculated name of a field  # noqa: E501
+        The calculated name of a field.  # noqa: E501
 
         :return: The internal_name of this RenamableField.  # noqa: E501
         :rtype: str
@@ -72,7 +72,7 @@ class RenamableField(object):
     def internal_name(self, internal_name):
         """Sets the internal_name of this RenamableField.
 
-        This is the calculated name of a field  # noqa: E501
+        The calculated name of a field.  # noqa: E501
 
         :param internal_name: The internal_name of this RenamableField.  # noqa: E501
         :type: str
@@ -84,7 +84,7 @@ class RenamableField(object):
     def display_name(self):
         """Gets the display_name of this RenamableField.  # noqa: E501
 
-        This is the name that a field is renamed to by the user  # noqa: E501
+        The name that a field is renamed to by the user.  # noqa: E501
 
         :return: The display_name of this RenamableField.  # noqa: E501
         :rtype: str
@@ -95,7 +95,7 @@ class RenamableField(object):
     def display_name(self, display_name):
         """Sets the display_name of this RenamableField.
 
-        This is the name that a field is renamed to by the user  # noqa: E501
+        The name that a field is renamed to by the user.  # noqa: E501
 
         :param display_name: The display_name of this RenamableField.  # noqa: E501
         :type: str
@@ -107,7 +107,7 @@ class RenamableField(object):
     def visible(self):
         """Gets the visible of this RenamableField.  # noqa: E501
 
-        Indicates whether this field should be visible on the table  # noqa: E501
+        Indicates whether this field should be visible on the table.  # noqa: E501
 
         :return: The visible of this RenamableField.  # noqa: E501
         :rtype: bool
@@ -118,7 +118,7 @@ class RenamableField(object):
     def visible(self, visible):
         """Sets the visible of this RenamableField.
 
-        Indicates whether this field should be visible on the table  # noqa: E501
+        Indicates whether this field should be visible on the table.  # noqa: E501
 
         :param visible: The visible of this RenamableField.  # noqa: E501
         :type: bool

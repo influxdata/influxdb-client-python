@@ -61,7 +61,7 @@ class CallExpression(object):
     def type(self):
         """Gets the type of this CallExpression.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this CallExpression.  # noqa: E501
         :rtype: str
@@ -72,7 +72,7 @@ class CallExpression(object):
     def type(self, type):
         """Sets the type of this CallExpression.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this CallExpression.  # noqa: E501
         :type: str
@@ -105,7 +105,7 @@ class CallExpression(object):
     def arguments(self):
         """Gets the arguments of this CallExpression.  # noqa: E501
 
-        function arguments  # noqa: E501
+        Function arguments  # noqa: E501
 
         :return: The arguments of this CallExpression.  # noqa: E501
         :rtype: list[Expression]
@@ -116,7 +116,7 @@ class CallExpression(object):
     def arguments(self, arguments):
         """Sets the arguments of this CallExpression.
 
-        function arguments  # noqa: E501
+        Function arguments  # noqa: E501
 
         :param arguments: The arguments of this CallExpression.  # noqa: E501
         :type: list[Expression]

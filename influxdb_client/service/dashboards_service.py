@@ -41,7 +41,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -139,8 +139,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to delte (required)
-        :param str cell_id: ID of cell to delete (required)
+        :param str dashboard_id: The ID of the dashboard to delete. (required)
+        :param str cell_id: The ID of the cell to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -162,8 +162,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to delte (required)
-        :param str cell_id: ID of cell to delete (required)
+        :param str dashboard_id: The ID of the dashboard to delete. (required)
+        :param str cell_id: The ID of the cell to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def delete_dashboards_id_labels_id(self, dashboard_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a dashboard  # noqa: E501
+        """Delete a label from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -245,8 +245,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param str label_id: the label id to delete (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -260,7 +260,7 @@ class DashboardsService(object):
             return data
 
     def delete_dashboards_id_labels_id_with_http_info(self, dashboard_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a dashboard  # noqa: E501
+        """Delete a label from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -268,8 +268,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param str label_id: the label id to delete (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def delete_dashboards_id_members_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes a member from an dashboard  # noqa: E501
+        """Remove a member from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -351,8 +351,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -366,7 +366,7 @@ class DashboardsService(object):
             return data
 
     def delete_dashboards_id_members_id_with_http_info(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes a member from an dashboard  # noqa: E501
+        """Remove a member from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -374,8 +374,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -449,7 +449,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def delete_dashboards_id_owners_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes an owner from a dashboard  # noqa: E501
+        """Remove an owner from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -457,8 +457,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -472,7 +472,7 @@ class DashboardsService(object):
             return data
 
     def delete_dashboards_id_owners_id_with_http_info(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes an owner from a dashboard  # noqa: E501
+        """Remove an owner from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -480,8 +480,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -564,11 +564,11 @@ class DashboardsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str owner: specifies the owner id to return resources for
-        :param str sort_by: specifies the owner id to return resources for
-        :param list[str] id: ID list of dashboards to return. If both this and owner are specified, only ids is used.
-        :param str org_id: specifies the organization id of the resource
-        :param str org: specifies the organization name of the resource
+        :param str owner: The owner ID.
+        :param str sort_by: The column to sort by.
+        :param list[str] id: List of dashboard IDs to return. If both `id and `owner` are specified, only `id` is used.
+        :param str org_id: The organization ID.
+        :param str org: The organization name.
         :return: Dashboards
                  If the method is called asynchronously,
                  returns the request thread.
@@ -590,11 +590,11 @@ class DashboardsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str owner: specifies the owner id to return resources for
-        :param str sort_by: specifies the owner id to return resources for
-        :param list[str] id: ID list of dashboards to return. If both this and owner are specified, only ids is used.
-        :param str org_id: specifies the organization id of the resource
-        :param str org: specifies the organization name of the resource
+        :param str owner: The owner ID.
+        :param str sort_by: The column to sort by.
+        :param list[str] id: List of dashboard IDs to return. If both `id and `owner` are specified, only `id` is used.
+        :param str org_id: The organization ID.
+        :param str org: The organization name.
         :return: Dashboards
                  If the method is called asynchronously,
                  returns the request thread.
@@ -666,7 +666,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def get_dashboards_id(self, dashboard_id, **kwargs):  # noqa: E501
-        """Get a single Dashboard  # noqa: E501
+        """Get a Dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -674,7 +674,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -688,7 +688,7 @@ class DashboardsService(object):
             return data
 
     def get_dashboards_id_with_http_info(self, dashboard_id, **kwargs):  # noqa: E501
-        """Get a single Dashboard  # noqa: E501
+        """Get a Dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -696,7 +696,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -764,7 +764,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def get_dashboards_id_cells_id_view(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -772,8 +772,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -787,7 +787,7 @@ class DashboardsService(object):
             return data
 
     def get_dashboards_id_cells_id_view_with_http_info(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -795,8 +795,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -878,7 +878,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -900,7 +900,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -976,7 +976,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -1000,7 +1000,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -1088,7 +1088,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1110,7 +1110,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1186,7 +1186,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1208,7 +1208,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1276,7 +1276,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def patch_dashboards_id(self, dashboard_id, dashboard, **kwargs):  # noqa: E501
-        """Update a single dashboard  # noqa: E501
+        """Update a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1284,8 +1284,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param Dashboard dashboard: patching of a dashboard (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param Dashboard dashboard: Patching of a dashboard (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -1299,7 +1299,7 @@ class DashboardsService(object):
             return data
 
     def patch_dashboards_id_with_http_info(self, dashboard_id, dashboard, **kwargs):  # noqa: E501
-        """Update a single dashboard  # noqa: E501
+        """Update a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1307,8 +1307,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param Dashboard dashboard: patching of a dashboard (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param Dashboard dashboard: Patching of a dashboard (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -1386,17 +1386,18 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def patch_dashboards_id_cells_id(self, dashboard_id, cell_id, cell_update, **kwargs):  # noqa: E501
-        """Update the non positional information related to a cell (because updates to a single cells positional data could cause grid conflicts)  # noqa: E501
+        """Update the non-positional information related to a cell  # noqa: E501
 
+        Updates the non positional information related to a cell. Updates to a single cell's positional data could cause grid conflicts.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_dashboards_id_cells_id(dashboard_id, cell_id, cell_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param CellUpdate cell_update: updates the non positional information related to a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param CellUpdate cell_update: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -1410,17 +1411,18 @@ class DashboardsService(object):
             return data
 
     def patch_dashboards_id_cells_id_with_http_info(self, dashboard_id, cell_id, cell_update, **kwargs):  # noqa: E501
-        """Update the non positional information related to a cell (because updates to a single cells positional data could cause grid conflicts)  # noqa: E501
+        """Update the non-positional information related to a cell  # noqa: E501
 
+        Updates the non positional information related to a cell. Updates to a single cell's positional data could cause grid conflicts.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_dashboards_id_cells_id_with_http_info(dashboard_id, cell_id, cell_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param CellUpdate cell_update: updates the non positional information related to a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param CellUpdate cell_update: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -1512,9 +1514,9 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -1536,9 +1538,9 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -1630,7 +1632,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param CreateDashboardRequest create_dashboard_request: dashboard to create (required)
+        :param CreateDashboardRequest create_dashboard_request: Dashboard to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -1652,7 +1654,7 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param CreateDashboardRequest create_dashboard_request: dashboard to create (required)
+        :param CreateDashboardRequest create_dashboard_request: Dashboard to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -1732,8 +1734,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param CreateCell create_cell: cell that will be added (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param CreateCell create_cell: Cell that will be added (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -1755,8 +1757,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param CreateCell create_cell: cell that will be added (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param CreateCell create_cell: Cell that will be added (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -1834,7 +1836,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def post_dashboards_id_labels(self, dashboard_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a dashboard  # noqa: E501
+        """Add a label to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1842,8 +1844,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1857,7 +1859,7 @@ class DashboardsService(object):
             return data
 
     def post_dashboards_id_labels_with_http_info(self, dashboard_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a dashboard  # noqa: E501
+        """Add a label to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1865,8 +1867,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1944,7 +1946,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def post_dashboards_id_members(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard member  # noqa: E501
+        """Add a member to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1952,8 +1954,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1967,7 +1969,7 @@ class DashboardsService(object):
             return data
 
     def post_dashboards_id_members_with_http_info(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard member  # noqa: E501
+        """Add a member to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1975,8 +1977,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -2054,7 +2056,7 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def post_dashboards_id_owners(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard owner  # noqa: E501
+        """Add an owner to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2062,8 +2064,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -2077,7 +2079,7 @@ class DashboardsService(object):
             return data
 
     def post_dashboards_id_owners_with_http_info(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard owner  # noqa: E501
+        """Add an owner to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2085,8 +2087,8 @@ class DashboardsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -2164,16 +2166,17 @@ class DashboardsService(object):
             collection_formats=collection_formats)
 
     def put_dashboards_id_cells(self, dashboard_id, cell, **kwargs):  # noqa: E501
-        """Replace a dashboards cells  # noqa: E501
+        """Replace cells in a dashboard  # noqa: E501
 
+        Replaces all cells in a dashboard. This is used primarily to update the positional information of all cells.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_dashboards_id_cells(dashboard_id, cell, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param list[Cell] cell: batch replaces all of a dashboards cells (this is used primarily to update the positional information of all of the cells) (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param list[Cell] cell: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -2187,16 +2190,17 @@ class DashboardsService(object):
             return data
 
     def put_dashboards_id_cells_with_http_info(self, dashboard_id, cell, **kwargs):  # noqa: E501
-        """Replace a dashboards cells  # noqa: E501
+        """Replace cells in a dashboard  # noqa: E501
 
+        Replaces all cells in a dashboard. This is used primarily to update the positional information of all cells.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_dashboards_id_cells_with_http_info(dashboard_id, cell, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param list[Cell] cell: batch replaces all of a dashboards cells (this is used primarily to update the positional information of all of the cells) (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param list[Cell] cell: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,

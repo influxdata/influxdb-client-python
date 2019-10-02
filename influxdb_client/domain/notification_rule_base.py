@@ -42,14 +42,14 @@ class NotificationRuleBase(object):
         'sleep_until': 'str',
         'every': 'str',
         'offset': 'str',
-        'cron': 'str',
         'runbook_link': 'str',
         'limit_every': 'int',
         'limit': 'int',
         'tag_rules': 'list[TagRule]',
         'description': 'str',
         'status_rules': 'list[StatusRule]',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'links': 'NotificationRuleBaseLinks'
     }
 
     attribute_map = {
@@ -64,17 +64,17 @@ class NotificationRuleBase(object):
         'sleep_until': 'sleepUntil',
         'every': 'every',
         'offset': 'offset',
-        'cron': 'cron',
         'runbook_link': 'runbookLink',
         'limit_every': 'limitEvery',
         'limit': 'limit',
         'tag_rules': 'tagRules',
         'description': 'description',
         'status_rules': 'statusRules',
-        'labels': 'labels'
+        'labels': 'labels',
+        'links': 'links'
     }
 
-    def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, cron=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None):  # noqa: E501
+    def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None, links=None):  # noqa: E501
         """NotificationRuleBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -88,7 +88,6 @@ class NotificationRuleBase(object):
         self._sleep_until = None
         self._every = None
         self._offset = None
-        self._cron = None
         self._runbook_link = None
         self._limit_every = None
         self._limit = None
@@ -96,11 +95,11 @@ class NotificationRuleBase(object):
         self._description = None
         self._status_rules = None
         self._labels = None
+        self._links = None
         self.discriminator = None
 
         self.id = id
-        if endpoint_id is not None:
-            self.endpoint_id = endpoint_id
+        self.endpoint_id = endpoint_id
         self.org_id = org_id
         if owner_id is not None:
             self.owner_id = owner_id
@@ -116,8 +115,6 @@ class NotificationRuleBase(object):
             self.every = every
         if offset is not None:
             self.offset = offset
-        if cron is not None:
-            self.cron = cron
         if runbook_link is not None:
             self.runbook_link = runbook_link
         if limit_every is not None:
@@ -130,6 +127,8 @@ class NotificationRuleBase(object):
         self.status_rules = status_rules
         if labels is not None:
             self.labels = labels
+        if links is not None:
+            self.links = links
 
     @property
     def id(self):
@@ -172,6 +171,8 @@ class NotificationRuleBase(object):
         :param endpoint_id: The endpoint_id of this NotificationRuleBase.  # noqa: E501
         :type: str
         """
+        if endpoint_id is None:
+            raise ValueError("Invalid value for `endpoint_id`, must not be `None`")  # noqa: E501
 
         self._endpoint_id = endpoint_id
 
@@ -179,7 +180,7 @@ class NotificationRuleBase(object):
     def org_id(self):
         """Gets the org_id of this NotificationRuleBase.  # noqa: E501
 
-        the ID of the organization that owns this notification rule.  # noqa: E501
+        The ID of the organization that owns this notification rule.  # noqa: E501
 
         :return: The org_id of this NotificationRuleBase.  # noqa: E501
         :rtype: str
@@ -190,7 +191,7 @@ class NotificationRuleBase(object):
     def org_id(self, org_id):
         """Sets the org_id of this NotificationRuleBase.
 
-        the ID of the organization that owns this notification rule.  # noqa: E501
+        The ID of the organization that owns this notification rule.  # noqa: E501
 
         :param org_id: The org_id of this NotificationRuleBase.  # noqa: E501
         :type: str
@@ -292,7 +293,7 @@ class NotificationRuleBase(object):
     def name(self):
         """Gets the name of this NotificationRuleBase.  # noqa: E501
 
-        human-readable name describing the notification rule  # noqa: E501
+        Human-readable name describing the notification rule.  # noqa: E501
 
         :return: The name of this NotificationRuleBase.  # noqa: E501
         :rtype: str
@@ -303,7 +304,7 @@ class NotificationRuleBase(object):
     def name(self, name):
         """Sets the name of this NotificationRuleBase.
 
-        human-readable name describing the notification rule  # noqa: E501
+        Human-readable name describing the notification rule.  # noqa: E501
 
         :param name: The name of this NotificationRuleBase.  # noqa: E501
         :type: str
@@ -338,7 +339,7 @@ class NotificationRuleBase(object):
     def every(self):
         """Gets the every of this NotificationRuleBase.  # noqa: E501
 
-        notification repetition interval  # noqa: E501
+        The notification repetition interval.  # noqa: E501
 
         :return: The every of this NotificationRuleBase.  # noqa: E501
         :rtype: str
@@ -349,7 +350,7 @@ class NotificationRuleBase(object):
     def every(self, every):
         """Sets the every of this NotificationRuleBase.
 
-        notification repetition interval  # noqa: E501
+        The notification repetition interval.  # noqa: E501
 
         :param every: The every of this NotificationRuleBase.  # noqa: E501
         :type: str
@@ -381,29 +382,6 @@ class NotificationRuleBase(object):
         self._offset = offset
 
     @property
-    def cron(self):
-        """Gets the cron of this NotificationRuleBase.  # noqa: E501
-
-        notification repetition interval in the form '* * * * * *';  # noqa: E501
-
-        :return: The cron of this NotificationRuleBase.  # noqa: E501
-        :rtype: str
-        """
-        return self._cron
-
-    @cron.setter
-    def cron(self, cron):
-        """Sets the cron of this NotificationRuleBase.
-
-        notification repetition interval in the form '* * * * * *';  # noqa: E501
-
-        :param cron: The cron of this NotificationRuleBase.  # noqa: E501
-        :type: str
-        """
-
-        self._cron = cron
-
-    @property
     def runbook_link(self):
         """Gets the runbook_link of this NotificationRuleBase.  # noqa: E501
 
@@ -428,7 +406,7 @@ class NotificationRuleBase(object):
     def limit_every(self):
         """Gets the limit_every of this NotificationRuleBase.  # noqa: E501
 
-        don't notify me more than <limit> times every <limitEvery> seconds. If set, limit cannot be empty.  # noqa: E501
+        Don't notify me more than <limit> times every <limitEvery> seconds. If set, limit cannot be empty.  # noqa: E501
 
         :return: The limit_every of this NotificationRuleBase.  # noqa: E501
         :rtype: int
@@ -439,7 +417,7 @@ class NotificationRuleBase(object):
     def limit_every(self, limit_every):
         """Sets the limit_every of this NotificationRuleBase.
 
-        don't notify me more than <limit> times every <limitEvery> seconds. If set, limit cannot be empty.  # noqa: E501
+        Don't notify me more than <limit> times every <limitEvery> seconds. If set, limit cannot be empty.  # noqa: E501
 
         :param limit_every: The limit_every of this NotificationRuleBase.  # noqa: E501
         :type: int
@@ -451,7 +429,7 @@ class NotificationRuleBase(object):
     def limit(self):
         """Gets the limit of this NotificationRuleBase.  # noqa: E501
 
-        don't notify me more than <limit> times every <limitEvery> seconds. If set, limitEvery cannot be empty.  # noqa: E501
+        Don't notify me more than <limit> times every <limitEvery> seconds. If set, limitEvery cannot be empty.  # noqa: E501
 
         :return: The limit of this NotificationRuleBase.  # noqa: E501
         :rtype: int
@@ -462,7 +440,7 @@ class NotificationRuleBase(object):
     def limit(self, limit):
         """Sets the limit of this NotificationRuleBase.
 
-        don't notify me more than <limit> times every <limitEvery> seconds. If set, limitEvery cannot be empty.  # noqa: E501
+        Don't notify me more than <limit> times every <limitEvery> seconds. If set, limitEvery cannot be empty.  # noqa: E501
 
         :param limit: The limit of this NotificationRuleBase.  # noqa: E501
         :type: int
@@ -474,7 +452,7 @@ class NotificationRuleBase(object):
     def tag_rules(self):
         """Gets the tag_rules of this NotificationRuleBase.  # noqa: E501
 
-        list of tag rules the notification rule attempts to match  # noqa: E501
+        List of tag rules the notification rule attempts to match.  # noqa: E501
 
         :return: The tag_rules of this NotificationRuleBase.  # noqa: E501
         :rtype: list[TagRule]
@@ -485,7 +463,7 @@ class NotificationRuleBase(object):
     def tag_rules(self, tag_rules):
         """Sets the tag_rules of this NotificationRuleBase.
 
-        list of tag rules the notification rule attempts to match  # noqa: E501
+        List of tag rules the notification rule attempts to match.  # noqa: E501
 
         :param tag_rules: The tag_rules of this NotificationRuleBase.  # noqa: E501
         :type: list[TagRule]
@@ -499,7 +477,7 @@ class NotificationRuleBase(object):
     def description(self):
         """Gets the description of this NotificationRuleBase.  # noqa: E501
 
-        An optional description of the notification rule  # noqa: E501
+        An optional description of the notification rule.  # noqa: E501
 
         :return: The description of this NotificationRuleBase.  # noqa: E501
         :rtype: str
@@ -510,7 +488,7 @@ class NotificationRuleBase(object):
     def description(self, description):
         """Sets the description of this NotificationRuleBase.
 
-        An optional description of the notification rule  # noqa: E501
+        An optional description of the notification rule.  # noqa: E501
 
         :param description: The description of this NotificationRuleBase.  # noqa: E501
         :type: str
@@ -522,7 +500,7 @@ class NotificationRuleBase(object):
     def status_rules(self):
         """Gets the status_rules of this NotificationRuleBase.  # noqa: E501
 
-        list of status rules the notification rule attempts to match  # noqa: E501
+        List of status rules the notification rule attempts to match.  # noqa: E501
 
         :return: The status_rules of this NotificationRuleBase.  # noqa: E501
         :rtype: list[StatusRule]
@@ -533,7 +511,7 @@ class NotificationRuleBase(object):
     def status_rules(self, status_rules):
         """Sets the status_rules of this NotificationRuleBase.
 
-        list of status rules the notification rule attempts to match  # noqa: E501
+        List of status rules the notification rule attempts to match.  # noqa: E501
 
         :param status_rules: The status_rules of this NotificationRuleBase.  # noqa: E501
         :type: list[StatusRule]
@@ -563,6 +541,27 @@ class NotificationRuleBase(object):
         """
 
         self._labels = labels
+
+    @property
+    def links(self):
+        """Gets the links of this NotificationRuleBase.  # noqa: E501
+
+
+        :return: The links of this NotificationRuleBase.  # noqa: E501
+        :rtype: NotificationRuleBaseLinks
+        """
+        return self._links
+
+    @links.setter
+    def links(self, links):
+        """Sets the links of this NotificationRuleBase.
+
+
+        :param links: The links of this NotificationRuleBase.  # noqa: E501
+        :type: NotificationRuleBaseLinks
+        """
+
+        self._links = links
 
     def to_dict(self):
         """Returns the model properties as a dict"""

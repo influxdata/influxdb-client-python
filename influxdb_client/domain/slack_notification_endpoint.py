@@ -43,6 +43,7 @@ class SlackNotificationEndpoint(NotificationEndpointBase):
         'name': 'str',
         'status': 'str',
         'labels': 'list[Label]',
+        'links': 'NotificationEndpointBaseLinks',
         'type': 'NotificationEndpointType'
     }
 
@@ -58,24 +59,28 @@ class SlackNotificationEndpoint(NotificationEndpointBase):
         'name': 'name',
         'status': 'status',
         'labels': 'labels',
+        'links': 'links',
         'type': 'type'
     }
 
-    def __init__(self, url=None, token=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
+    def __init__(self, url=None, token=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """SlackNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, links=links, type=type)
 
         self._url = None
         self._token = None
         self.discriminator = None
 
-        self.url = url
-        self.token = token
+        if url is not None:
+            self.url = url
+        if token is not None:
+            self.token = token
 
     @property
     def url(self):
         """Gets the url of this SlackNotificationEndpoint.  # noqa: E501
 
+        Specifies the URL of the Slack endpoint. Specify either `URL` or `Token`.  # noqa: E501
 
         :return: The url of this SlackNotificationEndpoint.  # noqa: E501
         :rtype: str
@@ -86,12 +91,11 @@ class SlackNotificationEndpoint(NotificationEndpointBase):
     def url(self, url):
         """Sets the url of this SlackNotificationEndpoint.
 
+        Specifies the URL of the Slack endpoint. Specify either `URL` or `Token`.  # noqa: E501
 
         :param url: The url of this SlackNotificationEndpoint.  # noqa: E501
         :type: str
         """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
 
@@ -99,6 +103,7 @@ class SlackNotificationEndpoint(NotificationEndpointBase):
     def token(self):
         """Gets the token of this SlackNotificationEndpoint.  # noqa: E501
 
+        Specifies the API token string. Specify either `URL` or `Token`.  # noqa: E501
 
         :return: The token of this SlackNotificationEndpoint.  # noqa: E501
         :rtype: str
@@ -109,12 +114,11 @@ class SlackNotificationEndpoint(NotificationEndpointBase):
     def token(self, token):
         """Sets the token of this SlackNotificationEndpoint.
 
+        Specifies the API token string. Specify either `URL` or `Token`.  # noqa: E501
 
         :param token: The token of this SlackNotificationEndpoint.  # noqa: E501
         :type: str
         """
-        if token is None:
-            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
 

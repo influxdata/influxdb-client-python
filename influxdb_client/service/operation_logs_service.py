@@ -41,7 +41,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -65,7 +65,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -153,7 +153,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -177,7 +177,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -265,7 +265,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -289,7 +289,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -377,7 +377,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -401,7 +401,7 @@ class OperationLogsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:

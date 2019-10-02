@@ -41,7 +41,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to delete (required)
+        :param str bucket_id: The ID of the bucket to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to delete (required)
+        :param str bucket_id: The ID of the bucket to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -139,8 +139,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param str label_id: the label id to delete (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -162,8 +162,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param str label_id: the label id to delete (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def delete_buckets_id_members_id(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes a member from an bucket  # noqa: E501
+        """Remove a member from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -245,8 +245,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -260,7 +260,7 @@ class BucketsService(object):
             return data
 
     def delete_buckets_id_members_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes a member from an bucket  # noqa: E501
+        """Remove a member from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -268,8 +268,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def delete_buckets_id_owners_id(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes an owner from a bucket  # noqa: E501
+        """Remove an owner from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -351,8 +351,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -366,7 +366,7 @@ class BucketsService(object):
             return data
 
     def delete_buckets_id_owners_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes an owner from a bucket  # noqa: E501
+        """Remove an owner from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -374,8 +374,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -460,9 +460,9 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str org: specifies the organization name of the resource
-        :param str org_id: specifies the organization id of the resource
-        :param str name: only returns buckets with the specified name
+        :param str org: The organization name.
+        :param str org_id: The organization ID.
+        :param str name: Only returns buckets with a specific name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -486,9 +486,9 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str org: specifies the organization name of the resource
-        :param str org_id: specifies the organization id of the resource
-        :param str name: only returns buckets with the specified name
+        :param str org: The organization name.
+        :param str org_id: The organization ID.
+        :param str name: Only returns buckets with a specific name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -573,7 +573,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to get (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -595,7 +595,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to get (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -663,7 +663,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def get_buckets_id_labels(self, bucket_id, **kwargs):  # noqa: E501
-        """list all labels for a bucket  # noqa: E501
+        """List all labels for a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -671,7 +671,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -685,7 +685,7 @@ class BucketsService(object):
             return data
 
     def get_buckets_id_labels_with_http_info(self, bucket_id, **kwargs):  # noqa: E501
-        """list all labels for a bucket  # noqa: E501
+        """List all labels for a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -693,7 +693,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -769,7 +769,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -793,7 +793,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -881,7 +881,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -903,7 +903,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -979,7 +979,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1001,7 +1001,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1069,7 +1069,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def get_sources_id_buckets(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources buckets (will return dbrps in the form of buckets if it is a v1 source)  # noqa: E501
+        """Get buckets in a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1077,9 +1077,9 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1092,7 +1092,7 @@ class BucketsService(object):
             return data
 
     def get_sources_id_buckets_with_http_info(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources buckets (will return dbrps in the form of buckets if it is a v1 source)  # noqa: E501
+        """Get buckets in a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1100,9 +1100,9 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1179,8 +1179,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to update (required)
-        :param Bucket bucket: bucket update to apply (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param Bucket bucket: Bucket update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1202,8 +1202,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of bucket to update (required)
-        :param Bucket bucket: bucket update to apply (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param Bucket bucket: Bucket update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1289,7 +1289,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Bucket bucket: bucket to create (required)
+        :param Bucket bucket: Bucket to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1311,7 +1311,7 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Bucket bucket: bucket to create (required)
+        :param Bucket bucket: Bucket to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1383,7 +1383,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def post_buckets_id_labels(self, bucket_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a bucket  # noqa: E501
+        """Add a label to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1391,8 +1391,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1406,7 +1406,7 @@ class BucketsService(object):
             return data
 
     def post_buckets_id_labels_with_http_info(self, bucket_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a bucket  # noqa: E501
+        """Add a label to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1414,8 +1414,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1493,7 +1493,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def post_buckets_id_members(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket member  # noqa: E501
+        """Add a member to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1501,8 +1501,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1516,7 +1516,7 @@ class BucketsService(object):
             return data
 
     def post_buckets_id_members_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket member  # noqa: E501
+        """Add a member to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1524,8 +1524,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1603,7 +1603,7 @@ class BucketsService(object):
             collection_formats=collection_formats)
 
     def post_buckets_id_owners(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket owner  # noqa: E501
+        """Add an owner to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1611,8 +1611,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1626,7 +1626,7 @@ class BucketsService(object):
             return data
 
     def post_buckets_id_owners_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket owner  # noqa: E501
+        """Add an owner to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1634,8 +1634,8 @@ class BucketsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,

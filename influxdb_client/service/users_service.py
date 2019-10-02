@@ -33,7 +33,7 @@ class UsersService(object):
         self.api_client = api_client
 
     def delete_buckets_id_members_id(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes a member from an bucket  # noqa: E501
+        """Remove a member from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,8 +41,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -56,7 +56,7 @@ class UsersService(object):
             return data
 
     def delete_buckets_id_members_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes a member from an bucket  # noqa: E501
+        """Remove a member from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -64,8 +64,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -139,7 +139,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_buckets_id_owners_id(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes an owner from a bucket  # noqa: E501
+        """Remove an owner from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -147,8 +147,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -162,7 +162,7 @@ class UsersService(object):
             return data
 
     def delete_buckets_id_owners_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501
-        """removes an owner from a bucket  # noqa: E501
+        """Remove an owner from a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -170,8 +170,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str bucket_id: ID of the bucket (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -245,7 +245,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_dashboards_id_members_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes a member from an dashboard  # noqa: E501
+        """Remove a member from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -253,8 +253,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -268,7 +268,7 @@ class UsersService(object):
             return data
 
     def delete_dashboards_id_members_id_with_http_info(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes a member from an dashboard  # noqa: E501
+        """Remove a member from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -276,8 +276,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -351,7 +351,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_dashboards_id_owners_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes an owner from a dashboard  # noqa: E501
+        """Remove an owner from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -359,8 +359,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -374,7 +374,7 @@ class UsersService(object):
             return data
 
     def delete_dashboards_id_owners_id_with_http_info(self, user_id, dashboard_id, **kwargs):  # noqa: E501
-        """removes an owner from a dashboard  # noqa: E501
+        """Remove an owner from a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -382,8 +382,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -457,7 +457,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_orgs_id_members_id(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes a member from an organization  # noqa: E501
+        """Remove a member from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -465,8 +465,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -480,7 +480,7 @@ class UsersService(object):
             return data
 
     def delete_orgs_id_members_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes a member from an organization  # noqa: E501
+        """Remove a member from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -488,8 +488,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -563,7 +563,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_orgs_id_owners_id(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes an owner from an organization  # noqa: E501
+        """Remove an owner from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -571,8 +571,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -586,7 +586,7 @@ class UsersService(object):
             return data
 
     def delete_orgs_id_owners_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501
-        """removes an owner from an organization  # noqa: E501
+        """Remove an owner from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -594,8 +594,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str org_id: ID of the organization (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -669,7 +669,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_scrapers_id_members_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes a member from a scraper target  # noqa: E501
+        """Remove a member from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -677,8 +677,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of member to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -692,7 +692,7 @@ class UsersService(object):
             return data
 
     def delete_scrapers_id_members_id_with_http_info(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes a member from a scraper target  # noqa: E501
+        """Remove a member from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -700,8 +700,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of member to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -775,7 +775,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_scrapers_id_owners_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes an owner from a scraper target  # noqa: E501
+        """Remove an owner from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -783,8 +783,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of owner to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -798,7 +798,7 @@ class UsersService(object):
             return data
 
     def delete_scrapers_id_owners_id_with_http_info(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes an owner from a scraper target  # noqa: E501
+        """Remove an owner from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -806,8 +806,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of owner to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -881,7 +881,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_members_id(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes a member from an task  # noqa: E501
+        """Remove a member from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -889,8 +889,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -904,7 +904,7 @@ class UsersService(object):
             return data
 
     def delete_tasks_id_members_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes a member from an task  # noqa: E501
+        """Remove a member from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -912,8 +912,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -987,7 +987,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_owners_id(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes an owner from an task  # noqa: E501
+        """Remove an owner from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -995,8 +995,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1010,7 +1010,7 @@ class UsersService(object):
             return data
 
     def delete_tasks_id_owners_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes an owner from an task  # noqa: E501
+        """Remove an owner from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1018,8 +1018,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1093,7 +1093,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_telegrafs_id_members_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes a member from a telegraf config  # noqa: E501
+        """Remove a member from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1101,8 +1101,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str telegraf_id: ID of the telegraf (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1116,7 +1116,7 @@ class UsersService(object):
             return data
 
     def delete_telegrafs_id_members_id_with_http_info(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes a member from a telegraf config  # noqa: E501
+        """Remove a member from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1124,8 +1124,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str telegraf_id: ID of the telegraf (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1199,7 +1199,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_telegrafs_id_owners_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes an owner from a telegraf config  # noqa: E501
+        """Remove an owner from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1207,8 +1207,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1222,7 +1222,7 @@ class UsersService(object):
             return data
 
     def delete_telegrafs_id_owners_id_with_http_info(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes an owner from a telegraf config  # noqa: E501
+        """Remove an owner from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1230,8 +1230,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1305,7 +1305,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def delete_users_id(self, user_id, **kwargs):  # noqa: E501
-        """deletes a user  # noqa: E501
+        """Delete a user  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1313,7 +1313,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to delete (required)
+        :param str user_id: The ID of the user to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1327,7 +1327,7 @@ class UsersService(object):
             return data
 
     def delete_users_id_with_http_info(self, user_id, **kwargs):  # noqa: E501
-        """deletes a user  # noqa: E501
+        """Delete a user  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1335,7 +1335,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to delete (required)
+        :param str user_id: The ID of the user to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1411,7 +1411,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1433,7 +1433,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1509,7 +1509,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1531,7 +1531,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
+        :param str bucket_id: The bucket ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1607,7 +1607,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1629,7 +1629,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1705,7 +1705,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1727,7 +1727,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
+        :param str dashboard_id: The dashboard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1795,7 +1795,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def get_me(self, **kwargs):  # noqa: E501
-        """Returns currently authenticated user  # noqa: E501
+        """Return the current authenticated user  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1816,7 +1816,7 @@ class UsersService(object):
             return data
 
     def get_me_with_http_info(self, **kwargs):  # noqa: E501
-        """Returns currently authenticated user  # noqa: E501
+        """Return the current authenticated user  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1893,7 +1893,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1915,7 +1915,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1991,7 +1991,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2013,7 +2013,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2089,7 +2089,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2111,7 +2111,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2187,7 +2187,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2209,7 +2209,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2285,7 +2285,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2307,7 +2307,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2375,7 +2375,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id_owners(self, task_id, **kwargs):  # noqa: E501
-        """List all task owners  # noqa: E501
+        """List all owners of a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2383,7 +2383,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2397,7 +2397,7 @@ class UsersService(object):
             return data
 
     def get_tasks_id_owners_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """List all task owners  # noqa: E501
+        """List all owners of a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2405,7 +2405,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2473,7 +2473,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id_members(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all users with member privileges for a telegraf config  # noqa: E501
+        """List all users with member privileges for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2481,7 +2481,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2495,7 +2495,7 @@ class UsersService(object):
             return data
 
     def get_telegrafs_id_members_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all users with member privileges for a telegraf config  # noqa: E501
+        """List all users with member privileges for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2503,7 +2503,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -2571,7 +2571,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id_owners(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all owners of a telegraf config  # noqa: E501
+        """List all owners of a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2579,7 +2579,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2593,7 +2593,7 @@ class UsersService(object):
             return data
 
     def get_telegrafs_id_owners_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all owners of a telegraf config  # noqa: E501
+        """List all owners of a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2601,7 +2601,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -2767,7 +2767,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to get (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -2789,7 +2789,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to get (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -2865,7 +2865,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -2889,7 +2889,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
+        :param str user_id: The user ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
@@ -2977,8 +2977,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to update (required)
-        :param User user: user update to apply (required)
+        :param str user_id: The ID of the user to update. (required)
+        :param User user: User update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -3000,8 +3000,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of user to update (required)
-        :param User user: user update to apply (required)
+        :param str user_id: The ID of the user to update. (required)
+        :param User user: User update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -3079,7 +3079,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_buckets_id_members(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket member  # noqa: E501
+        """Add a member to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3087,8 +3087,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3102,7 +3102,7 @@ class UsersService(object):
             return data
 
     def post_buckets_id_members_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket member  # noqa: E501
+        """Add a member to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3110,8 +3110,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3189,7 +3189,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_buckets_id_owners(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket owner  # noqa: E501
+        """Add an owner to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3197,8 +3197,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3212,7 +3212,7 @@ class UsersService(object):
             return data
 
     def post_buckets_id_owners_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add bucket owner  # noqa: E501
+        """Add an owner to a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3220,8 +3220,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: ID of the bucket (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str bucket_id: The bucket ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3299,7 +3299,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_dashboards_id_members(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard member  # noqa: E501
+        """Add a member to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3307,8 +3307,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3322,7 +3322,7 @@ class UsersService(object):
             return data
 
     def post_dashboards_id_members_with_http_info(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard member  # noqa: E501
+        """Add a member to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3330,8 +3330,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3409,7 +3409,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_dashboards_id_owners(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard owner  # noqa: E501
+        """Add an owner to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3417,8 +3417,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3432,7 +3432,7 @@ class UsersService(object):
             return data
 
     def post_dashboards_id_owners_with_http_info(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add dashboard owner  # noqa: E501
+        """Add an owner to a dashboard  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3440,8 +3440,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of the dashboard (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3519,7 +3519,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_members(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization member  # noqa: E501
+        """Add a member to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3527,8 +3527,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3542,7 +3542,7 @@ class UsersService(object):
             return data
 
     def post_orgs_id_members_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization member  # noqa: E501
+        """Add a member to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3550,8 +3550,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3629,7 +3629,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_owners(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization owner  # noqa: E501
+        """Add an owner to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3637,8 +3637,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3652,7 +3652,7 @@ class UsersService(object):
             return data
 
     def post_orgs_id_owners_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add organization owner  # noqa: E501
+        """Add an owner to an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3660,8 +3660,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str org_id: The organization ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3739,7 +3739,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_scrapers_id_members(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target member  # noqa: E501
+        """Add a member to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3747,8 +3747,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3762,7 +3762,7 @@ class UsersService(object):
             return data
 
     def post_scrapers_id_members_with_http_info(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target member  # noqa: E501
+        """Add a member to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3770,8 +3770,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3849,7 +3849,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_scrapers_id_owners(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target owner  # noqa: E501
+        """Add an owner to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3857,8 +3857,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3872,7 +3872,7 @@ class UsersService(object):
             return data
 
     def post_scrapers_id_owners_with_http_info(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target owner  # noqa: E501
+        """Add an owner to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3880,8 +3880,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -3959,7 +3959,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_members(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task member  # noqa: E501
+        """Add a member to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3967,8 +3967,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -3982,7 +3982,7 @@ class UsersService(object):
             return data
 
     def post_tasks_id_members_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task member  # noqa: E501
+        """Add a member to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -3990,8 +3990,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -4069,7 +4069,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_owners(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task owner  # noqa: E501
+        """Add an owner to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4077,8 +4077,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -4092,7 +4092,7 @@ class UsersService(object):
             return data
 
     def post_tasks_id_owners_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task owner  # noqa: E501
+        """Add an owner to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4100,8 +4100,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -4179,7 +4179,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs_id_members(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config member  # noqa: E501
+        """Add a member to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4187,8 +4187,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -4202,7 +4202,7 @@ class UsersService(object):
             return data
 
     def post_telegrafs_id_members_with_http_info(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config member  # noqa: E501
+        """Add a member to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4210,8 +4210,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -4289,7 +4289,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs_id_owners(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config owner  # noqa: E501
+        """Add an owner to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4297,8 +4297,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -4312,7 +4312,7 @@ class UsersService(object):
             return data
 
     def post_telegrafs_id_owners_with_http_info(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config owner  # noqa: E501
+        """Add an owner to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4320,8 +4320,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -4407,7 +4407,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: user to create (required)
+        :param User user: User to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -4429,7 +4429,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: user to create (required)
+        :param User user: User to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: User
                  If the method is called asynchronously,
@@ -4501,7 +4501,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def put_me_password(self, password_reset_body, **kwargs):  # noqa: E501
-        """Update password  # noqa: E501
+        """Update a password  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4509,7 +4509,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PasswordResetBody password_reset_body: new password (required)
+        :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -4523,7 +4523,7 @@ class UsersService(object):
             return data
 
     def put_me_password_with_http_info(self, password_reset_body, **kwargs):  # noqa: E501
-        """Update password  # noqa: E501
+        """Update a password  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4531,7 +4531,7 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PasswordResetBody password_reset_body: new password (required)
+        :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -4603,7 +4603,7 @@ class UsersService(object):
             collection_formats=collection_formats)
 
     def put_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501
-        """Update password  # noqa: E501
+        """Update a password  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4611,8 +4611,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
-        :param PasswordResetBody password_reset_body: new password (required)
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -4626,7 +4626,7 @@ class UsersService(object):
             return data
 
     def put_users_id_password_with_http_info(self, user_id, password_reset_body, **kwargs):  # noqa: E501
-        """Update password  # noqa: E501
+        """Update a password  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -4634,8 +4634,8 @@ class UsersService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of the user (required)
-        :param PasswordResetBody password_reset_body: new password (required)
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,

@@ -56,7 +56,7 @@ class Block(object):
     def type(self):
         """Gets the type of this Block.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this Block.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class Block(object):
     def type(self, type):
         """Sets the type of this Block.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this Block.  # noqa: E501
         :type: str
@@ -79,7 +79,7 @@ class Block(object):
     def body(self):
         """Gets the body of this Block.  # noqa: E501
 
-        block body  # noqa: E501
+        Block body  # noqa: E501
 
         :return: The body of this Block.  # noqa: E501
         :rtype: list[Statement]
@@ -90,7 +90,7 @@ class Block(object):
     def body(self, body):
         """Sets the body of this Block.
 
-        block body  # noqa: E501
+        Block body  # noqa: E501
 
         :param body: The body of this Block.  # noqa: E501
         :type: list[Statement]

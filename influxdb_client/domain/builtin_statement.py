@@ -56,7 +56,7 @@ class BuiltinStatement(object):
     def type(self):
         """Gets the type of this BuiltinStatement.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this BuiltinStatement.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class BuiltinStatement(object):
     def type(self, type):
         """Sets the type of this BuiltinStatement.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this BuiltinStatement.  # noqa: E501
         :type: str

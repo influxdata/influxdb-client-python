@@ -59,7 +59,7 @@ class CreateDashboardRequest(object):
     def org_id(self):
         """Gets the org_id of this CreateDashboardRequest.  # noqa: E501
 
-        id of the organization that owns the dashboard  # noqa: E501
+        The ID of the organization that owns the dashboard.  # noqa: E501
 
         :return: The org_id of this CreateDashboardRequest.  # noqa: E501
         :rtype: str
@@ -70,7 +70,7 @@ class CreateDashboardRequest(object):
     def org_id(self, org_id):
         """Sets the org_id of this CreateDashboardRequest.
 
-        id of the organization that owns the dashboard  # noqa: E501
+        The ID of the organization that owns the dashboard.  # noqa: E501
 
         :param org_id: The org_id of this CreateDashboardRequest.  # noqa: E501
         :type: str
@@ -84,7 +84,7 @@ class CreateDashboardRequest(object):
     def name(self):
         """Gets the name of this CreateDashboardRequest.  # noqa: E501
 
-        user-facing name of the dashboard  # noqa: E501
+        The user-facing name of the dashboard.  # noqa: E501
 
         :return: The name of this CreateDashboardRequest.  # noqa: E501
         :rtype: str
@@ -95,7 +95,7 @@ class CreateDashboardRequest(object):
     def name(self, name):
         """Sets the name of this CreateDashboardRequest.
 
-        user-facing name of the dashboard  # noqa: E501
+        The user-facing name of the dashboard.  # noqa: E501
 
         :param name: The name of this CreateDashboardRequest.  # noqa: E501
         :type: str
@@ -109,7 +109,7 @@ class CreateDashboardRequest(object):
     def description(self):
         """Gets the description of this CreateDashboardRequest.  # noqa: E501
 
-        user-facing description of the dashboard  # noqa: E501
+        The user-facing description of the dashboard.  # noqa: E501
 
         :return: The description of this CreateDashboardRequest.  # noqa: E501
         :rtype: str
@@ -120,7 +120,7 @@ class CreateDashboardRequest(object):
     def description(self, description):
         """Sets the description of this CreateDashboardRequest.
 
-        user-facing description of the dashboard  # noqa: E501
+        The user-facing description of the dashboard.  # noqa: E501
 
         :param description: The description of this CreateDashboardRequest.  # noqa: E501
         :type: str

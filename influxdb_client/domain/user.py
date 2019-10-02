@@ -135,7 +135,7 @@ class User(object):
     def status(self):
         """Gets the status of this User.  # noqa: E501
 
-        if inactive the user is inactive.  # noqa: E501
+        If inactive the user is inactive.  # noqa: E501
 
         :return: The status of this User.  # noqa: E501
         :rtype: str
@@ -146,7 +146,7 @@ class User(object):
     def status(self, status):
         """Sets the status of this User.
 
-        if inactive the user is inactive.  # noqa: E501
+        If inactive the user is inactive.  # noqa: E501
 
         :param status: The status of this User.  # noqa: E501
         :type: str

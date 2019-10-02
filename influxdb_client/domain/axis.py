@@ -99,7 +99,7 @@ class Axis(object):
     def label(self):
         """Gets the label of this Axis.  # noqa: E501
 
-        label is a description of this Axis  # noqa: E501
+        Label is a description of this Axis  # noqa: E501
 
         :return: The label of this Axis.  # noqa: E501
         :rtype: str
@@ -110,7 +110,7 @@ class Axis(object):
     def label(self, label):
         """Sets the label of this Axis.
 
-        label is a description of this Axis  # noqa: E501
+        Label is a description of this Axis  # noqa: E501
 
         :param label: The label of this Axis.  # noqa: E501
         :type: str

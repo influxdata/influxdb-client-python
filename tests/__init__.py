@@ -16,6 +16,7 @@ from influxdb_client.service.operation_logs_service import OperationLogsService
 from influxdb_client.service.organizations_service import OrganizationsService
 from influxdb_client.service.query_service import QueryService
 from influxdb_client.service.ready_service import ReadyService
+from influxdb_client.service.rules_service import RulesService
 from influxdb_client.service.scraper_targets_service import ScraperTargetsService
 from influxdb_client.service.secrets_service import SecretsService
 from influxdb_client.service.setup_service import SetupService

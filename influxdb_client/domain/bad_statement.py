@@ -56,7 +56,7 @@ class BadStatement(object):
     def type(self):
         """Gets the type of this BadStatement.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this BadStatement.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class BadStatement(object):
     def type(self, type):
         """Sets the type of this BadStatement.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this BadStatement.  # noqa: E501
         :type: str
@@ -79,7 +79,7 @@ class BadStatement(object):
     def text(self):
         """Gets the text of this BadStatement.  # noqa: E501
 
-        raw source text  # noqa: E501
+        Raw source text  # noqa: E501
 
         :return: The text of this BadStatement.  # noqa: E501
         :rtype: str
@@ -90,7 +90,7 @@ class BadStatement(object):
     def text(self, text):
         """Sets the text of this BadStatement.
 
-        raw source text  # noqa: E501
+        Raw source text  # noqa: E501
 
         :param text: The text of this BadStatement.  # noqa: E501
         :type: str

@@ -41,7 +41,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -140,7 +140,7 @@ class SourcesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Sources
                  If the method is called asynchronously,
                  returns the request thread.
@@ -162,7 +162,7 @@ class SourcesService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Sources
                  If the method is called asynchronously,
                  returns the request thread.
@@ -233,7 +233,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,
@@ -255,7 +255,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,
@@ -323,7 +323,7 @@ class SourcesService(object):
             collection_formats=collection_formats)
 
     def get_sources_id_buckets(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources buckets (will return dbrps in the form of buckets if it is a v1 source)  # noqa: E501
+        """Get buckets in a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -331,9 +331,9 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -346,7 +346,7 @@ class SourcesService(object):
             return data
 
     def get_sources_id_buckets_with_http_info(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources buckets (will return dbrps in the form of buckets if it is a v1 source)  # noqa: E501
+        """Get buckets in a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -354,9 +354,9 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the organization of the resource
+        :param str org: The organization name.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -425,7 +425,7 @@ class SourcesService(object):
             collection_formats=collection_formats)
 
     def get_sources_id_health(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources health  # noqa: E501
+        """Get the health of a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -433,7 +433,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: HealthCheck
                  If the method is called asynchronously,
@@ -447,7 +447,7 @@ class SourcesService(object):
             return data
 
     def get_sources_id_health_with_http_info(self, source_id, **kwargs):  # noqa: E501
-        """Get a sources health  # noqa: E501
+        """Get the health of a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -455,7 +455,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
+        :param str source_id: The source ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: HealthCheck
                  If the method is called asynchronously,
@@ -523,7 +523,7 @@ class SourcesService(object):
             collection_formats=collection_formats)
 
     def patch_sources_id(self, source_id, source, **kwargs):  # noqa: E501
-        """Updates a Source  # noqa: E501
+        """Update a Source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -531,8 +531,8 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
-        :param Source source: source update (required)
+        :param str source_id: The source ID. (required)
+        :param Source source: Source update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,
@@ -546,7 +546,7 @@ class SourcesService(object):
             return data
 
     def patch_sources_id_with_http_info(self, source_id, source, **kwargs):  # noqa: E501
-        """Updates a Source  # noqa: E501
+        """Update a Source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -554,8 +554,8 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str source_id: ID of the source (required)
-        :param Source source: source update (required)
+        :param str source_id: The source ID. (required)
+        :param Source source: Source update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,
@@ -633,7 +633,7 @@ class SourcesService(object):
             collection_formats=collection_formats)
 
     def post_sources(self, source, **kwargs):  # noqa: E501
-        """Creates a Source  # noqa: E501
+        """Creates a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -641,7 +641,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Source source: source to create (required)
+        :param Source source: Source to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,
@@ -655,7 +655,7 @@ class SourcesService(object):
             return data
 
     def post_sources_with_http_info(self, source, **kwargs):  # noqa: E501
-        """Creates a Source  # noqa: E501
+        """Creates a source  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -663,7 +663,7 @@ class SourcesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Source source: source to create (required)
+        :param Source source: Source to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Source
                  If the method is called asynchronously,

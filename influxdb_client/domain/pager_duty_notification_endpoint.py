@@ -32,7 +32,7 @@ class PagerDutyNotificationEndpoint(NotificationEndpointBase):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'url': 'str',
+        'client_url': 'str',
         'routing_key': 'str',
         'id': 'str',
         'org_id': 'str',
@@ -43,11 +43,12 @@ class PagerDutyNotificationEndpoint(NotificationEndpointBase):
         'name': 'str',
         'status': 'str',
         'labels': 'list[Label]',
+        'links': 'NotificationEndpointBaseLinks',
         'type': 'NotificationEndpointType'
     }
 
     attribute_map = {
-        'url': 'url',
+        'client_url': 'clientURL',
         'routing_key': 'routingKey',
         'id': 'id',
         'org_id': 'orgID',
@@ -58,42 +59,43 @@ class PagerDutyNotificationEndpoint(NotificationEndpointBase):
         'name': 'name',
         'status': 'status',
         'labels': 'labels',
+        'links': 'links',
         'type': 'type'
     }
 
-    def __init__(self, url=None, routing_key=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
+    def __init__(self, client_url=None, routing_key=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """PagerDutyNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, links=links, type=type)
 
-        self._url = None
+        self._client_url = None
         self._routing_key = None
         self.discriminator = None
 
-        self.url = url
+        self.client_url = client_url
         self.routing_key = routing_key
 
     @property
-    def url(self):
-        """Gets the url of this PagerDutyNotificationEndpoint.  # noqa: E501
+    def client_url(self):
+        """Gets the client_url of this PagerDutyNotificationEndpoint.  # noqa: E501
 
 
-        :return: The url of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :return: The client_url of this PagerDutyNotificationEndpoint.  # noqa: E501
         :rtype: str
         """
-        return self._url
+        return self._client_url
 
-    @url.setter
-    def url(self, url):
-        """Sets the url of this PagerDutyNotificationEndpoint.
+    @client_url.setter
+    def client_url(self, client_url):
+        """Sets the client_url of this PagerDutyNotificationEndpoint.
 
 
-        :param url: The url of this PagerDutyNotificationEndpoint.  # noqa: E501
+        :param client_url: The client_url of this PagerDutyNotificationEndpoint.  # noqa: E501
         :type: str
         """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
+        if client_url is None:
+            raise ValueError("Invalid value for `client_url`, must not be `None`")  # noqa: E501
 
-        self._url = url
+        self._client_url = client_url
 
     @property
     def routing_key(self):
