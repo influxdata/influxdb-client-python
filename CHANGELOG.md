@@ -1,5 +1,8 @@
 ## 0.0.3 [unreleased]
 
+### API
+1. [#21](https://github.com/bonitoo-io/influxdb-client-python/pull/21): Updated swagger to latest version
+
 ### Bugs
 1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
 
@@ -10,7 +13,7 @@
 1. [#5](https://github.com/bonitoo-io/influxdb-client-python/issues/5): Added support for gzip compression of query response and write body 
  
 ### API
-1. [#10](https://github.com/bonitoo-io/influxdb-client-python/issues/10): Updated swagger to latest version
+1. [#10](https://github.com/bonitoo-io/influxdb-client-python/pull/10): Updated swagger to latest version
 
 ### Bugs
 1. [#3](https://github.com/bonitoo-io/influxdb-client-python/issues/3): The management API correctly supports inheritance defined in Influx API
