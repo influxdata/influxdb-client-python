@@ -24,6 +24,7 @@
                         <packageName>influxdb_client</packageName>
                         <sourceFolder>/</sourceFolder>
                         <validatable>false</validatable>
+                        <packageVersion>0.0.3dev</packageVersion>
                     </configOptions>
                     <generateModelDocumentation>false</generateModelDocumentation>
                     <generateApiDocumentation>false</generateApiDocumentation>
