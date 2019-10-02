@@ -357,13 +357,8 @@ class TasksApiTest(BaseTest):
         logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
         self.assertGreater(len(logs), 0)
 
-        success = False
-        for log in logs:
-            print(log)
-            if log.message.endswith("Completed successfully"):
-                success = True
-
-        self.assertTrue(success, "Completed successfully not found in log")
+        message = logs[len(logs) - 1].message
+        self.assertTrue(message.endswith("Completed successfully"), "The message: '{0}'".format(message))
 
     def test_runs_not_exists(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
