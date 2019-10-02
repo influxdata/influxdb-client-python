@@ -47,11 +47,11 @@ class DeadmanCheck(CheckBase):
         'status': 'TaskStatusType',
         'every': 'str',
         'offset': 'str',
-        'cron': 'str',
         'tags': 'list[CheckBaseTags]',
         'description': 'str',
         'status_message_template': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'links': 'CheckBaseLinks'
     }
 
     attribute_map = {
@@ -70,16 +70,16 @@ class DeadmanCheck(CheckBase):
         'status': 'status',
         'every': 'every',
         'offset': 'offset',
-        'cron': 'cron',
         'tags': 'tags',
         'description': 'description',
         'status_message_template': 'statusMessageTemplate',
-        'labels': 'labels'
+        'labels': 'labels',
+        'links': 'links'
     }
 
-    def __init__(self, type=None, time_since=None, stale_time=None, report_zero=None, level=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
+    def __init__(self, type=None, time_since=None, stale_time=None, report_zero=None, level=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """DeadmanCheck - a model defined in OpenAPI"""  # noqa: E501
-        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, cron=cron, tags=tags, description=description, status_message_template=status_message_template, labels=labels)
+        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, tags=tags, description=description, status_message_template=status_message_template, labels=labels, links=links)
 
         self._type = None
         self._time_since = None
@@ -124,7 +124,7 @@ class DeadmanCheck(CheckBase):
     def time_since(self):
         """Gets the time_since of this DeadmanCheck.  # noqa: E501
 
-        string duration before deadman triggers  # noqa: E501
+        String duration before deadman triggers.  # noqa: E501
 
         :return: The time_since of this DeadmanCheck.  # noqa: E501
         :rtype: str
@@ -135,7 +135,7 @@ class DeadmanCheck(CheckBase):
     def time_since(self, time_since):
         """Sets the time_since of this DeadmanCheck.
 
-        string duration before deadman triggers  # noqa: E501
+        String duration before deadman triggers.  # noqa: E501
 
         :param time_since: The time_since of this DeadmanCheck.  # noqa: E501
         :type: str
@@ -147,7 +147,7 @@ class DeadmanCheck(CheckBase):
     def stale_time(self):
         """Gets the stale_time of this DeadmanCheck.  # noqa: E501
 
-        string duration for time that a series is considered stale and should not trigger deadman  # noqa: E501
+        String duration for time that a series is considered stale and should not trigger deadman.  # noqa: E501
 
         :return: The stale_time of this DeadmanCheck.  # noqa: E501
         :rtype: str
@@ -158,7 +158,7 @@ class DeadmanCheck(CheckBase):
     def stale_time(self, stale_time):
         """Sets the stale_time of this DeadmanCheck.
 
-        string duration for time that a series is considered stale and should not trigger deadman  # noqa: E501
+        String duration for time that a series is considered stale and should not trigger deadman.  # noqa: E501
 
         :param stale_time: The stale_time of this DeadmanCheck.  # noqa: E501
         :type: str
@@ -170,7 +170,7 @@ class DeadmanCheck(CheckBase):
     def report_zero(self):
         """Gets the report_zero of this DeadmanCheck.  # noqa: E501
 
-        if only zero values reported since time, trigger alert  # noqa: E501
+        If only zero values reported since time, trigger an alert  # noqa: E501
 
         :return: The report_zero of this DeadmanCheck.  # noqa: E501
         :rtype: bool
@@ -181,7 +181,7 @@ class DeadmanCheck(CheckBase):
     def report_zero(self, report_zero):
         """Sets the report_zero of this DeadmanCheck.
 
-        if only zero values reported since time, trigger alert  # noqa: E501
+        If only zero values reported since time, trigger an alert  # noqa: E501
 
         :param report_zero: The report_zero of this DeadmanCheck.  # noqa: E501
         :type: bool

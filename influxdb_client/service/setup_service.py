@@ -33,8 +33,9 @@ class SetupService(object):
         self.api_client = api_client
 
     def get_setup(self, **kwargs):  # noqa: E501
-        """check if database has default user, org, bucket created, returns true if not.  # noqa: E501
+        """Check if database has default user, org, bucket  # noqa: E501
 
+        Returns `true` if no default user, organization, or bucket has been created.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_setup(async_req=True)
@@ -54,8 +55,9 @@ class SetupService(object):
             return data
 
     def get_setup_with_http_info(self, **kwargs):  # noqa: E501
-        """check if database has default user, org, bucket created, returns true if not.  # noqa: E501
+        """Check if database has default user, org, bucket  # noqa: E501
 
+        Returns `true` if no default user, organization, or bucket has been created.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_setup_with_http_info(async_req=True)
@@ -123,15 +125,16 @@ class SetupService(object):
             collection_formats=collection_formats)
 
     def post_setup(self, onboarding_request, **kwargs):  # noqa: E501
-        """post onboarding request, to setup initial user, org and bucket  # noqa: E501
+        """Set up initial user, org and bucket  # noqa: E501
 
+        Post an onboarding request to set up initial user, org and bucket.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_setup(onboarding_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param OnboardingRequest onboarding_request: source to create (required)
+        :param OnboardingRequest onboarding_request: Source to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: OnboardingResponse
                  If the method is called asynchronously,
@@ -145,15 +148,16 @@ class SetupService(object):
             return data
 
     def post_setup_with_http_info(self, onboarding_request, **kwargs):  # noqa: E501
-        """post onboarding request, to setup initial user, org and bucket  # noqa: E501
+        """Set up initial user, org and bucket  # noqa: E501
 
+        Post an onboarding request to set up initial user, org and bucket.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_setup_with_http_info(onboarding_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param OnboardingRequest onboarding_request: source to create (required)
+        :param OnboardingRequest onboarding_request: Source to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: OnboardingResponse
                  If the method is called asynchronously,

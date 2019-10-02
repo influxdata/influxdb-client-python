@@ -237,7 +237,7 @@ class ScatterViewProperties(ViewProperties):
     def show_note_when_empty(self):
         """Gets the show_note_when_empty of this ScatterViewProperties.  # noqa: E501
 
-        if true, will display note when empty  # noqa: E501
+        If true, will display note when empty  # noqa: E501
 
         :return: The show_note_when_empty of this ScatterViewProperties.  # noqa: E501
         :rtype: bool
@@ -248,7 +248,7 @@ class ScatterViewProperties(ViewProperties):
     def show_note_when_empty(self, show_note_when_empty):
         """Sets the show_note_when_empty of this ScatterViewProperties.
 
-        if true, will display note when empty  # noqa: E501
+        If true, will display note when empty  # noqa: E501
 
         :param show_note_when_empty: The show_note_when_empty of this ScatterViewProperties.  # noqa: E501
         :type: bool

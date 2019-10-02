@@ -66,7 +66,7 @@ class DashboardQuery(object):
     def text(self):
         """Gets the text of this DashboardQuery.  # noqa: E501
 
-        The text of the flux query  # noqa: E501
+        The text of the Flux query.  # noqa: E501
 
         :return: The text of this DashboardQuery.  # noqa: E501
         :rtype: str
@@ -77,7 +77,7 @@ class DashboardQuery(object):
     def text(self, text):
         """Sets the text of this DashboardQuery.
 
-        The text of the flux query  # noqa: E501
+        The text of the Flux query.  # noqa: E501
 
         :param text: The text of this DashboardQuery.  # noqa: E501
         :type: str

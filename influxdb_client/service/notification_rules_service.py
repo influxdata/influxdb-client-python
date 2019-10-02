@@ -33,7 +33,7 @@ class NotificationRulesService(object):
         self.api_client = api_client
 
     def create_notification_rule(self, notification_rule, **kwargs):  # noqa: E501
-        """Add new notification rule  # noqa: E501
+        """Add a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationRule notification_rule: notificationRule to create (required)
+        :param NotificationRule notification_rule: Notification rule to create (required)
         :return: NotificationRule
                  If the method is called asynchronously,
                  returns the request thread.
@@ -54,7 +54,7 @@ class NotificationRulesService(object):
             return data
 
     def create_notification_rule_with_http_info(self, notification_rule, **kwargs):  # noqa: E501
-        """Add new notification rule  # noqa: E501
+        """Add a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -62,7 +62,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationRule notification_rule: notificationRule to create (required)
+        :param NotificationRule notification_rule: Notification rule to create (required)
         :return: NotificationRule
                  If the method is called asynchronously,
                  returns the request thread.
@@ -139,7 +139,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -161,7 +161,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -229,7 +229,7 @@ class NotificationRulesService(object):
             collection_formats=collection_formats)
 
     def delete_notification_rules_id_labels_id(self, rule_id, label_id, **kwargs):  # noqa: E501
-        """delete label from a notification rule  # noqa: E501
+        """Delete label from a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -237,8 +237,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
-        :param str label_id: the label id to delete (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -252,7 +252,7 @@ class NotificationRulesService(object):
             return data
 
     def delete_notification_rules_id_labels_id_with_http_info(self, rule_id, label_id, **kwargs):  # noqa: E501
-        """delete label from a notification rule  # noqa: E501
+        """Delete label from a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -260,8 +260,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
-        :param str label_id: the label id to delete (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,11 +343,12 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: only show notification rules belonging to specified organization (required)
+        :param str org_id: Only show notification rules that belong to a specific organization ID. (required)
+        :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str check_id: only show notifications that belong to the specified check
-        :param str tag: only show notification rules that match a tag pair. Uses AND logic if multiple tags are specified.
+        :param str check_id: Only show notifications that belong to the specific check ID.
+        :param str tag: Only show notification rules that match a tag pair. Uses `AND` to specify multiple tags.
         :return: NotificationRules
                  If the method is called asynchronously,
                  returns the request thread.
@@ -368,11 +369,12 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: only show notification rules belonging to specified organization (required)
+        :param str org_id: Only show notification rules that belong to a specific organization ID. (required)
+        :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str check_id: only show notifications that belong to the specified check
-        :param str tag: only show notification rules that match a tag pair. Uses AND logic if multiple tags are specified.
+        :param str check_id: Only show notifications that belong to the specific check ID.
+        :param str tag: Only show notification rules that match a tag pair. Uses `AND` to specify multiple tags.
         :return: NotificationRules
                  If the method is called asynchronously,
                  returns the request thread.
@@ -380,7 +382,7 @@ class NotificationRulesService(object):
 
         local_var_params = locals()
 
-        all_params = ['org_id', 'offset', 'limit', 'check_id', 'tag']  # noqa: E501
+        all_params = ['org_id', 'zap_trace_span', 'offset', 'limit', 'check_id', 'tag']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -424,6 +426,8 @@ class NotificationRulesService(object):
             query_params.append(('tag', local_var_params['tag']))  # noqa: E501
 
         header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
 
         form_params = []
         local_var_files = {}
@@ -461,7 +465,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,
@@ -483,7 +487,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,
@@ -551,7 +555,7 @@ class NotificationRulesService(object):
             collection_formats=collection_formats)
 
     def get_notification_rules_id_labels(self, rule_id, **kwargs):  # noqa: E501
-        """list all labels for a notification rule  # noqa: E501
+        """List all labels for a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -559,7 +563,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -573,7 +577,7 @@ class NotificationRulesService(object):
             return data
 
     def get_notification_rules_id_labels_with_http_info(self, rule_id, **kwargs):  # noqa: E501
-        """list all labels for a notification rule  # noqa: E501
+        """List all labels for a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -581,7 +585,7 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
+        :param str rule_id: The notification rule ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -657,8 +661,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
-        :param NotificationRuleUpdate notification_rule_update: notification rule update to apply (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param NotificationRuleUpdate notification_rule_update: Notification rule update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,
@@ -680,8 +684,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
-        :param NotificationRuleUpdate notification_rule_update: notification rule update to apply (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param NotificationRuleUpdate notification_rule_update: Notification rule update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,
@@ -759,7 +763,7 @@ class NotificationRulesService(object):
             collection_formats=collection_formats)
 
     def post_notification_rule_id_labels(self, rule_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a notification rule  # noqa: E501
+        """Add a label to a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -767,8 +771,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -782,7 +786,7 @@ class NotificationRulesService(object):
             return data
 
     def post_notification_rule_id_labels_with_http_info(self, rule_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a notification rule  # noqa: E501
+        """Add a label to a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -790,8 +794,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of the notification rule (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -877,8 +881,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
-        :param NotificationRule notification_rule: notification rule update to apply (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param NotificationRule notification_rule: Notification rule update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,
@@ -900,8 +904,8 @@ class NotificationRulesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str rule_id: ID of notification rule (required)
-        :param NotificationRule notification_rule: notification rule update to apply (required)
+        :param str rule_id: The notification rule ID. (required)
+        :param NotificationRule notification_rule: Notification rule update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: NotificationRule
                  If the method is called asynchronously,

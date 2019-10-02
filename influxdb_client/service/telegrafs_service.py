@@ -33,7 +33,7 @@ class TelegrafsService(object):
         self.api_client = api_client
 
     def delete_telegrafs_id(self, telegraf_id, **kwargs):  # noqa: E501
-        """delete a telegraf config  # noqa: E501
+        """Delete a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -55,7 +55,7 @@ class TelegrafsService(object):
             return data
 
     def delete_telegrafs_id_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """delete a telegraf config  # noqa: E501
+        """Delete a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -63,7 +63,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def delete_telegrafs_id_labels_id(self, telegraf_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a telegraf config  # noqa: E501
+        """Delete a label from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param str label_id: the label ID (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class TelegrafsService(object):
             return data
 
     def delete_telegrafs_id_labels_id_with_http_info(self, telegraf_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a telegraf config  # noqa: E501
+        """Delete a label from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param str label_id: the label ID (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def delete_telegrafs_id_members_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes a member from a telegraf config  # noqa: E501
+        """Remove a member from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -245,8 +245,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str telegraf_id: ID of the telegraf (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -260,7 +260,7 @@ class TelegrafsService(object):
             return data
 
     def delete_telegrafs_id_members_id_with_http_info(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes a member from a telegraf config  # noqa: E501
+        """Remove a member from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -268,8 +268,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str telegraf_id: ID of the telegraf (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def delete_telegrafs_id_owners_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes an owner from a telegraf config  # noqa: E501
+        """Remove an owner from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -351,8 +351,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -366,7 +366,7 @@ class TelegrafsService(object):
             return data
 
     def delete_telegrafs_id_owners_id_with_http_info(self, user_id, telegraf_id, **kwargs):  # noqa: E501
-        """removes an owner from a telegraf config  # noqa: E501
+        """Remove an owner from a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -374,8 +374,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -458,7 +458,7 @@ class TelegrafsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: specifies the organization of the resource
+        :param str org_id: The organization ID the Telegraf config belongs to.
         :return: Telegrafs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -480,7 +480,7 @@ class TelegrafsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: specifies the organization of the resource
+        :param str org_id: The organization ID the Telegraf config belongs to.
         :return: Telegrafs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -543,7 +543,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id(self, telegraf_id, **kwargs):  # noqa: E501
-        """Retrieve a telegraf config  # noqa: E501
+        """Retrieve a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -551,7 +551,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str accept:
         :return: str
@@ -566,7 +566,7 @@ class TelegrafsService(object):
             return data
 
     def get_telegrafs_id_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """Retrieve a telegraf config  # noqa: E501
+        """Retrieve a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -574,7 +574,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str accept:
         :return: str
@@ -645,7 +645,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id_labels(self, telegraf_id, **kwargs):  # noqa: E501
-        """list all labels for a telegraf config  # noqa: E501
+        """List all labels for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -653,7 +653,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -667,7 +667,7 @@ class TelegrafsService(object):
             return data
 
     def get_telegrafs_id_labels_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """list all labels for a telegraf config  # noqa: E501
+        """List all labels for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -675,7 +675,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -743,7 +743,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id_members(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all users with member privileges for a telegraf config  # noqa: E501
+        """List all users with member privileges for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -751,7 +751,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -765,7 +765,7 @@ class TelegrafsService(object):
             return data
 
     def get_telegrafs_id_members_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all users with member privileges for a telegraf config  # noqa: E501
+        """List all users with member privileges for a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -773,7 +773,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -841,7 +841,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def get_telegrafs_id_owners(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all owners of a telegraf config  # noqa: E501
+        """List all owners of a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -849,7 +849,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -863,7 +863,7 @@ class TelegrafsService(object):
             return data
 
     def get_telegrafs_id_owners_with_http_info(self, telegraf_id, **kwargs):  # noqa: E501
-        """List all owners of a telegraf config  # noqa: E501
+        """List all owners of a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -871,7 +871,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -939,7 +939,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs(self, telegraf_request, **kwargs):  # noqa: E501
-        """Create a telegraf config  # noqa: E501
+        """Create a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -947,7 +947,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param TelegrafRequest telegraf_request: telegraf config to create (required)
+        :param TelegrafRequest telegraf_request: Telegraf config to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Telegraf
                  If the method is called asynchronously,
@@ -961,7 +961,7 @@ class TelegrafsService(object):
             return data
 
     def post_telegrafs_with_http_info(self, telegraf_request, **kwargs):  # noqa: E501
-        """Create a telegraf config  # noqa: E501
+        """Create a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -969,7 +969,7 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param TelegrafRequest telegraf_request: telegraf config to create (required)
+        :param TelegrafRequest telegraf_request: Telegraf config to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Telegraf
                  If the method is called asynchronously,
@@ -1041,7 +1041,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs_id_labels(self, telegraf_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a telegraf config  # noqa: E501
+        """Add a label to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1049,8 +1049,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1064,7 +1064,7 @@ class TelegrafsService(object):
             return data
 
     def post_telegrafs_id_labels_with_http_info(self, telegraf_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a telegraf config  # noqa: E501
+        """Add a label to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1072,8 +1072,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1151,7 +1151,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs_id_members(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config member  # noqa: E501
+        """Add a member to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1159,8 +1159,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1174,7 +1174,7 @@ class TelegrafsService(object):
             return data
 
     def post_telegrafs_id_members_with_http_info(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config member  # noqa: E501
+        """Add a member to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1182,8 +1182,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1261,7 +1261,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def post_telegrafs_id_owners(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config owner  # noqa: E501
+        """Add an owner to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1269,8 +1269,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1284,7 +1284,7 @@ class TelegrafsService(object):
             return data
 
     def post_telegrafs_id_owners_with_http_info(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add telegraf config owner  # noqa: E501
+        """Add an owner to a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1292,8 +1292,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of the telegraf config (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1371,7 +1371,7 @@ class TelegrafsService(object):
             collection_formats=collection_formats)
 
     def put_telegrafs_id(self, telegraf_id, telegraf_request, **kwargs):  # noqa: E501
-        """Update a telegraf config  # noqa: E501
+        """Update a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1379,8 +1379,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
-        :param TelegrafRequest telegraf_request: telegraf config update to apply (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param TelegrafRequest telegraf_request: Telegraf config update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Telegraf
                  If the method is called asynchronously,
@@ -1394,7 +1394,7 @@ class TelegrafsService(object):
             return data
 
     def put_telegrafs_id_with_http_info(self, telegraf_id, telegraf_request, **kwargs):  # noqa: E501
-        """Update a telegraf config  # noqa: E501
+        """Update a Telegraf config  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1402,8 +1402,8 @@ class TelegrafsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str telegraf_id: ID of telegraf config (required)
-        :param TelegrafRequest telegraf_request: telegraf config update to apply (required)
+        :param str telegraf_id: The Telegraf config ID. (required)
+        :param TelegrafRequest telegraf_request: Telegraf config update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Telegraf
                  If the method is called asynchronously,

@@ -58,7 +58,7 @@ class LineProtocolLengthError(object):
     def code(self):
         """Gets the code of this LineProtocolLengthError.  # noqa: E501
 
-        code is the machine-readable error code.  # noqa: E501
+        Code is the machine-readable error code.  # noqa: E501
 
         :return: The code of this LineProtocolLengthError.  # noqa: E501
         :rtype: str
@@ -69,7 +69,7 @@ class LineProtocolLengthError(object):
     def code(self, code):
         """Sets the code of this LineProtocolLengthError.
 
-        code is the machine-readable error code.  # noqa: E501
+        Code is the machine-readable error code.  # noqa: E501
 
         :param code: The code of this LineProtocolLengthError.  # noqa: E501
         :type: str
@@ -83,7 +83,7 @@ class LineProtocolLengthError(object):
     def message(self):
         """Gets the message of this LineProtocolLengthError.  # noqa: E501
 
-        message is a human-readable message.  # noqa: E501
+        Message is a human-readable message.  # noqa: E501
 
         :return: The message of this LineProtocolLengthError.  # noqa: E501
         :rtype: str
@@ -94,7 +94,7 @@ class LineProtocolLengthError(object):
     def message(self, message):
         """Sets the message of this LineProtocolLengthError.
 
-        message is a human-readable message.  # noqa: E501
+        Message is a human-readable message.  # noqa: E501
 
         :param message: The message of this LineProtocolLengthError.  # noqa: E501
         :type: str
@@ -108,7 +108,7 @@ class LineProtocolLengthError(object):
     def max_length(self):
         """Gets the max_length of this LineProtocolLengthError.  # noqa: E501
 
-        max length in bytes for a body of line-protocol.  # noqa: E501
+        Max length in bytes for a body of line-protocol.  # noqa: E501
 
         :return: The max_length of this LineProtocolLengthError.  # noqa: E501
         :rtype: int
@@ -119,7 +119,7 @@ class LineProtocolLengthError(object):
     def max_length(self, max_length):
         """Sets the max_length of this LineProtocolLengthError.
 
-        max length in bytes for a body of line-protocol.  # noqa: E501
+        Max length in bytes for a body of line-protocol.  # noqa: E501
 
         :param max_length: The max_length of this LineProtocolLengthError.  # noqa: E501
         :type: int

@@ -33,7 +33,7 @@ class ViewsService(object):
         self.api_client = api_client
 
     def get_dashboards_id_cells_id_view(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,8 +41,8 @@ class ViewsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -56,7 +56,7 @@ class ViewsService(object):
             return data
 
     def get_dashboards_id_cells_id_view_with_http_info(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -64,8 +64,8 @@ class ViewsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -147,9 +147,9 @@ class ViewsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -171,9 +171,9 @@ class ViewsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,

@@ -41,7 +41,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to delete (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to delete (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -140,7 +140,7 @@ class LabelsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: specifies the organization of the resource
+        :param str org_id: The organization ID.
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -162,7 +162,7 @@ class LabelsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: specifies the organization of the resource
+        :param str org_id: The organization ID.
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -233,7 +233,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to update (required)
+        :param str label_id: The ID of the label to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -255,7 +255,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to update (required)
+        :param str label_id: The ID of the label to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -323,7 +323,7 @@ class LabelsService(object):
             collection_formats=collection_formats)
 
     def patch_labels_id(self, label_id, label_update, **kwargs):  # noqa: E501
-        """Update a single label  # noqa: E501
+        """Update a label  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -331,8 +331,8 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to update (required)
-        :param LabelUpdate label_update: label update (required)
+        :param str label_id: The ID of the label to update. (required)
+        :param LabelUpdate label_update: Label update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -346,7 +346,7 @@ class LabelsService(object):
             return data
 
     def patch_labels_id_with_http_info(self, label_id, label_update, **kwargs):  # noqa: E501
-        """Update a single label  # noqa: E501
+        """Update a label  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -354,8 +354,8 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str label_id: ID of label to update (required)
-        :param LabelUpdate label_update: label update (required)
+        :param str label_id: The ID of the label to update. (required)
+        :param LabelUpdate label_update: Label update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -441,7 +441,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param LabelCreateRequest label_create_request: label to create (required)
+        :param LabelCreateRequest label_create_request: Label to create (required)
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -462,7 +462,7 @@ class LabelsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param LabelCreateRequest label_create_request: label to create (required)
+        :param LabelCreateRequest label_create_request: Label to create (required)
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.

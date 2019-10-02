@@ -181,7 +181,7 @@ class CreateCell(object):
     def using_view(self):
         """Gets the using_view of this CreateCell.  # noqa: E501
 
-        makes a copy of the provided view  # noqa: E501
+        Makes a copy of the provided view.  # noqa: E501
 
         :return: The using_view of this CreateCell.  # noqa: E501
         :rtype: str
@@ -192,7 +192,7 @@ class CreateCell(object):
     def using_view(self, using_view):
         """Sets the using_view of this CreateCell.
 
-        makes a copy of the provided view  # noqa: E501
+        Makes a copy of the provided view.  # noqa: E501
 
         :param using_view: The using_view of this CreateCell.  # noqa: E501
         :type: str

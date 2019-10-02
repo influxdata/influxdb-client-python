@@ -208,7 +208,7 @@ class Organization(object):
     def status(self):
         """Gets the status of this Organization.  # noqa: E501
 
-        if inactive the organization is inactive.  # noqa: E501
+        If inactive the organization is inactive.  # noqa: E501
 
         :return: The status of this Organization.  # noqa: E501
         :rtype: str
@@ -219,7 +219,7 @@ class Organization(object):
     def status(self, status):
         """Sets the status of this Organization.
 
-        if inactive the organization is inactive.  # noqa: E501
+        If inactive the organization is inactive.  # noqa: E501
 
         :param status: The status of this Organization.  # noqa: E501
         :type: str

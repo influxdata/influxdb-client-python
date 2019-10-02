@@ -42,7 +42,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to delete (required)
+        :param str task_id: The ID of the task to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -65,7 +65,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to delete (required)
+        :param str task_id: The ID of the task to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -133,7 +133,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_labels_id(self, task_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a task  # noqa: E501
+        """Delete a label from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -141,8 +141,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param str label_id: the label id (required)
+        :param str task_id: The task ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -156,7 +156,7 @@ class TasksService(object):
             return data
 
     def delete_tasks_id_labels_id_with_http_info(self, task_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a task  # noqa: E501
+        """Delete a label from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -164,8 +164,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param str label_id: the label id (required)
+        :param str task_id: The task ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -239,7 +239,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_members_id(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes a member from an task  # noqa: E501
+        """Remove a member from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -247,8 +247,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -262,7 +262,7 @@ class TasksService(object):
             return data
 
     def delete_tasks_id_members_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes a member from an task  # noqa: E501
+        """Remove a member from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -270,8 +270,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the member to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -345,7 +345,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_owners_id(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes an owner from an task  # noqa: E501
+        """Remove an owner from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -353,8 +353,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -368,7 +368,7 @@ class TasksService(object):
             return data
 
     def delete_tasks_id_owners_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501
-        """removes an owner from an task  # noqa: E501
+        """Remove an owner from a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -376,8 +376,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str task_id: ID of the task (required)
+        :param str user_id: The ID of the owner to remove. (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -451,7 +451,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def delete_tasks_id_runs_id(self, task_id, run_id, **kwargs):  # noqa: E501
-        """Cancel a single running task  # noqa: E501
+        """Cancel a running task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -459,8 +459,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -474,7 +474,7 @@ class TasksService(object):
             return data
 
     def delete_tasks_id_runs_id_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501
-        """Cancel a single running task  # noqa: E501
+        """Cancel a running task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -482,8 +482,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -557,7 +557,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks(self, **kwargs):  # noqa: E501
-        """List tasks.  # noqa: E501
+        """List all tasks  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -566,12 +566,12 @@ class TasksService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: only returns tasks with the specified name
-        :param str after: returns tasks after specified ID
-        :param str user: filter tasks to a specific user ID
-        :param str org: filter tasks to a specific organization name
-        :param str org_id: filter tasks to a specific organization ID
-        :param int limit: the number of tasks to return
+        :param str name: Returns task with a specific name.
+        :param str after: Return tasks after a specified ID.
+        :param str user: Filter tasks to a specific user ID.
+        :param str org: Filter tasks to a specific organization name.
+        :param str org_id: Filter tasks to a specific organization ID.
+        :param int limit: The number of tasks to return
         :return: Tasks
                  If the method is called asynchronously,
                  returns the request thread.
@@ -584,7 +584,7 @@ class TasksService(object):
             return data
 
     def get_tasks_with_http_info(self, **kwargs):  # noqa: E501
-        """List tasks.  # noqa: E501
+        """List all tasks  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -593,12 +593,12 @@ class TasksService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: only returns tasks with the specified name
-        :param str after: returns tasks after specified ID
-        :param str user: filter tasks to a specific user ID
-        :param str org: filter tasks to a specific organization name
-        :param str org_id: filter tasks to a specific organization ID
-        :param int limit: the number of tasks to return
+        :param str name: Returns task with a specific name.
+        :param str after: Return tasks after a specified ID.
+        :param str user: Filter tasks to a specific user ID.
+        :param str org: Filter tasks to a specific organization name.
+        :param str org_id: Filter tasks to a specific organization ID.
+        :param int limit: The number of tasks to return
         :return: Tasks
                  If the method is called asynchronously,
                  returns the request thread.
@@ -675,7 +675,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id(self, task_id, **kwargs):  # noqa: E501
-        """Retrieve an task  # noqa: E501
+        """Retrieve a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -683,7 +683,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -697,7 +697,7 @@ class TasksService(object):
             return data
 
     def get_tasks_id_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """Retrieve an task  # noqa: E501
+        """Retrieve a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -705,7 +705,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -773,7 +773,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id_labels(self, task_id, **kwargs):  # noqa: E501
-        """list all labels for a task  # noqa: E501
+        """List all labels for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -781,7 +781,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -795,7 +795,7 @@ class TasksService(object):
             return data
 
     def get_tasks_id_labels_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """list all labels for a task  # noqa: E501
+        """List all labels for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -803,7 +803,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -879,7 +879,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get logs for (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Logs
                  If the method is called asynchronously,
@@ -901,7 +901,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get logs for (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Logs
                  If the method is called asynchronously,
@@ -977,7 +977,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -999,7 +999,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -1067,7 +1067,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id_owners(self, task_id, **kwargs):  # noqa: E501
-        """List all task owners  # noqa: E501
+        """List all owners of a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1075,7 +1075,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1089,7 +1089,7 @@ class TasksService(object):
             return data
 
     def get_tasks_id_owners_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """List all task owners  # noqa: E501
+        """List all owners of a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1097,7 +1097,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
+        :param str task_id: The task ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1165,7 +1165,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id_runs(self, task_id, **kwargs):  # noqa: E501
-        """Retrieve list of run records for a task  # noqa: E501
+        """List runs for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1173,12 +1173,12 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get runs for (required)
+        :param str task_id: The ID of the task to get runs for. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str after: returns runs after specified ID
-        :param int limit: the number of runs to return
-        :param datetime after_time: filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: filter runs to those scheduled before this time, RFC3339
+        :param str after: Returns runs after a specific ID.
+        :param int limit: The number of runs to return
+        :param datetime after_time: Filter runs to those scheduled after this time, RFC3339
+        :param datetime before_time: Filter runs to those scheduled before this time, RFC3339
         :return: Runs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1191,7 +1191,7 @@ class TasksService(object):
             return data
 
     def get_tasks_id_runs_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """Retrieve list of run records for a task  # noqa: E501
+        """List runs for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1199,12 +1199,12 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get runs for (required)
+        :param str task_id: The ID of the task to get runs for. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str after: returns runs after specified ID
-        :param int limit: the number of runs to return
-        :param datetime after_time: filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: filter runs to those scheduled before this time, RFC3339
+        :param str after: Returns runs after a specific ID.
+        :param int limit: The number of runs to return
+        :param datetime after_time: Filter runs to those scheduled after this time, RFC3339
+        :param datetime before_time: Filter runs to those scheduled before this time, RFC3339
         :return: Runs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1283,7 +1283,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def get_tasks_id_runs_id(self, task_id, run_id, **kwargs):  # noqa: E501
-        """Retrieve a single run record for a task  # noqa: E501
+        """Retrieve a single run for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1291,8 +1291,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
@@ -1306,7 +1306,7 @@ class TasksService(object):
             return data
 
     def get_tasks_id_runs_id_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501
-        """Retrieve a single run record for a task  # noqa: E501
+        """Retrieve a single run for a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1314,8 +1314,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
@@ -1504,8 +1504,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get (required)
-        :param TaskUpdateRequest task_update_request: task update to apply (required)
+        :param str task_id: The task ID. (required)
+        :param TaskUpdateRequest task_update_request: Task update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1528,8 +1528,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get (required)
-        :param TaskUpdateRequest task_update_request: task update to apply (required)
+        :param str task_id: The task ID. (required)
+        :param TaskUpdateRequest task_update_request: Task update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1615,7 +1615,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param TaskCreateRequest task_create_request: task to create (required)
+        :param TaskCreateRequest task_create_request: Task to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1637,7 +1637,7 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param TaskCreateRequest task_create_request: task to create (required)
+        :param TaskCreateRequest task_create_request: Task to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1709,7 +1709,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_labels(self, task_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a task  # noqa: E501
+        """Add a label to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1717,8 +1717,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str task_id: The task ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1732,7 +1732,7 @@ class TasksService(object):
             return data
 
     def post_tasks_id_labels_with_http_info(self, task_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a task  # noqa: E501
+        """Add a label to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1740,8 +1740,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str task_id: The task ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1819,7 +1819,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_members(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task member  # noqa: E501
+        """Add a member to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1827,8 +1827,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1842,7 +1842,7 @@ class TasksService(object):
             return data
 
     def post_tasks_id_members_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task member  # noqa: E501
+        """Add a member to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1850,8 +1850,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1929,7 +1929,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_owners(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task owner  # noqa: E501
+        """Add an owner to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1937,8 +1937,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1952,7 +1952,7 @@ class TasksService(object):
             return data
 
     def post_tasks_id_owners_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add task owner  # noqa: E501
+        """Add an owner to a task  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1960,8 +1960,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of the task (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str task_id: The task ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -2039,7 +2039,7 @@ class TasksService(object):
             collection_formats=collection_formats)
 
     def post_tasks_id_runs(self, task_id, **kwargs):  # noqa: E501
-        """manually start a run of the task now overriding the current schedule.  # noqa: E501
+        """Manually start a task run, overriding the current schedule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2062,7 +2062,7 @@ class TasksService(object):
             return data
 
     def post_tasks_id_runs_with_http_info(self, task_id, **kwargs):  # noqa: E501
-        """manually start a run of the task now overriding the current schedule.  # noqa: E501
+        """Manually start a task run, overriding the current schedule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -2153,8 +2153,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
@@ -2176,8 +2176,8 @@ class TasksService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: task ID (required)
-        :param str run_id: run ID (required)
+        :param str task_id: The task ID. (required)
+        :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,

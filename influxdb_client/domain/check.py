@@ -42,11 +42,11 @@ class Check(CheckBase):
         'status': 'TaskStatusType',
         'every': 'str',
         'offset': 'str',
-        'cron': 'str',
         'tags': 'list[CheckBaseTags]',
         'description': 'str',
         'status_message_template': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'links': 'CheckBaseLinks'
     }
 
     attribute_map = {
@@ -60,17 +60,27 @@ class Check(CheckBase):
         'status': 'status',
         'every': 'every',
         'offset': 'offset',
-        'cron': 'cron',
         'tags': 'tags',
         'description': 'description',
         'status_message_template': 'statusMessageTemplate',
-        'labels': 'labels'
+        'labels': 'labels',
+        'links': 'links'
     }
 
-    def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
+    discriminator_value_class_map = {
+        
+    }
+
+    def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """Check - a model defined in OpenAPI"""  # noqa: E501
-        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, cron=cron, tags=tags, description=description, status_message_template=status_message_template, labels=labels)
-        self.discriminator = None
+        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, tags=tags, description=description, status_message_template=status_message_template, labels=labels, links=links)
+        self.discriminator = 'type'
+
+    def get_real_child_model(self, data):
+        """Returns the real base class specified by the discriminator"""
+        discriminator_key = self.attribute_map[self.discriminator]
+        discriminator_value = data[discriminator_key]
+        return self.discriminator_value_class_map.get(discriminator_value)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

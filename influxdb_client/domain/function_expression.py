@@ -61,7 +61,7 @@ class FunctionExpression(object):
     def type(self):
         """Gets the type of this FunctionExpression.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this FunctionExpression.  # noqa: E501
         :rtype: str
@@ -72,7 +72,7 @@ class FunctionExpression(object):
     def type(self, type):
         """Sets the type of this FunctionExpression.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this FunctionExpression.  # noqa: E501
         :type: str
@@ -84,7 +84,7 @@ class FunctionExpression(object):
     def params(self):
         """Gets the params of this FunctionExpression.  # noqa: E501
 
-        function parameters  # noqa: E501
+        Function parameters  # noqa: E501
 
         :return: The params of this FunctionExpression.  # noqa: E501
         :rtype: list[ModelProperty]
@@ -95,7 +95,7 @@ class FunctionExpression(object):
     def params(self, params):
         """Sets the params of this FunctionExpression.
 
-        function parameters  # noqa: E501
+        Function parameters  # noqa: E501
 
         :param params: The params of this FunctionExpression.  # noqa: E501
         :type: list[ModelProperty]

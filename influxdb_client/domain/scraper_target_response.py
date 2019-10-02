@@ -99,7 +99,7 @@ class ScraperTargetResponse(ScraperTargetRequest):
     def org(self):
         """Gets the org of this ScraperTargetResponse.  # noqa: E501
 
-        name of the organization  # noqa: E501
+        The organization name.  # noqa: E501
 
         :return: The org of this ScraperTargetResponse.  # noqa: E501
         :rtype: str
@@ -110,7 +110,7 @@ class ScraperTargetResponse(ScraperTargetRequest):
     def org(self, org):
         """Sets the org of this ScraperTargetResponse.
 
-        name of the organization  # noqa: E501
+        The organization name.  # noqa: E501
 
         :param org: The org of this ScraperTargetResponse.  # noqa: E501
         :type: str
@@ -122,7 +122,7 @@ class ScraperTargetResponse(ScraperTargetRequest):
     def bucket(self):
         """Gets the bucket of this ScraperTargetResponse.  # noqa: E501
 
-        name of the bucket  # noqa: E501
+        The bucket name.  # noqa: E501
 
         :return: The bucket of this ScraperTargetResponse.  # noqa: E501
         :rtype: str
@@ -133,7 +133,7 @@ class ScraperTargetResponse(ScraperTargetRequest):
     def bucket(self, bucket):
         """Sets the bucket of this ScraperTargetResponse.
 
-        name of the bucket  # noqa: E501
+        The bucket name.  # noqa: E501
 
         :param bucket: The bucket of this ScraperTargetResponse.  # noqa: E501
         :type: str

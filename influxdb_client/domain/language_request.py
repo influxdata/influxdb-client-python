@@ -50,7 +50,7 @@ class LanguageRequest(object):
     def query(self):
         """Gets the query of this LanguageRequest.  # noqa: E501
 
-        flux query script to be analyzed  # noqa: E501
+        Flux query script to be analyzed  # noqa: E501
 
         :return: The query of this LanguageRequest.  # noqa: E501
         :rtype: str
@@ -61,7 +61,7 @@ class LanguageRequest(object):
     def query(self, query):
         """Sets the query of this LanguageRequest.
 
-        flux query script to be analyzed  # noqa: E501
+        Flux query script to be analyzed  # noqa: E501
 
         :param query: The query of this LanguageRequest.  # noqa: E501
         :type: str

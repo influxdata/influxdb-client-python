@@ -66,7 +66,7 @@ class DashboardColor(object):
     def id(self):
         """Gets the id of this DashboardColor.  # noqa: E501
 
-        ID is the unique id of the view color  # noqa: E501
+        The unique ID of the view color.  # noqa: E501
 
         :return: The id of this DashboardColor.  # noqa: E501
         :rtype: str
@@ -77,7 +77,7 @@ class DashboardColor(object):
     def id(self, id):
         """Sets the id of this DashboardColor.
 
-        ID is the unique id of the view color  # noqa: E501
+        The unique ID of the view color.  # noqa: E501
 
         :param id: The id of this DashboardColor.  # noqa: E501
         :type: str
@@ -116,7 +116,7 @@ class DashboardColor(object):
     def hex(self):
         """Gets the hex of this DashboardColor.  # noqa: E501
 
-        Hex is the hex number of the color  # noqa: E501
+        The hex number of the color  # noqa: E501
 
         :return: The hex of this DashboardColor.  # noqa: E501
         :rtype: str
@@ -127,7 +127,7 @@ class DashboardColor(object):
     def hex(self, hex):
         """Sets the hex of this DashboardColor.
 
-        Hex is the hex number of the color  # noqa: E501
+        The hex number of the color  # noqa: E501
 
         :param hex: The hex of this DashboardColor.  # noqa: E501
         :type: str
@@ -145,7 +145,7 @@ class DashboardColor(object):
     def name(self):
         """Gets the name of this DashboardColor.  # noqa: E501
 
-        Name is the user-facing name of the hex color  # noqa: E501
+        The user-facing name of the hex color.  # noqa: E501
 
         :return: The name of this DashboardColor.  # noqa: E501
         :rtype: str
@@ -156,7 +156,7 @@ class DashboardColor(object):
     def name(self, name):
         """Sets the name of this DashboardColor.
 
-        Name is the user-facing name of the hex color  # noqa: E501
+        The user-facing name of the hex color.  # noqa: E501
 
         :param name: The name of this DashboardColor.  # noqa: E501
         :type: str
@@ -170,7 +170,7 @@ class DashboardColor(object):
     def value(self):
         """Gets the value of this DashboardColor.  # noqa: E501
 
-        Value is the data value mapped to this color  # noqa: E501
+        The data value mapped to this color.  # noqa: E501
 
         :return: The value of this DashboardColor.  # noqa: E501
         :rtype: float
@@ -181,7 +181,7 @@ class DashboardColor(object):
     def value(self, value):
         """Sets the value of this DashboardColor.
 
-        Value is the data value mapped to this color  # noqa: E501
+        The data value mapped to this color.  # noqa: E501
 
         :param value: The value of this DashboardColor.  # noqa: E501
         :type: float

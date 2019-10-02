@@ -41,11 +41,11 @@ class CheckBase(object):
         'status': 'TaskStatusType',
         'every': 'str',
         'offset': 'str',
-        'cron': 'str',
         'tags': 'list[CheckBaseTags]',
         'description': 'str',
         'status_message_template': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'links': 'CheckBaseLinks'
     }
 
     attribute_map = {
@@ -59,14 +59,14 @@ class CheckBase(object):
         'status': 'status',
         'every': 'every',
         'offset': 'offset',
-        'cron': 'cron',
         'tags': 'tags',
         'description': 'description',
         'status_message_template': 'statusMessageTemplate',
-        'labels': 'labels'
+        'labels': 'labels',
+        'links': 'links'
     }
 
-    def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
+    def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """CheckBase - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -79,11 +79,11 @@ class CheckBase(object):
         self._status = None
         self._every = None
         self._offset = None
-        self._cron = None
         self._tags = None
         self._description = None
         self._status_message_template = None
         self._labels = None
+        self._links = None
         self.discriminator = None
 
         if id is not None:
@@ -103,8 +103,6 @@ class CheckBase(object):
             self.every = every
         if offset is not None:
             self.offset = offset
-        if cron is not None:
-            self.cron = cron
         if tags is not None:
             self.tags = tags
         if description is not None:
@@ -113,6 +111,8 @@ class CheckBase(object):
             self.status_message_template = status_message_template
         if labels is not None:
             self.labels = labels
+        if links is not None:
+            self.links = links
 
     @property
     def id(self):
@@ -162,7 +162,7 @@ class CheckBase(object):
     def org_id(self):
         """Gets the org_id of this CheckBase.  # noqa: E501
 
-        the ID of the organization that owns this check.  # noqa: E501
+        The ID of the organization that owns this check.  # noqa: E501
 
         :return: The org_id of this CheckBase.  # noqa: E501
         :rtype: str
@@ -173,7 +173,7 @@ class CheckBase(object):
     def org_id(self, org_id):
         """Sets the org_id of this CheckBase.
 
-        the ID of the organization that owns this check.  # noqa: E501
+        The ID of the organization that owns this check.  # noqa: E501
 
         :param org_id: The org_id of this CheckBase.  # noqa: E501
         :type: str
@@ -296,7 +296,7 @@ class CheckBase(object):
     def every(self):
         """Gets the every of this CheckBase.  # noqa: E501
 
-        Check repetition interval  # noqa: E501
+        Check repetition interval.  # noqa: E501
 
         :return: The every of this CheckBase.  # noqa: E501
         :rtype: str
@@ -307,7 +307,7 @@ class CheckBase(object):
     def every(self, every):
         """Sets the every of this CheckBase.
 
-        Check repetition interval  # noqa: E501
+        Check repetition interval.  # noqa: E501
 
         :param every: The every of this CheckBase.  # noqa: E501
         :type: str
@@ -339,33 +339,10 @@ class CheckBase(object):
         self._offset = offset
 
     @property
-    def cron(self):
-        """Gets the cron of this CheckBase.  # noqa: E501
-
-        Check repetition interval in the form '* * * * * *';  # noqa: E501
-
-        :return: The cron of this CheckBase.  # noqa: E501
-        :rtype: str
-        """
-        return self._cron
-
-    @cron.setter
-    def cron(self, cron):
-        """Sets the cron of this CheckBase.
-
-        Check repetition interval in the form '* * * * * *';  # noqa: E501
-
-        :param cron: The cron of this CheckBase.  # noqa: E501
-        :type: str
-        """
-
-        self._cron = cron
-
-    @property
     def tags(self):
         """Gets the tags of this CheckBase.  # noqa: E501
 
-        tags to write to each status  # noqa: E501
+        List of tags to write to each status.  # noqa: E501
 
         :return: The tags of this CheckBase.  # noqa: E501
         :rtype: list[CheckBaseTags]
@@ -376,7 +353,7 @@ class CheckBase(object):
     def tags(self, tags):
         """Sets the tags of this CheckBase.
 
-        tags to write to each status  # noqa: E501
+        List of tags to write to each status.  # noqa: E501
 
         :param tags: The tags of this CheckBase.  # noqa: E501
         :type: list[CheckBaseTags]
@@ -388,7 +365,7 @@ class CheckBase(object):
     def description(self):
         """Gets the description of this CheckBase.  # noqa: E501
 
-        An optional description of the check  # noqa: E501
+        An optional description of the check.  # noqa: E501
 
         :return: The description of this CheckBase.  # noqa: E501
         :rtype: str
@@ -399,7 +376,7 @@ class CheckBase(object):
     def description(self, description):
         """Sets the description of this CheckBase.
 
-        An optional description of the check  # noqa: E501
+        An optional description of the check.  # noqa: E501
 
         :param description: The description of this CheckBase.  # noqa: E501
         :type: str
@@ -411,7 +388,7 @@ class CheckBase(object):
     def status_message_template(self):
         """Gets the status_message_template of this CheckBase.  # noqa: E501
 
-        template that is used to generate and write a status message  # noqa: E501
+        The template used to generate and write a status message.  # noqa: E501
 
         :return: The status_message_template of this CheckBase.  # noqa: E501
         :rtype: str
@@ -422,7 +399,7 @@ class CheckBase(object):
     def status_message_template(self, status_message_template):
         """Sets the status_message_template of this CheckBase.
 
-        template that is used to generate and write a status message  # noqa: E501
+        The template used to generate and write a status message.  # noqa: E501
 
         :param status_message_template: The status_message_template of this CheckBase.  # noqa: E501
         :type: str
@@ -450,6 +427,27 @@ class CheckBase(object):
         """
 
         self._labels = labels
+
+    @property
+    def links(self):
+        """Gets the links of this CheckBase.  # noqa: E501
+
+
+        :return: The links of this CheckBase.  # noqa: E501
+        :rtype: CheckBaseLinks
+        """
+        return self._links
+
+    @links.setter
+    def links(self, links):
+        """Sets the links of this CheckBase.
+
+
+        :param links: The links of this CheckBase.  # noqa: E501
+        :type: CheckBaseLinks
+        """
+
+        self._links = links
 
     def to_dict(self):
         """Returns the model properties as a dict"""

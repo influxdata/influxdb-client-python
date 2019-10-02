@@ -56,7 +56,7 @@ class ArrayExpression(object):
     def type(self):
         """Gets the type of this ArrayExpression.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this ArrayExpression.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class ArrayExpression(object):
     def type(self, type):
         """Sets the type of this ArrayExpression.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this ArrayExpression.  # noqa: E501
         :type: str
@@ -79,7 +79,7 @@ class ArrayExpression(object):
     def elements(self):
         """Gets the elements of this ArrayExpression.  # noqa: E501
 
-        elements of the array  # noqa: E501
+        Elements of the array  # noqa: E501
 
         :return: The elements of this ArrayExpression.  # noqa: E501
         :rtype: list[Expression]
@@ -90,7 +90,7 @@ class ArrayExpression(object):
     def elements(self, elements):
         """Sets the elements of this ArrayExpression.
 
-        elements of the array  # noqa: E501
+        Elements of the array  # noqa: E501
 
         :param elements: The elements of this ArrayExpression.  # noqa: E501
         :type: list[Expression]

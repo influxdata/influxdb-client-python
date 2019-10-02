@@ -56,7 +56,7 @@ class ObjectExpression(object):
     def type(self):
         """Gets the type of this ObjectExpression.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this ObjectExpression.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class ObjectExpression(object):
     def type(self, type):
         """Sets the type of this ObjectExpression.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this ObjectExpression.  # noqa: E501
         :type: str
@@ -79,7 +79,7 @@ class ObjectExpression(object):
     def properties(self):
         """Gets the properties of this ObjectExpression.  # noqa: E501
 
-        object properties  # noqa: E501
+        Object properties  # noqa: E501
 
         :return: The properties of this ObjectExpression.  # noqa: E501
         :rtype: list[ModelProperty]
@@ -90,7 +90,7 @@ class ObjectExpression(object):
     def properties(self, properties):
         """Sets the properties of this ObjectExpression.
 
-        object properties  # noqa: E501
+        Object properties  # noqa: E501
 
         :param properties: The properties of this ObjectExpression.  # noqa: E501
         :type: list[ModelProperty]

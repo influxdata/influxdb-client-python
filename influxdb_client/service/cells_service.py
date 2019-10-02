@@ -41,8 +41,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to delte (required)
-        :param str cell_id: ID of cell to delete (required)
+        :param str dashboard_id: The ID of the dashboard to delete. (required)
+        :param str cell_id: The ID of the cell to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -64,8 +64,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to delte (required)
-        :param str cell_id: ID of cell to delete (required)
+        :param str dashboard_id: The ID of the dashboard to delete. (required)
+        :param str cell_id: The ID of the cell to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -139,7 +139,7 @@ class CellsService(object):
             collection_formats=collection_formats)
 
     def get_dashboards_id_cells_id_view(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -147,8 +147,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -162,7 +162,7 @@ class CellsService(object):
             return data
 
     def get_dashboards_id_cells_id_view_with_http_info(self, dashboard_id, cell_id, **kwargs):  # noqa: E501
-        """Retrieve the view for a cell in a dashboard  # noqa: E501
+        """Retrieve the view for a cell  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -170,8 +170,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard (required)
-        :param str cell_id: ID of cell (required)
+        :param str dashboard_id: The dashboard ID. (required)
+        :param str cell_id: The cell ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -245,17 +245,18 @@ class CellsService(object):
             collection_formats=collection_formats)
 
     def patch_dashboards_id_cells_id(self, dashboard_id, cell_id, cell_update, **kwargs):  # noqa: E501
-        """Update the non positional information related to a cell (because updates to a single cells positional data could cause grid conflicts)  # noqa: E501
+        """Update the non-positional information related to a cell  # noqa: E501
 
+        Updates the non positional information related to a cell. Updates to a single cell's positional data could cause grid conflicts.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_dashboards_id_cells_id(dashboard_id, cell_id, cell_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param CellUpdate cell_update: updates the non positional information related to a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param CellUpdate cell_update: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -269,17 +270,18 @@ class CellsService(object):
             return data
 
     def patch_dashboards_id_cells_id_with_http_info(self, dashboard_id, cell_id, cell_update, **kwargs):  # noqa: E501
-        """Update the non positional information related to a cell (because updates to a single cells positional data could cause grid conflicts)  # noqa: E501
+        """Update the non-positional information related to a cell  # noqa: E501
 
+        Updates the non positional information related to a cell. Updates to a single cell's positional data could cause grid conflicts.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_dashboards_id_cells_id_with_http_info(dashboard_id, cell_id, cell_update, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param CellUpdate cell_update: updates the non positional information related to a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param CellUpdate cell_update: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -371,9 +373,9 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -395,9 +397,9 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param str cell_id: ID of cell to update (required)
-        :param View view: updates the view for a cell (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param str cell_id: The ID of the cell to update. (required)
+        :param View view: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: View
                  If the method is called asynchronously,
@@ -489,8 +491,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param CreateCell create_cell: cell that will be added (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param CreateCell create_cell: Cell that will be added (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -512,8 +514,8 @@ class CellsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param CreateCell create_cell: cell that will be added (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param CreateCell create_cell: Cell that will be added (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Cell
                  If the method is called asynchronously,
@@ -591,16 +593,17 @@ class CellsService(object):
             collection_formats=collection_formats)
 
     def put_dashboards_id_cells(self, dashboard_id, cell, **kwargs):  # noqa: E501
-        """Replace a dashboards cells  # noqa: E501
+        """Replace cells in a dashboard  # noqa: E501
 
+        Replaces all cells in a dashboard. This is used primarily to update the positional information of all cells.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_dashboards_id_cells(dashboard_id, cell, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param list[Cell] cell: batch replaces all of a dashboards cells (this is used primarily to update the positional information of all of the cells) (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param list[Cell] cell: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,
@@ -614,16 +617,17 @@ class CellsService(object):
             return data
 
     def put_dashboards_id_cells_with_http_info(self, dashboard_id, cell, **kwargs):  # noqa: E501
-        """Replace a dashboards cells  # noqa: E501
+        """Replace cells in a dashboard  # noqa: E501
 
+        Replaces all cells in a dashboard. This is used primarily to update the positional information of all cells.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_dashboards_id_cells_with_http_info(dashboard_id, cell, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dashboard_id: ID of dashboard to update (required)
-        :param list[Cell] cell: batch replaces all of a dashboards cells (this is used primarily to update the positional information of all of the cells) (required)
+        :param str dashboard_id: The ID of the dashboard to update. (required)
+        :param list[Cell] cell: (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Dashboard
                  If the method is called asynchronously,

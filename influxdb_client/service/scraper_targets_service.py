@@ -33,7 +33,7 @@ class ScraperTargetsService(object):
         self.api_client = api_client
 
     def delete_scrapers_id(self, scraper_target_id, **kwargs):  # noqa: E501
-        """delete a scraper target  # noqa: E501
+        """Delete a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,7 +41,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -55,7 +55,7 @@ class ScraperTargetsService(object):
             return data
 
     def delete_scrapers_id_with_http_info(self, scraper_target_id, **kwargs):  # noqa: E501
-        """delete a scraper target  # noqa: E501
+        """Delete a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -63,7 +63,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def delete_scrapers_id_labels_id(self, scraper_target_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a scraper target  # noqa: E501
+        """Delete a label from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param str label_id: ID of the label (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class ScraperTargetsService(object):
             return data
 
     def delete_scrapers_id_labels_id_with_http_info(self, scraper_target_id, label_id, **kwargs):  # noqa: E501
-        """delete a label from a scraper target  # noqa: E501
+        """Delete a label from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param str label_id: ID of the label (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param str label_id: The label ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -237,7 +237,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def delete_scrapers_id_members_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes a member from a scraper target  # noqa: E501
+        """Remove a member from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -245,8 +245,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of member to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -260,7 +260,7 @@ class ScraperTargetsService(object):
             return data
 
     def delete_scrapers_id_members_id_with_http_info(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes a member from a scraper target  # noqa: E501
+        """Remove a member from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -268,8 +268,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of member to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of member to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -343,7 +343,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def delete_scrapers_id_owners_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes an owner from a scraper target  # noqa: E501
+        """Remove an owner from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -351,8 +351,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of owner to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -366,7 +366,7 @@ class ScraperTargetsService(object):
             return data
 
     def delete_scrapers_id_owners_id_with_http_info(self, user_id, scraper_target_id, **kwargs):  # noqa: E501
-        """removes an owner from a scraper target  # noqa: E501
+        """Remove an owner from a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -374,8 +374,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: ID of owner to remove (required)
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str user_id: The ID of owner to remove. (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -449,7 +449,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def get_scrapers(self, **kwargs):  # noqa: E501
-        """get all scraper targets  # noqa: E501
+        """Get all scraper targets  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -458,10 +458,10 @@ class ScraperTargetsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: specifies the name of the scraper target.
-        :param list[str] id: ID list of scraper targets to return. If both this and owner are specified, only ids is used.
-        :param str org_id: specifies the organization id of the scraper target
-        :param str org: specifies the organization name of the scraper target
+        :param str name: Specifies the name of the scraper target.
+        :param list[str] id: List of scraper target IDs to return. If both `id` and `owner` are specified, only `id` is used.
+        :param str org_id: Specifies the organization ID of the scraper target.
+        :param str org: Specifies the organization name of the scraper target.
         :return: ScraperTargetResponses
                  If the method is called asynchronously,
                  returns the request thread.
@@ -474,7 +474,7 @@ class ScraperTargetsService(object):
             return data
 
     def get_scrapers_with_http_info(self, **kwargs):  # noqa: E501
-        """get all scraper targets  # noqa: E501
+        """Get all scraper targets  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -483,10 +483,10 @@ class ScraperTargetsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: specifies the name of the scraper target.
-        :param list[str] id: ID list of scraper targets to return. If both this and owner are specified, only ids is used.
-        :param str org_id: specifies the organization id of the scraper target
-        :param str org: specifies the organization name of the scraper target
+        :param str name: Specifies the name of the scraper target.
+        :param list[str] id: List of scraper target IDs to return. If both `id` and `owner` are specified, only `id` is used.
+        :param str org_id: Specifies the organization ID of the scraper target.
+        :param str org: Specifies the organization name of the scraper target.
         :return: ScraperTargetResponses
                  If the method is called asynchronously,
                  returns the request thread.
@@ -556,7 +556,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def get_scrapers_id(self, scraper_target_id, **kwargs):  # noqa: E501
-        """get a scraper target by id  # noqa: E501
+        """Get a scraper target by ID  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -564,7 +564,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -578,7 +578,7 @@ class ScraperTargetsService(object):
             return data
 
     def get_scrapers_id_with_http_info(self, scraper_target_id, **kwargs):  # noqa: E501
-        """get a scraper target by id  # noqa: E501
+        """Get a scraper target by ID  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -586,7 +586,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -654,7 +654,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def get_scrapers_id_labels(self, scraper_target_id, **kwargs):  # noqa: E501
-        """list all labels for a scraper targets  # noqa: E501
+        """List all labels for a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -662,7 +662,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -676,7 +676,7 @@ class ScraperTargetsService(object):
             return data
 
     def get_scrapers_id_labels_with_http_info(self, scraper_target_id, **kwargs):  # noqa: E501
-        """list all labels for a scraper targets  # noqa: E501
+        """List all labels for a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -684,7 +684,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -760,7 +760,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -782,7 +782,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -858,7 +858,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -880,7 +880,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
+        :param str scraper_target_id: The scraper target ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -948,7 +948,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def patch_scrapers_id(self, scraper_target_id, scraper_target_request, **kwargs):  # noqa: E501
-        """update a scraper target  # noqa: E501
+        """Update a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -956,8 +956,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
-        :param ScraperTargetRequest scraper_target_request: scraper target update to apply (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param ScraperTargetRequest scraper_target_request: Scraper target update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -971,7 +971,7 @@ class ScraperTargetsService(object):
             return data
 
     def patch_scrapers_id_with_http_info(self, scraper_target_id, scraper_target_request, **kwargs):  # noqa: E501
-        """update a scraper target  # noqa: E501
+        """Update a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -979,8 +979,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: id of the scraper target (required)
-        :param ScraperTargetRequest scraper_target_request: scraper target update to apply (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param ScraperTargetRequest scraper_target_request: Scraper target update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -1058,7 +1058,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def patch_scrapers_id_labels_id(self, scraper_target_id, label_id, label, **kwargs):  # noqa: E501
-        """update a label from a scraper target  # noqa: E501
+        """Update a label on a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1066,9 +1066,9 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param str label_id: ID of the label (required)
-        :param Label label: label update to apply (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param str label_id: The label ID. (required)
+        :param Label label: Label update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1082,7 +1082,7 @@ class ScraperTargetsService(object):
             return data
 
     def patch_scrapers_id_labels_id_with_http_info(self, scraper_target_id, label_id, label, **kwargs):  # noqa: E501
-        """update a label from a scraper target  # noqa: E501
+        """Update a label on a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1090,9 +1090,9 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param str label_id: ID of the label (required)
-        :param Label label: label update to apply (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param str label_id: The label ID. (required)
+        :param Label label: Label update to apply (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -1176,7 +1176,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def post_scrapers(self, scraper_target_request, **kwargs):  # noqa: E501
-        """create a scraper target  # noqa: E501
+        """Create a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1184,7 +1184,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param ScraperTargetRequest scraper_target_request: scraper target to create (required)
+        :param ScraperTargetRequest scraper_target_request: Scraper target to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -1198,7 +1198,7 @@ class ScraperTargetsService(object):
             return data
 
     def post_scrapers_with_http_info(self, scraper_target_request, **kwargs):  # noqa: E501
-        """create a scraper target  # noqa: E501
+        """Create a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1206,7 +1206,7 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param ScraperTargetRequest scraper_target_request: scraper target to create (required)
+        :param ScraperTargetRequest scraper_target_request: Scraper target to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ScraperTargetResponse
                  If the method is called asynchronously,
@@ -1278,7 +1278,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def post_scrapers_id_labels(self, scraper_target_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a scraper target  # noqa: E501
+        """Add a label to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1286,8 +1286,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1301,7 +1301,7 @@ class ScraperTargetsService(object):
             return data
 
     def post_scrapers_id_labels_with_http_info(self, scraper_target_id, label_mapping, **kwargs):  # noqa: E501
-        """add a label to a scraper target  # noqa: E501
+        """Add a label to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1309,8 +1309,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param LabelMapping label_mapping: label to add (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param LabelMapping label_mapping: Label to add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1388,7 +1388,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def post_scrapers_id_members(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target member  # noqa: E501
+        """Add a member to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1396,8 +1396,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1411,7 +1411,7 @@ class ScraperTargetsService(object):
             return data
 
     def post_scrapers_id_members_with_http_info(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target member  # noqa: E501
+        """Add a member to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1419,8 +1419,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as member (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1498,7 +1498,7 @@ class ScraperTargetsService(object):
             collection_formats=collection_formats)
 
     def post_scrapers_id_owners(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target owner  # noqa: E501
+        """Add an owner to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1506,8 +1506,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1521,7 +1521,7 @@ class ScraperTargetsService(object):
             return data
 
     def post_scrapers_id_owners_with_http_info(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501
-        """Add scraper target owner  # noqa: E501
+        """Add an owner to a scraper target  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -1529,8 +1529,8 @@ class ScraperTargetsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str scraper_target_id: ID of the scraper target (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: user to add as owner (required)
+        :param str scraper_target_id: The scraper target ID. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,

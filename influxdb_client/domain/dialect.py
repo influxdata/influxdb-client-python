@@ -71,7 +71,7 @@ class Dialect(object):
     def header(self):
         """Gets the header of this Dialect.  # noqa: E501
 
-        if true, the results will contain a header row  # noqa: E501
+        If true, the results will contain a header row  # noqa: E501
 
         :return: The header of this Dialect.  # noqa: E501
         :rtype: bool
@@ -82,7 +82,7 @@ class Dialect(object):
     def header(self, header):
         """Sets the header of this Dialect.
 
-        if true, the results will contain a header row  # noqa: E501
+        If true, the results will contain a header row  # noqa: E501
 
         :param header: The header of this Dialect.  # noqa: E501
         :type: bool
@@ -94,7 +94,7 @@ class Dialect(object):
     def delimiter(self):
         """Gets the delimiter of this Dialect.  # noqa: E501
 
-        separator between cells; the default is ,  # noqa: E501
+        Separator between cells; the default is ,  # noqa: E501
 
         :return: The delimiter of this Dialect.  # noqa: E501
         :rtype: str
@@ -105,7 +105,7 @@ class Dialect(object):
     def delimiter(self, delimiter):
         """Sets the delimiter of this Dialect.
 
-        separator between cells; the default is ,  # noqa: E501
+        Separator between cells; the default is ,  # noqa: E501
 
         :param delimiter: The delimiter of this Dialect.  # noqa: E501
         :type: str
@@ -121,7 +121,7 @@ class Dialect(object):
     def annotations(self):
         """Gets the annotations of this Dialect.  # noqa: E501
 
-        https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns  # noqa: E501
+        Https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns  # noqa: E501
 
         :return: The annotations of this Dialect.  # noqa: E501
         :rtype: list[str]
@@ -132,7 +132,7 @@ class Dialect(object):
     def annotations(self, annotations):
         """Sets the annotations of this Dialect.
 
-        https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns  # noqa: E501
+        Https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns  # noqa: E501
 
         :param annotations: The annotations of this Dialect.  # noqa: E501
         :type: list[str]
@@ -151,7 +151,7 @@ class Dialect(object):
     def comment_prefix(self):
         """Gets the comment_prefix of this Dialect.  # noqa: E501
 
-        character prefixed to comment strings  # noqa: E501
+        Character prefixed to comment strings  # noqa: E501
 
         :return: The comment_prefix of this Dialect.  # noqa: E501
         :rtype: str
@@ -162,7 +162,7 @@ class Dialect(object):
     def comment_prefix(self, comment_prefix):
         """Sets the comment_prefix of this Dialect.
 
-        character prefixed to comment strings  # noqa: E501
+        Character prefixed to comment strings  # noqa: E501
 
         :param comment_prefix: The comment_prefix of this Dialect.  # noqa: E501
         :type: str
@@ -178,7 +178,7 @@ class Dialect(object):
     def date_time_format(self):
         """Gets the date_time_format of this Dialect.  # noqa: E501
 
-        format of timestamps  # noqa: E501
+        Format of timestamps  # noqa: E501
 
         :return: The date_time_format of this Dialect.  # noqa: E501
         :rtype: str
@@ -189,7 +189,7 @@ class Dialect(object):
     def date_time_format(self, date_time_format):
         """Sets the date_time_format of this Dialect.
 
-        format of timestamps  # noqa: E501
+        Format of timestamps  # noqa: E501
 
         :param date_time_format: The date_time_format of this Dialect.  # noqa: E501
         :type: str

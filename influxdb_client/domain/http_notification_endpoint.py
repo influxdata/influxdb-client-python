@@ -39,6 +39,7 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         'method': 'str',
         'auth_method': 'str',
         'content_template': 'str',
+        'headers': 'dict(str, str)',
         'id': 'str',
         'org_id': 'str',
         'user_id': 'str',
@@ -48,6 +49,7 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         'name': 'str',
         'status': 'str',
         'labels': 'list[Label]',
+        'links': 'NotificationEndpointBaseLinks',
         'type': 'NotificationEndpointType'
     }
 
@@ -59,6 +61,7 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         'method': 'method',
         'auth_method': 'authMethod',
         'content_template': 'contentTemplate',
+        'headers': 'headers',
         'id': 'id',
         'org_id': 'orgID',
         'user_id': 'userID',
@@ -68,12 +71,13 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         'name': 'name',
         'status': 'status',
         'labels': 'labels',
+        'links': 'links',
         'type': 'type'
     }
 
-    def __init__(self, url=None, username=None, password=None, token=None, method=None, auth_method=None, content_template=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, type=None):  # noqa: E501
+    def __init__(self, url=None, username=None, password=None, token=None, method=None, auth_method=None, content_template=None, headers=None, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """HTTPNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, type=type)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, links=links, type=type)
 
         self._url = None
         self._username = None
@@ -82,6 +86,7 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         self._method = None
         self._auth_method = None
         self._content_template = None
+        self._headers = None
         self.discriminator = None
 
         self.url = url
@@ -95,6 +100,8 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         self.auth_method = auth_method
         if content_template is not None:
             self.content_template = content_template
+        if headers is not None:
+            self.headers = headers
 
     @property
     def url(self):
@@ -248,6 +255,29 @@ class HTTPNotificationEndpoint(NotificationEndpointBase):
         """
 
         self._content_template = content_template
+
+    @property
+    def headers(self):
+        """Gets the headers of this HTTPNotificationEndpoint.  # noqa: E501
+
+        Customized headers.  # noqa: E501
+
+        :return: The headers of this HTTPNotificationEndpoint.  # noqa: E501
+        :rtype: dict(str, str)
+        """
+        return self._headers
+
+    @headers.setter
+    def headers(self, headers):
+        """Sets the headers of this HTTPNotificationEndpoint.
+
+        Customized headers.  # noqa: E501
+
+        :param headers: The headers of this HTTPNotificationEndpoint.  # noqa: E501
+        :type: dict(str, str)
+        """
+
+        self._headers = headers
 
     def to_dict(self):
         """Returns the model properties as a dict"""

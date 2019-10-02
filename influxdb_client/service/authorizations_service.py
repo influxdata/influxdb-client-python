@@ -41,7 +41,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to delete (required)
+        :param str auth_id: The ID of the authorization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to delete (required)
+        :param str auth_id: The ID of the authorization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -140,10 +140,10 @@ class AuthorizationsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str user_id: filter authorizations belonging to a user id
-        :param str user: filter authorizations belonging to a user name
-        :param str org_id: filter authorizations belonging to a org id
-        :param str org: filter authorizations belonging to a org name
+        :param str user_id: Only show authorizations that belong to a user ID.
+        :param str user: Only show authorizations that belong to a user name.
+        :param str org_id: Only show authorizations that belong to an organization ID.
+        :param str org: Only show authorizations that belong to a organization name.
         :return: Authorizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -165,10 +165,10 @@ class AuthorizationsService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str user_id: filter authorizations belonging to a user id
-        :param str user: filter authorizations belonging to a user name
-        :param str org_id: filter authorizations belonging to a org id
-        :param str org: filter authorizations belonging to a org name
+        :param str user_id: Only show authorizations that belong to a user ID.
+        :param str user: Only show authorizations that belong to a user name.
+        :param str org_id: Only show authorizations that belong to an organization ID.
+        :param str org: Only show authorizations that belong to a organization name.
         :return: Authorizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -245,7 +245,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to get (required)
+        :param str auth_id: The ID of the authorization to get. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -267,7 +267,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to get (required)
+        :param str auth_id: The ID of the authorization to get. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -335,7 +335,7 @@ class AuthorizationsService(object):
             collection_formats=collection_formats)
 
     def patch_authorizations_id(self, auth_id, authorization_update_request, **kwargs):  # noqa: E501
-        """update authorization to be active or inactive. requests using an inactive authorization will be rejected.  # noqa: E501
+        """Update an authorization to be active or inactive  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -343,8 +343,8 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to update (required)
-        :param AuthorizationUpdateRequest authorization_update_request: authorization to update to apply (required)
+        :param str auth_id: The ID of the authorization to update. (required)
+        :param AuthorizationUpdateRequest authorization_update_request: Authorization to update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -358,7 +358,7 @@ class AuthorizationsService(object):
             return data
 
     def patch_authorizations_id_with_http_info(self, auth_id, authorization_update_request, **kwargs):  # noqa: E501
-        """update authorization to be active or inactive. requests using an inactive authorization will be rejected.  # noqa: E501
+        """Update an authorization to be active or inactive  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -366,8 +366,8 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: ID of authorization to update (required)
-        :param AuthorizationUpdateRequest authorization_update_request: authorization to update to apply (required)
+        :param str auth_id: The ID of the authorization to update. (required)
+        :param AuthorizationUpdateRequest authorization_update_request: Authorization to update (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -453,7 +453,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Authorization authorization: authorization to create (required)
+        :param Authorization authorization: Authorization to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -475,7 +475,7 @@ class AuthorizationsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param Authorization authorization: authorization to create (required)
+        :param Authorization authorization: Authorization to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,

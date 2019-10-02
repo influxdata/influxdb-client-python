@@ -32,39 +32,29 @@ class Error(object):
     """
     openapi_types = {
         'code': 'str',
-        'message': 'str',
-        'op': 'str',
-        'err': 'str'
+        'message': 'str'
     }
 
     attribute_map = {
         'code': 'code',
-        'message': 'message',
-        'op': 'op',
-        'err': 'err'
+        'message': 'message'
     }
 
-    def __init__(self, code=None, message=None, op=None, err=None):  # noqa: E501
+    def __init__(self, code=None, message=None):  # noqa: E501
         """Error - a model defined in OpenAPI"""  # noqa: E501
 
         self._code = None
         self._message = None
-        self._op = None
-        self._err = None
         self.discriminator = None
 
         self.code = code
         self.message = message
-        if op is not None:
-            self.op = op
-        if err is not None:
-            self.err = err
 
     @property
     def code(self):
         """Gets the code of this Error.  # noqa: E501
 
-        code is the machine-readable error code.  # noqa: E501
+        Code is the machine-readable error code.  # noqa: E501
 
         :return: The code of this Error.  # noqa: E501
         :rtype: str
@@ -75,7 +65,7 @@ class Error(object):
     def code(self, code):
         """Sets the code of this Error.
 
-        code is the machine-readable error code.  # noqa: E501
+        Code is the machine-readable error code.  # noqa: E501
 
         :param code: The code of this Error.  # noqa: E501
         :type: str
@@ -89,7 +79,7 @@ class Error(object):
     def message(self):
         """Gets the message of this Error.  # noqa: E501
 
-        message is a human-readable message.  # noqa: E501
+        Message is a human-readable message.  # noqa: E501
 
         :return: The message of this Error.  # noqa: E501
         :rtype: str
@@ -100,7 +90,7 @@ class Error(object):
     def message(self, message):
         """Sets the message of this Error.
 
-        message is a human-readable message.  # noqa: E501
+        Message is a human-readable message.  # noqa: E501
 
         :param message: The message of this Error.  # noqa: E501
         :type: str
@@ -109,52 +99,6 @@ class Error(object):
             raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
-
-    @property
-    def op(self):
-        """Gets the op of this Error.  # noqa: E501
-
-        op describes the logical code operation during error. Useful for debugging.  # noqa: E501
-
-        :return: The op of this Error.  # noqa: E501
-        :rtype: str
-        """
-        return self._op
-
-    @op.setter
-    def op(self, op):
-        """Sets the op of this Error.
-
-        op describes the logical code operation during error. Useful for debugging.  # noqa: E501
-
-        :param op: The op of this Error.  # noqa: E501
-        :type: str
-        """
-
-        self._op = op
-
-    @property
-    def err(self):
-        """Gets the err of this Error.  # noqa: E501
-
-        err is a stack of errors that occurred during processing of the request. Useful for debugging.  # noqa: E501
-
-        :return: The err of this Error.  # noqa: E501
-        :rtype: str
-        """
-        return self._err
-
-    @err.setter
-    def err(self, err):
-        """Sets the err of this Error.
-
-        err is a stack of errors that occurred during processing of the request. Useful for debugging.  # noqa: E501
-
-        :param err: The err of this Error.  # noqa: E501
-        :type: str
-        """
-
-        self._err = err
 
     def to_dict(self):
         """Returns the model properties as a dict"""

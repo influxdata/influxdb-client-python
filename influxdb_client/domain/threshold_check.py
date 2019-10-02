@@ -44,11 +44,11 @@ class ThresholdCheck(CheckBase):
         'status': 'TaskStatusType',
         'every': 'str',
         'offset': 'str',
-        'cron': 'str',
         'tags': 'list[CheckBaseTags]',
         'description': 'str',
         'status_message_template': 'str',
-        'labels': 'list[Label]'
+        'labels': 'list[Label]',
+        'links': 'CheckBaseLinks'
     }
 
     attribute_map = {
@@ -64,16 +64,16 @@ class ThresholdCheck(CheckBase):
         'status': 'status',
         'every': 'every',
         'offset': 'offset',
-        'cron': 'cron',
         'tags': 'tags',
         'description': 'description',
         'status_message_template': 'statusMessageTemplate',
-        'labels': 'labels'
+        'labels': 'labels',
+        'links': 'links'
     }
 
-    def __init__(self, type=None, thresholds=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, cron=None, tags=None, description=None, status_message_template=None, labels=None):  # noqa: E501
+    def __init__(self, type=None, thresholds=None, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """ThresholdCheck - a model defined in OpenAPI"""  # noqa: E501
-        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, cron=cron, tags=tags, description=description, status_message_template=status_message_template, labels=labels)
+        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, tags=tags, description=description, status_message_template=status_message_template, labels=labels, links=links)
 
         self._type = None
         self._thresholds = None

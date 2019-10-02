@@ -66,7 +66,7 @@ class BinaryExpression(object):
     def type(self):
         """Gets the type of this BinaryExpression.  # noqa: E501
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :return: The type of this BinaryExpression.  # noqa: E501
         :rtype: str
@@ -77,7 +77,7 @@ class BinaryExpression(object):
     def type(self, type):
         """Sets the type of this BinaryExpression.
 
-        type of AST node  # noqa: E501
+        Type of AST node  # noqa: E501
 
         :param type: The type of this BinaryExpression.  # noqa: E501
         :type: str

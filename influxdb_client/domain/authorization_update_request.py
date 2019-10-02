@@ -56,7 +56,7 @@ class AuthorizationUpdateRequest(object):
     def status(self):
         """Gets the status of this AuthorizationUpdateRequest.  # noqa: E501
 
-        if inactive the token is inactive and requests using the token will be rejected.  # noqa: E501
+        If inactive the token is inactive and requests using the token will be rejected.  # noqa: E501
 
         :return: The status of this AuthorizationUpdateRequest.  # noqa: E501
         :rtype: str
@@ -67,7 +67,7 @@ class AuthorizationUpdateRequest(object):
     def status(self, status):
         """Sets the status of this AuthorizationUpdateRequest.
 
-        if inactive the token is inactive and requests using the token will be rejected.  # noqa: E501
+        If inactive the token is inactive and requests using the token will be rejected.  # noqa: E501
 
         :param status: The status of this AuthorizationUpdateRequest.  # noqa: E501
         :type: str

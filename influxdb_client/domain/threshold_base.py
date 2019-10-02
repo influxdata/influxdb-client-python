@@ -77,7 +77,7 @@ class ThresholdBase(object):
     def all_values(self):
         """Gets the all_values of this ThresholdBase.  # noqa: E501
 
-        if true, only alert if all values meet threshold  # noqa: E501
+        If true, only alert if all values meet threshold.  # noqa: E501
 
         :return: The all_values of this ThresholdBase.  # noqa: E501
         :rtype: bool
@@ -88,7 +88,7 @@ class ThresholdBase(object):
     def all_values(self, all_values):
         """Sets the all_values of this ThresholdBase.
 
-        if true, only alert if all values meet threshold  # noqa: E501
+        If true, only alert if all values meet threshold.  # noqa: E501
 
         :param all_values: The all_values of this ThresholdBase.  # noqa: E501
         :type: bool

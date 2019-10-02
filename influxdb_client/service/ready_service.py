@@ -33,7 +33,7 @@ class ReadyService(object):
         self.api_client = api_client
 
     def get_ready(self, **kwargs):  # noqa: E501
-        """Get the readiness of a instance at startup. Allow us to confirm the instance is prepared to accept requests.  # noqa: E501
+        """Get the readiness of an instance at startup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -54,7 +54,7 @@ class ReadyService(object):
             return data
 
     def get_ready_with_http_info(self, **kwargs):  # noqa: E501
-        """Get the readiness of a instance at startup. Allow us to confirm the instance is prepared to accept requests.  # noqa: E501
+        """Get the readiness of an instance at startup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True

@@ -115,7 +115,7 @@ class DocumentCreate(object):
     def org(self):
         """Gets the org of this DocumentCreate.  # noqa: E501
 
-        must specify one of orgID and org  # noqa: E501
+        The organization Name. Specify either `orgID` or `org`.  # noqa: E501
 
         :return: The org of this DocumentCreate.  # noqa: E501
         :rtype: str
@@ -126,7 +126,7 @@ class DocumentCreate(object):
     def org(self, org):
         """Sets the org of this DocumentCreate.
 
-        must specify one of orgID and org  # noqa: E501
+        The organization Name. Specify either `orgID` or `org`.  # noqa: E501
 
         :param org: The org of this DocumentCreate.  # noqa: E501
         :type: str
@@ -138,7 +138,7 @@ class DocumentCreate(object):
     def org_id(self):
         """Gets the org_id of this DocumentCreate.  # noqa: E501
 
-        must specify one of orgID and org  # noqa: E501
+        The organization Name. Specify either `orgID` or `org`.  # noqa: E501
 
         :return: The org_id of this DocumentCreate.  # noqa: E501
         :rtype: str
@@ -149,7 +149,7 @@ class DocumentCreate(object):
     def org_id(self, org_id):
         """Sets the org_id of this DocumentCreate.
 
-        must specify one of orgID and org  # noqa: E501
+        The organization Name. Specify either `orgID` or `org`.  # noqa: E501
 
         :param org_id: The org_id of this DocumentCreate.  # noqa: E501
         :type: str
@@ -161,7 +161,7 @@ class DocumentCreate(object):
     def labels(self):
         """Gets the labels of this DocumentCreate.  # noqa: E501
 
-        this is an array of label IDs that will be added as labels to the document  # noqa: E501
+        An array of label IDs to be added as labels to the document.  # noqa: E501
 
         :return: The labels of this DocumentCreate.  # noqa: E501
         :rtype: list[str]
@@ -172,7 +172,7 @@ class DocumentCreate(object):
     def labels(self, labels):
         """Sets the labels of this DocumentCreate.
 
-        this is an array of label IDs that will be added as labels to the document  # noqa: E501
+        An array of label IDs to be added as labels to the document.  # noqa: E501
 
         :param labels: The labels of this DocumentCreate.  # noqa: E501
         :type: list[str]

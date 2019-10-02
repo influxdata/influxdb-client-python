@@ -41,7 +41,7 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: SecretKeysResponse
                  If the method is called asynchronously,
@@ -63,7 +63,7 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
+        :param str org_id: The organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: SecretKeysResponse
                  If the method is called asynchronously,
@@ -131,7 +131,7 @@ class SecretsService(object):
             collection_formats=collection_formats)
 
     def patch_orgs_id_secrets(self, org_id, request_body, **kwargs):  # noqa: E501
-        """Apply patch to the provided secrets  # noqa: E501
+        """Update secrets in an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,8 +139,8 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param dict(str, str) request_body: secret key value pairs to update/add (required)
+        :param str org_id: The organization ID. (required)
+        :param dict(str, str) request_body: Secret key value pairs to update/add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -154,7 +154,7 @@ class SecretsService(object):
             return data
 
     def patch_orgs_id_secrets_with_http_info(self, org_id, request_body, **kwargs):  # noqa: E501
-        """Apply patch to the provided secrets  # noqa: E501
+        """Update secrets in an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -162,8 +162,8 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param dict(str, str) request_body: secret key value pairs to update/add (required)
+        :param str org_id: The organization ID. (required)
+        :param dict(str, str) request_body: Secret key value pairs to update/add (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -241,7 +241,7 @@ class SecretsService(object):
             collection_formats=collection_formats)
 
     def post_orgs_id_secrets(self, org_id, secret_keys, **kwargs):  # noqa: E501
-        """delete provided secrets  # noqa: E501
+        """Delete secrets from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -249,8 +249,8 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param SecretKeys secret_keys: secret key to deleted (required)
+        :param str org_id: The organization ID. (required)
+        :param SecretKeys secret_keys: Secret key to delete (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -264,7 +264,7 @@ class SecretsService(object):
             return data
 
     def post_orgs_id_secrets_with_http_info(self, org_id, secret_keys, **kwargs):  # noqa: E501
-        """delete provided secrets  # noqa: E501
+        """Delete secrets from an organization  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -272,8 +272,8 @@ class SecretsService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: ID of the organization (required)
-        :param SecretKeys secret_keys: secret key to deleted (required)
+        :param str org_id: The organization ID. (required)
+        :param SecretKeys secret_keys: Secret key to delete (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,

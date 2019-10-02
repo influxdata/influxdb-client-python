@@ -101,7 +101,7 @@ class Query(object):
     def query(self):
         """Gets the query of this Query.  # noqa: E501
 
-        query script to execute.  # noqa: E501
+        Query script to execute.  # noqa: E501
 
         :return: The query of this Query.  # noqa: E501
         :rtype: str
@@ -112,7 +112,7 @@ class Query(object):
     def query(self, query):
         """Sets the query of this Query.
 
-        query script to execute.  # noqa: E501
+        Query script to execute.  # noqa: E501
 
         :param query: The query of this Query.  # noqa: E501
         :type: str
@@ -126,7 +126,7 @@ class Query(object):
     def type(self):
         """Gets the type of this Query.  # noqa: E501
 
-        type of query  # noqa: E501
+        The type of query.  # noqa: E501
 
         :return: The type of this Query.  # noqa: E501
         :rtype: str
@@ -137,7 +137,7 @@ class Query(object):
     def type(self, type):
         """Sets the type of this Query.
 
-        type of query  # noqa: E501
+        The type of query.  # noqa: E501
 
         :param type: The type of this Query.  # noqa: E501
         :type: str
@@ -149,7 +149,7 @@ class Query(object):
     def db(self):
         """Gets the db of this Query.  # noqa: E501
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :return: The db of this Query.  # noqa: E501
         :rtype: str
@@ -160,7 +160,7 @@ class Query(object):
     def db(self, db):
         """Sets the db of this Query.
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :param db: The db of this Query.  # noqa: E501
         :type: str
@@ -172,7 +172,7 @@ class Query(object):
     def rp(self):
         """Gets the rp of this Query.  # noqa: E501
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :return: The rp of this Query.  # noqa: E501
         :rtype: str
@@ -183,7 +183,7 @@ class Query(object):
     def rp(self, rp):
         """Sets the rp of this Query.
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :param rp: The rp of this Query.  # noqa: E501
         :type: str
@@ -195,7 +195,7 @@ class Query(object):
     def cluster(self):
         """Gets the cluster of this Query.  # noqa: E501
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :return: The cluster of this Query.  # noqa: E501
         :rtype: str
@@ -206,7 +206,7 @@ class Query(object):
     def cluster(self, cluster):
         """Sets the cluster of this Query.
 
-        required for influxql type queries  # noqa: E501
+        Required for `influxql` type queries.  # noqa: E501
 
         :param cluster: The cluster of this Query.  # noqa: E501
         :type: str
