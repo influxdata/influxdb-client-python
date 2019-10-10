@@ -21,7 +21,7 @@ influxdb-client-python
    :alt: Coverage
 
 .. image:: https://img.shields.io/pypi/v/influxdb-client.svg
-   :target: https://pypi.python.org/pypi/influxdb-python
+   :target: https://pypi.org/project/influxdb-client/
    :alt: PyPI package
 
 .. image:: https://img.shields.io/pypi/pyversions/influxdb-client.svg
