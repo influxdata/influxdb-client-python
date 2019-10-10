@@ -260,7 +260,7 @@ How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
 
 
-* sources - `import_data_set.py <https://github.com/influxdata/influxdb-client-python/blob/master/tests/import_data_set.py>`_
+* sources - `import_data_set.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/import_data_set.py>`_
 
 .. code-block:: python
 
@@ -357,7 +357,7 @@ Efficiency write data from IOT sensor
 """""""""""""""""""""""""""""""""""""
 .. marker-iot-start
 
-* sources - `iot_sensor.py <https://github.com/influxdata/influxdb-client-python/blob/master/tests/iot_sensor.py>`_
+* sources - `iot_sensor.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/iot_sensor.py>`_
 
 .. code-block:: python
 
