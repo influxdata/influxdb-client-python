@@ -6,6 +6,9 @@
 ### Bugs
 1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
 
+### Documentation
+1. [#22](https://github.com/bonitoo-io/influxdb-client-python/issues/22): Documented how to connect to InfluxCloud
+
 ## 0.0.2 [2019-09-26]
 
 ### Features
