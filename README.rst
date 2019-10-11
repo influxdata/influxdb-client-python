@@ -499,7 +499,7 @@ The last step is run a python script via: ``python3 influx_cloud.py``.
         """
         Query written data
         """
-        query = f'from(bucket: "{bucket}") |> range(start: 0) |> filter(fn: (r) => r._measurement == "{kind}")'
+        query = f'from(bucket: "{bucket}") |> range(start: -1d) |> filter(fn: (r) => r._measurement == "{kind}")'
         print(f'Querying from InfluxDB cloud: "{query}" ...')
         print()
 
