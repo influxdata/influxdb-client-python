@@ -11,9 +11,9 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 Configure credentials
 """
 influx_cloud_url = 'https://us-west-2-1.aws.cloud2.influxdata.com'
-influx_cloud_token = '...'
-bucket = '...'
-org = '...'
+influx_cloud_token = 'a96jOZxh7iUhhZXRupKWGpLBhYnOVeP0hp1AWima2vQy5VCZPonvhHVa2NwpBpevIyQ96kLewS0jaLNC0kycnw=='
+bucket = 'QSLHA'
+org = 'jakub_bednar'
 
 client = InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token)
 try:
@@ -39,7 +39,7 @@ try:
     """
     Query written data
     """
-    query = f'from(bucket: "{bucket}") |> range(start: 0) |> filter(fn: (r) => r._measurement == "{kind}")'
+    query = f'from(bucket: "{bucket}") |> range(start: -1d) |> filter(fn: (r) => r._measurement == "{kind}")'
     print(f'Querying from InfluxDB cloud: "{query}" ...')
     print()
 
