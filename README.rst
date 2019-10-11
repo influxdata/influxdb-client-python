@@ -450,9 +450,11 @@ The following example demonstrate a simplest way how to write and query date wit
 
 At first point you should create an authentication token as is described `here <https://v2.docs.influxdata.com/v2.0/security/tokens/create-token/>`_.
 
-After that you should configure properties: ``influx_cloud_url``, ``influx_cloud_token``, ``bucket`` and ``org`` in a ``influx_cloud.py`` examples.
+After that you should configure properties: ``influx_cloud_url``, ``influx_cloud_token``, ``bucket`` and ``org`` in a ``influx_cloud.py`` example.
 
-The latest step is run python script via: ``python3 influx_cloud.py``.
+The last step is run a python script via: ``python3 influx_cloud.py``.
+
+* sources - `influx_cloud.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/influx_cloud.py>`_
 
 .. code-block:: python
 
