@@ -11,9 +11,9 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 Configure credentials
 """
 influx_cloud_url = 'https://us-west-2-1.aws.cloud2.influxdata.com'
-influx_cloud_token = 'a96jOZxh7iUhhZXRupKWGpLBhYnOVeP0hp1AWima2vQy5VCZPonvhHVa2NwpBpevIyQ96kLewS0jaLNC0kycnw=='
-bucket = 'QSLHA'
-org = 'jakub_bednar'
+influx_cloud_token = '...'
+bucket = '...'
+org = '...'
 
 client = InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token)
 try:
