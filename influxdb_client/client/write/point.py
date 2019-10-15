@@ -13,6 +13,7 @@ from influxdb_client.domain.write_precision import WritePrecision
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
 
+
 class Point(object):
     """
     Point defines the values that will be written to the database.
@@ -23,6 +24,16 @@ class Point(object):
     def measurement(measurement):
         p = Point(measurement)
         return p
+
+    @staticmethod
+    def from_dict(dictionary: dict, write_precision: WritePrecision = DEFAULT_WRITE_PRECISION):
+        point = Point(dictionary['measurement'])
+        for tag_key, tag_value in dictionary['tags'].items():
+            point.tag(tag_key, tag_value)
+        for field_key, field_value in dictionary['fields'].items():
+            point.field(field_key, field_value)
+        point.time(dictionary['time'], write_precision=write_precision)
+        return point
 
     def __init__(self, measurement_name):
         self._tags = {}

@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 import datetime
 import unittest
+import time
 from multiprocessing.pool import ApplyResult
 
 from influxdb_client import Point, WritePrecision
@@ -135,6 +136,27 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(400, exception.status)
         self.assertEqual("Bad Request", exception.reason)
 
+    def test_write_dictionary(self):
+        _bucket = self.create_test_bucket()
+        _point = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                  "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 1.0}}
+
+        self.write_client.write(_bucket.name, self.org, _point)
+        self.write_client.flush()
+
+        result = self.query_api.query(
+            "from(bucket:\"" + _bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
+        self.assertEqual(result[0].records[0].get_value(), 1.0)
+        self.assertEqual(result[0].records[0].values.get("location"), "coyote_creek")
+        self.assertEqual(result[0].records[0].get_field(), "water_level")
+        self.assertEqual(result[0].records[0].get_time(),
+                         datetime.datetime(2009, 11, 10, 23, 0, tzinfo=datetime.timezone.utc))
+
+        self.delete_test_bucket(_bucket)
+
 
 class AsynchronousWriteTest(BaseTest):
 
@@ -155,6 +177,46 @@ class AsynchronousWriteTest(BaseTest):
         self.assertEqual(ApplyResult, type(result))
         self.assertEqual(None, result.get())
         self.delete_test_bucket(_bucket)
+
+    def test_write_dictionaries(self):
+        bucket = self.create_test_bucket()
+
+        _point1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                   "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
+        _point2 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                   "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 2.0}}
+
+        _point_list = [_point1, _point2]
+
+        self.write_client.write(bucket.name, self.org, _point_list)
+        time.sleep(1)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        print(query)
+
+        flux_result = self.client.query_api().query(query)
+
+        self.assertEqual(1, len(flux_result))
+
+        records = flux_result[0].records
+
+        self.assertEqual(2, len(records))
+
+        self.assertEqual("h2o_feet", records[0].get_measurement())
+        self.assertEqual(1, records[0].get_value())
+        self.assertEqual("water_level", records[0].get_field())
+        self.assertEqual("coyote_creek", records[0].values.get('location'))
+        self.assertEqual(records[0].get_time(),
+                         datetime.datetime(2009, 11, 10, 22, 0, tzinfo=datetime.timezone.utc))
+
+        self.assertEqual("h2o_feet", records[1].get_measurement())
+        self.assertEqual(2, records[1].get_value())
+        self.assertEqual("water_level", records[1].get_field())
+        self.assertEqual("coyote_creek", records[1].values.get('location'))
+        self.assertEqual(records[1].get_time(),
+                         datetime.datetime(2009, 11, 10, 23, 0, tzinfo=datetime.timezone.utc))
+
+        self.delete_test_bucket(bucket)
 
 
 if __name__ == '__main__':

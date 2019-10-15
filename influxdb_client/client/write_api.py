@@ -143,7 +143,8 @@ class WriteApi(AbstractClient):
             self._subject = None
             self._disposable = None
 
-    def write(self, bucket: str, org: str, record: Union[str, List['str'], Point, List['Point'], Observable],
+    def write(self, bucket: str, org: str,
+              record: Union[str, List['str'], Point, List['Point'], dict, List['dict'], Observable],
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
         """
         Writes time-series data into influxdb.
@@ -166,6 +167,9 @@ class WriteApi(AbstractClient):
         if isinstance(record, Point):
             final_string = record.to_line_protocol()
 
+        if isinstance(record, dict):
+            final_string = Point.from_dict(record, write_precision=write_precision).to_line_protocol()
+
         if isinstance(record, list):
             lines = []
             for item in record:
@@ -173,6 +177,8 @@ class WriteApi(AbstractClient):
                     lines.append(item)
                 if isinstance(item, Point):
                     lines.append(item.to_line_protocol())
+                if isinstance(item, dict):
+                    lines.append(Point.from_dict(item, write_precision=write_precision).to_line_protocol())
             final_string = '\n'.join(lines)
 
         _async_req = True if self._write_options.write_type == WriteType.asynchronous else False
@@ -204,6 +210,9 @@ class WriteApi(AbstractClient):
 
         elif isinstance(data, Point):
             self._subject.on_next(_BatchItem(key=_key, data=data.to_line_protocol()))
+
+        elif isinstance(data, dict):
+            self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision), precision)
 
         elif isinstance(data, list):
             for item in data:

@@ -33,9 +33,6 @@ class BatchingWriteTest(BaseTest):
 
         self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
 
-        # self._api_client = influxdb_client.ApiClient(configuration=conf, header_name="Authorization",
-        #                                        header_value="Token my-token")
-
         write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=3_000)
         self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=write_options)
 
@@ -48,10 +45,10 @@ class BatchingWriteTest(BaseTest):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                           ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                            "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
-                                            "h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
-                                            "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"])
 
         time.sleep(1)
 
@@ -88,23 +85,23 @@ class BatchingWriteTest(BaseTest):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
 
         self._write_client.write("my-bucket", "my-org",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                                 "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
                                  write_precision=WritePrecision.S)
 
         self._write_client.write("my-bucket", "my-org-a",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
 
         self._write_client.write("my-bucket", "my-org-a",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=4.0 4")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=4.0 4")
 
         self._write_client.write("my-bucket2", "my-org-a",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=5.0 5")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=5.0 5")
 
         self._write_client.write("my-bucket", "my-org-a",
-                                           "h2o_feet,location=coyote_creek level\\ water_level=6.0 6")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=6.0 6")
 
         time.sleep(1)
 
@@ -270,11 +267,25 @@ class BatchingWriteTest(BaseTest):
             .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek level\\ water_level={0}.0 {0}".format(i)))
         self._write_client.write("my-bucket", "my-org", _data)
 
+        # Dictionary item
+        _dict = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                 "time": 13, "fields": {"level water_level": 13.0}}
+        self._write_client.write("my-bucket", "my-org", _dict)
+
+        # Dictionary list
+        _dict1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                  "time": 14, "fields": {"level water_level": 14.0}}
+        _dict2 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                  "time": 15, "fields": {"level water_level": 15.0}}
+        _dict3 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                  "time": 16, "fields": {"level water_level": 16.0}}
+        self._write_client.write("my-bucket", "my-org", [_dict1, _dict2, _dict3])
+
         time.sleep(1)
 
         _requests = httpretty.httpretty.latest_requests
 
-        self.assertEqual(6, len(_requests))
+        self.assertEqual(8, len(_requests))
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[0].parsed_body)
@@ -288,6 +299,10 @@ class BatchingWriteTest(BaseTest):
                          "h2o_feet,location=coyote_creek level\\ water_level=10.0 10", _requests[4].parsed_body)
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=11.0 11\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=12.0 12", _requests[5].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=13.0 13\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=14.0 14", _requests[6].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=15.0 15\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=16.0 16", _requests[7].parsed_body)
 
         pass
 
