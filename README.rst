@@ -153,7 +153,8 @@ The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.
 
 *The default instance of WriteApi use batching.*
 
-The data could be written as:
+The data could be written as
+""""""""""""""""""""""""""""
 
 1. ``string`` that is formatted as a InfluxDB's line protocol
 2. `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure

@@ -151,7 +151,7 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
         self.assertEqual(result[0].records[0].get_value(), 1.0)
         self.assertEqual(result[0].records[0].values.get("location"), "coyote_creek")
-        self.assertEqual(result[0].records[0].get(), "water_level")
+        self.assertEqual(result[0].records[0].get_field(), "water_level")
         self.assertEqual(result[0].records[0].get_time(),
                          datetime.datetime(2009, 11, 10, 23, 0, tzinfo=datetime.timezone.utc))
 
