@@ -98,7 +98,7 @@ class _BatchResponse(object):
 
 
 def _body_reduce(batch_items):
-    return '\n'.join(map(lambda batch_item: batch_item.data, batch_items))
+    return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
 def _create_batch(group: GroupedObservable):
@@ -144,7 +144,8 @@ class WriteApi(AbstractClient):
             self._disposable = None
 
     def write(self, bucket: str, org: str,
-              record: Union[str, List['str'], Point, List['Point'], dict, List['dict'], Observable],
+              record: Union[
+                  str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable],
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
         """
         Writes time-series data into influxdb.
@@ -159,27 +160,7 @@ class WriteApi(AbstractClient):
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record, write_precision)
 
-        final_string = ''
-
-        if isinstance(record, str):
-            final_string = record
-
-        if isinstance(record, Point):
-            final_string = record.to_line_protocol()
-
-        if isinstance(record, dict):
-            final_string = Point.from_dict(record, write_precision=write_precision).to_line_protocol()
-
-        if isinstance(record, list):
-            lines = []
-            for item in record:
-                if isinstance(item, str):
-                    lines.append(item)
-                if isinstance(item, Point):
-                    lines.append(item.to_line_protocol())
-                if isinstance(item, dict):
-                    lines.append(Point.from_dict(item, write_precision=write_precision).to_line_protocol())
-            final_string = '\n'.join(lines)
+        final_string = self._serialize(record, write_precision)
 
         _async_req = True if self._write_options.write_type == WriteType.asynchronous else False
 
@@ -203,13 +184,35 @@ class WriteApi(AbstractClient):
             self._disposable = None
         pass
 
+    def _serialize(self, record, write_precision) -> bytes:
+        _result = b''
+        if isinstance(record, bytes):
+            _result = record
+
+        elif isinstance(record, str):
+            _result = record.encode("utf-8")
+
+        elif isinstance(record, Point):
+            _result = self._serialize(record.to_line_protocol(), write_precision=write_precision)
+
+        elif isinstance(record, dict):
+            _result = self._serialize(Point.from_dict(record, write_precision=write_precision),
+                                      write_precision=write_precision)
+        elif isinstance(record, list):
+            _result = b'\n'.join([self._serialize(item, write_precision=write_precision) for item in record])
+
+        return _result
+
     def _write_batching(self, bucket, org, data, precision=DEFAULT_WRITE_PRECISION):
         _key = _BatchItemKey(bucket, org, precision)
-        if isinstance(data, str):
+        if isinstance(data, bytes):
             self._subject.on_next(_BatchItem(key=_key, data=data))
 
+        elif isinstance(data, str):
+            self._write_batching(bucket, org, data.encode("utf-8"), precision)
+
         elif isinstance(data, Point):
-            self._subject.on_next(_BatchItem(key=_key, data=data.to_line_protocol()))
+            self._write_batching(bucket, org, data.to_line_protocol(), precision)
 
         elif isinstance(data, dict):
             self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision), precision)
@@ -234,7 +237,7 @@ class WriteApi(AbstractClient):
         return _BatchResponse(data=batch_item)
 
     def _post_write(self, _async_req, bucket, org, body, precision):
-        return self._write_service.post_write(org=org, bucket=bucket, body=body.encode("utf-8"), precision=precision,
+        return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
                                               async_req=_async_req, content_encoding="identity",
                                               content_type="text/plain; charset=utf-8")
 
@@ -272,4 +275,4 @@ class WriteApi(AbstractClient):
 
     def _on_complete(self):
         self._disposable.dispose()
-        logger.info("the batching processor was dispose")
+        logger.info("the batching processor was disposed")

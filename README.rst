@@ -156,7 +156,7 @@ The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.
 The data could be written as
 """"""""""""""""""""""""""""
 
-1. ``string`` that is formatted as a InfluxDB's line protocol
+1. ``string`` or ``bytes`` that is formatted as a InfluxDB's line protocol
 2. `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
 3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time``
 4. List of above items
@@ -205,11 +205,18 @@ The batching is configurable by ``write_options``\ :
                                                                 retry_interval=5_000))
 
    """
-   Write Line Protocol
+   Write Line Protocol formatted as string
    """
    _write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
    _write_client.write("my-bucket", "my-org", ["h2o_feet,location=coyote_creek water_level=2.0 2",
                                                "h2o_feet,location=coyote_creek water_level=3.0 3"])
+
+   """
+   Write Line Protocol formatted as byte array
+   """
+   _write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1".encode())
+   _write_client.write("my-bucket", "my-org", ["h2o_feet,location=coyote_creek water_level=2.0 2".encode(),
+                                               "h2o_feet,location=coyote_creek water_level=3.0 3".encode()])
 
    """
    Write Dictionary-style object

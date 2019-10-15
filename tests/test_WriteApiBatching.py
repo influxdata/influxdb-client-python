@@ -277,15 +277,22 @@ class BatchingWriteTest(BaseTest):
                   "time": 14, "fields": {"level water_level": 14.0}}
         _dict2 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
                   "time": 15, "fields": {"level water_level": 15.0}}
-        _dict3 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
-                  "time": 16, "fields": {"level water_level": 16.0}}
-        self._write_client.write("my-bucket", "my-org", [_dict1, _dict2, _dict3])
+        self._write_client.write("my-bucket", "my-org", [_dict1, _dict2])
+
+        # Bytes item
+        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=16.0 16".encode("utf-8")
+        self._write_client.write("my-bucket", "my-org", _bytes)
+
+        # Bytes list
+        _bytes1 = "h2o_feet,location=coyote_creek level\\ water_level=17.0 17".encode("utf-8")
+        _bytes2 = "h2o_feet,location=coyote_creek level\\ water_level=18.0 18".encode("utf-8")
+        self._write_client.write("my-bucket", "my-org", [_bytes1, _bytes2])
 
         time.sleep(1)
 
         _requests = httpretty.httpretty.latest_requests
 
-        self.assertEqual(8, len(_requests))
+        self.assertEqual(9, len(_requests))
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[0].parsed_body)
@@ -303,6 +310,8 @@ class BatchingWriteTest(BaseTest):
                          "h2o_feet,location=coyote_creek level\\ water_level=14.0 14", _requests[6].parsed_body)
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=15.0 15\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=16.0 16", _requests[7].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=17.0 17\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=18.0 18", _requests[8].parsed_body)
 
         pass
 
