@@ -45,7 +45,7 @@ InfluxDB 2.0 client features
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
-    - `RxPY`_ Observable
+    - `RxPY <https://rxpy.readthedocs.io/en/latest/>`_ Observable
     - Not implemented yet
       - write user types using decorator
       - write Pandas DataFrame
@@ -151,7 +151,16 @@ Writes
 The `WriteApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write_api.py>`_ supports synchronous, asynchronous and batching writes into InfluxDB 2.0.
 The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial/>`_\ , `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py>`_ or Observable stream.
 
-*The default instance of ``WriteApi`` use batching.*
+*The default instance of WriteApi use batching.*
+
+The data could be written as:
+
+1. ``string`` that is formatted as a InfluxDB's line protocol
+2. `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
+3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time``
+4. List of above items
+5. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
+
 
 Batching
 """"""""
@@ -200,6 +209,16 @@ The batching is configurable by ``write_options``\ :
    _write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
    _write_client.write("my-bucket", "my-org", ["h2o_feet,location=coyote_creek water_level=2.0 2",
                                                "h2o_feet,location=coyote_creek water_level=3.0 3"])
+
+   """
+   Write Dictionary-style object
+   """
+   _write_client.write("my-bucket", "my-org", {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                                               "fields": {"water_level": 1.0}, "time": 1})
+   _write_client.write("my-bucket", "my-org", [{"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                                               "fields": {"water_level": 2.0}, "time": 2},
+                                               {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                                               "fields": {"water_level": 3.0}, "time": 3}])
 
    """
    Write Data Point
