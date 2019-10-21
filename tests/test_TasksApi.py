@@ -282,7 +282,7 @@ class TasksApiTest(BaseTest):
         self.assertLess(run.scheduled_for, now.astimezone(tz=datetime.timezone.utc))
         self.assertLess(run.started_at, now.astimezone(tz=datetime.timezone.utc))
         self.assertLess(run.finished_at, now.astimezone(tz=datetime.timezone.utc))
-        self.assertIsNone(run.requested_at)
+        self.assertEqual(run.requested_at, datetime.datetime(1, 1, 1, 0, 0, tzinfo=datetime.timezone.utc))
         self.assertIsNotNone(run.links)
 
         self.assertEqual(run.links.logs, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/logs")
