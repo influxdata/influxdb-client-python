@@ -1,5 +1,8 @@
 ## 0.0.3 [unreleased]
 
+### API
+1. [#28](https://github.com/bonitoo-io/influxdb-client-python/pull/28): Updated swagger to latest version
+
 ### Features
 1. [#24](https://github.com/influxdata/influxdb-client-python/issues/24): Added possibility to write dictionary-style object
 
