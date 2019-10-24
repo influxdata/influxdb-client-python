@@ -61,6 +61,7 @@ from influxdb_client.domain.dashboards import Dashboards
 from influxdb_client.domain.date_time_literal import DateTimeLiteral
 from influxdb_client.domain.deadman_check import DeadmanCheck
 from influxdb_client.domain.decimal_places import DecimalPlaces
+from influxdb_client.domain.delete_predicate_request import DeletePredicateRequest
 from influxdb_client.domain.dialect import Dialect
 from influxdb_client.domain.document import Document
 from influxdb_client.domain.document_create import DocumentCreate

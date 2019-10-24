@@ -48,7 +48,8 @@ class HTTPNotificationRuleBase(object):
         self.discriminator = None
 
         self.type = type
-        self.url = url
+        if url is not None:
+            self.url = url
 
     @property
     def type(self):
@@ -91,8 +92,6 @@ class HTTPNotificationRuleBase(object):
         :param url: The url of this HTTPNotificationRuleBase.  # noqa: E501
         :type: str
         """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
 
