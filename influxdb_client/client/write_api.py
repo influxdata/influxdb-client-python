@@ -119,7 +119,11 @@ def _window_to_group(value):
     return value.pipe(
         ops.to_iterable(),
         ops.map(lambda x: rx.from_iterable(x).pipe(
-            ops.group_by(_group_by), ops.map(_group_to_batch), ops.merge_all())), ops.merge_all())
+            # Group window by 'organization', 'bucket' and 'precision'
+            ops.group_by(_group_by),
+            # Create batch (concatenation line protocols by \n)
+            ops.map(_group_to_batch),
+            ops.merge_all())), ops.merge_all())
 
 
 class WriteApi(AbstractClient):
@@ -129,15 +133,20 @@ class WriteApi(AbstractClient):
         self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
         if self._write_options.write_type is WriteType.batching:
+            # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
 
+            # Define a scheduler that is used for processing incoming data - default singleton
             observable = self._subject.pipe(ops.observe_on(self._write_options.write_scheduler))
             self._disposable = observable \
-                .pipe(ops.window_with_time_or_count(count=write_options.batch_size,
-                                                    timespan=timedelta(milliseconds=write_options.flush_interval)),
-                      ops.flat_map(lambda v: _window_to_group(v)),
-                      ops.map(mapper=lambda x: self._retryable(data=x, delay=self._jitter_delay())),
-                      ops.merge_all()) \
+                .pipe(  # Split incoming data to windows by batch_size or flush_interval
+                    ops.window_with_time_or_count(count=write_options.batch_size,
+                                                  timespan=timedelta(milliseconds=write_options.flush_interval)),
+                    # Map incoming batch window in groups defined by 'organization', 'bucket' and 'precision'
+                    ops.flat_map(lambda v: _window_to_group(v)),
+                    # Write data into InfluxDB (possibility to retry if its fail)
+                    ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),  #
+                    ops.merge_all()) \
                 .subscribe(self._on_next, self._on_error, self._on_complete)
         else:
             self._subject = None
@@ -244,8 +253,11 @@ class WriteApi(AbstractClient):
     def _retryable(self, data: str, delay: timedelta):
 
         return rx.of(data).pipe(
+            # use delay if its specified
             ops.delay(duetime=delay, scheduler=self._write_options.write_scheduler),
+            # invoke http call
             ops.map(lambda x: self._http(x)),
+            # if there is an error than retry
             ops.catch(handler=lambda exception, source: self._retry_handler(exception, source, data)),
         )
 
