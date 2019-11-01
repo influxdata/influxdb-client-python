@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
+from influxdb_client.client.delete_api import DeleteApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi
@@ -143,6 +144,13 @@ class InfluxDBClient(object):
         """
         ready_service = ReadyService(self.api_client)
         return ready_service.get_ready()
+
+    def delete_api(self) -> DeleteApi:
+        """
+        Gets the delete metrics API instance
+        :return: delete api
+        """
+        return DeleteApi(self)
 
 
 class _Configuration(Configuration):
