@@ -79,9 +79,8 @@ class TestLabelsApi(BaseTest):
 
         label = self.labels_api.create_label(name, self.organization.id, properties)
 
-        cloned = self.labels_api.clone_label(cloned_name=name, label=label)
-
-        self.assertEqual(cloned.name, name)
+        cloned = self.labels_api.clone_label(cloned_name=name+"_clone", label=label)
+        self.assertEqual(cloned.name, name+"_clone")
         self.assertEqual(cloned.properties, properties)
 
     def test_find_label_by_id(self):
