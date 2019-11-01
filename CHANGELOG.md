@@ -1,14 +1,11 @@
 ## 0.0.3 [unreleased]
 
-### API
-1. [#28](https://github.com/bonitoo-io/influxdb-client-python/pull/28): Updated swagger to latest version
-
 ### Features
 1. [#24](https://github.com/influxdata/influxdb-client-python/issues/24): Added possibility to write dictionary-style object
 1. [#27](https://github.com/influxdata/influxdb-client-python/issues/27): Added possibility to write bytes type of data
 
 ### API
-1. [#21](https://github.com/bonitoo-io/influxdb-client-python/pull/21): Updated swagger to latest version
+1. [#28](https://github.com/bonitoo-io/influxdb-client-python/pull/28): Updated swagger to latest version
 
 ### Bugs
 1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
