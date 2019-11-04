@@ -1,11 +1,11 @@
 import codecs
 import csv
-from typing import List
+from typing import List, Union, Iterable
 
 from influxdb_client import Dialect
 from influxdb_client import Query, QueryService
-from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxResponseConsumerTable
-from influxdb_client.client.flux_table import FluxTable
+from influxdb_client.client.flux_csv_parser import FluxCsvParser
+from influxdb_client.client.flux_table import FluxTable, FluxRecord
 
 
 class QueryApi(object):
@@ -35,6 +35,7 @@ class QueryApi(object):
             org = self._influxdb_client.org
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
                                               _preload_content=False)
+
         return csv.reader(codecs.iterdecode(response, 'utf-8'))
 
     def query_raw(self, query: str, org=None, dialect=default_dialect):
@@ -50,27 +51,32 @@ class QueryApi(object):
             org = self._influxdb_client.org
         result = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
                                             _preload_content=False)
-        return result
-        # return codecs.iterdecode(result, 'utf-8')
 
-    def query(self, query: str, org=None, dialect=default_dialect) -> List['FluxTable']:
+        return result
+
+    def query(self, query: str, org=None, dialect=default_dialect, stream=False) \
+            -> Union[List['FluxTable'], Iterable['FluxRecord']]:
         """
         Synchronously executes the Flux query and return result as a List['FluxTable']
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
         :param dialect: csv dialect format
+        :param stream: csv dialect format
         :return:
         """
         if org is None:
             org = self._influxdb_client.org
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
                                               _preload_content=False, _return_http_data_only=False)
-        consumer = FluxResponseConsumerTable()
-        parser = FluxCsvParser()
 
-        parser.parse_flux_response(response=response, cancellable=None, consumer=consumer)
-        return consumer.tables
+        _parser = FluxCsvParser(response=response, stream=stream)
+        if stream:
+            return _parser.generator()
+
+        list(_parser.generator())
+
+        return _parser.tables
 
     # private helper for c
     @staticmethod
