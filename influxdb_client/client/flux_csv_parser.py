@@ -2,8 +2,8 @@ import base64
 import codecs
 import csv as csv_parser
 
-from dateutil.parser import parse as timestamp_parser
 import ciso8601
+from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
@@ -20,21 +20,32 @@ class FluxCsvParserException(Exception):
 
 class FluxCsvParser(object):
 
-    def __init__(self) -> None:
+    def __init__(self, response: HTTPResponse, stream: bool) -> None:
+        self._response = response
+        self.tables = []
+        self._stream = stream
         pass
 
-    def parse_flux_response(self, response, cancellable, consumer):
+    def __enter__(self):
+        self._reader = csv_parser.reader(codecs.iterdecode(self._response, 'utf-8'))
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._response.close()
+
+    def generator(self):
+        with self as parser:
+            yield from parser._parse_flux_response()
+
+    def _parse_flux_response(self):
         table_index = 0
         start_new_table = False
         table = None
         parsing_state_error = False
-        reader = csv_parser.reader(codecs.iterdecode(response, 'utf-8'))
 
-        for csv in reader:
+        for csv in self._reader:
             # debug
             # print("parsing: ", csv)
-            if (cancellable is not None) and cancellable.canceled:
-                return
 
             # Response has HTTP status ok, but response is error.
             if len(csv) < 1:
@@ -55,7 +66,7 @@ class FluxCsvParser(object):
             if "#datatype" == token:
                 start_new_table = True
                 table = FluxTable()
-                consumer.accept_table(index=table_index, cancellable=cancellable, flux_table=table)
+                self._insert_table(table, table_index)
                 table_index = table_index + 1
             elif table is None:
                 raise FluxCsvParserException("Unable to parse CSV response. FluxTable definition was not found.")
@@ -85,11 +96,16 @@ class FluxCsvParser(object):
                     flux_columns = table.columns
                     table = FluxTable()
                     table.columns.extend(flux_columns)
-                    consumer.accept_table(table_index, cancellable, table)
+                    self._insert_table(table, table_index)
                     table_index = table_index + 1
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
-                consumer.accept_record(table_index - 1, cancellable, flux_record)
+
+                if not self._stream:
+                    self.tables[table_index - 1].records.append(flux_record)
+
+                yield flux_record
+
                 # debug
                 # print(flux_record)
 
@@ -163,14 +179,6 @@ class FluxCsvParser(object):
             column.label = csv[i]
             i += 1
 
-
-class FluxResponseConsumerTable:
-
-    def __init__(self) -> None:
-        self.tables = []
-
-    def accept_table(self, index, cancellable, flux_table):
-        self.tables.insert(index, flux_table)
-
-    def accept_record(self, index, cancellable, flux_record):
-        self.tables[index].records.append(flux_record)
+    def _insert_table(self, table, table_index):
+        if not self._stream:
+            self.tables.insert(table_index, table)

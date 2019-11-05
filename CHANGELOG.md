@@ -3,6 +3,7 @@
 ### Features
 1. [#24](https://github.com/influxdata/influxdb-client-python/issues/24): Added possibility to write dictionary-style object
 1. [#27](https://github.com/influxdata/influxdb-client-python/issues/27): Added possibility to write bytes type of data
+1. [#30](https://github.com/influxdata/influxdb-client-python/issues/30): Added support for streaming a query response
 1. [#31](https://github.com/influxdata/influxdb-client-python/issues/31): Added support for delete metrics  
 
 ### API

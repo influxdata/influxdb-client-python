@@ -44,13 +44,15 @@ InfluxDB 2.0 client features
 - Querying data
     - using the Flux language
     - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+    - `How to queries <#queries>`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`_ Observable
     - Not implemented yet
-      - write user types using decorator
-      - write Pandas DataFrame
+        - write user types using decorator
+        - write Pandas DataFrame
+    - `How to writes <#writes>`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
     - organizations & users management
@@ -58,7 +60,8 @@ InfluxDB 2.0 client features
     - tasks management
     - authorizations
     - health check
-- How To
+    - ...
+- Examples
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
@@ -79,7 +82,7 @@ The python package is hosted on Github, you can install latest version directly:
 
 .. code-block:: sh
 
-   pip3 install git+https://github.com/influxdata/influxdb-client-python.git
+   pip install influxdb-client
 
 Then import the package:
 
@@ -201,9 +204,9 @@ The batching is configurable by ``write_options``\ :
    from influxdb_client.client.write_api import SYNCHRONOUS
 
    _client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
-   _write_client = _client.write_api(write_options=WriteOptions(batch_size=500, 
-                                                                flush_interval=10_000, 
-                                                                jitter_interval=2_000, 
+   _write_client = _client.write_api(write_options=WriteOptions(batch_size=500,
+                                                                flush_interval=10_000,
+                                                                jitter_interval=2_000,
                                                                 retry_interval=5_000))
 
    """
@@ -288,6 +291,89 @@ Data are writes in a synchronous HTTP request.
    ...
 
    client.__del__()
+
+Queries
+^^^^^^^
+
+The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py>`_  could be formatted as a:
+
+1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
+2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
+3. Raw unprocessed results as a ``str`` iterator
+
+The API also support streaming ``FluxRecord`` via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient, Point, Dialect
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    query_api = client.query_api()
+
+    """
+    Prepare data
+    """
+
+    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+
+    """
+    Query: using Table structure
+    """
+    tables = query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+    for table in tables:
+        print(table)
+        for record in table.records:
+            print(record.values)
+
+    print()
+    print()
+
+    """
+    Query: using Stream
+    """
+    records = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -10m)')
+
+    for record in records:
+        print(f'Temperature in {record["location"]} is {record["_value"]}')
+
+    """
+    Interrupt a stream after retrieve a required data
+    """
+    large_stream = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -100d)')
+    for record in large_stream:
+        if record["location"] == "New York":
+            print(f'New York temperature: {record["_value"]}')
+            break
+
+    large_stream.close()
+
+    print()
+    print()
+
+    """
+    Query: using csv library
+    """
+    csv_result = query_api.query_csv('from(bucket:"my-bucket") |> range(start: -10m)',
+                                     dialect=Dialect(header=False, delimiter=",", comment_prefix="#", annotations=[],
+                                                     date_time_format="RFC3339"))
+    for csv_line in csv_result:
+        if not len(csv_line) == 0:
+            print(f'Temperature in {csv_line[9]} is {csv_line[6]}')
+
+    """
+    Close client
+    """
+    client.__del__()
+
+Examples
+^^^^^^^^
 
 How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
