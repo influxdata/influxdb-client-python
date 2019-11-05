@@ -22,13 +22,26 @@ class FluxObjectTest(BaseTest):
                          FluxColumn(index=7, label='_measurement', data_type='string', group=True, default_value=''),
                          FluxColumn(index=8, label='location', data_type='string', group=True, default_value='')]
 
-        record1 = FluxRecord(table=0, values={'result': '_result', 'table': 0, '_start': _time, '_stop': _time,
-                                              '_time': _time, '_value': 1.0, '_field': 'water level',
-                                              '_measurement': 'h2o', 'location': 'coyote_creek'})
-        record2 = FluxRecord(table=0, values={'result': '_result', 'table': 0, '_start': _time, '_stop': _time,
-                                              '_time': _time + datetime.timedelta(days=1), '_value': 2.0,
-                                              '_field': 'water level', '_measurement': 'h2o',
-                                              'location': 'coyote_creek'})
+        record1 = FluxRecord(table=0)
+        record1["table"] = 0
+        record1["_start"] = _time
+        record1["_stop"] = _time
+        record1["_time"] = _time
+        record1["_value"] = 1.0
+        record1["_field"] = 'water level'
+        record1["_measurement"] = 'h2o'
+        record1["location"] = 'coyote_creek'
+
+        record2 = FluxRecord(table=0)
+        record2["table"] = 0
+        record2["_start"] = _time
+        record2["_stop"] = _time
+        record2["_time"] = _time + datetime.timedelta(days=1)
+        record2["_value"] = 2.0
+        record2["_field"] = 'water level'
+        record2["_measurement"] = 'h2o'
+        record2["location"] = 'coyote_creek'
+
         table.records = [record1, record2]
 
         self.assertEqual(9, table.columns.__len__())
@@ -39,15 +52,23 @@ class FluxObjectTest(BaseTest):
         self.assertEqual(_time, table.records[0].get_stop())
         self.assertEqual(_time, table.records[0].get_time())
         self.assertEqual(1.0, table.records[0].get_value())
+        self.assertEqual(1.0, table.records[0]["_value"])
         self.assertEqual('water level', table.records[0].get_field())
+        self.assertEqual('water level', table.records[0]["_field"])
         self.assertEqual('h2o', table.records[0].get_measurement())
+        self.assertEqual('h2o', table.records[0]["_measurement"])
         self.assertEqual('coyote_creek', table.records[0].values['location'])
+        self.assertEqual('coyote_creek', table.records[0]['location'])
 
         # record 2
         self.assertEqual(_time, table.records[1].get_start())
         self.assertEqual(_time, table.records[1].get_stop())
         self.assertEqual(_time + datetime.timedelta(days=1), table.records[1].get_time())
         self.assertEqual(2.0, table.records[1].get_value())
+        self.assertEqual(2.0, table.records[1]["_value"])
         self.assertEqual('water level', table.records[1].get_field())
+        self.assertEqual('water level', table.records[1]["_field"])
         self.assertEqual('h2o', table.records[1].get_measurement())
+        self.assertEqual('h2o', table.records[1]["_measurement"])
         self.assertEqual('coyote_creek', table.records[1].values['location'])
+        self.assertEqual('coyote_creek', table.records[1]['location'])
