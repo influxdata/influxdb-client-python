@@ -65,6 +65,7 @@ class FluxObjectTest(BaseTest):
         self.assertEqual(_time, table.records[1].get_stop())
         self.assertEqual(_time + datetime.timedelta(days=1), table.records[1].get_time())
         self.assertEqual(2.0, table.records[1].get_value())
+        self.assertEqual(2.0, table.records[1]["_value"])
         self.assertEqual('water level', table.records[1].get_field())
         self.assertEqual('water level', table.records[1]["_field"])
         self.assertEqual('h2o', table.records[1].get_measurement())
