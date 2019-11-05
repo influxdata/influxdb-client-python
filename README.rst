@@ -44,13 +44,15 @@ InfluxDB 2.0 client features
 - Querying data
     - using the Flux language
     - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+    - `How to queries`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`_ Observable
     - Not implemented yet
-      - write user types using decorator
-      - write Pandas DataFrame
+        - write user types using decorator
+        - write Pandas DataFrame
+    - `How to write`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
     - organizations & users management
@@ -58,6 +60,7 @@ InfluxDB 2.0 client features
     - tasks management
     - authorizations
     - health check
+    - ...
 - How To
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
@@ -145,6 +148,8 @@ Please follow the `Installation`_ and then run the following:
 
 How to use
 ----------
+
+.. _How to write:
 
 Writes
 ^^^^^^
@@ -288,6 +293,11 @@ Data are writes in a synchronous HTTP request.
    ...
 
    client.__del__()
+
+.. _How to queries:
+
+Queries
+^^^^^^^
 
 How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
