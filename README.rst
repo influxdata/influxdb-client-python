@@ -82,7 +82,7 @@ The python package is hosted on Github, you can install latest version directly:
 
 .. code-block:: sh
 
-   pip3 install git+https://github.com/influxdata/influxdb-client-python.git
+   pip install influxdb-client
 
 Then import the package:
 
@@ -300,6 +300,77 @@ The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client
 1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
 2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
 3. Raw unprocessed results as a ``str`` iterator
+
+The API also support streaming ``FluxRecord``s via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient, Point, Dialect
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    query_api = client.query_api()
+
+    """
+    Prepare data
+    """
+
+    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+
+    """
+    Query: using Table structure
+    """
+    tables = query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+    for table in tables:
+        print(table)
+        for record in table.records:
+            print(record.values)
+
+    print()
+    print()
+
+    """
+    Query: using Stream
+    """
+    records = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -10m)')
+
+    for record in records:
+        print(f'Temperature in {record["location"]} is {record["_value"]}')
+
+    """
+    Interrupt a stream after retrieve a required data
+    """
+    large_stream = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -100d)')
+    for record in large_stream:
+        if record["location"] == "New York":
+            print(f'New York temperature: {record["_value"]}')
+            break
+
+    large_stream.close()
+
+    print()
+    print()
+
+    """
+    Query: using csv library
+    """
+    csv_result = query_api.query_csv('from(bucket:"my-bucket") |> range(start: -10m)',
+                                     dialect=Dialect(header=False, delimiter=",", comment_prefix="#", annotations=[],
+                                                     date_time_format="RFC3339"))
+    for csv_line in csv_result:
+        if not len(csv_line) == 0:
+            print(f'Temperature in {csv_line[9]} is {csv_line[6]}')
+
+    """
+    Close client
+    """
+    client.__del__()
 
 Examples
 ^^^^^^^^

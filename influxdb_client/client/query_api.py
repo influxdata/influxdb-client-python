@@ -1,6 +1,6 @@
 import codecs
 import csv
-from typing import List, Union, Iterable
+from typing import List, Generator, Any
 
 from influxdb_client import Dialect
 from influxdb_client import Query, QueryService
@@ -54,30 +54,43 @@ class QueryApi(object):
 
         return result
 
-    def query(self, query: str, org=None, dialect=default_dialect, stream=False) \
-            -> Union[List['FluxTable'], Iterable['FluxRecord']]:
+    def query(self, query: str, org=None) -> List['FluxTable']:
         """
         Synchronously executes the Flux query and return result as a List['FluxTable']
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
-        :param dialect: csv dialect format
-        :param stream: csv dialect format
         :return:
         """
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
-                                              _preload_content=False, _return_http_data_only=False)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
+                                              async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, stream=stream)
-        if stream:
-            return _parser.generator()
+        _parser = FluxCsvParser(response=response, stream=False)
 
         list(_parser.generator())
 
         return _parser.tables
+
+    def query_stream(self, query: str, org=None) -> Generator['FluxRecord', Any, None]:
+        """
+        Synchronously executes the Flux query and return stream of FluxRecord as a Generator['FluxRecord']
+
+        :param query: the Flux query
+        :param org: organization name (optional if already specified in InfluxDBClient)
+        :return:
+        """
+        if org is None:
+            org = self._influxdb_client.org
+
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
+                                              async_req=False, _preload_content=False, _return_http_data_only=False)
+
+        _parser = FluxCsvParser(response=response, stream=True)
+
+        return _parser.generator()
 
     # private helper for c
     @staticmethod

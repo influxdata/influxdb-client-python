@@ -30,8 +30,8 @@ class QueryStreamApi(BaseTest):
     def test_stream(self):
         self._prepareData()
 
-        _result = self.query_api.query(
-            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)', self.org, stream=True)
+        _result = self.query_api.query_stream(
+            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)', self.org)
 
         self.assertTrue(isinstance(_result, types.GeneratorType))
         _result_list = list(_result)
@@ -41,10 +41,11 @@ class QueryStreamApi(BaseTest):
     def test_stream_break(self):
         self._prepareData()
 
-        _result = self.query_api.query(
-            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)', self.org, stream=True)
+        _result = self.query_api.query_stream(
+            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)', self.org)
 
         _result_list = list(itertools.islice(_result, 10))
+        _result.close()
 
         self.assertEqual(len(_result_list), 10)
 
