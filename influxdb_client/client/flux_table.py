@@ -37,22 +37,28 @@ class FluxRecord(FluxStructure):
         self.values = values
 
     def get_start(self):
-        return self.values.get("_start")
+        return self["_start"]
 
     def get_stop(self):
-        return self.values.get("_stop")
+        return self["_stop"]
 
     def get_time(self):
-        return self.values.get("_time")
+        return self["_time"]
 
     def get_value(self):
-        return self.values.get("_value")
+        return self["_value"]
 
     def get_field(self):
-        return self.values.get("_field")
+        return self["_field"]
 
     def get_measurement(self):
-        return self.values.get("_measurement")
+        return self["_measurement"]
+
+    def __getitem__(self, key):
+        return self.values.__getitem__(key)
+
+    def __setitem__(self, key, value):
+        return self.values.__setitem__(key, value)
 
     def __str__(self):
         cls_name = type(self).__name__
