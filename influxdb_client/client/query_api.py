@@ -67,6 +67,7 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
+
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect), async_req=False,
                                               _preload_content=False, _return_http_data_only=False)
 

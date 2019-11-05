@@ -52,7 +52,7 @@ InfluxDB 2.0 client features
     - Not implemented yet
         - write user types using decorator
         - write Pandas DataFrame
-    - `How to write <#writes>`_
+    - `How to writes <#writes>`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
     - organizations & users management
@@ -294,6 +294,12 @@ Data are writes in a synchronous HTTP request.
 
 Queries
 ^^^^^^^
+
+The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py>`_  could be formatted as a:
+
+1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
+2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
+3. Raw unprocessed results as a ``str`` iterator
 
 Examples
 ^^^^^^^^
