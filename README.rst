@@ -301,7 +301,7 @@ The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client
 2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
 3. Raw unprocessed results as a ``str`` iterator
 
-The API also support streaming ``FluxRecord``s via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
+The API also support streaming ``FluxRecord`` via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
 
 .. code-block:: python
 
