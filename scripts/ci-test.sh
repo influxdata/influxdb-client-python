@@ -9,6 +9,9 @@ python --version
 pip install -r requirements.txt
 pip install -r test-requirements.txt
 pip install pytest pytest-cov
+pip install twine
+python setup.py sdist bdist_wheel
+twine check dist/*
 
 #
 # Prepare for test results

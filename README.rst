@@ -48,7 +48,7 @@ InfluxDB 2.0 client features
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
-    - `RxPY <https://rxpy.readthedocs.io/en/latest/>`_ Observable
+    - `RxPY <https://rxpy.readthedocs.io/en/latest/>`__ Observable
     - Not implemented yet
         - write user types using decorator
         - write Pandas DataFrame
@@ -70,7 +70,7 @@ Installation
 ------------
 .. marker-install-start
 
-InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`_ - The Reactive Extensions for Python (RxPY).
+InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`__ - The Reactive Extensions for Python (RxPY).
 
 **Python 3.6** or later is required.
 
