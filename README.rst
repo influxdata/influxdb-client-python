@@ -44,7 +44,7 @@ InfluxDB 2.0 client features
 - Querying data
     - using the Flux language
     - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
-    - `How to queries`_
+    - `How to queries <#queries>`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
@@ -52,7 +52,7 @@ InfluxDB 2.0 client features
     - Not implemented yet
         - write user types using decorator
         - write Pandas DataFrame
-    - `How to write`_
+    - `How to write <#writes>`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
     - organizations & users management
@@ -61,7 +61,7 @@ InfluxDB 2.0 client features
     - authorizations
     - health check
     - ...
-- How To
+- Examples
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
@@ -149,8 +149,6 @@ Please follow the `Installation`_ and then run the following:
 How to use
 ----------
 
-.. _How to write:
-
 Writes
 ^^^^^^
 .. marker-writes-start
@@ -206,9 +204,9 @@ The batching is configurable by ``write_options``\ :
    from influxdb_client.client.write_api import SYNCHRONOUS
 
    _client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
-   _write_client = _client.write_api(write_options=WriteOptions(batch_size=500, 
-                                                                flush_interval=10_000, 
-                                                                jitter_interval=2_000, 
+   _write_client = _client.write_api(write_options=WriteOptions(batch_size=500,
+                                                                flush_interval=10_000,
+                                                                jitter_interval=2_000,
                                                                 retry_interval=5_000))
 
    """
@@ -294,10 +292,11 @@ Data are writes in a synchronous HTTP request.
 
    client.__del__()
 
-.. _How to queries:
-
 Queries
 ^^^^^^^
+
+Examples
+^^^^^^^^
 
 How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
