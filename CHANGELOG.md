@@ -1,4 +1,4 @@
-## 0.0.3 [unreleased]
+## 1.0.0 [unreleased]
 
 ### Features
 1. [#24](https://github.com/influxdata/influxdb-client-python/issues/24): Added possibility to write dictionary-style object
