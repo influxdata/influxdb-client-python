@@ -2,6 +2,8 @@ import codecs
 import csv
 from typing import List, Generator, Any
 
+from pandas import DataFrame
+
 from influxdb_client import Dialect
 from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser
@@ -91,6 +93,35 @@ class QueryApi(object):
         _parser = FluxCsvParser(response=response, stream=True)
 
         return _parser.generator()
+
+    def query_data_frame(self, query: str, org=None):
+        """
+        Synchronously executes the Flux query and return Pandas DataFrame
+
+        :param query: the Flux query
+        :param org: organization name (optional if already specified in InfluxDBClient)
+        :return:
+        """
+        if org is None:
+            org = self._influxdb_client.org
+
+        flux_tables = self.query(query=query, org=org)
+
+        if len(flux_tables) == 0:
+            return DataFrame
+
+        if len(flux_tables) > 1:
+            raise Exception("Flux query result must contain one table.")
+
+        table = flux_tables[0]
+        data = []
+        column_names = list(map(lambda c: c.label, table.columns))
+        for record in table:
+            row = []
+            for column_name in column_names:
+                row.append(record[column_name])
+            data.append(row)
+        return DataFrame(data=data, columns=column_names, index=None)
 
     # private helper for c
     @staticmethod
