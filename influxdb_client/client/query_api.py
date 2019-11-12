@@ -2,11 +2,9 @@ import codecs
 import csv
 from typing import List, Generator, Any
 
-from pandas import DataFrame
-
 from influxdb_client import Dialect
 from influxdb_client import Query, QueryService
-from influxdb_client.client.flux_csv_parser import FluxCsvParser
+from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 
 
@@ -70,7 +68,7 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, stream=False)
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables)
 
         list(_parser.generator())
 
@@ -90,13 +88,14 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, stream=True)
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream)
 
         return _parser.generator()
 
     def query_data_frame(self, query: str, org=None):
         """
-        Synchronously executes the Flux query and return Pandas DataFrame
+        Synchronously executes the Flux query and return Pandas DataFrame.
+        Note that if a query returns more then one table than the client generates a dataframe for each of them.
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
@@ -105,23 +104,16 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        flux_tables = self.query(query=query, org=org)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
+                                              async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        if len(flux_tables) == 0:
-            return DataFrame
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame)
+        _dataFrames = list(_parser.generator())
 
-        if len(flux_tables) > 1:
-            raise Exception("Flux query result must contain one table.")
-
-        table = flux_tables[0]
-        data = []
-        column_names = list(map(lambda c: c.label, table.columns))
-        for record in table:
-            row = []
-            for column_name in column_names:
-                row.append(record[column_name])
-            data.append(row)
-        return DataFrame(data=data, columns=column_names, index=None)
+        if len(_dataFrames) == 1:
+            return _dataFrames[0]
+        else:
+            return _dataFrames
 
     # private helper for c
     @staticmethod
