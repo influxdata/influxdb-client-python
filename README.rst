@@ -65,6 +65,7 @@ InfluxDB 2.0 client features
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
+    - `How to use Jupyter + Pandas + InfluxDB 2`_
 
 Installation
 ------------
@@ -612,7 +613,7 @@ Efficiency write data from IOT sensor
 .. marker-iot-end
 
 Connect to InfluxDB Cloud
-^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""
 The following example demonstrate a simplest way how to write and query date with the InfluxDB Cloud.
 
 At first point you should create an authentication token as is described `here <https://v2.docs.influxdata.com/v2.0/security/tokens/create-token/>`_.
@@ -686,7 +687,17 @@ The last step is run a python script via: ``python3 influx_cloud.py``.
     finally:
         client.close()
 
-.. marker-iot-end
+How to use Jupyter + Pandas + InfluxDB 2
+""""""""""""""""""""""""""""""""""""""""
+The first example shows how to use a client capabilities to predict stock price via `Keras <https://keras.io>`_, `TensorFlow <https://www.tensorflow.org>`_, `sklearn <https://scikit-learn.org/stable/>`_:
+
+* sources - `stock-predictions.ipynb <https://github.com/influxdata/influxdb-client-python/blob/master/notebooks/stock-predictions.ipynb>`_
+
+The second example shows how to use a client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_:
+
+* sources - `realtime-stream.ipynb <https://github.com/influxdata/influxdb-client-python/blob/master/notebooks/realtime-stream.ipynb>`_
+
+
 
 Advanced Usage
 --------------
