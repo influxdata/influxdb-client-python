@@ -60,6 +60,18 @@ for csv_line in csv_result:
     if not len(csv_line) == 0:
         print(f'Temperature in {csv_line[9]} is {csv_line[6]}')
 
+print()
+print()
+
+"""
+Query: using Pandas DataFrame
+"""
+data_frame = query_api.query_data_frame('from(bucket:"my-bucket") '
+                                        '|> range(start: -10m) '
+                                        '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value") '
+                                        '|> keep(columns: ["location", "temperature"])')
+print(data_frame.to_string())
+
 """
 Close client
 """

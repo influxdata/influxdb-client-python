@@ -374,11 +374,50 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     client.__del__()
 
 Pandas DataFrame
-^^^^^^^^^^^^^^^^
+----------------
 .. marker-pandas-start
 
-.. note::
-    Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+.. note:: Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+
+The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ format thought ``query_data_frame``:
+
+.. code-block:: python
+    from influxdb_client import InfluxDBClient, Point, Dialect
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    query_api = client.query_api()
+
+    """
+    Prepare data
+    """
+
+    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+
+    """
+    Query: using Pandas DataFrame
+    """
+    data_frame = query_api.query_data_frame('from(bucket:"my-bucket") '
+                                            '|> range(start: -10m) '
+                                            '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value") '
+                                            '|> keep(columns: ["location", "temperature"])')
+    print(data_frame.to_string())
+
+    """
+    Close client
+    """
+    client.__del__()
+
+.. code-block::
+        result table  location  temperature
+    0  _result     0  New York         24.3
+    1  _result     1    Prague         25.3
+
 
 .. marker-pandas-end
 
