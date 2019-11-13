@@ -382,6 +382,7 @@ Pandas DataFrame
 The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ format thought ``query_data_frame``:
 
 .. code-block:: python
+
     from influxdb_client import InfluxDBClient, Point, Dialect
     from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -414,10 +415,10 @@ The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pyd
     client.__del__()
 
 .. code-block::
+
         result table  location  temperature
     0  _result     0  New York         24.3
     1  _result     1    Prague         25.3
-
 
 .. marker-pandas-end
 
