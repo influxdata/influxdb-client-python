@@ -161,3 +161,74 @@ class QueryDataFrameApi(BaseTest):
             list(_dataFrames[2].columns))
         self.assertListEqual([0, 1, 2, 3, 4], list(_dataFrames[2].index))
         self.assertEqual(5, len(_dataFrames[2]))
+
+    def test_more_table_custom_index(self):
+        query_response = \
+            '#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,long,string,string,string\n' \
+            '#group,false,false,true,true,false,false,true,true,true\n' \
+            '#default,_result,,,,,,,,\n' \
+            ',result,table,_start,_stop,_time,_value,_field,_measurement,host\n' \
+            ',,0,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:05Z,11125907456,used,mem,mac.local\n' \
+            ',,0,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:06Z,11127103488,used,mem,mac.local\n' \
+            ',,0,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:07Z,11127291904,used,mem,mac.local\n' \
+            ',,0,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:08Z,11126190080,used,mem,mac.local\n' \
+            ',,0,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:09Z,11127832576,used,mem,mac.local\n' \
+            '\n\n' \
+            '#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,long,string,string,string\n' \
+            '#group,false,false,true,true,false,false,true,true,true\n' \
+            '#default,_result,,,,,,,,\n' \
+            ',result,table,_start,_stop,_time,_value,_field,_measurement,host\n' \
+            ',,1,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:05Z,6053961728,available,mem,mac.local\n' \
+            ',,1,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:06Z,6052765696,available,mem,mac.local\n' \
+            ',,1,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:07Z,6052577280,available,mem,mac.local\n' \
+            ',,1,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:08Z,6053679104,available,mem,mac.local\n' \
+            ',,1,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:09Z,6052036608,available,mem,mac.local\n' \
+            '\n\n' \
+            '#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,long,string,string,string\n' \
+            '#group,false,false,true,true,false,false,true,true,true\n' \
+            '#default,_result,,,,,,,,\n' \
+            ',result,table,_start,_stop,_time,_value,_field,_measurement,host\n' \
+            ',,2,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:05Z,18632704,free,mem,mac.local\n' \
+            ',,2,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:06Z,17420288,free,mem,mac.local\n' \
+            ',,2,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:07Z,17256448,free,mem,mac.local\n' \
+            ',,2,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:08Z,18362368,free,mem,mac.local\n' \
+            ',,2,2019-11-12T08:09:04.795385031Z,2019-11-12T08:09:09.795385031Z,2019-11-12T08:09:09Z,16723968,free,mem,mac.local\n\n'
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body=query_response)
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        _dataFrames = self.client.query_api().query_data_frame(
+            'from(bucket: "my-bucket") '
+            '|> range(start: -5s, stop: now()) '
+            '|> filter(fn: (r) => r._measurement == "mem") '
+            '|> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")',
+            "my-org", data_frame_index=["_time"])
+
+        self.assertEqual(list, type(_dataFrames))
+        self.assertEqual(len(_dataFrames), 3)
+
+        print(_dataFrames[0].to_string())
+        self.assertListEqual(
+            ["result", "table", "_start", "_stop", "_value", "_field", "_measurement", "host"],
+            list(_dataFrames[0].columns))
+        self.assertListEqual([Timestamp('2019-11-12 08:09:05+0000'), Timestamp('2019-11-12 08:09:06+0000'),
+                              Timestamp('2019-11-12 08:09:07+0000'), Timestamp('2019-11-12 08:09:08+0000'),
+                              Timestamp('2019-11-12 08:09:09+0000')], list(_dataFrames[0].index))
+        self.assertEqual(5, len(_dataFrames[0]))
+
+        self.assertListEqual(
+            ["result", "table", "_start", "_stop", "_value", "_field", "_measurement", "host"],
+            list(_dataFrames[1].columns))
+        self.assertListEqual([Timestamp('2019-11-12 08:09:05+0000'), Timestamp('2019-11-12 08:09:06+0000'),
+                              Timestamp('2019-11-12 08:09:07+0000'), Timestamp('2019-11-12 08:09:08+0000'),
+                              Timestamp('2019-11-12 08:09:09+0000')], list(_dataFrames[1].index))
+        self.assertEqual(5, len(_dataFrames[1]))
+
+        self.assertListEqual(
+            ["result", "table", "_start", "_stop", "_value", "_field", "_measurement", "host"],
+            list(_dataFrames[2].columns))
+        self.assertListEqual([Timestamp('2019-11-12 08:09:05+0000'), Timestamp('2019-11-12 08:09:06+0000'),
+                              Timestamp('2019-11-12 08:09:07+0000'), Timestamp('2019-11-12 08:09:08+0000'),
+                              Timestamp('2019-11-12 08:09:09+0000')], list(_dataFrames[2].index))
+        self.assertEqual(5, len(_dataFrames[2]))

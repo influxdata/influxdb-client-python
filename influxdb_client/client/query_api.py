@@ -92,13 +92,14 @@ class QueryApi(object):
 
         return _parser.generator()
 
-    def query_data_frame(self, query: str, org=None):
+    def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None):
         """
         Synchronously executes the Flux query and return Pandas DataFrame.
-        Note that if a query returns more then one table than the client generates a dataframe for each of them.
+        Note that if a query returns more then one table than the client generates a DataFrame for each of them.
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
+        :param data_frame_index: the list of columns that are used as DataFrame index
         :return:
         """
         if org is None:
@@ -107,7 +108,8 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame)
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
+                                data_frame_index=data_frame_index)
         _dataFrames = list(_parser.generator())
 
         if len(_dataFrames) == 1:

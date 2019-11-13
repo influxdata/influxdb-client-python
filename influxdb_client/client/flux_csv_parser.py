@@ -2,6 +2,7 @@ import base64
 import codecs
 import csv as csv_parser
 from enum import Enum
+from typing import List
 
 import ciso8601
 from pandas import DataFrame
@@ -28,10 +29,12 @@ class FluxSerializationMode(Enum):
 
 class FluxCsvParser(object):
 
-    def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode) -> None:
+    def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
+                 data_frame_index: List[str] = None) -> None:
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
+        self._data_frame_index = data_frame_index
         pass
 
     def __enter__(self):
@@ -74,8 +77,8 @@ class FluxCsvParser(object):
             if "#datatype" == token:
 
                 # Return already parsed DataFrame
-                if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_dataFrame'):
-                    yield self._dataFrame
+                if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+                    yield self._prepare_data_frame()
 
                 start_new_table = True
                 table = FluxTable()
@@ -101,9 +104,9 @@ class FluxCsvParser(object):
                     start_new_table = False
                     # Create DataFrame with default values
                     if self._serialization_mode is FluxSerializationMode.dataFrame:
-                        self._dataFrame = DataFrame(data=[], columns=[], index=None)
+                        self._data_frame = DataFrame(data=[], columns=[], index=None)
                         for column in table.columns:
-                            self._dataFrame[column.label] = column.default_value
+                            self._data_frame[column.label] = column.default_value
                         pass
                     continue
 
@@ -127,15 +130,20 @@ class FluxCsvParser(object):
                     yield flux_record
 
                 if self._serialization_mode is FluxSerializationMode.dataFrame:
-                    self._dataFrame.loc[len(self._dataFrame.index)] = flux_record.values
+                    self._data_frame.loc[len(self._data_frame.index)] = flux_record.values
                     pass
 
                 # debug
                 # print(flux_record)
 
         # Return latest DataFrame
-        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_dataFrame'):
-            yield self._dataFrame
+        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+            yield self._prepare_data_frame()
+
+    def _prepare_data_frame(self):
+        if self._data_frame_index:
+            self._data_frame = self._data_frame.set_index(self._data_frame_index)
+        return self._data_frame
 
     def parse_record(self, table_index, table, csv):
         record = FluxRecord(table_index)
