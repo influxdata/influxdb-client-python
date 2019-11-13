@@ -689,7 +689,7 @@ The last step is run a python script via: ``python3 influx_cloud.py``.
 
 How to use Jupyter + Pandas + InfluxDB 2
 """"""""""""""""""""""""""""""""""""""""
-The first example shows how to use a client capabilities to predict stock price via `Keras <https://keras.io>`_, `TensorFlow <https://www.tensorflow.org>`_, `sklearn <https://scikit-learn.org/stable/>`_:
+The first example shows how to use client capabilities to predict stock price via `Keras <https://keras.io>`_, `TensorFlow <https://www.tensorflow.org>`_, `sklearn <https://scikit-learn.org/stable/>`_:
 
 * sources - `stock-predictions.ipynb <notebooks/stock-predictions.ipynb>`_
 
@@ -697,7 +697,7 @@ The first example shows how to use a client capabilities to predict stock price 
 
 .. image:: docs/images/stock-price-prediction-results.png
 
-The second example shows how to use a client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_, `RxPY <https://rxpy.readthedocs.io/en/latest/>`_:
+The second example shows how to use client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_, `RxPY <https://rxpy.readthedocs.io/en/latest/>`_:
 
 * sources - `realtime-stream.ipynb <notebooks/realtime-stream.ipynb>`_
 
