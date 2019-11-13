@@ -378,7 +378,7 @@ Pandas DataFrame
 """"""""""""""""
 .. marker-pandas-start
 
-.. note:: Note that if a query returns more then one table than the client generates a ``DataFrame`` for each of them.
+.. note:: Note that if a query returns more then one table then the client generates a ``DataFrame`` for each of them.
 
 The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ format thought ``query_data_frame``:
 
