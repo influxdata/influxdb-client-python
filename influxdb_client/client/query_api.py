@@ -2,6 +2,8 @@ import codecs
 import csv
 from typing import List, Generator, Any
 
+from pandas import DataFrame
+
 from influxdb_client import Dialect
 from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
@@ -112,7 +114,9 @@ class QueryApi(object):
                                 data_frame_index=data_frame_index)
         _dataFrames = list(_parser.generator())
 
-        if len(_dataFrames) == 1:
+        if len(_dataFrames) == 0:
+            return DataFrame(columns=[], index=None)
+        elif len(_dataFrames) == 1:
             return _dataFrames[0]
         else:
             return _dataFrames

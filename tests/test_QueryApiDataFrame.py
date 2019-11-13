@@ -162,6 +162,24 @@ class QueryDataFrameApi(BaseTest):
         self.assertListEqual([0, 1, 2, 3, 4], list(_dataFrames[2].index))
         self.assertEqual(5, len(_dataFrames[2]))
 
+    def test_empty_data_set(self):
+        query_response = '\n'
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body=query_response)
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        _dataFrame = self.client.query_api().query_data_frame(
+            'from(bucket: "my-bucket") '
+            '|> range(start: -5s, stop: now()) '
+            '|> filter(fn: (r) => r._measurement == "mem") '
+            '|> filter(fn: (r) => r._field == "not_exit")',
+            "my-org")
+
+        self.assertEqual(DataFrame, type(_dataFrame))
+        self.assertListEqual([], list(_dataFrame.columns))
+        self.assertListEqual([], list(_dataFrame.index))
+
     def test_more_table_custom_index(self):
         query_response = \
             '#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,long,string,string,string\n' \
