@@ -1,3 +1,8 @@
+## 1.1.0 [unreleased]
+
+### Features
+1. [#29](https://github.com/influxdata/influxdb-client-python/issues/29): Added support for serialise response into Pandas DataFrame
+
 ## 1.0.0 [2019-11-11]
 
 ### Features
