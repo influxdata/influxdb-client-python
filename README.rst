@@ -695,6 +695,8 @@ The first example shows how to use client capabilities to predict stock price vi
 
 .. image:: docs/images/stock-price-prediction.gif
 
+Result:
+
 .. image:: docs/images/stock-price-prediction-results.png
 
 The second example shows how to use client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_, `RxPY <https://rxpy.readthedocs.io/en/latest/>`_:
