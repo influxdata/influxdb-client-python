@@ -43,7 +43,7 @@ InfluxDB 2.0 client features
 
 - Querying data
     - using the Flux language
-    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure, `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to queries <#queries>`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
@@ -300,6 +300,7 @@ The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client
 1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
 2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
 3. Raw unprocessed results as a ``str`` iterator
+4. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
 The API also support streaming ``FluxRecord`` via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
 
@@ -371,6 +372,15 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     Close client
     """
     client.__del__()
+
+Pandas DataFrame
+^^^^^^^^^^^^^^^^
+.. marker-pandas-start
+
+.. note::
+    Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+
+.. marker-pandas-end
 
 Examples
 ^^^^^^^^

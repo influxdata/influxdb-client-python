@@ -10,6 +10,12 @@ Query
   :start-after: marker-query-start
   :end-before: marker-query-end
 
+Pandas DataFrame
+^^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-pandas-start
+  :end-before: marker-pandas-end
+
 Write
 ^^^^^
 .. include:: ../README.rst
