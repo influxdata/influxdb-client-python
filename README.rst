@@ -374,10 +374,10 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     client.__del__()
 
 Pandas DataFrame
-----------------
+""""""""""""""""
 .. marker-pandas-start
 
-.. note:: Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+.. note:: Note that if a query returns more then one table than the client generates a ``DataFrame`` for each of them.
 
 The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ format thought ``query_data_frame``:
 
@@ -413,6 +413,8 @@ The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pyd
     Close client
     """
     client.__del__()
+
+Output:
 
 .. code-block::
 
