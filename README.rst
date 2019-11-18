@@ -49,9 +49,6 @@ InfluxDB 2.0 client features
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`__ Observable
-    - Not implemented yet
-        - write user types using decorator
-        - write Pandas DataFrame
     - `How to writes <#writes>`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
@@ -691,19 +688,21 @@ How to use Jupyter + Pandas + InfluxDB 2
 """"""""""""""""""""""""""""""""""""""""
 The first example shows how to use client capabilities to predict stock price via `Keras <https://keras.io>`_, `TensorFlow <https://www.tensorflow.org>`_, `sklearn <https://scikit-learn.org/stable/>`_:
 
+The example is taken from `Kaggle <https://www.kaggle.com/chaitanyacc4/predicting-stock-prices-of-apple-inc>`_.
+
 * sources - `stock-predictions.ipynb <notebooks/stock-predictions.ipynb>`_
 
-.. image:: docs/images/stock-price-prediction.gif
+.. image:: https://raw.githubusercontent.com/influxdata/influxdb-client-python/master/docs/images/stock-price-prediction.gif
 
 Result:
 
-.. image:: docs/images/stock-price-prediction-results.png
+.. image:: https://raw.githubusercontent.com/influxdata/influxdb-client-python/master/docs/images/stock-price-prediction-results.png
 
 The second example shows how to use client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_, `RxPY <https://rxpy.readthedocs.io/en/latest/>`_:
 
 * sources - `realtime-stream.ipynb <notebooks/realtime-stream.ipynb>`_
 
-.. image:: docs/images/realtime-result.gif
+.. image:: https://raw.githubusercontent.com/influxdata/influxdb-client-python/master/docs/images/realtime-result.gif
 
 
 Advanced Usage
