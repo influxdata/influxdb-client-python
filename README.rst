@@ -43,7 +43,7 @@ InfluxDB 2.0 client features
 
 - Querying data
     - using the Flux language
-    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure
+    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure, `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to queries <#queries>`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
@@ -65,6 +65,7 @@ InfluxDB 2.0 client features
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
+    - `How to use Jupyter + Pandas + InfluxDB 2`_
 
 Installation
 ------------
@@ -300,6 +301,7 @@ The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client
 1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
 2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
 3. Raw unprocessed results as a ``str`` iterator
+4. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
 The API also support streaming ``FluxRecord`` via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
 
@@ -371,6 +373,57 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     Close client
     """
     client.__del__()
+
+Pandas DataFrame
+""""""""""""""""
+.. marker-pandas-start
+
+.. note:: Note that if a query returns more then one table then the client generates a ``DataFrame`` for each of them.
+
+The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ format thought ``query_data_frame``:
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient, Point, Dialect
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    query_api = client.query_api()
+
+    """
+    Prepare data
+    """
+
+    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+
+    """
+    Query: using Pandas DataFrame
+    """
+    data_frame = query_api.query_data_frame('from(bucket:"my-bucket") '
+                                            '|> range(start: -10m) '
+                                            '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value") '
+                                            '|> keep(columns: ["location", "temperature"])')
+    print(data_frame.to_string())
+
+    """
+    Close client
+    """
+    client.__del__()
+
+Output:
+
+.. code-block::
+
+        result table  location  temperature
+    0  _result     0  New York         24.3
+    1  _result     1    Prague         25.3
+
+.. marker-pandas-end
 
 Examples
 ^^^^^^^^
@@ -560,7 +613,7 @@ Efficiency write data from IOT sensor
 .. marker-iot-end
 
 Connect to InfluxDB Cloud
-^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""
 The following example demonstrate a simplest way how to write and query date with the InfluxDB Cloud.
 
 At first point you should create an authentication token as is described `here <https://v2.docs.influxdata.com/v2.0/security/tokens/create-token/>`_.
@@ -634,7 +687,24 @@ The last step is run a python script via: ``python3 influx_cloud.py``.
     finally:
         client.close()
 
-.. marker-iot-end
+How to use Jupyter + Pandas + InfluxDB 2
+""""""""""""""""""""""""""""""""""""""""
+The first example shows how to use client capabilities to predict stock price via `Keras <https://keras.io>`_, `TensorFlow <https://www.tensorflow.org>`_, `sklearn <https://scikit-learn.org/stable/>`_:
+
+* sources - `stock-predictions.ipynb <notebooks/stock-predictions.ipynb>`_
+
+.. image:: docs/images/stock-price-prediction.gif
+
+Result:
+
+.. image:: docs/images/stock-price-prediction-results.png
+
+The second example shows how to use client capabilities to realtime visualization via `hvPlot <https://hvplot.pyviz.org>`_, `Streamz <https://streamz.readthedocs.io/en/latest/>`_, `RxPY <https://rxpy.readthedocs.io/en/latest/>`_:
+
+* sources - `realtime-stream.ipynb <notebooks/realtime-stream.ipynb>`_
+
+.. image:: docs/images/realtime-result.gif
+
 
 Advanced Usage
 --------------

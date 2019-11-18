@@ -55,3 +55,8 @@ TasksApi
 
 .. autoclass:: influxdb_client.domain.Task
    :members:
+
+DeleteApi
+""""""""
+.. autoclass:: influxdb_client.DeleteApi
+   :members:

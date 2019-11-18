@@ -1,8 +1,11 @@
 import base64
 import codecs
 import csv as csv_parser
+from enum import Enum
+from typing import List
 
 import ciso8601
+from pandas import DataFrame
 from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
@@ -18,12 +21,20 @@ class FluxCsvParserException(Exception):
     pass
 
 
+class FluxSerializationMode(Enum):
+    tables = 1
+    stream = 2
+    dataFrame = 3
+
+
 class FluxCsvParser(object):
 
-    def __init__(self, response: HTTPResponse, stream: bool) -> None:
+    def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
+                 data_frame_index: List[str] = None) -> None:
         self._response = response
         self.tables = []
-        self._stream = stream
+        self._serialization_mode = serialization_mode
+        self._data_frame_index = data_frame_index
         pass
 
     def __enter__(self):
@@ -64,6 +75,11 @@ class FluxCsvParser(object):
             token = csv[0]
             # start    new    table
             if "#datatype" == token:
+
+                # Return already parsed DataFrame
+                if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+                    yield self._prepare_data_frame()
+
                 start_new_table = True
                 table = FluxTable()
                 self._insert_table(table, table_index)
@@ -86,6 +102,12 @@ class FluxCsvParser(object):
                 if start_new_table:
                     self.add_column_names_and_tags(table, csv)
                     start_new_table = False
+                    # Create DataFrame with default values
+                    if self._serialization_mode is FluxSerializationMode.dataFrame:
+                        self._data_frame = DataFrame(data=[], columns=[], index=None)
+                        for column in table.columns:
+                            self._data_frame[column.label] = column.default_value
+                        pass
                     continue
 
                 # to int converions todo
@@ -101,13 +123,27 @@ class FluxCsvParser(object):
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
 
-                if not self._stream:
+                if self._serialization_mode is FluxSerializationMode.tables:
                     self.tables[table_index - 1].records.append(flux_record)
 
-                yield flux_record
+                if self._serialization_mode is FluxSerializationMode.stream:
+                    yield flux_record
+
+                if self._serialization_mode is FluxSerializationMode.dataFrame:
+                    self._data_frame.loc[len(self._data_frame.index)] = flux_record.values
+                    pass
 
                 # debug
                 # print(flux_record)
+
+        # Return latest DataFrame
+        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+            yield self._prepare_data_frame()
+
+    def _prepare_data_frame(self):
+        if self._data_frame_index:
+            self._data_frame = self._data_frame.set_index(self._data_frame_index)
+        return self._data_frame
 
     def parse_record(self, table_index, table, csv):
         record = FluxRecord(table_index)
@@ -180,5 +216,5 @@ class FluxCsvParser(object):
             i += 1
 
     def _insert_table(self, table, table_index):
-        if not self._stream:
+        if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
