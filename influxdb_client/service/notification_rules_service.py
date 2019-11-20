@@ -32,37 +32,37 @@ class NotificationRulesService(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_notification_rule(self, notification_rule, **kwargs):  # noqa: E501
+    def create_notification_rule(self, post_notification_rule, **kwargs):  # noqa: E501
         """Add a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_notification_rule(notification_rule, async_req=True)
+        >>> thread = api.create_notification_rule(post_notification_rule, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationRule notification_rule: Notification rule to create (required)
+        :param PostNotificationRule post_notification_rule: Notification rule to create (required)
         :return: NotificationRule
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.create_notification_rule_with_http_info(notification_rule, **kwargs)  # noqa: E501
+            return self.create_notification_rule_with_http_info(post_notification_rule, **kwargs)  # noqa: E501
         else:
-            (data) = self.create_notification_rule_with_http_info(notification_rule, **kwargs)  # noqa: E501
+            (data) = self.create_notification_rule_with_http_info(post_notification_rule, **kwargs)  # noqa: E501
             return data
 
-    def create_notification_rule_with_http_info(self, notification_rule, **kwargs):  # noqa: E501
+    def create_notification_rule_with_http_info(self, post_notification_rule, **kwargs):  # noqa: E501
         """Add a notification rule  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_notification_rule_with_http_info(notification_rule, async_req=True)
+        >>> thread = api.create_notification_rule_with_http_info(post_notification_rule, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationRule notification_rule: Notification rule to create (required)
+        :param PostNotificationRule post_notification_rule: Notification rule to create (required)
         :return: NotificationRule
                  If the method is called asynchronously,
                  returns the request thread.
@@ -70,7 +70,7 @@ class NotificationRulesService(object):
 
         local_var_params = locals()
 
-        all_params = ['notification_rule']  # noqa: E501
+        all_params = ['post_notification_rule']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -84,10 +84,10 @@ class NotificationRulesService(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'notification_rule' is set
-        if ('notification_rule' not in local_var_params or
-                local_var_params['notification_rule'] is None):
-            raise ValueError("Missing the required parameter `notification_rule` when calling `create_notification_rule`")  # noqa: E501
+        # verify the required parameter 'post_notification_rule' is set
+        if ('post_notification_rule' not in local_var_params or
+                local_var_params['post_notification_rule'] is None):
+            raise ValueError("Missing the required parameter `post_notification_rule` when calling `create_notification_rule`")  # noqa: E501
 
         collection_formats = {}
 
@@ -101,8 +101,8 @@ class NotificationRulesService(object):
         local_var_files = {}
 
         body_params = None
-        if 'notification_rule' in local_var_params:
-            body_params = local_var_params['notification_rule']
+        if 'post_notification_rule' in local_var_params:
+            body_params = local_var_params['post_notification_rule']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

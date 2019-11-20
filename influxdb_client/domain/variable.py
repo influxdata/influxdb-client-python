@@ -38,7 +38,7 @@ class Variable(object):
         'description': 'str',
         'selected': 'list[str]',
         'labels': 'list[Label]',
-        'arguments': 'object',
+        'arguments': 'VariableProperties',
         'created_at': 'datetime',
         'updated_at': 'datetime'
     }
@@ -246,7 +246,7 @@ class Variable(object):
 
 
         :return: The arguments of this Variable.  # noqa: E501
-        :rtype: object
+        :rtype: VariableProperties
         """
         return self._arguments
 
@@ -256,7 +256,7 @@ class Variable(object):
 
 
         :param arguments: The arguments of this Variable.  # noqa: E501
-        :type: object
+        :type: VariableProperties
         """
         if arguments is None:
             raise ValueError("Invalid value for `arguments`, must not be `None`")  # noqa: E501

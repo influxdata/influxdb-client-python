@@ -32,6 +32,8 @@ class Authorization(AuthorizationUpdateRequest):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'created_at': 'datetime',
+        'updated_at': 'datetime',
         'org_id': 'str',
         'permissions': 'list[Permission]',
         'id': 'str',
@@ -45,6 +47,8 @@ class Authorization(AuthorizationUpdateRequest):
     }
 
     attribute_map = {
+        'created_at': 'createdAt',
+        'updated_at': 'updatedAt',
         'org_id': 'orgID',
         'permissions': 'permissions',
         'id': 'id',
@@ -57,10 +61,12 @@ class Authorization(AuthorizationUpdateRequest):
         'description': 'description'
     }
 
-    def __init__(self, org_id=None, permissions=None, id=None, token=None, user_id=None, user=None, org=None, links=None, status='active', description=None):  # noqa: E501
+    def __init__(self, created_at=None, updated_at=None, org_id=None, permissions=None, id=None, token=None, user_id=None, user=None, org=None, links=None, status='active', description=None):  # noqa: E501
         """Authorization - a model defined in OpenAPI"""  # noqa: E501
         AuthorizationUpdateRequest.__init__(self, status=status, description=description)
 
+        self._created_at = None
+        self._updated_at = None
         self._org_id = None
         self._permissions = None
         self._id = None
@@ -71,6 +77,10 @@ class Authorization(AuthorizationUpdateRequest):
         self._links = None
         self.discriminator = None
 
+        if created_at is not None:
+            self.created_at = created_at
+        if updated_at is not None:
+            self.updated_at = updated_at
         if org_id is not None:
             self.org_id = org_id
         if permissions is not None:
@@ -87,6 +97,48 @@ class Authorization(AuthorizationUpdateRequest):
             self.org = org
         if links is not None:
             self.links = links
+
+    @property
+    def created_at(self):
+        """Gets the created_at of this Authorization.  # noqa: E501
+
+
+        :return: The created_at of this Authorization.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._created_at
+
+    @created_at.setter
+    def created_at(self, created_at):
+        """Sets the created_at of this Authorization.
+
+
+        :param created_at: The created_at of this Authorization.  # noqa: E501
+        :type: datetime
+        """
+
+        self._created_at = created_at
+
+    @property
+    def updated_at(self):
+        """Gets the updated_at of this Authorization.  # noqa: E501
+
+
+        :return: The updated_at of this Authorization.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        """Sets the updated_at of this Authorization.
+
+
+        :param updated_at: The updated_at of this Authorization.  # noqa: E501
+        :type: datetime
+        """
+
+        self._updated_at = updated_at
 
     @property
     def org_id(self):
