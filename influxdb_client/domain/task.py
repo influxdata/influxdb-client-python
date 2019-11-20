@@ -45,6 +45,8 @@ class Task(object):
         'cron': 'str',
         'offset': 'str',
         'latest_completed': 'datetime',
+        'last_run_status': 'str',
+        'last_run_error': 'str',
         'created_at': 'datetime',
         'updated_at': 'datetime',
         'links': 'TaskLinks'
@@ -65,12 +67,14 @@ class Task(object):
         'cron': 'cron',
         'offset': 'offset',
         'latest_completed': 'latestCompleted',
+        'last_run_status': 'lastRunStatus',
+        'last_run_error': 'lastRunError',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'links': 'links'
     }
 
-    def __init__(self, id=None, type=None, org_id=None, org=None, name=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, created_at=None, updated_at=None, links=None):  # noqa: E501
+    def __init__(self, id=None, type=None, org_id=None, org=None, name=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, last_run_status=None, last_run_error=None, created_at=None, updated_at=None, links=None):  # noqa: E501
         """Task - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -87,6 +91,8 @@ class Task(object):
         self._cron = None
         self._offset = None
         self._latest_completed = None
+        self._last_run_status = None
+        self._last_run_error = None
         self._created_at = None
         self._updated_at = None
         self._links = None
@@ -116,6 +122,10 @@ class Task(object):
             self.offset = offset
         if latest_completed is not None:
             self.latest_completed = latest_completed
+        if last_run_status is not None:
+            self.last_run_status = last_run_status
+        if last_run_error is not None:
+            self.last_run_error = last_run_error
         if created_at is not None:
             self.created_at = created_at
         if updated_at is not None:
@@ -446,6 +456,48 @@ class Task(object):
         """
 
         self._latest_completed = latest_completed
+
+    @property
+    def last_run_status(self):
+        """Gets the last_run_status of this Task.  # noqa: E501
+
+
+        :return: The last_run_status of this Task.  # noqa: E501
+        :rtype: str
+        """
+        return self._last_run_status
+
+    @last_run_status.setter
+    def last_run_status(self, last_run_status):
+        """Sets the last_run_status of this Task.
+
+
+        :param last_run_status: The last_run_status of this Task.  # noqa: E501
+        :type: str
+        """
+
+        self._last_run_status = last_run_status
+
+    @property
+    def last_run_error(self):
+        """Gets the last_run_error of this Task.  # noqa: E501
+
+
+        :return: The last_run_error of this Task.  # noqa: E501
+        :rtype: str
+        """
+        return self._last_run_error
+
+    @last_run_error.setter
+    def last_run_error(self, last_run_error):
+        """Sets the last_run_error of this Task.
+
+
+        :param last_run_error: The last_run_error of this Task.  # noqa: E501
+        :type: str
+        """
+
+        self._last_run_error = last_run_error
 
     @property
     def created_at(self):

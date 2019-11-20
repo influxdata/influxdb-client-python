@@ -1280,16 +1280,16 @@ class BucketsService(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def post_buckets(self, bucket, **kwargs):  # noqa: E501
+    def post_buckets(self, post_bucket_request, **kwargs):  # noqa: E501
         """Create a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.post_buckets(bucket, async_req=True)
+        >>> thread = api.post_buckets(post_bucket_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Bucket bucket: Bucket to create (required)
+        :param PostBucketRequest post_bucket_request: Bucket to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1297,21 +1297,21 @@ class BucketsService(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.post_buckets_with_http_info(bucket, **kwargs)  # noqa: E501
+            return self.post_buckets_with_http_info(post_bucket_request, **kwargs)  # noqa: E501
         else:
-            (data) = self.post_buckets_with_http_info(bucket, **kwargs)  # noqa: E501
+            (data) = self.post_buckets_with_http_info(post_bucket_request, **kwargs)  # noqa: E501
             return data
 
-    def post_buckets_with_http_info(self, bucket, **kwargs):  # noqa: E501
+    def post_buckets_with_http_info(self, post_bucket_request, **kwargs):  # noqa: E501
         """Create a bucket  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.post_buckets_with_http_info(bucket, async_req=True)
+        >>> thread = api.post_buckets_with_http_info(post_bucket_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Bucket bucket: Bucket to create (required)
+        :param PostBucketRequest post_bucket_request: Bucket to create (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1320,7 +1320,7 @@ class BucketsService(object):
 
         local_var_params = locals()
 
-        all_params = ['bucket', 'zap_trace_span']  # noqa: E501
+        all_params = ['post_bucket_request', 'zap_trace_span']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1334,10 +1334,10 @@ class BucketsService(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'bucket' is set
-        if ('bucket' not in local_var_params or
-                local_var_params['bucket'] is None):
-            raise ValueError("Missing the required parameter `bucket` when calling `post_buckets`")  # noqa: E501
+        # verify the required parameter 'post_bucket_request' is set
+        if ('post_bucket_request' not in local_var_params or
+                local_var_params['post_bucket_request'] is None):
+            raise ValueError("Missing the required parameter `post_bucket_request` when calling `post_buckets`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1353,8 +1353,8 @@ class BucketsService(object):
         local_var_files = {}
 
         body_params = None
-        if 'bucket' in local_var_params:
-            body_params = local_var_params['bucket']
+        if 'post_bucket_request' in local_var_params:
+            body_params = local_var_params['post_bucket_request']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

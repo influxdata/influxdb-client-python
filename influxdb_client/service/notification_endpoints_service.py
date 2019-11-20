@@ -32,37 +32,37 @@ class NotificationEndpointsService(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_notification_endpoint(self, notification_endpoint, **kwargs):  # noqa: E501
+    def create_notification_endpoint(self, post_notification_endpoint, **kwargs):  # noqa: E501
         """Add a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_notification_endpoint(notification_endpoint, async_req=True)
+        >>> thread = api.create_notification_endpoint(post_notification_endpoint, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationEndpoint notification_endpoint: Notification endpoint to create (required)
+        :param PostNotificationEndpoint post_notification_endpoint: Notification endpoint to create (required)
         :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.create_notification_endpoint_with_http_info(notification_endpoint, **kwargs)  # noqa: E501
+            return self.create_notification_endpoint_with_http_info(post_notification_endpoint, **kwargs)  # noqa: E501
         else:
-            (data) = self.create_notification_endpoint_with_http_info(notification_endpoint, **kwargs)  # noqa: E501
+            (data) = self.create_notification_endpoint_with_http_info(post_notification_endpoint, **kwargs)  # noqa: E501
             return data
 
-    def create_notification_endpoint_with_http_info(self, notification_endpoint, **kwargs):  # noqa: E501
+    def create_notification_endpoint_with_http_info(self, post_notification_endpoint, **kwargs):  # noqa: E501
         """Add a notification endpoint  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_notification_endpoint_with_http_info(notification_endpoint, async_req=True)
+        >>> thread = api.create_notification_endpoint_with_http_info(post_notification_endpoint, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param NotificationEndpoint notification_endpoint: Notification endpoint to create (required)
+        :param PostNotificationEndpoint post_notification_endpoint: Notification endpoint to create (required)
         :return: NotificationEndpoint
                  If the method is called asynchronously,
                  returns the request thread.
@@ -70,7 +70,7 @@ class NotificationEndpointsService(object):
 
         local_var_params = locals()
 
-        all_params = ['notification_endpoint']  # noqa: E501
+        all_params = ['post_notification_endpoint']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -84,10 +84,10 @@ class NotificationEndpointsService(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'notification_endpoint' is set
-        if ('notification_endpoint' not in local_var_params or
-                local_var_params['notification_endpoint'] is None):
-            raise ValueError("Missing the required parameter `notification_endpoint` when calling `create_notification_endpoint`")  # noqa: E501
+        # verify the required parameter 'post_notification_endpoint' is set
+        if ('post_notification_endpoint' not in local_var_params or
+                local_var_params['post_notification_endpoint'] is None):
+            raise ValueError("Missing the required parameter `post_notification_endpoint` when calling `create_notification_endpoint`")  # noqa: E501
 
         collection_formats = {}
 
@@ -101,8 +101,8 @@ class NotificationEndpointsService(object):
         local_var_files = {}
 
         body_params = None
-        if 'notification_endpoint' in local_var_params:
-            body_params = local_var_params['notification_endpoint']
+        if 'post_notification_endpoint' in local_var_params:
+            body_params = local_var_params['post_notification_endpoint']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

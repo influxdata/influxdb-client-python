@@ -1,4 +1,4 @@
-from influxdb_client import BucketsService, Bucket
+from influxdb_client import BucketsService, Bucket, PostBucketRequest
 
 
 class BucketsApi(object):
@@ -34,13 +34,13 @@ class BucketsApi(object):
 
         if bucket is None:
 
-            bucket = Bucket(name=bucket_name, retention_rules=rules, description=description)
+            bucket = PostBucketRequest(name=bucket_name, retention_rules=rules, description=description)
 
             if org_id is None:
                 org_id = self._influxdb_client.org
             bucket.org_id = org_id
 
-        return self._buckets_service.post_buckets(bucket=bucket)
+        return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
     def delete_bucket(self, bucket):
         """Delete a bucket  # noqa: E501

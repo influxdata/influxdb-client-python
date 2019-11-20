@@ -9,6 +9,7 @@ from influxdb_client.service.cells_service import CellsService
 from influxdb_client.service.checks_service import ChecksService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.health_service import HealthService
+from influxdb_client.service.influx_packages_service import InfluxPackagesService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
 from influxdb_client.service.notification_rules_service import NotificationRulesService

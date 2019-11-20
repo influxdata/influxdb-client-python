@@ -112,6 +112,53 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
             codegenModel.hasRequired = false;
         }
 
+		if (codegenModel.name.equals("CheckBase")) {
+			codegenModel.setParent("CheckDiscriminator");
+			codegenModel.setParentSchema("CheckDiscriminator");
+		}
+
+		if (codegenModel.name.equals("CheckDiscriminator")) {
+			codegenModel.setParent("PostCheck");
+			codegenModel.setParentSchema("PostCheck");
+		}
+
+		if (codegenModel.name.equals("NotificationEndpointBase")) {
+			codegenModel.setParent("NotificationEndpointDiscriminator");
+			codegenModel.setParentSchema("NotificationEndpointDiscriminator");
+		}
+
+		if (codegenModel.name.equals("PostCheck") || codegenModel.name.equals("PostNotificationEndpoint")) {
+			codegenModel.setParent(null);
+			codegenModel.setParentSchema(null);
+		}
+
+		if (codegenModel.name.equals("DeadmanCheck") || codegenModel.name.equals("ThresholdCheck")) {
+			codegenModel.setParent("Check");
+			codegenModel.setParentSchema("Check");
+		}
+
+		if (codegenModel.name.equals("SlackNotificationEndpoint") || codegenModel.name.equals("PagerDutyNotificationEndpoint")
+				|| codegenModel.name.equals("HTTPNotificationEndpoint")) {
+			codegenModel.setParent("NotificationEndpoint");
+			codegenModel.setParentSchema("NotificationEndpoint");
+		}
+
+		if (codegenModel.name.equals("NotificationEndpointDiscriminator")) {
+			codegenModel.setParent("PostNotificationEndpoint");
+			codegenModel.setParentSchema("PostNotificationEndpoint");
+		}
+
+		if (codegenModel.name.equals("NotificationRuleBase")) {
+			codegenModel.setParent("PostNotificationRule");
+			codegenModel.setParentSchema("PostNotificationRule");
+		}
+
+		if (codegenModel.name.endsWith("Discriminator")) {
+			codegenModel.hasOnlyReadOnly = true;
+			codegenModel.hasRequired = false;
+			codegenModel.readWriteVars.clear();
+		}
+
         return codegenModel;
     }
 
@@ -164,6 +211,16 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
         // e.g. PhoneNumberService.py => phone_number_service.py
         return underscore(name) + "_service";
     }
+
+	@Override
+	public String toModelName(final String name) {
+		final String modelName = super.toModelName(name);
+		if ("PostBucketRequestRetentionRules".equals(modelName)) {
+			return "BucketRetentionRules";
+		}
+
+		return modelName;
+	}
 
     @Nonnull
     private CodegenModel getModel(@Nonnull final HashMap modelConfig) {
