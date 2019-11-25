@@ -487,7 +487,7 @@ How to efficiently import large dataset
    """
    Create client that writes data in batches with 500 items.
    """
-   write_api = client.write_api(write_options=WriteOptions(batch_size=500, jitter_interval=1_000))
+   write_api = client.write_api(write_options=WriteOptions(batch_size=500))
 
    """
    Write data into InfluxDB
