@@ -35,7 +35,7 @@ class qBuilder():
         # self.measurements = measurements
         # self.tags = tags
         # self.fields = fields
-        self.filter_tuples = filters
+        # self.filter_tuples = filters
         filters_queries = []
 
         for filter in filters:
@@ -53,10 +53,10 @@ class qBuilder():
         if self.stop_time is None:
             raise Exception("Must provide stop time")
 
-        self.build_flux_query = f'bucket_name = "{self.bucket_name}"\n' + f'start_time = "{self.start_time}"\n' + f'stop_time = "{self.stop_time}"\n'+ f'filters = "{self.filter_tuples}"\n' + str(self.build_bucket) + str(self.build_time) + str(self.build_filters) + str(self.build_flatten)
+        self.build_flux_query = f'bucket_name = "{self.bucket_name}"\n' + f'start_time = "{self.start_time}"\n' + f'stop_time = "{self.stop_time}"\n' + str(self.build_bucket) + str(self.build_time) + str(self.build_filters) + str(self.build_flatten)
         return self
 
 q = qBuilder()
-print(str(q.bucket("test").range("-1hr","now()")))
-print(str(q.bucket("test").range("-1hr","now()").filters(filters=[("_measurement", ["abc", "def"]), ("key", ["1","2"])]).do()))
+print(str(q.bucket("test").range("-1hr","now()").filters(filters=[("_measurement", ["abc", "def"]), ("key", ["1","2"])]).do()
+))
 
