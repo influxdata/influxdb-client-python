@@ -37,5 +37,9 @@ def test_filters():
 
 def test_do():
     q = qBuilder().bucket("test").range("-1hr","now()").filters(filters=[("_measurement", ["abc", "def"]), ("key", ["1","2"])]).do()
-    assert q.build_flux_query == """bucket_name = "test"\nstart_time = "-1hr"\nstop_time = "now()"\nfrom(bucket: bucket_name)|> range(start: start_time, stop: stop_time)|> filter(fn: (r) => r._measurement == "abc" or r._measurement == "def")|> filter(fn: (r) => r.key == "1" or r.key == "2")"""
+    assert q.build_flux_query == """bucket_name = "test"\nstart_time = "-1hr"\nstop_time = "now()"\nfilters = "[('_measurement', ['abc', 'def']), ('key', ['1', '2'])]"\nfrom(bucket: bucket_name)|> range(start: start_time, stop: stop_time)|> filter(fn: (r) => r._measurement == "abc" or r._measurement == "def")|> filter(fn: (r) => r.key == "1" or r.key == "2")"""
 
+
+def test_identify_list():
+    q = qBuilder().filters(filters=("_measurement", ["1", "2"]))
+    assert q.list == list 
