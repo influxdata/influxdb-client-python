@@ -1,5 +1,6 @@
 # coding: utf-8
 import logging
+import threading
 from datetime import timedelta
 from enum import Enum
 from random import random
@@ -8,7 +9,6 @@ from typing import Union, List
 
 import rx
 from rx import operators as ops, Observable
-from rx.core import GroupedObservable
 from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
@@ -57,14 +57,15 @@ ASYNCHRONOUS = WriteOptions(write_type=WriteType.asynchronous)
 
 
 class _BatchItem(object):
-    def __init__(self, key, data) -> None:
+    def __init__(self, key, data, size=1) -> None:
         self.key = key
         self.data = data
+        self.size = size
         pass
 
     def __str__(self) -> str:
         return '_BatchItem[key:\'{}\', \'{}\']' \
-            .format(str(self.key), str(self.data))
+            .format(str(self.key), str(self.size))
 
 
 class _BatchItemKey(object):
@@ -101,31 +102,6 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
-def _create_batch(group: GroupedObservable):
-    return lambda xs: _BatchItem(key=group.key, data=_body_reduce(xs))
-
-
-def _group_by(batch_item: _BatchItem):
-    return batch_item.key
-
-
-def _group_to_batch(group: GroupedObservable):
-    return group.pipe(ops.to_iterable(),
-                      ops.map(list),
-                      ops.map(_create_batch(group)))
-
-
-def _window_to_group(value):
-    return value.pipe(
-        ops.to_iterable(),
-        ops.map(lambda x: rx.from_iterable(x).pipe(
-            # Group window by 'organization', 'bucket' and 'precision'
-            ops.group_by(_group_by),
-            # Create batch (concatenation line protocols by \n)
-            ops.map(_group_to_batch),
-            ops.merge_all())), ops.merge_all())
-
-
 class WriteApi(AbstractClient):
 
     def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions()) -> None:
@@ -136,18 +112,24 @@ class WriteApi(AbstractClient):
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
 
-            # Define a scheduler that is used for processing incoming data - default singleton
-            observable = self._subject.pipe(ops.observe_on(self._write_options.write_scheduler))
-            self._disposable = observable \
-                .pipe(  # Split incoming data to windows by batch_size or flush_interval
-                    ops.window_with_time_or_count(count=write_options.batch_size,
-                                                  timespan=timedelta(milliseconds=write_options.flush_interval)),
-                    # Map incoming batch window in groups defined by 'organization', 'bucket' and 'precision'
-                    ops.flat_map(lambda v: _window_to_group(v)),
-                    # Write data into InfluxDB (possibility to retry if its fail)
-                    ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),  #
-                    ops.merge_all()) \
+            self._disposable = self._subject.pipe(
+                # Split incoming data to windows by batch_size or flush_interval
+                ops.window_with_time_or_count(count=write_options.batch_size,
+                                              timespan=timedelta(milliseconds=write_options.flush_interval)),
+                # Map  window into groups defined by 'organization', 'bucket' and 'precision'
+                ops.flat_map(lambda window: window.pipe(
+                    # Group window by 'organization', 'bucket' and 'precision'
+                    ops.group_by(lambda batch_item: batch_item.key),
+                    # Create batch (concatenation line protocols by \n)
+                    ops.map(lambda group: group.pipe(
+                        ops.to_iterable(),
+                        ops.map(lambda xs: _BatchItem(key=group.key, data=_body_reduce(xs), size=len(xs))))),
+                    ops.merge_all())),
+                # Write data into InfluxDB (possibility to retry if its fail)
+                ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),  #
+                ops.merge_all())\
                 .subscribe(self._on_next, self._on_error, self._on_complete)
+
         else:
             self._subject = None
             self._disposable = None
@@ -238,10 +220,12 @@ class WriteApi(AbstractClient):
 
     def _http(self, batch_item: _BatchItem):
 
-        logger.debug("http post to: %s", batch_item)
+        logger.debug("Write time series data into InfluxDB: %s", batch_item)
 
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
                          batch_item.key.precision)
+
+        logger.debug("Write request finished %s", batch_item)
 
         return _BatchResponse(data=batch_item)
 
@@ -253,6 +237,7 @@ class WriteApi(AbstractClient):
     def _retryable(self, data: str, delay: timedelta):
 
         return rx.of(data).pipe(
+            ops.subscribe_on(self._write_options.write_scheduler),
             # use delay if its specified
             ops.delay(duetime=delay, scheduler=self._write_options.write_scheduler),
             # invoke http call
