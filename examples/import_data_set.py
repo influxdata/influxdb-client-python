@@ -6,7 +6,6 @@ https://datahub.io/core/finance-vix#data
 
 from collections import OrderedDict
 from csv import DictReader
-from datetime import datetime
 
 import rx
 from rx import operators as ops
@@ -38,7 +37,7 @@ def parse_row(row: OrderedDict):
         .field("high", float(row['VIX High'])) \
         .field("low", float(row['VIX Low'])) \
         .field("close", float(row['VIX Close'])) \
-        .time(datetime.strptime(row['Date'], '%Y-%m-%d'))
+        .time(row['Date'])
 
 
 """
@@ -51,9 +50,9 @@ data = rx \
 client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
 
 """
-Create client that writes data in batches with 500 items.
+Create client that writes data in batches with 50_000 items.
 """
-write_api = client.write_api(write_options=WriteOptions(batch_size=500))
+write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
 """
 Write data into InfluxDB

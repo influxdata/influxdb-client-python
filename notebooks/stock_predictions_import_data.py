@@ -5,21 +5,21 @@ https://datahub.io/core/finance-vix#data
 """
 from collections import OrderedDict
 from csv import DictReader
-from datetime import datetime
 
-import pandas as pd
+import ciso8601
 import requests
 import rx
-import urllib3
+from pytz import UTC
 from rx import operators as ops
 
-from influxdb_client import Point, InfluxDBClient, WriteOptions
+from influxdb_client import InfluxDBClient, WriteOptions
+from influxdb_client.client.write.point import EPOCH
 
 _progress = 0
 
 
 def parse_row(row: OrderedDict):
-    """Parse row of CSV file into Point with structure:
+    """Parse row of CSV file into LineProtocol with structure:
 
     CSV format:
         date,symbol,open,close,low,high,volume
@@ -33,21 +33,19 @@ def parse_row(row: OrderedDict):
         ...
 
     :param row: the row of CSV file
-    :return: Parsed csv row to [Point]
+    :return: Parsed csv row to LineProtocol
     """
     global _progress
     _progress += 1
 
-    if _progress % 1000 == 0:
+    if _progress % 10000 == 0:
         print(_progress)
 
-    return Point("financial-analysis") \
-        .tag("symbol", row["symbol"]) \
-        .field("open", float(row['open'])) \
-        .field("high", float(row['high'])) \
-        .field("low", float(row['low'])) \
-        .field("close", float(row['close'])) \
-        .time(datetime.strptime(row['date'], '%Y-%m-%d'))
+    time = (UTC.localize(ciso8601.parse_datetime(row["date"])) - EPOCH).total_seconds() * 1e9
+
+    return f'financial-analysis,symbol={row["symbol"]} ' \
+           f'close={row["close"]},high={row["high"]},low={row["low"]},open={row["open"]} ' \
+           f'{int(time)}'
 
 
 def main():
@@ -60,7 +58,7 @@ def main():
         .pipe(ops.map(lambda row: parse_row(row)))
 
     client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
-    write_api = client.write_api(write_options=WriteOptions(batch_size=50000))
+    write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
     write_api.write(org="my-org", bucket="my-bucket", record=data)
     write_api.__del__()
