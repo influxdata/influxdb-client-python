@@ -465,6 +465,19 @@ How to efficiently import large dataset
        :param row: the row of CSV file
        :return: Parsed csv row to [Point]
        """
+
+       """
+        For better performance is sometimes useful directly create a LineProtocol to avoid unnecessary escaping overhead:
+        """
+        # from pytz import UTC
+        # import ciso8601
+        # from influxdb_client.client.write.point import EPOCH
+        #
+        # time = (UTC.localize(ciso8601.parse_datetime(row["Date"])) - EPOCH).total_seconds() * 1e9
+        # return f"financial-analysis,type=vix-daily" \
+        #        f" close={float(row['VIX Close'])},high={float(row['VIX High'])},low={float(row['VIX Low'])},open={float(row['VIX Open'])} " \
+        #        f" {int(time)}"
+
        return Point("financial-analysis") \
            .tag("type", "vix-daily") \
            .field("open", float(row['VIX Open'])) \
