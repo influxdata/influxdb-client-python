@@ -4,17 +4,65 @@ Import public NYC taxi and for-hire vehicle (Uber, Lyft, etc.) trip data into In
 https://github.com/toddwschneider/nyc-taxi-data
 """
 import concurrent.futures
+import io
 import multiprocessing
 from collections import OrderedDict
 from csv import DictReader
 from datetime import datetime
 from multiprocessing import Value
+from urllib.request import urlopen
 
-import requests
 import rx
 from rx import operators as ops
 
 from influxdb_client import Point, InfluxDBClient, WriteOptions
+from influxdb_client.client.write_api import WriteType
+
+
+class ProgressTextIOWrapper(io.TextIOWrapper):
+    """
+    TextIOWrapper that store progress of read.
+    """
+    def __init__(self, *args, **kwargs):
+        io.TextIOWrapper.__init__(self, *args, **kwargs)
+        self.progress = None
+        pass
+
+    def readline(self, *args, **kwarg) -> str:
+        readline = super().readline(*args, **kwarg)
+        self.progress.value += len(readline)
+        return readline
+
+
+class InfluxDBWriter(multiprocessing.Process):
+    """
+    Writer that writes data in batches with 50_000 items.
+    """
+    def __init__(self, queue):
+        multiprocessing.Process.__init__(self)
+        self.queue = queue
+        self.client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+        self.write_api = self.client.write_api(
+            write_options=WriteOptions(write_type=WriteType.batching, batch_size=50_000, flush_interval=10_000))
+
+    def run(self):
+        while True:
+            next_task = self.queue.get()
+            if next_task is None:
+                # Poison pill means terminate
+                self.terminate()
+                self.queue.task_done()
+                break
+            self.write_api.write(org="my-org", bucket="my-bucket", record=next_task)
+            self.queue.task_done()
+
+    def terminate(self) -> None:
+        proc_name = self.name
+        print()
+        print('Writer: flushing data...')
+        self.write_api.__del__()
+        self.client.__del__()
+        print('Writer: closed'.format(proc_name))
 
 
 def parse_row(row: OrderedDict):
@@ -52,10 +100,11 @@ def parse_row(row: OrderedDict):
         .to_line_protocol()
 
 
-def parse_rows(rows):
+def parse_rows(rows, total_size):
     """
     Parse bunch of CSV rows into LineProtocol
 
+    :param total_size: Total size of file
     :param rows: CSV rows
     :return: List of line protocols
     """
@@ -63,63 +112,80 @@ def parse_rows(rows):
 
     counter_.value += len(_parsed_rows)
     if counter_.value % 10_000 == 0:
-        _count = counter_.value
-        print('{0:8} - {1:.2f} %'.format(_count, 100 * float(_count) / float(23_130_811)))
+        print('{0:8}{1}'.format(counter_.value, ' - {0:.2f} %'
+                                .format(100 * float(progress_.value) / float(int(total_size))) if total_size else ""))
         pass
 
-    return _parsed_rows
+    queue_.put(_parsed_rows)
+    return None
 
 
-def init_counter(counter):
+def init_counter(counter, progress, queue):
     """
     Initialize shared counter for display progress
     """
     global counter_
     counter_ = counter
+    global progress_
+    progress_ = progress
+    global queue_
+    queue_ = queue
 
 
 """
-Init clients
+Create multiprocess shared environment
 """
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
-
-"""
-Create client that writes data in batches with 50_000 items.
-"""
-write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
+queue_ = multiprocessing.Manager().Queue()
+counter_ = Value('i', 0)
+progress_ = Value('i', 0)
+startTime = datetime.now()
 
 url = "https://s3.amazonaws.com/nyc-tlc/trip+data/fhv_tripdata_2019-01.csv"
-response = requests.get(url, stream=True)
+# url = "file:///Users/bednar/Developer/influxdata/influxdb-client-python/examples/fhv_tripdata_2019-01.csv"
 
-counter_ = Value('i', 0)
-startTime = datetime.now()
+"""
+Open URL and for stream data 
+"""
+response = urlopen(url)
+if response.headers:
+    content_length = response.headers['Content-length']
+io_wrapper = ProgressTextIOWrapper(response)
+io_wrapper.progress = progress_
+
+"""
+Start writer as a new process
+"""
+writer = InfluxDBWriter(queue_)
+writer.start()
 
 """
 Create process pool for parallel encoding into LineProtocol
 """
 cpu_count = multiprocessing.cpu_count()
-with concurrent.futures.ProcessPoolExecutor(cpu_count, initializer=init_counter, initargs=(counter_,)) as executor:
+with concurrent.futures.ProcessPoolExecutor(cpu_count, initializer=init_counter,
+                                            initargs=(counter_, progress_, queue_)) as executor:
     """
     Converts incoming HTTP stream into sequence of LineProtocol
     """
     data = rx \
-        .from_iterable(DictReader(response.iter_lines(decode_unicode=True))) \
-        .pipe(ops.buffer_with_count(5_000),
-              # Parse 5_000 rows into LineProtocol on subprocess
-              ops.flat_map(lambda s: executor.submit(parse_rows, s)))
+        .from_iterable(DictReader(io_wrapper)) \
+        .pipe(ops.buffer_with_count(10_000),
+              # Parse 10_000 rows into LineProtocol on subprocess
+              ops.flat_map(lambda rows: executor.submit(parse_rows, rows, content_length)))
 
     """
     Write data into InfluxDB
     """
-    write_api.write(org="my-org", bucket="my-bucket", record=data)
+    data.subscribe(on_next=lambda x: None, on_error=lambda ex: print(f'Unexpected error: {ex}'))
 
 """
-Dispose write_api
+Terminate Writer
 """
-write_api.__del__()
+queue_.put(None)
+queue_.join()
 
 print()
-print(f'Import finished in: {datetime.now() - startTime} {datetime.now()}')
+print(f'Import finished in: {datetime.now() - startTime}')
 print()
 
 """
@@ -133,6 +199,7 @@ query = 'from(bucket:"my-bucket")' \
         '|> rename(columns: {_time: "pickup_datetime"})' \
         '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
 
+client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
 result = client.query_api().query(org="my-org", query=query)
 
 """

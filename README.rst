@@ -428,6 +428,8 @@ Examples
 How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
 
+The following example shows how to import dataset with dozen megabytes.
+If you would like to import gigabytes of data then use our multiprocessing example: `import_data_set_multiprocessing.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/import_data_set_multiprocessing.py>`_ for use a full capability of your hardware.
 
 * sources - `import_data_set.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/import_data_set.py>`_
 
