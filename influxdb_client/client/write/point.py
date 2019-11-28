@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from numbers import Integral
 
-import dateutil.parser
+import ciso8601
 from pytz import UTC
 from six import iteritems
 
@@ -12,6 +12,8 @@ from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
+_ESCAPE_KEY = str.maketrans({'\\': '\\\\', ',': r'\,', ' ': r'\ ', '=': r'\=', '\n': ''})
+_ESCAPE_STRING = str.maketrans({'\"': r"\"", "\\": r"\\"})
 
 
 class Point(object):
@@ -56,32 +58,33 @@ class Point(object):
         return self
 
     def to_line_protocol(self):
-        ret = _escape_tag(self._name)
-        ret += _append_tags(self._tags)
+        _measurement = _escape_key(self._name)
+        _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
         if not _fields:
             return ""
-        ret += _fields
-        ret += _append_time(self._time, self._write_precision)
-        return ret
+        _time = _append_time(self._time, self._write_precision)
+
+        return f"{_measurement}{_tags}{_fields}{_time}"
 
 
 def _append_tags(tags):
-    _ret = ""
+    _return = []
     for tag_key, tag_value in sorted(iteritems(tags)):
 
         if tag_value is None:
             continue
 
-        tag = _escape_tag(tag_key)
+        tag = _escape_key(tag_key)
         value = _escape_tag_value(tag_value)
         if tag != '' and value != '':
-            _ret += ',' + tag_key + '=' + value
-    return _ret + ' '
+            _return.append(f'{tag}={value}')
+
+    return f"{',' if _return else ''}{','.join(_return)} "
 
 
 def _append_fields(fields):
-    _ret = ""
+    _return = []
 
     for field, value in sorted(iteritems(fields)):
         if value is None:
@@ -90,43 +93,38 @@ def _append_fields(fields):
         if isinstance(value, float) or isinstance(value, Decimal):
             if not math.isfinite(value):
                 continue
-            _ret += _escape_tag(field) + '=' + str(value) + ','
+            _return.append(f'{_escape_key(field)}={str(value)}')
         elif isinstance(value, int) and not isinstance(value, bool):
-            _ret += _escape_tag(field) + '=' + str(value) + 'i' + ','
+            _return.append(f'{_escape_key(field)}={str(value)}i')
         elif isinstance(value, bool):
-            _ret += _escape_tag(field) + '=' + str(value).lower() + ','
+            _return.append(f'{_escape_key(field)}={str(value).lower()}')
         elif isinstance(value, str):
-            value = escape_value(str(value))
-            _ret += _escape_tag(field) + "=" + '"' + value + '"' + ","
+            _return.append(f'{_escape_key(field)}="{_escape_string(value)}"')
         else:
             raise ValueError()
 
-    if _ret.endswith(","):
-        return _ret[:-1]
-    else:
-        return _ret
+    return f"{','.join(_return)}"
 
 
-def _append_time(time, write_precission):
+def _append_time(time, write_precision):
     if time is None:
         return ''
-    _ret = " " + str(int(_convert_timestamp(time, write_precission)))
-    return _ret
+    return f" {int(_convert_timestamp(time, write_precision))}"
 
 
-def _escape_tag(tag):
-    return str(tag).replace("\\", "\\\\").replace(" ", "\\ ").replace(",", "\\,").replace("=", "\\=")
+def _escape_key(tag):
+    return str(tag).translate(_ESCAPE_KEY)
 
 
 def _escape_tag_value(value):
-    ret = _escape_tag(value)
+    ret = _escape_key(value)
     if ret.endswith('\\'):
         ret += ' '
     return ret
 
 
-def escape_value(value):
-    return value.translate(str.maketrans({'\"': r"\"", "\\": r"\\"}))
+def _escape_string(value):
+    return str(value).translate(_ESCAPE_STRING)
 
 
 def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
@@ -134,7 +132,7 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
         return timestamp  # assume precision is correct if timestamp is int
 
     if isinstance(timestamp, str):
-        timestamp = dateutil.parser.parse(timestamp)
+        timestamp = ciso8601.parse_datetime(timestamp)
 
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 

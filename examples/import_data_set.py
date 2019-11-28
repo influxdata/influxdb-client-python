@@ -6,7 +6,6 @@ https://datahub.io/core/finance-vix#data
 
 from collections import OrderedDict
 from csv import DictReader
-from datetime import datetime
 
 import rx
 from rx import operators as ops
@@ -32,13 +31,26 @@ def parse_row(row: OrderedDict):
     :param row: the row of CSV file
     :return: Parsed csv row to [Point]
     """
+
+    """
+    For better performance is sometimes useful directly create a LineProtocol to avoid unnecessary escaping overhead:
+    """
+    # from pytz import UTC
+    # import ciso8601
+    # from influxdb_client.client.write.point import EPOCH
+    #
+    # time = (UTC.localize(ciso8601.parse_datetime(row["Date"])) - EPOCH).total_seconds() * 1e9
+    # return f"financial-analysis,type=vix-daily" \
+    #        f" close={float(row['VIX Close'])},high={float(row['VIX High'])},low={float(row['VIX Low'])},open={float(row['VIX Open'])} " \
+    #        f" {int(time)}"
+
     return Point("financial-analysis") \
         .tag("type", "vix-daily") \
         .field("open", float(row['VIX Open'])) \
         .field("high", float(row['VIX High'])) \
         .field("low", float(row['VIX Low'])) \
         .field("close", float(row['VIX Close'])) \
-        .time(datetime.strptime(row['Date'], '%Y-%m-%d'))
+        .time(row['Date'])
 
 
 """
@@ -51,9 +63,9 @@ data = rx \
 client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
 
 """
-Create client that writes data in batches with 500 items.
+Create client that writes data in batches with 50_000 items.
 """
-write_api = client.write_api(write_options=WriteOptions(batch_size=500, jitter_interval=1_000))
+write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
 """
 Write data into InfluxDB

@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from pytz import UTC
-
-from influxdb_client import Point, WritePrecision
-
-EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
-
 import unittest
-
 from datetime import datetime, timezone, timedelta
 from decimal import Decimal
+
 from pytz import UTC, timezone
 
+from influxdb_client import Point, WritePrecision
 from tests.base_test import BaseTest
 
 
