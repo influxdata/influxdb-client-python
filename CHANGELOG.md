@@ -6,6 +6,9 @@
 ### API
 1. [#42](https://github.com/influxdata/influxdb-client-python/pull/42): Updated swagger to latest version
 
+### Bugs
+1. [#45](https://github.com/influxdata/influxdb-client-python/pull/45): Pandas is a optional dependency and has to installed separably
+
 ## 1.1.0 [2019-11-19]
 
 ### Features

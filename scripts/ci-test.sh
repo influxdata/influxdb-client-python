@@ -7,6 +7,7 @@ set -e
 #
 python --version
 pip install -r requirements.txt
+pip install -r extra-requirements.txt
 pip install -r test-requirements.txt
 pip install pytest pytest-cov
 pip install twine

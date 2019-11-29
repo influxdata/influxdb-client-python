@@ -16,10 +16,6 @@ influxdb-client-python
    :target: https://circleci.com/gh/influxdata/influxdb-client-python
    :alt: CI status
 
-.. image:: https://img.shields.io/codecov/c/github/influxdata/influxdb-client-python.svg
-   :target: https://codecov.io/gh/influxdata/influxdb-client-python
-   :alt: Coverage
-
 .. image:: https://img.shields.io/pypi/v/influxdb-client.svg
    :target: https://pypi.org/project/influxdb-client/
    :alt: PyPI package
@@ -374,6 +370,8 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
 Pandas DataFrame
 """"""""""""""""
 .. marker-pandas-start
+
+.. note:: For DataFrame querying you should install Pandas dependency via ``pip install influxdb-client[extra]``.
 
 .. note:: Note that if a query returns more then one table then the client generates a ``DataFrame`` for each of them.
 

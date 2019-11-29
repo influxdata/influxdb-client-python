@@ -5,7 +5,6 @@ from enum import Enum
 from typing import List
 
 import ciso8601
-from pandas import DataFrame
 from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
@@ -104,7 +103,8 @@ class FluxCsvParser(object):
                     start_new_table = False
                     # Create DataFrame with default values
                     if self._serialization_mode is FluxSerializationMode.dataFrame:
-                        self._data_frame = DataFrame(data=[], columns=[], index=None)
+                        from ..extras import pd
+                        self._data_frame = pd.DataFrame(data=[], columns=[], index=None)
                         for column in table.columns:
                             self._data_frame[column.label] = column.default_value
                         pass
