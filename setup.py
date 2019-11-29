@@ -10,6 +10,9 @@ with open('requirements.txt', 'r') as f:
 with open('test-requirements.txt', 'r') as f:
     test_requires = [x.strip() for x in f if x.strip()]
 
+with open('extra-requirements.txt', 'r') as f:
+    extra_requires = [x.strip() for x in f if x.strip()]
+
 with open('README.rst', 'r') as f:
     readme = f.read()
 
@@ -29,6 +32,7 @@ setup(
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
     install_requires=requires,
+    extras_require={'extra': extra_requires},
     long_description_content_type="text/x-rst",
     packages=find_packages(),
     test_suite='tests',
