@@ -1,4 +1,4 @@
-## 1.2.0 [unreleased]
+## 1.2.0 [2019-12-06]
 
 ### Features
 1. [#44](https://github.com/influxdata/influxdb-client-python/pull/44): Optimized serialization into LineProtocol, Clarified how to use client for import large amount of data
