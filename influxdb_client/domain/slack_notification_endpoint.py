@@ -49,8 +49,7 @@ class SlackNotificationEndpoint(NotificationEndpoint):
         self._token = None
         self.discriminator = None
 
-        if url is not None:
-            self.url = url
+        self.url = url
         if token is not None:
             self.token = token
 
@@ -74,6 +73,8 @@ class SlackNotificationEndpoint(NotificationEndpoint):
         :param url: The url of this SlackNotificationEndpoint.  # noqa: E501
         :type: str
         """
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
 

@@ -59,7 +59,7 @@ class DeletePredicateRequest(object):
     def start(self):
         """Gets the start of this DeletePredicateRequest.  # noqa: E501
 
-        RFC3339Nano.  # noqa: E501
+        RFC3339Nano  # noqa: E501
 
         :return: The start of this DeletePredicateRequest.  # noqa: E501
         :rtype: datetime
@@ -70,7 +70,7 @@ class DeletePredicateRequest(object):
     def start(self, start):
         """Sets the start of this DeletePredicateRequest.
 
-        RFC3339Nano.  # noqa: E501
+        RFC3339Nano  # noqa: E501
 
         :param start: The start of this DeletePredicateRequest.  # noqa: E501
         :type: datetime
@@ -84,7 +84,7 @@ class DeletePredicateRequest(object):
     def stop(self):
         """Gets the stop of this DeletePredicateRequest.  # noqa: E501
 
-        RFC3339Nano.  # noqa: E501
+        RFC3339Nano  # noqa: E501
 
         :return: The stop of this DeletePredicateRequest.  # noqa: E501
         :rtype: datetime
@@ -95,7 +95,7 @@ class DeletePredicateRequest(object):
     def stop(self, stop):
         """Sets the stop of this DeletePredicateRequest.
 
-        RFC3339Nano.  # noqa: E501
+        RFC3339Nano  # noqa: E501
 
         :param stop: The stop of this DeletePredicateRequest.  # noqa: E501
         :type: datetime
@@ -109,7 +109,7 @@ class DeletePredicateRequest(object):
     def predicate(self):
         """Gets the predicate of this DeletePredicateRequest.  # noqa: E501
 
-        sql where like delete statement  # noqa: E501
+        InfluxQL-like delete statement  # noqa: E501
 
         :return: The predicate of this DeletePredicateRequest.  # noqa: E501
         :rtype: str
@@ -120,7 +120,7 @@ class DeletePredicateRequest(object):
     def predicate(self, predicate):
         """Sets the predicate of this DeletePredicateRequest.
 
-        sql where like delete statement  # noqa: E501
+        InfluxQL-like delete statement  # noqa: E501
 
         :param predicate: The predicate of this DeletePredicateRequest.  # noqa: E501
         :type: str

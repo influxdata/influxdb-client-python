@@ -33,7 +33,7 @@ class InfluxPackagesService(object):
         self.api_client = api_client
 
     def apply_pkg(self, pkg_apply, **kwargs):  # noqa: E501
-        """Apply or dry run an influx package  # noqa: E501
+        """Apply or dry-run an Influx package  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -54,7 +54,7 @@ class InfluxPackagesService(object):
             return data
 
     def apply_pkg_with_http_info(self, pkg_apply, **kwargs):  # noqa: E501
-        """Apply or dry run an influx package  # noqa: E501
+        """Apply or dry-run an Influx package  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -139,7 +139,7 @@ class InfluxPackagesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PkgCreate pkg_create: Influx package to create
+        :param PkgCreate pkg_create: Influx package to create.
         :return: Pkg
                  If the method is called asynchronously,
                  returns the request thread.
@@ -160,7 +160,7 @@ class InfluxPackagesService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PkgCreate pkg_create: Influx package to create
+        :param PkgCreate pkg_create: Influx package to create.
         :return: Pkg
                  If the method is called asynchronously,
                  returns the request thread.
