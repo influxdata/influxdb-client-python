@@ -1,6 +1,5 @@
 # coding: utf-8
 import logging
-import threading
 from datetime import timedelta
 from enum import Enum
 from random import random
@@ -134,9 +133,9 @@ class WriteApi(AbstractClient):
             self._subject = None
             self._disposable = None
 
-    def write(self, bucket: str, org: str,
+    def write(self, bucket: str, org: str = None,
               record: Union[
-                  str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable],
+                  str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable] = None,
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
         """
         Writes time-series data into influxdb.
@@ -147,6 +146,9 @@ class WriteApi(AbstractClient):
         :param record: Points, line protocol, RxPY Observable to write
 
         """
+
+        if org is None:
+            org = self._influxdb_client.org
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record, write_precision)
