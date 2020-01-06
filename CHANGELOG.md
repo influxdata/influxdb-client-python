@@ -3,6 +3,9 @@
 ### API
 1. [#47](https://github.com/influxdata/influxdb-client-python/pull/47): Updated swagger to latest version
 
+### Bugs
+1. [#48](https://github.com/influxdata/influxdb-client-python/pull/48): InfluxDBClient default org is used by WriteAPI
+
 ## 1.2.0 [2019-12-06]
 
 ### Features

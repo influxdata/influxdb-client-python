@@ -28,7 +28,6 @@ class SynchronousWriteTest(BaseTest):
 
         record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         self.write_client.write(bucket.name, self.org, record)
-        self.write_client.flush()
 
         result = self.query_api.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
@@ -41,8 +40,6 @@ class SynchronousWriteTest(BaseTest):
                          datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc))
 
         self.delete_test_bucket(bucket)
-
-    #####################################
 
     def test_write_precision(self):
         bucket = self.create_test_bucket()
@@ -66,8 +63,6 @@ class SynchronousWriteTest(BaseTest):
         record_list = [_record1, _record2]
 
         self.write_client.write(bucket.name, self.org, record_list)
-
-        self.write_client.flush()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
         print(query)
@@ -104,7 +99,6 @@ class SynchronousWriteTest(BaseTest):
         record_list = [p]
 
         self.write_client.write(bucket.name, self.org, record_list)
-        self.write_client.flush()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
         flux_result = self.client.query_api().query(query)
@@ -142,7 +136,6 @@ class SynchronousWriteTest(BaseTest):
                   "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 1.0}}
 
         self.write_client.write(_bucket.name, self.org, _point)
-        self.write_client.flush()
 
         result = self.query_api.query(
             "from(bucket:\"" + _bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
@@ -162,7 +155,6 @@ class SynchronousWriteTest(BaseTest):
         _bytes = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1".encode("utf-8")
 
         self.write_client.write(_bucket.name, self.org, _bytes)
-        self.write_client.flush()
 
         result = self.query_api.query(
             "from(bucket:\"" + _bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
@@ -176,6 +168,37 @@ class SynchronousWriteTest(BaseTest):
                          datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc))
 
         self.delete_test_bucket(_bucket)
+
+    def test_use_default_org(self):
+        bucket = self.create_test_bucket()
+
+        record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        self.write_client.write(bucket.name, record=record)
+
+        result = self.query_api.query(
+            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
+        self.assertEqual(result[0].records[0].get_value(), 1.0)
+        self.assertEqual(result[0].records[0].get_field(), "level water_level")
+        self.assertEqual(result[0].records[0].get_time(),
+                         datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc))
+
+    def test_write_empty_data(self):
+        bucket = self.create_test_bucket()
+
+        with self.assertRaises(ApiException) as cm:
+            self.write_client.write(bucket.name)
+        exception = cm.exception
+
+        self.assertEqual(400, exception.status)
+        self.assertEqual("Bad Request", exception.reason)
+
+        result = self.query_api.query(
+            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 0)
 
 
 class AsynchronousWriteTest(BaseTest):
