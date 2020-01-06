@@ -1,5 +1,8 @@
 ## 1.3.0 [unreleased]
 
+### API
+1. [#47](https://github.com/influxdata/influxdb-client-python/pull/47): Updated swagger to latest version
+
 ## 1.2.0 [2019-12-06]
 
 ### Features
