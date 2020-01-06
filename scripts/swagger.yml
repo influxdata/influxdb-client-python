@@ -1642,9 +1642,9 @@ paths:
                 $ref: "#/components/schemas/Error"
   /delete:
     post:
-      summary: delete Time series data from InfluxDB
+      summary: Delete time series data from InfluxDB
       requestBody:
-          description: predicate delete request
+          description: Predicate delete request
           required: true
           content:
             application/json:
@@ -1654,27 +1654,27 @@ paths:
         - $ref: '#/components/parameters/TraceSpan'
         - in: query
           name: org
-          description: specifies the destination organization for writes
+          description: Specifies the organization to delete data from.
           schema:
             type: string
-            description: all points within batch are written to this organization.
+            description: Only points from this organization are deleted.
         - in: query
           name: bucket
-          description: specifies the destination bucket for writes
+          description: Specifies the bucket to delete data from.
           schema:
             type: string
-            description: all points within batch are written to this bucket.
+            description: Only points from this bucket are deleted.
         - in: query
           name: orgID
-          description: specifies the organization ID of the resource
+          description: Specifies the organization ID of the resource.
           schema:
             type: string
         - in: query
           name: bucketID
-          description: specifies the destination bucket ID for writes
+          description: Specifies the bucket ID to delete data from.
           schema:
             type: string
-            description: all points within batch are written to this bucket.
+            description: Only points from this bucket ID are deleted.
       responses:
         '204':
           description: delete has been accepted
@@ -4248,7 +4248,7 @@ paths:
         - InfluxPackages
       summary: Create a new Influx package
       requestBody:
-        description: Influx package to create
+        description: Influx package to create.
         required: false
         content:
           application/json:
@@ -4272,7 +4272,7 @@ paths:
       operationId: ApplyPkg
       tags:
         - InfluxPackages
-      summary: Apply or dry run an influx package
+      summary: Apply or dry-run an Influx package
       requestBody:
         required: true
         content:
@@ -4285,7 +4285,7 @@ paths:
       responses:
         '200':
           description: >
-            Influx package dry run successful, no new resources created.
+            Influx package dry-run successful, no new resources created.
             The provided diff and summary will not have IDs for resources
             that do not exist at the time of the dry run.
           content:
@@ -5532,7 +5532,7 @@ paths:
             type: string
         - in: query
           name: tag
-          description: Only show notification rules that match a tag pair. Uses `AND` to specify multiple tags.
+          description: Only return notification rules that "would match" statuses which contain the tag key value pairs provided.
           schema:
             type: string
             pattern: ^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$
@@ -6302,20 +6302,20 @@ components:
         path:
           $ref: "#/components/schemas/StringLiteral"
     DeletePredicateRequest:
-      description: the delete predicate request
+      description: The delete predicate request.
       type: object
       required: [start, stop]
       properties:
         start:
-          description: RFC3339Nano.
+          description: RFC3339Nano
           type: string
           format: date-time
         stop:
-          description: RFC3339Nano.
+          description: RFC3339Nano
           type: string
           format: date-time
         predicate:
-          description: sql where like delete statement
+          description: InfluxQL-like delete statement
           example: tag1="value1" and (tag2="value2" and tag3!="value3")
           type: string
     Node:
@@ -9035,390 +9035,17 @@ components:
           type: string
         description:
           type: string
-        agent:
+        metadata:
           type: object
           properties:
-            collectionInterval:
-              type: integer
-        plugins:
-          type: array
-          items:
-            $ref: "#/components/schemas/TelegrafRequestPlugin"
+            buckets:
+              type: array
+              items:
+                type: string
+        config:
+          type: string
         orgID:
           type: string
-    TelegrafRequestPlugin:
-        oneOf:
-        - $ref: '#/components/schemas/TelegrafPluginInputCpu'
-        - $ref: '#/components/schemas/TelegrafPluginInputDisk'
-        - $ref: '#/components/schemas/TelegrafPluginInputDiskio'
-        - $ref: '#/components/schemas/TelegrafPluginInputDocker'
-        - $ref: '#/components/schemas/TelegrafPluginInputFile'
-        - $ref: '#/components/schemas/TelegrafPluginInputKubernetes'
-        - $ref: '#/components/schemas/TelegrafPluginInputLogParser'
-        - $ref: '#/components/schemas/TelegrafPluginInputProcstat'
-        - $ref: '#/components/schemas/TelegrafPluginInputPrometheus'
-        - $ref: '#/components/schemas/TelegrafPluginInputRedis'
-        - $ref: '#/components/schemas/TelegrafPluginInputSyslog'
-        - $ref: '#/components/schemas/TelegrafPluginOutputFile'
-        - $ref: '#/components/schemas/TelegrafPluginOutputInfluxDBV2'
-    TelegrafPluginInputCpu:
-      type: object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["cpu"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputDisk:
-      type: object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["disk"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputDiskio:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["diskio"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputDocker:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["docker"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputDockerConfig'
-    TelegrafPluginInputFile:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["file"]
-        type:
-          type: string
-          enum: [input]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputFileConfig'
-    TelegrafPluginInputKernel:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["kernel"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputKubernetes:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["kubernetes"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputKubernetesConfig'
-    TelegrafPluginInputLogParser:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["logparser"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputLogParserConfig'
-    TelegrafPluginInputMem:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["mem"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputNetResponse:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["net_response"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputNet:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["net"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputNginx:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["nginx"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputProcesses:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["processes"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputProcstat:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["procstat"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputProcstatConfig'
-    TelegrafPluginInputPrometheus:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["prometheus"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputPrometheusConfig'
-    TelegrafPluginInputRedis:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["redis"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputRedisConfig'
-    TelegrafPluginInputSyslog:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["syslog"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginInputSyslogConfig'
-    TelegrafPluginInputSwap:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["swap"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputSystem:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["system"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginInputTail:
-      type:
-        object
-      required:
-        - name
-        - type
-      properties:
-        name:
-          type: string
-          enum: ["tail"]
-        type:
-          type: string
-          enum: ["input"]
-        comment:
-          type: string
-    TelegrafPluginOutputFile:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["file"]
-        type:
-          type: string
-          enum: ["output"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginOutputFileConfig'
-    TelegrafPluginOutputInfluxDBV2:
-      type:
-        object
-      required:
-        - name
-        - type
-        - config
-      properties:
-        name:
-          type: string
-          enum: ["influxdb_v2"]
-        type:
-          type: string
-          enum: ["output"]
-        comment:
-          type: string
-        config:
-          $ref: '#/components/schemas/TelegrafPluginOutputInfluxDBV2Config'
     Telegraf:
       type: object
       allOf:
@@ -9455,94 +9082,20 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Telegraf"
-    TelegrafPluginInputDockerConfig:
+    TelegrafPlugin:
       type: object
-      required:
-        - endpoint
       properties:
-        endpoint:
+        type:
           type: string
-    TelegrafPluginInputFileConfig:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            type: string
-    TelegrafPluginInputKubernetesConfig:
-      type: object
-      properties:
-        url:
+          enum: [inputs, outputs, aggregators, processors]
+        name:
           type: string
-          format: uri
-    TelegrafPluginInputLogParserConfig:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            type: string
-    TelegrafPluginInputProcstatConfig:
-      type: object
-      properties:
-        exe:
+        description:
           type: string
-    TelegrafPluginInputPrometheusConfig:
-      type: object
-      properties:
-        urls:
-          type: array
-          items:
-            type: string
-            format: uri
-    TelegrafPluginInputRedisConfig:
-      type: object
-      properties:
-        servers:
-          type: array
-          items:
-            type: string
-        password:
-          type: string
-    TelegrafPluginInputSyslogConfig:
-      type: object
-      properties:
-        server:
-          type: string
-    TelegrafPluginOutputFileConfig:
-      type: object
-      required:
-        - files
-      properties:
-        files:
-          type: array
-          items:
+        config:
+          type: object
+          additionalProperties:
             type: object
-            properties:
-              type:
-                type: string
-                enum: [stdout, path]
-              path:
-                type: string
-    TelegrafPluginOutputInfluxDBV2Config:
-      type: object
-      required:
-        - urls
-        - token
-        - organization
-        - bucket
-      properties:
-        urls:
-          type: array
-          items:
-            type: string
-            format: uri
-        token:
-          type: string
-        organization:
-          type: string
-        bucket:
-          type: string
     IsOnboarding:
       type: object
       properties:
@@ -10258,6 +9811,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/NotificationEndpointBase"
         - type: object
+          required: [url]
           properties:
             url:
               description: Specifies the URL of the Slack endpoint. Specify either `URL` or `Token`.

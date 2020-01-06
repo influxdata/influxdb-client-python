@@ -33,26 +33,26 @@ class TelegrafRequest(object):
     openapi_types = {
         'name': 'str',
         'description': 'str',
-        'agent': 'TelegrafRequestAgent',
-        'plugins': 'list[TelegrafRequestPlugin]',
+        'metadata': 'TelegrafRequestMetadata',
+        'config': 'str',
         'org_id': 'str'
     }
 
     attribute_map = {
         'name': 'name',
         'description': 'description',
-        'agent': 'agent',
-        'plugins': 'plugins',
+        'metadata': 'metadata',
+        'config': 'config',
         'org_id': 'orgID'
     }
 
-    def __init__(self, name=None, description=None, agent=None, plugins=None, org_id=None):  # noqa: E501
+    def __init__(self, name=None, description=None, metadata=None, config=None, org_id=None):  # noqa: E501
         """TelegrafRequest - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
         self._description = None
-        self._agent = None
-        self._plugins = None
+        self._metadata = None
+        self._config = None
         self._org_id = None
         self.discriminator = None
 
@@ -60,10 +60,10 @@ class TelegrafRequest(object):
             self.name = name
         if description is not None:
             self.description = description
-        if agent is not None:
-            self.agent = agent
-        if plugins is not None:
-            self.plugins = plugins
+        if metadata is not None:
+            self.metadata = metadata
+        if config is not None:
+            self.config = config
         if org_id is not None:
             self.org_id = org_id
 
@@ -110,46 +110,46 @@ class TelegrafRequest(object):
         self._description = description
 
     @property
-    def agent(self):
-        """Gets the agent of this TelegrafRequest.  # noqa: E501
+    def metadata(self):
+        """Gets the metadata of this TelegrafRequest.  # noqa: E501
 
 
-        :return: The agent of this TelegrafRequest.  # noqa: E501
-        :rtype: TelegrafRequestAgent
+        :return: The metadata of this TelegrafRequest.  # noqa: E501
+        :rtype: TelegrafRequestMetadata
         """
-        return self._agent
+        return self._metadata
 
-    @agent.setter
-    def agent(self, agent):
-        """Sets the agent of this TelegrafRequest.
+    @metadata.setter
+    def metadata(self, metadata):
+        """Sets the metadata of this TelegrafRequest.
 
 
-        :param agent: The agent of this TelegrafRequest.  # noqa: E501
-        :type: TelegrafRequestAgent
+        :param metadata: The metadata of this TelegrafRequest.  # noqa: E501
+        :type: TelegrafRequestMetadata
         """
 
-        self._agent = agent
+        self._metadata = metadata
 
     @property
-    def plugins(self):
-        """Gets the plugins of this TelegrafRequest.  # noqa: E501
+    def config(self):
+        """Gets the config of this TelegrafRequest.  # noqa: E501
 
 
-        :return: The plugins of this TelegrafRequest.  # noqa: E501
-        :rtype: list[TelegrafRequestPlugin]
+        :return: The config of this TelegrafRequest.  # noqa: E501
+        :rtype: str
         """
-        return self._plugins
+        return self._config
 
-    @plugins.setter
-    def plugins(self, plugins):
-        """Sets the plugins of this TelegrafRequest.
+    @config.setter
+    def config(self, config):
+        """Sets the config of this TelegrafRequest.
 
 
-        :param plugins: The plugins of this TelegrafRequest.  # noqa: E501
-        :type: list[TelegrafRequestPlugin]
+        :param config: The config of this TelegrafRequest.  # noqa: E501
+        :type: str
         """
 
-        self._plugins = plugins
+        self._config = config
 
     @property
     def org_id(self):

@@ -33,7 +33,7 @@ class DefaultService(object):
         self.api_client = api_client
 
     def delete_post(self, delete_predicate_request, **kwargs):  # noqa: E501
-        """delete Time series data from InfluxDB  # noqa: E501
+        """Delete time series data from InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -41,12 +41,12 @@ class DefaultService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param DeletePredicateRequest delete_predicate_request: predicate delete request (required)
+        :param DeletePredicateRequest delete_predicate_request: Predicate delete request (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the destination organization for writes
-        :param str bucket: specifies the destination bucket for writes
-        :param str org_id: specifies the organization ID of the resource
-        :param str bucket_id: specifies the destination bucket ID for writes
+        :param str org: Specifies the organization to delete data from.
+        :param str bucket: Specifies the bucket to delete data from.
+        :param str org_id: Specifies the organization ID of the resource.
+        :param str bucket_id: Specifies the bucket ID to delete data from.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -59,7 +59,7 @@ class DefaultService(object):
             return data
 
     def delete_post_with_http_info(self, delete_predicate_request, **kwargs):  # noqa: E501
-        """delete Time series data from InfluxDB  # noqa: E501
+        """Delete time series data from InfluxDB  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -67,12 +67,12 @@ class DefaultService(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param DeletePredicateRequest delete_predicate_request: predicate delete request (required)
+        :param DeletePredicateRequest delete_predicate_request: Predicate delete request (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: specifies the destination organization for writes
-        :param str bucket: specifies the destination bucket for writes
-        :param str org_id: specifies the organization ID of the resource
-        :param str bucket_id: specifies the destination bucket ID for writes
+        :param str org: Specifies the organization to delete data from.
+        :param str bucket: Specifies the bucket to delete data from.
+        :param str org_id: Specifies the organization ID of the resource.
+        :param str bucket_id: Specifies the bucket ID to delete data from.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.

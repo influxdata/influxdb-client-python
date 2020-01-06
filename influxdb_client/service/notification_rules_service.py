@@ -348,7 +348,7 @@ class NotificationRulesService(object):
         :param int offset:
         :param int limit:
         :param str check_id: Only show notifications that belong to the specific check ID.
-        :param str tag: Only show notification rules that match a tag pair. Uses `AND` to specify multiple tags.
+        :param str tag: Only return notification rules that \"would match\" statuses which contain the tag key value pairs provided.
         :return: NotificationRules
                  If the method is called asynchronously,
                  returns the request thread.
@@ -374,7 +374,7 @@ class NotificationRulesService(object):
         :param int offset:
         :param int limit:
         :param str check_id: Only show notifications that belong to the specific check ID.
-        :param str tag: Only show notification rules that match a tag pair. Uses `AND` to specify multiple tags.
+        :param str tag: Only return notification rules that \"would match\" statuses which contain the tag key value pairs provided.
         :return: NotificationRules
                  If the method is called asynchronously,
                  returns the request thread.

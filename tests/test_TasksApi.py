@@ -358,7 +358,7 @@ class TasksApiTest(BaseTest):
         self.assertGreater(len(logs), 0)
 
         message = logs[len(logs) - 1].message
-        self.assertTrue(message.endswith("Completed successfully"), "The message: '{0}'".format(message))
+        self.assertTrue(message.endswith("Completed(success)"), "The message: '{0}'".format(message))
 
     def test_runs_not_exists(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
@@ -381,4 +381,4 @@ class TasksApiTest(BaseTest):
         with pytest.raises(ApiException) as e:
             assert self.tasks_api.cancel_run("020f755c3c082000", "020f755c3c082000")
         assert "failed to cancel run" in e.value.body
-        assert "task not found" in e.value.body
+        assert "run not found" in e.value.body
