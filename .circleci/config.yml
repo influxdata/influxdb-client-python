@@ -72,7 +72,6 @@ workflows:
           name: test-nightly
           influxdb-repository: "influx"
           influxdb-version: "nightly"
-
   nightly:
     triggers:
       - schedule:
