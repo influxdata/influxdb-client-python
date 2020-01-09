@@ -49,9 +49,9 @@ jobs:
       influxdb-version:
         type: string
         default: "2.0.0-beta"
-      environment:
-        INFLUXDB_V2_REPOSITORY: << parameters.influxdb-repository >>
-        INFLUXDB_V2_VERSION: << parameters.influxdb-version >>
+    environment:
+      INFLUXDB_V2_REPOSITORY: << parameters.influxdb-repository >>
+      INFLUXDB_V2_VERSION: << parameters.influxdb-version >>
     steps:
       - prepare
       - client-test:
@@ -72,6 +72,7 @@ workflows:
           name: test-nightly
           influxdb-repository: "influx"
           influxdb-version: "nightly"
+
   nightly:
     triggers:
       - schedule:
