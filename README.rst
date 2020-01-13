@@ -252,6 +252,34 @@ The batching is configurable by ``write_options``\ :
 
 .. marker-batching-end
 
+Default Tags
+""""""""""""
+.. marker-default-tags-start
+
+Sometimes is useful to store same information in every measurement e.g. ``hostname``, ``location``, ``customer``.
+The client is able to use static value or env property as a tag value.
+
+The expressions:
+
+- ``California Miner`` - static value
+- ``${env.hostname}`` - environment property
+
+.. code-block:: python
+
+    point_settings = PointSettings()
+    point_settings.add_default_tag("id", "132-987-655")
+    point_settings.add_default_tag("customer", "California Miner")
+    point_settings.add_default_tag("data_center", "${env.data_center}")
+
+    self.write_client = self.client.write_api(write_options=SYNCHRONOUS, point_settings=point_settings)
+
+.. code-block:: python
+
+    self.write_client = self.client.write_api(write_options=SYNCHRONOUS,
+                                                  point_settings=PointSettings(**{"id": "132-987-655",
+                                                                                  "customer": "California Miner"}))
+.. marker-default-tags-end
+
 Asynchronous client
 """""""""""""""""""
 
