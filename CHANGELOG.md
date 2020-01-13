@@ -1,5 +1,8 @@
 ## 1.3.0 [unreleased]
 
+### Features
+1. [#49](https://github.com/influxdata/influxdb-client-python/issues/50): Implemented default tags
+
 ### API
 1. [#47](https://github.com/influxdata/influxdb-client-python/pull/47): Updated swagger to latest version
 

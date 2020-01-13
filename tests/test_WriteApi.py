@@ -3,12 +3,13 @@
 from __future__ import absolute_import
 
 import datetime
+import os
 import unittest
 import time
 from multiprocessing.pool import ApplyResult
 
 from influxdb_client import Point, WritePrecision
-from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS
+from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS, PointSettings
 from influxdb_client.rest import ApiException
 from tests.base_test import BaseTest
 
@@ -17,7 +18,18 @@ class SynchronousWriteTest(BaseTest):
 
     def setUp(self) -> None:
         super().setUp()
-        self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
+
+        os.environ['data_center'] = "LA"
+
+        self.id_tag = "132-987-655"
+        self.customer_tag = "California Miner"
+        self.data_center_key = "data_center"
+
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS,
+                                                  point_settings=PointSettings(**{"id": self.id_tag,
+                                                                                  "customer": self.customer_tag,
+                                                                                  self.data_center_key:
+                                                                                      '${env.data_center}'}))
 
     def tearDown(self) -> None:
         self.write_client.__del__()
@@ -97,6 +109,7 @@ class SynchronousWriteTest(BaseTest):
         p.field(field_name, utf8_val)
         p.tag(tag, tag_value)
         record_list = [p]
+        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
@@ -105,9 +118,54 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(1, len(flux_result))
         rec = flux_result[0].records[0]
 
+        self.assertEqual(self.id_tag, rec["id"])
+        self.assertEqual(self.customer_tag, rec["customer"])
+        self.assertEqual("LA", rec[self.data_center_key])
+
         self.assertEqual(measurement, rec.get_measurement())
         self.assertEqual(utf8_val, rec.get_value())
         self.assertEqual(field_name, rec.get_field())
+
+    def test_write_using_default_tags(self):
+        bucket = self.create_test_bucket()
+
+        measurement = "h2o_feet"
+        field_name = "water_level"
+        val = "1.0"
+        val2 = "2.0"
+        tag = "location"
+        tag_value = "creek level"
+
+        p = Point(measurement)
+        p.field(field_name, val)
+        p.tag(tag, tag_value)
+        p.time(1)
+
+        p2 = Point(measurement)
+        p2.field(field_name, val2)
+        p2.tag(tag, tag_value)
+        p2.time(2)
+
+        record_list = [p, p2]
+        print(record_list)
+
+        self.write_client.write(bucket.name, self.org, record_list)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        flux_result = self.client.query_api().query(query)
+        self.assertEqual(1, len(flux_result))
+        rec = flux_result[0].records[0]
+        rec2 = flux_result[0].records[1]
+
+        self.assertEqual(self.id_tag, rec["id"])
+        self.assertEqual(self.customer_tag, rec["customer"])
+        self.assertEqual("LA", rec[self.data_center_key])
+
+        self.assertEqual(self.id_tag, rec2["id"])
+        self.assertEqual(self.customer_tag, rec2["customer"])
+        self.assertEqual("LA", rec2[self.data_center_key])
+
+        self.delete_test_bucket(bucket)
 
     def test_write_result(self):
         _bucket = self.create_test_bucket()
@@ -205,7 +263,18 @@ class AsynchronousWriteTest(BaseTest):
 
     def setUp(self) -> None:
         super().setUp()
-        self.write_client = self.client.write_api(write_options=ASYNCHRONOUS)
+
+        os.environ['data_center'] = "LA"
+
+        self.id_tag = "132-987-655"
+        self.customer_tag = "California Miner"
+        self.data_center_key = "data_center"
+
+        self.write_client = self.client.write_api(write_options=ASYNCHRONOUS,
+                                                  point_settings=PointSettings(**{"id": self.id_tag,
+                                                                                  "customer": self.customer_tag,
+                                                                                  self.data_center_key:
+                                                                                      '${env.data_center}'}))
 
     def tearDown(self) -> None:
         self.write_client.__del__()
@@ -261,6 +330,43 @@ class AsynchronousWriteTest(BaseTest):
 
         self.delete_test_bucket(bucket)
 
+    def test_use_default_tags_with_dictionaries(self):
+        bucket = self.create_test_bucket()
+
+        _point1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                       "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
+        _point2 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                       "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 2.0}}
+
+        _point_list = [_point1, _point2]
+
+        self.write_client.write(bucket.name, self.org, _point_list)
+        time.sleep(1)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        print(query)
+
+        flux_result = self.client.query_api().query(query)
+
+        self.assertEqual(1, len(flux_result))
+
+        records = flux_result[0].records
+
+        self.assertEqual(2, len(records))
+
+        rec = records[0]
+        rec2 = records[1]
+
+        self.assertEqual(self.id_tag, rec["id"])
+        self.assertEqual(self.customer_tag, rec["customer"])
+        self.assertEqual("LA", rec[self.data_center_key])
+
+        self.assertEqual(self.id_tag, rec2["id"])
+        self.assertEqual(self.customer_tag, rec2["customer"])
+        self.assertEqual("LA", rec2[self.data_center_key])
+
+        self.delete_test_bucket(bucket)
+
     def test_write_bytes(self):
         bucket = self.create_test_bucket()
 
@@ -298,6 +404,44 @@ class AsynchronousWriteTest(BaseTest):
                          datetime.datetime(1970, 1, 1, 0, 0, 2, tzinfo=datetime.timezone.utc))
 
         self.delete_test_bucket(bucket)
+
+
+class PointSettingTest(BaseTest):
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.id_tag = "132-987-655"
+        self.customer_tag = "California Miner"
+
+    def tearDown(self) -> None:
+        self.write_client.__del__()
+        super().tearDown()
+
+    def test_point_settings(self):
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS,
+                                                  point_settings=PointSettings(**{"id": self.id_tag,
+                                                                                  "customer": self.customer_tag}))
+
+        default_tags = self.write_client._point_settings.defaultTags
+
+        self.assertEqual(self.id_tag, default_tags.get("id"))
+        self.assertEqual(self.customer_tag, default_tags.get("customer"))
+
+    def test_point_settings_with_add(self):
+        os.environ['data_center'] = "LA"
+
+        point_settings = PointSettings()
+        point_settings.add_default_tag("id", self.id_tag)
+        point_settings.add_default_tag("customer", self.customer_tag)
+        point_settings.add_default_tag("data_center", "${env.data_center}")
+
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS, point_settings=point_settings)
+
+        default_tags = self.write_client._point_settings.defaultTags
+
+        self.assertEqual(self.id_tag, default_tags.get("id"))
+        self.assertEqual(self.customer_tag, default_tags.get("customer"))
+        self.assertEqual("LA", default_tags.get("data_center"))
 
 
 if __name__ == '__main__':

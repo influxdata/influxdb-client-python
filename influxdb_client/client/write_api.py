@@ -6,6 +6,8 @@ from random import random
 from time import sleep
 from typing import Union, List
 
+import os
+
 import rx
 from rx import operators as ops, Observable
 from rx.scheduler import ThreadPoolScheduler
@@ -53,6 +55,33 @@ class WriteOptions(object):
 
 SYNCHRONOUS = WriteOptions(write_type=WriteType.synchronous)
 ASYNCHRONOUS = WriteOptions(write_type=WriteType.asynchronous)
+
+
+class PointSettings(object):
+
+    def __init__(self, **default_tags) -> None:
+
+        """
+        Creates point settings for write api.
+
+        :param default_tags: Default tags which will be added to each point written by api.
+        """
+
+        self.defaultTags = dict()
+
+        for key, val in default_tags.items():
+            self.add_default_tag(key, val)
+
+    @staticmethod
+    def _get_value(value):
+
+        if value.startswith("${env."):
+            return os.environ.get(value[6:-1])
+
+        return value
+
+    def add_default_tag(self, key, value) -> None:
+        self.defaultTags[key] = self._get_value(value)
 
 
 class _BatchItem(object):
@@ -103,10 +132,12 @@ def _body_reduce(batch_items):
 
 class WriteApi(AbstractClient):
 
-    def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions()) -> None:
+    def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
+                 point_settings: PointSettings = PointSettings()) -> None:
         self._influxdb_client = influxdb_client
         self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
+        self._point_settings = point_settings
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
@@ -152,6 +183,17 @@ class WriteApi(AbstractClient):
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record, write_precision)
+
+        if self._point_settings.defaultTags and record:
+            for key, val in self._point_settings.defaultTags.items():
+                if isinstance(record, dict):
+                    record.get("tags")[key] = val
+                else:
+                    for r in record:
+                        if isinstance(r, dict):
+                            r.get("tags")[key] = val
+                        elif isinstance(r, Point):
+                            r.tag(key, val)
 
         final_string = self._serialize(record, write_precision)
 

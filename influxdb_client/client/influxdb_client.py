@@ -9,7 +9,7 @@ from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
-from influxdb_client.client.write_api import WriteApi, WriteOptions
+from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
 
 
 class InfluxDBClient(object):
@@ -45,14 +45,15 @@ class InfluxDBClient(object):
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
                                     header_value=auth_header_value)
 
-    def write_api(self, write_options=WriteOptions()) -> WriteApi:
+    def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
         Creates a Write API instance
 
+        :param point_settings:
         :param write_options: write api configuration
         :return: write api instance
         """
-        return WriteApi(influxdb_client=self, write_options=write_options)
+        return WriteApi(influxdb_client=self, write_options=write_options, point_settings=point_settings)
 
     def query_api(self) -> QueryApi:
         """
