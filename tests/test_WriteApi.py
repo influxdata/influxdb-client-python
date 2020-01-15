@@ -470,7 +470,7 @@ class DefaultTagsConfiguration(BaseTest):
 
     def test_connection_option_from_conf_file(self):
         self.client.close()
-        self.client = InfluxDBClient.from_config_file("config.ini", self.debug)
+        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/config.ini", self.debug)
 
         self._check_connection_settings()
 
@@ -490,7 +490,7 @@ class DefaultTagsConfiguration(BaseTest):
 
     def test_default_tags_from_conf_file(self):
         self.client.close()
-        self.client = InfluxDBClient.from_config_file("config.ini", self.debug)
+        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/config.ini", self.debug)
 
         self._write_point()
 
