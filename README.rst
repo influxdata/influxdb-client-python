@@ -177,6 +177,7 @@ Supported properties are:
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
 
 .. code-block:: python
+
     self.client = InfluxDBClient.from_env_properties()
 
 .. marker-index-end
