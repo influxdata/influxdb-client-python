@@ -1,5 +1,8 @@
 from __future__ import absolute_import
 
+import configparser
+import os
+
 from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
@@ -14,7 +17,8 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettin
 
 class InfluxDBClient(object):
 
-    def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None) -> None:
+    def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None,
+                 default_tags: dict = None) -> None:
         """
         :class:`influxdb_client.InfluxDBClient` is client for HTTP API defined
         in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml.
@@ -33,6 +37,8 @@ class InfluxDBClient(object):
         self.timeout = timeout
         self.org = org
 
+        self.default_tags = default_tags
+
         conf = _Configuration()
         conf.host = self.url
         conf.enable_gzip = enable_gzip
@@ -44,6 +50,50 @@ class InfluxDBClient(object):
 
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
                                     header_value=auth_header_value)
+
+    @classmethod
+    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+        config = configparser.ConfigParser()
+        config.read(config_file)
+
+        url = config['influx2']['url']
+        token = config['influx2']['token']
+
+        timeout = None
+
+        if config.has_option('influx2', 'timeout'):
+            timeout = config['influx2']['timeout']
+
+        org = None
+
+        if config.has_option('influx2', 'org'):
+            org = config['influx2']['org']
+
+        default_tags = None
+
+        if config.has_section('tags'):
+            default_tags = dict(config.items('tags'))
+
+        if timeout:
+            return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
+                       enable_gzip=enable_gzip)
+
+        return cls(url, token, debug=debug, org=org, default_tags=default_tags, enable_gzip=enable_gzip)
+
+    @classmethod
+    def from_env_properties(cls, debug=None, enable_gzip=False):
+        url = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999")
+        token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
+        timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
+        org = os.getenv('INFLUXDB_V2_ORG', "my-org")
+
+        default_tags = dict()
+
+        for key, value in os.environ.items():
+            if key.startswith("INFLUXDB_V2_TAG_"):
+                default_tags[key[16:].lower()] = value
+
+        return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags, enable_gzip=enable_gzip)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """

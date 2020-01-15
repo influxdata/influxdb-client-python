@@ -6,6 +6,7 @@ from random import random
 from time import sleep
 from typing import Union, List
 
+import configparser
 import os
 
 import rx
@@ -138,6 +139,11 @@ class WriteApi(AbstractClient):
         self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
         self._point_settings = point_settings
+
+        if influxdb_client.default_tags:
+            for key, value in influxdb_client.default_tags.items():
+                self._point_settings.add_default_tag(key, value)
+
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
