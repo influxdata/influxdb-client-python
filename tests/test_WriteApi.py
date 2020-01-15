@@ -470,6 +470,7 @@ class DefaultTagsConfiguration(BaseTest):
 
     def test_connection_option_from_conf_file(self):
         self.client.close()
+        print(os.getcwd())
         os.chdir("../tests")
         self.client = InfluxDBClient.from_config_file(os.getcwd() + "/config.ini", self.debug)
 
