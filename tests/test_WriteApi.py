@@ -476,7 +476,7 @@ class DefaultTagsConfiguration(BaseTest):
     def _check_connection_settings(self):
         self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
 
-        self.assertEqual(os.environ("INFLUXDB_V2_URL"), self.client.url)
+        self.assertEqual(os.getenv("INFLUXDB_V2_URL"), self.client.url)
         self.assertEqual("my-org", self.client.org)
         self.assertEqual("my-token", self.client.token)
         self.assertEqual(6000, self.client.timeout)
