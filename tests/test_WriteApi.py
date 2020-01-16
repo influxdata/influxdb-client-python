@@ -77,7 +77,6 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(bucket.name, self.org, record_list)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -109,7 +108,6 @@ class SynchronousWriteTest(BaseTest):
         p.field(field_name, utf8_val)
         p.tag(tag, tag_value)
         record_list = [p]
-        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
@@ -147,7 +145,6 @@ class SynchronousWriteTest(BaseTest):
         p2.time(2)
 
         record_list = [p, p2]
-        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
@@ -304,7 +301,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -344,7 +340,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -379,7 +374,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -516,7 +510,6 @@ class DefaultTagsConfiguration(BaseTest):
         p.tag(tag, tag_value)
 
         record_list = [p]
-        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
