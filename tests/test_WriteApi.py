@@ -449,7 +449,6 @@ class DefaultTagsConfiguration(BaseTest):
         self.customer_tag = "California Miner"
         self.data_center_key = "data_center"
 
-        os.environ['INFLUXDB_V2_URL'] = "http://localhost:9999"
         os.environ['INFLUXDB_V2_TOKEN'] = "my-token"
         os.environ['INFLUXDB_V2_TIMEOUT'] = "6000"
         os.environ['INFLUXDB_V2_ORG'] = "my-org"
