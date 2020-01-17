@@ -1,4 +1,4 @@
-## 1.3.0 [unreleased]
+## 1.3.0 [2020-01-17]
 
 ### Features
 1. [#50](https://github.com/influxdata/influxdb-client-python/issues/50): Implemented default tags
