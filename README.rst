@@ -136,7 +136,50 @@ Please follow the `Installation`_ and then run the following:
        for cell in row:
            val_count += 1
 
+
 .. marker-query-end
+
+Client configuration
+--------------------
+
+Via File
+^^^^^^^^
+A client can be configured via ``*.ini`` file in segment ``influx2``.
+
+The following options are supported:
+
+- ``url`` - the url to connect to InfluxDB
+- ``org`` - default destination organization for writes and queries
+- ``token`` - the token to use for the authorization
+- ``timeout`` - socket timeout in ms (default value is 10000)
+
+.. code-block:: python
+
+    self.client = InfluxDBClient.from_config_file("config.ini")
+
+.. code-block::
+
+    [influx2]
+    url=http://localhost:9999
+    org=my-org
+    token=my-token
+    timeout=6000
+
+Via Environment Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+A client can be configured via environment properties.
+
+Supported properties are:
+
+- ``INFLUXDB_V2_URL`` - the url to connect to InfluxDB
+- ``INFLUXDB_V2_ORG`` - default destination organization for writes and queries
+- ``INFLUXDB_V2_TOKEN`` - the token to use for the authorization
+- ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
+
+.. code-block:: python
+
+    self.client = InfluxDBClient.from_env_properties()
+
 .. marker-index-end
 
 
@@ -264,6 +307,9 @@ The expressions:
 - ``California Miner`` - static value
 - ``${env.hostname}`` - environment property
 
+Via API
+_______
+
 .. code-block:: python
 
     point_settings = PointSettings()
@@ -278,6 +324,42 @@ The expressions:
     self.write_client = self.client.write_api(write_options=SYNCHRONOUS,
                                                   point_settings=PointSettings(**{"id": "132-987-655",
                                                                                   "customer": "California Miner"}))
+
+Via Configuration file
+______________________
+
+In a ini configuration file you are able to specify default tags by ``tags`` segment.
+
+.. code-block:: python
+
+    self.client = InfluxDBClient.from_config_file("config.ini")
+
+.. code-block::
+
+    [influx2]
+    url=http://localhost:9999
+    org=my-org
+    token=my-token
+    timeout=6000
+
+    [tags]
+    id = 132-987-655
+    customer = California Miner
+    data_center = ${env.data_center}
+
+Via Environment Properties
+__________________________
+You are able to specify default tags by environment properties with prefix ``INFLUXDB_V2_TAG_``.
+
+Examples:
+
+- ``INFLUXDB_V2_TAG_ID``
+- ``INFLUXDB_V2_TAG_HOSTNAME``
+
+.. code-block:: python
+
+    self.client = InfluxDBClient.from_env_properties()
+
 .. marker-default-tags-end
 
 Asynchronous client

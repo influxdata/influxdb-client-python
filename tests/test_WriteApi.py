@@ -8,7 +8,7 @@ import unittest
 import time
 from multiprocessing.pool import ApplyResult
 
-from influxdb_client import Point, WritePrecision
+from influxdb_client import Point, WritePrecision, InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS, PointSettings
 from influxdb_client.rest import ApiException
 from tests.base_test import BaseTest
@@ -77,7 +77,6 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(bucket.name, self.org, record_list)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -109,7 +108,6 @@ class SynchronousWriteTest(BaseTest):
         p.field(field_name, utf8_val)
         p.tag(tag, tag_value)
         record_list = [p]
-        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
@@ -147,7 +145,6 @@ class SynchronousWriteTest(BaseTest):
         p2.time(2)
 
         record_list = [p, p2]
-        print(record_list)
 
         self.write_client.write(bucket.name, self.org, record_list)
 
@@ -304,7 +301,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -344,7 +340,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -379,7 +374,6 @@ class AsynchronousWriteTest(BaseTest):
         time.sleep(1)
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(query)
 
         flux_result = self.client.query_api().query(query)
 
@@ -442,6 +436,92 @@ class PointSettingTest(BaseTest):
         self.assertEqual(self.id_tag, default_tags.get("id"))
         self.assertEqual(self.customer_tag, default_tags.get("customer"))
         self.assertEqual("LA", default_tags.get("data_center"))
+
+
+class DefaultTagsConfiguration(BaseTest):
+
+    def setUp(self) -> None:
+        super().setUp()
+
+        os.environ['data_center'] = "LA"
+
+        self.id_tag = "132-987-655"
+        self.customer_tag = "California Miner"
+        self.data_center_key = "data_center"
+
+        os.environ['INFLUXDB_V2_TOKEN'] = "my-token"
+        os.environ['INFLUXDB_V2_TIMEOUT'] = "6000"
+        os.environ['INFLUXDB_V2_ORG'] = "my-org"
+
+        os.environ['INFLUXDB_V2_TAG_ID'] = self.id_tag
+        os.environ['INFLUXDB_V2_TAG_CUSTOMER'] = self.customer_tag
+        os.environ['INFLUXDB_V2_TAG_DATA_CENTER'] = "${env.data_center}"
+
+    def tearDown(self) -> None:
+        self.write_client.__del__()
+        super().tearDown()
+
+    def test_connection_option_from_conf_file(self):
+        self.client.close()
+        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/tests/config.ini", self.debug)
+
+        self._check_connection_settings()
+
+    def test_connection_option_from_env(self):
+        self.client.close()
+        self.client = InfluxDBClient.from_env_properties(self.debug)
+
+        self._check_connection_settings()
+
+    def _check_connection_settings(self):
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
+
+        self.assertEqual(os.getenv("INFLUXDB_V2_URL"), self.client.url)
+        self.assertEqual("my-org", self.client.org)
+        self.assertEqual("my-token", self.client.token)
+        self.assertEqual(6000, self.client.timeout)
+
+    def test_default_tags_from_conf_file(self):
+        self.client.close()
+        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/tests/config.ini", self.debug)
+
+        self._write_point()
+
+    def test_default_tags_from_env(self):
+        self.client.close()
+        self.client = InfluxDBClient.from_env_properties(self.debug)
+
+        self._write_point()
+
+    def _write_point(self):
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
+
+        bucket = self.create_test_bucket()
+
+        measurement = "h2o_feet"
+        field_name = "water_level"
+        val = "1.0"
+        tag = "location"
+        tag_value = "creek level"
+
+        p = Point(measurement)
+        p.field(field_name, val)
+        p.tag(tag, tag_value)
+
+        record_list = [p]
+
+        self.write_client.write(bucket.name, self.org, record_list)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        flux_result = self.client.query_api().query(query)
+        self.assertEqual(1, len(flux_result))
+        rec = flux_result[0].records[0]
+
+        self.assertEqual(self.id_tag, rec["id"])
+        self.assertEqual(self.customer_tag, rec["customer"])
+        self.assertEqual("LA", rec[self.data_center_key])
+
+        self.delete_test_bucket(bucket)
 
 
 if __name__ == '__main__':
