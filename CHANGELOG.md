@@ -1,8 +1,12 @@
-## 1.3.0 [unreleased]
+## 1.4.0 [unreleased]
+
+### Features
+1. [#52](https://github.com/influxdata/influxdb-client-python/issues/52): Initialize client library from config file and environmental properties
+
+## 1.3.0 [2020-01-17]
 
 ### Features
 1. [#50](https://github.com/influxdata/influxdb-client-python/issues/50): Implemented default tags
-2. [#52](https://github.com/influxdata/influxdb-client-python/issues/52): Initialize client library from config file and environmental properties
 
 ### API
 1. [#47](https://github.com/influxdata/influxdb-client-python/pull/47): Updated swagger to latest version
