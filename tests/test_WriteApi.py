@@ -463,27 +463,28 @@ class DefaultTagsConfiguration(BaseTest):
 
     def test_connection_option_from_conf_file(self):
         self.client.close()
-        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/tests/config.ini", self.debug)
+        self.client = InfluxDBClient.from_config_file(self._path_to_config(), self.debug)
 
+        self.assertEqual("http://localhost:9999", self.client.url)
         self._check_connection_settings()
 
     def test_connection_option_from_env(self):
         self.client.close()
         self.client = InfluxDBClient.from_env_properties(self.debug)
 
+        self.assertEqual("http://localhost:9999", self.client.url)
         self._check_connection_settings()
 
     def _check_connection_settings(self):
         self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
 
-        self.assertEqual(os.getenv("INFLUXDB_V2_URL"), self.client.url)
         self.assertEqual("my-org", self.client.org)
         self.assertEqual("my-token", self.client.token)
         self.assertEqual(6000, self.client.timeout)
 
     def test_default_tags_from_conf_file(self):
         self.client.close()
-        self.client = InfluxDBClient.from_config_file(os.getcwd() + "/tests/config.ini", self.debug)
+        self.client = InfluxDBClient.from_config_file(self._path_to_config(), self.debug)
 
         self._write_point()
 
@@ -522,6 +523,10 @@ class DefaultTagsConfiguration(BaseTest):
         self.assertEqual("LA", rec[self.data_center_key])
 
         self.delete_test_bucket(bucket)
+
+    @staticmethod
+    def _path_to_config():
+        return os.path.dirname(os.path.realpath(__file__)) + "/config.ini"
 
 
 if __name__ == '__main__':
