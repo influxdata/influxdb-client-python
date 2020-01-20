@@ -35,9 +35,9 @@ commands:
           paths:
             - ".venv"
             - "~/.cache/pip"
-            - "/usr/local/lib/python3.8/site-packages"
-            - "/usr/local/lib/python3.7/site-packages"
-            - "/usr/local/lib/python3.6/site-packages"
+            # - "/usr/local/lib/python3.8/site-packages"
+            # - "/usr/local/lib/python3.7/site-packages"
+            # - "/usr/local/lib/python3.6/site-packages"
             - "/usr/local/lib/site-python"
           when: always
 jobs:
