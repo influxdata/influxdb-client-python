@@ -43,7 +43,7 @@ jobs:
     parameters:
       python-image:
         type: string
-        default: &default-python-image "circleci/python:3.6-buster"
+        default: "circleci/python:3.6-buster"
       influxdb-image:
         type: string
         default: "influxdb:2.0.0-beta"
@@ -53,7 +53,7 @@ jobs:
     steps:
       - prepare
       - client-test:
-          python-image: *default-python-image
+          python-image: << parameters.python-image >>
       - store_test_results:
           path: test-reports
       - run:
@@ -72,6 +72,9 @@ workflows:
       - tests-python:
           name: python-3.7
           python-image: "circleci/python:3.7-buster"
+      - tests-python:
+          name: python-3.8
+          python-image: "circleci/python:3.8-buster"
 
   nightly:
     triggers:
