@@ -20,8 +20,8 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v0-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "extra-requirements.txt" }}
-            - pip-cache-v0-<< parameters.python-image >>-
+            - &cache-key pip-cache-v1-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "extra-requirements.txt" }}
+            - pip-cache-v1-<< parameters.python-image >>-
       - run:
           command: |  # use pipenv to install dependencies
             sudo pip install pipenv
@@ -35,7 +35,9 @@ commands:
           paths:
             - ".venv"
             - "~/.cache/pip"
-            - "/usr/local/lib/python*/site-packages"
+            - "/usr/local/lib/python3.8/site-packages"
+            - "/usr/local/lib/python3.7/site-packages"
+            - "/usr/local/lib/python3.6/site-packages"
             - "/usr/local/lib/site-python"
           when: always
 jobs:
