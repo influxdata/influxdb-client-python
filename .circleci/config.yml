@@ -20,7 +20,7 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v2-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
+            - &cache-key pip-cache-v2-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "extra-requirements.txt" }}
             - pip-cache-v2-<< parameters.python-image >>-
       - run:
           command: |  # use pipenv to install dependencies
@@ -33,7 +33,10 @@ commands:
           name: Saving Pip Cache
           key: *cache-key
           paths:
-            - ./cache
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.6/site-packages"
+            - "/usr/local/lib/python3.7/site-packages"
           when: always
 jobs:
   tests-python:
@@ -43,10 +46,10 @@ jobs:
         default: &default-python-image "circleci/python:3.6-buster"
       influxdb-image:
         type: string
-        default: &default-influxdb-image "influxdb:2.0.0-beta"
+        default: "influxdb:2.0.0-beta"
     docker:
       - image: << parameters.python-image >>
-      - image: &influx-image quay.io/influxdb/<< parameters.influxdb-image >>
+      - image: quay.io/influxdb/<< parameters.influxdb-image >>
     steps:
       - prepare
       - client-test:
