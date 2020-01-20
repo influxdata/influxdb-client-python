@@ -5,7 +5,7 @@ commands:
     steps:
       - run:
           name: "Post onBoarding request to InfluxDB 2"
-          command: ./bin/influxdb-onboarding.sh
+          command: ./scripts/influxdb-onboarding.sh
   prepare:
     description: "Prepare environment to tests"
     steps:
