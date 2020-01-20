@@ -6,11 +6,11 @@ set -e
 # Install requirements
 #
 python --version
-pip install -r requirements.txt
-pip install -r extra-requirements.txt
-pip install -r test-requirements.txt
-pip install pytest pytest-cov
-pip install twine
+pip install -r requirements.txt --user
+pip install -r extra-requirements.txt --user
+pip install -r test-requirements.txt --user
+pip install pytest pytest-cov --user
+pip install twine --user
 python setup.py sdist bdist_wheel
 twine check dist/*
 
