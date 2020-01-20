@@ -1,38 +1,30 @@
 version: 2.1
 
 commands:
-  influxdb-restart:
+  influxdb-onboarding:
     steps:
       - run:
-          name: "Start InfluxDB service"
-          command: ./scripts/influxdb-restart.sh
+          name: "Post onBoarding request to InfluxDB 2"
+          command: ./bin/influxdb-onboarding.sh
   prepare:
     description: "Prepare environment to tests"
     steps:
       - checkout
-      - influxdb-restart
+      - influxdb-onboarding
   client-test:
     description: "Run tests"
     parameters:
-      python-version:
+      python-image:
         type: string
-        default: &default-python-version "3"
     steps:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v2-<< parameters.python-version >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
-            - pip-cache-v2-<< parameters.python-version >>-
+            - &cache-key pip-cache-v2-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
+            - pip-cache-v2-<< parameters.python-image >>-
       - run:
           name: "Running tests"
-          command: |
-            docker run -it --rm \
-                   --volume ${PWD}:/usr/src/project \
-                   --volume ${PWD}/.cache:/root/.cache/pip/ \
-                   --workdir /usr/src/project \
-                   --network influx_network \
-                   --env INFLUXDB_V2_URL="http://192.168.0.2:9999" \
-                   python:<< parameters.python-version >> /bin/bash -c "./scripts/ci-test.sh"
+          command: ./scripts/ci-test.sh
       - save_cache:
           name: Saving Pip Cache
           key: *cache-key
@@ -40,22 +32,21 @@ commands:
             - ./cache
           when: always
 jobs:
-  tests-python-3:
-    machine: true
+  tests-python:
     parameters:
-      influxdb-repository:
+      python-image:
         type: string
-        default: "influxdb"
-      influxdb-version:
+        default: &default-python-image "circleci/3.6-buster"
+      influxdb-image:
         type: string
-        default: "2.0.0-beta"
-    environment:
-      INFLUXDB_V2_REPOSITORY: << parameters.influxdb-repository >>
-      INFLUXDB_V2_VERSION: << parameters.influxdb-version >>
+        default: &default-influxdb-image "influxdb:2.0.0-beta"
+    docker:
+      - image: << parameters.python-image >>
+      - image: &influx-image quay.io/influxdb/<< parameters.influxdb-image >>
     steps:
       - prepare
       - client-test:
-          python-version: *default-python-version
+          python-image: *default-python-image
       - store_test_results:
           path: test-reports
       - run:
@@ -66,12 +57,17 @@ workflows:
   version: 2
   build:
     jobs:
-      - tests-python-3:
-          name: test-beta
-      - tests-python-3:
-          name: test-nightly
-          influxdb-repository: "influx"
-          influxdb-version: "nightly"
+      - tests-python:
+          name: python-3.6
+      - tests-python:
+          name: python-3.6-nightly
+          influxdb-image: "influx:nightly"
+      - tests-python:
+          name: python-3.7
+          python-image: "circleci/3.7-buster"
+      - tests-python:
+          name: python-3.5
+          python-image: "circleci/3.5-buster"
 
   nightly:
     triggers:
@@ -82,4 +78,4 @@ workflows:
               only:
                 - master
     jobs:
-      - tests-python-3
+      - tests-python

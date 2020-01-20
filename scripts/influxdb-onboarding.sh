@@ -23,41 +23,17 @@
 
 set -e
 
-DEFAULT_DOCKER_REGISTRY="quay.io/influxdb/"
-DOCKER_REGISTRY="${DOCKER_REGISTRY:-$DEFAULT_DOCKER_REGISTRY}"
-
-DEFAULT_INFLUXDB_V2_REPOSITORY="influxdb"
-DEFAULT_INFLUXDB_V2_VERSION="2.0.0-beta"
-INFLUXDB_V2_REPOSITORY="${INFLUXDB_V2_REPOSITORY:-$DEFAULT_INFLUXDB_V2_REPOSITORY}"
-INFLUXDB_V2_VERSION="${INFLUXDB_V2_VERSION:-$DEFAULT_INFLUXDB_V2_VERSION}"
-INFLUXDB_V2_IMAGE=${DOCKER_REGISTRY}${INFLUXDB_V2_REPOSITORY}:${INFLUXDB_V2_VERSION}
-
-SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-
-docker kill influxdb_v2 || true
-docker rm influxdb_v2 || true
-docker network rm influx_network || true
-docker network create -d bridge influx_network --subnet 192.168.0.0/24 --gateway 192.168.0.1
-
-#
-# InfluxDB 2.0
-#
-echo
-echo "Restarting InfluxDB 2.0 [${INFLUXDB_V2_IMAGE}] ... "
-echo
-
-docker pull ${INFLUXDB_V2_IMAGE} || true
-docker run \
-       --detach \
-       --name influxdb_v2 \
-       --network influx_network \
-       --publish 9999:9999 \
-       ${INFLUXDB_V2_IMAGE}
-
 echo "Wait to start InfluxDB 2.0"
 wget -S --spider --tries=20 --retry-connrefused --waitretry=5 http://localhost:9999/metrics
 
-#
-# Post onBoarding request to InfluxDB 2
-#
-"${SCRIPT_PATH}"/influxdb-onboarding.sh
+echo
+echo "Post onBoarding request, to setup initial user (my-user@my-password), org (my-org) and bucketSetup (my-bucket)"
+echo
+curl -i -X POST http://localhost:9999/api/v2/setup -H 'accept: application/json' \
+    -d '{
+            "username": "my-user",
+            "password": "my-password",
+            "org": "my-org",
+            "bucket": "my-bucket",
+            "token": "my-token"
+        }'
