@@ -34,8 +34,9 @@ commands:
           key: *cache-key
           paths:
             - ".venv"
-            - "/usr/local/bin"
+            - "~/.cache/pip"
             - "/usr/local/lib/python*/site-packages"
+            - "/usr/local/lib/site-python"
           when: always
 jobs:
   tests-python:
