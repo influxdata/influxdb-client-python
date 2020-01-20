@@ -21,7 +21,7 @@ commands:
           name: Restoring Pip Cache
           keys:
             - &cache-key pip-cache-v0-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "extra-requirements.txt" }}
-            - pip-cache-v2-<< parameters.python-image >>-
+            - pip-cache-v0-<< parameters.python-image >>-
       - run:
           command: |  # use pipenv to install dependencies
             sudo pip install pipenv
