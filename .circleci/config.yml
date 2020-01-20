@@ -23,6 +23,10 @@ commands:
             - &cache-key pip-cache-v2-<< parameters.python-image >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}
             - pip-cache-v2-<< parameters.python-image >>-
       - run:
+          command: |  # use pipenv to install dependencies
+            sudo pip install pipenv
+            pipenv install
+      - run:
           name: "Running tests"
           command: ./scripts/ci-test.sh
       - save_cache:
