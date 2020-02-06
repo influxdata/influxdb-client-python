@@ -12,7 +12,7 @@ from rx import operators as ops
 import influxdb_client
 from influxdb_client import WritePrecision, InfluxDBClient
 from influxdb_client.client.write.point import Point
-from influxdb_client.client.write_api import WriteOptions, WriteApi
+from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
 from tests.base_test import BaseTest
 
 
@@ -33,8 +33,8 @@ class BatchingWriteTest(BaseTest):
 
         self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
 
-        write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=3_000)
-        self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=write_options)
+        self.write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=3_000)
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=self.write_options)
 
     def tearDown(self) -> None:
         self._write_client.__del__()
@@ -335,6 +335,35 @@ class BatchingWriteTest(BaseTest):
 
         self.assertEqual(1, len(_requests))
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1", _requests[0].parsed_body)
+
+    def test_default_tags(self):
+        self._write_client.__del__()
+
+        self.id_tag = "132-987-655"
+        self.customer_tag = "California Miner"
+
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=1),
+                                      point_settings=PointSettings(**{"id": self.id_tag,
+                                                                      "customer": self.customer_tag}))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        _point1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
+                       "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
+
+        _point_list = [_point1]
+
+        self._write_client.write("my-bucket", "my-org", _point_list)
+
+        time.sleep(1)
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+
+        request = str(requests[0].body)
+        self.assertNotEquals(-1, request.find('customer=California\\\\ Miner'))
+        self.assertNotEquals(-1, request.find('id=132-987-655'))
 
 
 if __name__ == '__main__':

@@ -6,6 +6,9 @@
 ### CI
 1. [#54](https://github.com/influxdata/influxdb-client-python/pull/54): Add Python 3.7 and 3.8 to CI builds
 
+### Bugs
+1. [#56](https://github.com/influxdata/influxdb-client-python/pull/56): Fix default tags for write batching, added new test
+
 ## 1.3.0 [2020-01-17]
 
 ### Features

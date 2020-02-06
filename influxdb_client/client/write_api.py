@@ -186,9 +186,6 @@ class WriteApi(AbstractClient):
         if org is None:
             org = self._influxdb_client.org
 
-        if self._write_options.write_type is WriteType.batching:
-            return self._write_batching(bucket, org, record, write_precision)
-
         if self._point_settings.defaultTags and record:
             for key, val in self._point_settings.defaultTags.items():
                 if isinstance(record, dict):
@@ -199,6 +196,9 @@ class WriteApi(AbstractClient):
                             r.get("tags")[key] = val
                         elif isinstance(r, Point):
                             r.tag(key, val)
+
+        if self._write_options.write_type is WriteType.batching:
+            return self._write_batching(bucket, org, record, write_precision)
 
         final_string = self._serialize(record, write_precision)
 
