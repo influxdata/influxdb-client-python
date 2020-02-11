@@ -38,6 +38,7 @@ setup(
     test_suite='tests',
     python_requires='>=3.6',
     include_package_data=True,
+    data_files=['requirements.txt', 'extra-requirements.txt', 'test-requirements.txt'],
     classifiers = [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
