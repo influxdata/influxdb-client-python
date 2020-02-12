@@ -8,6 +8,7 @@
 
 ### Bugs
 1. [#56](https://github.com/influxdata/influxdb-client-python/pull/56): Fix default tags for write batching, added new test
+1. [#58](https://github.com/influxdata/influxdb-client-python/pull/58): Source distribution also contains: requirements.txt, extra-requirements.txt and test-requirements.txt
 
 ## 1.3.0 [2020-01-17]
 
