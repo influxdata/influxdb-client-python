@@ -159,6 +159,7 @@ class AuthorizationsClientTest(BaseTest):
         authorization = self.authorization_api().update_authorization(authorization)
         self.assertEqual(authorization.status, "active")
 
+    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/16833")
     def test_deleteAuthorization(self):
         create_authorization = self.authorization_api().create_authorization(self.organization.id,
                                                                              self.new_permissions())

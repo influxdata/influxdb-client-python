@@ -362,8 +362,8 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual(1, len(requests))
 
         request = str(requests[0].body)
-        self.assertNotEquals(-1, request.find('customer=California\\\\ Miner'))
-        self.assertNotEquals(-1, request.find('id=132-987-655'))
+        self.assertNotEqual(-1, request.find('customer=California\\\\ Miner'))
+        self.assertNotEqual(-1, request.find('id=132-987-655'))
 
 
 if __name__ == '__main__':
