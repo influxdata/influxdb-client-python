@@ -1,4 +1,6 @@
-## 1.4.0 [unreleased]
+## 1.5.0 [unreleased]
+
+## 1.4.0 [2020-02-14]
 
 ### Features
 1. [#52](https://github.com/influxdata/influxdb-client-python/issues/52): Initialize client library from config file and environmental properties
