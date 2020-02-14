@@ -28,6 +28,10 @@ influxdb-client-python
    :target: https://influxdb-client.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
 
+.. image:: https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social
+   :target: https://www.influxdata.com/slack
+   :alt: Slack Status
+
 .. _documentation: https://influxdb-client.readthedocs.io
 
 InfluxDB 2.0 python client library.
