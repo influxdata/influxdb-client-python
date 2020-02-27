@@ -52,6 +52,7 @@ class FluxCsvParser(object):
         start_new_table = False
         table = None
         parsing_state_error = False
+        table_base_index = 0
 
         for csv in self._reader:
             # debug
@@ -80,6 +81,7 @@ class FluxCsvParser(object):
                     yield self._prepare_data_frame()
 
                 start_new_table = True
+                table_base_index = table_index
                 table = FluxTable()
                 self._insert_table(table, table_index)
                 table_index = table_index + 1
@@ -111,7 +113,7 @@ class FluxCsvParser(object):
                     continue
 
                 # to int converions todo
-                current_index = int(csv[2])
+                current_index = int(csv[2]) + table_base_index
 
                 if current_index > (table_index - 1):
                     # create    new        table       with previous column headers settings
