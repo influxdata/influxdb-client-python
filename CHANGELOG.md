@@ -1,5 +1,8 @@
 ## 1.5.0 [unreleased]
 
+### Features
+1. [#59](https://github.com/influxdata/influxdb-client-python/issues/59): Set User-Agent to influxdb-client-python/VERSION for all requests
+
 ## 1.4.0 [2020-02-14]
 
 ### Features
