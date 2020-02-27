@@ -365,6 +365,19 @@ class BatchingWriteTest(BaseTest):
         self.assertNotEqual(-1, request.find('customer=California\\\\ Miner'))
         self.assertNotEqual(-1, request.find('id=132-987-655'))
 
+    def test_user_agent_header(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+
+        time.sleep(1)
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual(f'influxdb-client-python/{influxdb_client.__version__}', requests[0].headers['User-Agent'])
+
 
 if __name__ == '__main__':
     unittest.main()
