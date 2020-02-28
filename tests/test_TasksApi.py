@@ -159,7 +159,6 @@ class TasksApiTest(BaseTest):
         task_by_id = self.tasks_api.find_task_by_id(task.id)
         self.assertEqual(task, task_by_id)
 
-    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/13576")
     @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/11590")
     def test_find_task_by_user_id(self):
         task_user = self.users_api.create_user(self.generate_name("TaskUser"))
@@ -377,9 +376,8 @@ class TasksApiTest(BaseTest):
         assert "failed to cancel run" in e.value.body
         assert "run not found" in e.value.body
 
-    @pytest.mark.skip(reason="uncomment after beta")
     def test_cancel_task_not_exist(self):
         with pytest.raises(ApiException) as e:
             assert self.tasks_api.cancel_run("020f755c3c082000", "020f755c3c082000")
         assert "failed to cancel run" in e.value.body
-        assert "run not found" in e.value.body
+        assert "task not found" in e.value.body

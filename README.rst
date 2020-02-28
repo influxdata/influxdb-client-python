@@ -847,3 +847,30 @@ Gzip support
    _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", enable_gzip=True)
 
 .. marker-gzip-end
+
+Local tests
+-----------
+
+.. code-block:: python
+
+    # start/restart InfluxDB2 on local machine using docker
+    ./scripts/influxdb-restart.sh
+
+    # install requirements
+    pip install -r requirements.txt --user
+    pip install -r extra-requirements.txt --user
+    pip install -r test-requirements.txt --user
+
+    # run unit & integration tests
+    pytest tests
+
+
+Contributing
+------------
+
+Bug reports and pull requests are welcome on GitHub at `https://github.com/influxdata/influxdb-client-python <https://github.com/influxdata/influxdb-client-python>`_.
+
+License
+-------
+
+The gem is available as open source under the terms of the `MIT License <https://opensource.org/licenses/MIT>`_.
