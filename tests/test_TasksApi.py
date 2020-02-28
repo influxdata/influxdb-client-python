@@ -377,7 +377,6 @@ class TasksApiTest(BaseTest):
         assert "failed to cancel run" in e.value.body
         assert "run not found" in e.value.body
 
-    @pytest.mark.skip(reason="uncomment after beta")
     def test_cancel_task_not_exist(self):
         with pytest.raises(ApiException) as e:
             assert self.tasks_api.cancel_run("020f755c3c082000", "020f755c3c082000")
