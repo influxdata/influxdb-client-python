@@ -49,6 +49,7 @@ class FluxCsvParser(object):
 
     def _parse_flux_response(self):
         table_index = 0
+        table_id = -1
         start_new_table = False
         table = None
         parsing_state_error = False
@@ -83,6 +84,7 @@ class FluxCsvParser(object):
                 table = FluxTable()
                 self._insert_table(table, table_index)
                 table_index = table_index + 1
+                table_id = -1
             elif table is None:
                 raise FluxCsvParserException("Unable to parse CSV response. FluxTable definition was not found.")
 
@@ -111,15 +113,18 @@ class FluxCsvParser(object):
                     continue
 
                 # to int converions todo
-                current_index = int(csv[2])
+                current_id = int(csv[2])
+                if table_id == -1:
+                    table_id = current_id
 
-                if current_index > (table_index - 1):
+                if table_id != current_id:
                     # create    new        table       with previous column headers settings
                     flux_columns = table.columns
                     table = FluxTable()
                     table.columns.extend(flux_columns)
                     self._insert_table(table, table_index)
                     table_index = table_index + 1
+                    table_id = current_id
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
 
