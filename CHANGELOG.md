@@ -3,6 +3,9 @@
 ### Features
 1. [#59](https://github.com/influxdata/influxdb-client-python/issues/59): Set User-Agent to influxdb-client-python/VERSION for all requests
 
+### Bugs
+1. [#61](https://github.com/influxdata/influxdb-client-python/issues/61): Correctly parse CSV where multiple results include multiple tables
+
 ## 1.4.0 [2020-02-14]
 
 ### Features
