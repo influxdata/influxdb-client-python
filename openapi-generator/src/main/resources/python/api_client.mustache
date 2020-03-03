@@ -77,6 +77,8 @@ class ApiClient(object):
             self._pool.close()
             self._pool.join()
             self._pool = None
+        if self.rest_client and self.rest_client.pool_manager and hasattr(self.rest_client.pool_manager, 'clear'):
+            self.rest_client.pool_manager.clear()
 
     @property
     def pool(self):
