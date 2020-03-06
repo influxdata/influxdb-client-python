@@ -112,3 +112,4 @@ sandbox
 
 # OpenAPI-generator
 /.openapi-generator*
+/tests/writer.pickle

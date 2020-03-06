@@ -52,6 +52,17 @@ class WriteOptions(object):
         self.retry_interval = retry_interval
         self.write_scheduler = write_scheduler
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        # Remove write scheduler
+        del state['write_scheduler']
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        # Init default write Scheduler
+        self.write_scheduler = ThreadPoolScheduler(max_workers=1)
+
 
 SYNCHRONOUS = WriteOptions(write_type=WriteType.synchronous)
 ASYNCHRONOUS = WriteOptions(write_type=WriteType.asynchronous)
@@ -322,3 +333,16 @@ class WriteApi(AbstractClient):
     def _on_complete(self):
         self._disposable.dispose()
         logger.info("the batching processor was disposed")
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        # Remove rx
+        del state['_subject']
+        del state['_disposable']
+        del state['_write_service']
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        # Init Rx
+        self.__init__(self._influxdb_client, self._write_options, self._point_settings)
