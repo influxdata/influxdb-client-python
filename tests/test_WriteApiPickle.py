@@ -1,4 +1,7 @@
 import pickle
+import sys
+
+import pytest
 
 from influxdb_client import InfluxDBClient, WriteOptions
 from influxdb_client.client.write_api import WriteType
@@ -28,6 +31,7 @@ class WriteApiPickle(BaseTest):
     def tearDown(self) -> None:
         super().tearDown()
 
+    @pytest.mark.skipif(sys.version_info < (3, 7), reason="requires python3.7 or higher")
     def test_write_line_protocol(self):
         writer = InfluxDBWriterToPickle()
 
