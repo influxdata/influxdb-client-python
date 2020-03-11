@@ -87,6 +87,7 @@ celerybeat-schedule
 .venv
 env/
 venv/
+venv-*/
 ENV/
 env.bak/
 venv.bak/
@@ -112,3 +113,4 @@ sandbox
 
 # OpenAPI-generator
 /.openapi-generator*
+/tests/writer.pickle

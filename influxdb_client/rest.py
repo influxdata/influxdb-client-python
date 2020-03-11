@@ -58,6 +58,10 @@ class RESTClientObject(object):
         # maxsize is the number of requests to host that are allowed in parallel  # noqa: E501
         # Custom SSL certificates and client certificates: http://urllib3.readthedocs.io/en/latest/advanced-usage.html  # noqa: E501
 
+        self.configuration = configuration
+        self.pools_size = pools_size
+        self.maxsize = maxsize
+
         # cert_reqs
         if configuration.verify_ssl:
             cert_reqs = ssl.CERT_REQUIRED
@@ -292,6 +296,17 @@ class RESTClientObject(object):
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
                             body=body)
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        # Remove Pool managaer
+        del state['pool_manager']
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        # Init Pool manager
+        self.__init__(self.configuration, self.pools_size, self.maxsize)
 
 
 class ApiException(Exception):
