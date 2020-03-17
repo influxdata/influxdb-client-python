@@ -45,6 +45,21 @@ class Point(object):
         self._write_precision = DEFAULT_WRITE_PRECISION
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
+        """
+        Specify timestamp for DataPoint with declared precision.
+        If time doesn't have specified timezone we assume that timezone is UTC.
+
+        Examples::
+            Point.measurement("h2o").field("val", 1).time("2009-11-10T23:00:00.123456Z")
+            Point.measurement("h2o").field("val", 1).time(1257894000123456000)
+            Point.measurement("h2o").field("val", 1).time(datetime(2009, 11, 10, 23, 0, 0, 123456))
+            Point.measurement("h2o").field("val", 1).time(1257894000123456000, write_precision=WritePrecision.NS)
+
+
+        :param time: the timestamp for your data
+        :param write_precision: sets the precision for the supplied time values
+        :return: this point
+        """
         self._write_precision = write_precision
         self._time = time
         return self

@@ -185,13 +185,14 @@ class PointTest(BaseTest):
         self.assertTrue("." not in lineProtocol)
 
     def test_DateTimeUtc(self):
-        dateTime = datetime(2015, 10, 15, 8, 20, 15)
+        date_time = datetime(2015, 10, 15, 8, 20, 15)
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
-            .field("level", 2)
+            .field("level", 2) \
+            .time(date_time)
 
-        # Assert.Throws < ArgumentException > (() = > point.time(dateTime, WritePrecision.Ms))
+        self.assertEqual("h2o,location=europe level=2i 1444897215000000000", point.to_line_protocol())
 
     def test_InstantFormatting(self):
         instant = "1970-01-01T00:00:45.999999999Z"
@@ -287,6 +288,21 @@ class PointTest(BaseTest):
             .field("flout-nan", float('nan'))
 
         self.assertEqual("", _point.to_line_protocol())
+
+    def test_timezone(self):
+        """Test timezone in TestLineProtocol object."""
+        dt = datetime(2009, 11, 10, 23, 0, 0, 123456)
+        utc = UTC.localize(dt)
+        berlin = timezone('Europe/Berlin').localize(dt)
+        eastern = berlin.astimezone(timezone('US/Eastern'))
+
+        self.assertEqual("h2o val=1i 0", Point.measurement("h2o").field("val", 1).time(0).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time("2009-11-10T23:00:00.123456Z").to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(utc).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(dt).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(1257894000123456000, write_precision=WritePrecision.NS).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257890400123456000", Point.measurement("h2o").field("val", 1).time(eastern).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257890400123456000", Point.measurement("h2o").field("val", 1).time(berlin).to_line_protocol())
 
 
 if __name__ == '__main__':
