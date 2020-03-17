@@ -34,6 +34,7 @@ class FluxCsvParser(object):
         self.tables = []
         self._serialization_mode = serialization_mode
         self._data_frame_index = data_frame_index
+        self._data_frame_values = []
         pass
 
     def __enter__(self):
@@ -135,20 +136,27 @@ class FluxCsvParser(object):
                     yield flux_record
 
                 if self._serialization_mode is FluxSerializationMode.dataFrame:
-                    self._data_frame.loc[len(self._data_frame.index)] = flux_record.values
+                    self._data_frame_values.append(flux_record.values)
                     pass
-
-                # debug
-                # print(flux_record)
 
         # Return latest DataFrame
         if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
             yield self._prepare_data_frame()
 
     def _prepare_data_frame(self):
+        from ..extras import pd
+
+        # We have to create temporary DataFrame because we want to preserve default column values
+        _temp_df = pd.DataFrame(self._data_frame_values)
+        self._data_frame_values = []
+
+        # Custom DataFrame index
         if self._data_frame_index:
             self._data_frame = self._data_frame.set_index(self._data_frame_index)
-        return self._data_frame
+            _temp_df = _temp_df.set_index(self._data_frame_index)
+
+        # Append data
+        return self._data_frame.append(_temp_df)
 
     def parse_record(self, table_index, table, csv):
         record = FluxRecord(table_index)

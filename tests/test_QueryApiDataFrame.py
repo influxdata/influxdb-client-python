@@ -1,9 +1,13 @@
+import random
+
 import httpretty
+import rx
 from pandas import DataFrame
 from pandas._libs.tslibs.timestamps import Timestamp
+from rx import operators as ops
 
-from influxdb_client import InfluxDBClient
-from tests.base_test import BaseTest
+from influxdb_client import InfluxDBClient, Point, WritePrecision, WriteOptions
+from tests.base_test import BaseTest, current_milli_time
 
 
 class QueryDataFrameApi(BaseTest):
@@ -250,3 +254,37 @@ class QueryDataFrameApi(BaseTest):
                               Timestamp('2019-11-12 08:09:07+0000'), Timestamp('2019-11-12 08:09:08+0000'),
                               Timestamp('2019-11-12 08:09:09+0000')], list(_dataFrames[2].index))
         self.assertEqual(5, len(_dataFrames[2]))
+
+
+class QueryDataFrameIntegrationApi(BaseTest):
+
+    def test_large_amount_of_data(self):
+        _measurement_name = "data_frame_" + str(current_milli_time())
+
+        def _create_point(index) -> Point:
+            return Point(_measurement_name) \
+                .tag("deviceType", str(random.choice(['A', 'B']))) \
+                .tag("name", random.choice(['A', 'B'])) \
+                .field("uuid", random.randint(0, 10_000)) \
+                .field("co2", random.randint(0, 10_000)) \
+                .field("humid", random.randint(0, 10_000)) \
+                .field("lux", random.randint(0, 10_000)) \
+                .field("water", random.randint(0, 10_000)) \
+                .field("shine", random.randint(0, 10_000)) \
+                .field("temp", random.randint(0, 10_000)) \
+                .field("voc", random.randint(0, 10_000)) \
+                .time(time=(1583828781 + index), write_precision=WritePrecision.S)
+
+        data = rx.range(0, 2_000).pipe(ops.map(lambda index: _create_point(index)))
+
+        write_api = self.client.write_api(write_options=WriteOptions(batch_size=500))
+        write_api.write(org="my-org", bucket="my-bucket", record=data, write_precision=WritePrecision.S)
+        write_api.__del__()
+
+        query = 'from(bucket: "my-bucket")' \
+                '|> range(start: 2020-02-19T23:30:00Z, stop: now())' \
+                f'|> filter(fn: (r) => r._measurement == "{_measurement_name}")'
+
+        result = self.client.query_api().query_data_frame(org="my-org", query=query)
+
+        self.assertGreater(len(result), 1)
