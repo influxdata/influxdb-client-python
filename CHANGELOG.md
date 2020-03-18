@@ -1,5 +1,8 @@
 ## 1.6.0 [unreleased]
 
+### Bugs
+1. [#72](https://github.com/influxdata/influxdb-client-python/issues/72): Optimize serializing data into Pandas DataFrame
+
 ## 1.5.0 [2020-03-13]
 
 ### Features
