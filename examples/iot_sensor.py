@@ -67,7 +67,7 @@ _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="
 Create client that writes data into InfluxDB
 """
 _write_api = _db_client.write_api(write_options=WriteOptions(batch_size=1))
-_write_api.write(org="my-org", bucket="my-bucket", record=data)
+_write_api.write(bucket="my-bucket", record=data)
 
 """
 Call after terminate a script

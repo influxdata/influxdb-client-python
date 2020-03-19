@@ -128,7 +128,7 @@ Please follow the `Installation`_ and then run the following:
 
    p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
 
-   write_api.write(bucket=bucket, org="my-org", record=p)
+   write_api.write(bucket=bucket, record=p)
 
    ## using Table structure
    tables = query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
@@ -435,7 +435,7 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
     _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
 
-    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+    write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
     """
     Query: using Table structure
@@ -514,7 +514,7 @@ The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pyd
     _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
     _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
 
-    write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+    write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
     """
     Query: using Pandas DataFrame
@@ -624,7 +624,7 @@ If you would like to import gigabytes of data then use our multiprocessing examp
    """
    Write data into InfluxDB
    """
-   write_api.write(org="my-org", bucket="my-bucket", record=data)
+   write_api.write(bucket="my-bucket", record=data)
    write_api.__del__()
 
    """
@@ -634,7 +634,7 @@ If you would like to import gigabytes of data then use our multiprocessing examp
            ' |> range(start: 0, stop: now())' \
            ' |> filter(fn: (r) => r._measurement == "financial-analysis")' \
            ' |> max()'
-   result = client.query_api().query(org="my-org", query=query)
+   result = client.query_api().query(query=query)
 
    """
    Processing results
@@ -729,7 +729,7 @@ Efficiency write data from IOT sensor
    Create client that writes data into InfluxDB
    """
    _write_api = _db_client.write_api(write_options=WriteOptions(batch_size=1))
-   _write_api.write(org="my-org", bucket="my-bucket", record=data)
+   _write_api.write(bucket="my-bucket", record=data)
 
 
    """

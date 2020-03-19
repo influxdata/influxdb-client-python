@@ -13,7 +13,7 @@ Prepare data
 _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
 _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
 
-write_api.write(bucket="my-bucket", org="my-org", record=[_point1, _point2])
+write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
 """
 Query: using Table structure

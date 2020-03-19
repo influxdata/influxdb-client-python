@@ -70,7 +70,7 @@ write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush
 """
 Write data into InfluxDB
 """
-write_api.write(org="my-org", bucket="my-bucket", record=data)
+write_api.write(bucket="my-bucket", record=data)
 write_api.__del__()
 
 """
@@ -80,7 +80,7 @@ query = 'from(bucket:"my-bucket")' \
         ' |> range(start: 0, stop: now())' \
         ' |> filter(fn: (r) => r._measurement == "financial-analysis")' \
         ' |> max()'
-result = client.query_api().query(org="my-org", query=query)
+result = client.query_api().query(query=query)
 
 """
 Processing results
