@@ -1,5 +1,8 @@
 ## 1.6.0 [unreleased]
 
+### Documentation
+1. [#75](https://github.com/influxdata/influxdb-client-python/issues/75): Updated docs to clarify how to use an org parameter
+
 ### Bugs
 1. [#72](https://github.com/influxdata/influxdb-client-python/issues/72): Optimize serializing data into Pandas DataFrame
 

@@ -53,7 +53,7 @@ class InfluxDBWriter(multiprocessing.Process):
                 self.terminate()
                 self.queue.task_done()
                 break
-            self.write_api.write(org="my-org", bucket="my-bucket", record=next_task)
+            self.write_api.write(bucket="my-bucket", record=next_task)
             self.queue.task_done()
 
     def terminate(self) -> None:
@@ -200,7 +200,7 @@ query = 'from(bucket:"my-bucket")' \
         '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
 
 client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
-result = client.query_api().query(org="my-org", query=query)
+result = client.query_api().query(query=query)
 
 """
 Processing results

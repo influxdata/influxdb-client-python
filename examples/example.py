@@ -14,13 +14,13 @@ query_api = client.query_api()
 p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3).time(datetime.now(), WritePrecision.MS)
 
 # write using point structure
-write_api.write(org="my-org", bucket=bucket, record=p)
+write_api.write(bucket=bucket, record=p)
 
 line_protocol = p.to_line_protocol()
 print(line_protocol)
 
 # write using line protocol string
-write_api.write(org="my-org", bucket=bucket, record=line_protocol)
+write_api.write(bucket=bucket, record=line_protocol)
 
 # using Table structure
 tables = query_api.query('from(bucket:"my-bucket") |> range(start: -1m)')

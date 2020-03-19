@@ -60,7 +60,7 @@ def main():
     client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
     write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
-    write_api.write(org="my-org", bucket="my-bucket", record=data)
+    write_api.write(bucket="my-bucket", record=data)
     write_api.__del__()
 
     query = '''
@@ -72,7 +72,7 @@ def main():
             |> drop(columns: ["_start", "_stop", "table", "_field","_measurement"])
     '''
 
-    result = client.query_api().query_data_frame(org="my-org", query=query)
+    result = client.query_api().query_data_frame(query=query)
     print(result.head(100))
 
     """
