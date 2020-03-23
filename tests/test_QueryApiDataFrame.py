@@ -7,6 +7,7 @@ from pandas._libs.tslibs.timestamps import Timestamp
 from rx import operators as ops
 
 from influxdb_client import InfluxDBClient, Point, WritePrecision, WriteOptions
+from influxdb_client.rest import ApiException
 from tests.base_test import BaseTest, current_milli_time
 
 
@@ -288,3 +289,18 @@ class QueryDataFrameIntegrationApi(BaseTest):
         result = self.client.query_api().query_data_frame(org="my-org", query=query)
 
         self.assertGreater(len(result), 1)
+
+    def test_query_without_credentials(self):
+        _client = InfluxDBClient(url="http://localhost:9999", token="my-token-wrong-credentials", org="my-org")
+
+        with self.assertRaises(ApiException) as ae:
+            query = 'from(bucket: "my-bucket")' \
+                    '|> range(start: 2020-02-19T23:30:00Z, stop: now())' \
+                    f'|> filter(fn: (r) => r._measurement == "my-measurement")'
+            _client.query_api().query_data_frame(query=query)
+
+        exception = ae.exception
+        self.assertEqual(401, exception.status)
+        self.assertEqual("Unauthorized", exception.reason)
+
+        _client.close()
