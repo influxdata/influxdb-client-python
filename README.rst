@@ -74,10 +74,15 @@ InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`__ - The 
 
 .. note::
 
+    The client uses ``ciso8601`` for parsing dates. ``ciso8601`` is much faster than built-in Python datetime. Since it's written as a ``C`` module the best way is build it from sources:
+
     **Windows**:
 
-    The client uses ``ciso8601`` for parsing dates. ``ciso8601`` is much faster than built-in Python datetime.
-    Since it's written as a ``C`` module you have to install `Visual C++ Build Tools 2015 <http://go.microsoft.com/fwlink/?LinkId=691126&fixForIE=.exe>`_ to build ``ciso8601`` binaries.
+    You have to install `Visual C++ Build Tools 2015 <http://go.microsoft.com/fwlink/?LinkId=691126&fixForIE=.exe>`_ to build ``ciso8601`` by ``pip``.
+
+    **conda**:
+
+    Install from sources: ``conda install -c conda-forge/label/cf202003 ciso8601``.
 
 pip install
 ^^^^^^^^^^^
