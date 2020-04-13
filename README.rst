@@ -36,7 +36,7 @@ influxdb-client-python
 
 InfluxDB 2.0 python client library.
 
-**Note: Use this library with InfluxDB 2.x and InfluxDB 1.8+. For connecting to InfluxDB 1.7 or earlier instances, please use the** `influxdb-python <https://github.com/influxdata/influxdb-python>`_ library.
+**Note: Use this client library with InfluxDB 2.x and InfluxDB 1.8+. For connecting to InfluxDB 1.7 or earlier instances, please use the `influxdb-python <https://github.com/influxdata/influxdb-python>` client library.**
 
 InfluxDB 2.0 client features
 ----------------------------
