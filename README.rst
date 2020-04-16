@@ -58,12 +58,12 @@ InfluxDB 2.0 client features
     - authorizations
     - health check
     - ...
+- `InfluxDB 1.8 API compatibility`_
 - Examples
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
     - `How to use Jupyter + Pandas + InfluxDB 2`_
-    - `InfluxDB 1.8 API compatibility`_
 
 Installation
 ------------
