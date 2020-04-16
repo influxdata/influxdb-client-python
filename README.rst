@@ -58,6 +58,7 @@ InfluxDB 2.0 client features
     - authorizations
     - health check
     - ...
+- `InfluxDB 1.8 API compatibility`_
 - Examples
     - `Connect to InfluxDB Cloud`_
     - `How to efficiently import large dataset`_
@@ -858,6 +859,23 @@ Gzip support
    _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", enable_gzip=True)
 
 .. marker-gzip-end
+
+InfluxDB 1.8 API compatibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`InfluxDB 1.8.0 introduced forward compatibility APIs <https://docs.influxdata.com/influxdb/latest/tools/api/#influxdb-2-0-api-compatibility-endpoints>`_ for InfluxDB 2.0. This allow you to easily move from InfluxDB 1.x to InfluxDB 2.0 Cloud or open source.
+
+The following forward compatible APIs are available:
+
+=======================================================  ====================================================================================================  =======
+ API                                                     Endpoint                                                                                              Description
+=======================================================  ====================================================================================================  =======
+`query_api.py <influxdb_client/client/query_api.py>`_    `/api/v2/query <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-query-http-endpoint>`_  Query data in InfluxDB 1.8.0+ using the InfluxDB 2.0 API and `Flux <https://docs.influxdata.com/flux/latest/>`_ (endpoint should be enabled by `flux-enabled option <https://docs.influxdata.com/influxdb/latest/administration/config/#flux-enabled-false>`_)
+`write_api.py <influxdb_client/client/write_api.py>`_    `/api/v2/write <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-write-http-endpoint>`_  Write data to InfluxDB 1.8.0+ using the InfluxDB 2.0 API
+`health() <influxdb_client/client/influxdb_client.py>`_  `/health <https://docs.influxdata.com/influxdb/latest/tools/api/#health-http-endpointt>`_             Check the health of your InfluxDB instance
+=======================================================  ====================================================================================================  =======
+
+For detail info see `InfluxDB 1.8 example <examples/influxdb_18_example.py>`_.
 
 Local tests
 -----------

@@ -2,8 +2,9 @@
 
 ### Documentation
 1. [#75](https://github.com/influxdata/influxdb-client-python/issues/75): Updated docs to clarify how to use an org parameter
+1. [#84](https://github.com/influxdata/influxdb-client-python/pull/84): Clarify how to use a client with InfluxDB 1.8
 
-### Bugs
+### Bug Fixes
 1. [#72](https://github.com/influxdata/influxdb-client-python/issues/72): Optimize serializing data into Pandas DataFrame
 
 ## 1.5.0 [2020-03-13]
@@ -11,7 +12,7 @@
 ### Features
 1. [#59](https://github.com/influxdata/influxdb-client-python/issues/59): Set User-Agent to influxdb-client-python/VERSION for all requests
 
-### Bugs
+### Bug Fixes
 1. [#61](https://github.com/influxdata/influxdb-client-python/issues/61): Correctly parse CSV where multiple results include multiple tables
 1. [#66](https://github.com/influxdata/influxdb-client-python/issues/66): Correctly close connection pool manager at exit
 1. [#69](https://github.com/influxdata/influxdb-client-python/issues/69): `InfluxDBClient` and `WriteApi` could serialized by [pickle](https://docs.python.org/3/library/pickle.html#object.__getstate__) (python3.7 or higher)
@@ -24,7 +25,7 @@
 ### CI
 1. [#54](https://github.com/influxdata/influxdb-client-python/pull/54): Add Python 3.7 and 3.8 to CI builds
 
-### Bugs
+### Bug Fixes
 1. [#56](https://github.com/influxdata/influxdb-client-python/pull/56): Fix default tags for write batching, added new test
 1. [#58](https://github.com/influxdata/influxdb-client-python/pull/58): Source distribution also contains: requirements.txt, extra-requirements.txt and test-requirements.txt
 
@@ -39,7 +40,7 @@
 ### CI
 1. [#49](https://github.com/influxdata/influxdb-client-python/pull/49): Added beta release to continuous integration
 
-### Bugs
+### Bug Fixes
 1. [#48](https://github.com/influxdata/influxdb-client-python/pull/48): InfluxDBClient default org is used by WriteAPI
 
 ## 1.2.0 [2019-12-06]
@@ -50,7 +51,7 @@
 ### API
 1. [#42](https://github.com/influxdata/influxdb-client-python/pull/42): Updated swagger to latest version
 
-### Bugs
+### Bug Fixes
 1. [#45](https://github.com/influxdata/influxdb-client-python/pull/45): Pandas is a optional dependency and has to installed separably
 
 ## 1.1.0 [2019-11-19]
@@ -70,7 +71,7 @@
 ### API
 1. [#28](https://github.com/bonitoo-io/influxdb-client-python/pull/28): Updated swagger to latest version
 
-### Bugs
+### Bug Fixes
 1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
 
 ### Documentation
@@ -85,7 +86,7 @@
 ### API
 1. [#10](https://github.com/bonitoo-io/influxdb-client-python/pull/10): Updated swagger to latest version
 
-### Bugs
+### Bug Fixes
 1. [#3](https://github.com/bonitoo-io/influxdb-client-python/issues/3): The management API correctly supports inheritance defined in Influx API
 1. [#7](https://github.com/bonitoo-io/influxdb-client-python/issues/7): Drop NaN and infinity values from fields when writing to InfluxDB
 
