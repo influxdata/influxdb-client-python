@@ -1,4 +1,4 @@
-## 1.6.0 [unreleased]
+## 1.6.0 [2020-04-17]
 
 ### Documentation
 1. [#75](https://github.com/influxdata/influxdb-client-python/issues/75): Updated docs to clarify how to use an org parameter
