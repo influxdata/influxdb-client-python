@@ -1,3 +1,5 @@
+## 1.7.0 [unreleased]
+
 ## 1.6.0 [2020-04-17]
 
 ### Documentation
