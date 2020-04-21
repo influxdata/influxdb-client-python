@@ -372,7 +372,7 @@ class TasksApiTest(BaseTest):
         runs = self.tasks_api.get_runs(task.id)
 
         with pytest.raises(ApiException) as e:
-            assert self.tasks_api.cancel_run(task_id=task.id, run_id=runs[0].id)
+            assert self.tasks_api.cancel_run(task_id=task.id, run_id=runs[-1].id)
         assert "failed to cancel run" in e.value.body
         assert "run not found" in e.value.body
 
