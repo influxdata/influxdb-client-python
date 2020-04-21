@@ -378,6 +378,35 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual(1, len(requests))
         self.assertEqual(f'influxdb-client-python/{influxdb_client.__version__}', requests[0].headers['User-Agent'])
 
+    def test_to_low_flush_interval(self):
+
+        self._write_client.__del__()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=8,
+                                                                 flush_interval=1,
+                                                                 jitter_interval=1000))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        for i in range(50):
+            val_one = float(i)
+            val_two = float(i) + 0.5
+            point_one = Point("OneMillis").tag("sensor", "sensor1").field("PSI", val_one).time(time=i)
+            point_two = Point("OneMillis").tag("sensor", "sensor2").field("PSI", val_two).time(time=i)
+
+            self._write_client.write("my-bucket", "my-org", [point_one, point_two])
+            time.sleep(0.1)
+
+        self._write_client.__del__()
+
+        _requests = httpretty.httpretty.latest_requests
+
+        for _request in _requests:
+            body = _request.parsed_body
+            self.assertTrue(body, msg="Parsed body should be not empty " + str(_request))
+
+        httpretty.reset()
+
 
 if __name__ == '__main__':
     unittest.main()

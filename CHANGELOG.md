@@ -1,5 +1,8 @@
 ## 1.7.0 [unreleased]
 
+### Bug Fixes
+1. [#85](https://github.com/influxdata/influxdb-client-python/issues/85): Fixed a possibility to generate empty write batch
+
 ## 1.6.0 [2020-04-17]
 
 ### Documentation

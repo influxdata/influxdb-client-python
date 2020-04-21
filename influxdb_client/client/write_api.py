@@ -1,12 +1,11 @@
 # coding: utf-8
 import logging
+import os
 from datetime import timedelta
 from enum import Enum
 from random import random
 from time import sleep
 from typing import Union, List
-
-import os
 
 import rx
 from rx import operators as ops, Observable
@@ -172,8 +171,9 @@ class WriteApi(AbstractClient):
                         ops.map(lambda xs: _BatchItem(key=group.key, data=_body_reduce(xs), size=len(xs))))),
                     ops.merge_all())),
                 # Write data into InfluxDB (possibility to retry if its fail)
-                ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),  #
-                ops.merge_all())\
+                ops.filter(lambda batch: batch.size > 0),
+                ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),
+                ops.merge_all()) \
                 .subscribe(self._on_next, self._on_error, self._on_complete)
 
         else:
