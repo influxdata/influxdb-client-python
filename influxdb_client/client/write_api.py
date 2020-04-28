@@ -183,21 +183,24 @@ class WriteApi(AbstractClient):
     def write(self, bucket: str, org: str = None,
               record: Union[
                   str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable] = None,
-              write_precision: WritePrecision = DEFAULT_WRITE_PRECISION) -> None:
+              write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, data_frame_measurement_name: str = None,
+              data_frame_tag_columns: List['str'] = None) -> None:
         """
         Writes time-series data into influxdb.
 
         :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol
-        :param record: Points, line protocol, RxPY Observable to write
+        :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
+        :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
+        :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
 
         """
 
         if org is None:
             org = self._influxdb_client.org
 
-        if self._point_settings.defaultTags and record:
+        if self._point_settings.defaultTags and record is not None:
             for key, val in self._point_settings.defaultTags.items():
                 if isinstance(record, dict):
                     record.get("tags")[key] = val
@@ -211,7 +214,9 @@ class WriteApi(AbstractClient):
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record, write_precision)
 
-        final_string = self._serialize(record, write_precision)
+        final_string = self._serialize(record, write_precision,
+                                       data_frame_measurement_name,
+                                       data_frame_tag_columns)
 
         _async_req = True if self._write_options.write_type == WriteType.asynchronous else False
 
@@ -235,7 +240,7 @@ class WriteApi(AbstractClient):
             self._disposable = None
         pass
 
-    def _serialize(self, record, write_precision) -> bytes:
+    def _serialize(self, record, write_precision, data_frame_measurement_name, data_frame_tag_columns) -> bytes:
         _result = b''
         if isinstance(record, bytes):
             _result = record
@@ -244,39 +249,102 @@ class WriteApi(AbstractClient):
             _result = record.encode("utf-8")
 
         elif isinstance(record, Point):
-            _result = self._serialize(record.to_line_protocol(), write_precision=write_precision)
+            _result = self._serialize(record.to_line_protocol(), write_precision,
+                                      data_frame_measurement_name, data_frame_tag_columns)
 
         elif isinstance(record, dict):
             _result = self._serialize(Point.from_dict(record, write_precision=write_precision),
-                                      write_precision=write_precision)
+                                      write_precision,
+                                      data_frame_measurement_name, data_frame_tag_columns)
+        elif 'DataFrame' in type(record).__name__:
+            _result = self._serialize(self._data_frame_to_list_of_points(record, data_frame_measurement_name,
+                                                                         data_frame_tag_columns,
+                                                                         precision=write_precision),
+                                      write_precision,
+                                      data_frame_measurement_name, data_frame_tag_columns)
+
         elif isinstance(record, list):
-            _result = b'\n'.join([self._serialize(item, write_precision=write_precision) for item in record])
+            _result = b'\n'.join([self._serialize(item, write_precision,
+                                                  data_frame_measurement_name, data_frame_tag_columns) for item in record])
 
         return _result
 
-    def _write_batching(self, bucket, org, data, precision=DEFAULT_WRITE_PRECISION):
+    def _write_batching(self, bucket, org, data,
+                        data_frame_measurement_name, data_frame_tag_columns,
+                        precision=DEFAULT_WRITE_PRECISION):
         _key = _BatchItemKey(bucket, org, precision)
         if isinstance(data, bytes):
             self._subject.on_next(_BatchItem(key=_key, data=data))
 
         elif isinstance(data, str):
-            self._write_batching(bucket, org, data.encode("utf-8"), precision)
+            self._write_batching(bucket, org, data.encode("utf-8"),
+                                 data_frame_measurement_name, data_frame_tag_columns, precision)
 
         elif isinstance(data, Point):
-            self._write_batching(bucket, org, data.to_line_protocol(), precision)
+            self._write_batching(bucket, org, data.to_line_protocol(),
+                                 data_frame_measurement_name, data_frame_tag_columns, precision)
 
         elif isinstance(data, dict):
-            self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision), precision)
+            self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision),
+                                 data_frame_measurement_name, data_frame_tag_columns, precision)
+
+        elif 'DataFrame' in type(data).__name__:
+            self._write_batching(bucket, org, self._data_frame_to_list_of_points(data, data_frame_measurement_name,
+                                                                                 data_frame_tag_columns, precision),
+                                 data_frame_measurement_name, data_frame_tag_columns, precision)
 
         elif isinstance(data, list):
             for item in data:
-                self._write_batching(bucket, org, item, precision)
+                self._write_batching(bucket, org, item,
+                                     data_frame_measurement_name, data_frame_tag_columns, precision)
 
         elif isinstance(data, Observable):
-            data.subscribe(lambda it: self._write_batching(bucket, org, it, precision))
+            data.subscribe(lambda it: self._write_batching(bucket, org, it,
+                                                           data_frame_measurement_name, data_frame_tag_columns,
+                                                           precision))
             pass
 
         return None
+
+    def _data_frame_to_list_of_points(self, dataframe, data_frame_measurement_name, data_frame_tag_columns, precision='s'):
+        from ..extras import pd
+        if not isinstance(dataframe, pd.DataFrame):
+            raise TypeError('Must be DataFrame, but type was: {0}.'
+                            .format(type(dataframe)))
+        if not (isinstance(dataframe.index, pd.PeriodIndex) or
+                isinstance(dataframe.index, pd.DatetimeIndex)):
+            raise TypeError('Must be DataFrame with DatetimeIndex or \
+                                    PeriodIndex.')
+
+        if isinstance(dataframe.index, pd.PeriodIndex):
+            dataframe.index = dataframe.index.to_timestamp()
+        else:
+            dataframe.index = pd.to_datetime(dataframe.index)
+
+        if dataframe.index.tzinfo is None:
+            dataframe.index = dataframe.index.tz_localize('UTC')
+
+        data = []
+
+        c = 0
+        for v in dataframe.values:
+            point = Point(measurement_name=data_frame_measurement_name)
+
+            count = 0
+            for f in v:
+                column = dataframe.columns[count]
+                if data_frame_tag_columns and column in data_frame_tag_columns:
+                    point.tag(column, f)
+                else:
+                    point.field(column, f)
+                count += 1
+
+            point.time(dataframe.index[c], precision)
+            c += 1
+
+            data.append(point)
+
+        return data
 
     def _http(self, batch_item: _BatchItem):
 
