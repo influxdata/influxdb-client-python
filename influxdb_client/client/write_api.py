@@ -306,41 +306,45 @@ class WriteApi(AbstractClient):
 
         return None
 
-    def _data_frame_to_list_of_points(self, dataframe, data_frame_measurement_name, data_frame_tag_columns, precision='s'):
+    def _data_frame_to_list_of_points(self, data_frame, data_frame_measurement_name, data_frame_tag_columns, precision):
         from ..extras import pd
-        if not isinstance(dataframe, pd.DataFrame):
+        if not isinstance(data_frame, pd.DataFrame):
             raise TypeError('Must be DataFrame, but type was: {0}.'
-                            .format(type(dataframe)))
-        if not (isinstance(dataframe.index, pd.PeriodIndex) or
-                isinstance(dataframe.index, pd.DatetimeIndex)):
+                            .format(type(data_frame)))
+        if not (isinstance(data_frame.index, pd.PeriodIndex) or
+                isinstance(data_frame.index, pd.DatetimeIndex)):
             raise TypeError('Must be DataFrame with DatetimeIndex or \
                                     PeriodIndex.')
 
-        if isinstance(dataframe.index, pd.PeriodIndex):
-            dataframe.index = dataframe.index.to_timestamp()
+        if isinstance(data_frame.index, pd.PeriodIndex):
+            data_frame.index = data_frame.index.to_timestamp()
         else:
-            dataframe.index = pd.to_datetime(dataframe.index)
+            data_frame.index = pd.to_datetime(data_frame.index)
 
-        if dataframe.index.tzinfo is None:
-            dataframe.index = dataframe.index.tz_localize('UTC')
+        if data_frame.index.tzinfo is None:
+            data_frame.index = data_frame.index.tz_localize('UTC')
 
         data = []
 
         c = 0
-        for v in dataframe.values:
+        for v in data_frame.values:
             point = Point(measurement_name=data_frame_measurement_name)
 
             count = 0
             for f in v:
-                column = dataframe.columns[count]
+                column = data_frame.columns[count]
                 if data_frame_tag_columns and column in data_frame_tag_columns:
                     point.tag(column, f)
                 else:
                     point.field(column, f)
                 count += 1
 
-            point.time(dataframe.index[c], precision)
+            point.time(data_frame.index[c], precision)
             c += 1
+
+            if self._point_settings.defaultTags:
+                for key, val in self._point_settings.defaultTags.items():
+                    point.tag(key, val)
 
             data.append(point)
 

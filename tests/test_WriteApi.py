@@ -398,6 +398,44 @@ class AsynchronousWriteTest(BaseTest):
 
         self.delete_test_bucket(bucket)
 
+    def test_use_default_tags_with_data_frame(self):
+        from influxdb_client.extras import pd
+
+        bucket = self.create_test_bucket()
+
+        now = pd.Timestamp('1970-01-01 00:00+00:00')
+        data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
+                                  index=[now + timedelta(hours=1), now + timedelta(hours=2)],
+                                  columns=["location", "water_level"])
+
+        self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
+                                data_frame_tag_columns=['location'])
+
+        time.sleep(1)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+
+        flux_result = self.client.query_api().query(query)
+
+        self.assertEqual(1, len(flux_result))
+
+        records = flux_result[0].records
+
+        self.assertEqual(2, len(records))
+
+        rec = records[0]
+        rec2 = records[1]
+
+        self.assertEqual(self.id_tag, rec["id"])
+        self.assertEqual(self.customer_tag, rec["customer"])
+        self.assertEqual("LA", rec[self.data_center_key])
+
+        self.assertEqual(self.id_tag, rec2["id"])
+        self.assertEqual(self.customer_tag, rec2["customer"])
+        self.assertEqual("LA", rec2[self.data_center_key])
+
+        self.delete_test_bucket(bucket)
+
     def test_write_bytes(self):
         bucket = self.create_test_bucket()
 
