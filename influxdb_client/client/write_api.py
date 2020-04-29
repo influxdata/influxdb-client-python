@@ -212,7 +212,8 @@ class WriteApi(AbstractClient):
                             r.tag(key, val)
 
         if self._write_options.write_type is WriteType.batching:
-            return self._write_batching(bucket, org, record, write_precision)
+            return self._write_batching(bucket, org, record, data_frame_measurement_name, data_frame_tag_columns,
+                                        write_precision)
 
         final_string = self._serialize(record, write_precision,
                                        data_frame_measurement_name,
@@ -311,10 +312,6 @@ class WriteApi(AbstractClient):
         if not isinstance(data_frame, pd.DataFrame):
             raise TypeError('Must be DataFrame, but type was: {0}.'
                             .format(type(data_frame)))
-        if not (isinstance(data_frame.index, pd.PeriodIndex) or
-                isinstance(data_frame.index, pd.DatetimeIndex)):
-            raise TypeError('Must be DataFrame with DatetimeIndex or \
-                                    PeriodIndex.')
 
         if isinstance(data_frame.index, pd.PeriodIndex):
             data_frame.index = data_frame.index.to_timestamp()
