@@ -307,13 +307,13 @@ The batching is configurable by ``write_options``\ :
    """
    Write Pandas DataFrame
    """
-   now = pd.Timestamp.now('UTC')
-   data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
-                             index=[now, now + timedelta(hours=1)],
-                             columns=["location", "water_level"])
+   _now = pd.Timestamp().now('UTC')
+   _data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
+                              index=[now, now + timedelta(hours=1)],
+                              columns=["location", "water_level"])
 
-   self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
-                           data_frame_tag_columns=['location'])
+   _write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
+                       data_frame_tag_columns=['location'])
 
    """
    Close client
