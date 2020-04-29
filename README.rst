@@ -49,6 +49,7 @@ InfluxDB 2.0 client features
     - `Line Protocol <https://docs.influxdata.com/influxdb/v1.6/write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`__ Observable
+    - `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to writes <#writes>`_
 - `InfluxDB 2.0 API <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ client for management
     - the client is generated from the `swagger <https://github.com/influxdata/influxdb/blob/master/http/swagger.yml>`_ by using the `openapi-generator <https://github.com/OpenAPITools/openapi-generator>`_
@@ -219,6 +220,7 @@ The data could be written as
 3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time``
 4. List of above items
 5. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
+6. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
 
 Batching
@@ -302,6 +304,16 @@ The batching is configurable by ``write_options``\ :
 
    _write_client.write("my-bucket", "my-org", _data)
 
+   """
+   Write Pandas DataFrame
+   """
+   now = pd.Timestamp.now('UTC')
+   data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
+                             index=[now, now + timedelta(hours=1)],
+                             columns=["location", "water_level"])
+
+   self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
+                           data_frame_tag_columns=['location'])
 
    """
    Close client

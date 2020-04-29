@@ -1,5 +1,8 @@
 ## 1.7.0 [unreleased]
 
+### Features
+1. [#79](https://github.com/influxdata/influxdb-client-python/issues/79): Added support for writing Pandas DataFrame
+
 ### Bug Fixes
 1. [#85](https://github.com/influxdata/influxdb-client-python/issues/85): Fixed a possibility to generate empty write batch
 
