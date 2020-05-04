@@ -407,6 +407,33 @@ class BatchingWriteTest(BaseTest):
 
         httpretty.reset()
 
+    def test_batching_data_frame(self):
+        from influxdb_client.extras import pd
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0],
+                                        ["coyote_creek", 3.0], ["coyote_creek", 4.0]],
+                                  index=[1, 2, 3, 4],
+                                  columns=["location", "level water_level"])
+
+        self._write_client.write("my-bucket", "my-org", record=data_frame,
+                                 data_frame_measurement_name='h2o_feet',
+                                 data_frame_tag_columns=['location'])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(2, len(_requests))
+        _request1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n" \
+                    "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
+        _request2 = "h2o_feet,location=coyote_creek level\\ water_level=3.0 3\n" \
+                    "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"
+
+        self.assertEqual(_request1, _requests[0].parsed_body)
+        self.assertEqual(_request2, _requests[1].parsed_body)
 
 if __name__ == '__main__':
     unittest.main()
