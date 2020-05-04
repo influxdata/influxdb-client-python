@@ -260,6 +260,22 @@ class SynchronousWriteTest(BaseTest):
 
         self.delete_test_bucket(bucket)
 
+    def test_write_data_frame_without_measurement_name(self):
+        from influxdb_client.extras import pd
+
+        bucket = self.create_test_bucket()
+
+        now = pd.Timestamp('1970-01-01 00:00+00:00')
+        data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
+                                  index=[now + timedelta(hours=1), now + timedelta(hours=2)],
+                                  columns=["location", "water_level"])
+
+        with self.assertRaises(TypeError) as cm:
+            self.write_client.write(bucket.name, record=data_frame)
+        exception = cm.exception
+
+        self.assertEqual('"data_frame_measurement_name" is a Required Argument', exception.__str__())
+
     def test_use_default_org(self):
         bucket = self.create_test_bucket()
 

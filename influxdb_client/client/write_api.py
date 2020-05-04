@@ -303,6 +303,9 @@ class WriteApi(AbstractClient):
             raise TypeError('Must be DataFrame, but type was: {0}.'
                             .format(type(data_frame)))
 
+        if 'data_frame_measurement_name' not in kwargs:
+            raise TypeError('"data_frame_measurement_name" is a Required Argument')
+
         if isinstance(data_frame.index, pd.PeriodIndex):
             data_frame.index = data_frame.index.to_timestamp()
         else:
