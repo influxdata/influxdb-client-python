@@ -397,13 +397,17 @@ Data are writes in an asynchronous HTTP request.
 
 .. code-block:: python
 
-   from influxdb_client  import InfluxDBClient
+   from influxdb_client import InfluxDBClient, Point
    from influxdb_client.client.write_api import ASYNCHRONOUS
 
    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
-   write_client = client.write_api(write_options=ASYNCHRONOUS)
+   write_api = client.write_api(write_options=ASYNCHRONOUS)
 
-   ...
+   _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+   _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+   async_result = write_api.write(bucket="my-bucket", record=[_point1, _point2])
+   async_result.get()
 
    client.__del__()
 
@@ -414,13 +418,16 @@ Data are writes in a synchronous HTTP request.
 
 .. code-block:: python
 
-   from influxdb_client  import InfluxDBClient
+   from influxdb_client import InfluxDBClient, Point
    from influxdb_client .client.write_api import SYNCHRONOUS
 
    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
-   write_client = client.write_api(write_options=SYNCHRONOUS)
+   write_api = client.write_api(write_options=SYNCHRONOUS)
 
-   ...
+   _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+   _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+
+   write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
    client.__del__()
 

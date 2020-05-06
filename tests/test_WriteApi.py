@@ -349,8 +349,8 @@ class AsynchronousWriteTest(BaseTest):
 
         _point_list = [_point1, _point2]
 
-        self.write_client.write(bucket.name, self.org, _point_list)
-        time.sleep(1)
+        async_result = self.write_client.write(bucket.name, self.org, _point_list)
+        async_result.get()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
 
@@ -388,8 +388,8 @@ class AsynchronousWriteTest(BaseTest):
 
         _point_list = [_point1, _point2]
 
-        self.write_client.write(bucket.name, self.org, _point_list)
-        time.sleep(1)
+        async_result = self.write_client.write(bucket.name, self.org, _point_list)
+        async_result.get()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
 
@@ -424,10 +424,9 @@ class AsynchronousWriteTest(BaseTest):
                                   index=[now + timedelta(hours=1), now + timedelta(hours=2)],
                                   columns=["location", "water_level"])
 
-        self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
+        async_result = self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
                                 data_frame_tag_columns=['location'])
-
-        time.sleep(1)
+        async_result.get()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
 
@@ -460,8 +459,8 @@ class AsynchronousWriteTest(BaseTest):
 
         _bytes_list = [_bytes1, _bytes2]
 
-        self.write_client.write(bucket.name, self.org, _bytes_list, write_precision=WritePrecision.S)
-        time.sleep(1)
+        async_result = self.write_client.write(bucket.name, self.org, _bytes_list, write_precision=WritePrecision.S)
+        async_result.get()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
 
