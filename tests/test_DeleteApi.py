@@ -31,6 +31,44 @@ class DeleteApiTest(BaseTest):
 
     def test_delete_buckets(self):
 
+        self._write_data()
+
+        q = f'from(bucket:\"{self.bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        print(q)
+        flux_tables = self.client.query_api().query(query=q, org=self.organization.id)
+        self.assertEqual(len(flux_tables), 1)
+        self.assertEqual(len(flux_tables[0].records), 12)
+
+        start = "1970-01-01T00:00:00.000000001Z"
+        stop = "1970-01-01T00:00:00.000000012Z"
+        self.delete_api.delete(start, stop, "", bucket=self.bucket.id, org=self.organization.id)
+
+        flux_tables2 = self.client.query_api().query(
+            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)',
+            org=self.organization.id)
+        self.assertEqual(len(flux_tables2), 0)
+
+    def test_delete_buckets_by_name(self):
+
+        self._write_data()
+
+        q = f'from(bucket:\"{self.bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        print(q)
+        flux_tables = self.client.query_api().query(query=q, org=self.organization.id)
+        self.assertEqual(len(flux_tables), 1)
+        self.assertEqual(len(flux_tables[0].records), 12)
+
+        start = "1970-01-01T00:00:00.000000001Z"
+        stop = "1970-01-01T00:00:00.000000012Z"
+        self.delete_api.delete(start, stop, "", bucket=self.bucket.name, org=self.organization.name)
+
+        flux_tables2 = self.client.query_api().query(
+            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)',
+            org=self.organization.id)
+        self.assertEqual(len(flux_tables2), 0)
+
+    def _write_data(self):
+
         write_api = self.client.write_api(write_options=SYNCHRONOUS)
         p1 = Point(measurement_name="h2o").tag("location", "coyote_creek").field("watter_level", 7.0).time(1)
         write_api.write(bucket=self.bucket.name, org=self.organization.name, record=p1)
@@ -58,18 +96,3 @@ class DeleteApiTest(BaseTest):
         p11 = Point(measurement_name="h2o").tag("location", "coyote_creek").field("watter_level", 11.0).time(11)
         p12 = Point(measurement_name="h2o").tag("location", "coyote_creek").field("watter_level", 13.0).time(12)
         write_api.write(bucket=self.bucket.name, org=self.organization.name, record=[p11, p12])
-
-        q = f'from(bucket:\"{self.bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(q)
-        flux_tables = self.client.query_api().query(query=q, org=self.organization.id)
-        self.assertEqual(len(flux_tables), 1)
-        self.assertEqual(len(flux_tables[0].records), 12)
-
-        start = "1970-01-01T00:00:00.000000001Z"
-        stop = "1970-01-01T00:00:00.000000012Z"
-        self.delete_api.delete(start, stop, "", bucket_id=self.bucket.id, org_id=self.organization.id)
-
-        flux_tables2 = self.client.query_api().query(
-            f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)',
-            org=self.organization.id)
-        self.assertEqual(len(flux_tables2), 0)
