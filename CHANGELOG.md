@@ -6,6 +6,7 @@
 ### Bug Fixes
 1. [#85](https://github.com/influxdata/influxdb-client-python/issues/85): Fixed a possibility to generate empty write batch
 2. [#86](https://github.com/influxdata/influxdb-client-python/issues/86): BREAKING CHANGE: Fixed parameters in delete api - now delete api accepts also bucket name and org name instead of only ids
+1. [#93](https://github.com/influxdata/influxdb-client-python/pull/93): Remove trailing slash from connection URL
 
 ## 1.6.0 [2020-04-17]
 

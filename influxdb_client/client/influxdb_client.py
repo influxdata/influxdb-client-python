@@ -40,7 +40,10 @@ class InfluxDBClient(object):
         self.default_tags = default_tags
 
         conf = _Configuration()
-        conf.host = self.url
+        if self.url.endswith("/"):
+            conf.host = self.url[:-1]
+        else:
+            conf.host = self.url
         conf.enable_gzip = enable_gzip
         conf.debug = debug
 
