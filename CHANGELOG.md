@@ -1,4 +1,4 @@
-## 1.7.0 [unreleased]
+## 1.7.0 [2020-05-15]
 
 ### Features
 1. [#79](https://github.com/influxdata/influxdb-client-python/issues/79): Added support for writing Pandas DataFrame
