@@ -233,7 +233,7 @@ class SynchronousWriteTest(BaseTest):
         now = pd.Timestamp('1970-01-01 00:00+00:00')
         data_frame = pd.DataFrame(data=[["coyote_creek", 1], ["coyote_creek", 2]],
                                   index=[now + timedelta(hours=1), now + timedelta(hours=2)],
-                                  columns=["location", "water_level"])
+                                  columns=["location", "water water_level"])
 
         self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
                                 data_frame_tag_columns=['location'])
