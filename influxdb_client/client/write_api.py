@@ -299,9 +299,6 @@ class WriteApi(AbstractClient):
         return None
 
     def _itertuples(self, data_frame):
-        """Custom implementation of ``DataFrame.itertuples`` that
-        returns plain tuples instead of namedtuples. About 50% faster.
-        """
         cols = [data_frame.iloc[:, k] for k in range(len(data_frame.columns))]
         return zip(data_frame.index, *cols)
 
