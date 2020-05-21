@@ -48,6 +48,8 @@ class DataFrameWriteTest(BaseTest):
                                      data_frame_measurement_name='h2o_feet',
                                      data_frame_tag_columns=['location'])
 
+            self._write_client.__del__()
+
             print("Time elapsed: ", (time.time() - start))
 
         csv_file.close()
