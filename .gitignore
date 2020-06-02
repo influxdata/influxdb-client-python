@@ -114,3 +114,4 @@ sandbox
 # OpenAPI-generator
 /.openapi-generator*
 /tests/writer.pickle
+/tests/data_frame_file.csv

@@ -1,8 +1,11 @@
 # coding: utf-8
 import logging
 import os
+import re
 from datetime import timedelta
 from enum import Enum
+from functools import reduce
+from itertools import chain
 from random import random
 from time import sleep
 from typing import Union, List
@@ -14,7 +17,7 @@ from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
 from influxdb_client.client.abstract_client import AbstractClient
-from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
+from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION, _ESCAPE_KEY
 from influxdb_client.rest import ApiException
 
 logger = logging.getLogger(__name__)
@@ -253,10 +256,8 @@ class WriteApi(AbstractClient):
             _result = self._serialize(Point.from_dict(record, write_precision=write_precision),
                                       write_precision, **kwargs)
         elif 'DataFrame' in type(record).__name__:
-            _result = self._serialize(self._data_frame_to_list_of_points(record,
-                                                                         precision=write_precision, **kwargs),
-                                      write_precision,
-                                      **kwargs)
+            _data = self._data_frame_to_list_of_points(record, precision=write_precision, **kwargs)
+            _result = self._serialize(_data, write_precision, **kwargs)
 
         elif isinstance(record, list):
             _result = b'\n'.join([self._serialize(item, write_precision,
@@ -297,8 +298,12 @@ class WriteApi(AbstractClient):
 
         return None
 
+    def _itertuples(self, data_frame):
+        cols = [data_frame.iloc[:, k] for k in range(len(data_frame.columns))]
+        return zip(data_frame.index, *cols)
+
     def _data_frame_to_list_of_points(self, data_frame, precision, **kwargs):
-        from ..extras import pd
+        from ..extras import pd, np
         if not isinstance(data_frame, pd.DataFrame):
             raise TypeError('Must be DataFrame, but type was: {0}.'
                             .format(type(data_frame)))
@@ -314,28 +319,35 @@ class WriteApi(AbstractClient):
         if data_frame.index.tzinfo is None:
             data_frame.index = data_frame.index.tz_localize('UTC')
 
-        data = []
+        measurement_name = kwargs.get('data_frame_measurement_name')
+        data_frame_tag_columns = kwargs.get('data_frame_tag_columns')
+        data_frame_tag_columns = set(data_frame_tag_columns or [])
 
-        for c, (row) in enumerate(data_frame.values):
-            point = Point(measurement_name=kwargs.get('data_frame_measurement_name'))
+        tags = []
+        fields = []
 
-            for count, (value) in enumerate(row):
-                column = data_frame.columns[count]
-                data_frame_tag_columns = kwargs.get('data_frame_tag_columns')
-                if data_frame_tag_columns and column in data_frame_tag_columns:
-                    point.tag(column, value)
-                else:
-                    point.field(column, value)
+        if self._point_settings.defaultTags:
+            for key, value in self._point_settings.defaultTags.items():
+                data_frame[key] = value
+                data_frame_tag_columns.add(key)
 
-            point.time(data_frame.index[c], precision)
+        for index, (key, value) in enumerate(data_frame.dtypes.items()):
+            key = str(key).translate(_ESCAPE_KEY)
 
-            if self._point_settings.defaultTags:
-                for key, val in self._point_settings.defaultTags.items():
-                    point.tag(key, val)
+            if key in data_frame_tag_columns:
+                tags.append(f"{key}={{p[{index + 1}].translate(_ESCAPE_KEY)}}")
+            elif issubclass(value.type, np.integer):
+                fields.append(f"{key}={{p[{index + 1}]}}i")
+            elif issubclass(value.type, (np.float, np.bool_)):
+                fields.append(f"{key}={{p[{index + 1}]}}")
+            else:
+                fields.append(f"{key}=\"{{p[{index + 1}].translate(_ESCAPE_KEY)}}\"")
 
-            data.append(point)
+        fmt = (f'{measurement_name}', f'{"," if tags else ""}', ','.join(tags),
+               ' ', ','.join(fields), ' {p[0].value}')
+        f = eval("lambda p: f'{}'".format(''.join(fmt)))
 
-        return data
+        return list(map(f, self._itertuples(data_frame)))
 
     def _http(self, batch_item: _BatchItem):
 

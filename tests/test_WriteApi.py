@@ -5,7 +5,6 @@ from __future__ import absolute_import
 import datetime
 import os
 import unittest
-import time
 from datetime import timedelta
 from multiprocessing.pool import ApplyResult
 
@@ -231,9 +230,9 @@ class SynchronousWriteTest(BaseTest):
         bucket = self.create_test_bucket()
 
         now = pd.Timestamp('1970-01-01 00:00+00:00')
-        data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
+        data_frame = pd.DataFrame(data=[["coyote_creek", 1], ["coyote_creek", 2]],
                                   index=[now + timedelta(hours=1), now + timedelta(hours=2)],
-                                  columns=["location", "water_level"])
+                                  columns=["location", "water water_level"])
 
         self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
                                 data_frame_tag_columns=['location'])
@@ -247,14 +246,14 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
         self.assertEqual(result[0].records[0].get_value(), 1.0)
         self.assertEqual(result[0].records[0].values.get("location"), "coyote_creek")
-        self.assertEqual(result[0].records[0].get_field(), "water_level")
+        self.assertEqual(result[0].records[0].get_field(), "water water_level")
         self.assertEqual(result[0].records[0].get_time(),
                          datetime.datetime(1970, 1, 1, 1, 0, tzinfo=datetime.timezone.utc))
 
         self.assertEqual(result[0].records[1].get_measurement(), "h2o_feet")
         self.assertEqual(result[0].records[1].get_value(), 2.0)
         self.assertEqual(result[0].records[1].values.get("location"), "coyote_creek")
-        self.assertEqual(result[0].records[1].get_field(), "water_level")
+        self.assertEqual(result[0].records[1].get_field(), "water water_level")
         self.assertEqual(result[0].records[1].get_time(),
                          datetime.datetime(1970, 1, 1, 2, 0, tzinfo=datetime.timezone.utc))
 

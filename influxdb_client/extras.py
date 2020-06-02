@@ -3,4 +3,9 @@ try:
 except ModuleNotFoundError as err:
     raise ImportError(f"`query_data_frame` requires Pandas which couldn't be imported due: {err}")
 
-__all__ = ['pd']
+try:
+    import numpy as np
+except ModuleNotFoundError as err:
+    raise ImportError(f"`data_frame` requires numpy which couldn't be imported due: {err}")
+
+__all__ = ['pd', 'np']
