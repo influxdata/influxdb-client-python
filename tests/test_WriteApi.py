@@ -306,6 +306,33 @@ class SynchronousWriteTest(BaseTest):
 
         self.assertEqual(len(result), 0)
 
+    def test_write_point_different_precision(self):
+        bucket = self.create_test_bucket()
+
+        point1 = Point('test_precision') \
+            .field('power', 10) \
+            .tag('powerFlow', 'low') \
+            .time(datetime.datetime(2020, 4, 20, 5, 30, tzinfo=datetime.timezone.utc), WritePrecision.S)
+
+        point2 = Point('test_precision') \
+            .field('power', 20) \
+            .tag('powerFlow', 'high') \
+            .time(datetime.datetime(2020, 4, 20, 6, 30, tzinfo=datetime.timezone.utc), WritePrecision.MS)
+
+        writer = self.client.write_api(write_options=SYNCHRONOUS)
+        writer.write(bucket.name, self.org, [point1, point2])
+
+        result = self.query_api.query(
+            f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+
+        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result[0].records), 1)
+        self.assertEqual(len(result[1].records), 1)
+        self.assertEqual(result[0].records[0].get_time(),
+                         datetime.datetime(2020, 4, 20, 5, 30, tzinfo=datetime.timezone.utc))
+        self.assertEqual(result[1].records[0].get_time(),
+                         datetime.datetime(2020, 4, 20, 6, 30, tzinfo=datetime.timezone.utc))
+
 
 class AsynchronousWriteTest(BaseTest):
 
@@ -381,9 +408,9 @@ class AsynchronousWriteTest(BaseTest):
         bucket = self.create_test_bucket()
 
         _point1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
-                       "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
+                   "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
         _point2 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
-                       "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 2.0}}
+                   "time": "2009-11-10T23:00:00Z", "fields": {"water_level": 2.0}}
 
         _point_list = [_point1, _point2]
 
@@ -424,7 +451,7 @@ class AsynchronousWriteTest(BaseTest):
                                   columns=["location", "water_level"])
 
         async_result = self.write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
-                                data_frame_tag_columns=['location'])
+                                               data_frame_tag_columns=['location'])
         async_result.get()
 
         query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
