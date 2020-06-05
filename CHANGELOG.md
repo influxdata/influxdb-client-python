@@ -3,6 +3,9 @@
 ### Features
 1. [#92](https://github.com/influxdata/influxdb-client-python/issues/92): Optimize serializing Pandas DataFrame for writing
 
+### Bug Fixes
+1. [#105](https://github.com/influxdata/influxdb-client-python/pull/105): Fixed mapping dictionary without timestamp and tags into LineProtocol
+
 ## 1.7.0 [2020-05-15]
 
 ### Features

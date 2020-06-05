@@ -10,20 +10,6 @@ from influxdb_client import Point, WritePrecision
 from tests.base_test import BaseTest
 
 
-class TimeSpan(object):
-    @classmethod
-    def FromDays(cls, param):
-        return timedelta(days=param)
-
-    @classmethod
-    def FromHours(cls, param):
-        return timedelta(hours=param)
-
-    @classmethod
-    def FromSeconds(cls, param):
-        return timedelta(seconds=param)
-
-
 class PointTest(BaseTest):
 
     def test_MeasurementEscape(self):
@@ -124,47 +110,47 @@ class PointTest(BaseTest):
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", 2) \
-            .time(TimeSpan.FromDays(1), WritePrecision.NS)
+            .time(timedelta(days=1), WritePrecision.NS)
 
         self.assertEqual("h2o,location=europe level=2i 86400000000000", point.to_line_protocol())
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", 2) \
-            .time(TimeSpan.FromHours(356), WritePrecision.US)
+            .time(timedelta(hours=356), WritePrecision.US)
 
         self.assertEqual("h2o,location=europe level=2i 1281600000000", point.to_line_protocol())
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", 2) \
-            .time(TimeSpan.FromSeconds(156), WritePrecision.MS)
+            .time(timedelta(seconds=156), WritePrecision.MS)
 
         self.assertEqual("h2o,location=europe level=2i 156000", point.to_line_protocol())
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", 2) \
-            .time(TimeSpan.FromSeconds(123), WritePrecision.S)
+            .time(timedelta(seconds=123), WritePrecision.S)
 
         self.assertEqual("h2o,location=europe level=2i 123", point.to_line_protocol())
 
     def test_DateTimeFormatting(self):
-        dateTime = datetime(2015, 10, 15, 8, 20, 15)
+        date_time = datetime(2015, 10, 15, 8, 20, 15)
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", 2) \
-            .time(dateTime, WritePrecision.MS)
+            .time(date_time, WritePrecision.MS)
 
         self.assertEqual("h2o,location=europe level=2i 1444897215000", point.to_line_protocol())
 
-        dateTime = datetime(2015, 10, 15, 8, 20, 15, 750, UTC)
+        date_time = datetime(2015, 10, 15, 8, 20, 15, 750, UTC)
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", False) \
-            .time(dateTime, WritePrecision.S)
+            .time(date_time, WritePrecision.S)
 
         self.assertEqual("h2o,location=europe level=false 1444897215", point.to_line_protocol())
 
@@ -173,16 +159,16 @@ class PointTest(BaseTest):
             .field("level", True) \
             .time(datetime.now(UTC), WritePrecision.S)
 
-        lineProtocol = point.to_line_protocol()
-        self.assertTrue("." not in lineProtocol)
+        line_protocol = point.to_line_protocol()
+        self.assertTrue("." not in line_protocol)
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", True) \
             .time(datetime.now(UTC), WritePrecision.NS)
 
-        lineProtocol = point.to_line_protocol()
-        self.assertTrue("." not in lineProtocol)
+        line_protocol = point.to_line_protocol()
+        self.assertTrue("." not in line_protocol)
 
     def test_DateTimeUtc(self):
         date_time = datetime(2015, 10, 15, 8, 20, 15)
@@ -297,12 +283,31 @@ class PointTest(BaseTest):
         eastern = berlin.astimezone(timezone('US/Eastern'))
 
         self.assertEqual("h2o val=1i 0", Point.measurement("h2o").field("val", 1).time(0).to_line_protocol())
-        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time("2009-11-10T23:00:00.123456Z").to_line_protocol())
-        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(utc).to_line_protocol())
-        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(dt).to_line_protocol())
-        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(1257894000123456000, write_precision=WritePrecision.NS).to_line_protocol())
-        self.assertEqual("h2o val=1i 1257890400123456000", Point.measurement("h2o").field("val", 1).time(eastern).to_line_protocol())
-        self.assertEqual("h2o val=1i 1257890400123456000", Point.measurement("h2o").field("val", 1).time(berlin).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(
+            "2009-11-10T23:00:00.123456Z").to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000",
+                         Point.measurement("h2o").field("val", 1).time(utc).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000",
+                         Point.measurement("h2o").field("val", 1).time(dt).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257894000123456000",
+                         Point.measurement("h2o").field("val", 1).time(1257894000123456000,
+                                                                       write_precision=WritePrecision.NS).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257890400123456000",
+                         Point.measurement("h2o").field("val", 1).time(eastern).to_line_protocol())
+        self.assertEqual("h2o val=1i 1257890400123456000",
+                         Point.measurement("h2o").field("val", 1).time(berlin).to_line_protocol())
+
+    def test_from_dict_without_timestamp(self):
+        json = {"measurement": "my-org", "tags": {"tag1": "tag1", "tag2": "tag2"}, "fields": {'field1': 1, "field2": 2}}
+
+        point = Point.from_dict(json)
+        self.assertEqual("my-org,tag1=tag1,tag2=tag2 field1=1i,field2=2i", point.to_line_protocol())
+
+    def test_from_dict_without_tags(self):
+        json = {"measurement": "my-org", "fields": {'field1': 1, "field2": 2}}
+
+        point = Point.from_dict(json)
+        self.assertEqual("my-org field1=1i,field2=2i", point.to_line_protocol())
 
 
 if __name__ == '__main__':

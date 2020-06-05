@@ -30,11 +30,13 @@ class Point(object):
     @staticmethod
     def from_dict(dictionary: dict, write_precision: WritePrecision = DEFAULT_WRITE_PRECISION):
         point = Point(dictionary['measurement'])
-        for tag_key, tag_value in dictionary['tags'].items():
-            point.tag(tag_key, tag_value)
+        if 'tags' in dictionary:
+            for tag_key, tag_value in dictionary['tags'].items():
+                point.tag(tag_key, tag_value)
         for field_key, field_value in dictionary['fields'].items():
             point.field(field_key, field_value)
-        point.time(dictionary['time'], write_precision=write_precision)
+        if 'time' in dictionary:
+            point.time(dictionary['time'], write_precision=write_precision)
         return point
 
     def __init__(self, measurement_name):
