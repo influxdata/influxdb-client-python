@@ -104,7 +104,7 @@ class PointTest(BaseTest):
             .tag("location", "europe") \
             .field("level", 2)
 
-        self.assertEqual(WritePrecision.NS, point._write_precision)
+        self.assertEqual(WritePrecision.NS, point.write_precision)
 
     def test_TimeSpanFormatting(self):
         point = Point.measurement("h2o") \

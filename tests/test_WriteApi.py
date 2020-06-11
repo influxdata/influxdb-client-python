@@ -238,7 +238,7 @@ class SynchronousWriteTest(BaseTest):
                                 data_frame_tag_columns=['location'])
 
         result = self.query_api.query(
-            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)
+            f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)
 
         self.assertEqual(1, len(result))
         self.assertEqual(2, len(result[0].records))
@@ -295,7 +295,7 @@ class SynchronousWriteTest(BaseTest):
         bucket = self.create_test_bucket()
 
         with self.assertRaises(ApiException) as cm:
-            self.write_client.write(bucket.name)
+            self.write_client.write(bucket.name, record="")
         exception = cm.exception
 
         self.assertEqual(400, exception.status)
@@ -312,18 +312,19 @@ class SynchronousWriteTest(BaseTest):
         point1 = Point('test_precision') \
             .field('power', 10) \
             .tag('powerFlow', 'low') \
-            .time(datetime.datetime(2020, 4, 20, 5, 30, tzinfo=datetime.timezone.utc), WritePrecision.S)
+            .time(datetime.datetime(2020, 4, 20, 6, 30, tzinfo=datetime.timezone.utc), WritePrecision.S)
 
         point2 = Point('test_precision') \
             .field('power', 20) \
             .tag('powerFlow', 'high') \
-            .time(datetime.datetime(2020, 4, 20, 6, 30, tzinfo=datetime.timezone.utc), WritePrecision.MS)
+            .time(datetime.datetime(2020, 4, 20, 5, 30, tzinfo=datetime.timezone.utc), WritePrecision.MS)
 
         writer = self.client.write_api(write_options=SYNCHRONOUS)
         writer.write(bucket.name, self.org, [point1, point2])
 
         result = self.query_api.query(
-            f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+            f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last() "
+            "|> sort(columns: [\"_time\"], desc: false)", self.org)
 
         self.assertEqual(len(result), 2)
         self.assertEqual(len(result[0].records), 1)
@@ -513,6 +514,37 @@ class AsynchronousWriteTest(BaseTest):
                          datetime.datetime(1970, 1, 1, 0, 0, 2, tzinfo=datetime.timezone.utc))
 
         self.delete_test_bucket(bucket)
+
+    def test_write_point_different_precision(self):
+        bucket = self.create_test_bucket()
+
+        _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0).time(5,
+                                                                                                         WritePrecision.S)
+        _point2 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 6.0).time(6,
+                                                                                                         WritePrecision.US)
+
+        _point_list = [_point1, _point2]
+
+        async_results = self.write_client.write(bucket.name, self.org, _point_list)
+        self.assertEqual(2, len(async_results))
+        for async_result in async_results:
+            async_result.get()
+
+        query = f'from(bucket:"{bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z) '\
+                '|> sort(columns: [\"_time\"], desc: false)'
+
+        flux_result = self.client.query_api().query(query)
+
+        self.assertEqual(1, len(flux_result))
+
+        records = flux_result[0].records
+
+        self.assertEqual(2, len(records))
+        self.assertEqual(records[0].get_time(),
+                         datetime.datetime(1970, 1, 1, 0, 0, 0, 6, tzinfo=datetime.timezone.utc))
+        self.assertEqual(records[1].get_time(),
+                         datetime.datetime(1970, 1, 1, 0, 0, 5, tzinfo=datetime.timezone.utc))
+
 
 
 class PointSettingTest(BaseTest):

@@ -315,6 +315,25 @@ class BatchingWriteTest(BaseTest):
 
         pass
 
+    def test_write_point_different_precision(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0).time(5, WritePrecision.S)
+        _point2 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 6.0).time(6, WritePrecision.NS)
+
+        self._write_client.write("my-bucket", "my-org", [_point1, _point2])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(2, len(_requests))
+
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5.0 5", _requests[0].parsed_body)
+        self.assertEqual("s", _requests[0].querystring["precision"][0])
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[1].parsed_body)
+        self.assertEqual("ns", _requests[1].querystring["precision"][0])
+
     def test_write_result(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
