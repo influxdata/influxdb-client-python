@@ -84,6 +84,10 @@ class Point(object):
 
         return f"{_measurement}{_tags}{_fields}{_time}"
 
+    @property
+    def write_precision(self):
+        return self._write_precision
+
 
 def _append_tags(tags):
     _return = []

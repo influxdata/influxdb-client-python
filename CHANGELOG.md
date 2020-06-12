@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 1. [#105](https://github.com/influxdata/influxdb-client-python/pull/105): Fixed mapping dictionary without timestamp and tags into LineProtocol
+1. [#108](https://github.com/influxdata/influxdb-client-python/pull/108): The WriteApi uses precision from Point instead a default precision
 
 ## 1.7.0 [2020-05-15]
 

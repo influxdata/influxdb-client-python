@@ -1,14 +1,12 @@
 # coding: utf-8
 import logging
 import os
-import re
+from collections import defaultdict
 from datetime import timedelta
 from enum import Enum
-from functools import reduce
-from itertools import chain
 from random import random
 from time import sleep
-from typing import Union, List
+from typing import Union, List, Any
 
 import rx
 from rx import operators as ops, Observable
@@ -186,13 +184,13 @@ class WriteApi(AbstractClient):
     def write(self, bucket: str, org: str = None,
               record: Union[
                   str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable] = None,
-              write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> None:
+              write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> Any:
         """
         Writes time-series data into influxdb.
 
         :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
-        :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol
+        :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol. The precision specified on a Point has precedes and is use for write.
         :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
         :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
@@ -217,11 +215,21 @@ class WriteApi(AbstractClient):
             return self._write_batching(bucket, org, record,
                                         write_precision, **kwargs)
 
-        final_string = self._serialize(record, write_precision, **kwargs)
+        payloads = defaultdict(list)
+        self._serialize(record, write_precision, payloads, **kwargs)
 
         _async_req = True if self._write_options.write_type == WriteType.asynchronous else False
 
-        return self._post_write(_async_req, bucket, org, final_string, write_precision)
+        def write_payload(payload):
+            final_string = b'\n'.join(payload[1])
+            return self._post_write(_async_req, bucket, org, final_string, payload[0])
+
+        results = list(map(write_payload, payloads.items()))
+        if not _async_req:
+            return None
+        elif len(results) == 1:
+            return results[0]
+        return results
 
     def flush(self):
         # TODO
@@ -241,35 +249,31 @@ class WriteApi(AbstractClient):
             self._disposable = None
         pass
 
-    def _serialize(self, record, write_precision, **kwargs) -> bytes:
-        _result = b''
+    def _serialize(self, record, write_precision, payload, **kwargs):
         if isinstance(record, bytes):
-            _result = record
+            payload[write_precision].append(record)
 
         elif isinstance(record, str):
-            _result = record.encode("utf-8")
+            self._serialize(record.encode("utf-8"), write_precision, payload, **kwargs)
 
         elif isinstance(record, Point):
-            _result = self._serialize(record.to_line_protocol(), write_precision, **kwargs)
+            self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
 
         elif isinstance(record, dict):
-            _result = self._serialize(Point.from_dict(record, write_precision=write_precision),
-                                      write_precision, **kwargs)
+            self._serialize(Point.from_dict(record, write_precision=write_precision), write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
             _data = self._data_frame_to_list_of_points(record, precision=write_precision, **kwargs)
-            _result = self._serialize(_data, write_precision, **kwargs)
+            self._serialize(_data, write_precision, payload, **kwargs)
 
         elif isinstance(record, list):
-            _result = b'\n'.join([self._serialize(item, write_precision,
-                                                  **kwargs) for item in record])
-
-        return _result
+            for item in record:
+                self._serialize(item, write_precision, payload, **kwargs)
 
     def _write_batching(self, bucket, org, data,
                         precision=DEFAULT_WRITE_PRECISION,
                         **kwargs):
-        _key = _BatchItemKey(bucket, org, precision)
         if isinstance(data, bytes):
+            _key = _BatchItemKey(bucket, org, precision)
             self._subject.on_next(_BatchItem(key=_key, data=data))
 
         elif isinstance(data, str):
@@ -277,8 +281,7 @@ class WriteApi(AbstractClient):
                                  precision, **kwargs)
 
         elif isinstance(data, Point):
-            self._write_batching(bucket, org, data.to_line_protocol(),
-                                 precision, **kwargs)
+            self._write_batching(bucket, org, data.to_line_protocol(), data.write_precision, **kwargs)
 
         elif isinstance(data, dict):
             self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision),
