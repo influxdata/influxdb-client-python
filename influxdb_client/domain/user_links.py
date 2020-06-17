@@ -31,26 +31,21 @@ class UserLinks(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_self': 'str',
-        'logs': 'str'
+        '_self': 'str'
     }
 
     attribute_map = {
-        '_self': 'self',
-        'logs': 'logs'
+        '_self': 'self'
     }
 
-    def __init__(self, _self=None, logs=None):  # noqa: E501
+    def __init__(self, _self=None):  # noqa: E501
         """UserLinks - a model defined in OpenAPI"""  # noqa: E501
 
         self.__self = None
-        self._logs = None
         self.discriminator = None
 
         if _self is not None:
             self._self = _self
-        if logs is not None:
-            self.logs = logs
 
     @property
     def _self(self):
@@ -72,27 +67,6 @@ class UserLinks(object):
         """
 
         self.__self = _self
-
-    @property
-    def logs(self):
-        """Gets the logs of this UserLinks.  # noqa: E501
-
-
-        :return: The logs of this UserLinks.  # noqa: E501
-        :rtype: str
-        """
-        return self._logs
-
-    @logs.setter
-    def logs(self, logs):
-        """Sets the logs of this UserLinks.
-
-
-        :param logs: The logs of this UserLinks.  # noqa: E501
-        :type: str
-        """
-
-        self._logs = logs
 
     def to_dict(self):
         """Returns the model properties as a dict"""

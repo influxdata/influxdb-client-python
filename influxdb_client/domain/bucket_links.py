@@ -32,7 +32,6 @@ class BucketLinks(object):
     """
     openapi_types = {
         'labels': 'str',
-        'logs': 'str',
         'members': 'str',
         'org': 'str',
         'owners': 'str',
@@ -42,7 +41,6 @@ class BucketLinks(object):
 
     attribute_map = {
         'labels': 'labels',
-        'logs': 'logs',
         'members': 'members',
         'org': 'org',
         'owners': 'owners',
@@ -50,11 +48,10 @@ class BucketLinks(object):
         'write': 'write'
     }
 
-    def __init__(self, labels=None, logs=None, members=None, org=None, owners=None, _self=None, write=None):  # noqa: E501
+    def __init__(self, labels=None, members=None, org=None, owners=None, _self=None, write=None):  # noqa: E501
         """BucketLinks - a model defined in OpenAPI"""  # noqa: E501
 
         self._labels = None
-        self._logs = None
         self._members = None
         self._org = None
         self._owners = None
@@ -64,8 +61,6 @@ class BucketLinks(object):
 
         if labels is not None:
             self.labels = labels
-        if logs is not None:
-            self.logs = logs
         if members is not None:
             self.members = members
         if org is not None:
@@ -99,29 +94,6 @@ class BucketLinks(object):
         """
 
         self._labels = labels
-
-    @property
-    def logs(self):
-        """Gets the logs of this BucketLinks.  # noqa: E501
-
-        URI of resource.  # noqa: E501
-
-        :return: The logs of this BucketLinks.  # noqa: E501
-        :rtype: str
-        """
-        return self._logs
-
-    @logs.setter
-    def logs(self, logs):
-        """Sets the logs of this BucketLinks.
-
-        URI of resource.  # noqa: E501
-
-        :param logs: The logs of this BucketLinks.  # noqa: E501
-        :type: str
-        """
-
-        self._logs = logs
 
     @property
     def members(self):

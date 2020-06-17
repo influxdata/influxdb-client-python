@@ -39,7 +39,9 @@ class SingleStatViewProperties(ViewProperties):
         'note': 'str',
         'show_note_when_empty': 'bool',
         'prefix': 'str',
+        'tick_prefix': 'str',
         'suffix': 'str',
+        'tick_suffix': 'str',
         'legend': 'Legend',
         'decimal_places': 'DecimalPlaces'
     }
@@ -52,12 +54,14 @@ class SingleStatViewProperties(ViewProperties):
         'note': 'note',
         'show_note_when_empty': 'showNoteWhenEmpty',
         'prefix': 'prefix',
+        'tick_prefix': 'tickPrefix',
         'suffix': 'suffix',
+        'tick_suffix': 'tickSuffix',
         'legend': 'legend',
         'decimal_places': 'decimalPlaces'
     }
 
-    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, prefix=None, suffix=None, legend=None, decimal_places=None):  # noqa: E501
+    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, prefix=None, tick_prefix=None, suffix=None, tick_suffix=None, legend=None, decimal_places=None):  # noqa: E501
         """SingleStatViewProperties - a model defined in OpenAPI"""  # noqa: E501
         ViewProperties.__init__(self)
 
@@ -68,7 +72,9 @@ class SingleStatViewProperties(ViewProperties):
         self._note = None
         self._show_note_when_empty = None
         self._prefix = None
+        self._tick_prefix = None
         self._suffix = None
+        self._tick_suffix = None
         self._legend = None
         self._decimal_places = None
         self.discriminator = None
@@ -80,7 +86,9 @@ class SingleStatViewProperties(ViewProperties):
         self.note = note
         self.show_note_when_empty = show_note_when_empty
         self.prefix = prefix
+        self.tick_prefix = tick_prefix
         self.suffix = suffix
+        self.tick_suffix = tick_suffix
         self.legend = legend
         self.decimal_places = decimal_places
 
@@ -250,6 +258,29 @@ class SingleStatViewProperties(ViewProperties):
         self._prefix = prefix
 
     @property
+    def tick_prefix(self):
+        """Gets the tick_prefix of this SingleStatViewProperties.  # noqa: E501
+
+
+        :return: The tick_prefix of this SingleStatViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._tick_prefix
+
+    @tick_prefix.setter
+    def tick_prefix(self, tick_prefix):
+        """Sets the tick_prefix of this SingleStatViewProperties.
+
+
+        :param tick_prefix: The tick_prefix of this SingleStatViewProperties.  # noqa: E501
+        :type: str
+        """
+        if tick_prefix is None:
+            raise ValueError("Invalid value for `tick_prefix`, must not be `None`")  # noqa: E501
+
+        self._tick_prefix = tick_prefix
+
+    @property
     def suffix(self):
         """Gets the suffix of this SingleStatViewProperties.  # noqa: E501
 
@@ -271,6 +302,29 @@ class SingleStatViewProperties(ViewProperties):
             raise ValueError("Invalid value for `suffix`, must not be `None`")  # noqa: E501
 
         self._suffix = suffix
+
+    @property
+    def tick_suffix(self):
+        """Gets the tick_suffix of this SingleStatViewProperties.  # noqa: E501
+
+
+        :return: The tick_suffix of this SingleStatViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._tick_suffix
+
+    @tick_suffix.setter
+    def tick_suffix(self, tick_suffix):
+        """Sets the tick_suffix of this SingleStatViewProperties.
+
+
+        :param tick_suffix: The tick_suffix of this SingleStatViewProperties.  # noqa: E501
+        :type: str
+        """
+        if tick_suffix is None:
+            raise ValueError("Invalid value for `tick_suffix`, must not be `None`")  # noqa: E501
+
+        self._tick_suffix = tick_suffix
 
     @property
     def legend(self):

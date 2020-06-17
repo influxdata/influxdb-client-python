@@ -34,23 +34,29 @@ class HealthCheck(object):
         'name': 'str',
         'message': 'str',
         'checks': 'list[HealthCheck]',
-        'status': 'str'
+        'status': 'str',
+        'version': 'str',
+        'commit': 'str'
     }
 
     attribute_map = {
         'name': 'name',
         'message': 'message',
         'checks': 'checks',
-        'status': 'status'
+        'status': 'status',
+        'version': 'version',
+        'commit': 'commit'
     }
 
-    def __init__(self, name=None, message=None, checks=None, status=None):  # noqa: E501
+    def __init__(self, name=None, message=None, checks=None, status=None, version=None, commit=None):  # noqa: E501
         """HealthCheck - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
         self._message = None
         self._checks = None
         self._status = None
+        self._version = None
+        self._commit = None
         self.discriminator = None
 
         self.name = name
@@ -59,6 +65,10 @@ class HealthCheck(object):
         if checks is not None:
             self.checks = checks
         self.status = status
+        if version is not None:
+            self.version = version
+        if commit is not None:
+            self.commit = commit
 
     @property
     def name(self):
@@ -147,6 +157,48 @@ class HealthCheck(object):
             raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
 
         self._status = status
+
+    @property
+    def version(self):
+        """Gets the version of this HealthCheck.  # noqa: E501
+
+
+        :return: The version of this HealthCheck.  # noqa: E501
+        :rtype: str
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this HealthCheck.
+
+
+        :param version: The version of this HealthCheck.  # noqa: E501
+        :type: str
+        """
+
+        self._version = version
+
+    @property
+    def commit(self):
+        """Gets the commit of this HealthCheck.  # noqa: E501
+
+
+        :return: The commit of this HealthCheck.  # noqa: E501
+        :rtype: str
+        """
+        return self._commit
+
+    @commit.setter
+    def commit(self, commit):
+        """Sets the commit of this HealthCheck.
+
+
+        :param commit: The commit of this HealthCheck.  # noqa: E501
+        :type: str
+        """
+
+        self._commit = commit
 
     def to_dict(self):
         """Returns the model properties as a dict"""

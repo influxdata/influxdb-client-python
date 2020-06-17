@@ -34,32 +34,26 @@ class Query(object):
         'extern': 'File',
         'query': 'str',
         'type': 'str',
-        'db': 'str',
-        'rp': 'str',
-        'cluster': 'str',
-        'dialect': 'Dialect'
+        'dialect': 'Dialect',
+        'now': 'datetime'
     }
 
     attribute_map = {
         'extern': 'extern',
         'query': 'query',
         'type': 'type',
-        'db': 'db',
-        'rp': 'rp',
-        'cluster': 'cluster',
-        'dialect': 'dialect'
+        'dialect': 'dialect',
+        'now': 'now'
     }
 
-    def __init__(self, extern=None, query=None, type='flux', db=None, rp=None, cluster=None, dialect=None):  # noqa: E501
+    def __init__(self, extern=None, query=None, type=None, dialect=None, now=None):  # noqa: E501
         """Query - a model defined in OpenAPI"""  # noqa: E501
 
         self._extern = None
         self._query = None
         self._type = None
-        self._db = None
-        self._rp = None
-        self._cluster = None
         self._dialect = None
+        self._now = None
         self.discriminator = None
 
         if extern is not None:
@@ -67,14 +61,10 @@ class Query(object):
         self.query = query
         if type is not None:
             self.type = type
-        if db is not None:
-            self.db = db
-        if rp is not None:
-            self.rp = rp
-        if cluster is not None:
-            self.cluster = cluster
         if dialect is not None:
             self.dialect = dialect
+        if now is not None:
+            self.now = now
 
     @property
     def extern(self):
@@ -126,7 +116,7 @@ class Query(object):
     def type(self):
         """Gets the type of this Query.  # noqa: E501
 
-        The type of query.  # noqa: E501
+        The type of query. Must be \"flux\".  # noqa: E501
 
         :return: The type of this Query.  # noqa: E501
         :rtype: str
@@ -137,82 +127,13 @@ class Query(object):
     def type(self, type):
         """Sets the type of this Query.
 
-        The type of query.  # noqa: E501
+        The type of query. Must be \"flux\".  # noqa: E501
 
         :param type: The type of this Query.  # noqa: E501
         :type: str
         """
 
         self._type = type
-
-    @property
-    def db(self):
-        """Gets the db of this Query.  # noqa: E501
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :return: The db of this Query.  # noqa: E501
-        :rtype: str
-        """
-        return self._db
-
-    @db.setter
-    def db(self, db):
-        """Sets the db of this Query.
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :param db: The db of this Query.  # noqa: E501
-        :type: str
-        """
-
-        self._db = db
-
-    @property
-    def rp(self):
-        """Gets the rp of this Query.  # noqa: E501
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :return: The rp of this Query.  # noqa: E501
-        :rtype: str
-        """
-        return self._rp
-
-    @rp.setter
-    def rp(self, rp):
-        """Sets the rp of this Query.
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :param rp: The rp of this Query.  # noqa: E501
-        :type: str
-        """
-
-        self._rp = rp
-
-    @property
-    def cluster(self):
-        """Gets the cluster of this Query.  # noqa: E501
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :return: The cluster of this Query.  # noqa: E501
-        :rtype: str
-        """
-        return self._cluster
-
-    @cluster.setter
-    def cluster(self, cluster):
-        """Sets the cluster of this Query.
-
-        Required for `influxql` type queries.  # noqa: E501
-
-        :param cluster: The cluster of this Query.  # noqa: E501
-        :type: str
-        """
-
-        self._cluster = cluster
 
     @property
     def dialect(self):
@@ -234,6 +155,29 @@ class Query(object):
         """
 
         self._dialect = dialect
+
+    @property
+    def now(self):
+        """Gets the now of this Query.  # noqa: E501
+
+        Specifies the time that should be reported as \"now\" in the query. Default is the server's now time.  # noqa: E501
+
+        :return: The now of this Query.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._now
+
+    @now.setter
+    def now(self, now):
+        """Sets the now of this Query.
+
+        Specifies the time that should be reported as \"now\" in the query. Default is the server's now time.  # noqa: E501
+
+        :param now: The now of this Query.  # noqa: E501
+        :type: datetime
+        """
+
+        self._now = now
 
     def to_dict(self):
         """Returns the model properties as a dict"""

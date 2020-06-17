@@ -2856,118 +2856,6 @@ class UsersService(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_users_id_logs(self, user_id, **kwargs):  # noqa: E501
-        """Retrieve operation logs for a user  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_users_id_logs(user_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :param str user_id: The user ID. (required)
-        :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
-        :return: OperationLogs
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_users_id_logs_with_http_info(user_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.get_users_id_logs_with_http_info(user_id, **kwargs)  # noqa: E501
-            return data
-
-    def get_users_id_logs_with_http_info(self, user_id, **kwargs):  # noqa: E501
-        """Retrieve operation logs for a user  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_users_id_logs_with_http_info(user_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :param str user_id: The user ID. (required)
-        :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
-        :return: OperationLogs
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = ['user_id', 'zap_trace_span', 'offset', 'limit']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_users_id_logs" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'user_id' is set
-        if ('user_id' not in local_var_params or
-                local_var_params['user_id'] is None):
-            raise ValueError("Missing the required parameter `user_id` when calling `get_users_id_logs`")  # noqa: E501
-
-        if 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ValueError("Invalid value for parameter `offset` when calling `get_users_id_logs`, must be a value greater than or equal to `0`")  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ValueError("Invalid value for parameter `limit` when calling `get_users_id_logs`, must be a value less than or equal to `100`")  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] < 1:  # noqa: E501
-            raise ValueError("Invalid value for parameter `limit` when calling `get_users_id_logs`, must be a value greater than or equal to `1`")  # noqa: E501
-        collection_formats = {}
-
-        path_params = {}
-        if 'user_id' in local_var_params:
-            path_params['userID'] = local_var_params['user_id']  # noqa: E501
-
-        query_params = []
-        if 'offset' in local_var_params:
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'limit' in local_var_params:
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-
-        header_params = {}
-        if 'zap_trace_span' in local_var_params:
-            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-
-        return self.api_client.call_api(
-            '/api/v2/users/{userID}/logs', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='OperationLogs',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
     def patch_users_id(self, user_id, user, **kwargs):  # noqa: E501
         """Update a user  # noqa: E501
 
@@ -4500,6 +4388,116 @@ class UsersService(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def post_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501
+        """Update a password  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_users_id_password(user_id, password_reset_body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.post_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
+        else:
+            (data) = self.post_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
+            return data
+
+    def post_users_id_password_with_http_info(self, user_id, password_reset_body, **kwargs):  # noqa: E501
+        """Update a password  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_users_id_password_with_http_info(user_id, password_reset_body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
+        :param str zap_trace_span: OpenTracing span context
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['user_id', 'password_reset_body', 'zap_trace_span']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method post_users_id_password" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'user_id' is set
+        if ('user_id' not in local_var_params or
+                local_var_params['user_id'] is None):
+            raise ValueError("Missing the required parameter `user_id` when calling `post_users_id_password`")  # noqa: E501
+        # verify the required parameter 'password_reset_body' is set
+        if ('password_reset_body' not in local_var_params or
+                local_var_params['password_reset_body'] is None):
+            raise ValueError("Missing the required parameter `password_reset_body` when calling `post_users_id_password`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'user_id' in local_var_params:
+            path_params['userID'] = local_var_params['user_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'password_reset_body' in local_var_params:
+            body_params = local_var_params['password_reset_body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['BasicAuth']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/v2/users/{userID}/password', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def put_me_password(self, password_reset_body, **kwargs):  # noqa: E501
         """Update a password  # noqa: E501
 
@@ -4588,116 +4586,6 @@ class UsersService(object):
 
         return self.api_client.call_api(
             '/api/v2/me/password', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def put_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501
-        """Update a password  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.put_users_id_password(user_id, password_reset_body, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :param str user_id: The user ID. (required)
-        :param PasswordResetBody password_reset_body: New password (required)
-        :param str zap_trace_span: OpenTracing span context
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.put_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.put_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
-            return data
-
-    def put_users_id_password_with_http_info(self, user_id, password_reset_body, **kwargs):  # noqa: E501
-        """Update a password  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.put_users_id_password_with_http_info(user_id, password_reset_body, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :param str user_id: The user ID. (required)
-        :param PasswordResetBody password_reset_body: New password (required)
-        :param str zap_trace_span: OpenTracing span context
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = ['user_id', 'password_reset_body', 'zap_trace_span']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method put_users_id_password" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'user_id' is set
-        if ('user_id' not in local_var_params or
-                local_var_params['user_id'] is None):
-            raise ValueError("Missing the required parameter `user_id` when calling `put_users_id_password`")  # noqa: E501
-        # verify the required parameter 'password_reset_body' is set
-        if ('password_reset_body' not in local_var_params or
-                local_var_params['password_reset_body'] is None):
-            raise ValueError("Missing the required parameter `password_reset_body` when calling `put_users_id_password`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'user_id' in local_var_params:
-            path_params['userID'] = local_var_params['user_id']  # noqa: E501
-
-        query_params = []
-
-        header_params = {}
-        if 'zap_trace_span' in local_var_params:
-            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'password_reset_body' in local_var_params:
-            body_params = local_var_params['password_reset_body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['BasicAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/api/v2/users/{userID}/password', 'PUT',
             path_params,
             query_params,
             header_params,
