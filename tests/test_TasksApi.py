@@ -284,7 +284,6 @@ class TasksApiTest(BaseTest):
         self.assertIsNone(run.requested_at)
         self.assertIsNotNone(run.links)
 
-        self.assertEqual(run.links.logs, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/logs")
         self.assertEqual(run.links.retry, "/api/v2/tasks/" + task.id + "/runs/" + run.id + "/retry")
         self.assertEqual(run.links._self, "/api/v2/tasks/" + task.id + "/runs/" + run.id)
         self.assertEqual(run.links.task, "/api/v2/tasks/" + task.id)

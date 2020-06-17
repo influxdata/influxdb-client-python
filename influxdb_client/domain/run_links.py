@@ -33,23 +33,20 @@ class RunLinks(object):
     openapi_types = {
         '_self': 'str',
         'task': 'str',
-        'logs': 'str',
         'retry': 'str'
     }
 
     attribute_map = {
         '_self': 'self',
         'task': 'task',
-        'logs': 'logs',
         'retry': 'retry'
     }
 
-    def __init__(self, _self=None, task=None, logs=None, retry=None):  # noqa: E501
+    def __init__(self, _self=None, task=None, retry=None):  # noqa: E501
         """RunLinks - a model defined in OpenAPI"""  # noqa: E501
 
         self.__self = None
         self._task = None
-        self._logs = None
         self._retry = None
         self.discriminator = None
 
@@ -57,8 +54,6 @@ class RunLinks(object):
             self._self = _self
         if task is not None:
             self.task = task
-        if logs is not None:
-            self.logs = logs
         if retry is not None:
             self.retry = retry
 
@@ -103,27 +98,6 @@ class RunLinks(object):
         """
 
         self._task = task
-
-    @property
-    def logs(self):
-        """Gets the logs of this RunLinks.  # noqa: E501
-
-
-        :return: The logs of this RunLinks.  # noqa: E501
-        :rtype: str
-        """
-        return self._logs
-
-    @logs.setter
-    def logs(self, logs):
-        """Sets the logs of this RunLinks.
-
-
-        :param logs: The logs of this RunLinks.  # noqa: E501
-        :type: str
-        """
-
-        self._logs = logs
 
     @property
     def retry(self):

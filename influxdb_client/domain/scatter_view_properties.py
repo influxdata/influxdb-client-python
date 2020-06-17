@@ -32,6 +32,7 @@ class ScatterViewProperties(ViewProperties):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'time_format': 'str',
         'type': 'str',
         'queries': 'list[DashboardQuery]',
         'colors': 'list[str]',
@@ -53,6 +54,7 @@ class ScatterViewProperties(ViewProperties):
     }
 
     attribute_map = {
+        'time_format': 'timeFormat',
         'type': 'type',
         'queries': 'queries',
         'colors': 'colors',
@@ -73,10 +75,11 @@ class ScatterViewProperties(ViewProperties):
         'y_suffix': 'ySuffix'
     }
 
-    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, y_column=None, fill_columns=None, symbol_columns=None, x_domain=None, y_domain=None, x_axis_label=None, y_axis_label=None, x_prefix=None, x_suffix=None, y_prefix=None, y_suffix=None):  # noqa: E501
+    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, y_column=None, fill_columns=None, symbol_columns=None, x_domain=None, y_domain=None, x_axis_label=None, y_axis_label=None, x_prefix=None, x_suffix=None, y_prefix=None, y_suffix=None):  # noqa: E501
         """ScatterViewProperties - a model defined in OpenAPI"""  # noqa: E501
         ViewProperties.__init__(self)
 
+        self._time_format = None
         self._type = None
         self._queries = None
         self._colors = None
@@ -97,6 +100,8 @@ class ScatterViewProperties(ViewProperties):
         self._y_suffix = None
         self.discriminator = None
 
+        if time_format is not None:
+            self.time_format = time_format
         self.type = type
         self.queries = queries
         self.colors = colors
@@ -115,6 +120,27 @@ class ScatterViewProperties(ViewProperties):
         self.x_suffix = x_suffix
         self.y_prefix = y_prefix
         self.y_suffix = y_suffix
+
+    @property
+    def time_format(self):
+        """Gets the time_format of this ScatterViewProperties.  # noqa: E501
+
+
+        :return: The time_format of this ScatterViewProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._time_format
+
+    @time_format.setter
+    def time_format(self, time_format):
+        """Sets the time_format of this ScatterViewProperties.
+
+
+        :param time_format: The time_format of this ScatterViewProperties.  # noqa: E501
+        :type: str
+        """
+
+        self._time_format = time_format
 
     @property
     def type(self):

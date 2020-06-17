@@ -38,8 +38,7 @@ class OrganizationLinks(object):
         'secrets': 'str',
         'buckets': 'str',
         'tasks': 'str',
-        'dashboards': 'str',
-        'logs': 'str'
+        'dashboards': 'str'
     }
 
     attribute_map = {
@@ -50,11 +49,10 @@ class OrganizationLinks(object):
         'secrets': 'secrets',
         'buckets': 'buckets',
         'tasks': 'tasks',
-        'dashboards': 'dashboards',
-        'logs': 'logs'
+        'dashboards': 'dashboards'
     }
 
-    def __init__(self, _self=None, members=None, owners=None, labels=None, secrets=None, buckets=None, tasks=None, dashboards=None, logs=None):  # noqa: E501
+    def __init__(self, _self=None, members=None, owners=None, labels=None, secrets=None, buckets=None, tasks=None, dashboards=None):  # noqa: E501
         """OrganizationLinks - a model defined in OpenAPI"""  # noqa: E501
 
         self.__self = None
@@ -65,7 +63,6 @@ class OrganizationLinks(object):
         self._buckets = None
         self._tasks = None
         self._dashboards = None
-        self._logs = None
         self.discriminator = None
 
         if _self is not None:
@@ -84,8 +81,6 @@ class OrganizationLinks(object):
             self.tasks = tasks
         if dashboards is not None:
             self.dashboards = dashboards
-        if logs is not None:
-            self.logs = logs
 
     @property
     def _self(self):
@@ -270,29 +265,6 @@ class OrganizationLinks(object):
         """
 
         self._dashboards = dashboards
-
-    @property
-    def logs(self):
-        """Gets the logs of this OrganizationLinks.  # noqa: E501
-
-        URI of resource.  # noqa: E501
-
-        :return: The logs of this OrganizationLinks.  # noqa: E501
-        :rtype: str
-        """
-        return self._logs
-
-    @logs.setter
-    def logs(self, logs):
-        """Sets the logs of this OrganizationLinks.
-
-        URI of resource.  # noqa: E501
-
-        :param logs: The logs of this OrganizationLinks.  # noqa: E501
-        :type: str
-        """
-
-        self._logs = logs
 
     def to_dict(self):
         """Returns the model properties as a dict"""

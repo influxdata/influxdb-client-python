@@ -31,6 +31,7 @@ class LinePlusSingleStatProperties(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'time_format': 'str',
         'type': 'str',
         'queries': 'list[DashboardQuery]',
         'colors': 'list[DashboardColor]',
@@ -42,12 +43,14 @@ class LinePlusSingleStatProperties(object):
         'x_column': 'str',
         'y_column': 'str',
         'shade_below': 'bool',
+        'position': 'str',
         'prefix': 'str',
         'suffix': 'str',
         'decimal_places': 'DecimalPlaces'
     }
 
     attribute_map = {
+        'time_format': 'timeFormat',
         'type': 'type',
         'queries': 'queries',
         'colors': 'colors',
@@ -59,14 +62,16 @@ class LinePlusSingleStatProperties(object):
         'x_column': 'xColumn',
         'y_column': 'yColumn',
         'shade_below': 'shadeBelow',
+        'position': 'position',
         'prefix': 'prefix',
         'suffix': 'suffix',
         'decimal_places': 'decimalPlaces'
     }
 
-    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, legend=None, x_column=None, y_column=None, shade_below=None, prefix=None, suffix=None, decimal_places=None):  # noqa: E501
+    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, legend=None, x_column=None, y_column=None, shade_below=None, position=None, prefix=None, suffix=None, decimal_places=None):  # noqa: E501
         """LinePlusSingleStatProperties - a model defined in OpenAPI"""  # noqa: E501
 
+        self._time_format = None
         self._type = None
         self._queries = None
         self._colors = None
@@ -78,11 +83,14 @@ class LinePlusSingleStatProperties(object):
         self._x_column = None
         self._y_column = None
         self._shade_below = None
+        self._position = None
         self._prefix = None
         self._suffix = None
         self._decimal_places = None
         self.discriminator = None
 
+        if time_format is not None:
+            self.time_format = time_format
         self.type = type
         self.queries = queries
         self.colors = colors
@@ -97,9 +105,31 @@ class LinePlusSingleStatProperties(object):
             self.y_column = y_column
         if shade_below is not None:
             self.shade_below = shade_below
+        self.position = position
         self.prefix = prefix
         self.suffix = suffix
         self.decimal_places = decimal_places
+
+    @property
+    def time_format(self):
+        """Gets the time_format of this LinePlusSingleStatProperties.  # noqa: E501
+
+
+        :return: The time_format of this LinePlusSingleStatProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._time_format
+
+    @time_format.setter
+    def time_format(self, time_format):
+        """Sets the time_format of this LinePlusSingleStatProperties.
+
+
+        :param time_format: The time_format of this LinePlusSingleStatProperties.  # noqa: E501
+        :type: str
+        """
+
+        self._time_format = time_format
 
     @property
     def type(self):
@@ -351,6 +381,29 @@ class LinePlusSingleStatProperties(object):
         """
 
         self._shade_below = shade_below
+
+    @property
+    def position(self):
+        """Gets the position of this LinePlusSingleStatProperties.  # noqa: E501
+
+
+        :return: The position of this LinePlusSingleStatProperties.  # noqa: E501
+        :rtype: str
+        """
+        return self._position
+
+    @position.setter
+    def position(self, position):
+        """Sets the position of this LinePlusSingleStatProperties.
+
+
+        :param position: The position of this LinePlusSingleStatProperties.  # noqa: E501
+        :type: str
+        """
+        if position is None:
+            raise ValueError("Invalid value for `position`, must not be `None`")  # noqa: E501
+
+        self._position = position
 
     @property
     def prefix(self):

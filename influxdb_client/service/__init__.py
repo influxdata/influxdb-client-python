@@ -7,13 +7,13 @@ from influxdb_client.service.authorizations_service import AuthorizationsService
 from influxdb_client.service.buckets_service import BucketsService
 from influxdb_client.service.cells_service import CellsService
 from influxdb_client.service.checks_service import ChecksService
+from influxdb_client.service.dbr_ps_service import DBRPsService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.health_service import HealthService
 from influxdb_client.service.influx_packages_service import InfluxPackagesService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
 from influxdb_client.service.notification_rules_service import NotificationRulesService
-from influxdb_client.service.operation_logs_service import OperationLogsService
 from influxdb_client.service.organizations_service import OrganizationsService
 from influxdb_client.service.query_service import QueryService
 from influxdb_client.service.ready_service import ReadyService

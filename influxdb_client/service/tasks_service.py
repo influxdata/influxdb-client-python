@@ -571,6 +571,7 @@ class TasksService(object):
         :param str user: Filter tasks to a specific user ID.
         :param str org: Filter tasks to a specific organization name.
         :param str org_id: Filter tasks to a specific organization ID.
+        :param str status: Filter tasks by a status--\"inactive\" or \"active\".
         :param int limit: The number of tasks to return
         :return: Tasks
                  If the method is called asynchronously,
@@ -598,6 +599,7 @@ class TasksService(object):
         :param str user: Filter tasks to a specific user ID.
         :param str org: Filter tasks to a specific organization name.
         :param str org_id: Filter tasks to a specific organization ID.
+        :param str status: Filter tasks by a status--\"inactive\" or \"active\".
         :param int limit: The number of tasks to return
         :return: Tasks
                  If the method is called asynchronously,
@@ -606,7 +608,7 @@ class TasksService(object):
 
         local_var_params = locals()
 
-        all_params = ['zap_trace_span', 'name', 'after', 'user', 'org', 'org_id', 'limit']  # noqa: E501
+        all_params = ['zap_trace_span', 'name', 'after', 'user', 'org', 'org_id', 'status', 'limit']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -640,6 +642,8 @@ class TasksService(object):
             query_params.append(('org', local_var_params['org']))  # noqa: E501
         if 'org_id' in local_var_params:
             query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
+        if 'status' in local_var_params:
+            query_params.append(('status', local_var_params['status']))  # noqa: E501
         if 'limit' in local_var_params:
             query_params.append(('limit', local_var_params['limit']))  # noqa: E501
 
