@@ -1,4 +1,4 @@
-## 1.8.0 [unreleased]
+## 1.8.0 [2020-06-19]
 
 ### Features
 1. [#92](https://github.com/influxdata/influxdb-client-python/issues/92): Optimize serializing Pandas DataFrame for writing
