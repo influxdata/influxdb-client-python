@@ -1,5 +1,8 @@
 ## 1.9.0 [unreleased]
 
+### Features
+1. [#112](https://github.com/influxdata/influxdb-client-python/pull/113): Support timestamp with different timezone in _convert_timestamp
+
 ## 1.8.0 [2020-06-19]
 
 ### Features
