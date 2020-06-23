@@ -309,6 +309,14 @@ class PointTest(BaseTest):
         point = Point.from_dict(json)
         self.assertEqual("my-org field1=1i,field2=2i", point.to_line_protocol())
 
+    def test_points_from_different_timezones(self):
+        time_in_utc = UTC.localize(datetime(2020, 7, 4, 0, 0, 0, 123456))
+        time_in_hk = timezone('Asia/Hong_Kong').localize(datetime(2020, 7, 4, 8, 0, 0, 123456))  # +08:00
+
+        point_utc = Point.measurement("h2o").field("val", 1).time(time_in_utc)
+        point_hk = Point.measurement("h2o").field("val", 1).time(time_in_hk)
+        self.assertEqual(point_utc.to_line_protocol(), point_hk.to_line_protocol())
+
 
 if __name__ == '__main__':
     unittest.main()
