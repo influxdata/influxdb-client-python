@@ -25,7 +25,6 @@ commands:
       - run:
           command: |  # use pipenv to install dependencies
             sudo pip install pipenv
-            pipenv install
       - run:
           name: "Running tests"
           command: ./scripts/ci-test.sh
