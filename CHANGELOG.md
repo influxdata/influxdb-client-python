@@ -1,10 +1,12 @@
 ## 1.9.0 [unreleased]
 
+### Features
+1. [#112](https://github.com/influxdata/influxdb-client-python/pull/113): Support timestamp with different timezone in _convert_timestamp
+
 ## 1.8.0 [2020-06-19]
 
 ### Features
 1. [#92](https://github.com/influxdata/influxdb-client-python/issues/92): Optimize serializing Pandas DataFrame for writing
-1. [#112](https://github.com/influxdata/influxdb-client-python/issues/112): Support timestamp with different timezone in _convert_timestamp
 
 ### API
 1. [#110](https://github.com/influxdata/influxdb-client-python/pull/110): Removed log system from Bucket, Dashboard, Organization, Task and Users API - [influxdb#18459](https://github.com/influxdata/influxdb/pull/18459), Update swagger to latest version
