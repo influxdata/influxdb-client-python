@@ -160,6 +160,8 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
         if isinstance(timestamp, datetime):
             if not timestamp.tzinfo:
                 timestamp = UTC.localize(timestamp)
+            else:
+                timestamp = timestamp.astimezone(UTC)
             ns = (timestamp - EPOCH).total_seconds() * 1e9
         else:
             ns = timestamp.total_seconds() * 1e9
