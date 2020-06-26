@@ -12,6 +12,7 @@ from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
+_ESCAPE_MEASUREMENT = str.maketrans({'\\': '\\\\', ',': r'\,', ' ': r'\ ', '\n': '\\n', '\t': '\\t', '\r': '\\r'})
 _ESCAPE_KEY = str.maketrans({'\\': '\\\\', ',': r'\,', ' ': r'\ ', '=': r'\=', '\n': '\\n', '\t': '\\t', '\r': '\\r'})
 _ESCAPE_STRING = str.maketrans({'\"': r"\"", "\\": r"\\"})
 
@@ -75,7 +76,7 @@ class Point(object):
         return self
 
     def to_line_protocol(self):
-        _measurement = _escape_key(self._name)
+        _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
         _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
         if not _fields:
@@ -133,8 +134,10 @@ def _append_time(time, write_precision):
     return f" {int(_convert_timestamp(time, write_precision))}"
 
 
-def _escape_key(tag):
-    return str(tag).translate(_ESCAPE_KEY)
+def _escape_key(tag, escape_list=None):
+    if escape_list is None:
+        escape_list = _ESCAPE_KEY
+    return str(tag).translate(escape_list)
 
 
 def _escape_tag_value(value):
