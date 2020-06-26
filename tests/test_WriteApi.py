@@ -334,6 +334,42 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(result[1].records[0].get_time(),
                          datetime.datetime(2020, 4, 20, 6, 30, tzinfo=datetime.timezone.utc))
 
+    def test_write_point_with_default_tags(self):
+        bucket = self.create_test_bucket()
+
+        point = Point("h2o_feet")\
+            .field("water_level", 1)\
+            .tag("location", "creek level")
+
+        self.write_client.write(bucket.name, self.org, point)
+
+        flux_result = self.client.query_api().query(f'from(bucket:"{bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)')
+        self.assertEqual(1, len(flux_result))
+
+        record = flux_result[0].records[0]
+
+        self.assertEqual(self.id_tag, record["id"])
+        self.assertEqual(self.customer_tag, record["customer"])
+        self.assertEqual("LA", record[self.data_center_key])
+
+    def test_write_list_of_list_point_with_default_tags(self):
+        bucket = self.create_test_bucket()
+
+        point = Point("h2o_feet")\
+            .field("water_level", 1)\
+            .tag("location", "creek level")
+
+        self.write_client.write(bucket.name, self.org, [[point]])
+
+        flux_result = self.client.query_api().query(f'from(bucket:"{bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)')
+        self.assertEqual(1, len(flux_result))
+
+        record = flux_result[0].records[0]
+
+        self.assertEqual(self.id_tag, record["id"])
+        self.assertEqual(self.customer_tag, record["customer"])
+        self.assertEqual("LA", record[self.data_center_key])
+
 
 class AsynchronousWriteTest(BaseTest):
 
