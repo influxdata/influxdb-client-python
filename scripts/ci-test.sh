@@ -14,6 +14,8 @@ pip install -r test-requirements.txt --user
 if [ "$ENABLED_CISO_8601" = true ] ; then
   echo "ciso8601 is enabled"
   pip install -r ciso-requirements.txt --user
+else
+  echo "ciso8601 is disabled"
 fi
 pip install pytest pytest-cov --user
 pip install twine --user
