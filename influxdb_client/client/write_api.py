@@ -202,14 +202,7 @@ class WriteApi(AbstractClient):
 
         if self._point_settings.defaultTags and record is not None:
             for key, val in self._point_settings.defaultTags.items():
-                if isinstance(record, dict):
-                    record.get("tags")[key] = val
-                else:
-                    for r in record:
-                        if isinstance(r, dict):
-                            r.get("tags")[key] = val
-                        elif isinstance(r, Point):
-                            r.tag(key, val)
+                self._append_default_tag(key, val, record)
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record,
@@ -300,6 +293,15 @@ class WriteApi(AbstractClient):
             pass
 
         return None
+
+    def _append_default_tag(self, key, val, record):
+        if isinstance(record, Point):
+            record.tag(key, val)
+        elif isinstance(record, dict):
+            record.get("tags")[key] = val
+        elif isinstance(record, list):
+            for item in record:
+                self._append_default_tag(key, val, item)
 
     def _itertuples(self, data_frame):
         cols = [data_frame.iloc[:, k] for k in range(len(data_frame.columns))]
