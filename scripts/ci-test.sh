@@ -9,6 +9,7 @@ python --version
 pip install -r requirements.txt --user
 pip install -r extra-requirements.txt --user
 pip install -r test-requirements.txt --user
+pip install -r ciso-requirements.txt --user
 pip install pytest pytest-cov --user
 pip install twine --user
 python setup.py sdist bdist_wheel

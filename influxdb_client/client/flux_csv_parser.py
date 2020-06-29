@@ -1,10 +1,11 @@
 import base64
 import codecs
 import csv as csv_parser
+import sys
 from enum import Enum
 from typing import List
 
-import ciso8601
+from dateutil import parser
 from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
@@ -194,7 +195,7 @@ class FluxCsvParser(object):
         if "dateTime:RFC3339" == column.data_type or "dateTime:RFC3339Nano" == column.data_type:
             # todo nanosecods precision
             # return str_val
-            return ciso8601.parse_datetime(str_val)
+            return parse_string_to_datetime(str_val)
             # return timestamp_parser(str_val)
 
         if "duration" == column.data_type:
@@ -231,3 +232,30 @@ class FluxCsvParser(object):
     def _insert_table(self, table, table_index):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
+
+
+def parse_string_to_datetime(date):
+    if is_module_available("ciso8601"):
+        import ciso8601
+        return ciso8601.parse_datetime(date)
+    else:
+        return parser.parse(date)
+
+
+def is_module_available(module_name):
+    module = None
+
+    if sys.version_info < (3, 0):
+        # python 2
+        import importlib
+        module = importlib.find_loader(module_name)
+    elif sys.version_info <= (3, 3):
+        # python 3.0 to 3.3
+        import pkgutil
+        module = pkgutil.find_loader(module_name)
+    elif sys.version_info >= (3, 4):
+        # python 3.4 and above
+        import importlib
+        module = importlib.util.find_spec(module_name)
+
+    return module is not None
