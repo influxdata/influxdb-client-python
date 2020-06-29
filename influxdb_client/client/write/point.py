@@ -4,10 +4,11 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from numbers import Integral
 
+from dateutil.parser import parser
 from pytz import UTC
 from six import iteritems
 
-from influxdb_client.client.flux_csv_parser import parse_string_to_datetime
+from influxdb_client.client.flux_csv_parser import get_date_parse_function
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
@@ -46,6 +47,9 @@ class Point(object):
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
 
+        self._parse_function = get_date_parse_function()
+        pass
+
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
         Specify timestamp for DataPoint with declared precision.
@@ -80,7 +84,7 @@ class Point(object):
         _fields = _append_fields(self._fields)
         if not _fields:
             return ""
-        _time = _append_time(self._time, self._write_precision)
+        _time = _append_time(self._time, self._write_precision, self._parse_function)
 
         return f"{_measurement}{_tags}{_fields}{_time}"
 
@@ -127,10 +131,10 @@ def _append_fields(fields):
     return f"{','.join(_return)}"
 
 
-def _append_time(time, write_precision):
+def _append_time(time, write_precision, _parse_function):
     if time is None:
         return ''
-    return f" {int(_convert_timestamp(time, write_precision))}"
+    return f" {int(_convert_timestamp(time, write_precision, _parse_function))}"
 
 
 def _escape_key(tag):
@@ -148,12 +152,12 @@ def _escape_string(value):
     return str(value).translate(_ESCAPE_STRING)
 
 
-def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
+def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION, _parse_function=parser.parse):
     if isinstance(timestamp, Integral):
         return timestamp  # assume precision is correct if timestamp is int
 
     if isinstance(timestamp, str):
-        timestamp = parse_string_to_datetime(timestamp)
+        timestamp = _parse_function(timestamp)
 
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 
