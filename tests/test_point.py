@@ -36,6 +36,24 @@ class PointTest(BaseTest):
 
         self.assertEqual("h2o,location=europe level=2i", point.to_line_protocol())
 
+    def test_TagEscapingKeyAndValue(self):
+
+        point = Point.measurement("h\n2\ro\t_data") \
+            .tag("new\nline", "new\nline") \
+            .tag("carriage\rreturn", "carriage\nreturn") \
+            .tag("t\tab", "t\tab") \
+            .field("level", 2)
+
+        self.assertEqual("h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\nreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i", point.to_line_protocol())
+
+    def test_EqualSignEscaping(self):
+
+        point = Point.measurement("h=2o") \
+            .tag("l=ocation", "e=urope") \
+            .field("l=evel", 2)
+
+        self.assertEqual("h=2o,l\\=ocation=e\\=urope l\\=evel=2i", point.to_line_protocol())
+
     def test_OverrideTagField(self):
         point = Point.measurement("h2o") \
             .tag("location", "europe") \

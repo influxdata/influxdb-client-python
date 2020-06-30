@@ -7,6 +7,7 @@
 
 ### Bug Fixes
 1. [#117](https://github.com/influxdata/influxdb-client-python/pull/117): Fixed appending default tags for single Point 
+1. [#115](https://github.com/influxdata/influxdb-client-python/pull/115): Fixed serialization of `\n`, `\r` and `\t` to Line Protocol, `=` is valid sign for measurement name 
 
 ## 1.8.0 [2020-06-19]
 
