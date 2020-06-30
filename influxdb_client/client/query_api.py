@@ -105,6 +105,27 @@ class QueryApi(object):
 
         from ..extras import pd
 
+        _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index)
+        _dataFrames = list(_generator)
+
+        if len(_dataFrames) == 0:
+            return pd.DataFrame(columns=[], index=None)
+        elif len(_dataFrames) == 1:
+            return _dataFrames[0]
+        else:
+            return _dataFrames
+
+    def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None):
+        """
+        Synchronously executes the Flux query and return stream of Pandas DataFrame as a Generator['pd.DataFrame'].
+        Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+
+        :param query: the Flux query
+        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param data_frame_index: the list of columns that are used as DataFrame index
+        :return:
+        """
+
         if org is None:
             org = self._influxdb_client.org
 
@@ -113,14 +134,7 @@ class QueryApi(object):
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
                                 data_frame_index=data_frame_index)
-        _dataFrames = list(_parser.generator())
-
-        if len(_dataFrames) == 0:
-            return pd.DataFrame(columns=[], index=None)
-        elif len(_dataFrames) == 1:
-            return _dataFrames[0]
-        else:
-            return _dataFrames
+        return _parser.generator()
 
     # private helper for c
     @staticmethod

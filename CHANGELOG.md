@@ -3,6 +3,7 @@
 ### Features
 1. [#112](https://github.com/influxdata/influxdb-client-python/pull/113): Support timestamp with different timezone in _convert_timestamp
 1. [#120](https://github.com/influxdata/influxdb-client-python/pull/120): ciso8601 is an optional dependency and has to be installed separably
+1. [#121](https://github.com/influxdata/influxdb-client-python/pull/121): Added query_data_frame_stream method
 
 ### Bug Fixes
 1. [#117](https://github.com/influxdata/influxdb-client-python/pull/117): Fixed appending default tags for single Point 
