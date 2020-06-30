@@ -76,7 +76,7 @@ InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`__ - The 
 
 .. note::
 
-    The client uses ``ciso8601`` for parsing dates. ``ciso8601`` is much faster than built-in Python datetime. Since it's written as a ``C`` module the best way is build it from sources:
+    It is recommended to use ``ciso8601`` with client for parsing dates. ``ciso8601`` is much faster than built-in Python datetime. Since it's written as a ``C`` module the best way is build it from sources:
 
     **Windows**:
 
@@ -93,7 +93,7 @@ The python package is hosted on `PyPI <https://pypi.org/project/influxdb-client/
 
 .. code-block:: sh
 
-   pip install influxdb-client
+   pip install influxdb-client[ciso]
 
 Then import the package:
 
