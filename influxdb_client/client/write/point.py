@@ -4,10 +4,10 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from numbers import Integral
 
-import ciso8601
 from pytz import UTC
 from six import iteritems
 
+from influxdb_client.client.date_utils import get_date_parse_function
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
@@ -45,6 +45,7 @@ class Point(object):
         self._name = measurement_name
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
+        pass
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
@@ -153,7 +154,7 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
         return timestamp  # assume precision is correct if timestamp is int
 
     if isinstance(timestamp, str):
-        timestamp = ciso8601.parse_datetime(timestamp)
+        timestamp = get_date_parse_function()(timestamp)
 
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 

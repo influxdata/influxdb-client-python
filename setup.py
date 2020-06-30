@@ -13,6 +13,9 @@ with open('test-requirements.txt', 'r') as f:
 with open('extra-requirements.txt', 'r') as f:
     extra_requires = [x.strip() for x in f if x.strip()]
 
+with open('ciso-requirements.txt', 'r') as f:
+    ciso_requires = [x.strip() for x in f if x.strip()]
+
 with open('README.rst', 'r') as f:
     readme = f.read()
 
@@ -32,13 +35,13 @@ setup(
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
     install_requires=requires,
-    extras_require={'extra': extra_requires},
+    extras_require={'extra': extra_requires, 'ciso': ciso_requires},
     long_description_content_type="text/x-rst",
     packages=find_packages(),
     test_suite='tests',
     python_requires='>=3.6',
     include_package_data=True,
-    data_files=['requirements.txt', 'extra-requirements.txt', 'test-requirements.txt'],
+    data_files=['requirements.txt', 'extra-requirements.txt', 'test-requirements.txt', 'ciso-requirements.txt'],
     classifiers = [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

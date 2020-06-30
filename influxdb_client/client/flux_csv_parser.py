@@ -4,9 +4,9 @@ import csv as csv_parser
 from enum import Enum
 from typing import List
 
-import ciso8601
 from urllib3 import HTTPResponse
 
+from influxdb_client.client.date_utils import get_date_parse_function
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
 
@@ -194,7 +194,7 @@ class FluxCsvParser(object):
         if "dateTime:RFC3339" == column.data_type or "dateTime:RFC3339Nano" == column.data_type:
             # todo nanosecods precision
             # return str_val
-            return ciso8601.parse_datetime(str_val)
+            return get_date_parse_function()(str_val)
             # return timestamp_parser(str_val)
 
         if "duration" == column.data_type:
