@@ -1,13 +1,12 @@
 import base64
 import codecs
 import csv as csv_parser
-import sys
 from enum import Enum
 from typing import List
 
-from dateutil import parser
 from urllib3 import HTTPResponse
 
+from influxdb_client.client.date_utils import get_date_parse_function
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
 
@@ -235,10 +234,3 @@ class FluxCsvParser(object):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
 
-
-def get_date_parse_function():
-    try:
-        import ciso8601
-        return ciso8601.parse_datetime
-    except ModuleNotFoundError:
-        return parser.parse
