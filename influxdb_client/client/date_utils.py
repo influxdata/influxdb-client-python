@@ -1,4 +1,4 @@
-from dateutil.parser import parser
+from dateutil import parser
 
 parse_function = None
 

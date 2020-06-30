@@ -46,8 +46,6 @@ class Point(object):
         self._name = measurement_name
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
-
-        self._parse_function = get_date_parse_function()
         pass
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
@@ -84,7 +82,7 @@ class Point(object):
         _fields = _append_fields(self._fields)
         if not _fields:
             return ""
-        _time = _append_time(self._time, self._write_precision, self._parse_function)
+        _time = _append_time(self._time, self._write_precision)
 
         return f"{_measurement}{_tags}{_fields}{_time}"
 
@@ -131,10 +129,10 @@ def _append_fields(fields):
     return f"{','.join(_return)}"
 
 
-def _append_time(time, write_precision, _parse_function):
+def _append_time(time, write_precision):
     if time is None:
         return ''
-    return f" {int(_convert_timestamp(time, write_precision, _parse_function))}"
+    return f" {int(_convert_timestamp(time, write_precision))}"
 
 
 def _escape_key(tag):
@@ -152,12 +150,12 @@ def _escape_string(value):
     return str(value).translate(_ESCAPE_STRING)
 
 
-def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION, _parse_function=parser.parse):
+def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
     if isinstance(timestamp, Integral):
         return timestamp  # assume precision is correct if timestamp is int
 
     if isinstance(timestamp, str):
-        timestamp = _parse_function(timestamp)
+        timestamp = get_date_parse_function()(timestamp)
 
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 

@@ -35,8 +35,6 @@ class FluxCsvParser(object):
         self._serialization_mode = serialization_mode
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
-
-        self._parse_function = get_date_parse_function()
         pass
 
     def __enter__(self):
@@ -196,7 +194,7 @@ class FluxCsvParser(object):
         if "dateTime:RFC3339" == column.data_type or "dateTime:RFC3339Nano" == column.data_type:
             # todo nanosecods precision
             # return str_val
-            return self._parse_function(str_val)
+            return get_date_parse_function()(str_val)
             # return timestamp_parser(str_val)
 
         if "duration" == column.data_type:
