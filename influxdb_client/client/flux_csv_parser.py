@@ -231,4 +231,3 @@ class FluxCsvParser(object):
     def _insert_table(self, table, table_index):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
-
