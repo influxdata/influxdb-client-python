@@ -4,11 +4,10 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from numbers import Integral
 
-from dateutil.parser import parser
 from pytz import UTC
 from six import iteritems
 
-from influxdb_client.client.flux_csv_parser import get_date_parse_function
+from influxdb_client.client.date_utils import get_date_parse_function
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
