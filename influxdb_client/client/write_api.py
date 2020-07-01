@@ -14,7 +14,8 @@ from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
-from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION, _ESCAPE_KEY
+from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
+from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.rest import ApiException
 
 logger = logging.getLogger(__name__)
@@ -258,7 +259,7 @@ class WriteApi:
             self._serialize(Point.from_dict(record, write_precision=write_precision),
                             write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
-            _data = self._data_frame_to_list_of_points(record, precision=write_precision, **kwargs)
+            _data = data_frame_to_list_of_points(record, self._point_settings, **kwargs)
             self._serialize(_data, write_precision, payload, **kwargs)
 
         elif isinstance(record, list):
@@ -284,7 +285,7 @@ class WriteApi:
                                  precision, **kwargs)
 
         elif 'DataFrame' in type(data).__name__:
-            self._write_batching(bucket, org, self._data_frame_to_list_of_points(data, precision, **kwargs),
+            self._write_batching(bucket, org, data_frame_to_list_of_points(data, self._point_settings, **kwargs),
                                  precision, **kwargs)
 
         elif isinstance(data, list):
@@ -305,57 +306,6 @@ class WriteApi:
         elif isinstance(record, list):
             for item in record:
                 self._append_default_tag(key, val, item)
-
-    def _itertuples(self, data_frame):
-        cols = [data_frame.iloc[:, k] for k in range(len(data_frame.columns))]
-        return zip(data_frame.index, *cols)
-
-    def _data_frame_to_list_of_points(self, data_frame, precision, **kwargs):
-        from ..extras import pd, np
-        if not isinstance(data_frame, pd.DataFrame):
-            raise TypeError('Must be DataFrame, but type was: {0}.'
-                            .format(type(data_frame)))
-
-        if 'data_frame_measurement_name' not in kwargs:
-            raise TypeError('"data_frame_measurement_name" is a Required Argument')
-
-        if isinstance(data_frame.index, pd.PeriodIndex):
-            data_frame.index = data_frame.index.to_timestamp()
-        else:
-            data_frame.index = pd.to_datetime(data_frame.index)
-
-        if data_frame.index.tzinfo is None:
-            data_frame.index = data_frame.index.tz_localize('UTC')
-
-        measurement_name = kwargs.get('data_frame_measurement_name')
-        data_frame_tag_columns = kwargs.get('data_frame_tag_columns')
-        data_frame_tag_columns = set(data_frame_tag_columns or [])
-
-        tags = []
-        fields = []
-
-        if self._point_settings.defaultTags:
-            for key, value in self._point_settings.defaultTags.items():
-                data_frame[key] = value
-                data_frame_tag_columns.add(key)
-
-        for index, (key, value) in enumerate(data_frame.dtypes.items()):
-            key = str(key).translate(_ESCAPE_KEY)
-
-            if key in data_frame_tag_columns:
-                tags.append(f"{key}={{p[{index + 1}].translate(_ESCAPE_KEY)}}")
-            elif issubclass(value.type, np.integer):
-                fields.append(f"{key}={{p[{index + 1}]}}i")
-            elif issubclass(value.type, (np.float, np.bool_)):
-                fields.append(f"{key}={{p[{index + 1}]}}")
-            else:
-                fields.append(f"{key}=\"{{p[{index + 1}].translate(_ESCAPE_KEY)}}\"")
-
-        fmt = (f'{measurement_name}', f'{"," if tags else ""}', ','.join(tags),
-               ' ', ','.join(fields), ' {p[0].value}')
-        f = eval("lambda p: f'{}'".format(''.join(fmt)))
-
-        return list(map(f, self._itertuples(data_frame)))
 
     def _http(self, batch_item: _BatchItem):
 
