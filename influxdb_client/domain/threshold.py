@@ -42,7 +42,9 @@ class Threshold(ThresholdBase):
     }
 
     discriminator_value_class_map = {
-        
+        'RangeThreshold': 'RangeThreshold',
+        'LesserThreshold': 'LesserThreshold',
+        'GreaterThreshold': 'GreaterThreshold'
     }
 
     def __init__(self, level=None, all_values=None):  # noqa: E501

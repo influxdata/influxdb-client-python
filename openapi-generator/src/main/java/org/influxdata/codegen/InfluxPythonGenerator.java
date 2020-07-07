@@ -112,6 +112,12 @@ public class InfluxPythonGenerator extends PythonClientCodegen {
             codegenModel.hasRequired = false;
         }
 
+		if (codegenModel.name.equals("LesserThreshold") || codegenModel.name.equals("GreaterThreshold")
+				|| codegenModel.name.equals("RangeThreshold")) {
+			codegenModel.setParent("Threshold");
+			codegenModel.setParentSchema("Threshold");
+		}
+
 		if (codegenModel.name.equals("CheckBase")) {
 			codegenModel.setParent("CheckDiscriminator");
 			codegenModel.setParentSchema("CheckDiscriminator");
