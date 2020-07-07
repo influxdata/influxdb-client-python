@@ -80,7 +80,7 @@ jobs:
           name: Checks style consistency across sources.
           command: |
             pip install flake8 --user
-            flake8  --count --ignore E501 influxdb_client/
+            flake8 influxdb_client/
   check-twine:
     docker:
       - image: *default-python
