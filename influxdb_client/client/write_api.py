@@ -14,7 +14,6 @@ from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
-from influxdb_client.client.abstract_client import AbstractClient
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION, _ESCAPE_KEY
 from influxdb_client.rest import ApiException
 
@@ -119,7 +118,7 @@ class _BatchItemKey(object):
 
     def __eq__(self, o: object) -> bool:
         return isinstance(o, self.__class__) \
-               and self.bucket == o.bucket and self.org == o.org and self.precision == o.precision
+            and self.bucket == o.bucket and self.org == o.org and self.precision == o.precision
 
     def __str__(self) -> str:
         return '_BatchItemKey[bucket:\'{}\', org:\'{}\', precision:\'{}\']' \
@@ -141,7 +140,7 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
-class WriteApi(AbstractClient):
+class WriteApi:
 
     def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
                  point_settings: PointSettings = PointSettings()) -> None:

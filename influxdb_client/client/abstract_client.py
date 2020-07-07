@@ -1,4 +1,0 @@
-
-
-class AbstractClient:
-    pass
