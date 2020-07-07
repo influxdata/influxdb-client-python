@@ -46,7 +46,7 @@ jobs:
     parameters:
       python-image:
         type: string
-        default: "circleci/python:3.6-buster"
+        default: &default-python "circleci/python:3.6-buster"
       influxdb-image:
         type: string
         default: "influxdb:2.0.0-beta"
@@ -69,24 +69,51 @@ jobs:
       - run:
           name: "Collecting coverage reports"
           command: bash <(curl -s https://codecov.io/bash) -f ./coverage.xml || echo "Codecov did not collect coverage reports"
+  check-code-style:
+    docker:
+      - image: *default-python
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - prepare
+      - run:
+          name: Checks style consistency across sources.
+          command: |
+            pip install flake8 --user
+            flake8 --count influxdb_client/
+  check-twine:
+    docker:
+      - image: *default-python
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - prepare
+      - run:
+          name: Checks that the description will render correctly on PyPI.
+          command: |
+            pip install twine --user
+            python setup.py sdist bdist_wheel
+            twine check dist/*
 
 workflows:
   version: 2
   build:
     jobs:
+      - check-code-style
+      - check-twine
       - tests-python:
-          name: python-3.6
+          name: test-3.6
       - tests-python:
-          name: python-3.6-without-ciso8601
+          name: test-3.6-without-ciso8601
           enabled-ciso-8601: false
       - tests-python:
-          name: python-3.6-nightly
+          name: test-3.6-influxdb-nightly
           influxdb-image: "influx:nightly"
       - tests-python:
-          name: python-3.7
+          name: test-3.7
           python-image: "circleci/python:3.7-buster"
       - tests-python:
-          name: python-3.8
+          name: test-3.8
           python-image: "circleci/python:3.8-buster"
 
   nightly:
