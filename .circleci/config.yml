@@ -75,7 +75,7 @@ jobs:
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
-      - prepare
+      - checkout
       - run:
           name: Checks style consistency across sources.
           command: |
@@ -87,7 +87,7 @@ jobs:
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
-      - prepare
+      - checkout
       - run:
           name: Checks that the description will render correctly on PyPI.
           command: |
