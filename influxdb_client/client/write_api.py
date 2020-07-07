@@ -187,9 +187,12 @@ class WriteApi:
         """
         Writes time-series data into influxdb.
 
-        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
+        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably;
+                        if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
-        :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol. The precision specified on a Point has precedes and is use for write.
+        :param WritePrecision write_precision: specifies the precision for the unix timestamps within
+                                               the body line-protocol. The precision specified on a Point has precedes
+                                               and is use for write.
         :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
         :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
@@ -252,7 +255,8 @@ class WriteApi:
             self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
 
         elif isinstance(record, dict):
-            self._serialize(Point.from_dict(record, write_precision=write_precision), write_precision, payload, **kwargs)
+            self._serialize(Point.from_dict(record, write_precision=write_precision),
+                            write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
             _data = self._data_frame_to_list_of_points(record, precision=write_precision, **kwargs)
             self._serialize(_data, write_precision, payload, **kwargs)
