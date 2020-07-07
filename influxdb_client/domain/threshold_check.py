@@ -43,7 +43,7 @@ class ThresholdCheck(Check):
 
     def __init__(self, type=None, thresholds=None):  # noqa: E501
         """ThresholdCheck - a model defined in OpenAPI"""  # noqa: E501
-        Check.__init__(self)
+        Check.__init__(self)  # noqa: E501
 
         self._type = None
         self._thresholds = None

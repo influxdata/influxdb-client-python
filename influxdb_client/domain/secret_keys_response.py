@@ -43,7 +43,7 @@ class SecretKeysResponse(SecretKeys):
 
     def __init__(self, links=None, secrets=None):  # noqa: E501
         """SecretKeysResponse - a model defined in OpenAPI"""  # noqa: E501
-        SecretKeys.__init__(self, secrets=secrets)
+        SecretKeys.__init__(self, secrets=secrets)  # noqa: E501
 
         self._links = None
         self.discriminator = None

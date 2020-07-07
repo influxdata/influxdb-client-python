@@ -43,7 +43,7 @@ class PagerDutyNotificationEndpoint(NotificationEndpoint):
 
     def __init__(self, client_url=None, routing_key=None):  # noqa: E501
         """PagerDutyNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpoint.__init__(self)
+        NotificationEndpoint.__init__(self)  # noqa: E501
 
         self._client_url = None
         self._routing_key = None

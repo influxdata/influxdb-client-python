@@ -47,7 +47,7 @@ class SMTPNotificationRule(SMTPNotificationRuleBase):
 
     def __init__(self, type=None, subject_template=None, body_template=None, to=None):  # noqa: E501
         """SMTPNotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        SMTPNotificationRuleBase.__init__(self, type=type, subject_template=subject_template, body_template=body_template, to=to)
+        SMTPNotificationRuleBase.__init__(self, type=type, subject_template=subject_template, body_template=body_template, to=to)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

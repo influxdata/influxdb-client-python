@@ -45,7 +45,7 @@ class SlackNotificationRule(SlackNotificationRuleBase):
 
     def __init__(self, type=None, channel=None, message_template=None):  # noqa: E501
         """SlackNotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        SlackNotificationRuleBase.__init__(self, type=type, channel=channel, message_template=message_template)
+        SlackNotificationRuleBase.__init__(self, type=type, channel=channel, message_template=message_template)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

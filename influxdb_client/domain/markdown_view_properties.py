@@ -45,7 +45,7 @@ class MarkdownViewProperties(ViewProperties):
 
     def __init__(self, type=None, shape=None, note=None):  # noqa: E501
         """MarkdownViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._type = None
         self._shape = None

@@ -67,7 +67,7 @@ class {{classname}}({{#parent}}{{{parent}}}{{/parent}}{{^parent}}object{{/parent
     def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}{{#vendorExtensions.x-parent-vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vendorExtensions.x-parent-vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
 {{#parent}}
-        {{{parent}}}.__init__(self{{#vendorExtensions.x-parent-vars}}, {{name}}={{name}}{{/vendorExtensions.x-parent-vars}})
+        {{{parent}}}.__init__(self{{#vendorExtensions.x-parent-vars}}, {{name}}={{name}}{{/vendorExtensions.x-parent-vars}})  # noqa: E501
 {{/parent}}
 {{#vars}}{{#-first}}
 {{/-first}}

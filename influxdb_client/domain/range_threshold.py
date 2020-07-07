@@ -47,7 +47,7 @@ class RangeThreshold(Threshold):
 
     def __init__(self, type=None, min=None, max=None, within=None):  # noqa: E501
         """RangeThreshold - a model defined in OpenAPI"""  # noqa: E501
-        Threshold.__init__(self)
+        Threshold.__init__(self)  # noqa: E501
 
         self._type = None
         self._min = None

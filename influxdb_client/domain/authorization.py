@@ -63,7 +63,7 @@ class Authorization(AuthorizationUpdateRequest):
 
     def __init__(self, created_at=None, updated_at=None, org_id=None, permissions=None, id=None, token=None, user_id=None, user=None, org=None, links=None, status='active', description=None):  # noqa: E501
         """Authorization - a model defined in OpenAPI"""  # noqa: E501
-        AuthorizationUpdateRequest.__init__(self, status=status, description=description)
+        AuthorizationUpdateRequest.__init__(self, status=status, description=description)  # noqa: E501
 
         self._created_at = None
         self._updated_at = None

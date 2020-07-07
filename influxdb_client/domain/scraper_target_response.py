@@ -57,7 +57,7 @@ class ScraperTargetResponse(ScraperTargetRequest):
 
     def __init__(self, id=None, org=None, bucket=None, links=None, name=None, type=None, url=None, org_id=None, bucket_id=None):  # noqa: E501
         """ScraperTargetResponse - a model defined in OpenAPI"""  # noqa: E501
-        ScraperTargetRequest.__init__(self, name=name, type=type, url=url, org_id=org_id, bucket_id=bucket_id)
+        ScraperTargetRequest.__init__(self, name=name, type=type, url=url, org_id=org_id, bucket_id=bucket_id)  # noqa: E501
 
         self._id = None
         self._org = None

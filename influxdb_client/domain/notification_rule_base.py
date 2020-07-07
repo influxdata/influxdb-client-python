@@ -77,7 +77,7 @@ class NotificationRuleBase(PostNotificationRule):
 
     def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None, links=None):  # noqa: E501
         """NotificationRuleBase - a model defined in OpenAPI"""  # noqa: E501
-        PostNotificationRule.__init__(self)
+        PostNotificationRule.__init__(self)  # noqa: E501
 
         self._id = None
         self._endpoint_id = None

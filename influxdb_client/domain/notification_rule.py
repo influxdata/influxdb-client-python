@@ -77,7 +77,7 @@ class NotificationRule(NotificationRuleBase):
 
     def __init__(self, id=None, endpoint_id=None, org_id=None, owner_id=None, created_at=None, updated_at=None, status=None, name=None, sleep_until=None, every=None, offset=None, runbook_link=None, limit_every=None, limit=None, tag_rules=None, description=None, status_rules=None, labels=None, links=None):  # noqa: E501
         """NotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        NotificationRuleBase.__init__(self, id=id, endpoint_id=endpoint_id, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, status=status, name=name, sleep_until=sleep_until, every=every, offset=offset, runbook_link=runbook_link, limit_every=limit_every, limit=limit, tag_rules=tag_rules, description=description, status_rules=status_rules, labels=labels, links=links)
+        NotificationRuleBase.__init__(self, id=id, endpoint_id=endpoint_id, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, status=status, name=name, sleep_until=sleep_until, every=every, offset=offset, runbook_link=runbook_link, limit_every=limit_every, limit=limit, tag_rules=tag_rules, description=description, status_rules=status_rules, labels=labels, links=links)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

@@ -46,7 +46,7 @@ class CheckDiscriminator(PostCheck):
 
     def __init__(self):  # noqa: E501
         """CheckDiscriminator - a model defined in OpenAPI"""  # noqa: E501
-        PostCheck.__init__(self)
+        PostCheck.__init__(self)  # noqa: E501
         self.discriminator = 'type'
 
     def get_real_child_model(self, data):

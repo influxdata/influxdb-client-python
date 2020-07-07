@@ -59,7 +59,7 @@ class TableViewProperties(ViewProperties):
 
     def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, table_options=None, field_options=None, time_format=None, decimal_places=None):  # noqa: E501
         """TableViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._type = None
         self._queries = None

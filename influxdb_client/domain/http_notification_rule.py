@@ -43,7 +43,7 @@ class HTTPNotificationRule(HTTPNotificationRuleBase):
 
     def __init__(self, type=None, url=None):  # noqa: E501
         """HTTPNotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        HTTPNotificationRuleBase.__init__(self, type=type, url=url)
+        HTTPNotificationRuleBase.__init__(self, type=type, url=url)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

@@ -75,7 +75,7 @@ class HeatmapViewProperties(ViewProperties):
 
     def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, y_column=None, x_domain=None, y_domain=None, x_axis_label=None, y_axis_label=None, x_prefix=None, x_suffix=None, y_prefix=None, y_suffix=None, bin_size=None):  # noqa: E501
         """HeatmapViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._time_format = None
         self._type = None

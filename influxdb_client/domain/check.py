@@ -69,7 +69,7 @@ class Check(CheckBase):
 
     def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """Check - a model defined in OpenAPI"""  # noqa: E501
-        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, tags=tags, description=description, status_message_template=status_message_template, labels=labels, links=links)
+        CheckBase.__init__(self, id=id, name=name, org_id=org_id, owner_id=owner_id, created_at=created_at, updated_at=updated_at, query=query, status=status, every=every, offset=offset, tags=tags, description=description, status_message_template=status_message_template, labels=labels, links=links)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

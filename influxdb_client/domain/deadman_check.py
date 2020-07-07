@@ -49,7 +49,7 @@ class DeadmanCheck(Check):
 
     def __init__(self, type=None, time_since=None, stale_time=None, report_zero=None, level=None):  # noqa: E501
         """DeadmanCheck - a model defined in OpenAPI"""  # noqa: E501
-        Check.__init__(self)
+        Check.__init__(self)  # noqa: E501
 
         self._type = None
         self._time_since = None
