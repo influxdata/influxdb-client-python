@@ -1,3 +1,5 @@
+"""Extras to selectively import Pandas or NumPy."""
+
 try:
     import pandas as pd
 except ModuleNotFoundError as err:

@@ -1,16 +1,25 @@
+"""
+A bucket is a named location where time series data is stored.
+
+All buckets have a retention policy, a duration of time that each data point persists.
+A bucket belongs to an organization.
+"""
+
+
 from influxdb_client import BucketsService, Bucket, PostBucketRequest
 
 
 class BucketsApi(object):
+    """Implementation for '/api/v2/buckets' endpoint."""
 
     def __init__(self, influxdb_client):
+        """Initialize defaults."""
         self._influxdb_client = influxdb_client
         self._buckets_service = BucketsService(influxdb_client.api_client)
 
     def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None,
                       description=None) -> Bucket:
-        """Create a bucket  # noqa: E501
-
+        """Create a bucket.
 
         :param Bucket bucket: bucket to create (required)
         :param bucket_name: bucket name
@@ -43,14 +52,13 @@ class BucketsApi(object):
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
     def delete_bucket(self, bucket):
-        """Delete a bucket  # noqa: E501
+        """Delete a bucket.
 
         :param bucket: bucket id or Bucket
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
         if isinstance(bucket, Bucket):
             bucket_id = bucket.id
         else:
@@ -59,7 +67,7 @@ class BucketsApi(object):
         return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
 
     def find_bucket_by_id(self, id):
-        """Find bucket by ID
+        """Find bucket by ID.
 
         :param id:
         :return:
@@ -67,12 +75,11 @@ class BucketsApi(object):
         return self._buckets_service.get_buckets_id(id)
 
     def find_bucket_by_name(self, bucket_name):
-        """Find bucket by name
+        """Find bucket by name.
 
         :param bucket_name: bucket name
         :return: Bucket
         """
-
         buckets = self._buckets_service.get_buckets(name=bucket_name)
 
         if len(buckets.buckets) > 0:
@@ -81,6 +88,5 @@ class BucketsApi(object):
             return None
 
     def find_buckets(self):
-        """Gets all buckets
-        """
+        """Get all buckets."""
         return self._buckets_service.get_buckets()

@@ -1,3 +1,6 @@
+"""Parsing response from InfluxDB to FluxStructures or DataFrame."""
+
+
 import base64
 import codecs
 import csv as csv_parser
@@ -11,25 +14,34 @@ from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
 
 class FluxQueryException(Exception):
+    """The exception from InfluxDB."""
+
     def __init__(self, message, reference) -> None:
+        """Initialize defaults."""
         self.message = message
         self.reference = reference
 
 
 class FluxCsvParserException(Exception):
+    """The exception for not parsable data."""
+
     pass
 
 
 class FluxSerializationMode(Enum):
+    """The type how we wan't to serialize data."""
+
     tables = 1
     stream = 2
     dataFrame = 3
 
 
 class FluxCsvParser(object):
+    """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
                  data_frame_index: List[str] = None) -> None:
+        """Initialize defaults."""
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
@@ -38,13 +50,16 @@ class FluxCsvParser(object):
         pass
 
     def __enter__(self):
+        """Initialize CSV reader."""
         self._reader = csv_parser.reader(codecs.iterdecode(self._response, 'utf-8'))
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        """Close HTTP response."""
         self._response.close()
 
     def generator(self):
+        """Return Python generator."""
         with self as parser:
             yield from parser._parse_flux_response()
 
@@ -159,6 +174,7 @@ class FluxCsvParser(object):
         return self._data_frame.append(_temp_df)
 
     def parse_record(self, table_index, table, csv):
+        """Parse one record."""
         record = FluxRecord(table_index)
 
         for fluxColumn in table.columns:
@@ -203,12 +219,14 @@ class FluxCsvParser(object):
 
     @staticmethod
     def add_data_types(table, data_types):
+        """Add data types to columns."""
         for index in range(1, len(data_types)):
             column_def = FluxColumn(index=index - 1, data_type=data_types[index])
             table.columns.append(column_def)
 
     @staticmethod
     def add_groups(table, csv):
+        """Add group keys to columns."""
         i = 1
         for column in table.columns:
             column.group = csv[i] == "true"
@@ -216,6 +234,7 @@ class FluxCsvParser(object):
 
     @staticmethod
     def add_default_empty_values(table, default_values):
+        """Add default values to columns."""
         i = 1
         for column in table.columns:
             column.default_value = default_values[i]
@@ -223,6 +242,7 @@ class FluxCsvParser(object):
 
     @staticmethod
     def add_column_names_and_tags(table, csv):
+        """Add labels to columns."""
         i = 1
         for column in table.columns:
             column.label = csv[i]
