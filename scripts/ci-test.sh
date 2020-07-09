@@ -18,9 +18,6 @@ else
   echo "ciso8601 is disabled"
 fi
 pip install pytest pytest-cov --user
-pip install twine --user
-python setup.py sdist bdist_wheel
-twine check dist/*
 
 #
 # Prepare for test results

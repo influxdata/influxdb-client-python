@@ -55,7 +55,7 @@ class HTTPNotificationEndpoint(NotificationEndpoint):
 
     def __init__(self, url=None, username=None, password=None, token=None, method=None, auth_method=None, content_template=None, headers=None):  # noqa: E501
         """HTTPNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpoint.__init__(self)
+        NotificationEndpoint.__init__(self)  # noqa: E501
 
         self._url = None
         self._username = None

@@ -43,7 +43,7 @@ class PagerDutyNotificationRule(PagerDutyNotificationRuleBase):
 
     def __init__(self, type=None, message_template=None):  # noqa: E501
         """PagerDutyNotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        PagerDutyNotificationRuleBase.__init__(self, type=type, message_template=message_template)
+        PagerDutyNotificationRuleBase.__init__(self, type=type, message_template=message_template)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

@@ -61,7 +61,7 @@ class NotificationEndpointBase(NotificationEndpointDiscriminator):
 
     def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """NotificationEndpointBase - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointDiscriminator.__init__(self)
+        NotificationEndpointDiscriminator.__init__(self)  # noqa: E501
 
         self._id = None
         self._org_id = None

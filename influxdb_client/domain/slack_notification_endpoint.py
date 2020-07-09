@@ -43,7 +43,7 @@ class SlackNotificationEndpoint(NotificationEndpoint):
 
     def __init__(self, url=None, token=None):  # noqa: E501
         """SlackNotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpoint.__init__(self)
+        NotificationEndpoint.__init__(self)  # noqa: E501
 
         self._url = None
         self._token = None

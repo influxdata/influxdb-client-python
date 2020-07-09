@@ -14,7 +14,6 @@ from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
-from influxdb_client.client.abstract_client import AbstractClient
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION, _ESCAPE_KEY
 from influxdb_client.rest import ApiException
 
@@ -119,7 +118,7 @@ class _BatchItemKey(object):
 
     def __eq__(self, o: object) -> bool:
         return isinstance(o, self.__class__) \
-               and self.bucket == o.bucket and self.org == o.org and self.precision == o.precision
+            and self.bucket == o.bucket and self.org == o.org and self.precision == o.precision
 
     def __str__(self) -> str:
         return '_BatchItemKey[bucket:\'{}\', org:\'{}\', precision:\'{}\']' \
@@ -141,7 +140,7 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
-class WriteApi(AbstractClient):
+class WriteApi:
 
     def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
                  point_settings: PointSettings = PointSettings()) -> None:
@@ -188,9 +187,12 @@ class WriteApi(AbstractClient):
         """
         Writes time-series data into influxdb.
 
-        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably; if both orgID and org are specified, org takes precedence. (required)
+        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably;
+                        if both orgID and org are specified, org takes precedence. (required)
         :param str bucket: specifies the destination bucket for writes (required)
-        :param WritePrecision write_precision: specifies the precision for the unix timestamps within the body line-protocol. The precision specified on a Point has precedes and is use for write.
+        :param WritePrecision write_precision: specifies the precision for the unix timestamps within
+                                               the body line-protocol. The precision specified on a Point has precedes
+                                               and is use for write.
         :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
         :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
@@ -253,7 +255,8 @@ class WriteApi(AbstractClient):
             self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
 
         elif isinstance(record, dict):
-            self._serialize(Point.from_dict(record, write_precision=write_precision), write_precision, payload, **kwargs)
+            self._serialize(Point.from_dict(record, write_precision=write_precision),
+                            write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
             _data = self._data_frame_to_list_of_points(record, precision=write_precision, **kwargs)
             self._serialize(_data, write_precision, payload, **kwargs)

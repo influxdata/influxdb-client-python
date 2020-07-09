@@ -55,7 +55,7 @@ class Telegraf(TelegrafRequest):
 
     def __init__(self, id=None, links=None, labels=None, name=None, description=None, metadata=None, config=None, org_id=None):  # noqa: E501
         """Telegraf - a model defined in OpenAPI"""  # noqa: E501
-        TelegrafRequest.__init__(self, name=name, description=description, metadata=metadata, config=config, org_id=org_id)
+        TelegrafRequest.__init__(self, name=name, description=description, metadata=metadata, config=config, org_id=org_id)  # noqa: E501
 
         self._id = None
         self._links = None

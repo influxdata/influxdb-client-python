@@ -51,7 +51,7 @@ class CheckViewProperties(ViewProperties):
 
     def __init__(self, type=None, shape=None, check_id=None, check=None, queries=None, colors=None):  # noqa: E501
         """CheckViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._type = None
         self._shape = None

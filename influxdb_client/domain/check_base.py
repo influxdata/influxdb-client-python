@@ -69,7 +69,7 @@ class CheckBase(CheckDiscriminator):
 
     def __init__(self, id=None, name=None, org_id=None, owner_id=None, created_at=None, updated_at=None, query=None, status=None, every=None, offset=None, tags=None, description=None, status_message_template=None, labels=None, links=None):  # noqa: E501
         """CheckBase - a model defined in OpenAPI"""  # noqa: E501
-        CheckDiscriminator.__init__(self)
+        CheckDiscriminator.__init__(self)  # noqa: E501
 
         self._id = None
         self._name = None

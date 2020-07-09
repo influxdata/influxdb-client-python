@@ -63,7 +63,7 @@ class HistogramViewProperties(ViewProperties):
 
     def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, fill_columns=None, x_domain=None, x_axis_label=None, position=None, bin_count=None):  # noqa: E501
         """HistogramViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._type = None
         self._queries = None

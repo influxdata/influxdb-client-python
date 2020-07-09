@@ -51,7 +51,7 @@ class ResourceOwner(User):
 
     def __init__(self, role='owner', id=None, oauth_id=None, name=None, status='active', links=None):  # noqa: E501
         """ResourceOwner - a model defined in OpenAPI"""  # noqa: E501
-        User.__init__(self, id=id, oauth_id=oauth_id, name=name, status=status, links=links)
+        User.__init__(self, id=id, oauth_id=oauth_id, name=name, status=status, links=links)  # noqa: E501
 
         self._role = None
         self.discriminator = None

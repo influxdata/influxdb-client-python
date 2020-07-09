@@ -55,7 +55,7 @@ class Dashboard(CreateDashboardRequest):
 
     def __init__(self, links=None, id=None, meta=None, cells=None, labels=None, org_id=None, name=None, description=None):  # noqa: E501
         """Dashboard - a model defined in OpenAPI"""  # noqa: E501
-        CreateDashboardRequest.__init__(self, org_id=org_id, name=name, description=description)
+        CreateDashboardRequest.__init__(self, org_id=org_id, name=name, description=description)  # noqa: E501
 
         self._links = None
         self._id = None

@@ -42,12 +42,14 @@ class Threshold(ThresholdBase):
     }
 
     discriminator_value_class_map = {
-        
+        'RangeThreshold': 'RangeThreshold',
+        'LesserThreshold': 'LesserThreshold',
+        'GreaterThreshold': 'GreaterThreshold'
     }
 
     def __init__(self, level=None, all_values=None):  # noqa: E501
         """Threshold - a model defined in OpenAPI"""  # noqa: E501
-        ThresholdBase.__init__(self, level=level, all_values=all_values)
+        ThresholdBase.__init__(self, level=level, all_values=all_values)  # noqa: E501
         self.discriminator = 'type'
 
     def get_real_child_model(self, data):

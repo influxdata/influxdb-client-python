@@ -61,7 +61,7 @@ class NotificationEndpoint(NotificationEndpointBase):
 
     def __init__(self, id=None, org_id=None, user_id=None, created_at=None, updated_at=None, description=None, name=None, status='active', labels=None, links=None, type=None):  # noqa: E501
         """NotificationEndpoint - a model defined in OpenAPI"""  # noqa: E501
-        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, links=links, type=type)
+        NotificationEndpointBase.__init__(self, id=id, org_id=org_id, user_id=user_id, created_at=created_at, updated_at=updated_at, description=description, name=name, status=status, labels=labels, links=links, type=type)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

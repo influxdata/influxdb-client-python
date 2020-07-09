@@ -63,7 +63,7 @@ class SingleStatViewProperties(ViewProperties):
 
     def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, prefix=None, tick_prefix=None, suffix=None, tick_suffix=None, legend=None, decimal_places=None):  # noqa: E501
         """SingleStatViewProperties - a model defined in OpenAPI"""  # noqa: E501
-        ViewProperties.__init__(self)
+        ViewProperties.__init__(self)  # noqa: E501
 
         self._type = None
         self._queries = None

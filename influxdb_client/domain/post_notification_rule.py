@@ -39,7 +39,7 @@ class PostNotificationRule(NotificationRuleDiscriminator):
 
     def __init__(self):  # noqa: E501
         """PostNotificationRule - a model defined in OpenAPI"""  # noqa: E501
-        NotificationRuleDiscriminator.__init__(self)
+        NotificationRuleDiscriminator.__init__(self)  # noqa: E501
         self.discriminator = None
 
     def to_dict(self):

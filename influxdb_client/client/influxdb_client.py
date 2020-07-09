@@ -96,7 +96,8 @@ class InfluxDBClient(object):
             if key.startswith("INFLUXDB_V2_TAG_"):
                 default_tags[key[16:].lower()] = value
 
-        return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags, enable_gzip=enable_gzip)
+        return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
+                   enable_gzip=enable_gzip)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
