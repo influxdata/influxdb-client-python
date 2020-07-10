@@ -370,6 +370,19 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(self.customer_tag, record["customer"])
         self.assertEqual("LA", record[self.data_center_key])
 
+    def test_check_write_permission_by_empty_data(self):
+        client = InfluxDBClient(url="http://localhost:9999", token="my-token-wrong", org="my-org")
+        write_api = client.write_api(write_options=SYNCHRONOUS)
+
+        with self.assertRaises(ApiException) as cm:
+            write_api.write("my-bucket", self.org, b'')
+        exception = cm.exception
+
+        self.assertEqual(401, exception.status)
+        self.assertEqual("Unauthorized", exception.reason)
+
+        client.__del__()
+
 
 class AsynchronousWriteTest(BaseTest):
 
