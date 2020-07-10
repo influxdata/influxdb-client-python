@@ -340,7 +340,11 @@ class WriteApi:
         if isinstance(exception, ApiException):
 
             if exception.status == 429 or exception.status == 503:
-                _delay = self._jitter_delay() + timedelta(milliseconds=self._write_options.retry_interval)
+                retry_interval = self._write_options.retry_interval
+                if exception.headers:
+                    if "Retry-After" in exception.headers:
+                        retry_interval = int(exception.headers.get("Retry-After")) * 1000
+                _delay = self._jitter_delay() + timedelta(milliseconds=retry_interval)
                 return self._retryable(data, delay=_delay)
 
         return rx.just(_BatchResponse(exception=exception, data=data))

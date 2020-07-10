@@ -9,6 +9,7 @@
 1. [#117](https://github.com/influxdata/influxdb-client-python/pull/117): Fixed appending default tags for single Point 
 1. [#115](https://github.com/influxdata/influxdb-client-python/pull/115): Fixed serialization of `\n`, `\r` and `\t` to Line Protocol, `=` is valid sign for measurement name 
 1. [#118](https://github.com/influxdata/influxdb-client-python/issues/118): Fixed serialization of DataFrame with empty (NaN) values
+1. [#130](https://github.com/influxdata/influxdb-client-python/pull/130): Use `Retry-After` header value for Retryable error codes 
 
 ## 1.8.0 [2020-06-19]
 

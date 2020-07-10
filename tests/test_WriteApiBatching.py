@@ -185,7 +185,7 @@ class BatchingWriteTest(BaseTest):
 
     def test_retry_interval(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429, adding_headers={'Retry-After': '5'})
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
 
         self._write_client.write("my-bucket", "my-org",
@@ -199,7 +199,7 @@ class BatchingWriteTest(BaseTest):
 
         self.assertEqual(2, len(httpretty.httpretty.latest_requests))
 
-        time.sleep(3)
+        time.sleep(5)
 
         self.assertEqual(3, len(httpretty.httpretty.latest_requests))
 
