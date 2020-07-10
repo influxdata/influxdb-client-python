@@ -143,8 +143,7 @@ class GzipSupportTest(BaseTest):
             .write(_bucket.name, self.org, "h2o_feet,location=coyote_creek water_level=111.0 1")
 
         _result = self.query_client.query(
-            "from(bucket:\"{0}\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()".format(_bucket.name),
-            self.org)
+            f"from(bucket:\"{_bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)
 
         self.assertEqual(len(_result), 1)
         self.assertEqual(_result[0].records[0].get_measurement(), "h2o_feet")

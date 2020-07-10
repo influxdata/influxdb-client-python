@@ -41,8 +41,8 @@ class SynchronousWriteTest(BaseTest):
         record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
         self.write_client.write(bucket.name, self.org, record)
 
-        result = self.query_api.query(
-            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+        result = self.query_api.query(f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)",
+                                      self.org)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
@@ -212,7 +212,7 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(_bucket.name, self.org, _bytes)
 
         result = self.query_api.query(
-            "from(bucket:\"" + _bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+            f"from(bucket:\"{_bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
@@ -282,7 +282,7 @@ class SynchronousWriteTest(BaseTest):
         self.write_client.write(bucket.name, record=record)
 
         result = self.query_api.query(
-            "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
+            f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].records[0].get_measurement(), "h2o_feet")
