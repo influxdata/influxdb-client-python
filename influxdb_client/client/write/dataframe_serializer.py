@@ -83,7 +83,7 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
     tags.sort(key=lambda x: x['key'])
     tags = ','.join(map(lambda y: y['value'], tags))
 
-    fmt = (f'{{measurement_name}}', f'{"," if tags else ""}', tags,
+    fmt = ('{measurement_name}', f'{"," if tags else ""}', tags,
            ' ', ','.join(fields), ' {p[0].value}')
     f = eval("lambda p: f'{}'".format(''.join(fmt)),
              {'measurement_name': measurement_name, '_ESCAPE_KEY': _ESCAPE_KEY, 'keys': keys})
