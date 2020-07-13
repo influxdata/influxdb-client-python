@@ -152,6 +152,18 @@ def _escape_string(value):
     return str(value).translate(_ESCAPE_STRING)
 
 
+def _to_nanoseconds(delta):
+    """
+    Solutions come from v1 client. Thx.
+
+    https://github.com/influxdata/influxdb-python/pull/811
+    """
+    nanoseconds_in_days = delta.days * 86400 * 10 ** 9
+    nanoseconds_in_seconds = delta.seconds * 10 ** 9
+    nanoseconds_in_micros = delta.microseconds * 10 ** 3
+    return nanoseconds_in_days + nanoseconds_in_seconds + nanoseconds_in_micros
+
+
 def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
     if isinstance(timestamp, Integral):
         return timestamp  # assume precision is correct if timestamp is int
@@ -166,9 +178,9 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
                 timestamp = UTC.localize(timestamp)
             else:
                 timestamp = timestamp.astimezone(UTC)
-            ns = (timestamp - EPOCH).total_seconds() * 1e9
-        else:
-            ns = timestamp.total_seconds() * 1e9
+            timestamp = timestamp - EPOCH
+
+        ns = _to_nanoseconds(timestamp)
 
         if precision is None or precision == WritePrecision.NS:
             return ns
@@ -178,10 +190,5 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
             return ns / 1e6
         elif precision == WritePrecision.S:
             return ns / 1e9
-
-        # elif precision == 'm':
-        #     return ns / 1e9 / 60
-        # elif precision == 'h':
-        #     return ns / 1e9 / 3600
 
     raise ValueError(timestamp)

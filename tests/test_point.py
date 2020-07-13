@@ -7,10 +7,9 @@ from decimal import Decimal
 from pytz import UTC, timezone
 
 from influxdb_client import Point, WritePrecision
-from tests.base_test import BaseTest
 
 
-class PointTest(BaseTest):
+class PointTest(unittest.TestCase):
 
     def test_MeasurementEscape(self):
         point = Point.measurement("h2 o").tag("location", "europe").tag("", "warn").field("level", 2)
@@ -153,6 +152,20 @@ class PointTest(BaseTest):
 
         self.assertEqual("h2o,location=europe level=2i 123", point.to_line_protocol())
 
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("level", 2) \
+            .time(timedelta(microseconds=876), WritePrecision.NS)
+
+        self.assertEqual("h2o,location=europe level=2i 876000", point.to_line_protocol())
+
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("level", 2) \
+            .time(timedelta(milliseconds=954), WritePrecision.NS)
+
+        self.assertEqual("h2o,location=europe level=2i 954000000", point.to_line_protocol())
+
     def test_DateTimeFormatting(self):
         date_time = datetime(2015, 10, 15, 8, 20, 15)
 
@@ -171,6 +184,27 @@ class PointTest(BaseTest):
             .time(date_time, WritePrecision.S)
 
         self.assertEqual("h2o,location=europe level=false 1444897215", point.to_line_protocol())
+
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("level", False) \
+            .time(date_time, WritePrecision.MS)
+
+        self.assertEqual("h2o,location=europe level=false 1444897215000", point.to_line_protocol())
+
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("level", False) \
+            .time(date_time, WritePrecision.US)
+
+        self.assertEqual("h2o,location=europe level=false 1444897215000750", point.to_line_protocol())
+
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("level", False) \
+            .time(date_time, WritePrecision.NS)
+
+        self.assertEqual("h2o,location=europe level=false 1444897215000750000", point.to_line_protocol())
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
