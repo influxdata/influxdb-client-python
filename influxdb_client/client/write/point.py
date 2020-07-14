@@ -154,7 +154,7 @@ def _escape_string(value):
 
 def _to_nanoseconds(delta):
     """
-    Solutions come from v1 client. Thx.
+    Solution comes from v1 client. Thx.
 
     https://github.com/influxdata/influxdb-python/pull/811
     """
