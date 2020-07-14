@@ -1,3 +1,5 @@
+"""Collect and write time series data to InfluxDB Cloud and InfluxDB OSS."""
+
 # coding: utf-8
 import logging
 import os
@@ -22,12 +24,15 @@ logger = logging.getLogger(__name__)
 
 
 class WriteType(Enum):
+    """Configuration which type of writes will client use."""
+
     batching = 1
     asynchronous = 2
     synchronous = 3
 
 
 class WriteOptions(object):
+    """Write configuration."""
 
     def __init__(self, write_type: WriteType = WriteType.batching,
                  batch_size=1_000, flush_interval=1_000,
@@ -35,7 +40,7 @@ class WriteOptions(object):
                  retry_interval=1_000,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
-        Creates write api configuration.
+        Create write api configuration.
 
         :param write_type: methods of write (batching, asynchronous, synchronous)
         :param batch_size: the number of data point to collect in batch
@@ -53,12 +58,14 @@ class WriteOptions(object):
         self.write_scheduler = write_scheduler
 
     def __getstate__(self):
+        """Return a dict of attributes that you want to pickle."""
         state = self.__dict__.copy()
         # Remove write scheduler
         del state['write_scheduler']
         return state
 
     def __setstate__(self, state):
+        """Set your object with the provided dict."""
         self.__dict__.update(state)
         # Init default write Scheduler
         self.write_scheduler = ThreadPoolScheduler(max_workers=1)
@@ -69,15 +76,14 @@ ASYNCHRONOUS = WriteOptions(write_type=WriteType.asynchronous)
 
 
 class PointSettings(object):
+    """Settings to store default tags."""
 
     def __init__(self, **default_tags) -> None:
-
         """
-        Creates point settings for write api.
+        Create point settings for write api.
 
         :param default_tags: Default tags which will be added to each point written by api.
         """
-
         self.defaultTags = dict()
 
         for key, val in default_tags.items():
@@ -92,6 +98,7 @@ class PointSettings(object):
         return value
 
     def add_default_tag(self, key, value) -> None:
+        """Add new default tag with key and value."""
         self.defaultTags[key] = self._get_value(value)
 
 
@@ -142,9 +149,11 @@ def _body_reduce(batch_items):
 
 
 class WriteApi:
+    """Implementation for '/api/v2/write' endpoint."""
 
     def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
                  point_settings: PointSettings = PointSettings()) -> None:
+        """Initialize defaults."""
         self._influxdb_client = influxdb_client
         self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
@@ -186,7 +195,7 @@ class WriteApi:
                   str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable] = None,
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> Any:
         """
-        Writes time-series data into influxdb.
+        Write time-series data into InfluxDB.
 
         :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably;
                         if both orgID and org are specified, org takes precedence. (required)
@@ -197,9 +206,7 @@ class WriteApi:
         :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
         :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
-
         """
-
         if org is None:
             org = self._influxdb_client.org
 
@@ -228,10 +235,12 @@ class WriteApi:
         return results
 
     def flush(self):
+        """Flush data."""
         # TODO
         pass
 
     def __del__(self):
+        """Close WriteApi."""
         if self._subject:
             self._subject.on_completed()
             self._subject.dispose()
@@ -364,6 +373,7 @@ class WriteApi:
         logger.info("the batching processor was disposed")
 
     def __getstate__(self):
+        """Return a dict of attributes that you want to pickle."""
         state = self.__dict__.copy()
         # Remove rx
         del state['_subject']
@@ -372,6 +382,7 @@ class WriteApi:
         return state
 
     def __setstate__(self, state):
+        """Set your object with the provided dict."""
         self.__dict__.update(state)
         # Init Rx
         self.__init__(self._influxdb_client, self._write_options, self._point_settings)

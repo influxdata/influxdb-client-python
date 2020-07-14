@@ -1,3 +1,9 @@
+"""
+Querying InfluxDB bu FluxLang.
+
+Flux is InfluxData’s functional data scripting language designed for querying, analyzing, and acting on data.
+"""
+
 import codecs
 import csv
 from typing import List, Generator, Any
@@ -9,12 +15,14 @@ from influxdb_client.client.flux_table import FluxTable, FluxRecord
 
 
 class QueryApi(object):
+    """Implementation for '/api/v2/query' endpoint."""
+
     default_dialect = Dialect(header=True, delimiter=",", comment_prefix="#",
                               annotations=["datatype", "group", "default"], date_time_format="RFC3339")
 
     def __init__(self, influxdb_client):
         """
-        Initializes query client.
+        Initialize query client.
 
         :param influxdb_client: influxdb client
         """
@@ -23,7 +31,7 @@ class QueryApi(object):
 
     def query_csv(self, query: str, org=None, dialect: Dialect = default_dialect):
         """
-        Executes the Flux query and return results as a CSV iterator. Each iteration returns a row of the CSV file.
+        Execute the Flux query and return results as a CSV iterator. Each iteration returns a row of the CSV file.
 
         :param query: a Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
@@ -40,7 +48,7 @@ class QueryApi(object):
 
     def query_raw(self, query: str, org=None, dialect=default_dialect):
         """
-        Synchronously executes the Flux query and return result as raw unprocessed result as a str
+        Execute synchronous Flux query and return result as raw unprocessed result as a str.
 
         :param query: a Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
@@ -56,7 +64,7 @@ class QueryApi(object):
 
     def query(self, query: str, org=None) -> List['FluxTable']:
         """
-        Synchronously executes the Flux query and return result as a List['FluxTable']
+        Execute synchronous Flux query and return result as a List['FluxTable'].
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
@@ -76,7 +84,7 @@ class QueryApi(object):
 
     def query_stream(self, query: str, org=None) -> Generator['FluxRecord', Any, None]:
         """
-        Synchronously executes the Flux query and return stream of FluxRecord as a Generator['FluxRecord']
+        Execute synchronous Flux query and return stream of FluxRecord as a Generator['FluxRecord'].
 
         :param query: the Flux query
         :param org: organization name (optional if already specified in InfluxDBClient)
@@ -94,7 +102,8 @@ class QueryApi(object):
 
     def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None):
         """
-        Synchronously executes the Flux query and return Pandas DataFrame.
+        Execute synchronous Flux query and return Pandas DataFrame.
+
         Note that if a query returns more then one table than the client generates a DataFrame for each of them.
 
         :param query: the Flux query
@@ -102,7 +111,6 @@ class QueryApi(object):
         :param data_frame_index: the list of columns that are used as DataFrame index
         :return:
         """
-
         from ..extras import pd
 
         _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index)
@@ -117,7 +125,8 @@ class QueryApi(object):
 
     def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None):
         """
-        Synchronously executes the Flux query and return stream of Pandas DataFrame as a Generator['pd.DataFrame'].
+        Execute synchronous Flux query and return stream of Pandas DataFrame as a Generator['pd.DataFrame'].
+
         Note that if a query returns more then one table than the client generates a DataFrame for each of them.
 
         :param query: the Flux query
@@ -125,7 +134,6 @@ class QueryApi(object):
         :param data_frame_index: the list of columns that are used as DataFrame index
         :return:
         """
-
         if org is None:
             org = self._influxdb_client.org
 
@@ -143,4 +151,5 @@ class QueryApi(object):
         return created
 
     def __del__(self):
+        """Close QueryAPI."""
         pass

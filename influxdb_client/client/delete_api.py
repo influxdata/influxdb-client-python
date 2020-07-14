@@ -1,17 +1,22 @@
+"""Delete time series data from InfluxDB."""
+
 import datetime
 
 from influxdb_client import DefaultService, DeletePredicateRequest
 
 
 class DeleteApi(object):
+    """Implementation for '/api/v2/delete' endpoint."""
 
     def __init__(self, influxdb_client):
+        """Initialize defaults."""
         self._influxdb_client = influxdb_client
         self._service = DefaultService(influxdb_client.api_client)
 
     def delete(self, start: datetime, stop: object, predicate: object, bucket: str, org: str) -> None:
         """
         Delete Time series data from InfluxDB.
+
         :param start: start time
         :param stop: stop time
         :param predicate: predicate

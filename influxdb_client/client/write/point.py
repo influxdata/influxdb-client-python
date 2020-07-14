@@ -1,3 +1,6 @@
+"""Point data structure to represent LineProtocol."""
+
+
 import math
 from builtins import int
 from datetime import datetime, timedelta
@@ -20,16 +23,19 @@ _ESCAPE_STRING = str.maketrans({'\"': r"\"", "\\": r"\\"})
 class Point(object):
     """
     Point defines the values that will be written to the database.
+
     Ref: http://bit.ly/influxdata-point
     """
 
     @staticmethod
     def measurement(measurement):
+        """Create a new Point with specified measurement name."""
         p = Point(measurement)
         return p
 
     @staticmethod
     def from_dict(dictionary: dict, write_precision: WritePrecision = DEFAULT_WRITE_PRECISION):
+        """Initialize point from 'dict' structure."""
         point = Point(dictionary['measurement'])
         if 'tags' in dictionary:
             for tag_key, tag_value in dictionary['tags'].items():
@@ -41,6 +47,7 @@ class Point(object):
         return point
 
     def __init__(self, measurement_name):
+        """Initialize defaults."""
         self._tags = {}
         self._fields = {}
         self._name = measurement_name
@@ -51,6 +58,7 @@ class Point(object):
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
         Specify timestamp for DataPoint with declared precision.
+
         If time doesn't have specified timezone we assume that timezone is UTC.
 
         Examples::
@@ -69,14 +77,17 @@ class Point(object):
         return self
 
     def tag(self, key, value):
+        """Add tag with key and value."""
         self._tags[key] = value
         return self
 
     def field(self, field, value):
+        """Add field with key and value."""
         self._fields[field] = value
         return self
 
     def to_line_protocol(self):
+        """Create LineProtocol."""
         _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
         _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
@@ -88,6 +99,7 @@ class Point(object):
 
     @property
     def write_precision(self):
+        """Get precision."""
         return self._write_precision
 
 

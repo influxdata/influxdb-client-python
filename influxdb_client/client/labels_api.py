@@ -1,20 +1,21 @@
+"""Labels are a way to add visual metadata to dashboards, tasks, and other items in the InfluxDB UI."""
+
 from typing import List, Dict, Union
 
 from influxdb_client import LabelsService, LabelCreateRequest, Label, LabelUpdate
 
 
 class LabelsApi(object):
-    """
-    The client of the InfluxDB 2.0 that implements Labels HTTP API endpoint.
-    """
+    """Implementation for '/api/v2/labels' endpoint."""
 
     def __init__(self, influxdb_client):
+        """Initialize defaults."""
         self._influxdb_client = influxdb_client
         self._service = LabelsService(influxdb_client.api_client)
 
     def create_label(self, name: str, org_id: str, properties: Dict[str, str] = None) -> Label:
         """
-        Creates a new label.
+        Create a new label.
 
         :param name: label name
         :param org_id: organization id
@@ -26,7 +27,7 @@ class LabelsApi(object):
 
     def update_label(self, label: Label):
         """
-        Updates an existing label name and properties.
+        Update an existing label name and properties.
 
         :param label: label
         :return: the updated label
@@ -38,7 +39,7 @@ class LabelsApi(object):
 
     def delete_label(self, label: Union[str, Label]):
         """
-        Deletes the label.
+        Delete the label.
 
         :param label: label id or Label
         """
@@ -54,7 +55,7 @@ class LabelsApi(object):
 
     def clone_label(self, cloned_name: str, label: Label) -> Label:
         """
-        Creates the new instance of the label as a copy existing label.
+        Create the new instance of the label as a copy existing label.
 
         :param cloned_name: new label name
         :param label: existing label
@@ -68,7 +69,7 @@ class LabelsApi(object):
 
     def find_labels(self) -> List['Label']:
         """
-        Gets all available labels.
+        Get all available labels.
 
         :return: labels
         """
@@ -76,7 +77,7 @@ class LabelsApi(object):
 
     def find_label_by_id(self, label_id: str):
         """
-        Retrieves the label by id.
+        Retrieve the label by id.
 
         :param label_id:
         :return: Label
@@ -85,7 +86,7 @@ class LabelsApi(object):
 
     def find_label_by_org(self, org_id) -> List['Label']:
         """
-        Gets the list of all labels for given organization.
+        Get the list of all labels for given organization.
 
         :param org_id: organization id
         :return: list of labels

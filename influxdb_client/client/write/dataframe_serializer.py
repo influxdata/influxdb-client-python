@@ -1,13 +1,14 @@
+"""
+Functions for serialize Pandas DataFrame.
+
+Much of the code here is inspired by that in the aioinflux packet found here: https://github.com/gusutabopb/aioinflux
+"""
+
 import re
 from functools import reduce
 from itertools import chain
 
 from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_MEASUREMENT
-
-"""
-Functions for serialize Pandas DataFrame.
-Much of the code here is inspired by that in the aioinflux packet found here: https://github.com/gusutabopb/aioinflux
-"""
 
 
 def _replace(data_frame):
@@ -37,6 +38,7 @@ def _itertuples(data_frame):
 
 
 def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
+    """Serialize DataFrame into LineProtocols."""
     from ...extras import pd, np
     if not isinstance(data_frame, pd.DataFrame):
         raise TypeError('Must be DataFrame, but type was: {0}.'

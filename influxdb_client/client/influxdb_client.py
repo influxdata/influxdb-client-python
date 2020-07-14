@@ -1,3 +1,5 @@
+"""InfluxDBClient is client for API defined in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml."""
+
 from __future__ import absolute_import
 
 import configparser
@@ -16,12 +18,12 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettin
 
 
 class InfluxDBClient(object):
+    """InfluxDBClient is client for InfluxDB v2."""
 
     def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None,
                  default_tags: dict = None) -> None:
         """
-        :class:`influxdb_client.InfluxDBClient` is client for HTTP API defined
-        in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml.
+        Initialize defaults.
 
         :param url: InfluxDB server API url (ex. http://localhost:9999).
         :param token: auth token
@@ -56,6 +58,7 @@ class InfluxDBClient(object):
 
     @classmethod
     def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+        """Configure client via '*.ini' file in segment 'influx2'."""
         config = configparser.ConfigParser()
         config.read(config_file)
 
@@ -85,6 +88,7 @@ class InfluxDBClient(object):
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
+        """Configure client via environment properties."""
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
@@ -101,7 +105,7 @@ class InfluxDBClient(object):
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
-        Creates a Write API instance
+        Create a Write API instance.
 
         :param point_settings:
         :param write_options: write api configuration
@@ -111,26 +115,25 @@ class InfluxDBClient(object):
 
     def query_api(self) -> QueryApi:
         """
-        Creates a Query API instance
+        Create a Query API instance.
 
         :return: Query api instance
         """
         return QueryApi(self)
 
     def close(self):
-        """
-        Shutdowns the client
-        """
+        """Shutdown the client."""
         self.__del__()
 
     def __del__(self):
+        """Shutdown the client."""
         if self.api_client:
             self.api_client.__del__()
             self.api_client = None
 
     def buckets_api(self) -> BucketsApi:
         """
-        Creates the Bucket API instance.
+        Create the Bucket API instance.
 
         :return: buckets api
         """
@@ -138,7 +141,7 @@ class InfluxDBClient(object):
 
     def authorizations_api(self) -> AuthorizationsApi:
         """
-        Creates the Authorizations API instance.
+        Create the Authorizations API instance.
 
         :return: authorizations api
         """
@@ -146,7 +149,7 @@ class InfluxDBClient(object):
 
     def users_api(self) -> UsersApi:
         """
-        Creates the Users API instance.
+        Create the Users API instance.
 
         :return: users api
         """
@@ -154,7 +157,7 @@ class InfluxDBClient(object):
 
     def organizations_api(self) -> OrganizationsApi:
         """
-        Creates the Organizations API instance.
+        Create the Organizations API instance.
 
         :return: organizations api
         """
@@ -162,7 +165,7 @@ class InfluxDBClient(object):
 
     def tasks_api(self) -> TasksApi:
         """
-        Creates the Tasks API instance.
+        Create the Tasks API instance.
 
         :return: tasks api
         """
@@ -170,7 +173,7 @@ class InfluxDBClient(object):
 
     def labels_api(self) -> LabelsApi:
         """
-        Creates the Labels API instance.
+        Create the Labels API instance.
 
         :return: labels api
         """
@@ -193,7 +196,7 @@ class InfluxDBClient(object):
 
     def ready(self) -> Ready:
         """
-        Gets The readiness of the InfluxDB 2.0.
+        Get The readiness of the InfluxDB 2.0.
 
         :return: Ready
         """
@@ -202,7 +205,8 @@ class InfluxDBClient(object):
 
     def delete_api(self) -> DeleteApi:
         """
-        Gets the delete metrics API instance
+        Get the delete metrics API instance.
+
         :return: delete api
         """
         return DeleteApi(self)

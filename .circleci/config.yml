@@ -94,12 +94,25 @@ jobs:
             pip install twine --user
             python setup.py sdist bdist_wheel
             twine check dist/*
+  check-docstyle:
+    docker:
+      - image: *default-python
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - checkout
+      - run:
+          name: Checks compliance with Python docstring convention.
+          command: |
+            pip install pydocstyle --user
+            pydocstyle --count influxdb_client
 
 workflows:
   version: 2
   build:
     jobs:
       - check-code-style
+      - check-docstyle
       - check-twine
       - tests-python:
           name: test-3.6
