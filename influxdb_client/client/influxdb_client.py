@@ -21,7 +21,7 @@ class InfluxDBClient(object):
     """InfluxDBClient is client for InfluxDB v2."""
 
     def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None,
-                 default_tags: dict = None) -> None:
+                 default_tags: dict = None, **kwargs) -> None:
         """
         Initialize defaults.
 
@@ -32,6 +32,7 @@ class InfluxDBClient(object):
         :param enable_gzip: Enable Gzip compression for http requests. Currently only the "Write" and "Query" endpoints
                             supports the Gzip compression.
         :param org: organization name (used as a default in query and write API)
+        :key verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
 
         """
         self.url = url
@@ -48,6 +49,7 @@ class InfluxDBClient(object):
             conf.host = self.url
         conf.enable_gzip = enable_gzip
         conf.debug = debug
+        conf.verify_ssl = kwargs.get('verify_ssl', True)
 
         auth_token = self.token
         auth_header_name = "Authorization"

@@ -1,5 +1,8 @@
 ## 1.10.0 [unreleased]
 
+### Features
+1. [#136](https://github.com/influxdata/influxdb-client-python/pull/136): Allows users to skip of verifying SSL certificate 
+
 ## 1.9.0 [2020-07-17]
 
 ### Features

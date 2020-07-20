@@ -204,8 +204,8 @@ class WriteApi:
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.
         :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
-        :param data_frame_measurement_name: name of measurement for writing Pandas DataFrame
-        :param data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
+        :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
+        :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
         """
         if org is None:
             org = self._influxdb_client.org
