@@ -11,10 +11,6 @@ class GzipSupportTest(BaseTest):
 
     def setUp(self) -> None:
         super(GzipSupportTest, self).setUp()
-        # https://github.com/gabrielfalcao/HTTPretty/issues/368
-        import warnings
-        warnings.filterwarnings("ignore", category=ResourceWarning, message="unclosed.*")
-        warnings.filterwarnings("ignore", category=PendingDeprecationWarning, message="isAlive*")
 
         httpretty.enable()
         httpretty.reset()
