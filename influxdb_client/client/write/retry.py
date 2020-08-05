@@ -1,0 +1,64 @@
+"""Implementation for Retry strategy during HTTP requests."""
+
+from itertools import takewhile
+from random import random
+
+from urllib3 import Retry
+
+
+class WritesRetry(Retry):
+    """
+    Writes retry configuration.
+
+    :param int jitter_interval: random milliseconds when retrying writes
+    :param int max_retry_delay: maximum delay when retrying write
+    """
+
+    WRITES_RETRY_AFTER_STATUS_CODES = frozenset([429, 503])
+
+    def __init__(self, jitter_interval=0, max_retry_delay=15, **kw):
+        """Initialize defaults."""
+        super().__init__(**kw)
+        self.jitter_interval = jitter_interval
+        self.max_retry_delay = max_retry_delay
+
+    def new(self, **kw):
+        """Initialize defaults."""
+        if 'jitter_interval' not in kw:
+            kw['jitter_interval'] = self.jitter_interval
+        if 'max_retry_delay' not in kw:
+            kw['max_retry_delay'] = self.max_retry_delay
+        return super().new(**kw)
+
+    def is_retry(self, method, status_code, has_retry_after=False):
+        """is_retry doesn't require retry_after header. If there is not Retry-After we will use backoff."""
+        if not self._is_method_retryable(method):
+            return False
+
+        return self.total and (status_code in self.WRITES_RETRY_AFTER_STATUS_CODES)
+
+    def get_backoff_time(self):
+        """Variant of exponential backoff with initial and max delay and a random jitter delay."""
+        # We want to consider only the last consecutive errors sequence (Ignore redirects).
+        consecutive_errors_len = len(
+            list(
+                takewhile(lambda x: x.redirect_location is None, reversed(self.history))
+            )
+        )
+        # First fail doesn't increase backoff
+        consecutive_errors_len -= 1
+        if consecutive_errors_len < 0:
+            return 0
+
+        backoff_value = self.backoff_factor * (2 ** consecutive_errors_len) + self._jitter_delay()
+        return min(self.max_retry_delay, backoff_value)
+
+    def get_retry_after(self, response):
+        """Get the value of Retry-After header and append random jitter delay."""
+        retry_after = super().get_retry_after(response)
+        if retry_after:
+            retry_after += self._jitter_delay()
+        return retry_after
+
+    def _jitter_delay(self):
+        return self.jitter_interval * random()
