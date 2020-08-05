@@ -217,7 +217,6 @@ class InfluxDBClient(object):
             health = health_service.get_health()
             return health
         except Exception as e:
-            print(e)
             return HealthCheck(name="influxdb", message=str(e), status="fail")
 
     def ready(self) -> Ready:
