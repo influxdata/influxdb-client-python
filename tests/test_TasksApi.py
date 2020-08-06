@@ -239,6 +239,7 @@ class TasksApiTest(BaseTest):
         members = self.tasks_api.get_members(task_id=task.id)
         self.assertEqual(len(members), 0)
 
+    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/19234")
     def test_owner(self):
         task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)

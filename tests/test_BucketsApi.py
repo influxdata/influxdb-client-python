@@ -37,7 +37,6 @@ class BucketsClientTest(BaseTest):
             assert self.buckets_api.find_bucket_by_id(my_bucket.id)
         assert "bucket not found" in e.value.body
 
-    @pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/14900")
     def test_find_by_name(self):
         my_org = self.find_my_org()
 
