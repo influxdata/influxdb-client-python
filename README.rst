@@ -907,6 +907,23 @@ The following forward compatible APIs are available:
 
 For detail info see `InfluxDB 1.8 example <examples/influxdb_18_example.py>`_.
 
+HTTP Retry Strategy
+^^^^^^^^^^^^^^^^^^^
+By default the client uses a retry strategy only for batching writes (for more info see `Batching`_).
+For other HTTP requests there is no one retry strategy, but it could be configured by ``retries``
+parameter of ``InfluxDBClient``.
+
+For more info about how configure HTTP retry see detail in `urllib3 documentation <https://urllib3.readthedocs.io/en/latest/reference/index.html?highlight=retry#urllib3.Retry>`_.
+
+.. code-block:: python
+
+    from urllib3 import Retry
+
+    from influxdb_client import InfluxDBClient
+
+    retries = Retry(connect=5, read=2, redirect=5)
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", retries=retries)
+
 Nanosecond precision
 ^^^^^^^^^^^^^^^^^^^^
 

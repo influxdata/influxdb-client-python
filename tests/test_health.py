@@ -2,7 +2,7 @@ import datetime
 import unittest
 
 import httpretty
-import influxdb_client
+from urllib3 import Retry
 
 from influxdb_client import InfluxDBClient
 from tests.base_test import BaseTest
@@ -41,11 +41,7 @@ class TestHealthMock(unittest.TestCase):
         httpretty.enable()
         httpretty.reset()
 
-        conf = influxdb_client.configuration.Configuration()
-        conf.host = "http://localhost"
-        conf.debug = False
-
-        self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
+        self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token")
 
     def tearDown(self) -> None:
         self.influxdb_client.__del__()
@@ -62,3 +58,22 @@ class TestHealthMock(unittest.TestCase):
         self.assertEqual(check.name, "influxdb")
 
         self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+    def test_with_retry(self):
+
+        self.influxdb_client.__del__()
+        self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", retries=Retry())
+
+        httpretty.register_uri(httpretty.GET, uri="http://localhost/health", status=200,
+                               adding_headers={'Content-Type': 'application/json'},
+                               body="{\"message\":\"ready for queries and writes\", \"name\":\"influxdb\", \"status\":\"pass\"}")
+        httpretty.register_uri(httpretty.GET, uri="http://localhost/health", status=429,
+                               adding_headers={'Retry-After': '1', 'Content-Type': 'application/json'},
+                               body="{\"message\":\"Health is not working\"}")
+
+        health = self.influxdb_client.health()
+        self.assertEqual(health.message, 'ready for queries and writes')
+        self.assertEqual(health.status, "pass")
+        self.assertEqual(health.name, "influxdb")
+
+        self.assertEqual(2, len(httpretty.httpretty.latest_requests))
