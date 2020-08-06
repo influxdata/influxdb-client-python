@@ -18,7 +18,7 @@ from rx.subject import Subject
 from influxdb_client import WritePrecision, WriteService
 from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
-from influxdb_client.rest import ApiException
+from influxdb_client.client.write.retry import WritesRetry
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,8 @@ class WriteOptions(object):
                  batch_size=1_000, flush_interval=1_000,
                  jitter_interval=0,
                  retry_interval=1_000,
+                 max_retries=3,
+                 max_retry_delay=15_000,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.
@@ -48,6 +50,8 @@ class WriteOptions(object):
         :param jitter_interval: this is primarily to avoid large write spikes for users running a large number of
                client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
         :param retry_interval: the time to wait before retry unsuccessful write
+        :param max_retries: the number of max retries when write fails
+        :param max_retry_delay: the maximum delay when retrying write in milliseconds
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -55,7 +59,18 @@ class WriteOptions(object):
         self.flush_interval = flush_interval
         self.jitter_interval = jitter_interval
         self.retry_interval = retry_interval
+        self.max_retries = max_retries
+        self.max_retry_delay = max_retry_delay
         self.write_scheduler = write_scheduler
+
+    def to_retry_strategy(self):
+        """Create a Retry strategy from write options."""
+        return WritesRetry(
+            total=self.max_retries,
+            backoff_factor=self.retry_interval / 1_000,
+            jitter_interval=self.jitter_interval / 1_000,
+            max_retry_delay=self.max_retry_delay / 1_000,
+            method_whitelist=["POST"])
 
     def __getstate__(self):
         """Return a dict of attributes that you want to pickle."""
@@ -182,7 +197,7 @@ class WriteApi:
                     ops.merge_all())),
                 # Write data into InfluxDB (possibility to retry if its fail)
                 ops.filter(lambda batch: batch.size > 0),
-                ops.map(mapper=lambda batch: self._retryable(data=batch, delay=self._jitter_delay())),
+                ops.map(mapper=lambda batch: self._to_response(data=batch, delay=self._jitter_delay())),
                 ops.merge_all()) \
                 .subscribe(self._on_next, self._on_error, self._on_complete)
 
@@ -320,19 +335,28 @@ class WriteApi:
 
         logger.debug("Write time series data into InfluxDB: %s", batch_item)
 
+        retry = WritesRetry(
+            total=self._write_options.max_retries,
+            backoff_factor=self._write_options.retry_interval / 1_000,
+            jitter_interval=self._write_options.jitter_interval / 1_000,
+            max_retry_delay=self._write_options.max_retry_delay / 1_000,
+            method_whitelist=["POST"])
+
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
-                         batch_item.key.precision)
+                         batch_item.key.precision, urlopen_kw={'retries': retry})
 
         logger.debug("Write request finished %s", batch_item)
 
         return _BatchResponse(data=batch_item)
 
-    def _post_write(self, _async_req, bucket, org, body, precision):
+    def _post_write(self, _async_req, bucket, org, body, precision, **kwargs):
+
         return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
                                               async_req=_async_req, content_encoding="identity",
-                                              content_type="text/plain; charset=utf-8")
+                                              content_type="text/plain; charset=utf-8",
+                                              **kwargs)
 
-    def _retryable(self, data: str, delay: timedelta):
+    def _to_response(self, data: _BatchItem, delay: timedelta):
 
         return rx.of(data).pipe(
             ops.subscribe_on(self._write_options.write_scheduler),
@@ -340,23 +364,9 @@ class WriteApi:
             ops.delay(duetime=delay, scheduler=self._write_options.write_scheduler),
             # invoke http call
             ops.map(lambda x: self._http(x)),
-            # if there is an error than retry
-            ops.catch(handler=lambda exception, source: self._retry_handler(exception, source, data)),
+            # catch exception to fail batch response
+            ops.catch(handler=lambda exception, source: rx.just(_BatchResponse(exception=exception, data=data))),
         )
-
-    def _retry_handler(self, exception, source, data):
-
-        if isinstance(exception, ApiException):
-
-            if exception.status == 429 or exception.status == 503:
-                retry_interval = self._write_options.retry_interval
-                if exception.headers:
-                    if "Retry-After" in exception.headers:
-                        retry_interval = int(exception.headers.get("Retry-After")) * 1000
-                _delay = self._jitter_delay() + timedelta(milliseconds=retry_interval)
-                return self._retryable(data, delay=_delay)
-
-        return rx.just(_BatchResponse(exception=exception, data=data))
 
     def _jitter_delay(self):
         return timedelta(milliseconds=random() * self._write_options.jitter_interval)

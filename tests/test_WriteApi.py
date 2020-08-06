@@ -8,6 +8,9 @@ import unittest
 from datetime import timedelta
 from multiprocessing.pool import ApplyResult
 
+import httpretty
+
+import influxdb_client
 from influxdb_client import Point, WritePrecision, InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS, PointSettings
 from influxdb_client.rest import ApiException
@@ -418,6 +421,45 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(record["_time"].nanosecond, 231)
 
         date_utils.date_helper = None
+
+
+class WriteApiTestMock(BaseTest):
+
+    def setUp(self) -> None:
+        httpretty.enable()
+        httpretty.reset()
+
+        conf = influxdb_client.configuration.Configuration()
+        conf.host = "http://localhost"
+        conf.debug = False
+
+        self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
+
+    def tearDown(self) -> None:
+        self.influxdb_client.__del__()
+        httpretty.disable()
+
+    def test_writes_synchronous_without_retry(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
+
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
+        with self.assertRaises(ApiException) as cm:
+            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
+        exception = cm.exception
+
+        self.assertEqual("Service Unavailable", exception.reason)
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+    def test_writes_asynchronous_without_retry(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
+
+        self.write_client = self.influxdb_client.write_api(write_options=ASYNCHRONOUS)
+        with self.assertRaises(ApiException) as cm:
+            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1").get()
+        exception = cm.exception
+
+        self.assertEqual("Service Unavailable", exception.reason)
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
 
 
 class AsynchronousWriteTest(BaseTest):
