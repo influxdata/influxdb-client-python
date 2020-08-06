@@ -913,7 +913,7 @@ By default the client uses a retry strategy only for batching writes (for more i
 For other HTTP requests there is no one retry strategy, but it could be configured by ``retries``
 parameter of ``InfluxDBClient``.
 
-For more info about how configure HTTP retry see detail in `urllib3 documentation <https://urllib3.readthedocs.io/en/latest/reference/index.html?highlight=retry#urllib3.Retry>`_.
+For more info about how configure HTTP retry see details in `urllib3 documentation <https://urllib3.readthedocs.io/en/latest/reference/index.html?highlight=retry#urllib3.Retry>`_.
 
 .. code-block:: python
 
