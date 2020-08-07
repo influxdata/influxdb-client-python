@@ -899,10 +899,76 @@ The following forward compatible APIs are available:
 
 For detail info see `InfluxDB 1.8 example <examples/influxdb_18_example.py>`_.
 
+Nanosecond precision
+^^^^^^^^^^^^^^^^^^^^
+
+The Python's `datetime <https://docs.python.org/3/library/datetime.html>`_ doesn't support precision with nanoseconds
+so the library during writes and queries ignores everything after microseconds.
+
+If you would like to use ``datetime`` with nanosecond precision you should use
+`pandas.Timestamp <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp>`_
+that is replacement for python ``datetime.datetime`` object and also you should set a proper ``DateTimeHelper`` to the client.
+
+* sources - `nanosecond_precision.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/nanosecond_precision.py>`_
+
+.. code-block:: python
+
+    from influxdb_client import Point, InfluxDBClient
+    from influxdb_client.client.util.date_utils_pandas import PandasDateTimeHelper
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    """
+    Set PandasDate helper which supports nanoseconds.
+    """
+    import influxdb_client.client.util.date_utils as date_utils
+
+    date_utils.date_helper = PandasDateTimeHelper()
+
+    """
+    Prepare client.
+    """
+    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    query_api = client.query_api()
+
+    """
+    Prepare data
+    """
+
+    point = Point("h2o_feet") \
+        .field("water_level", 10) \
+        .tag("location", "pacific") \
+        .time('1996-02-25T21:20:00.001001231Z')
+
+    print(f'Time serialized with nanosecond precision: {point.to_line_protocol()}')
+    print()
+
+    write_api.write(bucket="my-bucket", record=point)
+
+    """
+    Query: using Stream
+    """
+    query = '''
+    from(bucket:"my-bucket")
+            |> range(start: 0, stop: now())
+            |> filter(fn: (r) => r._measurement == "h2o_feet")
+    '''
+    records = query_api.query_stream(query)
+
+    for record in records:
+        print(f'Temperature in {record["location"]} is {record["_value"]} at time: {record["_time"]}')
+
+    """
+    Close client
+    """
+    client.__del__()
+
+
 Local tests
 -----------
 
-.. code-block:: python
+.. code-block:: console
 
     # start/restart InfluxDB2 on local machine using docker
     ./scripts/influxdb-restart.sh
