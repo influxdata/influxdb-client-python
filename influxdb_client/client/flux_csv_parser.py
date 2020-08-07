@@ -9,7 +9,7 @@ from typing import List
 
 from urllib3 import HTTPResponse
 
-from influxdb_client.client.date_utils import get_date_helper
+from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
 

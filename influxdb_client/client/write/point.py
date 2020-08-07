@@ -10,7 +10,7 @@ from numbers import Integral
 from pytz import UTC
 from six import iteritems
 
-from influxdb_client.client.date_utils import get_date_helper
+from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))

@@ -383,6 +383,42 @@ class SynchronousWriteTest(BaseTest):
 
         client.__del__()
 
+    def test_write_query_data_nanoseconds(self):
+
+        from influxdb_client.client.util.date_utils_pandas import PandasDateTimeHelper
+        import influxdb_client.client.util.date_utils as date_utils
+
+        date_utils.date_helper = PandasDateTimeHelper()
+
+        bucket = self.create_test_bucket()
+
+        point = Point("h2o_feet") \
+            .field("water_level", 155) \
+            .tag("location", "creek level")\
+            .time('1996-02-25T21:20:00.001001231Z')
+
+        self.write_client.write(bucket.name, self.org, [point])
+
+        flux_result = self.client.query_api().query(
+            f'from(bucket:"{bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)')
+        self.assertEqual(1, len(flux_result))
+
+        record = flux_result[0].records[0]
+
+        self.assertEqual(self.id_tag, record["id"])
+        self.assertEqual(record["_value"], 155)
+        self.assertEqual(record["location"], "creek level")
+        self.assertEqual(record["_time"].year, 1996)
+        self.assertEqual(record["_time"].month, 2)
+        self.assertEqual(record["_time"].day, 25)
+        self.assertEqual(record["_time"].hour, 21)
+        self.assertEqual(record["_time"].minute, 20)
+        self.assertEqual(record["_time"].second, 00)
+        self.assertEqual(record["_time"].microsecond, 1001)
+        self.assertEqual(record["_time"].nanosecond, 231)
+
+        date_utils.date_helper = None
+
 
 class AsynchronousWriteTest(BaseTest):
 
