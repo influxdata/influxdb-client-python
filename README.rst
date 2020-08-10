@@ -169,6 +169,7 @@ The following options are supported:
 - ``org`` - default destination organization for writes and queries
 - ``token`` - the token to use for the authorization
 - ``timeout`` - socket timeout in ms (default value is 10000)
+- ``verify_ssl`` - set this to false to skip verifying SSL certificate when calling API from https server
 
 .. code-block:: python
 
@@ -181,6 +182,7 @@ The following options are supported:
     org=my-org
     token=my-token
     timeout=6000
+    verify_ssl=False
 
 Via Environment Properties
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -192,6 +194,7 @@ Supported properties are:
 - ``INFLUXDB_V2_ORG`` - default destination organization for writes and queries
 - ``INFLUXDB_V2_TOKEN`` - the token to use for the authorization
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
+- ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
 
 .. code-block:: python
 
