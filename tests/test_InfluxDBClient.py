@@ -1,5 +1,6 @@
 import http.server
 import json
+import os
 import threading
 import unittest
 
@@ -26,7 +27,6 @@ class InfluxDBClientTest(unittest.TestCase):
     def test_ConnectToSelfSignedServer(self):
         import http.server
         import ssl
-        import os
 
         # Disable unverified HTTPS requests
         import urllib3
@@ -48,6 +48,28 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual(health.message, 'ready for queries and writes')
         self.assertEqual(health.status, "pass")
         self.assertEqual(health.name, "influxdb")
+
+    def test_init_from_file_ssl_default(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertTrue(self.client.api_client.configuration.verify_ssl)
+
+    def test_init_from_file_ssl(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-disabled-ssl.ini')
+
+        self.assertFalse(self.client.api_client.configuration.verify_ssl)
+
+    def test_init_from_env_ssl_default(self):
+        del os.environ["INFLUXDB_V2_VERIFY_SSL"]
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertTrue(self.client.api_client.configuration.verify_ssl)
+
+    def test_init_from_env_ssl(self):
+        os.environ["INFLUXDB_V2_VERIFY_SSL"] = "False"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertFalse(self.client.api_client.configuration.verify_ssl)
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):

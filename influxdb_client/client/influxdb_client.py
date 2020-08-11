@@ -60,7 +60,16 @@ class InfluxDBClient(object):
 
     @classmethod
     def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
-        """Configure client via '*.ini' file in segment 'influx2'."""
+        """
+        Configure client via '*.ini' file in segment 'influx2'.
+
+        Supported options:
+            - url
+            - org
+            - token
+            - timeout,
+            - verify_ssl
+        """
         config = configparser.ConfigParser()
         config.read(config_file)
 
@@ -77,6 +86,10 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'org'):
             org = config['influx2']['org']
 
+        verify_ssl = True
+        if config.has_option('influx2', 'verify_ssl'):
+            verify_ssl = config['influx2']['verify_ssl']
+
         default_tags = None
 
         if config.has_section('tags'):
@@ -84,17 +97,28 @@ class InfluxDBClient(object):
 
         if timeout:
             return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                       enable_gzip=enable_gzip)
+                       enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl))
 
-        return cls(url, token, debug=debug, org=org, default_tags=default_tags, enable_gzip=enable_gzip)
+        return cls(url, token, debug=debug, org=org, default_tags=default_tags, enable_gzip=enable_gzip,
+                   verify_ssl=_to_bool(verify_ssl))
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
-        """Configure client via environment properties."""
+        """
+        Configure client via environment properties.
+
+        Supported environment properties:
+            - INFLUXDB_V2_URL
+            - INFLUXDB_V2_ORG
+            - INFLUXDB_V2_TOKEN
+            - INFLUXDB_V2_TIMEOUT
+            - INFLUXDB_V2_VERIFY_SSL
+        """
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
         org = os.getenv('INFLUXDB_V2_ORG', "my-org")
+        verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
 
         default_tags = dict()
 
@@ -103,7 +127,7 @@ class InfluxDBClient(object):
                 default_tags[key[16:].lower()] = value
 
         return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                   enable_gzip=enable_gzip)
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl))
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
@@ -247,3 +271,7 @@ class _Configuration(Configuration):
                     return gzip.compress(bytes(_body, "utf-8"))
 
         return _body
+
+
+def _to_bool(verify_ssl):
+    return str(verify_ssl).lower() in ("yes", "true")
