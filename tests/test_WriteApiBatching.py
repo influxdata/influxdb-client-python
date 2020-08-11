@@ -178,10 +178,17 @@ class BatchingWriteTest(unittest.TestCase):
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_retry_interval(self):
+
+        self._write_client.__del__()
+
+        # Set retry interval to 1_500
+        self.write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=1_500)
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=self.write_options)
+
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
-                               adding_headers={'Retry-After': '5'})
+                               adding_headers={'Retry-After': '3'})
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
 
         self._write_client.write("my-bucket", "my-org",
@@ -191,14 +198,14 @@ class BatchingWriteTest(unittest.TestCase):
         time.sleep(1)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests), msg="first request immediately")
 
-        time.sleep(3)
+        time.sleep(1.5)
         self.assertEqual(2, len(httpretty.httpretty.latest_requests), msg="second request after delay_interval")
 
-        time.sleep(5)
+        time.sleep(3)
         self.assertEqual(3, len(httpretty.httpretty.latest_requests), msg="third request after Retry-After")
 
-        time.sleep(12)
-        self.assertEqual(4, len(httpretty.httpretty.latest_requests), msg="fourth after exponential delay = 3 * 2 * 3")
+        time.sleep(37.5)
+        self.assertEqual(4, len(httpretty.httpretty.latest_requests), msg="fourth after exponential delay = 1.5 * 5**2")
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",

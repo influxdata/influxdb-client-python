@@ -37,9 +37,9 @@ class WriteOptions(object):
     def __init__(self, write_type: WriteType = WriteType.batching,
                  batch_size=1_000, flush_interval=1_000,
                  jitter_interval=0,
-                 retry_interval=1_000,
+                 retry_interval=5_000,
                  max_retries=3,
-                 max_retry_delay=15_000,
+                 max_retry_delay=180_000,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.

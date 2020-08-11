@@ -250,13 +250,13 @@ The batching is configurable by ``write_options``\ :
      - ``0``
    * - **retry_interval**
      - the number of milliseconds to retry unsuccessful write. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
-     - ``1000``
+     - ``5000``
    * - **max_retries**
      - the number of max retries when write fails
      - ``3``
    * - **max_retry_delay**
      - the maximum delay between each retry attempt in milliseconds
-     - ``15_000``
+     - ``180_000``
 
 
 .. code-block:: python

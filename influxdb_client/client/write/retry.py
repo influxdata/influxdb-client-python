@@ -14,9 +14,7 @@ class WritesRetry(Retry):
     :param int max_retry_delay: maximum delay when retrying write
     """
 
-    WRITES_RETRY_AFTER_STATUS_CODES = frozenset([429, 503])
-
-    def __init__(self, jitter_interval=0, max_retry_delay=15, **kw):
+    def __init__(self, jitter_interval=0, max_retry_delay=180, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
         self.jitter_interval = jitter_interval
@@ -35,7 +33,7 @@ class WritesRetry(Retry):
         if not self._is_method_retryable(method):
             return False
 
-        return self.total and (status_code in self.WRITES_RETRY_AFTER_STATUS_CODES)
+        return self.total and (status_code >= 429)
 
     def get_backoff_time(self):
         """Variant of exponential backoff with initial and max delay and a random jitter delay."""
@@ -50,7 +48,7 @@ class WritesRetry(Retry):
         if consecutive_errors_len < 0:
             return 0
 
-        backoff_value = self.backoff_factor * (2 ** consecutive_errors_len) + self._jitter_delay()
+        backoff_value = self.backoff_factor * (5 ** consecutive_errors_len) + self._jitter_delay()
         return min(self.max_retry_delay, backoff_value)
 
     def get_retry_after(self, response):

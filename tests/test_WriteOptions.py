@@ -8,9 +8,9 @@ class TestWriteOptions(unittest.TestCase):
         retry = WriteOptions().to_retry_strategy()
 
         self.assertEqual(retry.total, 3)
-        self.assertEqual(retry.backoff_factor, 1)
+        self.assertEqual(retry.backoff_factor, 5)
         self.assertEqual(retry.jitter_interval, 0)
-        self.assertEqual(retry.max_retry_delay, 15)
+        self.assertEqual(retry.max_retry_delay, 180)
         self.assertEqual(retry.method_whitelist, ["POST"])
 
     def test_custom(self):

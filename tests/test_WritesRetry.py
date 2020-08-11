@@ -21,7 +21,7 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual(retry.total, 8)
 
     def test_backoff(self):
-        retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=100)
+        retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=550)
         self.assertEqual(retry.total, 5)
         self.assertEqual(retry.is_exhausted(), False)
         self.assertEqual(retry.get_backoff_time(), 0)
@@ -34,22 +34,22 @@ class TestWritesRetry(unittest.TestCase):
         retry = retry.increment()
         self.assertEqual(retry.total, 3)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 2)
+        self.assertEqual(retry.get_backoff_time(), 5)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 2)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 4)
+        self.assertEqual(retry.get_backoff_time(), 25)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 1)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 8)
+        self.assertEqual(retry.get_backoff_time(), 125)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 0)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 16)
+        self.assertEqual(retry.get_backoff_time(), 550)
 
         with self.assertRaises(MaxRetryError) as cm:
             retry.increment()
@@ -97,6 +97,16 @@ class TestWritesRetry(unittest.TestCase):
         retry = WritesRetry(method_whitelist=["POST"])
 
         self.assertTrue(retry.is_retry("POST", 429, True))
+
+    def test_is_retry_428(self):
+        retry = WritesRetry(method_whitelist=["POST"])
+
+        self.assertFalse(retry.is_retry("POST", 428, True))
+
+    def test_is_retry_430(self):
+        retry = WritesRetry(method_whitelist=["POST"])
+
+        self.assertTrue(retry.is_retry("POST", 430, True))
 
     def test_is_retry_retry_after_header_is_not_required(self):
         retry = WritesRetry(method_whitelist=["POST"])
