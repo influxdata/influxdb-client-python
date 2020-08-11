@@ -10,7 +10,7 @@ from numbers import Integral
 from pytz import UTC
 from six import iteritems
 
-from influxdb_client.client.date_utils import get_date_parse_function
+from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
@@ -164,24 +164,13 @@ def _escape_string(value):
     return str(value).translate(_ESCAPE_STRING)
 
 
-def _to_nanoseconds(delta):
-    """
-    Solution comes from v1 client. Thx.
-
-    https://github.com/influxdata/influxdb-python/pull/811
-    """
-    nanoseconds_in_days = delta.days * 86400 * 10 ** 9
-    nanoseconds_in_seconds = delta.seconds * 10 ** 9
-    nanoseconds_in_micros = delta.microseconds * 10 ** 3
-    return nanoseconds_in_days + nanoseconds_in_seconds + nanoseconds_in_micros
-
-
 def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
+    date_helper = get_date_helper()
     if isinstance(timestamp, Integral):
         return timestamp  # assume precision is correct if timestamp is int
 
     if isinstance(timestamp, str):
-        timestamp = get_date_parse_function()(timestamp)
+        timestamp = date_helper.parse_date(timestamp)
 
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 
@@ -192,7 +181,7 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
                 timestamp = timestamp.astimezone(UTC)
             timestamp = timestamp - EPOCH
 
-        ns = _to_nanoseconds(timestamp)
+        ns = date_helper.to_nanoseconds(timestamp)
 
         if precision is None or precision == WritePrecision.NS:
             return ns
