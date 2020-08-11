@@ -51,7 +51,7 @@ class WriteOptions(object):
                client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
         :param retry_interval: the time to wait before retry unsuccessful write
         :param max_retries: the number of max retries when write fails
-        :param max_retry_delay: the maximum delay when retrying write in milliseconds
+        :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
         :param write_scheduler:
         """
         self.write_type = write_type

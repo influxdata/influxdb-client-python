@@ -255,7 +255,7 @@ The batching is configurable by ``write_options``\ :
      - the number of max retries when write fails
      - ``3``
    * - **max_retry_delay**
-     - the maximum delay when retrying write in milliseconds
+     - the maximum delay between each retry attempt in milliseconds
      - ``15_000``
 
 
