@@ -32,7 +32,9 @@ class InfluxDBClient(object):
         :param enable_gzip: Enable Gzip compression for http requests. Currently only the "Write" and "Query" endpoints
                             supports the Gzip compression.
         :param org: organization name (used as a default in query and write API)
-        :key verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
+        :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
+        :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
+                                               except batching writes. As a default there is no one retry strategy.
 
         """
         self.url = url
@@ -55,8 +57,10 @@ class InfluxDBClient(object):
         auth_header_name = "Authorization"
         auth_header_value = "Token " + auth_token
 
+        retries = kwargs.get('retries', False)
+
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
-                                    header_value=auth_header_value)
+                                    header_value=auth_header_value, retries=retries)
 
     @classmethod
     def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
@@ -217,7 +221,6 @@ class InfluxDBClient(object):
             health = health_service.get_health()
             return health
         except Exception as e:
-            print(e)
             return HealthCheck(name="influxdb", message=str(e), status="fail")
 
     def ready(self) -> Ready:

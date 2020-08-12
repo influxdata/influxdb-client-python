@@ -80,6 +80,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -123,6 +124,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members/{userID}', 'DELETE',
             path_params,
@@ -137,7 +143,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_buckets_id_owners_id(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a bucket.
@@ -185,6 +192,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -228,6 +236,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners/{userID}', 'DELETE',
             path_params,
@@ -242,7 +255,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_dashboards_id_members_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a dashboard.
@@ -290,6 +304,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -333,6 +348,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members/{userID}', 'DELETE',
             path_params,
@@ -347,7 +367,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_dashboards_id_owners_id(self, user_id, dashboard_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a dashboard.
@@ -395,6 +416,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -438,6 +460,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
             path_params,
@@ -452,7 +479,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_orgs_id_members_id(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from an organization.
@@ -500,6 +528,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -543,6 +572,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members/{userID}', 'DELETE',
             path_params,
@@ -557,7 +591,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_orgs_id_owners_id(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from an organization.
@@ -605,6 +640,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -648,6 +684,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners/{userID}', 'DELETE',
             path_params,
@@ -662,7 +703,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_scrapers_id_members_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a scraper target.
@@ -710,6 +752,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -753,6 +796,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
             path_params,
@@ -767,7 +815,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_scrapers_id_owners_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a scraper target.
@@ -815,6 +864,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -858,6 +908,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
             path_params,
@@ -872,7 +927,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_tasks_id_members_id(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a task.
@@ -920,6 +976,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -963,6 +1020,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members/{userID}', 'DELETE',
             path_params,
@@ -977,7 +1039,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_tasks_id_owners_id(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a task.
@@ -1025,6 +1088,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1068,6 +1132,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners/{userID}', 'DELETE',
             path_params,
@@ -1082,7 +1151,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_telegrafs_id_members_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a Telegraf config.
@@ -1130,6 +1200,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1173,6 +1244,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
             path_params,
@@ -1187,7 +1263,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_telegrafs_id_owners_id(self, user_id, telegraf_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a Telegraf config.
@@ -1235,6 +1312,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1278,6 +1356,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
             path_params,
@@ -1292,7 +1375,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_users_id(self, user_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a user.
@@ -1338,6 +1422,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1375,6 +1460,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users/{userID}', 'DELETE',
             path_params,
@@ -1389,7 +1479,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_buckets_id_members(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a bucket.
@@ -1435,6 +1526,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1472,6 +1564,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'GET',
             path_params,
@@ -1486,7 +1583,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_buckets_id_owners(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a bucket.
@@ -1532,6 +1630,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1569,6 +1668,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'GET',
             path_params,
@@ -1583,7 +1687,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_dashboards_id_members(self, dashboard_id, **kwargs):  # noqa: E501,D401,D403
         """List all dashboard members.
@@ -1629,6 +1734,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1666,6 +1772,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'GET',
             path_params,
@@ -1680,7 +1791,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_dashboards_id_owners(self, dashboard_id, **kwargs):  # noqa: E501,D401,D403
         """List all dashboard owners.
@@ -1726,6 +1838,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1763,6 +1876,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'GET',
             path_params,
@@ -1777,7 +1895,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_me(self, **kwargs):  # noqa: E501,D401,D403
         """Return the current authenticated user.
@@ -1821,6 +1940,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1852,6 +1972,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/me', 'GET',
             path_params,
@@ -1866,7 +1991,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_orgs_id_members(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all members of an organization.
@@ -1912,6 +2038,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1949,6 +2076,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'GET',
             path_params,
@@ -1963,7 +2095,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_orgs_id_owners(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of an organization.
@@ -2009,6 +2142,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2046,6 +2180,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'GET',
             path_params,
@@ -2060,7 +2199,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id_members(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a scraper target.
@@ -2106,6 +2246,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2143,6 +2284,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
             path_params,
@@ -2157,7 +2303,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id_owners(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a scraper target.
@@ -2203,6 +2350,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2240,6 +2388,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
             path_params,
@@ -2254,7 +2407,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_tasks_id_members(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all task members.
@@ -2300,6 +2454,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2337,6 +2492,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'GET',
             path_params,
@@ -2351,7 +2511,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_tasks_id_owners(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a task.
@@ -2397,6 +2558,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2434,6 +2596,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'GET',
             path_params,
@@ -2448,7 +2615,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_telegrafs_id_members(self, telegraf_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a Telegraf config.
@@ -2494,6 +2662,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2531,6 +2700,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'GET',
             path_params,
@@ -2545,7 +2719,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_telegrafs_id_owners(self, telegraf_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a Telegraf config.
@@ -2591,6 +2766,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2628,6 +2804,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'GET',
             path_params,
@@ -2642,7 +2823,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_users(self, **kwargs):  # noqa: E501,D401,D403
         """List all users.
@@ -2686,6 +2868,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2717,6 +2900,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users', 'GET',
             path_params,
@@ -2731,7 +2919,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_users_id(self, user_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a user.
@@ -2777,6 +2966,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2814,6 +3004,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users/{userID}', 'GET',
             path_params,
@@ -2828,7 +3023,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def patch_users_id(self, user_id, user, **kwargs):  # noqa: E501,D401,D403
         """Update a user.
@@ -2876,6 +3072,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -2923,6 +3120,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users/{userID}', 'PATCH',
             path_params,
@@ -2937,7 +3139,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_buckets_id_members(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a bucket.
@@ -2985,6 +3188,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3032,6 +3236,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'POST',
             path_params,
@@ -3046,7 +3255,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_buckets_id_owners(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a bucket.
@@ -3094,6 +3304,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3141,6 +3352,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'POST',
             path_params,
@@ -3155,7 +3371,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_dashboards_id_members(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a dashboard.
@@ -3203,6 +3420,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3250,6 +3468,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'POST',
             path_params,
@@ -3264,7 +3487,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_dashboards_id_owners(self, dashboard_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a dashboard.
@@ -3312,6 +3536,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3359,6 +3584,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'POST',
             path_params,
@@ -3373,7 +3603,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_orgs_id_members(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to an organization.
@@ -3421,6 +3652,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3468,6 +3700,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'POST',
             path_params,
@@ -3482,7 +3719,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_orgs_id_owners(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to an organization.
@@ -3530,6 +3768,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3577,6 +3816,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'POST',
             path_params,
@@ -3591,7 +3835,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers_id_members(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a scraper target.
@@ -3639,6 +3884,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3686,6 +3932,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
             path_params,
@@ -3700,7 +3951,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers_id_owners(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a scraper target.
@@ -3748,6 +4000,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3795,6 +4048,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',
             path_params,
@@ -3809,7 +4067,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_tasks_id_members(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a task.
@@ -3857,6 +4116,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -3904,6 +4164,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'POST',
             path_params,
@@ -3918,7 +4183,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_tasks_id_owners(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a task.
@@ -3966,6 +4232,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4013,6 +4280,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'POST',
             path_params,
@@ -4027,7 +4299,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_telegrafs_id_members(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a Telegraf config.
@@ -4075,6 +4348,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4122,6 +4396,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'POST',
             path_params,
@@ -4136,7 +4415,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_telegrafs_id_owners(self, telegraf_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a Telegraf config.
@@ -4184,6 +4464,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4231,6 +4512,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'POST',
             path_params,
@@ -4245,7 +4531,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_users(self, user, **kwargs):  # noqa: E501,D401,D403
         """Create a user.
@@ -4291,6 +4578,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4332,6 +4620,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users', 'POST',
             path_params,
@@ -4346,7 +4639,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
@@ -4394,6 +4688,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4441,6 +4736,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = ['BasicAuth']  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/users/{userID}/password', 'POST',
             path_params,
@@ -4455,7 +4755,8 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def put_me_password(self, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
@@ -4501,6 +4802,7 @@ class UsersService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -4542,6 +4844,11 @@ class UsersService(object):
         # Authentication setting
         auth_settings = ['BasicAuth']  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/me/password', 'PUT',
             path_params,
@@ -4556,4 +4863,5 @@ class UsersService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)

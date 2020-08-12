@@ -76,6 +76,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -115,6 +116,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'POST',
             path_params,
@@ -129,7 +135,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_notification_endpoints_id(self, endpoint_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a notification endpoint.
@@ -175,6 +182,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -212,6 +220,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'DELETE',
             path_params,
@@ -226,7 +239,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_notification_endpoints_id_labels_id(self, endpoint_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a notification endpoint.
@@ -274,6 +288,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -317,6 +332,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
             path_params,
@@ -331,7 +351,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_notification_endpoints(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Get all notification endpoints.
@@ -381,6 +402,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -428,6 +450,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'GET',
             path_params,
@@ -442,7 +469,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_notification_endpoints_id(self, endpoint_id, **kwargs):  # noqa: E501,D401,D403
         """Get a notification endpoint.
@@ -488,6 +516,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -525,6 +554,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'GET',
             path_params,
@@ -539,7 +573,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_notification_endpoints_id_labels(self, endpoint_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a notification endpoint.
@@ -585,6 +620,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -622,6 +658,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'GET',
             path_params,
@@ -636,7 +677,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def patch_notification_endpoints_id(self, endpoint_id, notification_endpoint_update, **kwargs):  # noqa: E501,D401,D403
         """Update a notification endpoint.
@@ -684,6 +726,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -731,6 +774,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PATCH',
             path_params,
@@ -745,7 +793,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_notification_endpoint_id_labels(self, endpoint_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a notification endpoint.
@@ -793,6 +842,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -840,6 +890,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'POST',
             path_params,
@@ -854,7 +909,8 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def put_notification_endpoints_id(self, endpoint_id, notification_endpoint, **kwargs):  # noqa: E501,D401,D403
         """Update a notification endpoint.
@@ -902,6 +958,7 @@ class NotificationEndpointsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -949,6 +1006,11 @@ class NotificationEndpointsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PUT',
             path_params,
@@ -963,4 +1025,5 @@ class NotificationEndpointsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)

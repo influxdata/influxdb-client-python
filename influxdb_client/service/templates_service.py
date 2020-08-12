@@ -78,6 +78,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -115,6 +116,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}', 'DELETE',
             path_params,
@@ -129,7 +135,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_documents_templates_id_labels_id(self, template_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a template.
@@ -177,6 +184,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -220,6 +228,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}/labels/{labelID}', 'DELETE',
             path_params,
@@ -234,7 +247,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_documents_templates(self, **kwargs):  # noqa: E501,D401,D403
         """get_documents_templates.
@@ -282,6 +296,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -317,6 +332,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates', 'GET',
             path_params,
@@ -331,7 +351,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_documents_templates_id(self, template_id, **kwargs):  # noqa: E501,D401,D403
         """get_documents_templates_id.
@@ -377,6 +398,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -414,6 +436,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}', 'GET',
             path_params,
@@ -428,7 +455,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_documents_templates_id_labels(self, template_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a template.
@@ -474,6 +502,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -511,6 +540,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}/labels', 'GET',
             path_params,
@@ -525,7 +559,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_documents_templates(self, document_create, **kwargs):  # noqa: E501,D401,D403
         """Create a template.
@@ -571,6 +606,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -612,6 +648,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates', 'POST',
             path_params,
@@ -626,7 +667,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_documents_templates_id_labels(self, template_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a template.
@@ -674,6 +716,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -721,6 +764,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}/labels', 'POST',
             path_params,
@@ -735,7 +783,8 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def put_documents_templates_id(self, template_id, document_update, **kwargs):  # noqa: E501,D401,D403
         """put_documents_templates_id.
@@ -783,6 +832,7 @@ class TemplatesService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -830,6 +880,11 @@ class TemplatesService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/documents/templates/{templateID}', 'PUT',
             path_params,
@@ -844,4 +899,5 @@ class TemplatesService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)

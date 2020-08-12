@@ -80,6 +80,7 @@ class DBRPsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -123,6 +124,11 @@ class DBRPsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'DELETE',
             path_params,
@@ -137,7 +143,8 @@ class DBRPsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_dbr_ps(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all database retention policy mappings.
@@ -193,6 +200,7 @@ class DBRPsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -240,6 +248,11 @@ class DBRPsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dbrps', 'GET',
             path_params,
@@ -254,7 +267,8 @@ class DBRPsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_dbr_ps_id(self, org_id, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a database retention policy mapping.
@@ -302,6 +316,7 @@ class DBRPsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -345,6 +360,11 @@ class DBRPsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'GET',
             path_params,
@@ -359,7 +379,8 @@ class DBRPsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def patch_dbrpid(self, org_id, dbrp_id, dbrp_update, **kwargs):  # noqa: E501,D401,D403
         """Update a database retention policy mapping.
@@ -409,6 +430,7 @@ class DBRPsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -462,6 +484,11 @@ class DBRPsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'PATCH',
             path_params,
@@ -476,7 +503,8 @@ class DBRPsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_dbrp(self, dbrp, **kwargs):  # noqa: E501,D401,D403
         """Add a database retention policy mapping.
@@ -522,6 +550,7 @@ class DBRPsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -563,6 +592,11 @@ class DBRPsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/dbrps', 'POST',
             path_params,
@@ -577,4 +611,5 @@ class DBRPsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)

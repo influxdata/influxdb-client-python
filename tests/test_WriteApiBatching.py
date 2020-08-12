@@ -13,17 +13,11 @@ import influxdb_client
 from influxdb_client import WritePrecision, InfluxDBClient
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
-from tests.base_test import BaseTest
 
 
-class BatchingWriteTest(BaseTest):
+class BatchingWriteTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        # https://github.com/gabrielfalcao/HTTPretty/issues/368
-        import warnings
-        warnings.filterwarnings("ignore", category=ResourceWarning, message="unclosed.*")
-        warnings.filterwarnings("ignore", category=PendingDeprecationWarning, message="isAlive*")
-
         httpretty.enable()
         httpretty.reset()
 
@@ -184,8 +178,17 @@ class BatchingWriteTest(BaseTest):
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_retry_interval(self):
+
+        self._write_client.__del__()
+
+        # Set retry interval to 1_500
+        self.write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=1_500)
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=self.write_options)
+
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
-        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429, adding_headers={'Retry-After': '5'})
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
+                               adding_headers={'Retry-After': '3'})
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
 
         self._write_client.write("my-bucket", "my-org",
@@ -193,15 +196,16 @@ class BatchingWriteTest(BaseTest):
                                   "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
 
         time.sleep(1)
-        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests), msg="first request immediately")
+
+        time.sleep(1.5)
+        self.assertEqual(2, len(httpretty.httpretty.latest_requests), msg="second request after delay_interval")
 
         time.sleep(3)
+        self.assertEqual(3, len(httpretty.httpretty.latest_requests), msg="third request after Retry-After")
 
-        self.assertEqual(2, len(httpretty.httpretty.latest_requests))
-
-        time.sleep(5)
-
-        self.assertEqual(3, len(httpretty.httpretty.latest_requests))
+        time.sleep(37.5)
+        self.assertEqual(4, len(httpretty.httpretty.latest_requests), msg="fourth after exponential delay = 1.5 * 5**2")
 
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
@@ -212,8 +216,27 @@ class BatchingWriteTest(BaseTest):
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
                          "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
                          httpretty.httpretty.latest_requests[2].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                         httpretty.httpretty.latest_requests[3].parsed_body)
 
         pass
+
+    def test_retry_interval_max_retries(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
+                               adding_headers={'Retry-After': '1'})
+
+        self._write_client.__del__()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=2, flush_interval=5_000, max_retries=5))
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+
+        time.sleep(8)
+
+        self.assertEqual(6, len(httpretty.httpretty.latest_requests))
 
     def test_recover_from_error(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
@@ -318,8 +341,10 @@ class BatchingWriteTest(BaseTest):
     def test_write_point_different_precision(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0).time(5, WritePrecision.S)
-        _point2 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 6.0).time(6, WritePrecision.NS)
+        _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0) \
+            .time(5, WritePrecision.S)
+        _point2 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 6.0) \
+            .time(6, WritePrecision.NS)
 
         self._write_client.write("my-bucket", "my-org", [_point1, _point2])
 
@@ -369,7 +394,7 @@ class BatchingWriteTest(BaseTest):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         _point1 = {"measurement": "h2o_feet", "tags": {"location": "coyote_creek"},
-                       "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
+                   "time": "2009-11-10T22:00:00Z", "fields": {"water_level": 1.0}}
 
         _point_list = [_point1]
 
@@ -453,6 +478,7 @@ class BatchingWriteTest(BaseTest):
 
         self.assertEqual(_request1, _requests[0].parsed_body)
         self.assertEqual(_request2, _requests[1].parsed_body)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -78,6 +78,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -115,6 +116,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'DELETE',
             path_params,
@@ -129,7 +135,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_scrapers_id_labels_id(self, scraper_target_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a scraper target.
@@ -177,6 +184,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -220,6 +228,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'DELETE',
             path_params,
@@ -234,7 +247,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_scrapers_id_members_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a scraper target.
@@ -282,6 +296,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -325,6 +340,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
             path_params,
@@ -339,7 +359,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def delete_scrapers_id_owners_id(self, user_id, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a scraper target.
@@ -387,6 +408,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -430,6 +452,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
             path_params,
@@ -444,7 +471,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers(self, **kwargs):  # noqa: E501,D401,D403
         """Get all scraper targets.
@@ -496,6 +524,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -536,6 +565,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers', 'GET',
             path_params,
@@ -550,7 +584,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """Get a scraper target by ID.
@@ -596,6 +631,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -633,6 +669,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'GET',
             path_params,
@@ -647,7 +688,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id_labels(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a scraper target.
@@ -693,6 +735,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -730,6 +773,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'GET',
             path_params,
@@ -744,7 +792,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id_members(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a scraper target.
@@ -790,6 +839,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -827,6 +877,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
             path_params,
@@ -841,7 +896,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def get_scrapers_id_owners(self, scraper_target_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a scraper target.
@@ -887,6 +943,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -924,6 +981,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
             path_params,
@@ -938,7 +1000,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def patch_scrapers_id(self, scraper_target_id, scraper_target_request, **kwargs):  # noqa: E501,D401,D403
         """Update a scraper target.
@@ -986,6 +1049,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1033,6 +1097,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'PATCH',
             path_params,
@@ -1047,7 +1116,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def patch_scrapers_id_labels_id(self, scraper_target_id, label_id, label, **kwargs):  # noqa: E501,D401,D403
         """Update a label on a scraper target.
@@ -1097,6 +1167,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1150,6 +1221,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'PATCH',
             path_params,
@@ -1164,7 +1240,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers(self, scraper_target_request, **kwargs):  # noqa: E501,D401,D403
         """Create a scraper target.
@@ -1210,6 +1287,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1251,6 +1329,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers', 'POST',
             path_params,
@@ -1265,7 +1348,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers_id_labels(self, scraper_target_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a scraper target.
@@ -1313,6 +1397,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1360,6 +1445,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'POST',
             path_params,
@@ -1374,7 +1464,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers_id_members(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a scraper target.
@@ -1422,6 +1513,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1469,6 +1561,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
             path_params,
@@ -1483,7 +1580,8 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
 
     def post_scrapers_id_owners(self, scraper_target_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a scraper target.
@@ -1531,6 +1629,7 @@ class ScraperTargetsService(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1578,6 +1677,11 @@ class ScraperTargetsService(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',
             path_params,
@@ -1592,4 +1696,5 @@ class ScraperTargetsService(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)

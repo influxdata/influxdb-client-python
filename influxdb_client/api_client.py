@@ -63,14 +63,14 @@ class ApiClient(object):
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None, pool_threads=None):
+                 cookie=None, pool_threads=None, retries=False):
         """Initialize generic API client."""
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
-        self.rest_client = rest.RESTClientObject(configuration)
+        self.rest_client = rest.RESTClientObject(configuration, retries=retries)
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
@@ -113,7 +113,7 @@ class ApiClient(object):
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_type=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None):
+            _preload_content=True, _request_timeout=None, urlopen_kw=None):
 
         config = self.configuration
 
@@ -164,12 +164,14 @@ class ApiClient(object):
         # request url
         url = self.configuration.host + resource_path
 
+        urlopen_kw = urlopen_kw or {}
+
         # perform request and return response
         response_data = self.request(
             method, url, query_params=query_params, headers=header_params,
             post_params=post_params, body=body,
             _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+            _request_timeout=_request_timeout, **urlopen_kw)
 
         self.last_response = response_data
 
@@ -295,7 +297,7 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None):
+                 _preload_content=True, _request_timeout=None, urlopen_kw=None):
         """Make the HTTP request (synchronous) and Return deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -325,6 +327,8 @@ class ApiClient(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param urlopen_kw: Additional parameters are passed to
+                           :meth:`urllib3.request.RequestMethods.request`
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -338,7 +342,7 @@ class ApiClient(object):
                                    body, post_params, files,
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout)
+                                   _preload_content, _request_timeout, urlopen_kw)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
@@ -347,25 +351,27 @@ class ApiClient(object):
                                            response_type, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
-                                           _preload_content, _request_timeout))
+                                           _preload_content, _request_timeout, urlopen_kw))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
-                _request_timeout=None):
+                _request_timeout=None, **urlopen_kw):
         """Make the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.GET(url,
                                         query_params=query_params,
                                         _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
-                                        headers=headers)
+                                        headers=headers,
+                                        **urlopen_kw)
         elif method == "HEAD":
             return self.rest_client.HEAD(url,
                                          query_params=query_params,
                                          _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
-                                         headers=headers)
+                                         headers=headers,
+                                         **urlopen_kw)
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
@@ -373,7 +379,8 @@ class ApiClient(object):
                                             post_params=post_params,
                                             _preload_content=_preload_content,
                                             _request_timeout=_request_timeout,
-                                            body=body)
+                                            body=body,
+                                            **urlopen_kw)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,
@@ -381,7 +388,8 @@ class ApiClient(object):
                                          post_params=post_params,
                                          _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
-                                         body=body)
+                                         body=body,
+                                         **urlopen_kw)
         elif method == "PUT":
             return self.rest_client.PUT(url,
                                         query_params=query_params,
@@ -389,7 +397,8 @@ class ApiClient(object):
                                         post_params=post_params,
                                         _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
-                                        body=body)
+                                        body=body,
+                                        **urlopen_kw)
         elif method == "PATCH":
             return self.rest_client.PATCH(url,
                                           query_params=query_params,
@@ -397,14 +406,16 @@ class ApiClient(object):
                                           post_params=post_params,
                                           _preload_content=_preload_content,
                                           _request_timeout=_request_timeout,
-                                          body=body)
+                                          body=body,
+                                          **urlopen_kw)
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
                                            query_params=query_params,
                                            headers=headers,
                                            _preload_content=_preload_content,
                                            _request_timeout=_request_timeout,
-                                           body=body)
+                                           body=body,
+                                           **urlopen_kw)
         else:
             raise ValueError(
                 "http method must be `GET`, `HEAD`, `OPTIONS`,"
