@@ -257,6 +257,9 @@ The batching is configurable by ``write_options``\ :
    * - **max_retry_delay**
      - the maximum delay between each retry attempt in milliseconds
      - ``180_000``
+   * - **exponential_base**
+     - the base for the exponential retry delay, the next delay is computed as ``retry_interval * exponential_base^(attempts-1) + random(jitter_interval)``
+     - ``5``
 
 
 .. code-block:: python
@@ -273,7 +276,8 @@ The batching is configurable by ``write_options``\ :
                                                                 jitter_interval=2_000,
                                                                 retry_interval=5_000,
                                                                 max_retries=5,
-                                                                max_retry_delay=30_000))
+                                                                max_retry_delay=30_000,
+                                                                exponential_base=2))
 
    """
    Write Line Protocol formatted as string

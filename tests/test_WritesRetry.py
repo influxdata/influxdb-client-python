@@ -7,17 +7,23 @@ from influxdb_client.client.write.retry import WritesRetry
 
 
 class TestWritesRetry(unittest.TestCase):
-    def test_copy_jitter(self):
-        retry = WritesRetry(jitter_interval=123)
+    def test_copy(self):
+        retry = WritesRetry(jitter_interval=123, exponential_base=3, max_retry_delay=145)
         self.assertEqual(retry.jitter_interval, 123)
+        self.assertEqual(retry.max_retry_delay, 145)
+        self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 10)
 
         retry = retry.increment()
         self.assertEqual(retry.jitter_interval, 123)
+        self.assertEqual(retry.max_retry_delay, 145)
+        self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 9)
 
         retry = retry.increment()
         self.assertEqual(retry.jitter_interval, 123)
+        self.assertEqual(retry.max_retry_delay, 145)
+        self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 8)
 
     def test_backoff(self):
@@ -76,6 +82,21 @@ class TestWritesRetry(unittest.TestCase):
         backoff_time = retry.get_backoff_time()
         self.assertGreater(backoff_time, 4)
         self.assertLessEqual(backoff_time, 6)
+
+    def test_backoff_exponential_base(self):
+        retry = WritesRetry(total=5, backoff_factor=2, exponential_base=2)
+
+        retry = retry.increment()
+        self.assertEqual(retry.get_backoff_time(), 2)
+
+        retry = retry.increment()
+        self.assertEqual(retry.get_backoff_time(), 4)
+
+        retry = retry.increment()
+        self.assertEqual(retry.get_backoff_time(), 8)
+
+        retry = retry.increment()
+        self.assertEqual(retry.get_backoff_time(), 16)
 
     def test_get_retry_after(self):
         response = HTTPResponse()

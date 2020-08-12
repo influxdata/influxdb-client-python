@@ -40,6 +40,7 @@ class WriteOptions(object):
                  retry_interval=5_000,
                  max_retries=3,
                  max_retry_delay=180_000,
+                 exponential_base=5,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.
@@ -52,6 +53,8 @@ class WriteOptions(object):
         :param retry_interval: the time to wait before retry unsuccessful write
         :param max_retries: the number of max retries when write fails
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
+        :param exponential_base: base for the exponential retry delay, the next delay is computed as
+                                 `retry_interval * exponential_base^(attempts-1) + random(jitter_interval)`
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -61,6 +64,7 @@ class WriteOptions(object):
         self.retry_interval = retry_interval
         self.max_retries = max_retries
         self.max_retry_delay = max_retry_delay
+        self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
 
     def to_retry_strategy(self):
@@ -70,6 +74,7 @@ class WriteOptions(object):
             backoff_factor=self.retry_interval / 1_000,
             jitter_interval=self.jitter_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
+            exponential_base=self.exponential_base,
             method_whitelist=["POST"])
 
     def __getstate__(self):
