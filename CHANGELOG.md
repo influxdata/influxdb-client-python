@@ -1,4 +1,4 @@
-## 1.10.0 [unreleased]
+## 1.10.0 [2020-08-14]
 
 ### Features
 1. [#140](https://github.com/influxdata/influxdb-client-python/pull/140): Added exponential backoff strategy for batching writes, Allowed to configure default retry strategy. Default value for `retry_interval` is 5_000 milliseconds.   
