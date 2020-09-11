@@ -25,7 +25,7 @@ class InfluxDBClient(object):
         """
         Initialize defaults.
 
-        :param url: InfluxDB server API url (ex. http://localhost:9999).
+        :param url: InfluxDB server API url (ex. http://localhost:8086).
         :param token: auth token
         :param debug: enable verbose logging of http requests
         :param timeout: default http client timeout
@@ -118,7 +118,7 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_TIMEOUT
             - INFLUXDB_V2_VERIFY_SSL
         """
-        url = os.getenv('INFLUXDB_V2_URL', "http://localhost:9999")
+        url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
         org = os.getenv('INFLUXDB_V2_ORG', "my-org")

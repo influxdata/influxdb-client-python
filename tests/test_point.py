@@ -233,7 +233,7 @@ class PointTest(unittest.TestCase):
         self.assertEqual("h2o,location=europe level=2i 1444897215000000000", point.to_line_protocol())
 
     def test_InstantFormatting(self):
-        instant = "1970-01-01T00:00:45.999999999Z"
+        instant = "1970-01-01T00:00:45.808680869Z"
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \

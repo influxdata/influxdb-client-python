@@ -374,7 +374,7 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual("LA", record[self.data_center_key])
 
     def test_check_write_permission_by_empty_data(self):
-        client = InfluxDBClient(url="http://localhost:9999", token="my-token-wrong", org="my-org")
+        client = InfluxDBClient(url="http://localhost:8086", token="my-token-wrong", org="my-org")
         write_api = client.write_api(write_options=SYNCHRONOUS)
 
         with self.assertRaises(ApiException) as cm:
@@ -739,14 +739,14 @@ class DefaultTagsConfiguration(BaseTest):
         self.client.close()
         self.client = InfluxDBClient.from_config_file(self._path_to_config(), self.debug)
 
-        self.assertEqual("http://localhost:9999", self.client.url)
+        self.assertEqual("http://localhost:8086", self.client.url)
         self._check_connection_settings()
 
     def test_connection_option_from_env(self):
         self.client.close()
         self.client = InfluxDBClient.from_env_properties(self.debug)
 
-        self.assertEqual("http://localhost:9999", self.client.url)
+        self.assertEqual("http://localhost:8086", self.client.url)
         self._check_connection_settings()
 
     def _check_connection_settings(self):
