@@ -227,6 +227,47 @@ class SynchronousWriteTest(BaseTest):
 
         self.delete_test_bucket(_bucket)
 
+    def test_write_tuple(self):
+        bucket = self.create_test_bucket()
+
+        _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
+        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=3.0 3".encode("utf-8")
+
+        p = (Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 4.0).time(4))
+
+        tuple = (_record1, _record2, _bytes, (p, ))
+
+        self.write_client = self.client.write_api(write_options=SYNCHRONOUS)
+        self.write_client.write(bucket.name, self.org, tuple)
+
+        query = f'from(bucket:"{bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+
+        flux_result = self.client.query_api().query(query)
+
+        self.assertEqual(1, len(flux_result))
+
+        records = flux_result[0].records
+
+        self.assertEqual(4, len(records))
+
+        self.assertEqual("h2o_feet", records[0].get_measurement())
+        self.assertEqual(1, records[0].get_value())
+        self.assertEqual("level water_level", records[0].get_field())
+
+        self.assertEqual("h2o_feet", records[1].get_measurement())
+        self.assertEqual(2, records[1].get_value())
+        self.assertEqual("level water_level", records[1].get_field())
+
+        self.assertEqual("h2o_feet", records[2].get_measurement())
+        self.assertEqual(3, records[2].get_value())
+        self.assertEqual("level water_level", records[2].get_field())
+
+        self.assertEqual("h2o_feet", records[3].get_measurement())
+        self.assertEqual(4, records[3].get_value())
+        self.assertEqual("level water_level", records[3].get_field())
+        self.delete_test_bucket(bucket)
+
     def test_write_data_frame(self):
         from influxdb_client.extras import pd
 

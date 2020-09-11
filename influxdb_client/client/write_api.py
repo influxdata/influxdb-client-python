@@ -8,7 +8,7 @@ from datetime import timedelta
 from enum import Enum
 from random import random
 from time import sleep
-from typing import Union, List, Any
+from typing import Union, Any, Iterable
 
 import rx
 from rx import operators as ops, Observable
@@ -212,7 +212,8 @@ class WriteApi:
 
     def write(self, bucket: str, org: str = None,
               record: Union[
-                  str, List['str'], Point, List['Point'], dict, List['dict'], bytes, List['bytes'], Observable] = None,
+                  str, Iterable['str'], Point, Iterable['Point'], dict, Iterable['dict'], bytes, Iterable['bytes'],
+                  Observable] = None,
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> Any:
         """
         Write time-series data into InfluxDB.
@@ -291,7 +292,7 @@ class WriteApi:
             _data = data_frame_to_list_of_points(record, self._point_settings, **kwargs)
             self._serialize(_data, write_precision, payload, **kwargs)
 
-        elif isinstance(record, list):
+        elif isinstance(record, Iterable):
             for item in record:
                 self._serialize(item, write_precision, payload, **kwargs)
 
@@ -317,7 +318,7 @@ class WriteApi:
             self._write_batching(bucket, org, data_frame_to_list_of_points(data, self._point_settings, **kwargs),
                                  precision, **kwargs)
 
-        elif isinstance(data, list):
+        elif isinstance(data, Iterable):
             for item in data:
                 self._write_batching(bucket, org, item, precision, **kwargs)
 
@@ -328,11 +329,13 @@ class WriteApi:
         return None
 
     def _append_default_tag(self, key, val, record):
-        if isinstance(record, Point):
+        if isinstance(record, bytes) or isinstance(record, str):
+            pass
+        elif isinstance(record, Point):
             record.tag(key, val)
         elif isinstance(record, dict):
             record.get("tags")[key] = val
-        elif isinstance(record, list):
+        elif isinstance(record, Iterable):
             for item in record:
                 self._append_default_tag(key, val, item)
 
