@@ -1,5 +1,8 @@
 ## 1.11.0 [unreleased]
 
+### API
+ 1. [#151](https://github.com/influxdata/influxdb-client-python/pull/151): Default port changed from 9999 -> 8086
+
 ## 1.10.0 [2020-08-14]
 
 ### Features
