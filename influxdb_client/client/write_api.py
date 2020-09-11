@@ -212,7 +212,8 @@ class WriteApi:
 
     def write(self, bucket: str, org: str = None,
               record: Union[
-                  str, Iterable['str'], Point, Iterable['Point'], dict, Iterable['dict'], bytes, Iterable['bytes'], Observable] = None,
+                  str, Iterable['str'], Point, Iterable['Point'], dict, Iterable['dict'], bytes, Iterable['bytes'],
+                  Observable] = None,
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> Any:
         """
         Write time-series data into InfluxDB.
