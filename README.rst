@@ -128,7 +128,7 @@ Please follow the `Installation`_ and then run the following:
 
    bucket = "my-bucket"
 
-   client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
    write_api = client.write_api(write_options=SYNCHRONOUS)
    query_api = client.query_api()
@@ -178,7 +178,7 @@ The following options are supported:
 .. code-block::
 
     [influx2]
-    url=http://localhost:9999
+    url=http://localhost:8086
     org=my-org
     token=my-token
     timeout=6000
@@ -270,7 +270,7 @@ The batching is configurable by ``write_options``\ :
    from influxdb_client import InfluxDBClient, Point, WriteOptions
    from influxdb_client.client.write_api import SYNCHRONOUS
 
-   _client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+   _client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
    _write_client = _client.write_api(write_options=WriteOptions(batch_size=500,
                                                                 flush_interval=10_000,
                                                                 jitter_interval=2_000,
@@ -380,7 +380,7 @@ In a ini configuration file you are able to specify default tags by ``tags`` seg
 .. code-block::
 
     [influx2]
-    url=http://localhost:9999
+    url=http://localhost:8086
     org=my-org
     token=my-token
     timeout=6000
@@ -415,7 +415,7 @@ Data are writes in an asynchronous HTTP request.
    from influxdb_client import InfluxDBClient, Point
    from influxdb_client.client.write_api import ASYNCHRONOUS
 
-   client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
    write_api = client.write_api(write_options=ASYNCHRONOUS)
 
    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
@@ -436,7 +436,7 @@ Data are writes in a synchronous HTTP request.
    from influxdb_client import InfluxDBClient, Point
    from influxdb_client .client.write_api import SYNCHRONOUS
 
-   client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
    write_api = client.write_api(write_options=SYNCHRONOUS)
 
    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
@@ -463,7 +463,7 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     from influxdb_client import InfluxDBClient, Point, Dialect
     from influxdb_client.client.write_api import SYNCHRONOUS
 
-    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
     write_api = client.write_api(write_options=SYNCHRONOUS)
     query_api = client.query_api()
@@ -542,7 +542,7 @@ The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pyd
     from influxdb_client import InfluxDBClient, Point, Dialect
     from influxdb_client.client.write_api import SYNCHRONOUS
 
-    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
     write_api = client.write_api(write_options=SYNCHRONOUS)
     query_api = client.query_api()
@@ -654,7 +654,7 @@ If you would like to import gigabytes of data then use our multiprocessing examp
        .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
        .pipe(ops.map(lambda row: parse_row(row)))
 
-   client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
+   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
 
    """
    Create client that writes data in batches with 50_000 items.
@@ -763,7 +763,7 @@ Efficiency write data from IOT sensor
              ops.distinct_until_changed(),
              ops.map(lambda temperature: line_protocol(temperature)))
 
-   _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
+   _db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
 
    """
    Create client that writes data into InfluxDB
@@ -890,7 +890,7 @@ Gzip support
 
    from influxdb_client import InfluxDBClient
 
-   _db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", enable_gzip=True)
+   _db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", enable_gzip=True)
 
 .. marker-gzip-end
 
@@ -926,7 +926,7 @@ For more info about how configure HTTP retry see details in `urllib3 documentati
     from influxdb_client import InfluxDBClient
 
     retries = Retry(connect=5, read=2, redirect=5)
-    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", retries=retries)
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", retries=retries)
 
 Nanosecond precision
 ^^^^^^^^^^^^^^^^^^^^
@@ -956,7 +956,7 @@ that is replacement for python ``datetime.datetime`` object and also you should 
     """
     Prepare client.
     """
-    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
     write_api = client.write_api(write_options=SYNCHRONOUS)
     query_api = client.query_api()

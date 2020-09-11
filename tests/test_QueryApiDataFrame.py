@@ -287,7 +287,7 @@ class QueryDataFrameIntegrationApi(BaseTest):
         self.assertGreater(len(result), 1)
 
     def test_query_without_credentials(self):
-        _client = InfluxDBClient(url="http://localhost:9999", token="my-token-wrong-credentials", org="my-org")
+        _client = InfluxDBClient(url="http://localhost:8086", token="my-token-wrong-credentials", org="my-org")
 
         with self.assertRaises(ApiException) as ae:
             query = 'from(bucket: "my-bucket")' \

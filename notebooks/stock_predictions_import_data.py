@@ -57,7 +57,7 @@ def main():
         .from_iterable(DictReader(response.iter_lines(decode_unicode=True))) \
         .pipe(ops.map(lambda row: parse_row(row)))
 
-    client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
     write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
     write_api.write(bucket="my-bucket", record=data)

@@ -1,7 +1,7 @@
 from influxdb_client import InfluxDBClient, Point, Dialect
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()

@@ -61,7 +61,7 @@ data = rx \
           ops.distinct_until_changed(),
           ops.map(lambda temperature: line_protocol(temperature)))
 
-_db_client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
+_db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
 
 """
 Create client that writes data into InfluxDB

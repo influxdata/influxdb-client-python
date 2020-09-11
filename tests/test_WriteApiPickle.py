@@ -11,7 +11,7 @@ from tests.base_test import current_milli_time, BaseTest
 class InfluxDBWriterToPickle:
 
     def __init__(self):
-        self.client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+        self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
         self.write_api = self.client.write_api(
             write_options=WriteOptions(write_type=WriteType.batching, batch_size=50_000, flush_interval=10_000))
 

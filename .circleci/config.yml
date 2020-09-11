@@ -59,6 +59,8 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
           ENABLED_CISO_8601: << parameters.enabled-ciso-8601 >>
       - image: quay.io/influxdb/<< parameters.influxdb-image >>
+        environment:
+          INFLUXD_HTTP_BIND_ADDRESS: :8086
     steps:
       - prepare
       - client-test:

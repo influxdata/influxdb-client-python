@@ -18,11 +18,11 @@ class InfluxDBClientTest(unittest.TestCase):
             self.httpd_thread.join()
 
     def test_TrailingSlashInUrl(self):
-        self.client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
-        self.assertEqual('http://localhost:9999', self.client.api_client.configuration.host)
+        self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+        self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)
 
-        self.client = InfluxDBClient(url="http://localhost:9999/", token="my-token", org="my-org")
-        self.assertEqual('http://localhost:9999', self.client.api_client.configuration.host)
+        self.client = InfluxDBClient(url="http://localhost:8086/", token="my-token", org="my-org")
+        self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)
 
     def test_ConnectToSelfSignedServer(self):
         import http.server

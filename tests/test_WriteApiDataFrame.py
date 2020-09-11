@@ -14,7 +14,7 @@ class DataFrameWriteTest(BaseTest):
 
     def setUp(self) -> None:
         super().setUp()
-        self.influxDb_client = InfluxDBClient(url="http://localhost:9999", token="my-token", debug=False)
+        self.influxDb_client = InfluxDBClient(url="http://localhost:8086", token="my-token", debug=False)
 
         self.write_options = WriteOptions(batch_size=10_000, flush_interval=5_000, retry_interval=3_000)
         self._write_client = WriteApi(influxdb_client=self.influxDb_client, write_options=self.write_options)

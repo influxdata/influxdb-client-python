@@ -13,7 +13,7 @@ Load DataFrame form CSV File
 df = pd.read_csv("vix-daily.csv")
 print(df.head())
 
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org")
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
 
 """
 Ingest DataFrame with default tags

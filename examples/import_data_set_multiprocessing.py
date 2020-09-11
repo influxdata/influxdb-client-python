@@ -41,7 +41,7 @@ class InfluxDBWriter(multiprocessing.Process):
     def __init__(self, queue):
         multiprocessing.Process.__init__(self)
         self.queue = queue
-        self.client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+        self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
         self.write_api = self.client.write_api(
             write_options=WriteOptions(write_type=WriteType.batching, batch_size=50_000, flush_interval=10_000))
 
@@ -199,7 +199,7 @@ query = 'from(bucket:"my-bucket")' \
         '|> rename(columns: {_time: "pickup_datetime"})' \
         '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
 
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=False)
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
 result = client.query_api().query(query=query)
 
 """

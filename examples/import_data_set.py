@@ -60,7 +60,7 @@ data = rx \
     .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
     .pipe(ops.map(lambda row: parse_row(row)))
 
-client = InfluxDBClient(url="http://localhost:9999", token="my-token", org="my-org", debug=True)
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
 
 """
 Create client that writes data in batches with 50_000 items.

@@ -49,13 +49,14 @@ echo
 docker pull ${INFLUXDB_V2_IMAGE} || true
 docker run \
        --detach \
+       --env INFLUXD_HTTP_BIND_ADDRESS=:8086 \
        --name influxdb_v2 \
        --network influx_network \
-       --publish 9999:9999 \
+       --publish 8086:8086 \
        ${INFLUXDB_V2_IMAGE}
 
 echo "Wait to start InfluxDB 2.0"
-wget -S --spider --tries=20 --retry-connrefused --waitretry=5 http://localhost:9999/metrics
+wget -S --spider --tries=20 --retry-connrefused --waitretry=5 http://localhost:8086/metrics
 
 #
 # Post onBoarding request to InfluxDB 2
