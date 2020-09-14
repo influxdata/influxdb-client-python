@@ -6,6 +6,9 @@
 ### API
 1. [#151](https://github.com/influxdata/influxdb-client-python/pull/151): Default port changed from 9999 -> 8086
 
+### Bug Fixes
+1. [#154](https://github.com/influxdata/influxdb-client-python/pull/154): Fixed escaping string fields in DataFrame serialization 
+
 ## 1.10.0 [2020-08-14]
 
 ### Features
