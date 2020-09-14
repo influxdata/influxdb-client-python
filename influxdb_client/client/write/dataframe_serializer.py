@@ -8,7 +8,7 @@ import re
 from functools import reduce
 from itertools import chain
 
-from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_MEASUREMENT
+from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_STRING, _ESCAPE_MEASUREMENT
 
 
 def _replace(data_frame):
@@ -80,7 +80,7 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
         elif issubclass(value.type, (np.float, np.bool_)):
             fields.append(f"{key_format}={{p[{index + 1}]}}")
         else:
-            fields.append(f"{key_format}=\"{{str(p[{index + 1}]).translate(_ESCAPE_KEY)}}\"")
+            fields.append(f"{key_format}=\"{{str(p[{index + 1}]).translate(_ESCAPE_STRING)}}\"")
 
     tags.sort(key=lambda x: x['key'])
     tags = ','.join(map(lambda y: y['value'], tags))
@@ -88,7 +88,8 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
     fmt = ('{measurement_name}', f'{"," if tags else ""}', tags,
            ' ', ','.join(fields), ' {p[0].value}')
     f = eval("lambda p: f'{}'".format(''.join(fmt)),
-             {'measurement_name': measurement_name, '_ESCAPE_KEY': _ESCAPE_KEY, 'keys': keys})
+             {'measurement_name': measurement_name, '_ESCAPE_KEY': _ESCAPE_KEY, '_ESCAPE_STRING': _ESCAPE_STRING,
+              'keys': keys})
 
     for k, v in dict(data_frame.dtypes).items():
         if k in data_frame_tag_columns:

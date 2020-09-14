@@ -88,6 +88,9 @@ class DataFrameWriteTest(BaseTest):
 
         pass
 
+
+class DataSerializerTest(unittest.TestCase):
+
     def test_write_nan(self):
         from influxdb_client.extras import pd, np
 
@@ -129,8 +132,6 @@ class DataFrameWriteTest(BaseTest):
                                          now + timedelta(minutes=60), now + timedelta(minutes=90)],
                                   columns=["tag", "actual_kw_price", "forecast_kw_price"])
 
-        write_api = self.client.write_api(write_options=SYNCHRONOUS, point_settings=PointSettings())
-
         points = data_frame_to_list_of_points(data_frame=data_frame,
                                               point_settings=PointSettings(),
                                               data_frame_measurement_name='measurement',
@@ -145,8 +146,6 @@ class DataFrameWriteTest(BaseTest):
                          points[2])
         self.assertEqual("measurement,tag=tag actual_kw_price=3.138664,forecast_kw_price=20.755026 1586050200000000000",
                          points[3])
-
-        write_api.__del__()
 
     def test_escaping_measurement(self):
         from influxdb_client.extras import pd, np
@@ -214,3 +213,24 @@ class DataFrameWriteTest(BaseTest):
 
         self.assertEqual(1, len(points))
         self.assertEqual("h2o,a=a,b=b,c=c level=2i 1586048400000000000", points[0])
+
+    def test_escape_text_value(self):
+        from influxdb_client.extras import pd, np
+
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+        an_hour_ago = now - timedelta(hours=1)
+
+        test = [{'a': an_hour_ago, 'b': 'hello world', 'c': 1, 'd': 'foo bar'},
+                {'a': now, 'b': 'goodbye cruel world', 'c': 2, 'd': 'bar foo'}]
+
+        data_frame = pd.DataFrame(test)
+        data_frame = data_frame.set_index('a')
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(),
+                                              data_frame_measurement_name='test',
+                                              data_frame_tag_columns=['d'])
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("test,d=foo\\ bar b=\"hello world\",c=1i 1586041200000000000", points[0])
+        self.assertEqual("test,d=bar\\ foo b=\"goodbye cruel world\",c=2i 1586044800000000000", points[1])
