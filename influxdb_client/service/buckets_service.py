@@ -486,6 +486,7 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
+        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`. 
         :param str org: The organization name.
         :param str org_id: The organization ID.
         :param str name: Only returns buckets with a specific name.
@@ -512,6 +513,7 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
+        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`. 
         :param str org: The organization name.
         :param str org_id: The organization ID.
         :param str name: Only returns buckets with a specific name.
@@ -521,7 +523,7 @@ class BucketsService(object):
         """  # noqa: E501
         local_var_params = locals()
 
-        all_params = ['zap_trace_span', 'offset', 'limit', 'org', 'org_id', 'name']  # noqa: E501
+        all_params = ['zap_trace_span', 'offset', 'limit', 'after', 'org', 'org_id', 'name']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -552,6 +554,8 @@ class BucketsService(object):
             query_params.append(('offset', local_var_params['offset']))  # noqa: E501
         if 'limit' in local_var_params:
             query_params.append(('limit', local_var_params['limit']))  # noqa: E501
+        if 'after' in local_var_params:
+            query_params.append(('after', local_var_params['after']))  # noqa: E501
         if 'org' in local_var_params:
             query_params.append(('org', local_var_params['org']))  # noqa: E501
         if 'org_id' in local_var_params:
