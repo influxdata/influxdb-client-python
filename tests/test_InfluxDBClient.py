@@ -25,24 +25,22 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)
 
     def test_ConnectToSelfSignedServer(self):
-        import http.server
-        import ssl
-
-        # Disable unverified HTTPS requests
-        import urllib3
-        urllib3.disable_warnings()
-
-        # Configure HTTP server
-        self.httpd = http.server.HTTPServer(('localhost', 0), ServerWithSelfSingedSSL)
-        self.httpd.socket = ssl.wrap_socket(self.httpd.socket, certfile=f'{os.path.dirname(__file__)}/server.pem',
-                                            server_side=True)
-
-        # Start server at background
-        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
-        self.httpd_thread.start()
+        self._start_http_server()
 
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=False)
+        health = self.client.health()
+
+        self.assertEqual(health.message, 'ready for queries and writes')
+        self.assertEqual(health.status, "pass")
+        self.assertEqual(health.name, "influxdb")
+
+    def test_certificate_file(self):
+        self._start_http_server()
+
+        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                     token="my-token", verify_ssl=True,
+                                     ssl_ca_cert=f'{os.path.dirname(__file__)}/server.pem')
         health = self.client.health()
 
         self.assertEqual(health.message, 'ready for queries and writes')
@@ -94,6 +92,20 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_env_properties()
 
         self.assertEqual("/my/custom/path/to/cert", self.client.api_client.configuration.ssl_ca_cert)
+
+    def _start_http_server(self):
+        import http.server
+        import ssl
+        # Disable unverified HTTPS requests
+        import urllib3
+        urllib3.disable_warnings()
+        # Configure HTTP server
+        self.httpd = http.server.HTTPServer(('localhost', 0), ServerWithSelfSingedSSL)
+        self.httpd.socket = ssl.wrap_socket(self.httpd.socket, certfile=f'{os.path.dirname(__file__)}/server.pem',
+                                            server_side=True)
+        # Start server at background
+        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
+        self.httpd_thread.start()
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
