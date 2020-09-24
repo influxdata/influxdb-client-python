@@ -2,6 +2,7 @@
 
 ### Features
 1. [#152](https://github.com/influxdata/influxdb-client-python/pull/152): WriteApi supports generic Iterable type
+1. [#158](https://github.com/influxdata/influxdb-client-python/pull/158): Added possibility to specify certificate file path to verify the peer
 
 ### API
 1. [#151](https://github.com/influxdata/influxdb-client-python/pull/151): Default port changed from 9999 -> 8086
