@@ -170,6 +170,7 @@ The following options are supported:
 - ``token`` - the token to use for the authorization
 - ``timeout`` - socket timeout in ms (default value is 10000)
 - ``verify_ssl`` - set this to false to skip verifying SSL certificate when calling API from https server
+- ``ssl_ca_cert`` - set this to customize the certificate file to verify the peer
 
 .. code-block:: python
 
@@ -195,6 +196,7 @@ Supported properties are:
 - ``INFLUXDB_V2_TOKEN`` - the token to use for the authorization
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
 - ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
+- ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
 
 .. code-block:: python
 

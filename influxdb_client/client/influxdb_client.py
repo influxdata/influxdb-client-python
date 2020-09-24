@@ -33,6 +33,7 @@ class InfluxDBClient(object):
                             supports the Gzip compression.
         :param org: organization name (used as a default in query and write API)
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
+        :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
 
@@ -52,6 +53,7 @@ class InfluxDBClient(object):
         conf.enable_gzip = enable_gzip
         conf.debug = debug
         conf.verify_ssl = kwargs.get('verify_ssl', True)
+        conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
 
         auth_token = self.token
         auth_header_name = "Authorization"
@@ -73,6 +75,7 @@ class InfluxDBClient(object):
             - token
             - timeout,
             - verify_ssl
+            - ssl_ca_cert
         """
         config = configparser.ConfigParser()
         config.read(config_file)
@@ -94,6 +97,10 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'verify_ssl'):
             verify_ssl = config['influx2']['verify_ssl']
 
+        ssl_ca_cert = None
+        if config.has_option('influx2', 'ssl_ca_cert'):
+            ssl_ca_cert = config['influx2']['ssl_ca_cert']
+
         default_tags = None
 
         if config.has_section('tags'):
@@ -101,10 +108,10 @@ class InfluxDBClient(object):
 
         if timeout:
             return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                       enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl))
+                       enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
 
         return cls(url, token, debug=debug, org=org, default_tags=default_tags, enable_gzip=enable_gzip,
-                   verify_ssl=_to_bool(verify_ssl))
+                   verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
@@ -117,12 +124,14 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_TOKEN
             - INFLUXDB_V2_TIMEOUT
             - INFLUXDB_V2_VERIFY_SSL
+            - INFLUXDB_V2_SSL_CA_CERT
         """
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
         org = os.getenv('INFLUXDB_V2_ORG', "my-org")
         verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
+        ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
 
         default_tags = dict()
 
@@ -131,7 +140,7 @@ class InfluxDBClient(object):
                 default_tags[key[16:].lower()] = value
 
         return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl))
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
