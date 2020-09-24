@@ -60,16 +60,40 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertFalse(self.client.api_client.configuration.verify_ssl)
 
     def test_init_from_env_ssl_default(self):
-        del os.environ["INFLUXDB_V2_VERIFY_SSL"]
+        if os.getenv("INFLUXDB_V2_VERIFY_SSL"):
+            del os.environ["INFLUXDB_V2_VERIFY_SSL"]
         self.client = InfluxDBClient.from_env_properties()
 
         self.assertTrue(self.client.api_client.configuration.verify_ssl)
 
     def test_init_from_env_ssl(self):
-        os.environ["INFLUXDB_V2_VERIFY_SSL"] = "False"
+        os.environ["INFLUXDB_V2_SSL_CA_CERT"] = "/my/custom/path"
         self.client = InfluxDBClient.from_env_properties()
 
-        self.assertFalse(self.client.api_client.configuration.verify_ssl)
+        self.assertEqual("/my/custom/path", self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_file_ssl_ca_cert_default(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertIsNone(self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_file_ssl_ca_cert(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-ssl-ca-cert.ini')
+
+        self.assertEqual("/path/to/my/cert", self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_env_ssl_ca_cert_default(self):
+        if os.getenv("INFLUXDB_V2_SSL_CA_CERT"):
+            del os.environ["INFLUXDB_V2_SSL_CA_CERT"]
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertIsNone(self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_env_ssl_ca_cert(self):
+        os.environ["INFLUXDB_V2_SSL_CA_CERT"] = "/my/custom/path/to/cert"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertEqual("/my/custom/path/to/cert", self.client.api_client.configuration.ssl_ca_cert)
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
