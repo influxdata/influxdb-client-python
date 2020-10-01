@@ -49,7 +49,7 @@ jobs:
         default: &default-python "circleci/python:3.6-buster"
       influxdb-image:
         type: string
-        default: "influxdb:2.0.0-beta"
+        default: "influxdb:2.0.0-rc"
       enabled-ciso-8601:
         type: boolean
         default: true
