@@ -1,5 +1,8 @@
 ## 1.12.0 [unreleased]
 
+### Features
+1. [#161](https://github.com/influxdata/influxdb-client-python/pull/161): Added logging message for retries
+
 ## 1.11.0 [2020-10-02]
 
 ### Features
