@@ -1,9 +1,14 @@
 """Implementation for Retry strategy during HTTP requests."""
 
+import logging
 from itertools import takewhile
 from random import random
 
 from urllib3 import Retry
+
+from influxdb_client.client.exceptions import InfluxDBError
+
+logger = logging.getLogger(__name__)
 
 
 class WritesRetry(Retry):
@@ -62,6 +67,25 @@ class WritesRetry(Retry):
         if retry_after:
             retry_after += self._jitter_delay()
         return retry_after
+
+    def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
+        """Return a new Retry object with incremented retry counters."""
+        new_retry = super().increment(method, url, response, error, _pool, _stacktrace)
+
+        if response is not None:
+            parsed_error = InfluxDBError(response=response)
+        elif error is not None:
+            parsed_error = error
+        else:
+            parsed_error = f"Failed request to: {url}"
+
+        message = f"The retriable error occurred during request. Reason: '{parsed_error}'."
+        if isinstance(parsed_error, InfluxDBError):
+            message += f" Retry in {parsed_error.retry_after}s."
+
+        logger.warning(message)
+
+        return new_retry
 
     def _jitter_delay(self):
         return self.jitter_interval * random()

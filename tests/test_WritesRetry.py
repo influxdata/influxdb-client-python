@@ -138,3 +138,24 @@ class TestWritesRetry(unittest.TestCase):
         retry = WritesRetry(method_whitelist=["POST"])
 
         self.assertFalse(retry.is_retry("GET", 429, False))
+
+    def test_logging(self):
+        response = HTTPResponse(
+            body='{"code":"too many requests","message":"org 04014de4ed590000 has exceeded limited_write plan limit"}')
+        response.headers.add('Retry-After', '63')
+
+        with self.assertLogs('influxdb_client.client.write.retry', level='WARNING') as cm:
+            WritesRetry(total=5, backoff_factor=1, max_retry_delay=15) \
+                .increment(response=response) \
+                .increment(error=Exception("too many requests")) \
+                .increment(url='http://localhost:9999')
+
+        self.assertEqual("WARNING:influxdb_client.client.write.retry:The retriable error occurred during request. "
+                         "Reason: 'org 04014de4ed590000 has exceeded limited_write plan limit'. Retry in 63s.",
+                         cm.output[0])
+        self.assertEqual("WARNING:influxdb_client.client.write.retry:The retriable error occurred during request. "
+                         "Reason: 'too many requests'.",
+                         cm.output[1])
+        self.assertEqual("WARNING:influxdb_client.client.write.retry:The retriable error occurred during request. "
+                         "Reason: 'Failed request to: http://localhost:9999'.",
+                         cm.output[2])
