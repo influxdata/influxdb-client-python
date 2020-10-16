@@ -1,5 +1,7 @@
 ## 1.12.0 [unreleased]
 
+1. [#163](https://github.com/influxdata/influxdb-client-python/pull/163): Added support for Python 3.9
+
 ### Features
 1. [#161](https://github.com/influxdata/influxdb-client-python/pull/161): Added logging message for retries
 
