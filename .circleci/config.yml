@@ -130,6 +130,9 @@ workflows:
       - tests-python:
           name: test-3.8
           python-image: "circleci/python:3.8-buster"
+      - tests-python:
+          name: test-3.9
+          python-image: "circleci/python:3.9-buster"
 
   nightly:
     triggers:
