@@ -37,7 +37,7 @@ setup(
     install_requires=requires,
     extras_require={'extra': extra_requires, 'ciso': ciso_requires},
     long_description_content_type="text/x-rst",
-    packages=find_packages(),
+    packages=find_packages(exclude=('tests*',)),
     test_suite='tests',
     python_requires='>=3.6',
     include_package_data=True,
