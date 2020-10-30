@@ -1,4 +1,4 @@
-## 1.12.0 [unreleased]
+## 1.12.0 [2020-10-30]
 
 1. [#163](https://github.com/influxdata/influxdb-client-python/pull/163): Added support for Python 3.9
 
