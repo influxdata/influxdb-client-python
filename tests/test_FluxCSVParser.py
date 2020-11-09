@@ -1,12 +1,12 @@
+import unittest
 from io import BytesIO
 
 from urllib3 import HTTPResponse
 
-from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
-from tests.base_test import BaseTest
+from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode, FluxQueryException
 
 
-class FluxCsvParserTest(BaseTest):
+class FluxCsvParserTest(unittest.TestCase):
 
     def test_one_table(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string\n" \
@@ -117,6 +117,29 @@ class FluxCsvParserTest(BaseTest):
         self.assertEqual(7, tables[0].records.__len__())
         self.assertEqual(9, tables[1].columns.__len__())
         self.assertEqual(7, tables[1].records.__len__())
+
+    def test_response_with_error(self):
+        data = "#datatype,string,long,string,string,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string\n" \
+                 "#group,false,false,true,true,true,true,false,false,true\n" \
+                 "#default,t1,,,,,,,,\n" \
+                 ",result,table,_field,_measurement,_start,_stop,_time,_value,tag\n" \
+                 ",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:20:00Z,2,test1\n" \
+                 ",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:21:40Z,2,test1\n" \
+                 ",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:23:20Z,2,test1\n" \
+                 ",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:25:00Z,2,test1\n" \
+                 "\n" \
+                 "#datatype,string,string\n" \
+                 "#group,true,true\n" \
+                 "#default,,\n" \
+                 ",error,reference\n" \
+                 ",\"engine: unknown field type for value: xyz\","
+
+        with self.assertRaises(FluxQueryException) as cm:
+            self._parse_to_tables(data=data)
+        exception = cm.exception
+
+        self.assertEqual('engine: unknown field type for value: xyz', exception.message)
+        self.assertEqual('', exception.reference)
 
     @staticmethod
     def _parse_to_tables(data: str):
