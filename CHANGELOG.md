@@ -1,5 +1,9 @@
 ## 1.13.0 [unreleased]
 
+### Bug Fixes
+1. [#164](https://github.com/influxdata/influxdb-client-python/pull/170): Skip DataFrame rows without data - all fields are nan. 
+
+
 ## 1.12.0 [2020-10-30]
 
 1. [#163](https://github.com/influxdata/influxdb-client-python/pull/163): Added support for Python 3.9
