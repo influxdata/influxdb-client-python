@@ -37,6 +37,14 @@ def _itertuples(data_frame):
     return zip(data_frame.index, *cols)
 
 
+def _is_nan(x):
+    return x != x
+
+
+def _any_not_nan(p, indexes):
+    return any(map(lambda inx: not _is_nan(p[inx]), indexes))
+
+
 def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
     """Serialize DataFrame into LineProtocols."""
     from ...extras import pd, np
@@ -61,6 +69,7 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
 
     tags = []
     fields = []
+    fields_indexes = []
     keys = []
 
     if point_settings.defaultTags:
@@ -73,14 +82,18 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
         keys.append(key.translate(_ESCAPE_KEY))
         key_format = f'{{keys[{index}]}}'
 
+        index_value = index + 1
         if key in data_frame_tag_columns:
-            tags.append({'key': key, 'value': f"{key_format}={{str(p[{index + 1}]).translate(_ESCAPE_KEY)}}"})
+            tags.append({'key': key, 'value': f"{key_format}={{str(p[{index_value}]).translate(_ESCAPE_KEY)}}"})
         elif issubclass(value.type, np.integer):
-            fields.append(f"{key_format}={{p[{index + 1}]}}i")
+            fields.append(f"{key_format}={{p[{index_value}]}}i")
+            fields_indexes.append(index_value)
         elif issubclass(value.type, (np.float, np.bool_)):
-            fields.append(f"{key_format}={{p[{index + 1}]}}")
+            fields.append(f"{key_format}={{p[{index_value}]}}")
+            fields_indexes.append(index_value)
         else:
-            fields.append(f"{key_format}=\"{{str(p[{index + 1}]).translate(_ESCAPE_STRING)}}\"")
+            fields.append(f"{key_format}=\"{{str(p[{index_value}]).translate(_ESCAPE_STRING)}}\"")
+            fields_indexes.append(index_value)
 
     tags.sort(key=lambda x: x['key'])
     tags = ','.join(map(lambda y: y['value'], tags))
@@ -100,7 +113,7 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
     if isnull.any():
         rep = _replace(data_frame)
         lp = (reduce(lambda a, b: re.sub(*b, a), rep, f(p))
-              for p in _itertuples(data_frame))
+              for p in filter(lambda x: _any_not_nan(x, fields_indexes), _itertuples(data_frame)))
         return list(lp)
     else:
         return list(map(f, _itertuples(data_frame)))
