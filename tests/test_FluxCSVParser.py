@@ -141,6 +141,23 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual('engine: unknown field type for value: xyz', exception.message)
         self.assertEqual('', exception.reference)
 
+    def test_ParseExportFromUserInterface(self):
+
+        data = "#group,false,false,true,true,true,true,true,true,false,false\n" \
+           + "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,double,dateTime:RFC3339\n" \
+           + "#default,mean,,,,,,,,,\n" \
+           + ",result,table,_start,_stop,_field,_measurement,city,location,_value,_time\n" \
+           + ",,0,1754-06-26T11:30:27.613654848Z,2040-10-27T12:13:46.485Z,temperatureC,weather,London,us-midwest,30,1975-09-01T16:59:54.5Z\n" \
+           + ",,1,1754-06-26T11:30:27.613654848Z,2040-10-27T12:13:46.485Z,temperatureF,weather,London,us-midwest,86,1975-09-01T16:59:54.5Z\n";
+
+        tables = self._parse_to_tables(data=data)
+        self.assertEqual(2, tables.__len__())
+        self.assertEqual(1, tables[0].records.__len__())
+        self.assertEqual(1, tables[1].records.__len__())
+        self.assertFalse(tables[1].columns[0].group)
+        self.assertFalse(tables[1].columns[1].group)
+        self.assertTrue(tables[1].columns[2].group)
+
     @staticmethod
     def _parse_to_tables(data: str):
         fp = BytesIO(str.encode(data))
