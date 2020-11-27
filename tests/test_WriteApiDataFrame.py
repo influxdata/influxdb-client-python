@@ -99,9 +99,10 @@ class DataSerializerTest(unittest.TestCase):
         data_frame = pd.DataFrame(data=[[3.1955, np.nan, 20.514305, np.nan],
                                         [5.7310, np.nan, 23.328710, np.nan],
                                         [np.nan, 3.138664, np.nan, 20.755026],
-                                        [5.7310, 5.139563, 23.328710, 19.791240]],
+                                        [5.7310, 5.139563, 23.328710, 19.791240],
+                                        [np.nan, np.nan, np.nan, np.nan]],
                                   index=[now, now + timedelta(minutes=30), now + timedelta(minutes=60),
-                                         now + timedelta(minutes=90)],
+                                         now + timedelta(minutes=90), now + timedelta(minutes=120)],
                                   columns=["actual_kw_price", "forecast_kw_price", "actual_general_use",
                                            "forecast_general_use"])
 
