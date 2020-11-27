@@ -13,6 +13,12 @@ from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 
 
+ANNOTATION_DEFAULT = "#default"
+ANNOTATION_GROUP = "#group"
+ANNOTATION_DATATYPE = "#datatype"
+ANNOTATIONS = [ANNOTATION_DEFAULT, ANNOTATION_GROUP, ANNOTATION_DATATYPE]
+
+
 class FluxQueryException(Exception):
     """The exception from InfluxDB."""
 
@@ -68,6 +74,7 @@ class FluxCsvParser(object):
         table_id = -1
         start_new_table = False
         table = None
+        groups = []
         parsing_state_error = False
 
         for csv in self._reader:
@@ -90,7 +97,7 @@ class FluxCsvParser(object):
 
             token = csv[0]
             # start    new    table
-            if "#datatype" == token:
+            if token in ANNOTATIONS and not start_new_table:
 
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
@@ -105,18 +112,19 @@ class FluxCsvParser(object):
                 raise FluxCsvParserException("Unable to parse CSV response. FluxTable definition was not found.")
 
             #  # datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string,string,string
-            if "#datatype" == token:
+            if ANNOTATION_DATATYPE == token:
                 self.add_data_types(table, csv)
 
-            elif "#group" == token:
-                self.add_groups(table, csv)
+            elif ANNOTATION_GROUP == token:
+                groups = csv
 
-            elif "#default" == token:
+            elif ANNOTATION_DEFAULT == token:
                 self.add_default_empty_values(table, csv)
 
             else:
                 # parse column names
                 if start_new_table:
+                    self.add_groups(table, groups)
                     self.add_column_names_and_tags(table, csv)
                     start_new_table = False
                     # Create DataFrame with default values

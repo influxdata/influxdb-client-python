@@ -1,8 +1,10 @@
 ## 1.13.0 [unreleased]
 
-### Bug Fixes
-1. [#164](https://github.com/influxdata/influxdb-client-python/pull/170): Skip DataFrame rows without data - all fields are nan. 
+### Features
+1. [#171](https://github.com/influxdata/influxdb-client-python/pull/171): CSV parser is able to parse export from UI
 
+### Bug Fixes
+1. [#170](https://github.com/influxdata/influxdb-client-python/pull/170): Skip DataFrame rows without data - all fields are nan. 
 
 ## 1.12.0 [2020-10-30]
 
