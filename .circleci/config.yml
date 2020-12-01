@@ -108,6 +108,19 @@ jobs:
           command: |
             pip install pydocstyle --user
             pydocstyle --count influxdb_client
+  check-aws-lambda-layer:
+    docker:
+      - image: docker:19
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Create Archive to upload as a custom Lambda Layer
+          command: |
+            cd docker/aws_lambda_layer
+            docker build -t lambdalayer:latest .
+            docker create --name lambdalayer lambdalayer:latest
+            docker cp lambdalayer:/install/python.zip .
 
 workflows:
   version: 2
@@ -144,3 +157,4 @@ workflows:
                 - master
     jobs:
       - tests-python
+      - check-aws-lambda-layer
