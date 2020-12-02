@@ -899,7 +899,7 @@ Gzip support
 InfluxDB 1.8 API compatibility
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`InfluxDB 1.8.0 introduced forward compatibility APIs <https://docs.influxdata.com/influxdb/latest/tools/api/#influxdb-2-0-api-compatibility-endpoints>`_ for InfluxDB 2.0. This allow you to easily move from InfluxDB 1.x to InfluxDB 2.0 Cloud or open source.
+`InfluxDB 1.8.0 introduced forward compatibility APIs <https://docs.influxdata.com/influxdb/v1.8/tools/api/#influxdb-2-0-api-compatibility-endpoints>`_ for InfluxDB 2.0. This allow you to easily move from InfluxDB 1.x to InfluxDB 2.0 Cloud or open source.
 
 The following forward compatible APIs are available:
 
