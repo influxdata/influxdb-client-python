@@ -260,6 +260,10 @@ class WriteApi:
         # TODO
         pass
 
+    def close(self):
+        """Flush data and dispose a batching buffer."""
+        self.__del__()
+
     def __del__(self):
         """Close WriteApi."""
         if self._subject:
