@@ -1,4 +1,4 @@
-## 1.13.0 [unreleased]
+## 1.13.0 [2020-12-04]
 
 ### Features
 1. [#171](https://github.com/influxdata/influxdb-client-python/pull/171): CSV parser is able to parse export from UI
