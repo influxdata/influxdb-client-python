@@ -54,6 +54,7 @@ class InfluxDBClient(object):
         conf.debug = debug
         conf.verify_ssl = kwargs.get('verify_ssl', True)
         conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
+        conf.proxy = kwargs.get('proxy', None)
 
         auth_token = self.token
         auth_header_name = "Authorization"
