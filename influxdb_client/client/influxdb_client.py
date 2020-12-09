@@ -34,6 +34,7 @@ class InfluxDBClient(object):
         :param org: organization name (used as a default in query and write API)
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
         :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
+        :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
 
@@ -54,6 +55,7 @@ class InfluxDBClient(object):
         conf.debug = debug
         conf.verify_ssl = kwargs.get('verify_ssl', True)
         conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
+        conf.proxy = kwargs.get('proxy', None)
 
         auth_token = self.token
         auth_header_name = "Authorization"
