@@ -49,7 +49,7 @@ jobs:
         default: &default-python "circleci/python:3.6-buster"
       influxdb-image:
         type: string
-        default: "influxdb:v2.0.2"
+        default: "influxdb:v2.0.3"
       enabled-ciso-8601:
         type: boolean
         default: true
@@ -136,7 +136,7 @@ workflows:
           enabled-ciso-8601: false
       - tests-python:
           name: test-3.6-influxdb-nightly
-          influxdb-image: "influx:nightly"
+          influxdb-image: "influxdb2:nightly"
       - tests-python:
           name: test-3.7
           python-image: "circleci/python:3.7-buster"

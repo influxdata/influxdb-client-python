@@ -1,12 +1,8 @@
-import pytest
-
 from influxdb_client import PermissionResource, Permission, InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from tests.base_test import BaseTest
 
 
-# TODO https://github.com/influxdata/influxdb/issues/19545
-@pytest.mark.skip(reason="https://github.com/influxdata/influxdb/issues/19545")
 class DeleteApiTest(BaseTest):
 
     def setUp(self) -> None:
