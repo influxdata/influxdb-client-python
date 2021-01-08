@@ -41,7 +41,7 @@ class SynchronousWriteTest(BaseTest):
     def test_write_line_protocol(self):
         bucket = self.create_test_bucket()
 
-        record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         self.write_client.write(bucket.name, self.org, record)
 
         result = self.query_api.query(f"from(bucket:\"{bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)",
@@ -72,8 +72,8 @@ class SynchronousWriteTest(BaseTest):
     def test_write_records_list(self):
         bucket = self.create_test_bucket()
 
-        _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
-        _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
+        _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
+        _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2 2"
 
         record_list = [_record1, _record2]
 
@@ -170,7 +170,7 @@ class SynchronousWriteTest(BaseTest):
     def test_write_result(self):
         _bucket = self.create_test_bucket()
 
-        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         result = self.write_client.write(_bucket.name, self.org, _record)
 
         # The success response is 204 - No Content
@@ -210,7 +210,7 @@ class SynchronousWriteTest(BaseTest):
 
     def test_write_bytes(self):
         _bucket = self.create_test_bucket()
-        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1".encode("utf-8")
+        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=1 1".encode("utf-8")
 
         self.write_client.write(_bucket.name, self.org, _bytes)
 
@@ -230,9 +230,9 @@ class SynchronousWriteTest(BaseTest):
     def test_write_tuple(self):
         bucket = self.create_test_bucket()
 
-        _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
-        _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
-        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=3.0 3".encode("utf-8")
+        _record1 = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
+        _record2 = "h2o_feet,location=coyote_creek level\\ water_level=2 2"
+        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=3 3".encode("utf-8")
 
         p = (Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 4.0).time(4))
 
@@ -322,7 +322,7 @@ class SynchronousWriteTest(BaseTest):
     def test_use_default_org(self):
         bucket = self.create_test_bucket()
 
-        record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         self.write_client.write(bucket.name, record=record)
 
         result = self.query_api.query(
@@ -485,7 +485,7 @@ class WriteApiTestMock(BaseTest):
 
         self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
         with self.assertRaises(ApiException) as cm:
-            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
+            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1 1")
         exception = cm.exception
 
         self.assertEqual("Service Unavailable", exception.reason)
@@ -496,7 +496,7 @@ class WriteApiTestMock(BaseTest):
 
         self.write_client = self.influxdb_client.write_api(write_options=ASYNCHRONOUS)
         with self.assertRaises(ApiException) as cm:
-            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1").get()
+            self.write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1 1").get()
         exception = cm.exception
 
         self.assertEqual("Service Unavailable", exception.reason)
@@ -527,7 +527,7 @@ class AsynchronousWriteTest(BaseTest):
     def test_write_result(self):
         _bucket = self.create_test_bucket()
 
-        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         result = self.write_client.write(_bucket.name, self.org, _record)
 
         self.assertEqual(ApplyResult, type(result))
@@ -649,8 +649,8 @@ class AsynchronousWriteTest(BaseTest):
     def test_write_bytes(self):
         bucket = self.create_test_bucket()
 
-        _bytes1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1".encode("utf-8")
-        _bytes2 = "h2o_feet,location=coyote_creek level\\ water_level=2.0 2".encode("utf-8")
+        _bytes1 = "h2o_feet,location=coyote_creek level\\ water_level=1 1".encode("utf-8")
+        _bytes2 = "h2o_feet,location=coyote_creek level\\ water_level=2 2".encode("utf-8")
 
         _bytes_list = [_bytes1, _bytes2]
 

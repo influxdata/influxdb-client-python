@@ -39,7 +39,7 @@ class GzipSupportTest(BaseTest):
         self.assertEqual("Tom", _user._name)
 
         _response = self.client.write_api(write_options=SYNCHRONOUS) \
-            .write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
+            .write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1 1")
         self.assertEqual(None, _response)
 
         _tables = self.client.query_api() \
@@ -62,7 +62,7 @@ class GzipSupportTest(BaseTest):
         self.assertEqual("/api/v2/write?org=my-org&bucket=my-bucket&precision=ns", _requests[1].path)
         self.assertEqual("identity", _requests[1].headers['Content-Encoding'])
         self.assertEqual("identity", _requests[1].headers['Accept-Encoding'])
-        self.assertEqual("h2o_feet,location=coyote_creek water_level=1.0 1", _requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek water_level=1 1", _requests[1].parsed_body)
         # Query
         self.assertEqual("/api/v2/query?org=my-org", _requests[2].path)
         self.assertEqual(None, _requests[2].headers['Content-Encoding'])
@@ -91,7 +91,7 @@ class GzipSupportTest(BaseTest):
         self.assertEqual("Tom", _user._name)
 
         _response = self.client.write_api(write_options=SYNCHRONOUS) \
-            .write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1.0 1")
+            .write("my-bucket", "my-org", "h2o_feet,location=coyote_creek water_level=1 1")
         self.assertEqual(None, _response)
 
         _tables = self.client.query_api() \
@@ -114,7 +114,7 @@ class GzipSupportTest(BaseTest):
         self.assertEqual("/api/v2/write?org=my-org&bucket=my-bucket&precision=ns", _requests[1].path)
         self.assertEqual("gzip", _requests[1].headers['Content-Encoding'])
         self.assertEqual("identity", _requests[1].headers['Accept-Encoding'])
-        self.assertNotEqual("h2o_feet,location=coyote_creek water_level=1.0 1", _requests[1].parsed_body)
+        self.assertNotEqual("h2o_feet,location=coyote_creek water_level=1 1", _requests[1].parsed_body)
         # Query
         self.assertEqual("/api/v2/query?org=my-org", _requests[2].path)
         self.assertEqual(None, _requests[2].headers['Content-Encoding'])
@@ -136,7 +136,7 @@ class GzipSupportTest(BaseTest):
         _bucket = self.create_test_bucket()
 
         self.client.write_api(write_options=SYNCHRONOUS) \
-            .write(_bucket.name, self.org, "h2o_feet,location=coyote_creek water_level=111.0 1")
+            .write(_bucket.name, self.org, "h2o_feet,location=coyote_creek water_level=111 1")
 
         _result = self.query_client.query(
             f"from(bucket:\"{_bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)", self.org)

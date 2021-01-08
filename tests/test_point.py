@@ -82,7 +82,7 @@ class PointTest(unittest.TestCase):
             .field("string", "string value")
 
         expected = "h2o,location=europe boolean=false,byte=9i,decimal=25.6,decimal-object=0.142857,double=250.69," \
-                   "float=35.0,integer=7i,long=1i,point=13.3,sbyte=12i,short=8i,string=\"string value\"," \
+                   "float=35,integer=7i,long=1i,point=13.3,sbyte=12i,short=8i,string=\"string value\"," \
                    "uint=11i,ulong=10i,ushort=13i"
 
         self.assertEqual(expected, point.to_line_protocol())
