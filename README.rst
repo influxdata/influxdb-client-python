@@ -46,7 +46,8 @@ InfluxDB 2.0 client features
     - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure, `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to queries <#queries>`_
 - Writing data using
-    - `Line Protocol <https://docs.influxdata.com/influxdb/latest/write_protocols/line_protocol_tutorial>`_
+    - `Line Protocol <https://docs.influxdata.com/influxdb/
+    /write_protocols/line_protocol_tutorial>`_
     - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`__ Observable
     - `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
@@ -908,7 +909,7 @@ The following forward compatible APIs are available:
 =======================================================  ====================================================================================================  =======
  API                                                     Endpoint                                                                                              Description
 =======================================================  ====================================================================================================  =======
-`query_api.py <influxdb_client/client/query_api.py>`_    `/api/v2/query <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-query-http-endpoint>`_  Query data in InfluxDB 1.8.0+ using the InfluxDB 2.0 API and `Flux <https://docs.influxdata.com/flux/latest/>`_ (endpoint should be enabled by `flux-enabled option <https://docs.influxdata.com/influxdb/latest/administration/config/#flux-enabled-false>`_)
+`query_api.py <influxdb_client/client/query_api.py>`_    `/api/v2/query <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-query-http-endpoint>`_  Query data in InfluxDB 1.8.0+ using the InfluxDB 2.0 API and `Flux <https://docs.influxdata.com/flux/latest/>`_ (endpoint should be enabled by `flux-enabled option <https://docs.influxdata.com/influxdb/v1.8/administration/config/#flux-enabled-false>`_)
 `write_api.py <influxdb_client/client/write_api.py>`_    `/api/v2/write <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-write-http-endpoint>`_  Write data to InfluxDB 1.8.0+ using the InfluxDB 2.0 API
 `health() <influxdb_client/client/influxdb_client.py>`_  `/health <https://docs.influxdata.com/influxdb/latest/tools/api/#health-http-endpointt>`_             Check the health of your InfluxDB instance
 =======================================================  ====================================================================================================  =======
