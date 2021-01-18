@@ -14,10 +14,32 @@ from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
 
 EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
+
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
-_ESCAPE_MEASUREMENT = str.maketrans({'\\': '\\\\', ',': r'\,', ' ': r'\ ', '\n': '\\n', '\t': '\\t', '\r': '\\r'})
-_ESCAPE_KEY = str.maketrans({'\\': '\\\\', ',': r'\,', ' ': r'\ ', '=': r'\=', '\n': '\\n', '\t': '\\t', '\r': '\\r'})
-_ESCAPE_STRING = str.maketrans({'\"': r"\"", "\\": r"\\"})
+
+_ESCAPE_MEASUREMENT = str.maketrans({
+    '\\': r'\\',      # Note: this is wrong. Backslashes are not escaped like this in measurements.
+    ',': r'\,',
+    ' ': r'\ ',
+    '\n': r'\n',
+    '\t': r'\t',
+    '\r': r'\r',
+})
+
+_ESCAPE_KEY = str.maketrans({
+    '\\': r'\\',      # Note: this is wrong. Backslashes are not escaped like this in keys.
+    ',': r'\,',
+    '=': r'\=',
+    ' ': r'\ ',
+    '\n': r'\n',
+    '\t': r'\t',
+    '\r': r'\r',
+})
+
+_ESCAPE_STRING = str.maketrans({
+    '"': r'\"',
+    '\\': r'\\',
+})
 
 
 class Point(object):

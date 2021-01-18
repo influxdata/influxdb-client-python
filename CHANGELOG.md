@@ -6,13 +6,16 @@
 ### CI
 1. [#179](https://github.com/influxdata/influxdb-client-python/pull/179): Updated default docker image to v2.0.3
 
+### Bug Fixes
+1. [#183](https://github.com/influxdata/influxdb-client-python/pull/183): Fixes to DataFrame writing.
+
 ## 1.13.0 [2020-12-04]
 
 ### Features
 1. [#171](https://github.com/influxdata/influxdb-client-python/pull/171): CSV parser is able to parse export from UI
 
 ### Bug Fixes
-1. [#170](https://github.com/influxdata/influxdb-client-python/pull/170): Skip DataFrame rows without data - all fields are nan. 
+1. [#170](https://github.com/influxdata/influxdb-client-python/pull/170): Skip DataFrame rows without data - all fields are nan.
 
 ### CI
 1. [#175](https://github.com/influxdata/influxdb-client-python/pull/175): Updated default docker image to v2.0.2
@@ -25,7 +28,7 @@
 1. [#161](https://github.com/influxdata/influxdb-client-python/pull/161): Added logging message for retries
 
 ### Bug Fixes
-1. [#164](https://github.com/influxdata/influxdb-client-python/pull/164): Excluded tests from packaging 
+1. [#164](https://github.com/influxdata/influxdb-client-python/pull/164): Excluded tests from packaging
 
 ## 1.11.0 [2020-10-02]
 
@@ -38,16 +41,16 @@
 1. [#156](https://github.com/influxdata/influxdb-client-python/pull/156): Removed labels in organization API, removed Pkg* structure and package service
 
 ### Bug Fixes
-1. [#154](https://github.com/influxdata/influxdb-client-python/pull/154): Fixed escaping string fields in DataFrame serialization 
+1. [#154](https://github.com/influxdata/influxdb-client-python/pull/154): Fixed escaping string fields in DataFrame serialization
 
 ## 1.10.0 [2020-08-14]
 
 ### Features
-1. [#140](https://github.com/influxdata/influxdb-client-python/pull/140): Added exponential backoff strategy for batching writes, Allowed to configure default retry strategy. Default value for `retry_interval` is 5_000 milliseconds.   
+1. [#140](https://github.com/influxdata/influxdb-client-python/pull/140): Added exponential backoff strategy for batching writes, Allowed to configure default retry strategy. Default value for `retry_interval` is 5_000 milliseconds.
 1. [#136](https://github.com/influxdata/influxdb-client-python/pull/136): Allows users to skip of verifying SSL certificate
 1. [#143](https://github.com/influxdata/influxdb-client-python/pull/143): Skip of verifying SSL certificate could be configured via config file or environment properties
 1. [#141](https://github.com/influxdata/influxdb-client-python/pull/141): Added possibility to use datetime nanoseconds precision by `pandas.Timestamp`
-1. [#145](https://github.com/influxdata/influxdb-client-python/pull/145): Api generator was moved to influxdb-clients-apigen  
+1. [#145](https://github.com/influxdata/influxdb-client-python/pull/145): Api generator was moved to influxdb-clients-apigen
 
 ## 1.9.0 [2020-07-17]
 
@@ -58,10 +61,10 @@
 1. [#132](https://github.com/influxdata/influxdb-client-python/pull/132): Use microseconds resolutions for data points
 
 ### Bug Fixes
-1. [#117](https://github.com/influxdata/influxdb-client-python/pull/117): Fixed appending default tags for single Point 
-1. [#115](https://github.com/influxdata/influxdb-client-python/pull/115): Fixed serialization of `\n`, `\r` and `\t` to Line Protocol, `=` is valid sign for measurement name 
+1. [#117](https://github.com/influxdata/influxdb-client-python/pull/117): Fixed appending default tags for single Point
+1. [#115](https://github.com/influxdata/influxdb-client-python/pull/115): Fixed serialization of `\n`, `\r` and `\t` to Line Protocol, `=` is valid sign for measurement name
 1. [#118](https://github.com/influxdata/influxdb-client-python/issues/118): Fixed serialization of DataFrame with empty (NaN) values
-1. [#130](https://github.com/influxdata/influxdb-client-python/pull/130): Use `Retry-After` header value for Retryable error codes 
+1. [#130](https://github.com/influxdata/influxdb-client-python/pull/130): Use `Retry-After` header value for Retryable error codes
 
 ## 1.8.0 [2020-06-19]
 
@@ -153,13 +156,13 @@
 1. [#27](https://github.com/influxdata/influxdb-client-python/issues/27): Added possibility to write bytes type of data
 1. [#30](https://github.com/influxdata/influxdb-client-python/issues/30): Added support for streaming a query response
 1. [#35](https://github.com/influxdata/influxdb-client-python/pull/35): FluxRecord supports dictionary-style access
-1. [#31](https://github.com/influxdata/influxdb-client-python/issues/31): Added support for delete metrics  
+1. [#31](https://github.com/influxdata/influxdb-client-python/issues/31): Added support for delete metrics
 
 ### API
 1. [#28](https://github.com/bonitoo-io/influxdb-client-python/pull/28): Updated swagger to latest version
 
 ### Bug Fixes
-1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values 
+1. [#19](https://github.com/bonitoo-io/influxdb-client-python/pull/19): Removed strict checking of enum values
 
 ### Documentation
 1. [#22](https://github.com/bonitoo-io/influxdb-client-python/issues/22): Documented how to connect to InfluxCloud
@@ -168,8 +171,8 @@
 
 ### Features
 1. [#2](https://github.com/bonitoo-io/influxdb-client-python/issues/2): The write client is able to write data in batches (configuration: `batch_size`, `flush_interval`, `jitter_interval`, `retry_interval`)
-1. [#5](https://github.com/bonitoo-io/influxdb-client-python/issues/5): Added support for gzip compression of query response and write body 
- 
+1. [#5](https://github.com/bonitoo-io/influxdb-client-python/issues/5): Added support for gzip compression of query response and write body
+
 ### API
 1. [#10](https://github.com/bonitoo-io/influxdb-client-python/pull/10): Updated swagger to latest version
 
@@ -178,5 +181,5 @@
 1. [#7](https://github.com/bonitoo-io/influxdb-client-python/issues/7): Drop NaN and infinity values from fields when writing to InfluxDB
 
 ### CI
-1. [#11](https://github.com/bonitoo-io/influxdb-client-python/pull/11): Switch CI to CircleCI 
-1. [#12](https://github.com/bonitoo-io/influxdb-client-python/pull/12): CI generate code coverage report on CircleCI 
+1. [#11](https://github.com/bonitoo-io/influxdb-client-python/pull/11): Switch CI to CircleCI
+1. [#12](https://github.com/bonitoo-io/influxdb-client-python/pull/12): CI generate code coverage report on CircleCI

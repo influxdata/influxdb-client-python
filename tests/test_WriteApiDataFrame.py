@@ -23,42 +23,6 @@ class DataFrameWriteTest(BaseTest):
         super().tearDown()
         self._write_client.__del__()
 
-    @unittest.skip('Test big file')
-    def test_write_data_frame(self):
-        import random
-        from influxdb_client.extras import pd
-
-        if not os.path.isfile("data_frame_file.csv"):
-            with open('data_frame_file.csv', mode='w+') as csv_file:
-                _writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                _writer.writerow(['time', 'col1', 'col2', 'col3', 'col4', 'col5', 'col6', 'col7', 'col8'])
-
-                for i in range(1, 1500000):
-                    choice = ['test_a', 'test_b', 'test_c']
-                    _writer.writerow([i, random.choice(choice), 'test', random.random(), random.random(),
-                                      random.random(), random.random(), random.random(), random.random()])
-
-            csv_file.close()
-
-        with open('data_frame_file.csv', mode='rb') as csv_file:
-
-            data_frame = pd.read_csv(csv_file, index_col='time')
-            print(data_frame)
-
-            print('Writing...')
-
-            start = time.time()
-
-            self._write_client.write("my-bucket", "my-org", record=data_frame,
-                                     data_frame_measurement_name='h2o_feet',
-                                     data_frame_tag_columns=['location'])
-
-            self._write_client.__del__()
-
-            print("Time elapsed: ", (time.time() - start))
-
-        csv_file.close()
-
     def test_write_num_py(self):
         from influxdb_client.extras import pd, np
 
@@ -90,17 +54,40 @@ class DataFrameWriteTest(BaseTest):
 
 
 class DataSerializerTest(unittest.TestCase):
+    @unittest.skip('Test big data')
+    def test_convert_data_frame(self):
+        from influxdb_client.extras import pd, np
+
+        num_rows=1500000
+        col_data={
+            'time': np.arange(0, num_rows, 1, dtype=int),
+            'col1': np.random.choice(['test_a', 'test_b', 'test_c'], size=(num_rows,)),
+        }
+        for n in range(2, 9):
+            col_data[f'col{n}'] = np.random.rand(num_rows)
+
+        data_frame = pd.DataFrame(data=col_data)
+        print(data_frame)
+
+        start = time.time()
+        data_frame_to_list_of_points(data_frame, PointSettings(),
+            data_frame_measurement_name='h2o_feet',
+            data_frame_tag_columns=['location'])
+
+        print("Time elapsed: ", (time.time() - start))
 
     def test_write_nan(self):
         from influxdb_client.extras import pd, np
 
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
-        data_frame = pd.DataFrame(data=[[3.1955, np.nan, 20.514305, np.nan],
+        data_frame = pd.DataFrame(data=[
+                                        [3.1955, np.nan, 20.514305, np.nan],
                                         [5.7310, np.nan, 23.328710, np.nan],
                                         [np.nan, 3.138664, np.nan, 20.755026],
                                         [5.7310, 5.139563, 23.328710, 19.791240],
-                                        [np.nan, np.nan, np.nan, np.nan]],
+                                        [np.nan, np.nan, np.nan, np.nan],
+                                  ],
                                   index=[now, now + timedelta(minutes=30), now + timedelta(minutes=60),
                                          now + timedelta(minutes=90), now + timedelta(minutes=120)],
                                   columns=["actual_kw_price", "forecast_kw_price", "actual_general_use",
@@ -110,14 +97,14 @@ class DataSerializerTest(unittest.TestCase):
                                               data_frame_measurement_name='measurement')
 
         self.assertEqual(4, len(points))
-        self.assertEqual("measurement actual_kw_price=3.1955,actual_general_use=20.514305 1586044800000000000",
+        self.assertEqual("measurement actual_general_use=20.514305,actual_kw_price=3.1955 1586044800000000000",
                          points[0])
-        self.assertEqual("measurement actual_kw_price=5.731,actual_general_use=23.32871 1586046600000000000",
+        self.assertEqual("measurement actual_general_use=23.32871,actual_kw_price=5.731 1586046600000000000",
                          points[1])
-        self.assertEqual("measurement forecast_kw_price=3.138664,forecast_general_use=20.755026 1586048400000000000",
+        self.assertEqual("measurement forecast_general_use=20.755026,forecast_kw_price=3.138664 1586048400000000000",
                          points[2])
-        self.assertEqual("measurement actual_kw_price=5.731,forecast_kw_price=5.139563,actual_general_use=23.32871,"
-                         "forecast_general_use=19.79124 1586050200000000000",
+        self.assertEqual("measurement actual_general_use=23.32871,actual_kw_price=5.731,forecast_general_use=19.79124"
+                         ",forecast_kw_price=5.139563 1586050200000000000",
                          points[3])
 
     def test_write_tag_nan(self):
@@ -125,10 +112,12 @@ class DataSerializerTest(unittest.TestCase):
 
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
-        data_frame = pd.DataFrame(data=[["", 3.1955, 20.514305],
+        data_frame = pd.DataFrame(data=[
+                                        ["", 3.1955, 20.514305],
                                         ['', 5.7310, 23.328710],
                                         [np.nan, 5.7310, 23.328710],
-                                        ["tag", 3.138664, 20.755026]],
+                                        ["tag", 3.138664, 20.755026],
+                                  ],
                                   index=[now, now + timedelta(minutes=30),
                                          now + timedelta(minutes=60), now + timedelta(minutes=90)],
                                   columns=["tag", "actual_kw_price", "forecast_kw_price"])
@@ -148,12 +137,59 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("measurement,tag=tag actual_kw_price=3.138664,forecast_kw_price=20.755026 1586050200000000000",
                          points[3])
 
+    def test_write_object_field_nan(self):
+        from influxdb_client.extras import pd, np
+
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+
+        data_frame = pd.DataFrame(data=[
+                                        ["foo", 1],
+                                        [np.nan, 2],
+                                  ],
+                                  index=[now, now + timedelta(minutes=30)],
+                                  columns=["obj", "val"])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(),
+                                              data_frame_measurement_name='measurement')
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("measurement obj=\"foo\",val=1i 1586044800000000000",
+                         points[0])
+        self.assertEqual("measurement val=2i 1586046600000000000",
+                         points[1])
+
+    def test_write_field_bool(self):
+        from influxdb_client.extras import pd, np
+
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+
+        data_frame = pd.DataFrame(data=[
+                                        [True],
+                                        [False],
+                                  ],
+                                  index=[now, now + timedelta(minutes=30)],
+                                  columns=["status"])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(),
+                                              data_frame_measurement_name='measurement')
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("measurement status=True 1586044800000000000",
+                         points[0])
+        self.assertEqual("measurement status=False 1586046600000000000",
+                         points[1])
+
     def test_escaping_measurement(self):
         from influxdb_client.extras import pd, np
 
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
-        data_frame = pd.DataFrame(data=[["coyote_creek", np.int64(100.5)], ["coyote_creek", np.int64(200)]],
+        data_frame = pd.DataFrame(data=[
+                                        ["coyote_creek", np.int64(100.5)],
+                                        ["coyote_creek", np.int64(200)],
+                                  ],
                                   index=[now + timedelta(hours=1), now + timedelta(hours=2)],
                                   columns=["location", "water_level"])
 
@@ -235,3 +271,55 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual(2, len(points))
         self.assertEqual("test,d=foo\\ bar b=\"hello world\",c=1i 1586041200000000000", points[0])
         self.assertEqual("test,d=bar\\ foo b=\"goodbye cruel world\",c=2i 1586044800000000000", points[1])
+
+    def test_with_default_tags(self):
+        from influxdb_client.extras import pd, np
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+        data_frame = pd.DataFrame(data={
+                                      'value': [1, 2],
+                                      't1': ['a1', 'a2'],
+                                      't3': ['c1', 'c2'],
+                                },
+                                index=[now + timedelta(hours=1), now + timedelta(hours=2)])
+        original_data = data_frame.copy()
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(t2='every'),
+                                              data_frame_measurement_name='h2o',
+                                              data_frame_tag_columns={"t1", "t3"})
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("h2o,t1=a1,t2=every,t3=c1 value=1i 1586048400000000000", points[0])
+        self.assertEqual("h2o,t1=a2,t2=every,t3=c2 value=2i 1586052000000000000", points[1])
+
+        # Check that the data frame hasn't been changed (an earlier version did change it)
+        self.assertEqual(True, (data_frame == original_data).all(axis = None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
+
+        # Check that the default tags won't override actual column data.
+        # This is arguably incorrect behavior, but it's how it works currently.
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(t1='every'),
+                                              data_frame_measurement_name='h2o',
+                                              data_frame_tag_columns={"t1", "t3"})
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("h2o,t1=a1,t3=c1 value=1i 1586048400000000000", points[0])
+        self.assertEqual("h2o,t1=a2,t3=c2 value=2i 1586052000000000000", points[1])
+
+        self.assertEqual(True, (data_frame == original_data).all(axis = None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
+
+    def test_with_period_index(self):
+        from influxdb_client.extras import pd, np
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+        data_frame = pd.DataFrame(data={
+                                      'value': [1, 2],
+                                },
+                                index=pd.period_range(start='2020-04-05 01:00+00:00', freq='H', periods=2))
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              point_settings=PointSettings(),
+                                              data_frame_measurement_name='h2o')
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("h2o value=1i 1586048400000000000", points[0])
+        self.assertEqual("h2o value=2i 1586052000000000000", points[1])
