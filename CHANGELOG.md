@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 1. [#183](https://github.com/influxdata/influxdb-client-python/pull/183): Fixes to DataFrame writing.
+1. [#181](https://github.com/influxdata/influxdb-client-python/pull/181): Encode Point whole numbers without trailing `.0`
 
 ## 1.13.0 [2020-12-04]
 
