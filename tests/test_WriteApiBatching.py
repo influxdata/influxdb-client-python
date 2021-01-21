@@ -39,20 +39,20 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=3 3",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=4 4"])
 
         time.sleep(1)
 
         _requests = httpretty.httpretty.latest_requests
 
         self.assertEqual(2, len(_requests))
-        _request1 = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n" \
-                    "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
-        _request2 = "h2o_feet,location=coyote_creek level\\ water_level=3.0 3\n" \
-                    "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"
+        _request1 = "h2o_feet,location=coyote_creek level\\ water_level=1 1\n" \
+                    "h2o_feet,location=coyote_creek level\\ water_level=2 2"
+        _request2 = "h2o_feet,location=coyote_creek level\\ water_level=3 3\n" \
+                    "h2o_feet,location=coyote_creek level\\ water_level=4 4"
 
         self.assertEqual(_request1, _requests[0].parsed_body)
         self.assertEqual(_request2, _requests[1].parsed_body)
@@ -61,8 +61,8 @@ class BatchingWriteTest(unittest.TestCase):
     def test_subscribe_wait(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
-        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=2.0 2")
+        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=1 1")
+        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=2 2")
 
         time.sleep(1)
 
@@ -70,8 +70,8 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(1, len(_requests))
 
-        _request = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n" \
-                   "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"
+        _request = "h2o_feet,location=coyote_creek level\\ water_level=1 1\n" \
+                   "h2o_feet,location=coyote_creek level\\ water_level=2 2"
 
         self.assertEqual(_request, _requests[0].parsed_body)
 
@@ -79,23 +79,23 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=1.0 1")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=1 1")
 
         self._write_client.write("my-bucket", "my-org",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+                                 "h2o_feet,location=coyote_creek level\\ water_level=2 2",
                                  write_precision=WritePrecision.S)
 
         self._write_client.write("my-bucket", "my-org-a",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=3 3")
 
         self._write_client.write("my-bucket", "my-org-a",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=4.0 4")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=4 4")
 
         self._write_client.write("my-bucket2", "my-org-a",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=5.0 5")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=5 5")
 
         self._write_client.write("my-bucket", "my-org-a",
-                                 "h2o_feet,location=coyote_creek level\\ water_level=6.0 6")
+                                 "h2o_feet,location=coyote_creek level\\ water_level=6 6")
 
         time.sleep(1)
 
@@ -103,24 +103,24 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(5, len(_requests))
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1", _requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1", _requests[0].parsed_body)
         self.assertEqual("ns", _requests[0].querystring["precision"][0])
         self.assertEqual("my-bucket", _requests[0].querystring["bucket"][0])
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=2 2", _requests[1].parsed_body)
         self.assertEqual("s", _requests[1].querystring["precision"][0])
         self.assertEqual("my-bucket", _requests[1].querystring["bucket"][0])
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=4.0 4", _requests[2].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3 3\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=4 4", _requests[2].parsed_body)
         self.assertEqual("ns", _requests[2].querystring["precision"][0])
         self.assertEqual("my-bucket", _requests[2].querystring["bucket"][0])
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5.0 5", _requests[3].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5 5", _requests[3].parsed_body)
         self.assertEqual("ns", _requests[3].querystring["precision"][0])
         self.assertEqual("my-bucket2", _requests[3].querystring["bucket"][0])
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[4].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=6 6", _requests[4].parsed_body)
         self.assertEqual("ns", _requests[4].querystring["precision"][0])
         self.assertEqual("my-bucket", _requests[4].querystring["bucket"][0])
 
@@ -130,13 +130,13 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(1)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests))
 
-        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
+        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=3 3")
 
         time.sleep(2)
 
@@ -146,7 +146,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(2, len(httpretty.httpretty.latest_requests))
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3 3",
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_jitter_interval(self):
@@ -158,13 +158,13 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(3)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests))
 
-        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=3.0 3")
+        self._write_client.write("my-bucket", "my-org", "h2o_feet,location=coyote_creek level\\ water_level=3 3")
 
         time.sleep(2)
 
@@ -174,7 +174,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(2, len(httpretty.httpretty.latest_requests))
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3 3",
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_retry_interval(self):
@@ -192,8 +192,8 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503)
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(1)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests), msg="first request immediately")
@@ -207,17 +207,17 @@ class BatchingWriteTest(unittest.TestCase):
         time.sleep(37.5)
         self.assertEqual(4, len(httpretty.httpretty.latest_requests), msg="fourth after exponential delay = 1.5 * 5**2")
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2 2",
                          httpretty.httpretty.latest_requests[0].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2 2",
                          httpretty.httpretty.latest_requests[1].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2 2",
                          httpretty.httpretty.latest_requests[2].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2",
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2 2",
                          httpretty.httpretty.latest_requests[3].parsed_body)
 
         pass
@@ -231,8 +231,8 @@ class BatchingWriteTest(unittest.TestCase):
                                       write_options=WriteOptions(batch_size=2, flush_interval=5_000, max_retries=5))
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(8)
 
@@ -247,8 +247,8 @@ class BatchingWriteTest(unittest.TestCase):
                                   "h2o_feet,location=coyote_creek"])
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(1)
 
@@ -262,7 +262,7 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         # Record item
-        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         self._write_client.write("my-bucket", "my-org", _record)
 
         # Point item
@@ -271,8 +271,8 @@ class BatchingWriteTest(unittest.TestCase):
 
         # Record list
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=3.0 3",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=4.0 4"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=3 3",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=4 4"])
 
         # Point list
         _point1 = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 5.0).time(5)
@@ -280,14 +280,14 @@ class BatchingWriteTest(unittest.TestCase):
         self._write_client.write("my-bucket", "my-org", [_point1, _point2])
 
         # Observable
-        _recordObs = "h2o_feet,location=coyote_creek level\\ water_level=7.0 7"
+        _recordObs = "h2o_feet,location=coyote_creek level\\ water_level=7 7"
         _pointObs = Point("h2o_feet").tag("location", "coyote_creek").field("level water_level", 8.0).time(8)
 
         self._write_client.write("my-bucket", "my-org", rx.of(_recordObs, _pointObs))
 
         _data = rx \
             .range(9, 13) \
-            .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek level\\ water_level={0}.0 {0}".format(i)))
+            .pipe(ops.map(lambda i: "h2o_feet,location=coyote_creek level\\ water_level={0} {0}".format(i)))
         self._write_client.write("my-bucket", "my-org", _data)
 
         # Dictionary item
@@ -303,17 +303,17 @@ class BatchingWriteTest(unittest.TestCase):
         self._write_client.write("my-bucket", "my-org", [_dict1, _dict2])
 
         # Bytes item
-        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=16.0 16".encode("utf-8")
+        _bytes = "h2o_feet,location=coyote_creek level\\ water_level=16 16".encode("utf-8")
         self._write_client.write("my-bucket", "my-org", _bytes)
 
         # Bytes list
-        _bytes1 = "h2o_feet,location=coyote_creek level\\ water_level=17.0 17".encode("utf-8")
-        _bytes2 = "h2o_feet,location=coyote_creek level\\ water_level=18.0 18".encode("utf-8")
+        _bytes1 = "h2o_feet,location=coyote_creek level\\ water_level=17 17".encode("utf-8")
+        _bytes2 = "h2o_feet,location=coyote_creek level\\ water_level=18 18".encode("utf-8")
         self._write_client.write("my-bucket", "my-org", [_bytes1, _bytes2])
 
         # Tuple
-        _bytes3 = "h2o_feet,location=coyote_creek level\\ water_level=19.0 19".encode("utf-8")
-        _bytes4 = "h2o_feet,location=coyote_creek level\\ water_level=20.0 20".encode("utf-8")
+        _bytes3 = "h2o_feet,location=coyote_creek level\\ water_level=19 19".encode("utf-8")
+        _bytes4 = "h2o_feet,location=coyote_creek level\\ water_level=20 20".encode("utf-8")
         self._write_client.write("my-bucket", "my-org", (_bytes3, _bytes4, ))
 
         time.sleep(1)
@@ -322,26 +322,26 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(10, len(_requests))
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=2.0 2", _requests[0].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3.0 3\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=4.0 4", _requests[1].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5.0 5\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[2].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=7.0 7\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=8.0 8", _requests[3].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=9.0 9\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=10.0 10", _requests[4].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=11.0 11\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=12.0 12", _requests[5].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=13.0 13\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=14.0 14", _requests[6].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=15.0 15\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=16.0 16", _requests[7].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=17.0 17\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=18.0 18", _requests[8].parsed_body)
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=19.0 19\n"
-                         "h2o_feet,location=coyote_creek level\\ water_level=20.0 20", _requests[9].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=2 2", _requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=3 3\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=4 4", _requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5 5\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=6 6", _requests[2].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=7 7\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=8 8", _requests[3].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=9 9\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=10 10", _requests[4].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=11 11\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=12 12", _requests[5].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=13 13\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=14 14", _requests[6].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=15 15\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=16 16", _requests[7].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=17 17\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=18 18", _requests[8].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=19 19\n"
+                         "h2o_feet,location=coyote_creek level\\ water_level=20 20", _requests[9].parsed_body)
 
         pass
 
@@ -361,15 +361,15 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(2, len(_requests))
 
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5.0 5", _requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=5 5", _requests[0].parsed_body)
         self.assertEqual("s", _requests[0].querystring["precision"][0])
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=6.0 6", _requests[1].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=6 6", _requests[1].parsed_body)
         self.assertEqual("ns", _requests[1].querystring["precision"][0])
 
     def test_write_result(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         _result = self._write_client.write("my-bucket", "my-org", _record)
 
         self.assertEqual(None, _result)
@@ -377,7 +377,7 @@ class BatchingWriteTest(unittest.TestCase):
     def test_del(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
-        _record = "h2o_feet,location=coyote_creek level\\ water_level=1.0 1"
+        _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         _result = self._write_client.write("my-bucket", "my-org", _record)
 
         self._write_client.__del__()
@@ -385,7 +385,7 @@ class BatchingWriteTest(unittest.TestCase):
         _requests = httpretty.httpretty.latest_requests
 
         self.assertEqual(1, len(_requests))
-        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1.0 1", _requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1", _requests[0].parsed_body)
 
     def test_default_tags(self):
         self._write_client.__del__()
@@ -420,8 +420,8 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
 
         self._write_client.write("my-bucket", "my-org",
-                                 ["h2o_feet,location=coyote_creek level\\ water_level=1.0 1",
-                                  "h2o_feet,location=coyote_creek level\\ water_level=2.0 2"])
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
         time.sleep(1)
 

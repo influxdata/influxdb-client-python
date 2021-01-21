@@ -150,7 +150,14 @@ def _append_fields(fields):
         if isinstance(value, float) or isinstance(value, Decimal):
             if not math.isfinite(value):
                 continue
-            _return.append(f'{_escape_key(field)}={str(value)}')
+            s = str(value)
+            # It's common to represent whole numbers as floats
+            # and the trailing ".0" that Python produces is unnecessary
+            # in line-protocol, inconsistent with other line-protocol encoders,
+            # and takes more space than needed, so trim it off.
+            if s.endswith('.0'):
+                s = s[:-2]
+            _return.append(f'{_escape_key(field)}={s}')
         elif isinstance(value, int) and not isinstance(value, bool):
             _return.append(f'{_escape_key(field)}={str(value)}i')
         elif isinstance(value, bool):
