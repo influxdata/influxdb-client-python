@@ -65,6 +65,9 @@ InfluxDB 2.0 client features
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
     - `How to use Jupyter + Pandas + InfluxDB 2`_
+- Advanced Usage
+    - `Gzip support`_
+    - `Delete data`_
 
 Installation
 ------------
@@ -897,6 +900,34 @@ Gzip support
    _db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", enable_gzip=True)
 
 .. marker-gzip-end
+
+Delete data
+^^^^^^^^^^^
+.. marker-delete-start
+
+The `delete_api.py <influxdb_client/client/delete_api.py>`_ supports deletes `points <https://v2.docs.influxdata.com/v2.0/reference/glossary/#point>`_ from an InfluxDB bucket.
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient
+
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token")
+
+    delete_api = client.delete_api()
+
+    """
+    Delete Data
+    """
+    start = "1970-01-01T00:00:00Z"
+    stop = "2021-02-01T00:00:00Z"
+    delete_api.delete(start, stop, '_measurement="my_measurement"', bucket='my-bucket', org='my-org')
+
+    """
+    Close client
+    """
+    client.__del__()
+
+.. marker-delete-end
 
 InfluxDB 1.8 API compatibility
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
