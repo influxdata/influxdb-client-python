@@ -57,6 +57,9 @@ TasksApi
    :members:
 
 DeleteApi
-""""""""
+"""""""""
 .. autoclass:: influxdb_client.DeleteApi
+   :members:
+
+.. autoclass:: influxdb_client.domain.DeletePredicateRequest
    :members:

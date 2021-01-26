@@ -22,6 +22,12 @@ Write
   :start-after: marker-writes-start
   :end-before: marker-writes-end
 
+Delete data
+^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-delete-start
+  :end-before: marker-delete-end
+
 Gzip support
 ^^^^^^^^^^^^
 .. include:: ../README.rst
