@@ -1,4 +1,4 @@
-## 1.14.0 [unreleased]
+## 1.14.0 [2021-01-29]
 
 ### Features
 1. [#176](https://github.com/influxdata/influxdb-client-python/pull/179): Allow providing proxy option to InfluxDBClient
