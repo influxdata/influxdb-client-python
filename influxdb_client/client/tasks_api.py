@@ -165,7 +165,7 @@ class TasksApi(object):
         :param run_id: run id
         :return: Run for specified task and run id
         """
-        return self._service.get_tasks_id_runs(task_id=task_id, run_id=run_id)
+        return self._service.get_tasks_id_runs_id(task_id=task_id, run_id=run_id)
 
     def get_run_logs(self, task_id: str, run_id: str) -> List['LogEvent']:
         """Retrieve all logs for a run."""
