@@ -381,3 +381,13 @@ class TasksApiTest(BaseTest):
             assert self.tasks_api.cancel_run("020f755c3c082000", "020f755c3c082000")
         assert "failed to cancel run" in e.value.body
         assert "task not found" in e.value.body
+
+    def test_get_run(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
+        time.sleep(5)
+        run = self.tasks_api.get_runs(task_id=task.id)[0]
+        self.assertIsNotNone(run)
+        run_by_id = self.tasks_api.get_run(task.id, run.id)
+        self.assertIsNotNone(run_by_id)
+        self.assertEqual(run.id, run_by_id.id)
+
