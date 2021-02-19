@@ -334,7 +334,7 @@ The batching is configurable by ``write_options``\ :
                               index=[now, now + timedelta(hours=1)],
                               columns=["location", "water_level"])
 
-   _write_client.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
+   _write_client.write("my-bucket", "my-org", record=data_frame, data_frame_measurement_name='h2o_feet',
                        data_frame_tag_columns=['location'])
 
    """
