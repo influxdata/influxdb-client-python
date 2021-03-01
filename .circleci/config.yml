@@ -49,7 +49,7 @@ jobs:
         default: &default-python "circleci/python:3.6-buster"
       influxdb-image:
         type: string
-        default: "influxdb:v2.0.4"
+        default: "influxdb:latest"
       enabled-ciso-8601:
         type: boolean
         default: true
@@ -58,7 +58,7 @@ jobs:
         environment: # environment variables for primary container
           PIPENV_VENV_IN_PROJECT: true
           ENABLED_CISO_8601: << parameters.enabled-ciso-8601 >>
-      - image: quay.io/influxdb/<< parameters.influxdb-image >>
+      - image: << parameters.influxdb-image >>
         environment:
           INFLUXD_HTTP_BIND_ADDRESS: :8086
     steps:
@@ -136,7 +136,7 @@ workflows:
           enabled-ciso-8601: false
       - tests-python:
           name: test-3.6-influxdb-nightly
-          influxdb-image: "influxdb2:nightly"
+          influxdb-image: "quay.io/influxdb/influxdb:nightly"
       - tests-python:
           name: test-3.7
           python-image: "circleci/python:3.7-buster"
