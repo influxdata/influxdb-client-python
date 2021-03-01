@@ -6,6 +6,9 @@
 ### Documentation
 1. [#200](https://github.com/influxdata/influxdb-client-python/pull/200): Updated docs, examples, tests: use `close` instead of `__del__`.
 
+### CI
+1. [#199](https://github.com/influxdata/influxdb-client-python/pull/199): Updated stable image to `influxdb:latest` and nightly to `quay.io/influxdb/influxdb:nightly`
+
 ## 1.14.0 [2021-01-29]
 
 ### Features
