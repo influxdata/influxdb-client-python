@@ -20,7 +20,7 @@ class QueryDataFrameApi(BaseTest):
         httpretty.reset()
 
     def tearDown(self) -> None:
-        self.client.__del__()
+        self.client.close()
         httpretty.disable()
 
     def test_one_table(self):
@@ -276,7 +276,7 @@ class QueryDataFrameIntegrationApi(BaseTest):
 
         write_api = self.client.write_api(write_options=WriteOptions(batch_size=500))
         write_api.write(org="my-org", bucket="my-bucket", record=data, write_precision=WritePrecision.S)
-        write_api.__del__()
+        write_api.close()
 
         query = 'from(bucket: "my-bucket")' \
                 '|> range(start: 2020-02-19T23:30:00Z, stop: now())' \

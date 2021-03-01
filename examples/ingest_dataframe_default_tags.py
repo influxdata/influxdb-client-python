@@ -49,4 +49,4 @@ for table in result:
 """
 Close client
 """
-client.__del__()
+client.close()

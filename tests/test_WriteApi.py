@@ -35,7 +35,7 @@ class SynchronousWriteTest(BaseTest):
                                                                                       '${env.data_center}'}))
 
     def tearDown(self) -> None:
-        self.write_client.__del__()
+        self.write_client.close()
         super().tearDown()
 
     def test_write_line_protocol(self):
@@ -425,7 +425,7 @@ class SynchronousWriteTest(BaseTest):
         self.assertEqual(401, exception.status)
         self.assertEqual("Unauthorized", exception.reason)
 
-        client.__del__()
+        client.close()
 
     def test_write_query_data_nanoseconds(self):
 
@@ -477,7 +477,7 @@ class WriteApiTestMock(BaseTest):
         self.influxdb_client = InfluxDBClient(url=conf.host, token="my-token")
 
     def tearDown(self) -> None:
-        self.influxdb_client.__del__()
+        self.influxdb_client.close()
         httpretty.disable()
 
     def test_writes_synchronous_without_retry(self):
@@ -521,7 +521,7 @@ class AsynchronousWriteTest(BaseTest):
                                                                                       '${env.data_center}'}))
 
     def tearDown(self) -> None:
-        self.write_client.__del__()
+        self.write_client.close()
         super().tearDown()
 
     def test_write_result(self):
@@ -723,7 +723,7 @@ class PointSettingTest(BaseTest):
         self.customer_tag = "California Miner"
 
     def tearDown(self) -> None:
-        self.write_client.__del__()
+        self.write_client.close()
         super().tearDown()
 
     def test_point_settings(self):
@@ -773,7 +773,7 @@ class DefaultTagsConfiguration(BaseTest):
         os.environ['INFLUXDB_V2_TAG_DATA_CENTER'] = "${env.data_center}"
 
     def tearDown(self) -> None:
-        self.write_client.__del__()
+        self.write_client.close()
         super().tearDown()
 
     def test_connection_option_from_conf_file(self):

@@ -60,8 +60,8 @@ class InfluxDBWriter(multiprocessing.Process):
         proc_name = self.name
         print()
         print('Writer: flushing data...')
-        self.write_api.__del__()
-        self.client.__del__()
+        self.write_api.close()
+        self.client.close()
         print('Writer: closed'.format(proc_name))
 
 
@@ -216,4 +216,4 @@ for table in result:
 """
 Close client
 """
-client.__del__()
+client.close()

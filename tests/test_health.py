@@ -44,7 +44,7 @@ class TestHealthMock(unittest.TestCase):
         self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token")
 
     def tearDown(self) -> None:
-        self.influxdb_client.__del__()
+        self.influxdb_client.close()
         httpretty.disable()
 
     def test_without_retry(self):
@@ -61,7 +61,7 @@ class TestHealthMock(unittest.TestCase):
 
     def test_with_retry(self):
 
-        self.influxdb_client.__del__()
+        self.influxdb_client.close()
         self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", retries=Retry())
 
         httpretty.register_uri(httpretty.GET, uri="http://localhost/health", status=200,

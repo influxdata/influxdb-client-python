@@ -46,7 +46,7 @@ for table in tables:
 """
 Close client
 """
-client.__del__()
+client.close()
 
 
 

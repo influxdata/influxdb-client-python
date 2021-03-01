@@ -75,4 +75,4 @@ print(data_frame.to_string())
 """
 Close client
 """
-client.__del__()
+client.close()

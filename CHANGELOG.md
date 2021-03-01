@@ -3,6 +3,9 @@
 ### Bug Fixes
 1. [#193](https://github.com/influxdata/influxdb-client-python/pull/193): Fixed `tasks_api` to use proper function to get `Run`
 
+### Documentation
+1. [#200](https://github.com/influxdata/influxdb-client-python/pull/200): Updated docs, examples, tests: use `close` instead of `__del__`.
+
 ## 1.14.0 [2021-01-29]
 
 ### Features
