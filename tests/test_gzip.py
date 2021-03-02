@@ -16,7 +16,7 @@ class GzipSupportTest(BaseTest):
         httpretty.reset()
 
     def tearDown(self) -> None:
-        self.client.__del__()
+        self.client.close()
         httpretty.disable()
 
     def test_gzip_disabled(self):

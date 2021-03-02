@@ -15,7 +15,7 @@ class QueryStreamApi(BaseTest):
         self.bucket = self.create_test_bucket()
 
     def tearDown(self) -> None:
-        self.write_client.__del__()
+        self.write_client.close()
         super().tearDown()
 
     def test_block(self):

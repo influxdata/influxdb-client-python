@@ -31,7 +31,7 @@ class BatchingWriteTest(unittest.TestCase):
         self._write_client = WriteApi(influxdb_client=self.influxdb_client, write_options=self.write_options)
 
     def tearDown(self) -> None:
-        self._write_client.__del__()
+        self._write_client.close()
         httpretty.disable()
 
     def test_batch_size(self):
@@ -150,7 +150,7 @@ class BatchingWriteTest(unittest.TestCase):
                          httpretty.httpretty.latest_requests[1].parsed_body)
 
     def test_jitter_interval(self):
-        self._write_client.__del__()
+        self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
                                       write_options=WriteOptions(batch_size=2, flush_interval=5_000,
                                                                  jitter_interval=3_000))
@@ -179,7 +179,7 @@ class BatchingWriteTest(unittest.TestCase):
 
     def test_retry_interval(self):
 
-        self._write_client.__del__()
+        self._write_client.close()
 
         # Set retry interval to 1_500
         self.write_options = WriteOptions(batch_size=2, flush_interval=5_000, retry_interval=1_500)
@@ -226,7 +226,7 @@ class BatchingWriteTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
                                adding_headers={'Retry-After': '1'})
 
-        self._write_client.__del__()
+        self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
                                       write_options=WriteOptions(batch_size=2, flush_interval=5_000, max_retries=5))
 
@@ -380,7 +380,7 @@ class BatchingWriteTest(unittest.TestCase):
         _record = "h2o_feet,location=coyote_creek level\\ water_level=1 1"
         _result = self._write_client.write("my-bucket", "my-org", _record)
 
-        self._write_client.__del__()
+        self._write_client.close()
 
         _requests = httpretty.httpretty.latest_requests
 
@@ -388,7 +388,7 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1", _requests[0].parsed_body)
 
     def test_default_tags(self):
-        self._write_client.__del__()
+        self._write_client.close()
 
         self.id_tag = "132-987-655"
         self.customer_tag = "California Miner"
@@ -431,7 +431,7 @@ class BatchingWriteTest(unittest.TestCase):
 
     def test_to_low_flush_interval(self):
 
-        self._write_client.__del__()
+        self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
                                       write_options=WriteOptions(batch_size=8,
                                                                  flush_interval=1,
@@ -448,7 +448,7 @@ class BatchingWriteTest(unittest.TestCase):
             self._write_client.write("my-bucket", "my-org", [point_one, point_two])
             time.sleep(0.1)
 
-        self._write_client.__del__()
+        self._write_client.close()
 
         _requests = httpretty.httpretty.latest_requests
 

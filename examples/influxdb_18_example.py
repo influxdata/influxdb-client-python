@@ -18,7 +18,7 @@ point = Point("mem").tag("host", "host1").field("used_percent", 25.43234543)
 print(point.to_line_protocol())
 
 write_api.write(bucket=bucket, record=point)
-write_api.__del__()
+write_api.close()
 
 print('*** Query Points ***')
 

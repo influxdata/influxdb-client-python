@@ -71,7 +71,7 @@ write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush
 Write data into InfluxDB
 """
 write_api.write(bucket="my-bucket", record=data)
-write_api.__del__()
+write_api.close()
 
 """
 Querying max value of CBOE Volatility Index
@@ -95,4 +95,4 @@ for table in result:
 """
 Close client
 """
-client.__del__()
+client.close()

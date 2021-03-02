@@ -20,8 +20,8 @@ def on_exit(db_client: InfluxDBClient, write_api: WriteApi):
     :param write_api: WriteApi
     :return: nothing
     """
-    write_api.__del__()
-    db_client.__del__()
+    write_api.close()
+    db_client.close()
 
 
 def sensor_temperature():

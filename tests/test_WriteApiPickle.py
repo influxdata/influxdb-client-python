@@ -19,8 +19,8 @@ class InfluxDBWriterToPickle:
         self.write_api.write(bucket="my-bucket", record=record)
 
     def terminate(self) -> None:
-        self.write_api.__del__()
-        self.client.__del__()
+        self.write_api.close()
+        self.client.close()
 
 
 class WriteApiPickle(BaseTest):

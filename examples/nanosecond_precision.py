@@ -47,4 +47,4 @@ for record in records:
 """
 Close client
 """
-client.__del__()
+client.close()

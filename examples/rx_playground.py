@@ -54,6 +54,9 @@ class _RxWriter(object):
             .subscribe(self._result, self._error, self._on_complete)
         pass
 
+    def close(self):
+        self.__del__()
+
     def __del__(self):
         if self._subject:
             self._subject.on_completed()
@@ -179,8 +182,8 @@ rxWriter.write("balloon")
 print("\n== finish writing ==\n")
 time.sleep(5)
 
-print("\n== __del__ ==\n")
-rxWriter.__del__()
+print("\n== close ==\n")
+rxWriter.close()
 
 print("\n== finished ==\n")
 

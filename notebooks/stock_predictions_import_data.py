@@ -61,7 +61,7 @@ def main():
     write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
 
     write_api.write(bucket="my-bucket", record=data)
-    write_api.__del__()
+    write_api.close()
 
     query = '''
     from(bucket:"my-bucket")
@@ -78,7 +78,7 @@ def main():
     """
     Close client
     """
-    client.__del__()
+    client.close()
     # %%
 
 

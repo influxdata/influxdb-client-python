@@ -21,7 +21,7 @@ class DataFrameWriteTest(BaseTest):
 
     def tearDown(self) -> None:
         super().tearDown()
-        self._write_client.__del__()
+        self._write_client.close()
 
     def test_write_num_py(self):
         from influxdb_client.extras import pd, np
@@ -38,7 +38,7 @@ class DataFrameWriteTest(BaseTest):
         write_api.write(bucket.name, record=data_frame, data_frame_measurement_name='h2o_feet',
                         data_frame_tag_columns=['location'])
 
-        write_api.__del__()
+        write_api.close()
 
         result = self.query_api.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z)",

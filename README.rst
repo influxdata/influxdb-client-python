@@ -345,8 +345,8 @@ The batching is configurable by ``write_options``\ :
     """
     Close client
     """
-    _write_client.__del__()
-    _client.__del__()
+    _write_client.close()
+    _client.close()
 
 .. marker-batching-end
 
@@ -436,7 +436,7 @@ Data are writes in an asynchronous HTTP request.
    async_result = write_api.write(bucket="my-bucket", record=[_point1, _point2])
    async_result.get()
 
-   client.__del__()
+   client.close()
 
 Synchronous client
 """"""""""""""""""
@@ -456,7 +456,7 @@ Data are writes in a synchronous HTTP request.
 
    write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
-   client.__del__()
+   client.close()
 
 Queries
 ^^^^^^^
@@ -537,7 +537,7 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
     """
     Close client
     """
-    client.__del__()
+    client.close()
 
 Pandas DataFrame
 """"""""""""""""
@@ -580,7 +580,7 @@ The ``client`` is able to retrieve data in `Pandas DataFrame <https://pandas.pyd
     """
     Close client
     """
-    client.__del__()
+    client.close()
 
 Output:
 
@@ -677,7 +677,7 @@ If you would like to import gigabytes of data then use our multiprocessing examp
    Write data into InfluxDB
    """
    write_api.write(bucket="my-bucket", record=data)
-   write_api.__del__()
+   write_api.close()
 
    """
    Querying max value of CBOE Volatility Index
@@ -701,7 +701,7 @@ If you would like to import gigabytes of data then use our multiprocessing examp
    """
    Close client
    """
-   client.__del__()
+   client.close()
 
 .. marker-writes-end
 
@@ -734,8 +734,8 @@ Efficiency write data from IOT sensor
        :param write_api: WriteApi
        :return: nothing
        """
-       write_api.__del__()
-       db_client.__del__()
+       write_api.close()
+       db_client.close()
 
 
    def sensor_temperature():
@@ -930,7 +930,7 @@ The `delete_api.py <influxdb_client/client/delete_api.py>`_ supports deletes `po
     """
     Close client
     """
-    client.__del__()
+    client.close()
 
 .. marker-delete-end
 
@@ -1031,7 +1031,7 @@ that is replacement for python ``datetime.datetime`` object and also you should 
     """
     Close client
     """
-    client.__del__()
+    client.close()
 
 
 Local tests
