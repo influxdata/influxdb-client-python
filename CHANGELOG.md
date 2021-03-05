@@ -1,4 +1,4 @@
-## 1.15.0 [unreleased]
+## 1.15.0 [2021-03-05]
 
 ### Bug Fixes
 1. [#193](https://github.com/influxdata/influxdb-client-python/pull/193): Fixed `tasks_api` to use proper function to get `Run`
