@@ -236,8 +236,6 @@ The data could be written as
 Batching
 """"""""
 
-.. marker-batching-start
-
 The batching is configurable by ``write_options``\ :
 
 .. list-table::
@@ -348,11 +346,9 @@ The batching is configurable by ``write_options``\ :
     _write_client.close()
     _client.close()
 
-.. marker-batching-end
 
 Default Tags
 """"""""""""
-.. marker-default-tags-start
 
 Sometimes is useful to store same information in every measurement e.g. ``hostname``, ``location``, ``customer``.
 The client is able to use static value or env property as a tag value.
@@ -415,8 +411,6 @@ Examples:
 
     self.client = InfluxDBClient.from_env_properties()
 
-.. marker-default-tags-end
-
 Asynchronous client
 """""""""""""""""""
 
@@ -457,6 +451,8 @@ Data are writes in a synchronous HTTP request.
    write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
    client.close()
+
+.. marker-writes-end
 
 Queries
 ^^^^^^^
@@ -595,6 +591,8 @@ Output:
 Examples
 ^^^^^^^^
 
+.. marker-examples-start
+
 How to efficiently import large dataset
 """""""""""""""""""""""""""""""""""""""
 
@@ -703,12 +701,8 @@ If you would like to import gigabytes of data then use our multiprocessing examp
    """
    client.close()
 
-.. marker-writes-end
-
-
 Efficiency write data from IOT sensor
 """""""""""""""""""""""""""""""""""""
-.. marker-iot-start
 
 * sources - `iot_sensor.py <https://github.com/influxdata/influxdb-client-python/blob/master/examples/iot_sensor.py>`_
 
@@ -790,8 +784,6 @@ Efficiency write data from IOT sensor
    atexit.register(on_exit, _db_client, _write_api)
 
    input()
-
-.. marker-iot-end
 
 Connect to InfluxDB Cloud
 """""""""""""""""""""""""
@@ -888,6 +880,12 @@ The second example shows how to use client capabilities to realtime visualizatio
 
 .. image:: https://raw.githubusercontent.com/influxdata/influxdb-client-python/master/docs/images/realtime-result.gif
 
+Other examples
+""""""""""""""
+
+You could find all examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples>`_.
+
+.. marker-examples-end
 
 Advanced Usage
 --------------
