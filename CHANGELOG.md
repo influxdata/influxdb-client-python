@@ -1,5 +1,8 @@
 ## 1.16.0 [unreleased]
 
+### Features
+1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Allow configuring client via TOML file.
+
 ### Documentation
 1. [#202](https://github.com/influxdata/influxdb-client-python/pull/202): Added an example how to use RxPY and sync batching
 

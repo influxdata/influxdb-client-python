@@ -69,44 +69,79 @@ class InfluxDBClient(object):
     @classmethod
     def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
         """
-        Configure client via '*.ini' file in segment 'influx2'.
+        Configure client via configuration file. The configuration has to be under 'influx' section.
 
-        Supported options:
+        The supported formats:
+            - https://docs.python.org/3/library/configparser.html
+            - https://toml.io/en/
+
+        Configuration options:
             - url
             - org
             - token
             - timeout,
             - verify_ssl
             - ssl_ca_cert
+
+        config.ini example::
+
+            [influx2]
+            url=http://localhost:8086
+            org=my-org
+            token=my-token
+            timeout=6000
+
+            [tags]
+            id = 132-987-655
+            customer = California Miner
+            data_center = ${env.data_center}
+
+        config.toml example::
+
+            [influx2]
+                url = "http://localhost:8086"
+                token = "my-token"
+                org = "my-org"
+                timeout = 6000
+
+            [tags]
+                id = "132-987-655"
+                customer = "California Miner"
+                data_center = "${env.data_center}"
+
         """
         config = configparser.ConfigParser()
         config.read(config_file)
 
-        url = config['influx2']['url']
-        token = config['influx2']['token']
+        def config_value(key: str):
+            return config['influx2'][key].strip('"')
+
+        url = config_value('url')
+        token = config_value('token')
 
         timeout = None
 
         if config.has_option('influx2', 'timeout'):
-            timeout = config['influx2']['timeout']
+            timeout = config_value('timeout')
 
         org = None
 
         if config.has_option('influx2', 'org'):
-            org = config['influx2']['org']
+            org = config_value('org')
 
         verify_ssl = True
         if config.has_option('influx2', 'verify_ssl'):
-            verify_ssl = config['influx2']['verify_ssl']
+            verify_ssl = config_value('verify_ssl')
 
         ssl_ca_cert = None
         if config.has_option('influx2', 'ssl_ca_cert'):
-            ssl_ca_cert = config['influx2']['ssl_ca_cert']
+            ssl_ca_cert = config_value('ssl_ca_cert')
 
         default_tags = None
 
         if config.has_section('tags'):
-            default_tags = dict(config.items('tags'))
+            tags = {k: v.strip('"') for k, v in config.items('tags')}
+            default_tags = dict(tags)
 
         if timeout:
             return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,

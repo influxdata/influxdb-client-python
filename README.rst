@@ -379,7 +379,7 @@ _______
 Via Configuration file
 ______________________
 
-In a ini configuration file you are able to specify default tags by ``tags`` segment.
+In a `init <https://docs.python.org/3/library/configparser.html>`_ configuration file you are able to specify default tags by ``tags`` segment.
 
 .. code-block:: python
 
@@ -397,6 +397,8 @@ In a ini configuration file you are able to specify default tags by ``tags`` seg
     id = 132-987-655
     customer = California Miner
     data_center = ${env.data_center}
+
+You could also use a `TOML <https://toml.io/en/>`_ format for the configuration file.
 
 Via Environment Properties
 __________________________

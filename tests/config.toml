@@ -1,0 +1,11 @@
+[influx2]
+  url = "http://localhost:8086"
+  token = "my-token"
+  org = "my-org"
+  active = true
+  timeout = 6000
+
+[tags]
+  id = "132-987-655"
+  customer = "California Miner"
+  data_center = "${env.data_center}"
