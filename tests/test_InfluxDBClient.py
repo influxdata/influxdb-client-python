@@ -47,6 +47,26 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual(health.status, "pass")
         self.assertEqual(health.name, "influxdb")
 
+    def test_init_from_ini_file(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertConfig()
+
+    def test_init_from_toml_file(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.toml')
+
+        self.assertConfig()
+
+    def assertConfig(self):
+        self.assertEqual("http://localhost:8086", self.client.url)
+        self.assertEqual("my-org", self.client.org)
+        self.assertEqual("my-token", self.client.token)
+        self.assertEqual(6000, self.client.timeout)
+        self.assertEqual(3, len(self.client.default_tags))
+        self.assertEqual("132-987-655", self.client.default_tags["id"])
+        self.assertEqual("California Miner", self.client.default_tags["customer"])
+        self.assertEqual("${env.data_center}", self.client.default_tags["data_center"])
+
     def test_init_from_file_ssl_default(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
 
