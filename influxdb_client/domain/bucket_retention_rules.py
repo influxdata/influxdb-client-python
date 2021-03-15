@@ -33,22 +33,27 @@ class BucketRetentionRules(object):
     """
     openapi_types = {
         'type': 'str',
-        'every_seconds': 'int'
+        'every_seconds': 'int',
+        'shard_group_duration_seconds': 'int'
     }
 
     attribute_map = {
         'type': 'type',
-        'every_seconds': 'everySeconds'
+        'every_seconds': 'everySeconds',
+        'shard_group_duration_seconds': 'shardGroupDurationSeconds'
     }
 
-    def __init__(self, type='expire', every_seconds=None):  # noqa: E501,D401,D403
+    def __init__(self, type='expire', every_seconds=None, shard_group_duration_seconds=None):  # noqa: E501,D401,D403
         """BucketRetentionRules - a model defined in OpenAPI."""  # noqa: E501
         self._type = None
         self._every_seconds = None
+        self._shard_group_duration_seconds = None
         self.discriminator = None
 
         self.type = type
         self.every_seconds = every_seconds
+        if shard_group_duration_seconds is not None:
+            self.shard_group_duration_seconds = shard_group_duration_seconds
 
     @property
     def type(self):
@@ -74,7 +79,7 @@ class BucketRetentionRules(object):
     def every_seconds(self):
         """Get the every_seconds of this BucketRetentionRules.
 
-        Duration in seconds for how long data will be kept in the database.
+        Duration in seconds for how long data will be kept in the database. 0 means infinite.
 
         :return: The every_seconds of this BucketRetentionRules.
         :rtype: int
@@ -85,16 +90,38 @@ class BucketRetentionRules(object):
     def every_seconds(self, every_seconds):
         """Set the every_seconds of this BucketRetentionRules.
 
-        Duration in seconds for how long data will be kept in the database.
+        Duration in seconds for how long data will be kept in the database. 0 means infinite.
 
         :param every_seconds: The every_seconds of this BucketRetentionRules.
         :type: int
         """  # noqa: E501
         if every_seconds is None:
             raise ValueError("Invalid value for `every_seconds`, must not be `None`")  # noqa: E501
-        if every_seconds is not None and every_seconds < 1:  # noqa: E501
-            raise ValueError("Invalid value for `every_seconds`, must be a value greater than or equal to `1`")  # noqa: E501
+        if every_seconds is not None and every_seconds < 0:  # noqa: E501
+            raise ValueError("Invalid value for `every_seconds`, must be a value greater than or equal to `0`")  # noqa: E501
         self._every_seconds = every_seconds
+
+    @property
+    def shard_group_duration_seconds(self):
+        """Get the shard_group_duration_seconds of this BucketRetentionRules.
+
+        Shard duration measured in seconds.
+
+        :return: The shard_group_duration_seconds of this BucketRetentionRules.
+        :rtype: int
+        """  # noqa: E501
+        return self._shard_group_duration_seconds
+
+    @shard_group_duration_seconds.setter
+    def shard_group_duration_seconds(self, shard_group_duration_seconds):
+        """Set the shard_group_duration_seconds of this BucketRetentionRules.
+
+        Shard duration measured in seconds.
+
+        :param shard_group_duration_seconds: The shard_group_duration_seconds of this BucketRetentionRules.
+        :type: int
+        """  # noqa: E501
+        self._shard_group_duration_seconds = shard_group_duration_seconds
 
     def to_dict(self):
         """Return the model properties as a dict."""
