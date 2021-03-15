@@ -268,7 +268,6 @@ from influxdb_client.domain.xy_view_properties import XYViewProperties
 
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
-from influxdb_client.client.delete_api import DeleteApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi
@@ -278,4 +277,4 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions
 from influxdb_client.client.influxdb_client import InfluxDBClient
 from influxdb_client.client.write.point import Point
 
-__version__ = '1.16.0dev'
+__version__ = '1.11.0dev'
