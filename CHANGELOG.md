@@ -1,5 +1,8 @@
 ## 1.16.0 [unreleased]
 
+### Bug Fixes
+1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Remove the use of Mozilla's root certificates and certifi.where()
+
 ### Features
 1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Allow configuring client via TOML file.
 
