@@ -71,9 +71,8 @@ class BucketsClientTest(BaseTest):
 
         bucket_name = generate_bucket_name()
 
-        retention = BucketRetentionRules
         ret_list = []
-        retention.every_seconds = 3600
+        retention = BucketRetentionRules(every_seconds=3600)
         retention.type = "expire"
         ret_list.append(retention)
 

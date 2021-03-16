@@ -33,7 +33,7 @@ class DateTimeLiteral(object):
     """
     openapi_types = {
         'type': 'str',
-        'value': 'str'
+        'value': 'datetime'
     }
 
     attribute_map = {
@@ -79,7 +79,7 @@ class DateTimeLiteral(object):
         """Get the value of this DateTimeLiteral.
 
         :return: The value of this DateTimeLiteral.
-        :rtype: str
+        :rtype: datetime
         """  # noqa: E501
         return self._value
 
@@ -88,7 +88,7 @@ class DateTimeLiteral(object):
         """Set the value of this DateTimeLiteral.
 
         :param value: The value of this DateTimeLiteral.
-        :type: str
+        :type: datetime
         """  # noqa: E501
         self._value = value
 
