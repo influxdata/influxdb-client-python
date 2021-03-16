@@ -18,7 +18,6 @@ import logging
 import re
 import ssl
 
-import certifi
 # python 2 and python 3 compatibility library
 import six
 from six.moves.urllib.parse import urlencode
@@ -85,8 +84,7 @@ class RESTClientObject(object):
         if configuration.ssl_ca_cert:
             ca_certs = configuration.ssl_ca_cert
         else:
-            # if not set certificate file, use Mozilla's root certificates.
-            ca_certs = certifi.where()
+            ca_certs = None
 
         addition_pool_args = {}
         if configuration.assert_hostname is not None:
