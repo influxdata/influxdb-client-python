@@ -4,7 +4,7 @@
 1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Allow configuring client via TOML file.
 
 ### Bug Fixes
-1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Use default (system) certificates instead of Mozilla's root certificates and certifi.where()
+1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Use default (system) certificates instead of Mozilla's root certificates (certifi.where())
 
 ### Documentation
 1. [#202](https://github.com/influxdata/influxdb-client-python/pull/202): Added an example how to use RxPY and sync batching
