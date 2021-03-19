@@ -11,6 +11,10 @@
 - [query.py](query.py) - How to query data into `FluxTable`s, `Stream` and `CSV`
 - [query_from_file.py](query_from_file.py) - How to use a Flux query defined in a separate file
 
+
+## Management API
+- [buckets_management.py](buckets_management.py) - How to create, list and delete Buckets
+
 ## Others
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
