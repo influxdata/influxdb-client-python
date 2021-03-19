@@ -13,7 +13,7 @@
 
 
 ## Management API
-- [buckets_management.py](buckets_management.py) -How to How to create, list and delete Buckets
+- [buckets_management.py](buckets_management.py) - How to create, list and delete Buckets
 
 ## Others
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
