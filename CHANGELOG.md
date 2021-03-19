@@ -11,6 +11,7 @@
 
 ### Documentation
 1. [#202](https://github.com/influxdata/influxdb-client-python/pull/202): Added an example how to use RxPY and sync batching
+1. [#213](https://github.com/influxdata/influxdb-client-python/pull/213): Added an example how to use Buckets API
 
 ## 1.15.0 [2021-03-05]
 
