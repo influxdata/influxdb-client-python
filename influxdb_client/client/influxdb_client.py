@@ -35,6 +35,8 @@ class InfluxDBClient(object):
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
         :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
         :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
+        :key int connection_pool_maxsize: Number of connections to save that can be reused by urllib3.
+                                          Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
 
@@ -56,6 +58,7 @@ class InfluxDBClient(object):
         conf.verify_ssl = kwargs.get('verify_ssl', True)
         conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
         conf.proxy = kwargs.get('proxy', None)
+        conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', conf.connection_pool_maxsize)
 
         auth_token = self.token
         auth_header_name = "Authorization"
@@ -82,6 +85,7 @@ class InfluxDBClient(object):
             - timeout,
             - verify_ssl
             - ssl_ca_cert
+            - connection_pool_maxsize
 
         config.ini example::
 
@@ -90,6 +94,7 @@ class InfluxDBClient(object):
             org=my-org
             token=my-token
             timeout=6000
+            connection_pool_maxsize=25
 
             [tags]
             id = 132-987-655
@@ -103,6 +108,7 @@ class InfluxDBClient(object):
                 token = "my-token"
                 org = "my-org"
                 timeout = 6000
+                connection_pool_maxsize = 25
 
             [tags]
                 id = "132-987-655"
@@ -137,18 +143,19 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'ssl_ca_cert'):
             ssl_ca_cert = config_value('ssl_ca_cert')
 
+        connection_pool_maxsize = None
+        if config.has_option('influx2', 'connection_pool_maxsize'):
+            connection_pool_maxsize = config_value('connection_pool_maxsize')
+
         default_tags = None
 
         if config.has_section('tags'):
             tags = {k: v.strip('"') for k, v in config.items('tags')}
             default_tags = dict(tags)
 
-        if timeout:
-            return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                       enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
-
-        return cls(url, token, debug=debug, org=org, default_tags=default_tags, enable_gzip=enable_gzip,
-                   verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
+        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize))
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
@@ -162,6 +169,7 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_TIMEOUT
             - INFLUXDB_V2_VERIFY_SSL
             - INFLUXDB_V2_SSL_CA_CERT
+            - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
         """
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
@@ -169,6 +177,7 @@ class InfluxDBClient(object):
         org = os.getenv('INFLUXDB_V2_ORG', "my-org")
         verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
         ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
+        connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
 
         default_tags = dict()
 
@@ -176,8 +185,9 @@ class InfluxDBClient(object):
             if key.startswith("INFLUXDB_V2_TAG_"):
                 default_tags[key[16:].lower()] = value
 
-        return cls(url, token, debug=debug, timeout=int(timeout), org=org, default_tags=default_tags,
-                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert)
+        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize))
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
@@ -322,5 +332,10 @@ class _Configuration(Configuration):
         return _body
 
 
-def _to_bool(verify_ssl):
-    return str(verify_ssl).lower() in ("yes", "true")
+def _to_bool(bool_value):
+    return str(bool_value).lower() in ("yes", "true")
+
+
+def _to_int(int_value):
+    return int(int_value) if int_value is not None else None
+

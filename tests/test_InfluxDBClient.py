@@ -17,6 +17,10 @@ class InfluxDBClientTest(unittest.TestCase):
         if hasattr(self, 'httpd_thread'):
             self.httpd_thread.join()
 
+    def test_default_conf(self):
+        self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+        self.assertIsNotNone(self.client.api_client.configuration.connection_pool_maxsize)
+
     def test_TrailingSlashInUrl(self):
         self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
         self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)
@@ -66,6 +70,7 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual("132-987-655", self.client.default_tags["id"])
         self.assertEqual("California Miner", self.client.default_tags["customer"])
         self.assertEqual("${env.data_center}", self.client.default_tags["data_center"])
+        self.assertEqual(55, self.client.api_client.configuration.connection_pool_maxsize)
 
     def test_init_from_file_ssl_default(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
@@ -112,6 +117,12 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_env_properties()
 
         self.assertEqual("/my/custom/path/to/cert", self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_env_connection_pool_maxsize(self):
+        os.environ["INFLUXDB_V2_CONNECTION_POOL_MAXSIZE"] = "29"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertEqual(29, self.client.api_client.configuration.connection_pool_maxsize)
 
     def _start_http_server(self):
         import http.server
