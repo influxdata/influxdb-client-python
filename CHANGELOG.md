@@ -1,7 +1,8 @@
 ## 1.16.0 [unreleased]
 
 ### Features
-1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Allow configuring client via TOML file.
+1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Allowed configuring a client via TOML file
+1. [#215](https://github.com/influxdata/influxdb-client-python/pull/215): Allowed to configure a connection pool maxsize
 
 ### Bug Fixes
 1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Use default (system) certificates instead of Mozilla's root certificates (certifi.where())

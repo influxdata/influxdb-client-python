@@ -338,4 +338,3 @@ def _to_bool(bool_value):
 
 def _to_int(int_value):
     return int(int_value) if int_value is not None else None
-
