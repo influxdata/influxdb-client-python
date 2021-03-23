@@ -103,7 +103,7 @@ class TasksApi(object):
         created = self.create_task(cloned)
         labels = self.get_labels(task.id)
         for label in labels.labels:
-            self.add_label(label, created.id)
+            self.add_label(label.id, created.id)
         return created
 
     def get_labels(self, task_id):
