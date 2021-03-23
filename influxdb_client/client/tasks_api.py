@@ -98,7 +98,7 @@ class TasksApi(object):
 
     def clone_task(self, task: Task) -> Task:
         """Clone a task."""
-        cloned = Task(name=task.name, org_id=task.org_id, org=task.org, flux=task.flux, status="active")
+        cloned = Task(id=0, name=task.name, org_id=task.org_id, org=task.org, flux=task.flux, status="active")
 
         created = self.create_task(cloned)
         labels = self.get_labels(task)
