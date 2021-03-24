@@ -101,9 +101,10 @@ class TasksApi(object):
         cloned = Task(id=0, name=task.name, org_id=task.org_id, org=task.org, flux=task.flux, status="active")
 
         created = self.create_task(cloned)
-        labels = self.get_labels(task.id)
-        for label in labels.labels:
-            self.add_label(label.id, created.id)
+        if task.id:
+            labels = self.get_labels(task.id)
+            for label in labels.labels:
+                self.add_label(label.id, created.id)
         return created
 
     def get_labels(self, task_id):
