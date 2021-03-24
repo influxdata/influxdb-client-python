@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Use default (system) certificates instead of Mozilla's root certificates (certifi.where())
+1. [#217](https://github.com/influxdata/influxdb-client-python/pull/217): Fixed clone_task function
 
 ### API
 1. [#209](https://github.com/influxdata/influxdb-client-python/pull/209): Allow setting shard-group durations for buckets via API

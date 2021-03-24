@@ -112,7 +112,6 @@ class TasksApiTest(BaseTest):
     def test_create_task_every(self):
         task_name = self.generate_name("it_task")
         task = self.tasks_api.create_task_every(task_name, TASK_FLUX, "1h", self.organization)
-        print(task)
 
         self.assertIsNotNone(task)
         self.assertGreater(len(task.id), 1)
@@ -391,3 +390,22 @@ class TasksApiTest(BaseTest):
         self.assertIsNotNone(run_by_id)
         self.assertEqual(run.id, run_by_id.id)
 
+    def test_clone(self):
+        task = self.tasks_api.create_task_every(self.generate_name("it_task"), TASK_FLUX, "1h", self.organization)
+        label = self.labels_api.create_label(self.generate_name("it_task"), self.organization.id, {
+            "color": "green",
+            "location": "west"
+        })
+        self.tasks_api.add_label(label.id, task.id)
+        cloned = self.tasks_api.clone_task(task)
+        self.assertNotEqual(task.id, cloned.id)
+        self.assertEqual(task.flux, cloned.flux)
+        labels = self.tasks_api.get_labels(cloned.id).labels
+        self.assertEqual(1, len(labels))
+        self.assertEqual(label.id, labels[0].id)
+
+    def test_clone_new(self):
+        task = self.tasks_api._create_task(self.generate_name("it_task"), TASK_FLUX, "1h", None, self.organization.id)
+        cloned = self.tasks_api.clone_task(task)
+        self.assertNotEqual(task.id, cloned.id)
+        self.assertEqual(task.flux, cloned.flux)
