@@ -265,9 +265,18 @@ class WriteApi:
         self.__del__()
 
     def __enter__(self):
+        """
+        Enter the runtime context related to this object.
+
+        It will bind this method’s return value to the target(s)
+        specified in the `as` clause of the statement.
+
+        return: self instance
+        """
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        """Exit the runtime context related to this object and close the WriteApi."""
         self.close()
 
     def __del__(self):

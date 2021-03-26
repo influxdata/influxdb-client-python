@@ -72,9 +72,18 @@ class InfluxDBClient(object):
                                     header_value=auth_header_value, retries=retries)
 
     def __enter__(self):
+        """
+        Enter the runtime context related to this object.
+
+        It will bind this method’s return value to the target(s)
+        specified in the `as` clause of the statement.
+
+        return: self instance
+        """
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+        """Exit the runtime context related to this object and close the client."""
         self.close()
 
     @classmethod
