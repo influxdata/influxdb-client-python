@@ -264,6 +264,12 @@ class WriteApi:
         """Flush data and dispose a batching buffer."""
         self.__del__()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
     def __del__(self):
         """Close WriteApi."""
         if self._subject:

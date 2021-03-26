@@ -71,6 +71,12 @@ class InfluxDBClient(object):
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
                                     header_value=auth_header_value, retries=retries)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
     @classmethod
     def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
         """
