@@ -1,4 +1,4 @@
-## 1.16.0 [unreleased]
+## 1.16.0 [2021-04-01]
 
 ### Features
 1. [#203](https://github.com/influxdata/influxdb-client-python/pull/203): Configure a client via TOML file
