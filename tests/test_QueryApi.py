@@ -125,6 +125,24 @@ class SimpleQueryTest(BaseTest):
                 }
             ],
             "imports": []
+        }], ["datetimeNoTZParam", datetime.datetime(2021, 3, 20, 15, 59, 10, 607352), {
+            "body": [
+                {
+                    "assignment": {
+                        "id": {
+                            "name": "datetimeNoTZParam",
+                            "type": "Identifier"
+                        },
+                        "init": {
+                            "type": "DateTimeLiteral",
+                            "value": "2021-03-20T15:59:10.607352Z"
+                        },
+                        "type": "VariableAssignment"
+                    },
+                    "type": "OptionStatement"
+                }
+            ],
+            "imports": []
         }], ["timeDeltaParam", datetime.timedelta(hours=1), {
             "body": [
                 {
