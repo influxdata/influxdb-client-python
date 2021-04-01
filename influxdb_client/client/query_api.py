@@ -45,8 +45,8 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
-        response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params), async_req=False,
-                                              _preload_content=False)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
+                                              async_req=False, _preload_content=False)
 
         return csv.reader(codecs.iterdecode(response, 'utf-8'))
 
@@ -67,7 +67,7 @@ class QueryApi(object):
 
         return result
 
-    def query(self, query: str, org=None,  params: dict = None) -> List['FluxTable']:
+    def query(self, query: str, org=None, params: dict = None) -> List['FluxTable']:
         """
         Execute synchronous Flux query and return result as a List['FluxTable'].
 
@@ -201,7 +201,7 @@ class QueryApi(object):
         if params is None:
             return None
 
-        return File(package=None, name=None, type=None, imports=[],  body=QueryApi._params_to_extern_ast(params))
+        return File(package=None, name=None, type=None, imports=[], body=QueryApi._params_to_extern_ast(params))
 
     def __del__(self):
         """Close QueryAPI."""
