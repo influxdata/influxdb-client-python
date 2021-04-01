@@ -464,9 +464,10 @@ Queries
 The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py>`_  could be formatted as a:
 
 1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
-2. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
-3. Raw unprocessed results as a ``str`` iterator
-4. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+2. Query bind parameters
+3. `csv.reader <https://docs.python.org/3.4/library/csv.html#reader-objects>`__ which will iterate over CSV lines
+4. Raw unprocessed results as a ``str`` iterator
+5. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
 The API also support streaming ``FluxRecord`` via `query_stream <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py#L77>`_, see example below:
 
@@ -498,6 +499,34 @@ The API also support streaming ``FluxRecord`` via `query_stream <https://github.
         print(table)
         for record in table.records:
             print(record.values)
+
+    print()
+    print()
+
+    """
+    Query: using Bind parameters
+    """
+
+    p = {"_start": datetime.timedelta(hours=-1),
+         "_location": "Prague",
+         "_desc": True,
+         "_floatParam": 25.1,
+         "_every": datetime.timedelta(minutes=5)
+         }
+
+    tables = query_api.query('''
+        from(bucket:"my-bucket") |> range(start: _start)
+            |> filter(fn: (r) => r["_measurement"] == "my_measurement")
+            |> filter(fn: (r) => r["_field"] == "temperature")
+            |> filter(fn: (r) => r["location"] == _location and r["_value"] > _floatParam)
+            |> aggregateWindow(every: _every, fn: mean, createEmpty: true)
+            |> sort(columns: ["_time"], desc: _desc)
+    ''', params=p)
+
+    for table in tables:
+        print(table)
+        for record in table.records:
+            print(str(record["_time"]) + " - " + record["location"] + ": " + str(record["_value"]))
 
     print()
     print()

@@ -1,5 +1,8 @@
 ## 1.17.0 [unreleased]
 
+### Features
+1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters 
+
 ## 1.16.0 [2021-04-01]
 
 ### Features
