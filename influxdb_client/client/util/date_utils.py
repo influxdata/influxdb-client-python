@@ -1,6 +1,8 @@
 """Utils to get right Date parsing function."""
+import datetime
 
 from dateutil import parser
+from pytz import UTC
 
 date_helper = None
 
@@ -29,6 +31,18 @@ class DateHelper:
         nanoseconds_in_micros = delta.microseconds * 10 ** 3
 
         return nanoseconds_in_days + nanoseconds_in_seconds + nanoseconds_in_micros
+
+    def to_utc(self, value: datetime):
+        """
+        Convert datetime to UTC timezone.
+
+        :param value: datetime
+        :return: datetime in UTC
+        """
+        if not value.tzinfo:
+            return UTC.localize(value)
+        else:
+            return value.astimezone(UTC)
 
 
 def get_date_helper() -> DateHelper:

@@ -8,13 +8,13 @@ import codecs
 import csv
 from datetime import datetime, timedelta
 from typing import List, Generator, Any
-from pytz import UTC
 
 from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLiteral, DateTimeLiteral, StringLiteral, \
     VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression
 from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.util.date_utils import get_date_helper
 
 
 class QueryApi(object):
@@ -101,7 +101,7 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect),
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream)
@@ -165,6 +165,8 @@ class QueryApi(object):
 
         statements = []
         for key, value in params.items():
+            if value is None:
+                continue
 
             if isinstance(value, bool):
                 literal = BooleanLiteral("BooleanLiteral", value)
@@ -173,10 +175,7 @@ class QueryApi(object):
             elif isinstance(value, float):
                 literal = FloatLiteral("FloatLiteral", value)
             elif isinstance(value, datetime):
-                if not value.tzinfo:
-                    value = UTC.localize(value)
-                else:
-                    value = value.astimezone(UTC)
+                value = get_date_helper().to_utc(value)
                 literal = DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
             elif isinstance(value, timedelta):
                 # convert to microsecodns
