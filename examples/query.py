@@ -1,7 +1,9 @@
+import datetime as datetime
+
 from influxdb_client import InfluxDBClient, Point, Dialect
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",debug=True)
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
@@ -24,6 +26,34 @@ for table in tables:
     print(table)
     for record in table.records:
         print(record.values)
+
+print()
+print()
+
+"""
+Query: using Bind parameters
+"""
+
+p = {"_start": datetime.timedelta(hours=-1),
+     "_location": "Prague",
+     "_desc": True,
+     "_floatParam": 25.1,
+     "_every": datetime.timedelta(minutes=5)
+     }
+
+tables = query_api.query('''
+    from(bucket:"my-bucket") |> range(start: _start)
+        |> filter(fn: (r) => r["_measurement"] == "my_measurement")
+        |> filter(fn: (r) => r["_field"] == "temperature")
+        |> filter(fn: (r) => r["location"] == _location and r["_value"] > _floatParam)
+        |> aggregateWindow(every: _every, fn: mean, createEmpty: true)        
+        |> sort(columns: ["_time"], desc: _desc) 
+''', params=p)
+
+for table in tables:
+    print(table)
+    for record in table.records:
+        print(str(record["_time"]) + " - " + record["location"] + ": " + str(record["_value"]))
 
 print()
 print()
@@ -66,10 +96,13 @@ print()
 """
 Query: using Pandas DataFrame
 """
-data_frame = query_api.query_data_frame('from(bucket:"my-bucket") '
-                                        '|> range(start: -10m) '
-                                        '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value") '
-                                        '|> keep(columns: ["location", "temperature"])')
+data_frame = query_api.query_data_frame('''
+from(bucket:"my-bucket") 
+    |> range(start: -10m) 
+    |> filter(fn: (r) => r["_measurement"] == "my_measurement")
+    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value") 
+    |> keep(columns: ["_time","location", "temperature"])
+''')
 print(data_frame.to_string())
 
 """

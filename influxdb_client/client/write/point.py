@@ -204,11 +204,7 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
     if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
 
         if isinstance(timestamp, datetime):
-            if not timestamp.tzinfo:
-                timestamp = UTC.localize(timestamp)
-            else:
-                timestamp = timestamp.astimezone(UTC)
-            timestamp = timestamp - EPOCH
+            timestamp = date_helper.to_utc(timestamp) - EPOCH
 
         ns = date_helper.to_nanoseconds(timestamp)
 
