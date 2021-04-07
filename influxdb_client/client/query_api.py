@@ -93,7 +93,6 @@ class QueryApi(object):
         Execute synchronous Flux query and return stream of FluxRecord as a Generator['FluxRecord'].
 
         :param query: the Flux query
-        :param params: the Flux query parameters
         :param org: organization name (optional if already specified in InfluxDBClient)
         :param params: bind parameters
         :return:
