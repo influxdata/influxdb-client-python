@@ -795,7 +795,7 @@ class DefaultTagsConfiguration(BaseTest):
 
         self.assertEqual("my-org", self.client.org)
         self.assertEqual("my-token", self.client.token)
-        self.assertEqual(6000, self.client.timeout)
+        self.assertEqual(6000, self.client.api_client.configuration.timeout)
 
     def test_default_tags_from_conf_file(self):
         self.client.close()

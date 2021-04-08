@@ -103,6 +103,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         # requests to the same host, which is often the case here.
         # cpu_count * 5 is used as default value to increase performance.
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
+        # Timeout setting for a request. If one number provided, it will be total request timeout.
+        # It can also be a pair (tuple) of (connection, read) timeouts.
+        self.timeout = None
 
         # Proxy URL
         self.proxy = None

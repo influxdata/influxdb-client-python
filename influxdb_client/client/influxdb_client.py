@@ -20,7 +20,7 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettin
 class InfluxDBClient(object):
     """InfluxDBClient is client for InfluxDB v2."""
 
-    def __init__(self, url, token, debug=None, timeout=10000, enable_gzip=False, org: str = None,
+    def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
                  default_tags: dict = None, **kwargs) -> None:
         """
         Initialize defaults.
@@ -28,7 +28,9 @@ class InfluxDBClient(object):
         :param url: InfluxDB server API url (ex. http://localhost:8086).
         :param token: auth token
         :param debug: enable verbose logging of http requests
-        :param timeout: default http client timeout
+        :param timeout: HTTP client timeout setting for a request specified in milliseconds.
+                        If one number provided, it will be total request timeout.
+                        It can also be a pair (tuple) of (connection, read) timeouts.
         :param enable_gzip: Enable Gzip compression for http requests. Currently only the "Write" and "Query" endpoints
                             supports the Gzip compression.
         :param org: organization name (used as a default in query and write API)
@@ -43,7 +45,6 @@ class InfluxDBClient(object):
         """
         self.url = url
         self.token = token
-        self.timeout = timeout
         self.org = org
 
         self.default_tags = default_tags
@@ -59,6 +60,7 @@ class InfluxDBClient(object):
         conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
         conf.proxy = kwargs.get('proxy', None)
         conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', conf.connection_pool_maxsize)
+        conf.timeout = timeout
 
         auth_token = self.token
         auth_header_name = "Authorization"
