@@ -65,7 +65,7 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual("http://localhost:8086", self.client.url)
         self.assertEqual("my-org", self.client.org)
         self.assertEqual("my-token", self.client.token)
-        self.assertEqual(6000, self.client.timeout)
+        self.assertEqual(6000, self.client.api_client.configuration.timeout)
         self.assertEqual(3, len(self.client.default_tags))
         self.assertEqual("132-987-655", self.client.default_tags["id"])
         self.assertEqual("California Miner", self.client.default_tags["customer"])

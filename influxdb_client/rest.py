@@ -156,13 +156,14 @@ class RESTClientObject(object):
         headers = headers or {}
 
         timeout = None
-        if _request_timeout:
-            if isinstance(_request_timeout, (int, ) if six.PY3 else (int, long)):  # noqa: E501,F821
-                timeout = urllib3.Timeout(total=_request_timeout)
-            elif (isinstance(_request_timeout, tuple) and
-                  len(_request_timeout) == 2):
+        _configured_timeout = _request_timeout or self.configuration.timeout
+        if _configured_timeout:
+            if isinstance(_configured_timeout, (int, ) if six.PY3 else (int, long)):  # noqa: E501,F821
+                timeout = urllib3.Timeout(total=_configured_timeout / 1_000)
+            elif (isinstance(_configured_timeout, tuple) and
+                  len(_configured_timeout) == 2):
                 timeout = urllib3.Timeout(
-                    connect=_request_timeout[0], read=_request_timeout[1])
+                    connect=_configured_timeout[0] / 1_000, read=_configured_timeout[1] / 1_000)
 
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'

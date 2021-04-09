@@ -3,6 +3,9 @@
 ### Features
 1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters 
 
+### Bug Fixes
+1. [#222](https://github.com/influxdata/influxdb-client-python/pull/222): Pass configured timeout to HTTP client
+
 ## 1.16.0 [2021-04-01]
 
 ### Features
@@ -11,7 +14,7 @@
 
 ### Bug Fixes
 1. [#206](https://github.com/influxdata/influxdb-client-python/pull/207): Use default (system) certificates instead of Mozilla's root certificates (certifi.where())
-1. [#217](https://github.com/influxdata/influxdb-client-python/pull/217): Fixed clone_task function
+1. [#217](https://github.com/influxdata/influxdb-client-python/pull/217): Fix clone_task function
 
 ### API
 1. [#209](https://github.com/influxdata/influxdb-client-python/pull/209): Allow setting shard-group durations for buckets via API
