@@ -132,88 +132,89 @@ def init_counter(counter, progress, queue):
     queue_ = queue
 
 
-"""
-Create multiprocess shared environment
-"""
-queue_ = multiprocessing.Manager().Queue()
-counter_ = Value('i', 0)
-progress_ = Value('i', 0)
-startTime = datetime.now()
-
-url = "https://s3.amazonaws.com/nyc-tlc/trip+data/fhv_tripdata_2019-01.csv"
-# url = "file:///Users/bednar/Developer/influxdata/influxdb-client-python/examples/fhv_tripdata_2019-01.csv"
-
-"""
-Open URL and for stream data 
-"""
-response = urlopen(url)
-if response.headers:
-    content_length = response.headers['Content-length']
-io_wrapper = ProgressTextIOWrapper(response)
-io_wrapper.progress = progress_
-
-"""
-Start writer as a new process
-"""
-writer = InfluxDBWriter(queue_)
-writer.start()
-
-"""
-Create process pool for parallel encoding into LineProtocol
-"""
-cpu_count = multiprocessing.cpu_count()
-with concurrent.futures.ProcessPoolExecutor(cpu_count, initializer=init_counter,
-                                            initargs=(counter_, progress_, queue_)) as executor:
+if __name__ == "__main__":
     """
-    Converts incoming HTTP stream into sequence of LineProtocol
+    Create multiprocess shared environment
     """
-    data = rx \
-        .from_iterable(DictReader(io_wrapper)) \
-        .pipe(ops.buffer_with_count(10_000),
-              # Parse 10_000 rows into LineProtocol on subprocess
-              ops.flat_map(lambda rows: executor.submit(parse_rows, rows, content_length)))
+    queue_ = multiprocessing.Manager().Queue()
+    counter_ = Value('i', 0)
+    progress_ = Value('i', 0)
+    startTime = datetime.now()
+
+    url = "https://s3.amazonaws.com/nyc-tlc/trip+data/fhv_tripdata_2019-01.csv"
+    # url = "file:///Users/bednar/Developer/influxdata/influxdb-client-python/examples/fhv_tripdata_2019-01.csv"
 
     """
-    Write data into InfluxDB
+    Open URL and for stream data 
     """
-    data.subscribe(on_next=lambda x: None, on_error=lambda ex: print(f'Unexpected error: {ex}'))
+    response = urlopen(url)
+    if response.headers:
+        content_length = response.headers['Content-length']
+    io_wrapper = ProgressTextIOWrapper(response)
+    io_wrapper.progress = progress_
 
-"""
-Terminate Writer
-"""
-queue_.put(None)
-queue_.join()
+    """
+    Start writer as a new process
+    """
+    writer = InfluxDBWriter(queue_)
+    writer.start()
 
-print()
-print(f'Import finished in: {datetime.now() - startTime}')
-print()
+    """
+    Create process pool for parallel encoding into LineProtocol
+    """
+    cpu_count = multiprocessing.cpu_count()
+    with concurrent.futures.ProcessPoolExecutor(cpu_count, initializer=init_counter,
+                                                initargs=(counter_, progress_, queue_)) as executor:
+        """
+        Converts incoming HTTP stream into sequence of LineProtocol
+        """
+        data = rx \
+            .from_iterable(DictReader(io_wrapper)) \
+            .pipe(ops.buffer_with_count(10_000),
+                  # Parse 10_000 rows into LineProtocol on subprocess
+                  ops.flat_map(lambda rows: executor.submit(parse_rows, rows, content_length)))
 
-"""
-Querying 10 pickups from dispatching 'B00008'
-"""
-query = 'from(bucket:"my-bucket")' \
-        '|> range(start: 2019-01-01T00:00:00Z, stop: now()) ' \
-        '|> filter(fn: (r) => r._measurement == "taxi-trip-data")' \
-        '|> filter(fn: (r) => r.dispatching_base_num == "B00008")' \
-        '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")' \
-        '|> rename(columns: {_time: "pickup_datetime"})' \
-        '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
+        """
+        Write data into InfluxDB
+        """
+        data.subscribe(on_next=lambda x: None, on_error=lambda ex: print(f'Unexpected error: {ex}'))
 
-client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
-result = client.query_api().query(query=query)
+    """
+    Terminate Writer
+    """
+    queue_.put(None)
+    queue_.join()
 
-"""
-Processing results
-"""
-print()
-print("=== Querying 10 pickups from dispatching 'B00008' ===")
-print()
-for table in result:
-    for record in table.records:
-        print(
-            f'Dispatching: {record["dispatching_base_num"]} pickup: {record["pickup_datetime"]} dropoff: {record["dropoff_datetime"]}')
+    print()
+    print(f'Import finished in: {datetime.now() - startTime}')
+    print()
 
-"""
-Close client
-"""
-client.close()
+    """
+    Querying 10 pickups from dispatching 'B00008'
+    """
+    query = 'from(bucket:"my-bucket")' \
+            '|> range(start: 2019-01-01T00:00:00Z, stop: now()) ' \
+            '|> filter(fn: (r) => r._measurement == "taxi-trip-data")' \
+            '|> filter(fn: (r) => r.dispatching_base_num == "B00008")' \
+            '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")' \
+            '|> rename(columns: {_time: "pickup_datetime"})' \
+            '|> drop(columns: ["_start", "_stop"])|> limit(n:10, offset: 0)'
+
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False)
+    result = client.query_api().query(query=query)
+
+    """
+    Processing results
+    """
+    print()
+    print("=== Querying 10 pickups from dispatching 'B00008' ===")
+    print()
+    for table in result:
+        for record in table.records:
+            print(
+                f'Dispatching: {record["dispatching_base_num"]} pickup: {record["pickup_datetime"]} dropoff: {record["dropoff_datetime"]}')
+
+    """
+    Close client
+    """
+    client.close()

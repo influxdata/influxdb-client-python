@@ -31,38 +31,32 @@ def csv_to_generator(csv_file_path):
 Define Retry strategy - 3 attempts => 2, 4, 8
 """
 retries = WritesRetry(total=3, backoff_factor=1, exponential_base=2)
-client = InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org', retries=retries)
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org', retries=retries) as client:
 
-"""
-Use synchronous version of WriteApi to strongly depends on result of write
-"""
-write_api = client.write_api(write_options=SYNCHRONOUS)
-
-"""
-Prepare batches from generator
-"""
-batches = rx \
-    .from_iterable(csv_to_generator('vix-daily.csv')) \
-    .pipe(ops.buffer_with_count(500))
-
-
-def write_batch(batch):
     """
-    Synchronous write
+    Use synchronous version of WriteApi to strongly depends on result of write
     """
-    print(f'Writing... {len(batch)}')
-    write_api.write(bucket='my-bucket', record=batch)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    """
+    Prepare batches from generator
+    """
+    batches = rx \
+        .from_iterable(csv_to_generator('vix-daily.csv')) \
+        .pipe(ops.buffer_with_count(500))
 
 
-"""
-Write batches
-"""
-batches.subscribe(on_next=lambda batch: write_batch(batch),
-                  on_error=lambda ex: print(f'Unexpected error: {ex}'),
-                  on_completed=lambda: print('Import finished!'))
+    def write_batch(batch):
+        """
+        Synchronous write
+        """
+        print(f'Writing... {len(batch)}')
+        write_api.write(bucket='my-bucket', record=batch)
 
-"""
-Dispose client
-"""
-write_api.close()
-client.close()
+
+    """
+    Write batches
+    """
+    batches.subscribe(on_next=lambda batch: write_batch(batch),
+                      on_error=lambda ex: print(f'Unexpected error: {ex}'),
+                      on_completed=lambda: print('Import finished!'))
