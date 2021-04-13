@@ -15,8 +15,7 @@ influx_cloud_token = '...'
 bucket = '...'
 org = '...'
 
-client = InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token)
-try:
+with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token) as client:
     kind = 'temperature'
     host = 'host1'
     device = 'opt-123'
@@ -53,8 +52,3 @@ try:
 
     print()
     print('success')
-
-except Exception as e:
-    print(e)
-finally:
-    client.close()

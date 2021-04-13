@@ -4,7 +4,8 @@ import os
 import threading
 import unittest
 
-from influxdb_client import InfluxDBClient
+from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS, WriteOptions, WriteType
 
 
 class InfluxDBClientTest(unittest.TestCase):
@@ -138,6 +139,26 @@ class InfluxDBClientTest(unittest.TestCase):
         self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
         self.httpd_thread.start()
 
+    def test_write_context_manager(self):
+
+        with InfluxDBClient.from_env_properties(self.debug) as self.client:
+            api_client = self.client.api_client
+            with self.client.write_api(write_options=WriteOptions(write_type=WriteType.batching)) as write_api:
+                write_api_test = write_api
+                write_api.write(bucket="my-bucket",
+                                record=Point("h2o_feet")
+                                .tag("location", "coyote_creek")
+                                .field("level water_level", 5.0))
+                self.assertIsNotNone(write_api._subject)
+                self.assertIsNotNone(write_api._disposable)
+
+            self.assertIsNone(write_api_test._subject)
+            self.assertIsNone(write_api_test._disposable)
+            self.assertIsNotNone(self.client.api_client)
+            self.assertIsNotNone(self.client.api_client.rest_client.pool_manager)
+
+        self.assertIsNone(api_client._pool)
+        self.assertIsNone(self.client.api_client)
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self):

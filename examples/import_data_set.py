@@ -60,39 +60,33 @@ data = rx \
     .from_iterable(DictReader(open('vix-daily.csv', 'r'))) \
     .pipe(ops.map(lambda row: parse_row(row)))
 
-client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
+with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True) as client:
 
-"""
-Create client that writes data in batches with 50_000 items.
-"""
-write_api = client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000))
+    """
+    Create client that writes data in batches with 50_000 items.
+    """
+    with client.write_api(write_options=WriteOptions(batch_size=50_000, flush_interval=10_000)) as write_api:
 
-"""
-Write data into InfluxDB
-"""
-write_api.write(bucket="my-bucket", record=data)
-write_api.close()
+        """
+        Write data into InfluxDB
+        """
+        write_api.write(bucket="my-bucket", record=data)
 
-"""
-Querying max value of CBOE Volatility Index
-"""
-query = 'from(bucket:"my-bucket")' \
-        ' |> range(start: 0, stop: now())' \
-        ' |> filter(fn: (r) => r._measurement == "financial-analysis")' \
-        ' |> max()'
-result = client.query_api().query(query=query)
+    """
+    Querying max value of CBOE Volatility Index
+    """
+    query = 'from(bucket:"my-bucket")' \
+            ' |> range(start: 0, stop: now())' \
+            ' |> filter(fn: (r) => r._measurement == "financial-analysis")' \
+            ' |> max()'
+    result = client.query_api().query(query=query)
 
-"""
-Processing results
-"""
-print()
-print("=== results ===")
-print()
-for table in result:
-    for record in table.records:
-        print('max {0:5} = {1}'.format(record.get_field(), record.get_value()))
-
-"""
-Close client
-"""
-client.close()
+    """
+    Processing results
+    """
+    print()
+    print("=== results ===")
+    print()
+    for table in result:
+        for record in table.records:
+            print('max {0:5} = {1}'.format(record.get_field(), record.get_value()))

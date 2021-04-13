@@ -10,45 +10,37 @@ from pytz import UTC
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
 
-write_api = client.write_api(write_options=SYNCHRONOUS)
-query_api = client.query_api()
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+    """
+    Prepare data
+    """
 
-"""
-Prepare data
-"""
+    _points = []
+    now = datetime.now(UTC).replace(hour=13, minute=20, second=15, microsecond=0)
+    for i in range(50):
+        _point = Point("weather")\
+            .tag("location", "New York")\
+            .field("temperature", random.randint(-10, 30))\
+            .time(now - timedelta(days=i))
+        _points.append(_point)
 
-_points = []
-now = datetime.now(UTC).replace(hour=13, minute=20, second=15, microsecond=0)
-for i in range(50):
-    _point = Point("weather")\
-        .tag("location", "New York")\
-        .field("temperature", random.randint(-10, 30))\
-        .time(now - timedelta(days=i))
-    _points.append(_point)
+    write_api.write(bucket="my-bucket", record=_points)
 
-write_api.write(bucket="my-bucket", record=_points)
+    query_api = client.query_api()
 
-"""
-Query: using Flux from file
-"""
-with open('query.flux', 'r') as file:
-    query = file.read()
+    """
+    Query: using Flux from file
+    """
+    with open('query.flux', 'r') as file:
+        query = file.read()
 
-tables = query_api.query(query)
+    tables = query_api.query(query)
 
-for table in tables:
-    for record in table.records:
-        day_name = calendar.day_name[record["weekDay"]]
-        print(f'Temperature in {record["location"]} is {record["temperature"]}°C at {day_name}')
-
-"""
-Close client
-"""
-client.close()
-
-
-
+    for table in tables:
+        for record in table.records:
+            day_name = calendar.day_name[record["weekDay"]]
+            print(f'Temperature in {record["location"]} is {record["temperature"]}°C at {day_name}')
 
 
