@@ -361,11 +361,7 @@ class WriteApi:
 
         logger.debug("Write time series data into InfluxDB: %s", batch_item)
 
-        retry = WritesRetry(
-            total=self._write_options.max_retries,
-            backoff_factor=self._write_options.retry_interval / 1_000,
-            max_retry_delay=self._write_options.max_retry_delay / 1_000,
-            method_whitelist=["POST"])
+        retry = self._write_options.to_retry_strategy()
 
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
                          batch_item.key.precision, urlopen_kw={'retries': retry})
