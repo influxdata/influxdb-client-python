@@ -6,28 +6,29 @@ from urllib3.exceptions import MaxRetryError
 from influxdb_client.client.write.retry import WritesRetry
 
 
+class NonRandomWritesRetry(WritesRetry):
+    def _random(self):
+        return 1
+
 class TestWritesRetry(unittest.TestCase):
     def test_copy(self):
-        retry = WritesRetry(jitter_interval=123, exponential_base=3, max_retry_delay=145)
-        self.assertEqual(retry.jitter_interval, 123)
+        retry = WritesRetry(exponential_base=3, max_retry_delay=145)
         self.assertEqual(retry.max_retry_delay, 145)
         self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 10)
 
         retry = retry.increment()
-        self.assertEqual(retry.jitter_interval, 123)
         self.assertEqual(retry.max_retry_delay, 145)
         self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 9)
 
         retry = retry.increment()
-        self.assertEqual(retry.jitter_interval, 123)
         self.assertEqual(retry.max_retry_delay, 145)
         self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 8)
 
     def test_backoff(self):
-        retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=550)
+        retry = NonRandomWritesRetry(total=5, backoff_factor=1, max_retry_delay=550)
         self.assertEqual(retry.total, 5)
         self.assertEqual(retry.is_exhausted(), False)
         self.assertEqual(retry.get_backoff_time(), 0)
@@ -74,17 +75,16 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual(retry.get_backoff_time(), 15)
 
     def test_backoff_jitter(self):
-        retry = WritesRetry(total=5, backoff_factor=4, jitter_interval=2).increment()
+        retry = WritesRetry(total=5, backoff_factor=4).increment()
 
         self.assertEqual(retry.total, 4)
         self.assertEqual(retry.is_exhausted(), False)
 
         backoff_time = retry.get_backoff_time()
-        self.assertGreater(backoff_time, 4)
-        self.assertLessEqual(backoff_time, 6)
+        self.assertLessEqual(backoff_time, 4)
 
     def test_backoff_exponential_base(self):
-        retry = WritesRetry(total=5, backoff_factor=2, exponential_base=2)
+        retry = NonRandomWritesRetry(total=5, backoff_factor=2, exponential_base=2)
 
         retry = retry.increment()
         self.assertEqual(retry.get_backoff_time(), 2)
@@ -104,15 +104,6 @@ class TestWritesRetry(unittest.TestCase):
 
         retry = WritesRetry()
         self.assertEqual(retry.get_retry_after(response), 5)
-
-    def test_get_retry_after_jitter(self):
-        response = HTTPResponse()
-        response.headers.add('Retry-After', '5')
-
-        retry = WritesRetry(jitter_interval=2)
-        retry_after = retry.get_retry_after(response)
-        self.assertGreater(retry_after, 5)
-        self.assertLessEqual(retry_after, 7)
 
     def test_is_retry(self):
         retry = WritesRetry(method_whitelist=["POST"])

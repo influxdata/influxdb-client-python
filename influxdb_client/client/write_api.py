@@ -72,7 +72,6 @@ class WriteOptions(object):
         return WritesRetry(
             total=self.max_retries,
             backoff_factor=self.retry_interval / 1_000,
-            jitter_interval=self.jitter_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
             exponential_base=self.exponential_base,
             method_whitelist=["POST"])

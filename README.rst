@@ -265,7 +265,7 @@ The batching is configurable by ``write_options``\ :
      - the maximum delay between each retry attempt in milliseconds
      - ``180_000``
    * - **exponential_base**
-     - the base for the exponential retry delay, the next delay is computed as ``retry_interval * exponential_base^(attempts-1) + random(jitter_interval)``
+     - the base for the exponential retry delay, the next delay is computed using Full Jitter formula ``retry_interval * exponential_base^(attempts-1) * random()``
      - ``5``
 
 
