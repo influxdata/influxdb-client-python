@@ -364,7 +364,6 @@ class WriteApi:
         retry = WritesRetry(
             total=self._write_options.max_retries,
             backoff_factor=self._write_options.retry_interval / 1_000,
-            jitter_interval=self._write_options.jitter_interval / 1_000,
             max_retry_delay=self._write_options.max_retry_delay / 1_000,
             method_whitelist=["POST"])
 
