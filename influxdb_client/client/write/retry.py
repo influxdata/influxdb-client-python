@@ -1,10 +1,12 @@
 """Implementation for Retry strategy during HTTP requests."""
 
 import logging
+from datetime import datetime, timedelta
 from itertools import takewhile
 from random import random
 
 from urllib3 import Retry
+from urllib3.exceptions import MaxRetryError, ResponseError
 
 from influxdb_client.client.exceptions import InfluxDBError
 
@@ -15,24 +17,44 @@ class WritesRetry(Retry):
     """
     Writes retry configuration.
 
-    :param int max_retry_delay: maximum delay when retrying write
+    :param int max_retry_time: maximum total retry timout in seconds, attempt after this timout throws MaxRetryError
+    :param int total: maximum number of retries
+    :param num backoff_factor: initial first retry delay range in seconds
+    :param num max_retry_delay: maximum delay when retrying write in seconds
+    :param num min_retry_delay: minimum delay when retrying write in seconds
     :param int exponential_base: base for the exponential retry delay, the next delay is computed as
                                  `backoff_factor * exponential_base^(attempts-1) * random()`
     """
 
-    def __init__(self, max_retry_delay=180, exponential_base=5, **kw):
+    def __init__(self, max_retry_time=180, total=10, backoff_factor=5, max_retry_delay=125, min_retry_delay=1,
+                 exponential_base=2, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
+        self.total = total
+        self.backoff_factor = backoff_factor
         self.max_retry_delay = max_retry_delay
+        self.min_retry_delay = min_retry_delay
+        self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
+        self.retry_timeout = datetime.now() + timedelta(seconds=max_retry_time)
 
     def new(self, **kw):
         """Initialize defaults."""
         if 'max_retry_delay' not in kw:
             kw['max_retry_delay'] = self.max_retry_delay
+
+        if 'min_retry_delay' not in kw:
+            kw['min_retry_delay'] = self.min_retry_delay
+
+        if 'max_retry_time' not in kw:
+            kw['max_retry_time'] = self.max_retry_time
+
         if 'exponential_base' not in kw:
             kw['exponential_base'] = self.exponential_base
-        return super().new(**kw)
+
+        new = super().new(**kw)
+        new.retry_timeout = self.retry_timeout
+        return new
 
     def is_retry(self, method, status_code, has_retry_after=False):
         """is_retry doesn't require retry_after header. If there is not Retry-After we will use backoff."""
@@ -54,12 +76,26 @@ class WritesRetry(Retry):
         if consecutive_errors_len < 0:
             return 0
 
-        # Full Jitter strategy
-        backoff_value = self.backoff_factor * (self.exponential_base ** consecutive_errors_len) * self._random()
-        return min(self.max_retry_delay, backoff_value)
+        delay_range = self.backoff_factor
+        i = 1
+        while i <= consecutive_errors_len:
+            i += 1
+            delay_range = delay_range * self.exponential_base
+            if delay_range > self.max_retry_delay:
+                break
+
+        delay = delay_range * self._random()
+        # at least min_retry_delay
+        delay = max(self.min_retry_delay, delay)
+        # at most max_retry_delay
+        delay = min(self.max_retry_delay, delay)
+        return delay
 
     def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
         """Return a new Retry object with incremented retry counters."""
+        if self.retry_timeout < datetime.now():
+            raise MaxRetryError(_pool, url, error or ResponseError("max_retry_time exceeded"))
+
         new_retry = super().increment(method, url, response, error, _pool, _stacktrace)
 
         if response is not None:

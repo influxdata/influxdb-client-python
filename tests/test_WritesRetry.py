@@ -1,4 +1,5 @@
 import unittest
+import time
 
 from urllib3 import HTTPResponse
 from urllib3.exceptions import MaxRetryError
@@ -10,9 +11,10 @@ class NonRandomWritesRetry(WritesRetry):
     def _random(self):
         return 1
 
+
 class TestWritesRetry(unittest.TestCase):
     def test_copy(self):
-        retry = WritesRetry(exponential_base=3, max_retry_delay=145)
+        retry = WritesRetry(exponential_base=3, max_retry_delay=145, total=10)
         self.assertEqual(retry.max_retry_delay, 145)
         self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 10)
@@ -27,8 +29,31 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual(retry.exponential_base, 3)
         self.assertEqual(retry.total, 8)
 
+    def test_backoff_max_time(self):
+        retry = NonRandomWritesRetry(max_retry_time=2)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 0)
+
+        retry = retry.increment()
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 5)
+
+        retry = retry.increment()
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 10)
+
+        time.sleep(3)
+
+        with self.assertRaises(MaxRetryError) as cm:
+            retry.increment()
+        exception = cm.exception
+        print(exception)
+
+        self.assertEqual("max_retry_time exceeded", exception.reason.args[0])
+
     def test_backoff(self):
-        retry = NonRandomWritesRetry(total=5, backoff_factor=1, max_retry_delay=550)
+        retry = NonRandomWritesRetry(total=5, backoff_factor=1, min_retry_delay=1, exponential_base=2,
+                                     max_retry_delay=550)
         self.assertEqual(retry.total, 5)
         self.assertEqual(retry.is_exhausted(), False)
         self.assertEqual(retry.get_backoff_time(), 0)
@@ -41,22 +66,22 @@ class TestWritesRetry(unittest.TestCase):
         retry = retry.increment()
         self.assertEqual(retry.total, 3)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 5)
+        self.assertEqual(retry.get_backoff_time(), 2)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 2)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 25)
+        self.assertEqual(retry.get_backoff_time(), 4)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 1)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 125)
+        self.assertEqual(retry.get_backoff_time(), 8)
 
         retry = retry.increment()
         self.assertEqual(retry.total, 0)
         self.assertEqual(retry.is_exhausted(), False)
-        self.assertEqual(retry.get_backoff_time(), 550)
+        self.assertEqual(retry.get_backoff_time(), 16)
 
         with self.assertRaises(MaxRetryError) as cm:
             retry.increment()
@@ -65,14 +90,14 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual("too many error responses", exception.reason.args[0])
 
     def test_backoff_max(self):
-        retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=15)\
-            .increment()\
-            .increment()\
-            .increment()\
-            .increment()\
+        retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=15) \
+            .increment() \
+            .increment() \
+            .increment() \
+            .increment() \
             .increment()
 
-        self.assertEqual(retry.get_backoff_time(), 15)
+        self.assertLessEqual(retry.get_backoff_time(), 15)
 
     def test_backoff_jitter(self):
         retry = WritesRetry(total=5, backoff_factor=4).increment()

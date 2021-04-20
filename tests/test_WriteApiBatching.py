@@ -238,6 +238,38 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(6, len(httpretty.httpretty.latest_requests))
 
+    def test_retry_disabled_max_retries(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
+                               adding_headers={'Retry-After': '1'})
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(max_retries=0,batch_size=2, flush_interval=1_000))
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
+
+        time.sleep(2)
+
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
+    def test_retry_disabled_max_retry_time(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429,
+                               adding_headers={'Retry-After': '1'})
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(max_retry_time=0,batch_size=2, flush_interval=1_000))
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                                  "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
+
+        time.sleep(2)
+
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+
     def test_recover_from_error(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=400)

@@ -38,9 +38,11 @@ class WriteOptions(object):
                  batch_size=1_000, flush_interval=1_000,
                  jitter_interval=0,
                  retry_interval=5_000,
-                 max_retries=3,
-                 max_retry_delay=180_000,
-                 exponential_base=5,
+                 max_retries=10,
+                 max_retry_delay=150_000,
+                 min_retry_delay=1_000,
+                 max_retry_time=180_000,
+                 exponential_base=2,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.
@@ -51,8 +53,10 @@ class WriteOptions(object):
         :param jitter_interval: this is primarily to avoid large write spikes for users running a large number of
                client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
         :param retry_interval: the time to wait before retry unsuccessful write
-        :param max_retries: the number of max retries when write fails
+        :param max_retries: the number of max retries when write fails, 0 means retry is disabled
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
+        :param min_retry_delay: the minimum delay between each retry attempt in milliseconds
+        :param max_retry_time: total timeout for all retry attempts in milliseconds, if 0 retry is disabled
         :param exponential_base: base for the exponential retry delay, the next delay is computed as
                                  `retry_interval * exponential_base^(attempts-1) + random(jitter_interval)`
         :param write_scheduler:
@@ -64,6 +68,8 @@ class WriteOptions(object):
         self.retry_interval = retry_interval
         self.max_retries = max_retries
         self.max_retry_delay = max_retry_delay
+        self.min_retry_delay = min_retry_delay
+        self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
 
@@ -73,8 +79,10 @@ class WriteOptions(object):
             total=self.max_retries,
             backoff_factor=self.retry_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
+            min_retry_delay=self.min_retry_delay / 1_000,
+            max_retry_time=self.max_retry_time / 1000,
             exponential_base=self.exponential_base,
-            method_whitelist=["POST"])
+            allowed_methods=["POST"])
 
     def __getstate__(self):
         """Return a dict of attributes that you want to pickle."""
