@@ -84,7 +84,7 @@ class WritesRetry(Retry):
             if delay_range > self.max_retry_delay:
                 break
 
-        delay = delay_range * self._random()
+        delay = self.min_retry_delay + (delay_range - self.min_retry_delay) * self._random()
         # at least min_retry_delay
         delay = max(self.min_retry_delay, delay)
         # at most max_retry_delay
