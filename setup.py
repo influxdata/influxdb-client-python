@@ -4,21 +4,38 @@ from pathlib import Path
 
 from setuptools import setup, find_packages  # noqa: H301
 
-with open('requirements.txt', 'r') as f:
-    requires = [x.strip() for x in f if x.strip()]
+requires = [
+    'rx >= 3.0.1',
+    'certifi >= 14.05.14',
+    'six >= 1.10',
+    'python_dateutil >= 2.5.3',
+    'setuptools >= 21.0.0',
+    'urllib3 >= 1.15.1',
+    'pytz>=2019.1'
+]
 
-with open('test-requirements.txt', 'r') as f:
-    test_requires = [x.strip() for x in f if x.strip()]
+test_requires = [
+    'coverage>=4.0.3',
+    'nose>=1.3.7',
+    'pluggy>=0.3.1',
+    'py>=1.4.31',
+    'randomize>=0.13',
+    'pytest>=5.0.0',
+    'httpretty>=1.0.2',
+    'psutil>=5.6.3'
+]
 
-with open('extra-requirements.txt', 'r') as f:
-    extra_requires = [x.strip() for x in f if x.strip()]
+extra_requires = [
+    'pandas>=0.25.3',
+    'numpy'
+]
 
-with open('ciso-requirements.txt', 'r') as f:
-    ciso_requires = [x.strip() for x in f if x.strip()]
+ciso_requires = [
+    'ciso8601>=2.1.1'
+]
 
 with open('README.rst', 'r') as f:
     readme = f.read()
-
 
 NAME = "influxdb_client"
 
@@ -35,14 +52,13 @@ setup(
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
     install_requires=requires,
-    extras_require={'extra': extra_requires, 'ciso': ciso_requires},
+    extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'test': test_requires},
     long_description_content_type="text/x-rst",
     packages=find_packages(exclude=('tests*',)),
     test_suite='tests',
     python_requires='>=3.6',
     include_package_data=True,
-    data_files=['requirements.txt', 'extra-requirements.txt', 'test-requirements.txt', 'ciso-requirements.txt'],
-    classifiers = [
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -54,4 +70,3 @@ setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ])
-

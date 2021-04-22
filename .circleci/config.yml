@@ -22,7 +22,7 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v9-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "extra-requirements.txt" }}-{{ checksum "ciso-requirements.txt" }}
+            - &cache-key pip-cache-v9-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
             - pip-cache-v9-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
       - run:
           command: |  # use pipenv to install dependencies

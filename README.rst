@@ -1070,9 +1070,9 @@ Local tests
     ./scripts/influxdb-restart.sh
 
     # install requirements
-    pip install -r requirements.txt --user
-    pip install -r extra-requirements.txt --user
-    pip install -r test-requirements.txt --user
+    pip install -e . --user
+    pip install -e .\[extra\] --user
+    pip install -e .\[test\] --user
 
     # run unit & integration tests
     pytest tests
