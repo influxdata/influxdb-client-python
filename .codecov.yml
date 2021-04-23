@@ -2,3 +2,4 @@ ignore:
   - "influxdb_client/domain/*.py"
   - "influxdb_client/service/*.py"
   - "tests/*.py"
+  - "setup.py"

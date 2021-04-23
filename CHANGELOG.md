@@ -6,6 +6,7 @@
 ### Bug Fixes
 1. [#222](https://github.com/influxdata/influxdb-client-python/pull/222): Pass configured timeout to HTTP client
 1. [#218](https://github.com/influxdata/influxdb-client-python/pull/218): Support for `with .. as ..` statement
+1. [#232](https://github.com/influxdata/influxdb-client-python/pull/232): Specify package requirements in `setup.py`
 
 ## 1.16.0 [2021-04-01]
 
