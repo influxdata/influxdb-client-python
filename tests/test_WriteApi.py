@@ -502,6 +502,19 @@ class WriteApiTestMock(BaseTest):
         self.assertEqual("Service Unavailable", exception.reason)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests))
 
+    def test_writes_default_tags_dict_without_tag(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        point_settings = PointSettings(**{"id": "132-987-655", "customer": "California Miner"})
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS,
+                                                           point_settings=point_settings)
+
+        self.write_client.write("my-bucket", "my-org", {"measurement": "h2o", "fields": {"level": 1.0}, "time": 1})
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual("h2o,customer=California\\ Miner,id=132-987-655 level=1 1", requests[0].parsed_body)
+
 
 class AsynchronousWriteTest(BaseTest):
 
