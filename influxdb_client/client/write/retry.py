@@ -21,19 +21,23 @@ class WritesRetry(Retry):
     :param int total: maximum number of retries
     :param num backoff_factor: initial first retry delay range in seconds
     :param num max_retry_delay: maximum delay when retrying write in seconds
-    :param num min_retry_delay: minimum delay when retrying write in seconds
-    :param int exponential_base: base for the exponential retry delay, the next delay is computed as
-                                 `backoff_factor * exponential_base^(attempts-1) * random()`
+    :param int exponential_base: base for the exponential retry delay,
+
+    The next delay is computed as random value between range
+    `backoff_factor * exponential_base^(attempts-1)` and `backoff_factor * exponential_base^(attempts)
+
+    Example: for backoff_factor=5, exponential_base=2, max_retry_delay=125, total=5
+    retry delays are random distributed values within the ranges of
+    [5-10, 10-20, 20-40, 40-80, 80-125]
+
     """
 
-    def __init__(self, max_retry_time=180, total=10, backoff_factor=5, max_retry_delay=125, min_retry_delay=1,
-                 exponential_base=2, **kw):
+    def __init__(self, max_retry_time=180, total=10, backoff_factor=5, max_retry_delay=125, exponential_base=2, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
         self.total = total
         self.backoff_factor = backoff_factor
         self.max_retry_delay = max_retry_delay
-        self.min_retry_delay = min_retry_delay
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.retry_timeout = datetime.now() + timedelta(seconds=max_retry_time)
@@ -42,9 +46,6 @@ class WritesRetry(Retry):
         """Initialize defaults."""
         if 'max_retry_delay' not in kw:
             kw['max_retry_delay'] = self.max_retry_delay
-
-        if 'min_retry_delay' not in kw:
-            kw['min_retry_delay'] = self.min_retry_delay
 
         if 'max_retry_time' not in kw:
             kw['max_retry_time'] = self.max_retry_time
@@ -76,20 +77,21 @@ class WritesRetry(Retry):
         if consecutive_errors_len < 0:
             return 0
 
-        delay_range = self.backoff_factor
+        range_start = self.backoff_factor
+        range_stop = self.backoff_factor * self.exponential_base
+
         i = 1
         while i <= consecutive_errors_len:
             i += 1
-            delay_range = delay_range * self.exponential_base
-            if delay_range > self.max_retry_delay:
+            range_start = range_stop
+            range_stop = range_stop * self.exponential_base
+            if range_stop > self.max_retry_delay:
                 break
 
-        delay = self.min_retry_delay + (delay_range - self.min_retry_delay) * self._random()
-        # at least min_retry_delay
-        delay = max(self.min_retry_delay, delay)
-        # at most max_retry_delay
-        delay = min(self.max_retry_delay, delay)
-        return delay
+        if range_stop > self.max_retry_delay:
+            range_stop = self.max_retry_delay
+
+        return range_start + (range_stop - range_start) * self._random()
 
     def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
         """Return a new Retry object with incremented retry counters."""

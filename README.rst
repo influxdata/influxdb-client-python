@@ -256,7 +256,7 @@ The batching is configurable by ``write_options``\ :
      - the number of milliseconds to increase the batch flush interval by a random amount
      - ``0``
    * - **retry_interval**
-     - the number of milliseconds to retry first unsuccessful write. The next retry delay is computed using Full Jitter formula. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
+     - the number of milliseconds to retry first unsuccessful write. The next retry delay is computed using exponential random backoff. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
      - ``5000``
    * - **max_retry_time**
      - maximum total retry timout in milliseconds.
@@ -266,12 +266,9 @@ The batching is configurable by ``write_options``\ :
      - ``10``
    * - **max_retry_delay**
      - the maximum delay between each retry attempt in milliseconds
-     - ``150_000``
-   * - **min_retry_delay**
-     - the minimum delay between each retry attempt in milliseconds
-     - ``1_000``
+     - ``125_000``
    * - **exponential_base**
-     - the base for the exponential retry delay, the next delay is computed using Full Jitter formula ``retry_interval * exponential_base^(attempts-1) * random()``
+     - the base for the exponential retry delay, the next delay is computed using random exponential backoff. Example for ``retry_interval=5_000, exponential_base=2, max_retry_delay=125_000, total=5`` Retry delays are random distributed values within the ranges of ``[5_000-10_000, 10_000-20_000, 20_000-40_000, 40_000-80_000, 80_000-125_000]``
      - ``2``
 
 

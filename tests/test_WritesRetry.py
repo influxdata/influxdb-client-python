@@ -7,7 +7,12 @@ from urllib3.exceptions import MaxRetryError
 from influxdb_client.client.write.retry import WritesRetry
 
 
-class NonRandomWritesRetry(WritesRetry):
+class NonRandomMinWritesRetry(WritesRetry):
+    def _random(self):
+        return 0
+
+
+class NonRandomMaxWritesRetry(WritesRetry):
     def _random(self):
         return 1
 
@@ -30,7 +35,7 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual(retry.total, 8)
 
     def test_backoff_max_time(self):
-        retry = NonRandomWritesRetry(max_retry_time=2)
+        retry = NonRandomMinWritesRetry(max_retry_time=2)
         self.assertEqual(retry.is_exhausted(), False)
         self.assertEqual(retry.get_backoff_time(), 0)
 
@@ -51,9 +56,9 @@ class TestWritesRetry(unittest.TestCase):
 
         self.assertEqual("max_retry_time exceeded", exception.reason.args[0])
 
-    def test_backoff(self):
-        retry = NonRandomWritesRetry(total=5, backoff_factor=1, min_retry_delay=1, exponential_base=2,
-                                     max_retry_delay=550)
+    def test_backoff_start_range(self):
+        retry = NonRandomMinWritesRetry(total=5, backoff_factor=1, exponential_base=2,
+                                        max_retry_delay=550)
         self.assertEqual(retry.total, 5)
         self.assertEqual(retry.is_exhausted(), False)
         self.assertEqual(retry.get_backoff_time(), 0)
@@ -89,6 +94,45 @@ class TestWritesRetry(unittest.TestCase):
 
         self.assertEqual("too many error responses", exception.reason.args[0])
 
+    def test_backoff_stop_range(self):
+        retry = NonRandomMaxWritesRetry(total=5, backoff_factor=5, exponential_base=2,
+                                        max_retry_delay=550)
+
+        self.assertEqual(retry.total, 5)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 0)
+
+        retry = retry.increment()
+        self.assertEqual(retry.total, 4)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 10)
+
+        retry = retry.increment()
+        self.assertEqual(retry.total, 3)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 20)
+
+        retry = retry.increment()
+        self.assertEqual(retry.total, 2)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 40)
+
+        retry = retry.increment()
+        self.assertEqual(retry.total, 1)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 80)
+
+        retry = retry.increment()
+        self.assertEqual(retry.total, 0)
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.get_backoff_time(), 160)
+
+        with self.assertRaises(MaxRetryError) as cm:
+            retry.increment()
+        exception = cm.exception
+
+        self.assertEqual("too many error responses", exception.reason.args[0])
+
     def test_backoff_max(self):
         retry = WritesRetry(total=5, backoff_factor=1, max_retry_delay=15) \
             .increment() \
@@ -106,10 +150,10 @@ class TestWritesRetry(unittest.TestCase):
         self.assertEqual(retry.is_exhausted(), False)
 
         backoff_time = retry.get_backoff_time()
-        self.assertLessEqual(backoff_time, 4)
+        self.assertLessEqual(backoff_time, 8)
 
     def test_backoff_exponential_base(self):
-        retry = NonRandomWritesRetry(total=5, backoff_factor=2, exponential_base=2)
+        retry = NonRandomMinWritesRetry(total=5, backoff_factor=2, exponential_base=2)
 
         retry = retry.increment()
         self.assertEqual(retry.get_backoff_time(), 2)

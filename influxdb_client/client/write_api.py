@@ -39,8 +39,7 @@ class WriteOptions(object):
                  jitter_interval=0,
                  retry_interval=5_000,
                  max_retries=10,
-                 max_retry_delay=150_000,
-                 min_retry_delay=1_000,
+                 max_retry_delay=125_000,
                  max_retry_time=180_000,
                  exponential_base=2,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
@@ -55,10 +54,8 @@ class WriteOptions(object):
         :param retry_interval: the time to wait before retry unsuccessful write
         :param max_retries: the number of max retries when write fails, 0 means retry is disabled
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
-        :param min_retry_delay: the minimum delay between each retry attempt in milliseconds
         :param max_retry_time: total timeout for all retry attempts in milliseconds, if 0 retry is disabled
-        :param exponential_base: base for the exponential retry delay, the next delay is computed as
-                                 `retry_interval * exponential_base^(attempts-1) + random(jitter_interval)`
+        :param exponential_base: base for the exponential retry delay
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -68,7 +65,6 @@ class WriteOptions(object):
         self.retry_interval = retry_interval
         self.max_retries = max_retries
         self.max_retry_delay = max_retry_delay
-        self.min_retry_delay = min_retry_delay
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
@@ -79,7 +75,6 @@ class WriteOptions(object):
             total=self.max_retries,
             backoff_factor=self.retry_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
-            min_retry_delay=self.min_retry_delay / 1_000,
             max_retry_time=self.max_retry_time / 1000,
             exponential_base=self.exponential_base,
             allowed_methods=["POST"])

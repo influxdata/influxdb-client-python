@@ -10,7 +10,7 @@ class TestWriteOptions(unittest.TestCase):
         self.assertEqual(retry.total, 10)
         self.assertEqual(retry.backoff_factor, 5)
         self.assertEqual(retry.max_retry_time, 180)
-        self.assertEqual(retry.max_retry_delay, 150)
+        self.assertEqual(retry.max_retry_delay, 125)
         self.assertEqual(retry.exponential_base, 2)
         self.assertEqual(retry.method_whitelist, ["POST"])
 

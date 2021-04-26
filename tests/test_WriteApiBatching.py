@@ -198,7 +198,7 @@ class BatchingWriteTest(unittest.TestCase):
         time.sleep(1)
         self.assertEqual(1, len(httpretty.httpretty.latest_requests), msg="first request immediately")
 
-        time.sleep(1.5)
+        time.sleep(3)
         self.assertEqual(2, len(httpretty.httpretty.latest_requests), msg="second request after delay_interval")
 
         time.sleep(3)
@@ -266,7 +266,7 @@ class BatchingWriteTest(unittest.TestCase):
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
                                   "h2o_feet,location=coyote_creek level\\ water_level=2 2"])
 
-        time.sleep(2)
+        time.sleep(5)
 
         self.assertEqual(1, len(httpretty.httpretty.latest_requests))
 
