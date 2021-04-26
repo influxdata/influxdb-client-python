@@ -144,13 +144,14 @@ class TestWritesRetry(unittest.TestCase):
         self.assertLessEqual(retry.get_backoff_time(), 15)
 
     def test_backoff_jitter(self):
-        retry = WritesRetry(total=5, retry_interval=4).increment()
+        retry = WritesRetry(total=5, retry_interval=4, jitter_interval=2).increment()
 
         self.assertEqual(retry.total, 4)
         self.assertEqual(retry.is_exhausted(), False)
 
         backoff_time = retry.get_backoff_time()
-        self.assertLessEqual(backoff_time, 8)
+        self.assertGreater(backoff_time, 4)
+        self.assertLessEqual(backoff_time, 6)
 
     def test_backoff_exponential_base(self):
         retry = NonRandomMinWritesRetry(total=5, retry_interval=2, exponential_base=2)
@@ -173,6 +174,15 @@ class TestWritesRetry(unittest.TestCase):
 
         retry = WritesRetry()
         self.assertEqual(retry.get_retry_after(response), 5)
+
+    def test_get_retry_after_jitter(self):
+        response = HTTPResponse()
+        response.headers.add('Retry-After', '5')
+
+        retry = WritesRetry(jitter_interval=2)
+        retry_after = retry.get_retry_after(response)
+        self.assertGreater(retry_after, 5)
+        self.assertLessEqual(retry_after, 7)
 
     def test_is_retry(self):
         retry = WritesRetry(method_whitelist=["POST"])

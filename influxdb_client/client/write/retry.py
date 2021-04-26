@@ -17,10 +17,11 @@ class WritesRetry(Retry):
     """
     Writes retry configuration.
 
+    :param int jitter_interval: random milliseconds when retrying writes
+    :param num max_retry_delay: maximum delay when retrying write in seconds
     :param int max_retry_time: maximum total retry timeout in seconds, attempt after this timout throws MaxRetryError
     :param int total: maximum number of retries
     :param num retry_interval: initial first retry delay range in seconds
-    :param num max_retry_delay: maximum delay when retrying write in seconds
     :param int exponential_base: base for the exponential retry delay,
 
     The next delay is computed as random value between range
@@ -32,9 +33,11 @@ class WritesRetry(Retry):
 
     """
 
-    def __init__(self, max_retry_time=180, total=5, retry_interval=5, max_retry_delay=125, exponential_base=2, **kw):
+    def __init__(self, jitter_interval=0, max_retry_delay=125, exponential_base=2, max_retry_time=180, total=5,
+                 retry_interval=5, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
+        self.jitter_interval = jitter_interval
         self.total = total
         self.retry_interval = retry_interval
         self.max_retry_delay = max_retry_delay
@@ -44,15 +47,14 @@ class WritesRetry(Retry):
 
     def new(self, **kw):
         """Initialize defaults."""
+        if 'jitter_interval' not in kw:
+            kw['jitter_interval'] = self.jitter_interval
         if 'retry_interval' not in kw:
             kw['retry_interval'] = self.retry_interval
-
         if 'max_retry_delay' not in kw:
             kw['max_retry_delay'] = self.max_retry_delay
-
         if 'max_retry_time' not in kw:
             kw['max_retry_time'] = self.max_retry_time
-
         if 'exponential_base' not in kw:
             kw['exponential_base'] = self.exponential_base
 
@@ -96,6 +98,13 @@ class WritesRetry(Retry):
 
         return range_start + (range_stop - range_start) * self._random()
 
+    def get_retry_after(self, response):
+        """Get the value of Retry-After header and append random jitter delay."""
+        retry_after = super().get_retry_after(response)
+        if retry_after:
+            retry_after += self._jitter_delay()
+        return retry_after
+
     def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
         """Return a new Retry object with incremented retry counters."""
         if self.retry_timeout < datetime.now():
@@ -117,6 +126,9 @@ class WritesRetry(Retry):
         logger.warning(message)
 
         return new_retry
+
+    def _jitter_delay(self):
+        return self.jitter_interval * random()
 
     def _random(self):
         return random()

@@ -74,6 +74,7 @@ class WriteOptions(object):
         return WritesRetry(
             total=self.max_retries,
             retry_interval=self.retry_interval / 1_000,
+            jitter_interval=self.jitter_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
             max_retry_time=self.max_retry_time / 1_000,
             exponential_base=self.exponential_base,
