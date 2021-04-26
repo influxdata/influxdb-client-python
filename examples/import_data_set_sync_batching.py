@@ -30,7 +30,7 @@ def csv_to_generator(csv_file_path):
 """
 Define Retry strategy - 3 attempts => 2, 4, 8
 """
-retries = WritesRetry(total=3, backoff_factor=1, exponential_base=2)
+retries = WritesRetry(total=3, retry_interval=1, exponential_base=2)
 with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org', retries=retries) as client:
 
     """
