@@ -77,7 +77,7 @@ class WriteOptions(object):
             max_retry_delay=self.max_retry_delay / 1_000,
             max_retry_time=self.max_retry_time / 1_000,
             exponential_base=self.exponential_base,
-            allowed_methods=["POST"])
+            method_whitelist=["POST"])
 
     def __getstate__(self):
         """Return a dict of attributes that you want to pickle."""

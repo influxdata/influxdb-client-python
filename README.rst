@@ -259,7 +259,7 @@ The batching is configurable by ``write_options``\ :
      - the number of milliseconds to retry first unsuccessful write. The next retry delay is computed using exponential random backoff. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
      - ``5000``
    * - **max_retry_time**
-     - maximum total retry timout in milliseconds.
+     - maximum total retry timeout in milliseconds.
      - ``180_000``
    * - **max_retries**
      - the number of max retries when write fails
