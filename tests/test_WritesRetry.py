@@ -143,15 +143,15 @@ class TestWritesRetry(unittest.TestCase):
 
         self.assertLessEqual(retry.get_backoff_time(), 15)
 
-    def test_backoff_jitter(self):
-        retry = WritesRetry(total=5, retry_interval=4, jitter_interval=2).increment()
+    def test_backoff_increment(self):
+        retry = WritesRetry(total=5, retry_interval=4).increment()
 
         self.assertEqual(retry.total, 4)
         self.assertEqual(retry.is_exhausted(), False)
 
         backoff_time = retry.get_backoff_time()
         self.assertGreater(backoff_time, 4)
-        self.assertLessEqual(backoff_time, 6)
+        self.assertLessEqual(backoff_time, 8)
 
     def test_backoff_exponential_base(self):
         retry = NonRandomMinWritesRetry(total=5, retry_interval=2, exponential_base=2)
