@@ -19,24 +19,24 @@ class WritesRetry(Retry):
 
     :param int max_retry_time: maximum total retry timout in seconds, attempt after this timout throws MaxRetryError
     :param int total: maximum number of retries
-    :param num backoff_factor: initial first retry delay range in seconds
+    :param num retry_interval: initial first retry delay range in seconds
     :param num max_retry_delay: maximum delay when retrying write in seconds
     :param int exponential_base: base for the exponential retry delay,
 
     The next delay is computed as random value between range
-    `backoff_factor * exponential_base^(attempts-1)` and `backoff_factor * exponential_base^(attempts)
+    `retry_interval * exponential_base^(attempts-1)` and `retry_interval * exponential_base^(attempts)
 
-    Example: for backoff_factor=5, exponential_base=2, max_retry_delay=125, total=5
+    Example: for retry_interval=5, exponential_base=2, max_retry_delay=125, total=5
     retry delays are random distributed values within the ranges of
     [5-10, 10-20, 20-40, 40-80, 80-125]
 
     """
 
-    def __init__(self, max_retry_time=180, total=10, backoff_factor=5, max_retry_delay=125, exponential_base=2, **kw):
+    def __init__(self, max_retry_time=180, total=5, retry_interval=5, max_retry_delay=125, exponential_base=2, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
         self.total = total
-        self.backoff_factor = backoff_factor
+        self.retry_interval = retry_interval
         self.max_retry_delay = max_retry_delay
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
@@ -44,6 +44,9 @@ class WritesRetry(Retry):
 
     def new(self, **kw):
         """Initialize defaults."""
+        if 'retry_interval' not in kw:
+            kw['retry_interval'] = self.retry_interval
+
         if 'max_retry_delay' not in kw:
             kw['max_retry_delay'] = self.max_retry_delay
 
@@ -77,8 +80,8 @@ class WritesRetry(Retry):
         if consecutive_errors_len < 0:
             return 0
 
-        range_start = self.backoff_factor
-        range_stop = self.backoff_factor * self.exponential_base
+        range_start = self.retry_interval
+        range_stop = self.retry_interval * self.exponential_base
 
         i = 1
         while i <= consecutive_errors_len:

@@ -38,7 +38,7 @@ class WriteOptions(object):
                  batch_size=1_000, flush_interval=1_000,
                  jitter_interval=0,
                  retry_interval=5_000,
-                 max_retries=10,
+                 max_retries=5,
                  max_retry_delay=125_000,
                  max_retry_time=180_000,
                  exponential_base=2,
@@ -73,9 +73,9 @@ class WriteOptions(object):
         """Create a Retry strategy from write options."""
         return WritesRetry(
             total=self.max_retries,
-            backoff_factor=self.retry_interval / 1_000,
+            retry_interval=self.retry_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
-            max_retry_time=self.max_retry_time / 1000,
+            max_retry_time=self.max_retry_time / 1_000,
             exponential_base=self.exponential_base,
             allowed_methods=["POST"])
 

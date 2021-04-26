@@ -7,8 +7,8 @@ class TestWriteOptions(unittest.TestCase):
     def test_default(self):
         retry = WriteOptions().to_retry_strategy()
 
-        self.assertEqual(retry.total, 10)
-        self.assertEqual(retry.backoff_factor, 5)
+        self.assertEqual(retry.total, 5)
+        self.assertEqual(retry.retry_interval, 5)
         self.assertEqual(retry.max_retry_time, 180)
         self.assertEqual(retry.max_retry_delay, 125)
         self.assertEqual(retry.exponential_base, 2)
@@ -21,7 +21,7 @@ class TestWriteOptions(unittest.TestCase):
             .to_retry_strategy()
 
         self.assertEqual(retry.total, 5)
-        self.assertEqual(retry.backoff_factor, 0.5)
+        self.assertEqual(retry.retry_interval, 0.5)
         self.assertEqual(retry.max_retry_delay, 7.5)
         self.assertEqual(retry.exponential_base, 2)
         self.assertEqual(retry.method_whitelist, ["POST"])
