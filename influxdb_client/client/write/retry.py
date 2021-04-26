@@ -17,7 +17,7 @@ class WritesRetry(Retry):
     """
     Writes retry configuration.
 
-    :param int max_retry_time: maximum total retry timout in seconds, attempt after this timout throws MaxRetryError
+    :param int max_retry_time: maximum total retry timeout in seconds, attempt after this timout throws MaxRetryError
     :param int total: maximum number of retries
     :param num retry_interval: initial first retry delay range in seconds
     :param num max_retry_delay: maximum delay when retrying write in seconds
