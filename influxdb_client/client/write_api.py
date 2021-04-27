@@ -353,6 +353,7 @@ class WriteApi:
         elif isinstance(record, Point):
             record.tag(key, val)
         elif isinstance(record, dict):
+            record.setdefault("tags", {})
             record.get("tags")[key] = val
         elif isinstance(record, Iterable):
             for item in record:
