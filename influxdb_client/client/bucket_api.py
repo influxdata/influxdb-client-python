@@ -87,6 +87,6 @@ class BucketsApi(object):
         else:
             return None
 
-    def find_buckets(self):
+    def find_buckets(self, limit=20, offset=0):
         """Get all buckets."""
-        return self._buckets_service.get_buckets()
+        return self._buckets_service.get_buckets(limit=limit, offset=offset)
