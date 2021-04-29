@@ -10,6 +10,15 @@ date_helper = None
 class DateHelper:
     """DateHelper to groups different implementations of date operations."""
 
+    def __init__(self, timezone: datetime.tzinfo = UTC) -> None:
+        """
+        Initialize defaults.
+
+        :param timezone: Default timezone used for serialization "datetime" without "tzinfo".
+                         Default value is "UTC".
+        """
+        self.timezone = timezone
+
     def parse_date(self, date_string: str):
         """
         Parse string into Date or Timestamp.
@@ -40,7 +49,7 @@ class DateHelper:
         :return: datetime in UTC
         """
         if not value.tzinfo:
-            return UTC.localize(value)
+            return self.to_utc(value.replace(tzinfo=self.timezone))
         else:
             return value.astimezone(UTC)
 
