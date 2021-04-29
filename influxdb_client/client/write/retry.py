@@ -1,10 +1,12 @@
 """Implementation for Retry strategy during HTTP requests."""
 
 import logging
+from datetime import datetime, timedelta
 from itertools import takewhile
 from random import random
 
 from urllib3 import Retry
+from urllib3.exceptions import MaxRetryError, ResponseError
 
 from influxdb_client.client.exceptions import InfluxDBError
 
@@ -16,27 +18,49 @@ class WritesRetry(Retry):
     Writes retry configuration.
 
     :param int jitter_interval: random milliseconds when retrying writes
-    :param int max_retry_delay: maximum delay when retrying write
-    :param int exponential_base: base for the exponential retry delay, the next delay is computed as
-                                 `backoff_factor * exponential_base^(attempts-1) + random(jitter_interval)`
+    :param num max_retry_delay: maximum delay when retrying write in seconds
+    :param int max_retry_time: maximum total retry timeout in seconds, attempt after this timout throws MaxRetryError
+    :param int total: maximum number of retries
+    :param num retry_interval: initial first retry delay range in seconds
+    :param int exponential_base: base for the exponential retry delay,
+
+    The next delay is computed as random value between range
+    `retry_interval * exponential_base^(attempts-1)` and `retry_interval * exponential_base^(attempts)
+
+    Example: for retry_interval=5, exponential_base=2, max_retry_delay=125, total=5
+    retry delays are random distributed values within the ranges of
+    [5-10, 10-20, 20-40, 40-80, 80-125]
+
     """
 
-    def __init__(self, jitter_interval=0, max_retry_delay=180, exponential_base=5, **kw):
+    def __init__(self, jitter_interval=0, max_retry_delay=125, exponential_base=2, max_retry_time=180, total=5,
+                 retry_interval=5, **kw):
         """Initialize defaults."""
         super().__init__(**kw)
         self.jitter_interval = jitter_interval
+        self.total = total
+        self.retry_interval = retry_interval
         self.max_retry_delay = max_retry_delay
+        self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
+        self.retry_timeout = datetime.now() + timedelta(seconds=max_retry_time)
 
     def new(self, **kw):
         """Initialize defaults."""
         if 'jitter_interval' not in kw:
             kw['jitter_interval'] = self.jitter_interval
+        if 'retry_interval' not in kw:
+            kw['retry_interval'] = self.retry_interval
         if 'max_retry_delay' not in kw:
             kw['max_retry_delay'] = self.max_retry_delay
+        if 'max_retry_time' not in kw:
+            kw['max_retry_time'] = self.max_retry_time
         if 'exponential_base' not in kw:
             kw['exponential_base'] = self.exponential_base
-        return super().new(**kw)
+
+        new = super().new(**kw)
+        new.retry_timeout = self.retry_timeout
+        return new
 
     def is_retry(self, method, status_code, has_retry_after=False):
         """is_retry doesn't require retry_after header. If there is not Retry-After we will use backoff."""
@@ -58,8 +82,21 @@ class WritesRetry(Retry):
         if consecutive_errors_len < 0:
             return 0
 
-        backoff_value = self.backoff_factor * (self.exponential_base ** consecutive_errors_len) + self._jitter_delay()
-        return min(self.max_retry_delay, backoff_value)
+        range_start = self.retry_interval
+        range_stop = self.retry_interval * self.exponential_base
+
+        i = 1
+        while i <= consecutive_errors_len:
+            i += 1
+            range_start = range_stop
+            range_stop = range_stop * self.exponential_base
+            if range_stop > self.max_retry_delay:
+                break
+
+        if range_stop > self.max_retry_delay:
+            range_stop = self.max_retry_delay
+
+        return range_start + (range_stop - range_start) * self._random()
 
     def get_retry_after(self, response):
         """Get the value of Retry-After header and append random jitter delay."""
@@ -70,6 +107,9 @@ class WritesRetry(Retry):
 
     def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
         """Return a new Retry object with incremented retry counters."""
+        if self.retry_timeout < datetime.now():
+            raise MaxRetryError(_pool, url, error or ResponseError("max_retry_time exceeded"))
+
         new_retry = super().increment(method, url, response, error, _pool, _stacktrace)
 
         if response is not None:
@@ -89,3 +129,6 @@ class WritesRetry(Retry):
 
     def _jitter_delay(self):
         return self.jitter_interval * random()
+
+    def _random(self):
+        return random()

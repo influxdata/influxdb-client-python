@@ -38,9 +38,10 @@ class WriteOptions(object):
                  batch_size=1_000, flush_interval=1_000,
                  jitter_interval=0,
                  retry_interval=5_000,
-                 max_retries=3,
-                 max_retry_delay=180_000,
-                 exponential_base=5,
+                 max_retries=5,
+                 max_retry_delay=125_000,
+                 max_retry_time=180_000,
+                 exponential_base=2,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.
@@ -51,10 +52,10 @@ class WriteOptions(object):
         :param jitter_interval: this is primarily to avoid large write spikes for users running a large number of
                client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
         :param retry_interval: the time to wait before retry unsuccessful write
-        :param max_retries: the number of max retries when write fails
+        :param max_retries: the number of max retries when write fails, 0 means retry is disabled
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
-        :param exponential_base: base for the exponential retry delay, the next delay is computed as
-                                 `retry_interval * exponential_base^(attempts-1) + random(jitter_interval)`
+        :param max_retry_time: total timeout for all retry attempts in milliseconds, if 0 retry is disabled
+        :param exponential_base: base for the exponential retry delay
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -64,6 +65,7 @@ class WriteOptions(object):
         self.retry_interval = retry_interval
         self.max_retries = max_retries
         self.max_retry_delay = max_retry_delay
+        self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
 
@@ -71,9 +73,10 @@ class WriteOptions(object):
         """Create a Retry strategy from write options."""
         return WritesRetry(
             total=self.max_retries,
-            backoff_factor=self.retry_interval / 1_000,
+            retry_interval=self.retry_interval / 1_000,
             jitter_interval=self.jitter_interval / 1_000,
             max_retry_delay=self.max_retry_delay / 1_000,
+            max_retry_time=self.max_retry_time / 1_000,
             exponential_base=self.exponential_base,
             method_whitelist=["POST"])
 
@@ -363,12 +366,7 @@ class WriteApi:
 
         logger.debug("Write time series data into InfluxDB: %s", batch_item)
 
-        retry = WritesRetry(
-            total=self._write_options.max_retries,
-            backoff_factor=self._write_options.retry_interval / 1_000,
-            jitter_interval=self._write_options.jitter_interval / 1_000,
-            max_retry_delay=self._write_options.max_retry_delay / 1_000,
-            method_whitelist=["POST"])
+        retry = self._write_options.to_retry_strategy()
 
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
                          batch_item.key.precision, urlopen_kw={'retries': retry})

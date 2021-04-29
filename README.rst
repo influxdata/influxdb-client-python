@@ -256,17 +256,20 @@ The batching is configurable by ``write_options``\ :
      - the number of milliseconds to increase the batch flush interval by a random amount
      - ``0``
    * - **retry_interval**
-     - the number of milliseconds to retry unsuccessful write. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
+     - the number of milliseconds to retry first unsuccessful write. The next retry delay is computed using exponential random backoff. The retry interval is used when the InfluxDB server does not specify "Retry-After" header.
      - ``5000``
+   * - **max_retry_time**
+     - maximum total retry timeout in milliseconds.
+     - ``180_000``
    * - **max_retries**
      - the number of max retries when write fails
-     - ``3``
+     - ``5``
    * - **max_retry_delay**
      - the maximum delay between each retry attempt in milliseconds
-     - ``180_000``
+     - ``125_000``
    * - **exponential_base**
-     - the base for the exponential retry delay, the next delay is computed as ``retry_interval * exponential_base^(attempts-1) + random(jitter_interval)``
-     - ``5``
+     - the base for the exponential retry delay, the next delay is computed using random exponential backoff as a random value within the interval  ``retry_interval * exponential_base^(attempts-1)`` and ``retry_interval * exponential_base^(attempts)``. Example for ``retry_interval=5_000, exponential_base=2, max_retry_delay=125_000, total=5`` Retry delays are random distributed values within the ranges of ``[5_000-10_000, 10_000-20_000, 20_000-40_000, 40_000-80_000, 80_000-125_000]``
+     - ``2``
 
 
 .. code-block:: python

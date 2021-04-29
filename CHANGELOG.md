@@ -2,6 +2,7 @@
 
 ### Features
 1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters 
+1. [#225](https://github.com/influxdata/influxdb-client-python/pull/225): Exponential random backoff retry strategy 
 
 ### Bug Fixes
 1. [#222](https://github.com/influxdata/influxdb-client-python/pull/222): Pass configured timeout to HTTP client
