@@ -92,7 +92,8 @@ class BucketsApi(object):
 
         :key int offset: Offset for pagination
         :key int limit: Limit for pagination
-        :key str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`.
+        :key str after: The last resource ID from which to seek from (but not including).
+                        This is to be used instead of `offset`.
         :key str org: The organization name.
         :key str org_id: The organization ID.
         :key str name: Only returns buckets with a specific name.
