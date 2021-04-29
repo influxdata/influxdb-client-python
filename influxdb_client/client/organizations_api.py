@@ -26,9 +26,18 @@ class OrganizationsApi(object):
         """Retrieve an organization."""
         return self._organizations_service.get_orgs_id(org_id=org_id)
 
-    def find_organizations(self):
-        """List all organizations."""
-        return self._organizations_service.get_orgs().orgs
+    def find_organizations(self, **kwargs):
+        """
+        List all organizations.
+
+        :key int offset: Offset for pagination
+        :key int limit: Limit for pagination
+        :key bool descending:
+        :key str org: Filter organizations to a specific organization name.
+        :key str org_id: Filter organizations to a specific organization ID.
+        :key str user_id: Filter organizations to a specific user ID.
+        """
+        return self._organizations_service.get_orgs(**kwargs).orgs
 
     def create_organization(self, name: str = None, organization: Organization = None) -> Organization:
         """Create an organization."""

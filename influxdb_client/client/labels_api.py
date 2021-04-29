@@ -67,13 +67,15 @@ class LabelsApi(object):
 
         return self.create_label(name=cloned_name, properties=cloned_properties, org_id=label.org_id)
 
-    def find_labels(self) -> List['Label']:
+    def find_labels(self, **kwargs) -> List['Label']:
         """
         Get all available labels.
 
+        :key str org_id: The organization ID.
+
         :return: labels
         """
-        return self._service.get_labels().labels
+        return self._service.get_labels(**kwargs).labels
 
     def find_label_by_id(self, label_id: str):
         """

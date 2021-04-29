@@ -83,6 +83,26 @@ class BucketsClientTest(BaseTest):
 
         self.delete_test_bucket(my_bucket)
 
+    def test_pagination(self):
+        my_org = self.find_my_org()
+        buckets = self.buckets_api.find_buckets().buckets
+        size = len(buckets)
+
+        # create 2 buckets
+        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org_id=my_org.id)
+        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org_id=my_org.id)
+
+        buckets = self.buckets_api.find_buckets().buckets
+        self.assertEqual(size + 2, len(buckets))
+
+        # offset 1
+        buckets = self.buckets_api.find_buckets(offset=1).buckets
+        self.assertEqual(size + 1, len(buckets))
+
+        # count 1
+        buckets = self.buckets_api.find_buckets(limit=1).buckets
+        self.assertEqual(1, len(buckets))
+
 
 if __name__ == '__main__':
     unittest.main()
