@@ -1,11 +1,13 @@
 ## 1.18.0 [unreleased]
 
+### Features
+1. [#237](https://github.com/influxdata/influxdb-client-python/pull/237): Use kwargs to pass query parameters into API list call - useful for the ability to use pagination.
+
 ## 1.17.0 [2021-04-30]
 
 ### Features
 1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters 
 1. [#225](https://github.com/influxdata/influxdb-client-python/pull/225): Exponential random backoff retry strategy 
-1. [#237](https://github.com/influxdata/influxdb-client-python/pull/237): Use kwargs to pass query parameters into API list call - useful for the ability to use pagination.
 
 ### Bug Fixes
 1. [#222](https://github.com/influxdata/influxdb-client-python/pull/222): Pass configured timeout to HTTP client
