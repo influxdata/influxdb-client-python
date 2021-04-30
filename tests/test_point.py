@@ -369,6 +369,16 @@ class PointTest(unittest.TestCase):
         point_hk = Point.measurement("h2o").field("val", 1).time(time_in_hk)
         self.assertEqual(point_utc.to_line_protocol(), point_hk.to_line_protocol())
 
+    def test_unsupported_field_type(self):
+        with self.assertRaises(ValueError) as ve:
+            Point.measurement("h2o") \
+                .tag("location", "europe") \
+                .field("level", UTC) \
+                .to_line_protocol()
+        exception = ve.exception
+
+        self.assertEqual('Type: "<class \'pytz.UTC\'>" of field: "level" is not supported.', f'{exception}')
+
 
 if __name__ == '__main__':
     unittest.main()
