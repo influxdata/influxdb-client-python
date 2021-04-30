@@ -2,6 +2,7 @@
 
 ### Features
 1. [#237](https://github.com/influxdata/influxdb-client-python/pull/237): Use kwargs to pass query parameters into API list call - useful for the ability to use pagination.
+1. [#241](https://github.com/influxdata/influxdb-client-python/pull/241): Add detail error message for not supported type of `Point.field`
 
 ## 1.17.0 [2021-04-30]
 
