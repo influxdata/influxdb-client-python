@@ -42,10 +42,10 @@ class AuthorizationsApi(object):
         """
         Get a list of all authorizations.
 
-        :param str user_id: filter authorizations belonging to a user id
-        :param str user: filter authorizations belonging to a user name
-        :param str org_id: filter authorizations belonging to a org id
-        :param str org: filter authorizations belonging to a org name
+        :key str user_id: filter authorizations belonging to a user id
+        :key str user: filter authorizations belonging to a user name
+        :key str org_id: filter authorizations belonging to a org id
+        :key str org: filter authorizations belonging to a org name
         :return: Authorizations
         """
         authorizations = self._authorizations_service.get_authorizations(**kwargs)

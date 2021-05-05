@@ -28,12 +28,12 @@ class TasksApi(object):
     def find_tasks(self, **kwargs):
         """List all tasks.
 
-        :param str name: only returns tasks with the specified name
-        :param str after: returns tasks after specified ID
-        :param str user: filter tasks to a specific user ID
-        :param str org: filter tasks to a specific organization name
-        :param str org_id: filter tasks to a specific organization ID
-        :param int limit: the number of tasks to return
+        :key str name: only returns tasks with the specified name
+        :key str after: returns tasks after specified ID
+        :key str user: filter tasks to a specific user ID
+        :key str org: filter tasks to a specific organization name
+        :key str org_id: filter tasks to a specific organization ID
+        :key int limit: the number of tasks to return
         :return: Tasks
         """
         return self._service.get_tasks(**kwargs).tasks

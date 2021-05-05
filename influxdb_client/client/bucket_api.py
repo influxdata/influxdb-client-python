@@ -87,6 +87,16 @@ class BucketsApi(object):
         else:
             return None
 
-    def find_buckets(self):
-        """Get all buckets."""
-        return self._buckets_service.get_buckets()
+    def find_buckets(self, **kwargs):
+        """List buckets.
+
+        :key int offset: Offset for pagination
+        :key int limit: Limit for pagination
+        :key str after: The last resource ID from which to seek from (but not including).
+                        This is to be used instead of `offset`.
+        :key str org: The organization name.
+        :key str org_id: The organization ID.
+        :key str name: Only returns buckets with a specific name.
+        :return: Buckets
+        """
+        return self._buckets_service.get_buckets(**kwargs)
