@@ -17,7 +17,7 @@ with InfluxDBClient(url=url, token=token) as client:
     The Bucket API uses as a parameter the Organization ID. We have to retrieve ID by Organization API.
     """
     org_name = "my-org"
-    org = list(filter(lambda it: it.name == org_name, client.organizations_api().find_organizations()))[0]
+    org = client.organizations_api().find_organizations(org=org_name)[0]
 
     """
     Create Bucket with retention policy set to 3600 seconds and name "bucket-by-python"
