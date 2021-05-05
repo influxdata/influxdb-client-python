@@ -165,7 +165,7 @@ def _append_fields(fields):
         elif isinstance(value, str):
             _return.append(f'{_escape_key(field)}="{_escape_string(value)}"')
         else:
-            raise ValueError()
+            raise ValueError(f'Type: "{type(value)}" of field: "{field}" is not supported.')
 
     return f"{','.join(_return)}"
 
