@@ -368,8 +368,9 @@ class WriteApi:
 
         retry = self._write_options.to_retry_strategy()
 
+        request_timeout = self._influxdb_client.api_client.configuration.timeout
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
-                         batch_item.key.precision, urlopen_kw={'retries': retry})
+                         batch_item.key.precision, urlopen_kw={'retries': retry}, _request_timeout=request_timeout)
 
         logger.debug("Write request finished %s", batch_item)
 

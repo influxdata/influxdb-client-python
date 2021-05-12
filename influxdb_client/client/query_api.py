@@ -146,8 +146,10 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
+        request_timeout = self._influxdb_client.api_client.configuration.timeout
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
-                                              async_req=False, _preload_content=False, _return_http_data_only=False)
+                                              async_req=False, _preload_content=False, _return_http_data_only=False,
+                                              _request_timeout=request_timeout)
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
                                 data_frame_index=data_frame_index)
