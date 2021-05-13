@@ -21,7 +21,7 @@ test_requires = [
     'py>=1.4.31',
     'randomize>=0.13',
     'pytest>=5.0.0',
-    'httpretty>=1.0.2',
+    'httpretty==1.0.5',
     'psutil>=5.6.3'
 ]
 
