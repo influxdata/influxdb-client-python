@@ -1,5 +1,3 @@
-import csv
-import os
 import time
 import unittest
 from datetime import timedelta
@@ -160,7 +158,7 @@ class DataSerializerTest(unittest.TestCase):
                          points[1])
 
     def test_write_field_bool(self):
-        from influxdb_client.extras import pd, np
+        from influxdb_client.extras import pd
 
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
@@ -252,7 +250,7 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("h2o,a=a,b=b,c=c level=2i 1586048400000000000", points[0])
 
     def test_escape_text_value(self):
-        from influxdb_client.extras import pd, np
+        from influxdb_client.extras import pd
 
         now = pd.Timestamp('2020-04-05 00:00+00:00')
         an_hour_ago = now - timedelta(hours=1)
@@ -273,7 +271,7 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("test,d=bar\\ foo b=\"goodbye cruel world\",c=2i 1586044800000000000", points[1])
 
     def test_with_default_tags(self):
-        from influxdb_client.extras import pd, np
+        from influxdb_client.extras import pd
         now = pd.Timestamp('2020-04-05 00:00+00:00')
         data_frame = pd.DataFrame(data={
                                       'value': [1, 2],
@@ -309,8 +307,7 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual(True, (data_frame == original_data).all(axis = None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
 
     def test_with_period_index(self):
-        from influxdb_client.extras import pd, np
-        now = pd.Timestamp('2020-04-05 00:00+00:00')
+        from influxdb_client.extras import pd
         data_frame = pd.DataFrame(data={
                                       'value': [1, 2],
                                 },
@@ -323,3 +320,16 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual(2, len(points))
         self.assertEqual("h2o value=1i 1586048400000000000", points[0])
         self.assertEqual("h2o value=2i 1586052000000000000", points[1])
+
+    def test_write_num_py_floats(self):
+        from influxdb_client.extras import pd, np
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+
+        for np_float_type in [np.float, np.float16, np.float32, np.float64, np.float128]:
+            data_frame = pd.DataFrame([15.5], index=[now], columns=['level']).astype(np_float_type)
+            points = data_frame_to_list_of_points(data_frame=data_frame,
+                                                  data_frame_measurement_name='h2o',
+                                                  point_settings=PointSettings())
+            self.assertEqual(1, len(points))
+            self.assertEqual("h2o level=15.5 1586044800000000000", points[0], msg=f'Current type: {np_float_type}')
+

@@ -5,6 +5,9 @@
 1. [#241](https://github.com/influxdata/influxdb-client-python/pull/241): Add detail error message for not supported type of `Point.field`
 1. [#238](https://github.com/influxdata/influxdb-client-python/pull/238): Add possibility to specify default `timezone` for datetimes without `tzinfo`
 
+### Bug Fixes
+1. [#254](https://github.com/influxdata/influxdb-client-python/pull/254): Serialize `numpy` floats into LineProtocol
+
 ### Documentation
 1. [#255](https://github.com/influxdata/influxdb-client-python/pull/255): Fix invalid description for env var `INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`
 

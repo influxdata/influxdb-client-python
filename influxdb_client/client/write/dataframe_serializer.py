@@ -158,7 +158,7 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
             field_value = f"{sep}{key_format}={{{val_format}}}i"
         elif issubclass(value.type, np.bool_):
             field_value = f'{sep}{key_format}={{{val_format}}}'
-        elif issubclass(value.type, np.float):
+        elif issubclass(value.type, np.floating):
             if null_columns[index]:
                 field_value = f"""{{"" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"}}"""
             else:
