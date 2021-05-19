@@ -42,12 +42,10 @@ class BucketsApi(object):
             rules.append(retention_rules)
 
         if bucket is None:
-
-            bucket = PostBucketRequest(name=bucket_name, retention_rules=rules, description=description)
-
-            if org_id is None:
-                org_id = self._influxdb_client.org
-            bucket.org_id = org_id
+            bucket = PostBucketRequest(name=bucket_name,
+                                       retention_rules=rules,
+                                       description=description,
+                                       org_id=self._influxdb_client.org if org_id is None else org_id)
 
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
