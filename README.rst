@@ -201,7 +201,7 @@ Supported properties are:
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
 - ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
-- ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set this to customize the certificate file to verify the peer
+- ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set the number of connections to save that can be reused by urllib3
 
 .. code-block:: python
 
