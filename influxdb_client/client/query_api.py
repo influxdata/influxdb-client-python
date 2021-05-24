@@ -112,8 +112,6 @@ class QueryApi(object):
         else:
             return _parser.tables
 
-
-
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
         Execute synchronous Flux query and return stream of FluxRecord as a Generator['FluxRecord'].
