@@ -12,7 +12,7 @@ from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
-from influxdb_client.client.query_api import QueryApi
+from influxdb_client.client.query_api import QueryApi, QueryOptions
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
@@ -42,6 +42,8 @@ class InfluxDBClient(object):
                                           Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
+        :key list[str] profilers: list of enabled Flux profilers
+
         :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
@@ -74,6 +76,8 @@ class InfluxDBClient(object):
             auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
 
         retries = kwargs.get('retries', False)
+
+        self.profilers = kwargs.get('profilers', None)
 
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
                                     header_value=auth_header_value, retries=retries)
@@ -181,9 +185,14 @@ class InfluxDBClient(object):
             tags = {k: v.strip('"') for k, v in config.items('tags')}
             default_tags = dict(tags)
 
+        profilers = None
+        if config.has_option('influx2', 'profilers'):
+            profilers = [x.strip() for x in config_value('profilers').split(',')]
+
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic))
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
+                   profilers=profilers)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
@@ -209,6 +218,11 @@ class InfluxDBClient(object):
         connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
         auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
 
+        prof = os.getenv("INFLUXDB_V2_PROFILERS", None)
+        profilers = None
+        if prof is not None:
+            profilers = [x.strip() for x in prof.split(',')]
+
         default_tags = dict()
 
         for key, value in os.environ.items():
@@ -217,7 +231,8 @@ class InfluxDBClient(object):
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic))
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
+                   profilers=profilers)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """
@@ -229,13 +244,16 @@ class InfluxDBClient(object):
         """
         return WriteApi(influxdb_client=self, write_options=write_options, point_settings=point_settings)
 
-    def query_api(self) -> QueryApi:
+    def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApi:
         """
         Create a Query API instance.
 
+        :param query_options: optional query api configuration
         :return: Query api instance
         """
-        return QueryApi(self)
+        if self.profilers is not None:
+            query_options.profilers = self.profilers
+        return QueryApi(self, query_options)
 
     def close(self):
         """Shutdown the client."""

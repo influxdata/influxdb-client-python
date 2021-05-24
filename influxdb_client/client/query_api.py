@@ -10,11 +10,23 @@ from datetime import datetime, timedelta
 from typing import List, Generator, Any
 
 from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLiteral, DateTimeLiteral, StringLiteral, \
-    VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression
+    VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, \
+    ImportDeclaration, MemberAssignment, MemberExpression, ArrayExpression
 from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
+
+
+class QueryOptions(object):
+    """
+    Query options
+    """
+    def __init__(self, profilers: List[str] = None) -> None:
+        """
+        :param profilers: list of enabled flux profilers
+        """
+        self.profilers = profilers
 
 
 class QueryApi(object):
@@ -23,13 +35,14 @@ class QueryApi(object):
     default_dialect = Dialect(header=True, delimiter=",", comment_prefix="#",
                               annotations=["datatype", "group", "default"], date_time_format="RFC3339")
 
-    def __init__(self, influxdb_client):
+    def __init__(self, influxdb_client, query_options=QueryOptions()):
         """
         Initialize query client.
 
         :param influxdb_client: influxdb client
         """
         self._influxdb_client = influxdb_client
+        self._query_options = query_options
         self._query_api = QueryService(influxdb_client.api_client)
 
     def query_csv(self, query: str, org=None, dialect: Dialect = default_dialect, params: dict = None):
@@ -45,8 +58,10 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
-        response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
-                                              async_req=False, _preload_content=False)
+        response = self._query_api.post_query(
+            org=org,
+            query=self._create_query(query, dialect, params, self._query_options),
+            async_req=False, _preload_content=False)
 
         return csv.reader(codecs.iterdecode(response, 'utf-8'))
 
@@ -62,8 +77,10 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
-        result = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params), async_req=False,
-                                            _preload_content=False)
+        result = self._query_api.post_query(
+            org=org,
+            query=self._create_query(query, dialect, params, self._query_options),
+            async_req=False, _preload_content=False)
 
         return result
 
@@ -79,14 +96,23 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params,
+                                                                                self._query_options),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables)
+        _parser = FluxCsvParser(
+            response=response,
+            serialization_mode=FluxSerializationMode.tables,
+            query_options=self._query_options)
 
         list(_parser.generator())
 
-        return _parser.tables
+        if self._query_options.profilers is not None and len(self._query_options.profilers) > 0:
+            return list(filter(lambda table: not _parser.is_profiler_table(table), _parser.tables))
+        else:
+            return _parser.tables
+
+
 
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
@@ -100,10 +126,13 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
-                                              async_req=False, _preload_content=False, _return_http_data_only=False)
-
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params,
+                                                                                self._query_options), async_req=False,
+                                              _preload_content=False, _return_http_data_only=False)
+        _parser = FluxCsvParser(
+            response=response,
+            serialization_mode=FluxSerializationMode.stream,
+            query_options=self._query_options)
 
         return _parser.generator()
 
@@ -146,18 +175,34 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
-                                              async_req=False, _preload_content=False, _return_http_data_only=False)
+        response = self._query_api.post_query(
+            org=org,
+            query=self._create_query(query, self.default_dialect, params, self._query_options),
+            async_req=False,
+            _preload_content=False,
+            _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
-                                data_frame_index=data_frame_index)
+        _parser = FluxCsvParser(
+            response=response,
+            serialization_mode=FluxSerializationMode.dataFrame,
+            data_frame_index=data_frame_index,
+            query_options=self._query_options)
+
         return _parser.generator()
 
-    # private helper for c
     @staticmethod
-    def _create_query(query, dialect=default_dialect, params: dict = None):
-        created = Query(query=query, dialect=dialect, extern=QueryApi._build_flux_ast(params))
-        return created
+    def _create_query(query, dialect=default_dialect, params: dict = None, query_options: QueryOptions = None):
+        q = Query(query=query, dialect=dialect, extern=QueryApi._build_flux_ast(params, query_options.profilers))
+
+        if query_options is not None \
+                and query_options.profilers is not None \
+                and len(query_options.profilers) > 0:
+            print("\n===============")
+            print("Profiler: query")
+            print("===============")
+            print(query)
+
+        return q
 
     @staticmethod
     def _params_to_extern_ast(params: dict) -> List['OptionStatement']:
@@ -177,7 +222,6 @@ class QueryApi(object):
                 value = get_date_helper().to_utc(value)
                 literal = DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
             elif isinstance(value, timedelta):
-                # convert to microsecodns
                 _micro_delta = int(value / timedelta(microseconds=1))
                 if _micro_delta < 0:
                     literal = UnaryExpression("UnaryExpression", argument=DurationLiteral("DurationLiteral", [
@@ -195,11 +239,40 @@ class QueryApi(object):
         return statements
 
     @staticmethod
-    def _build_flux_ast(params: dict = None):
-        if params is None:
-            return None
+    def _build_flux_ast(params: dict = None, profilers: List[str] = None):
 
-        return File(package=None, name=None, type=None, imports=[], body=QueryApi._params_to_extern_ast(params))
+        imports = []
+        body = []
+
+        if profilers is not None and len(profilers) > 0:
+            imports.append(ImportDeclaration(
+                "ImportDeclaration",
+                path=StringLiteral("StringLiteral", "profiler")))
+
+            elements = []
+            for profiler in profilers:
+                elements.append(StringLiteral("StringLiteral", value=profiler))
+
+            member = MemberExpression(
+                "MemberExpression",
+                object=Identifier("Identifier", "profiler"),
+                _property=Identifier("Identifier", "enabledProfilers"))
+
+            prof = OptionStatement(
+                "OptionStatement",
+                assignment=MemberAssignment(
+                    "MemberAssignment",
+                    member=member,
+                    init=ArrayExpression(
+                        "ArrayExpression",
+                        elements=elements)))
+
+            body.append(prof)
+
+        if params is not None:
+            body.extend(QueryApi._params_to_extern_ast(params))
+
+        return File(package=None, name=None, type=None, imports=imports, body=body)
 
     def __del__(self):
         """Close QueryAPI."""

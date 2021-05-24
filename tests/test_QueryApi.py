@@ -2,12 +2,27 @@ import datetime
 import json
 import unittest
 
-from influxdb_client import QueryApi, DurationLiteral, Duration, CallExpression, Expression, UnaryExpression, Identifier
+from dateutil.tz import tzutc
+from httpretty import httpretty
+
+from influxdb_client import QueryApi, DurationLiteral, Duration, CallExpression, Expression, UnaryExpression, \
+    Identifier, InfluxDBClient
+from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.util.date_utils import get_date_helper
 from tests.base_test import BaseTest
 
 
 class SimpleQueryTest(BaseTest):
+
+    def setUp(self) -> None:
+        super(SimpleQueryTest, self).setUp()
+
+        httpretty.enable()
+        httpretty.reset()
+
+    def tearDown(self) -> None:
+        self.client.close()
+        httpretty.disable()
 
     def test_query_raw(self):
         client = self.client
@@ -257,6 +272,194 @@ class SimpleQueryTest(BaseTest):
             got_sanitized = self.client.api_client.sanitize_for_serialization(ast)
             self.assertEqual(json.dumps(got_sanitized, sort_keys=True, indent=2),
                              json.dumps(data[2], sort_keys=True, indent=2))
+
+    def test_query_profiler_enabled(self):
+        q = '''
+        from(bucket:stringParam) 
+            |> range(start: 0, stop: callParam) |> last()
+        '''
+        p = {
+            "stringParam": "my-bucket",
+            "stopParam": get_date_helper().parse_date("2021-03-20T15:59:10.607352Z"),
+            "durationParam": DurationLiteral("DurationLiteral", [Duration(magnitude=1, unit="d")]),
+            "callParam": CallExpression(type="CallExpression", callee=Identifier(type="Identifier", name="now")),
+        }
+        query_api = self.client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
+        csv_result = query_api.query(query=q, params=p)
+
+        for table in csv_result:
+            self.assertFalse(any(filter(lambda column: (column.default_value == "_profiler"), table.columns)))
+            for flux_record in table:
+                self.assertFalse( flux_record["_measurement"].startswith("profiler/"))
+
+        records = self.client.query_api().query_stream(query=q, params=p)
+
+        for flux_record in records:
+            self.assertFalse(flux_record["_measurement"].startswith("profiler/"))
+
+        self.assertIsNotNone(csv_result)
+
+    def test_query_profiler_present(self):
+
+        client = self.client
+        q = '''
+        import "profiler"
+
+        option profiler.enabledProfilers = ["query", "operator"]
+
+        from(bucket:stringParam) 
+            |> range(start: 0, stop: callParam) |> last()
+        '''
+
+        p = {
+            "stringParam": "my-bucket",
+            "stopParam": get_date_helper().parse_date("2021-03-20T15:59:10.607352Z"),
+            "durationParam": DurationLiteral("DurationLiteral", [Duration(magnitude=1, unit="d")]),
+            "callParam": CallExpression(type="CallExpression", callee=Identifier(type="Identifier", name="now")),
+        }
+        csv_result = client.query_api(query_options=QueryOptions(profilers=None)).query(query=q, params=p)
+        self.assertIsNotNone(csv_result)
+
+        found_profiler_table = False
+        found_profiler_records = False
+
+        for table in csv_result:
+            if any(filter(lambda column: (column.default_value == "_profiler"), table.columns)):
+                found_profiler_table = True
+                print(f"Profiler table : {table} ")
+            for flux_record in table:
+                if flux_record["_measurement"].startswith("profiler/"):
+                    found_profiler_records = True
+                    print(f"Profiler record: {flux_record}")
+
+        self.assertTrue(found_profiler_table)
+        self.assertTrue(found_profiler_records)
+
+        records = client.query_api().query_stream(query=q, params=p)
+
+        found_profiler_records = False
+        for flux_record in records:
+            if flux_record["_measurement"].startswith("profiler/"):
+                found_profiler_records = True
+                print(f"Profiler record: {flux_record}")
+        self.assertTrue(found_profiler_records)
+
+    def test_profiler_ast(self):
+
+        expect = {
+            "body": [
+                {
+                    "assignment": {
+                        "init": {
+                            "elements": [
+                                {
+                                    "type": "StringLiteral",
+                                    "value": "first-profiler"
+                                },
+                                {
+                                    "type": "StringLiteral",
+                                    "value": "second-profiler"
+                                }
+                            ],
+                            "type": "ArrayExpression"
+                        },
+                        "member": {
+                            "object": {
+                                "name": "profiler",
+                                "type": "Identifier"
+                            },
+                            "property": {
+                                "name": "enabledProfilers",
+                                "type": "Identifier"
+                            },
+                            "type": "MemberExpression"
+                        },
+                        "type": "MemberAssignment"
+                    },
+                    "type": "OptionStatement"
+                }
+            ],
+            "imports": [
+                {
+                    "path": {
+                        "type": "StringLiteral",
+                        "value": "profiler"
+                    },
+                    "type": "ImportDeclaration"
+                }
+            ]
+        }
+
+        ast = QueryApi._build_flux_ast(params=None, profilers=["first-profiler", "second-profiler"])
+        got_sanitized = self.client.api_client.sanitize_for_serialization(ast)
+        print(json.dumps(got_sanitized, sort_keys=True, indent=2))
+
+        self.assertEqual(json.dumps(got_sanitized, sort_keys=True, indent=2),
+                         json.dumps(expect, sort_keys=True, indent=2))
+
+    def test_profiler_mock(self):
+
+        query_response = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,string,string,double,double,double
+#group,false,false,true,true,false,true,true,false,false,false
+#default,_result,,,,,,,,,
+,result,table,_start,_stop,_time,_measurement,host,available,free,used
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:41:00Z,mem,kozel.local,5832097792,317063168,11347771392
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:42:00Z,mem,kozel.local,5713765717.333333,118702080,11466103466.666666
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:43:00Z,mem,kozel.local,5776302080,135763968,11403567104
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:44:00Z,mem,kozel.local,5758485162.666667,85798229.33333333,11421384021.333334
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:45:00Z,mem,kozel.local,5788656981.333333,119243434.66666667,11391212202.666666
+,,0,2021-05-24T08:40:44.7850004Z,2021-05-24T08:45:44.7850004Z,2021-05-24T08:45:44.7850004Z,mem,kozel.local,5727718400,35330048,11452150784
+
+#datatype,string,long,string,long,long,long,long,long,long,long,long,long,string,string,long,long
+#group,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false
+#default,_profiler,,,,,,,,,,,,,,,
+,result,table,_measurement,TotalDuration,CompileDuration,QueueDuration,PlanDuration,RequeueDuration,ExecuteDuration,Concurrency,MaxAllocated,TotalAllocated,RuntimeErrors,flux/query-plan,influxdb/scanned-bytes,influxdb/scanned-values
+,,0,profiler/query,8924700,350900,33800,0,0,8486500,0,2072,0,,"digraph {
+  ReadWindowAggregateByTime11
+  // every = 1m, aggregates = [mean], createEmpty = true, timeColumn = ""_stop""
+  pivot8
+  generated_yield
+
+  ReadWindowAggregateByTime11 -> pivot8
+  pivot8 -> generated_yield
+}
+
+",0,0
+
+#datatype,string,long,string,string,string,long,long,long,long,double
+#group,false,false,true,false,false,false,false,false,false,false
+#default,_profiler,,,,,,,,,
+,result,table,_measurement,Type,Label,Count,MinDuration,MaxDuration,DurationSum,MeanDuration
+,,1,profiler/operator,*universe.pivotTransformation,pivot8,3,32600,126200,193400,64466.666666666664
+,,1,profiler/operator,*influxdb.readWindowAggregateSource,ReadWindowAggregateByTime11,1,940500,940500,940500,940500
+"""
+
+        query = """
+        from(bucket: "my-bucket") 
+          |> range(start: -5m, stop: now()) 
+          |> filter(fn: (r) => r._measurement == "mem") 
+          |> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")
+          |> aggregateWindow(every: 1m, fn: mean)
+          |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+        """
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body=query_response)
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+        query_api = self.client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
+        tables = query_api.query(query=query)
+        self.assertEquals(len(tables), 1)
+        self.assertEquals(len(tables[0].columns), 10)
+        self.assertEquals(len(tables[0].records), 6)
+
+        self.assertEquals(tables[0].records[5].values,
+                          {'result': '_result', 'table': 0,
+                           '_start': datetime.datetime(2021, 5, 24, 8, 40, 44, 785000, tzinfo=tzutc()),
+                           '_stop': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=tzutc()),
+                           '_time': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=tzutc()),
+                           '_measurement': 'mem',
+                           'host': 'kozel.local',
+                           'available': 5727718400, 'free': 35330048,
+                           'used': 11452150784})
 
 
 if __name__ == '__main__':

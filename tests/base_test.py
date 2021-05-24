@@ -24,7 +24,7 @@ class BaseTest(unittest.TestCase):
         self.auth_token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         self.org = os.getenv('INFLUXDB_V2_ORG', "my-org")
 
-        self.client = InfluxDBClient(url=self.host, token=self.auth_token, debug=self.conf.debug, org=self.org)
+        self.client = InfluxDBClient(url=self.host, token=self.auth_token, debug=self.debug, org=self.org)
         self.api_client = self.client.api_client
 
         self.query_api = self.client.query_api()

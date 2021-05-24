@@ -46,13 +46,16 @@ class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
-                 data_frame_index: List[str] = None) -> None:
+                 data_frame_index: List[str] = None, query_options=None) -> None:
         """Initialize defaults."""
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
+        self._profilers = None
+        if query_options is not None:
+            self._profilers = query_options.profilers
         pass
 
     def __enter__(self):
@@ -151,6 +154,10 @@ class FluxCsvParser(object):
                     table_id = current_id
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
+
+                if self.is_profiler_record(flux_record):
+                    self._print_profiler_info(flux_record)
+                    continue
 
                 if self._serialization_mode is FluxSerializationMode.tables:
                     self.tables[table_index - 1].records.append(flux_record)
@@ -256,3 +263,31 @@ class FluxCsvParser(object):
     def _insert_table(self, table, table_index):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
+
+    @staticmethod
+    def is_profiler_table(table: FluxTable) -> bool:
+        return any(filter(lambda column: (column.default_value == "_profiler"), table.columns))
+
+    def is_profiler_record(self, flux_record: FluxRecord) -> bool:
+        if self._profilers is None:
+            return False
+
+        for profiler in self._profilers:
+            if flux_record.get_measurement() == "profiler/" + profiler:
+                return True
+
+        return False
+
+    @staticmethod
+    def _print_profiler_info(flux_record: FluxRecord):
+        if flux_record.get_measurement().startswith("profiler/"):
+            msg = "Profiler: " + flux_record.get_measurement()
+            print("\n" + len(msg) * "=")
+            print(msg)
+            print(len(msg) * "=")
+            for name in flux_record.values:
+                val = flux_record[name]
+                if isinstance(val, str) and len(val) > 50:
+                    print(f"{name:<20}: \n\n{val}")
+                elif val is not None:
+                    print(f"{name:<20}: {val:<20}")

@@ -5,6 +5,7 @@
   active = true
   timeout = 6000
   connection_pool_maxsize = 55
+  profilers = "query, operator"
   auth_basic = False
 
 [tags]

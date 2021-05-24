@@ -73,6 +73,7 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual("${env.data_center}", self.client.default_tags["data_center"])
         self.assertEqual(55, self.client.api_client.configuration.connection_pool_maxsize)
         self.assertEqual(False, self.client.api_client.configuration.auth_basic)
+        self.assertEqual(["query", "operator"], self.client.profilers)
 
     def test_init_from_file_ssl_default(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
