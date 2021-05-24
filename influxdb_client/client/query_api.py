@@ -19,11 +19,12 @@ from influxdb_client.client.util.date_utils import get_date_helper
 
 
 class QueryOptions(object):
-    """
-    Query options
-    """
+    """Query options."""
+
     def __init__(self, profilers: List[str] = None) -> None:
         """
+        Initialize query options.
+
         :param profilers: list of enabled flux profilers
         """
         self.profilers = profilers
@@ -108,9 +109,15 @@ class QueryApi(object):
         list(_parser.generator())
 
         if self._query_options.profilers is not None and len(self._query_options.profilers) > 0:
-            return list(filter(lambda table: not _parser.is_profiler_table(table), _parser.tables))
+            return list(filter(lambda table: not self._is_profiler_table(table), _parser.tables))
         else:
             return _parser.tables
+
+    @staticmethod
+    def _is_profiler_table(table: FluxTable) -> bool:
+        return any(filter(lambda column: (column.default_value == "_profiler" and column.label == "result"),
+                          table.columns))
+
 
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """

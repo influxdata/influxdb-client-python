@@ -155,7 +155,7 @@ class FluxCsvParser(object):
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
 
-                if self.is_profiler_record(flux_record):
+                if self._is_profiler_record(flux_record):
                     self._print_profiler_info(flux_record)
                     continue
 
@@ -264,11 +264,7 @@ class FluxCsvParser(object):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
 
-    @staticmethod
-    def is_profiler_table(table: FluxTable) -> bool:
-        return any(filter(lambda column: (column.default_value == "_profiler"), table.columns))
-
-    def is_profiler_record(self, flux_record: FluxRecord) -> bool:
+    def _is_profiler_record(self, flux_record: FluxRecord) -> bool:
         if self._profilers is None:
             return False
 
