@@ -118,7 +118,6 @@ class QueryApi(object):
         return any(filter(lambda column: (column.default_value == "_profiler" and column.label == "result"),
                           table.columns))
 
-
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
         Execute synchronous Flux query and return stream of FluxRecord as a Generator['FluxRecord'].
