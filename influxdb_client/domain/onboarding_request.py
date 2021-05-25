@@ -174,7 +174,7 @@ class OnboardingRequest(object):
     def retention_period_hrs(self):
         """Get the retention_period_hrs of this OnboardingRequest.
 
-        Retention period *in nanoseconds* for the new bucket. This key's name has been misleading since OSS 2.0 GA, please transition to use `retentionPeriodSeconds` 
+        Retention period *in nanoseconds* for the new bucket. This key's name has been misleading since OSS 2.0 GA, please transition to use `retentionPeriodSeconds`
 
         :return: The retention_period_hrs of this OnboardingRequest.
         :rtype: int
@@ -185,7 +185,7 @@ class OnboardingRequest(object):
     def retention_period_hrs(self, retention_period_hrs):
         """Set the retention_period_hrs of this OnboardingRequest.
 
-        Retention period *in nanoseconds* for the new bucket. This key's name has been misleading since OSS 2.0 GA, please transition to use `retentionPeriodSeconds` 
+        Retention period *in nanoseconds* for the new bucket. This key's name has been misleading since OSS 2.0 GA, please transition to use `retentionPeriodSeconds`
 
         :param retention_period_hrs: The retention_period_hrs of this OnboardingRequest.
         :type: int
@@ -196,7 +196,7 @@ class OnboardingRequest(object):
     def token(self):
         """Get the token of this OnboardingRequest.
 
-        Authentication token to set on the initial user. If not specified, the server will generate a token. 
+        Authentication token to set on the initial user. If not specified, the server will generate a token.
 
         :return: The token of this OnboardingRequest.
         :rtype: str
@@ -207,7 +207,7 @@ class OnboardingRequest(object):
     def token(self, token):
         """Set the token of this OnboardingRequest.
 
-        Authentication token to set on the initial user. If not specified, the server will generate a token. 
+        Authentication token to set on the initial user. If not specified, the server will generate a token.
 
         :param token: The token of this OnboardingRequest.
         :type: str

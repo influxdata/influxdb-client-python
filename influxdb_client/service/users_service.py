@@ -342,7 +342,7 @@ class UsersService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`. 
+        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`.
         :param str name:
         :param str id:
         :return: Users
@@ -368,7 +368,7 @@ class UsersService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`. 
+        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`.
         :param str name:
         :param str id:
         :return: Users
