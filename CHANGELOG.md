@@ -9,6 +9,7 @@ This release introduces a support for new InfluxDB OSS API definitions - [oss.ym
 - `DeleteService` is used to delete tome series date instead of `DefaultService`
 - `DBRPs` contains list of `DBRP` in `content` property
 - `OrganizationsService` uses `PostOrganizationRequest` to create `Organization`
+- `Run` contains list of `LogEvent` in `log` property
 - `OrganizationsService` uses `PatchOrganizationRequest` to update `Organization`
 - `OnboardingResponse` uses `UserResponse` as `user` property
 - `ResourceMember` and `ResourceOwner` inherits from `UserResponse`

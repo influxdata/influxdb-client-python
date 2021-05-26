@@ -190,7 +190,6 @@ from influxdb_client.domain.routes_system import RoutesSystem
 from influxdb_client.domain.rule_status_level import RuleStatusLevel
 from influxdb_client.domain.run import Run
 from influxdb_client.domain.run_links import RunLinks
-from influxdb_client.domain.run_log import RunLog
 from influxdb_client.domain.run_manually import RunManually
 from influxdb_client.domain.runs import Runs
 from influxdb_client.domain.smtp_notification_rule import SMTPNotificationRule

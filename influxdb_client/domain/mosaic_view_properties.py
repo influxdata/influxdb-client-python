@@ -59,6 +59,7 @@ class MosaicViewProperties(ViewProperties):
         'y_suffix': 'str',
         'hover_dimension': 'str',
         'legend_colorize_rows': 'bool',
+        'legend_hide': 'bool',
         'legend_opacity': 'float',
         'legend_orientation_threshold': 'int'
     }
@@ -90,11 +91,12 @@ class MosaicViewProperties(ViewProperties):
         'y_suffix': 'ySuffix',
         'hover_dimension': 'hoverDimension',
         'legend_colorize_rows': 'legendColorizeRows',
+        'legend_hide': 'legendHide',
         'legend_opacity': 'legendOpacity',
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_label_column_separator=None, y_label_columns=None, y_series_columns=None, fill_columns=None, x_domain=None, y_domain=None, x_axis_label=None, y_axis_label=None, x_prefix=None, x_suffix=None, y_prefix=None, y_suffix=None, hover_dimension=None, legend_colorize_rows=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_label_column_separator=None, y_label_columns=None, y_series_columns=None, fill_columns=None, x_domain=None, y_domain=None, x_axis_label=None, y_axis_label=None, x_prefix=None, x_suffix=None, y_prefix=None, y_suffix=None, hover_dimension=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """MosaicViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
@@ -124,6 +126,7 @@ class MosaicViewProperties(ViewProperties):
         self._y_suffix = None
         self._hover_dimension = None
         self._legend_colorize_rows = None
+        self._legend_hide = None
         self._legend_opacity = None
         self._legend_orientation_threshold = None
         self.discriminator = None
@@ -163,6 +166,8 @@ class MosaicViewProperties(ViewProperties):
             self.hover_dimension = hover_dimension
         if legend_colorize_rows is not None:
             self.legend_colorize_rows = legend_colorize_rows
+        if legend_hide is not None:
+            self.legend_hide = legend_hide
         if legend_opacity is not None:
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
@@ -677,6 +682,24 @@ class MosaicViewProperties(ViewProperties):
         :type: bool
         """  # noqa: E501
         self._legend_colorize_rows = legend_colorize_rows
+
+    @property
+    def legend_hide(self):
+        """Get the legend_hide of this MosaicViewProperties.
+
+        :return: The legend_hide of this MosaicViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._legend_hide
+
+    @legend_hide.setter
+    def legend_hide(self, legend_hide):
+        """Set the legend_hide of this MosaicViewProperties.
+
+        :param legend_hide: The legend_hide of this MosaicViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._legend_hide = legend_hide
 
     @property
     def legend_opacity(self):

@@ -36,7 +36,7 @@ class Run(object):
         'task_id': 'str',
         'status': 'str',
         'scheduled_for': 'datetime',
-        'log': 'list[RunLog]',
+        'log': 'list[LogEvent]',
         'started_at': 'datetime',
         'finished_at': 'datetime',
         'requested_at': 'datetime',
@@ -170,7 +170,7 @@ class Run(object):
         An array of logs associated with the run.
 
         :return: The log of this Run.
-        :rtype: list[RunLog]
+        :rtype: list[LogEvent]
         """  # noqa: E501
         return self._log
 
@@ -181,7 +181,7 @@ class Run(object):
         An array of logs associated with the run.
 
         :param log: The log of this Run.
-        :type: list[RunLog]
+        :type: list[LogEvent]
         """  # noqa: E501
         self._log = log
 

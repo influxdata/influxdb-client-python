@@ -58,6 +58,7 @@ class BandViewProperties(ViewProperties):
         'hover_dimension': 'str',
         'geom': 'XYGeom',
         'legend_colorize_rows': 'bool',
+        'legend_hide': 'bool',
         'legend_opacity': 'float',
         'legend_orientation_threshold': 'int'
     }
@@ -88,11 +89,12 @@ class BandViewProperties(ViewProperties):
         'hover_dimension': 'hoverDimension',
         'geom': 'geom',
         'legend_colorize_rows': 'legendColorizeRows',
+        'legend_hide': 'legendHide',
         'legend_opacity': 'legendOpacity',
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, static_legend=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_column=None, generate_y_axis_ticks=None, y_total_ticks=None, y_tick_start=None, y_tick_step=None, upper_column=None, main_column=None, lower_column=None, hover_dimension=None, geom=None, legend_colorize_rows=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, static_legend=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_column=None, generate_y_axis_ticks=None, y_total_ticks=None, y_tick_start=None, y_tick_step=None, upper_column=None, main_column=None, lower_column=None, hover_dimension=None, geom=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """BandViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
@@ -121,6 +123,7 @@ class BandViewProperties(ViewProperties):
         self._hover_dimension = None
         self._geom = None
         self._legend_colorize_rows = None
+        self._legend_hide = None
         self._legend_opacity = None
         self._legend_orientation_threshold = None
         self.discriminator = None
@@ -167,6 +170,8 @@ class BandViewProperties(ViewProperties):
         self.geom = geom
         if legend_colorize_rows is not None:
             self.legend_colorize_rows = legend_colorize_rows
+        if legend_hide is not None:
+            self.legend_hide = legend_hide
         if legend_opacity is not None:
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
@@ -645,6 +650,24 @@ class BandViewProperties(ViewProperties):
         :type: bool
         """  # noqa: E501
         self._legend_colorize_rows = legend_colorize_rows
+
+    @property
+    def legend_hide(self):
+        """Get the legend_hide of this BandViewProperties.
+
+        :return: The legend_hide of this BandViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._legend_hide
+
+    @legend_hide.setter
+    def legend_hide(self, legend_hide):
+        """Set the legend_hide of this BandViewProperties.
+
+        :param legend_hide: The legend_hide of this BandViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._legend_hide = legend_hide
 
     @property
     def legend_opacity(self):

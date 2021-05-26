@@ -46,6 +46,7 @@ class HistogramViewProperties(ViewProperties):
         'position': 'str',
         'bin_count': 'int',
         'legend_colorize_rows': 'bool',
+        'legend_hide': 'bool',
         'legend_opacity': 'float',
         'legend_orientation_threshold': 'int'
     }
@@ -64,11 +65,12 @@ class HistogramViewProperties(ViewProperties):
         'position': 'position',
         'bin_count': 'binCount',
         'legend_colorize_rows': 'legendColorizeRows',
+        'legend_hide': 'legendHide',
         'legend_opacity': 'legendOpacity',
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, fill_columns=None, x_domain=None, x_axis_label=None, position=None, bin_count=None, legend_colorize_rows=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, x_column=None, fill_columns=None, x_domain=None, x_axis_label=None, position=None, bin_count=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """HistogramViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
@@ -85,6 +87,7 @@ class HistogramViewProperties(ViewProperties):
         self._position = None
         self._bin_count = None
         self._legend_colorize_rows = None
+        self._legend_hide = None
         self._legend_opacity = None
         self._legend_orientation_threshold = None
         self.discriminator = None
@@ -103,6 +106,8 @@ class HistogramViewProperties(ViewProperties):
         self.bin_count = bin_count
         if legend_colorize_rows is not None:
             self.legend_colorize_rows = legend_colorize_rows
+        if legend_hide is not None:
+            self.legend_hide = legend_hide
         if legend_opacity is not None:
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
@@ -373,6 +378,24 @@ class HistogramViewProperties(ViewProperties):
         :type: bool
         """  # noqa: E501
         self._legend_colorize_rows = legend_colorize_rows
+
+    @property
+    def legend_hide(self):
+        """Get the legend_hide of this HistogramViewProperties.
+
+        :return: The legend_hide of this HistogramViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._legend_hide
+
+    @legend_hide.setter
+    def legend_hide(self, legend_hide):
+        """Set the legend_hide of this HistogramViewProperties.
+
+        :param legend_hide: The legend_hide of this HistogramViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._legend_hide = legend_hide
 
     @property
     def legend_opacity(self):

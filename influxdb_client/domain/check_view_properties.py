@@ -40,6 +40,7 @@ class CheckViewProperties(ViewProperties):
         'queries': 'list[DashboardQuery]',
         'colors': 'list[DashboardColor]',
         'legend_colorize_rows': 'bool',
+        'legend_hide': 'bool',
         'legend_opacity': 'float',
         'legend_orientation_threshold': 'int'
     }
@@ -52,11 +53,12 @@ class CheckViewProperties(ViewProperties):
         'queries': 'queries',
         'colors': 'colors',
         'legend_colorize_rows': 'legendColorizeRows',
+        'legend_hide': 'legendHide',
         'legend_opacity': 'legendOpacity',
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, type=None, shape=None, check_id=None, check=None, queries=None, colors=None, legend_colorize_rows=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, type=None, shape=None, check_id=None, check=None, queries=None, colors=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """CheckViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
@@ -67,6 +69,7 @@ class CheckViewProperties(ViewProperties):
         self._queries = None
         self._colors = None
         self._legend_colorize_rows = None
+        self._legend_hide = None
         self._legend_opacity = None
         self._legend_orientation_threshold = None
         self.discriminator = None
@@ -80,6 +83,8 @@ class CheckViewProperties(ViewProperties):
         self.colors = colors
         if legend_colorize_rows is not None:
             self.legend_colorize_rows = legend_colorize_rows
+        if legend_hide is not None:
+            self.legend_hide = legend_hide
         if legend_opacity is not None:
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
@@ -224,6 +229,24 @@ class CheckViewProperties(ViewProperties):
         :type: bool
         """  # noqa: E501
         self._legend_colorize_rows = legend_colorize_rows
+
+    @property
+    def legend_hide(self):
+        """Get the legend_hide of this CheckViewProperties.
+
+        :return: The legend_hide of this CheckViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._legend_hide
+
+    @legend_hide.setter
+    def legend_hide(self, legend_hide):
+        """Set the legend_hide of this CheckViewProperties.
+
+        :param legend_hide: The legend_hide of this CheckViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._legend_hide = legend_hide
 
     @property
     def legend_opacity(self):
