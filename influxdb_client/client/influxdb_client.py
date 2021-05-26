@@ -3,7 +3,8 @@
 from __future__ import absolute_import
 
 import configparser
-import os, base64
+import os
+import base64
 
 from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
@@ -66,11 +67,9 @@ class InfluxDBClient(object):
         auth_header_name = "Authorization"
         auth_header_value = "Token " + auth_token
 
-        # allow basic authentication for cases where InfluxDB (backwards 1.8 doesn't use auth but proxies perform basic auth)
         auth_basic = kwargs.get('auth_basic', False)
         if auth_basic:
             auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
-
 
         retries = kwargs.get('retries', False)
 
