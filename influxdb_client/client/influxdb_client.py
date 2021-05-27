@@ -42,8 +42,8 @@ class InfluxDBClient(object):
                                           Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
-        :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that does not
-                              use auth-enabled but is protected by a reverse proxy with basic authentication.
+        :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
+                              does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         """
         self.url = url
