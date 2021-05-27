@@ -59,10 +59,8 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
-        response = self._query_api.post_query(
-            org=org,
-            query=self._create_query(query, dialect, params, self._query_options),
-            async_req=False, _preload_content=False)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
+                                              async_req=False, _preload_content=False)
 
         return csv.reader(codecs.iterdecode(response, 'utf-8'))
 
@@ -78,10 +76,8 @@ class QueryApi(object):
         """
         if org is None:
             org = self._influxdb_client.org
-        result = self._query_api.post_query(
-            org=org,
-            query=self._create_query(query, dialect, params, self._query_options),
-            async_req=False, _preload_content=False)
+        result = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params), async_req=False,
+                                            _preload_content=False)
 
         return result
 
@@ -97,26 +93,15 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params,
-                                                                                self._query_options),
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(
-            response=response,
-            serialization_mode=FluxSerializationMode.tables,
-            query_options=self._query_options)
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
+                                profilers=self._profilers())
 
         list(_parser.generator())
 
-        if self._query_options.profilers is not None and len(self._query_options.profilers) > 0:
-            return list(filter(lambda table: not self._is_profiler_table(table), _parser.tables))
-        else:
-            return _parser.tables
-
-    @staticmethod
-    def _is_profiler_table(table: FluxTable) -> bool:
-        return any(filter(lambda column: (column.default_value == "_profiler" and column.label == "result"),
-                          table.columns))
+        return _parser.table_list()
 
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
@@ -130,13 +115,10 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params,
-                                                                                self._query_options), async_req=False,
-                                              _preload_content=False, _return_http_data_only=False)
-        _parser = FluxCsvParser(
-            response=response,
-            serialization_mode=FluxSerializationMode.stream,
-            query_options=self._query_options)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
+                                              async_req=False, _preload_content=False, _return_http_data_only=False)
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
+                                profilers=self._profilers())
 
         return _parser.generator()
 
@@ -179,28 +161,25 @@ class QueryApi(object):
         if org is None:
             org = self._influxdb_client.org
 
-        response = self._query_api.post_query(
-            org=org,
-            query=self._create_query(query, self.default_dialect, params, self._query_options),
-            async_req=False,
-            _preload_content=False,
-            _return_http_data_only=False)
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
+                                              async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(
-            response=response,
-            serialization_mode=FluxSerializationMode.dataFrame,
-            data_frame_index=data_frame_index,
-            query_options=self._query_options)
-
+        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
+                                data_frame_index=data_frame_index,
+                                profilers=self._profilers())
         return _parser.generator()
 
-    @staticmethod
-    def _create_query(query, dialect=default_dialect, params: dict = None, query_options: QueryOptions = None):
-        q = Query(query=query, dialect=dialect, extern=QueryApi._build_flux_ast(params, query_options.profilers))
+    def _profilers(self):
+        if self._query_options and self._query_options.profilers:
+            return self._query_options.profilers
+        else:
+            return self._influxdb_client.profilers
 
-        if query_options is not None \
-                and query_options.profilers is not None \
-                and len(query_options.profilers) > 0:
+    def _create_query(self, query, dialect=default_dialect, params: dict = None):
+        profilers = self._profilers()
+        q = Query(query=query, dialect=dialect, extern=QueryApi._build_flux_ast(params, profilers))
+
+        if profilers:
             print("\n===============")
             print("Profiler: query")
             print("===============")

@@ -251,8 +251,6 @@ class InfluxDBClient(object):
         :param query_options: optional query api configuration
         :return: Query api instance
         """
-        if self.profilers is not None:
-            query_options.profilers = self.profilers
         return QueryApi(self, query_options)
 
     def close(self):

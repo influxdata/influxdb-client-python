@@ -62,7 +62,11 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
     """
     Query: using Stream
     """
-    records = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -10m)')
+    records = query_api.query_stream('''
+    from(bucket:"my-bucket") 
+        |> range(start: -10m)  
+        |> filter(fn: (r) => r["_measurement"] == "my_measurement")
+    ''')
 
     for record in records:
         print(f'Temperature in {record["location"]} is {record["_value"]}')
@@ -70,7 +74,12 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
     """
     Interrupt a stream after retrieve a required data
     """
-    large_stream = query_api.query_stream('from(bucket:"my-bucket") |> range(start: -100d)')
+    large_stream = query_api.query_stream('''
+    from(bucket:"my-bucket") 
+        |> range(start: -100d) 
+        |> filter(fn: (r) => r["_measurement"] == "my_measurement")
+    ''')
+
     for record in large_stream:
         if record["location"] == "New York":
             print(f'New York temperature: {record["_value"]}')

@@ -220,31 +220,31 @@ performance profiling tools for Flux queries and operations.
 You can enable printing profiler information of the Flux query in client library by:
 
 - set QueryOptions.profilers in QueryApi,
-- set ``INFLUXDB_V2_PROFILERS`` environment variable
+- set ``INFLUXDB_V2_PROFILERS`` environment variable,
 - set ``profilers`` option in configuration file.
 
-When the profiler is enabled, the result of flux query contains additional tables "profiler/*".
-In order to have consistent behaviour with enabled/disabled profiler, `FluxCSVParser` excludes "profiler/*" measurements
+When the profiler is enabled, the result of flux query contains additional tables "profiler/\*".
+In order to have consistent behaviour with enabled/disabled profiler, `FluxCSVParser` excludes "profiler/\*" measurements
 from result.
 
 Example how to enable profilers using API:
 
 .. code-block:: python
 
-            q = '''
-                from(bucket: stringParam)
-                  |> range(start: -5m, stop: now())
-                  |> filter(fn: (r) => r._measurement == "mem")
-                  |> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")
-                  |> aggregateWindow(every: 1m, fn: mean)
-                  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
-            '''
-            p = {
-                "stringParam": "my-bucket",
-            }
+    q = '''
+        from(bucket: stringParam)
+          |> range(start: -5m, stop: now())
+          |> filter(fn: (r) => r._measurement == "mem")
+          |> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")
+          |> aggregateWindow(every: 1m, fn: mean)
+          |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+    '''
+    p = {
+        "stringParam": "my-bucket",
+    }
 
-            query_api = client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
-            csv_result = query_api.query(query=q, params=p)
+    query_api = client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
+    csv_result = query_api.query(query=q, params=p)
 
 
 Example of profiler output:
