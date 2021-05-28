@@ -247,7 +247,7 @@ Example how to enable profilers using API:
     csv_result = query_api.query(query=q, params=p)
 
 
-Example of profiler output:
+Example of a profiler output:
 
 .. code-block::
 
