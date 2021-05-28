@@ -42,11 +42,10 @@ class InfluxDBClient(object):
                                           Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
-        :key list[str] profilers: list of enabled Flux profilers
-
         :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
+        :key list[str] profilers: list of enabled Flux profilers
         """
         self.url = url
         self.token = token
@@ -115,6 +114,8 @@ class InfluxDBClient(object):
             - ssl_ca_cert
             - connection_pool_maxsize
             - auth_basic
+            - profilers
+
 
         config.ini example::
 
@@ -125,6 +126,7 @@ class InfluxDBClient(object):
             timeout=6000
             connection_pool_maxsize=25
             auth_basic=false
+            profilers=query,operator
 
             [tags]
             id = 132-987-655
@@ -140,6 +142,7 @@ class InfluxDBClient(object):
                 timeout = 6000
                 connection_pool_maxsize = 25
                 auth_basic = false
+                profilers="query, operator"
 
             [tags]
                 id = "132-987-655"
