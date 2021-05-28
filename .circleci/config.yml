@@ -49,7 +49,7 @@ jobs:
         default: &default-python "circleci/python:3.6-buster"
       influxdb-image:
         type: string
-        default: "influxdb:latest"
+        default: &default-influxdb "influxdb:latest"
       enabled-ciso-8601:
         type: boolean
         default: true
@@ -108,6 +108,23 @@ jobs:
           command: |
             pip install pydocstyle --user
             pydocstyle --count influxdb_client
+  check-examples:
+    docker:
+      - image: *default-python
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+      - image: *default-influxdb
+        environment:
+          INFLUXD_HTTP_BIND_ADDRESS: :8086
+    steps:
+      - prepare
+      - run:
+          name: Checks that examples are runnable
+          command: |
+            pip install -e . --user
+            export PYTHONPATH="$PWD"
+            python examples/monitoring_and_alerting.py
+            python examples/buckets_management.py
   check-aws-lambda-layer:
     docker:
       - image: docker:19
@@ -129,6 +146,7 @@ workflows:
       - check-code-style
       - check-docstyle
       - check-twine
+      - check-examples
       - tests-python:
           name: test-3.6
       - tests-python:

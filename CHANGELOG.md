@@ -1,5 +1,21 @@
 ## 1.18.0 [unreleased]
 
+### Breaking Changes
+
+This release introduces a support for new InfluxDB OSS API definitions - [oss.yml](https://github.com/influxdata/openapi/blob/master/contracts/oss.yml). The following breaking changes are in underlying API services and doesn't affect common apis such as - `WriteApi`, `QueryApi`, `BucketsApi`, `OrganizationsApi`...
+- `AuthorizationsService` uses `AuthorizationPostRequest` to create `Authorization`
+- `BucketsService` uses `PatchBucketRequest` to update `Bucket`
+- `DashboardsService` uses `PatchDashboardRequest` to update `Dashboard`
+- `DeleteService` is used to delete tome series date instead of `DefaultService`
+- `DBRPs` contains list of `DBRP` in `content` property
+- `OrganizationsService` uses `PostOrganizationRequest` to create `Organization`
+- `Run` contains list of `LogEvent` in `log` property
+- `OrganizationsService` uses `PatchOrganizationRequest` to update `Organization`
+- `OnboardingResponse` uses `UserResponse` as `user` property
+- `ResourceMember` and `ResourceOwner` inherits from `UserResponse`
+- `Users` contains list of `UserResponse` in `users` property
+- `UsersService` uses `UserResponse` as a response to requests
+
 ### Features
 1. [#237](https://github.com/influxdata/influxdb-client-python/pull/237): Use kwargs to pass query parameters into API list call - useful for the ability to use pagination.
 1. [#241](https://github.com/influxdata/influxdb-client-python/pull/241): Add detail error message for not supported type of `Point.field`
@@ -11,6 +27,9 @@
 
 ### Documentation
 1. [#255](https://github.com/influxdata/influxdb-client-python/pull/255): Fix invalid description for env var `INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`
+
+### API
+1. [#261](https://github.com/influxdata/influxdb-client-python/pull/261): Use InfluxDB OSS API definitions to generated APIs
 
 ## 1.17.0 [2021-04-30]
 

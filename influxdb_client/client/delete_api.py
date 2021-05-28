@@ -2,7 +2,7 @@
 
 import datetime
 
-from influxdb_client import DefaultService, DeletePredicateRequest
+from influxdb_client import DeleteService, DeletePredicateRequest
 
 
 class DeleteApi(object):
@@ -11,7 +11,7 @@ class DeleteApi(object):
     def __init__(self, influxdb_client):
         """Initialize defaults."""
         self._influxdb_client = influxdb_client
-        self._service = DefaultService(influxdb_client.api_client)
+        self._service = DeleteService(influxdb_client.api_client)
 
     def delete(self, start: datetime, stop: object, predicate: object, bucket: str, org: str) -> None:
         """
@@ -25,4 +25,4 @@ class DeleteApi(object):
         :return:
         """
         predicate_request = DeletePredicateRequest(start=start, stop=stop, predicate=predicate)
-        return self._service.delete_post(delete_predicate_request=predicate_request, bucket=bucket, org=org)
+        return self._service.post_delete(delete_predicate_request=predicate_request, bucket=bucket, org=org)

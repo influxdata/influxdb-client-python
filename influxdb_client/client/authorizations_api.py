@@ -23,11 +23,11 @@ class AuthorizationsApi(object):
 
         """
         if authorization is not None:
-            return self._authorizations_service.post_authorizations(authorization=authorization)
+            return self._authorizations_service.post_authorizations(authorization_post_request=authorization)
 
             # if org_id is not None and permissions is not None:
         authorization = Authorization(org_id=org_id, permissions=permissions)
-        return self._authorizations_service.post_authorizations(authorization=authorization)
+        return self._authorizations_service.post_authorizations(authorization_post_request=authorization)
 
     def find_authorization_by_id(self, auth_id: str) -> Authorization:
         """

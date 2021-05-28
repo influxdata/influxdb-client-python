@@ -43,7 +43,7 @@ class OrganizationsApi(object):
         """Create an organization."""
         if organization is None:
             organization = Organization(name=name)
-        return self._organizations_service.post_orgs(organization=organization)
+        return self._organizations_service.post_orgs(post_organization_request=organization)
 
     def delete_organization(self, org_id: str):
         """Delete an organization."""
