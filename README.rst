@@ -176,6 +176,7 @@ The following options are supported:
 - ``ssl_ca_cert`` - set this to customize the certificate file to verify the peer
 - ``connection_pool_maxsize`` - set the number of connections to save that can be reused by urllib3
 - ``auth_basic`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
+- ``profilers`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
 
 .. code-block:: python
 
@@ -204,10 +205,121 @@ Supported properties are:
 - ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
 - ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set the number of connections to save that can be reused by urllib3
 - ``INFLUXDB_V2_AUTH_BASIC`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
+- ``INFLUXDB_V2_PROFILERS`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
 
 .. code-block:: python
 
     self.client = InfluxDBClient.from_env_properties()
+
+Profile query
+^^^^^^^^^^^^^
+
+The `Flux Profiler package <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_ provides
+performance profiling tools for Flux queries and operations.
+
+You can enable printing profiler information of the Flux query in client library by:
+
+- set QueryOptions.profilers in QueryApi,
+- set ``INFLUXDB_V2_PROFILERS`` environment variable,
+- set ``profilers`` option in configuration file.
+
+When the profiler is enabled, the result of flux query contains additional tables "profiler/\*".
+In order to have consistent behaviour with enabled/disabled profiler, ``FluxCSVParser`` excludes "profiler/\*" measurements
+from result.
+
+Example how to enable profilers using API:
+
+.. code-block:: python
+
+    q = '''
+        from(bucket: stringParam)
+          |> range(start: -5m, stop: now())
+          |> filter(fn: (r) => r._measurement == "mem")
+          |> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")
+          |> aggregateWindow(every: 1m, fn: mean)
+          |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+    '''
+    p = {
+        "stringParam": "my-bucket",
+    }
+
+    query_api = client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
+    csv_result = query_api.query(query=q, params=p)
+
+
+Example of a profiler output:
+
+.. code-block::
+
+    ===============
+    Profiler: query
+    ===============
+
+    from(bucket: stringParam)
+      |> range(start: -5m, stop: now())
+      |> filter(fn: (r) => r._measurement == "mem")
+      |> filter(fn: (r) => r._field == "available" or r._field == "free" or r._field == "used")
+      |> aggregateWindow(every: 1m, fn: mean)
+      |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+
+    ========================
+    Profiler: profiler/query
+    ========================
+    result              : _profiler
+    table               : 0
+    _measurement        : profiler/query
+    TotalDuration       : 8924700
+    CompileDuration     : 350900
+    QueueDuration       : 33800
+    PlanDuration        : 0
+    RequeueDuration     : 0
+    ExecuteDuration     : 8486500
+    Concurrency         : 0
+    MaxAllocated        : 2072
+    TotalAllocated      : 0
+    flux/query-plan     :
+
+    digraph {
+      ReadWindowAggregateByTime11
+      // every = 1m, aggregates = [mean], createEmpty = true, timeColumn = "_stop"
+      pivot8
+      generated_yield
+
+      ReadWindowAggregateByTime11 -> pivot8
+      pivot8 -> generated_yield
+    }
+
+
+    influxdb/scanned-bytes: 0
+    influxdb/scanned-values: 0
+
+    ===========================
+    Profiler: profiler/operator
+    ===========================
+    result              : _profiler
+    table               : 1
+    _measurement        : profiler/operator
+    Type                : *universe.pivotTransformation
+    Label               : pivot8
+    Count               : 3
+    MinDuration         : 32600
+    MaxDuration         : 126200
+    DurationSum         : 193400
+    MeanDuration        : 64466.666666666664
+
+    ===========================
+    Profiler: profiler/operator
+    ===========================
+    result              : _profiler
+    table               : 1
+    _measurement        : profiler/operator
+    Type                : *influxdb.readWindowAggregateSource
+    Label               : ReadWindowAggregateByTime11
+    Count               : 1
+    MinDuration         : 940500
+    MaxDuration         : 940500
+    DurationSum         : 940500
+    MeanDuration        : 940500.0
 
 .. marker-index-end
 

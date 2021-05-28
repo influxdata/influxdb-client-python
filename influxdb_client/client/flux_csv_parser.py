@@ -46,13 +46,14 @@ class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
-                 data_frame_index: List[str] = None) -> None:
+                 data_frame_index: List[str] = None, profilers: List[str] = None) -> None:
         """Initialize defaults."""
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
+        self._profilers = profilers
         pass
 
     def __enter__(self):
@@ -101,7 +102,9 @@ class FluxCsvParser(object):
 
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
-                    yield self._prepare_data_frame()
+                    df = self._prepare_data_frame()
+                    if not self._is_profiler_table(table):
+                        yield df
 
                 start_new_table = True
                 table = FluxTable()
@@ -152,6 +155,10 @@ class FluxCsvParser(object):
 
                 flux_record = self.parse_record(table_index - 1, table, csv)
 
+                if self._is_profiler_record(flux_record):
+                    self._print_profiler_info(flux_record)
+                    continue
+
                 if self._serialization_mode is FluxSerializationMode.tables:
                     self.tables[table_index - 1].records.append(flux_record)
 
@@ -164,7 +171,9 @@ class FluxCsvParser(object):
 
         # Return latest DataFrame
         if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
-            yield self._prepare_data_frame()
+            df = self._prepare_data_frame()
+            if not self._is_profiler_table(table):
+                yield df
 
     def _prepare_data_frame(self):
         from ..extras import pd
@@ -256,3 +265,42 @@ class FluxCsvParser(object):
     def _insert_table(self, table, table_index):
         if self._serialization_mode is FluxSerializationMode.tables:
             self.tables.insert(table_index, table)
+
+    def _is_profiler_record(self, flux_record: FluxRecord) -> bool:
+        if not self._profilers:
+            return False
+
+        for profiler in self._profilers:
+            if "_measurement" in flux_record.values and flux_record["_measurement"] == "profiler/" + profiler:
+                return True
+
+        return False
+
+    def _is_profiler_table(self, table: FluxTable) -> bool:
+
+        if not self._profilers:
+            return False
+
+        return any(filter(lambda column: (column.default_value == "_profiler" and column.label == "result"),
+                          table.columns))
+
+    def table_list(self) -> List[FluxTable]:
+        """Get the list of flux tables."""
+        if not self._profilers:
+            return self.tables
+        else:
+            return list(filter(lambda table: not self._is_profiler_table(table), self.tables))
+
+    @staticmethod
+    def _print_profiler_info(flux_record: FluxRecord):
+        if flux_record.get_measurement().startswith("profiler/"):
+            msg = "Profiler: " + flux_record.get_measurement()
+            print("\n" + len(msg) * "=")
+            print(msg)
+            print(len(msg) * "=")
+            for name in flux_record.values:
+                val = flux_record[name]
+                if isinstance(val, str) and len(val) > 50:
+                    print(f"{name:<20}: \n\n{val}")
+                elif val is not None:
+                    print(f"{name:<20}: {val:<20}")

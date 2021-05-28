@@ -6,6 +6,7 @@
   timeout = 6000
   connection_pool_maxsize = 55
   auth_basic = False
+  profilers = "query, operator"
 
 [tags]
   id = "132-987-655"
