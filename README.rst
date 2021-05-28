@@ -224,7 +224,7 @@ You can enable printing profiler information of the Flux query in client library
 - set ``profilers`` option in configuration file.
 
 When the profiler is enabled, the result of flux query contains additional tables "profiler/\*".
-In order to have consistent behaviour with enabled/disabled profiler, `FluxCSVParser` excludes "profiler/\*" measurements
+In order to have consistent behaviour with enabled/disabled profiler, ``FluxCSVParser`` excludes "profiler/\*" measurements
 from result.
 
 Example how to enable profilers using API:
