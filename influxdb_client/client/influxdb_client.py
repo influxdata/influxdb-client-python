@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 import configparser
 import os
+import base64
 
 from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
@@ -41,7 +42,9 @@ class InfluxDBClient(object):
                                           Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
-
+        :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
+                              does not use auth-enabled but is protected by a reverse proxy with basic authentication.
+                              (defaults to false, don't set to true when talking to InfluxDB 2)
         """
         self.url = url
         self.token = token
@@ -65,6 +68,10 @@ class InfluxDBClient(object):
         auth_token = self.token
         auth_header_name = "Authorization"
         auth_header_value = "Token " + auth_token
+
+        auth_basic = kwargs.get('auth_basic', False)
+        if auth_basic:
+            auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
 
         retries = kwargs.get('retries', False)
 
@@ -103,6 +110,7 @@ class InfluxDBClient(object):
             - verify_ssl
             - ssl_ca_cert
             - connection_pool_maxsize
+            - auth_basic
 
         config.ini example::
 
@@ -112,6 +120,7 @@ class InfluxDBClient(object):
             token=my-token
             timeout=6000
             connection_pool_maxsize=25
+            auth_basic=false
 
             [tags]
             id = 132-987-655
@@ -126,6 +135,7 @@ class InfluxDBClient(object):
                 org = "my-org"
                 timeout = 6000
                 connection_pool_maxsize = 25
+                auth_basic = false
 
             [tags]
                 id = "132-987-655"
@@ -143,12 +153,10 @@ class InfluxDBClient(object):
         token = config_value('token')
 
         timeout = None
-
         if config.has_option('influx2', 'timeout'):
             timeout = config_value('timeout')
 
         org = None
-
         if config.has_option('influx2', 'org'):
             org = config_value('org')
 
@@ -164,15 +172,18 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'connection_pool_maxsize'):
             connection_pool_maxsize = config_value('connection_pool_maxsize')
 
-        default_tags = None
+        auth_basic = False
+        if config.has_option('influx2', 'auth_basic'):
+            auth_basic = config_value('auth_basic')
 
+        default_tags = None
         if config.has_section('tags'):
             tags = {k: v.strip('"') for k, v in config.items('tags')}
             default_tags = dict(tags)
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize))
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic))
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
@@ -187,6 +198,7 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_VERIFY_SSL
             - INFLUXDB_V2_SSL_CA_CERT
             - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
+            - INFLUXDB_V2_AUTH_BASIC
         """
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
@@ -195,6 +207,7 @@ class InfluxDBClient(object):
         verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
         ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
         connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
+        auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
 
         default_tags = dict()
 
@@ -204,7 +217,7 @@ class InfluxDBClient(object):
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize))
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic))
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
         """

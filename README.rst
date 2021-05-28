@@ -175,6 +175,7 @@ The following options are supported:
 - ``verify_ssl`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``ssl_ca_cert`` - set this to customize the certificate file to verify the peer
 - ``connection_pool_maxsize`` - set the number of connections to save that can be reused by urllib3
+- ``auth_basic`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 
 .. code-block:: python
 
@@ -202,6 +203,7 @@ Supported properties are:
 - ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
 - ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set the number of connections to save that can be reused by urllib3
+- ``INFLUXDB_V2_AUTH_BASIC`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 
 .. code-block:: python
 

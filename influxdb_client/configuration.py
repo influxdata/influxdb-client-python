@@ -107,6 +107,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         # It can also be a pair (tuple) of (connection, read) timeouts.
         self.timeout = None
 
+        # Set to True/False to enable basic authentication when using proxied InfluxDB 1.8.x with no auth-enabled
+        self.auth_basic = False
+
         # Proxy URL
         self.proxy = None
         # Safe chars for path_param
