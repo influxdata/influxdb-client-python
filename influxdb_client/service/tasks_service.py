@@ -2282,6 +2282,7 @@ class TasksService(object):
         :param str task_id: The task ID. (required)
         :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str body:
         :return: Run
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2305,13 +2306,14 @@ class TasksService(object):
         :param str task_id: The task ID. (required)
         :param str run_id: The run ID. (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str body:
         :return: Run
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params = locals()
 
-        all_params = ['task_id', 'run_id', 'zap_trace_span']  # noqa: E501
+        all_params = ['task_id', 'run_id', 'zap_trace_span', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2353,9 +2355,15 @@ class TasksService(object):
         local_var_files = {}
 
         body_params = None
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json; charset=utf-8'])  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
