@@ -246,7 +246,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 2.0.0\n"\
-               "SDK Package Version: 1.18.0".\
+               "SDK Package Version: 1.19.0dev".\
                format(env=sys.platform, pyversion=sys.version)
 
     def update_request_header_params(self, path: str, params: dict):
