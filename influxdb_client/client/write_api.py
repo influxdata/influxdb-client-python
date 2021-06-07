@@ -16,6 +16,7 @@ from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
+from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
@@ -221,8 +222,9 @@ class WriteApi:
         """
         Write time-series data into InfluxDB.
 
-        :param str org: specifies the destination organization for writes; take either the ID or Name interchangeably;
-                        if both orgID and org are specified, org takes precedence. (required)
+        :param str, Organization org: specifies the destination organization for writes;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param str bucket: specifies the destination bucket for writes (required)
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
@@ -231,8 +233,7 @@ class WriteApi:
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = get_org_query_param(org=org, client=self._influxdb_client)
 
         if self._point_settings.defaultTags and record is not None:
             for key, val in self._point_settings.defaultTags.items():

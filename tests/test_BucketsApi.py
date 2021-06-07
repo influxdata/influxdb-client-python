@@ -22,7 +22,7 @@ class BucketsClientTest(BaseTest):
         my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
-        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org_id=my_org.id)
+        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org=my_org)
         self.assertEqual(my_bucket.name, bucket_name)
         self.assertEqual(my_bucket.org_id, my_org.id)
         print(my_bucket)
@@ -41,7 +41,7 @@ class BucketsClientTest(BaseTest):
         my_org = self.find_my_org()
 
         bucket_name = generate_bucket_name()
-        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org_id=my_org.id)
+        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org=my_org)
 
         bucket_by_name = self.buckets_api.find_bucket_by_name(bucket_name=my_bucket.name)
 
@@ -58,7 +58,7 @@ class BucketsClientTest(BaseTest):
 
         retention = BucketRetentionRules(type="expire", every_seconds=3600)
         desc = "bucket with retention"
-        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org_id=my_org.id,
+        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org=my_org,
                                                    retention_rules=retention, description=desc)
 
         self.assertEqual(my_bucket.description, desc)
@@ -76,7 +76,7 @@ class BucketsClientTest(BaseTest):
         retention.type = "expire"
         ret_list.append(retention)
 
-        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org_id=my_org.id,
+        my_bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org=my_org,
                                                    retention_rules=ret_list)
 
         self.assertEqual(my_bucket.name, bucket_name)
@@ -89,8 +89,8 @@ class BucketsClientTest(BaseTest):
         size = len(buckets)
 
         # create 2 buckets
-        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org_id=my_org.id)
-        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org_id=my_org.id)
+        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org=my_org)
+        self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org=my_org)
 
         buckets = self.buckets_api.find_buckets().buckets
         self.assertEqual(size + 2, len(buckets))

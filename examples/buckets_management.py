@@ -9,15 +9,10 @@ Define credentials
 """
 url = "http://localhost:8086"
 token = "my-token"
+org = "my-org"
 
 with InfluxDBClient(url=url, token=token) as client:
     buckets_api = client.buckets_api()
-
-    """
-    The Bucket API uses as a parameter the Organization ID. We have to retrieve ID by Organization API.
-    """
-    org_name = "my-org"
-    org = client.organizations_api().find_organizations(org=org_name)[0]
 
     """
     Create Bucket with retention policy set to 3600 seconds and name "bucket-by-python"
@@ -26,7 +21,7 @@ with InfluxDBClient(url=url, token=token) as client:
     retention_rules = BucketRetentionRules(type="expire", every_seconds=3600)
     created_bucket = buckets_api.create_bucket(bucket_name="bucket-by-python",
                                                retention_rules=retention_rules,
-                                               org_id=org.id)
+                                               org=org)
     print(created_bucket)
 
     """
