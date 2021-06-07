@@ -1,10 +1,10 @@
 ## 1.19.0 [unreleased]
 
 ### Features
-1. [#???](https://github.com/influxdata/influxdb-client-python/pull/???): Org parameter can be specified as ID, Name or Organization Object [write, query]
+1. [#264](https://github.com/influxdata/influxdb-client-python/pull/264): Org parameter can be specified as ID, Name or Organization Object [write, query]
 
 ### Deprecated
-1. [#???](https://github.com/influxdata/influxdb-client-python/pull/???): Deprecated `org_id` options BucketsApi.create_bucket in favor of `org` parameter
+1. [#264](https://github.com/influxdata/influxdb-client-python/pull/264): Deprecated `org_id` options BucketsApi.create_bucket in favor of `org` parameter
 
 ## 1.18.0 [2021-06-04]
 
