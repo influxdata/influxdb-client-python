@@ -76,7 +76,8 @@ class ApiClient(object):
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = 'influxdb-client-python/1.19.0dev'
+        from influxdb_client import CLIENT_VERSION
+        self.user_agent = f'influxdb-client-python/{CLIENT_VERSION}'
 
     def __del__(self):
         """Dispose pools."""
