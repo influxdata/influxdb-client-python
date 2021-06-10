@@ -96,7 +96,7 @@ The python package is hosted on `PyPI <https://pypi.org/project/influxdb-client/
 
 .. code-block:: sh
 
-   pip install influxdb-client[ciso]
+   pip install 'influxdb-client[ciso]'
 
 Then import the package:
 
@@ -685,7 +685,7 @@ Pandas DataFrame
 """"""""""""""""
 .. marker-pandas-start
 
-.. note:: For DataFrame querying you should install Pandas dependency via ``pip install influxdb-client[extra]``.
+.. note:: For DataFrame querying you should install Pandas dependency via ``pip install 'influxdb-client[extra]'``.
 
 .. note:: Note that if a query returns more then one table then the client generates a ``DataFrame`` for each of them.
 
