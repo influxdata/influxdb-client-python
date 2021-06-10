@@ -298,4 +298,6 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions
 from influxdb_client.client.influxdb_client import InfluxDBClient
 from influxdb_client.client.write.point import Point
 
-__version__ = '1.19.0dev'
+from influxdb_client.version import CLIENT_VERSION
+
+__version__ = CLIENT_VERSION
