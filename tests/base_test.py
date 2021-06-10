@@ -41,7 +41,7 @@ class BaseTest(unittest.TestCase):
 
     def create_test_bucket(self):
         bucket_name = generate_bucket_name()
-        bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org_id=self.my_organization.id,
+        bucket = self.buckets_api.create_bucket(bucket_name=bucket_name, org=self.my_organization,
                                                 description=bucket_name + "description")
         return bucket
 
@@ -49,11 +49,7 @@ class BaseTest(unittest.TestCase):
         return self.buckets_api.delete_bucket(bucket)
 
     def find_my_org(self) -> Organization:
-        org_api = influxdb_client.service.organizations_service.OrganizationsService(self.api_client)
-        orgs = org_api.get_orgs()
-        for org in orgs.orgs:
-            if org.name == self.org:
-                return org
+        return self.client.organizations_api().find_organizations(org=self.org)[0]
 
     @staticmethod
     def log(args):

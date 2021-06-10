@@ -16,6 +16,7 @@ from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
+from influxdb_client.client.util.helpers import get_org_query_param
 
 
 class QueryOptions(object):
@@ -51,14 +52,15 @@ class QueryApi(object):
         Execute the Flux query and return results as a CSV iterator. Each iteration returns a row of the CSV file.
 
         :param query: a Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: The returned object is an iterator.  Each iteration returns a row of the CSV file
                  (which can span multiple input lines).
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
                                               async_req=False, _preload_content=False)
 
@@ -69,13 +71,14 @@ class QueryApi(object):
         Execute synchronous Flux query and return result as raw unprocessed result as a str.
 
         :param query: a Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: str
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = self._org_param(org)
         result = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params), async_req=False,
                                             _preload_content=False)
 
@@ -86,12 +89,13 @@ class QueryApi(object):
         Execute synchronous Flux query and return result as a List['FluxTable'].
 
         :param query: the Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param params: bind parameters
         :return:
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = self._org_param(org)
 
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
@@ -108,12 +112,13 @@ class QueryApi(object):
         Execute synchronous Flux query and return stream of FluxRecord as a Generator['FluxRecord'].
 
         :param query: the Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param params: bind parameters
         :return:
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = self._org_param(org)
 
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
@@ -129,7 +134,9 @@ class QueryApi(object):
         Note that if a query returns more then one table than the client generates a DataFrame for each of them.
 
         :param query: the Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return:
@@ -153,13 +160,14 @@ class QueryApi(object):
         Note that if a query returns more then one table than the client generates a DataFrame for each of them.
 
         :param query: the Flux query
-        :param org: organization name (optional if already specified in InfluxDBClient)
+        :param str, Organization org: specifies the organization for executing the query;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return:
         """
-        if org is None:
-            org = self._influxdb_client.org
+        org = self._org_param(org)
 
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
@@ -186,6 +194,9 @@ class QueryApi(object):
             print(query)
 
         return q
+
+    def _org_param(self, org):
+        return get_org_query_param(org=org, client=self._influxdb_client)
 
     @staticmethod
     def _params_to_extern_ast(params: dict) -> List['OptionStatement']:

@@ -4,9 +4,10 @@ A bucket is a named location where time series data is stored.
 All buckets have a retention policy, a duration of time that each data point persists.
 A bucket belongs to an organization.
 """
-
+import warnings
 
 from influxdb_client import BucketsService, Bucket, PostBucketRequest
+from influxdb_client.client.util.helpers import get_org_query_param
 
 
 class BucketsApi(object):
@@ -18,15 +19,18 @@ class BucketsApi(object):
         self._buckets_service = BucketsService(influxdb_client.api_client)
 
     def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None,
-                      description=None) -> Bucket:
+                      description=None, org=None) -> Bucket:
         """Create a bucket.
 
-        :param Bucket bucket: bucket to create (required)
+        :param Bucket bucket: bucket to create
         :param bucket_name: bucket name
         :param description: bucket description
         :param org_id: org_id
         :param bucket_name: bucket name
         :param retention_rules: retention rules array or single BucketRetentionRules
+        :param str, Organization org: specifies the organization for create the bucket;
+                                      take the ID, Name or Organization;
+                                      if it's not specified then is used default from client.org.
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
@@ -41,11 +45,16 @@ class BucketsApi(object):
         else:
             rules.append(retention_rules)
 
+        if org_id is not None:
+            warnings.warn("org_id is deprecated; use org", DeprecationWarning)
+
         if bucket is None:
             bucket = PostBucketRequest(name=bucket_name,
                                        retention_rules=rules,
                                        description=description,
-                                       org_id=self._influxdb_client.org if org_id is None else org_id)
+                                       org_id=get_org_query_param(org=(org_id if org is None else org),
+                                                                  client=self._influxdb_client,
+                                                                  required_id=True))
 
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
