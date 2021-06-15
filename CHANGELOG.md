@@ -15,6 +15,7 @@
 
 ### Documentation
 1. [#397](https://github.com/influxdata/influxdb-client-python/pull/397): Add an example: How to use RxPY to prepare batches by maximum bytes count
+1. [#269](https://github.com/influxdata/influxdb-client-python/pull/269): Add new example: How to check connection credentials
 
 ## 1.31.0 [2022-07-29]
 

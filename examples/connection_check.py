@@ -1,5 +1,5 @@
 """
-How to How to check that connection information are suitable for queries and writes from/into specified bucket.
+How to check that connection credentials are suitable for queries and writes from/into specified bucket.
 """
 
 from influxdb_client import InfluxDBClient
