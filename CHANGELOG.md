@@ -6,6 +6,9 @@
 ### Deprecated
 1. [#264](https://github.com/influxdata/influxdb-client-python/pull/264): Deprecated `org_id` options BucketsApi.create_bucket in favor of `org` parameter
 
+### Bug Fixes
+1. [#270](https://github.com/influxdata/influxdb-client-python/pull/270): Supports `write_precision` for write Pandas DataFrame
+
 ## 1.18.0 [2021-06-04]
 
 ### Breaking Changes
