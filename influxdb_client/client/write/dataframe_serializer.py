@@ -7,7 +7,8 @@ Much of the code here is inspired by that in the aioinflux packet found here: ht
 import re
 import math
 
-from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_STRING, _ESCAPE_MEASUREMENT
+from influxdb_client import WritePrecision
+from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_STRING, _ESCAPE_MEASUREMENT, DEFAULT_WRITE_PRECISION
 
 
 def _itertuples(data_frame):
@@ -23,8 +24,16 @@ def _any_not_nan(p, indexes):
     return any(map(lambda x: _not_nan(p[x]), indexes))
 
 
-def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
-    """Serialize DataFrame into LineProtocols."""
+def data_frame_to_list_of_points(data_frame, point_settings, precision=DEFAULT_WRITE_PRECISION, **kwargs):
+    """
+    Serialize DataFrame into LineProtocols.
+
+    :param data_frame: Pandas DataFrame to serialize
+    :param point_settings: Default Tags
+    :param precision: The precision for the unix timestamps within the body line-protocol.
+    :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
+    :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
+    """
     # This function is hard to understand but for good reason:
     # the approach used here is considerably more efficient
     # than the alternatives.
@@ -179,6 +188,12 @@ def data_frame_to_list_of_points(data_frame, point_settings, **kwargs):
     tags = ''.join(tags)
     fields = ''.join(fields)
     timestamp = '{p[0].value}'
+    if precision == WritePrecision.US:
+        timestamp = '{int(p[0].value / 1e3)}'
+    elif precision == WritePrecision.MS:
+        timestamp = '{int(p[0].value / 1e6)}'
+    elif precision == WritePrecision.S:
+        timestamp = '{int(p[0].value / 1e9)}'
 
     f = eval(f'lambda p: f"""{{measurement_name}}{tags} {fields} {timestamp}"""', {
         'measurement_name': measurement_name,

@@ -2,7 +2,7 @@ import time
 import unittest
 from datetime import timedelta
 
-from influxdb_client import InfluxDBClient, WriteOptions, WriteApi
+from influxdb_client import InfluxDBClient, WriteOptions, WriteApi, WritePrecision
 from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
 from influxdb_client.client.write_api import SYNCHRONOUS, PointSettings
 from tests.base_test import BaseTest
@@ -56,8 +56,8 @@ class DataSerializerTest(unittest.TestCase):
     def test_convert_data_frame(self):
         from influxdb_client.extras import pd, np
 
-        num_rows=1500000
-        col_data={
+        num_rows = 1500000
+        col_data = {
             'time': np.arange(0, num_rows, 1, dtype=int),
             'col1': np.random.choice(['test_a', 'test_b', 'test_c'], size=(num_rows,)),
         }
@@ -69,8 +69,8 @@ class DataSerializerTest(unittest.TestCase):
 
         start = time.time()
         data_frame_to_list_of_points(data_frame, PointSettings(),
-            data_frame_measurement_name='h2o_feet',
-            data_frame_tag_columns=['location'])
+                                     data_frame_measurement_name='h2o_feet',
+                                     data_frame_tag_columns=['location'])
 
         print("Time elapsed: ", (time.time() - start))
 
@@ -291,7 +291,7 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("h2o,t1=a2,t2=every,t3=c2 value=2i 1586052000000000000", points[1])
 
         # Check that the data frame hasn't been changed (an earlier version did change it)
-        self.assertEqual(True, (data_frame == original_data).all(axis = None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
+        self.assertEqual(True, (data_frame == original_data).all(axis=None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
 
         # Check that the default tags won't override actual column data.
         # This is arguably incorrect behavior, but it's how it works currently.
@@ -304,7 +304,7 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("h2o,t1=a1,t3=c1 value=1i 1586048400000000000", points[0])
         self.assertEqual("h2o,t1=a2,t3=c2 value=2i 1586052000000000000", points[1])
 
-        self.assertEqual(True, (data_frame == original_data).all(axis = None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
+        self.assertEqual(True, (data_frame == original_data).all(axis=None), f'data changed; old:\n{original_data}\nnew:\n{data_frame}')
 
     def test_with_period_index(self):
         from influxdb_client.extras import pd
@@ -333,3 +333,22 @@ class DataSerializerTest(unittest.TestCase):
             self.assertEqual(1, len(points))
             self.assertEqual("h2o level=15.5 1586044800000000000", points[0], msg=f'Current type: {np_float_type}')
 
+    def test_write_precision(self):
+        from influxdb_client.extras import pd
+        now = pd.Timestamp('2020-04-05 00:00+00:00')
+        precisions = [
+            (WritePrecision.NS, 1586044800000000000),
+            (WritePrecision.US, 1586044800000000),
+            (WritePrecision.MS, 1586044800000),
+            (WritePrecision.S, 1586044800),
+            (None, 1586044800000000000)
+        ]
+
+        for precision in precisions:
+            data_frame = pd.DataFrame([15], index=[now], columns=['level'])
+            points = data_frame_to_list_of_points(data_frame=data_frame,
+                                                  data_frame_measurement_name='h2o',
+                                                  point_settings=PointSettings(),
+                                                  precision=precision[0])
+            self.assertEqual(1, len(points))
+            self.assertEqual(f"h2o level=15i {precision[1]}", points[0])

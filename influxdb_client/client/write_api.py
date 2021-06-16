@@ -312,7 +312,7 @@ class WriteApi:
             self._serialize(Point.from_dict(record, write_precision=write_precision),
                             write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
-            _data = data_frame_to_list_of_points(record, self._point_settings, **kwargs)
+            _data = data_frame_to_list_of_points(record, self._point_settings, write_precision, **kwargs)
             self._serialize(_data, write_precision, payload, **kwargs)
 
         elif isinstance(record, Iterable):
@@ -338,7 +338,8 @@ class WriteApi:
                                  precision, **kwargs)
 
         elif 'DataFrame' in type(data).__name__:
-            self._write_batching(bucket, org, data_frame_to_list_of_points(data, self._point_settings, **kwargs),
+            self._write_batching(bucket, org,
+                                 data_frame_to_list_of_points(data, self._point_settings, precision, **kwargs),
                                  precision, **kwargs)
 
         elif isinstance(data, Iterable):
