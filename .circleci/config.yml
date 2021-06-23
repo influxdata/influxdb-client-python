@@ -125,6 +125,20 @@ jobs:
             export PYTHONPATH="$PWD"
             python examples/monitoring_and_alerting.py
             python examples/buckets_management.py
+  check-sphinx:
+    docker:
+      - image: *default-python
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - prepare
+      - run:
+          name: Checks that sphinx docs are successfully generated
+          command: |
+            pip install -e . --user
+            pip install sphinx --user
+            cd docs
+            python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html
   check-aws-lambda-layer:
     docker:
       - image: docker:19
@@ -147,6 +161,7 @@ workflows:
       - check-docstyle
       - check-twine
       - check-examples
+      - check-sphinx
       - tests-python:
           name: test-3.6
       - tests-python:
