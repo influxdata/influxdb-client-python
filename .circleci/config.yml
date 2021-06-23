@@ -131,7 +131,7 @@ jobs:
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
-      - prepare
+      - checkout
       - run:
           name: Checks that sphinx docs are successfully generated
           command: |
