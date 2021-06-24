@@ -22,8 +22,8 @@
 from pathlib import Path
 
 meta = {}
-with open(Path(__file__).parent.parent / 'influxdb_client' / '__init__.py') as f:
-    exec('\n'.join(l for l in f if l.startswith('__')), meta)
+with open(Path(__file__).parent.parent / 'influxdb_client' / 'version.py') as f:
+    exec('\n'.join(l for l in f if l.startswith('CLIENT_VERSION')), meta)
 
 
 def setup(app):
@@ -37,9 +37,9 @@ author = 'Robert Hajek, Jakub Bednar'
 autoclass_content = 'both'
 
 # The short X.Y version
-version = meta['__version__']
+version = meta['CLIENT_VERSION']
 # The full version, including alpha/beta/rc tags
-release = meta['__version__']
+release = meta['CLIENT_VERSION']
 
 # -- General configuration ---------------------------------------------------
 
