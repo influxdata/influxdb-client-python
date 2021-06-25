@@ -38,7 +38,7 @@ influxdb-client-python
 
 The API of the **influxdb-client-python** is not the backwards-compatible with the old one - **influxdb-python**.
 
-The full API reference for this package is available here: `https://influxdb-client.readthedocs.io/en/latest/api.html <https://influxdb-client.readthedocs.io/en/latest/api.html>`_
+The full API reference for this package is available here: `https://influxdb-client.readthedocs.io/en/stable/api.html <https://influxdb-client.readthedocs.io/en/stable/api.html>`_
 
 InfluxDB 2.0 client features
 ----------------------------
