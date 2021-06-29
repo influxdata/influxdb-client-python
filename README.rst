@@ -38,15 +38,18 @@ This repository contains the Python client library for the InfluxDB 2.0.
 The API of the **influxdb-client-python** is not the backwards-compatible with the old one - **influxdb-python**.
 
 Documentation
-^^^^^^^^^^^^^
-This section contains links to the client library documentation.
-- `Product documentation <https://docs.influxdata.com/influxdb/v2.0/tools/client-libraries/>`_, `Getting Started <#getting-started>`_
-- `Examples <examples/>`_
-- `API Reference <https://influxdb-client.readthedocs.io/en/stable/api.html>`_
-- `Changelog <CHANGELOG.md>`_
-- `Source Code <https://github.com/influxdata/influxdb-client-python>`_
+-------------
 
-The full API reference for this package is available here: `https://influxdb-client.readthedocs.io/en/stable/api.html <https://influxdb-client.readthedocs.io/en/stable/api.html>`_
+This section contains links to the client library documentation.
+
+* `Product documentation <https://docs.influxdata.com/influxdb/v2.0/tools/client-libraries/>`_, `Getting Started <#getting-started>`_
+* `Examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples>`_
+* `API Reference <https://influxdb-client.readthedocs.io/en/stable/api.html>`_
+* `Changelog <https://github.com/influxdata/influxdb-client-python/blob/master/CHANGELOG.md>`_
+* `Source Code <https://github.com/influxdata/influxdb-client-python>`_
+
+
+The full API reference for this package is available here:
 
 InfluxDB 2.0 client features
 ----------------------------
