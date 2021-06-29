@@ -48,9 +48,6 @@ This section contains links to the client library documentation.
 * `Changelog <https://github.com/influxdata/influxdb-client-python/blob/master/CHANGELOG.md>`_
 * `Source Code <https://github.com/influxdata/influxdb-client-python>`_
 
-
-The full API reference for this package is available here:
-
 InfluxDB 2.0 client features
 ----------------------------
 
