@@ -32,6 +32,9 @@ class FluxTable(FluxStructure):
         cls_name = type(self).__name__
         return cls_name + "() columns: " + str(len(self.columns)) + ", records: " + str(len(self.records))
 
+    def __repr__(self):
+        return f"<{type(self).__name__}: {len(self.columns)} columns, {len(self.records)} records>"
+
     def __iter__(self):
         """Iterate over records."""
         return iter(self.records)
@@ -47,6 +50,14 @@ class FluxColumn(FluxStructure):
         self.data_type = data_type
         self.label = label
         self.index = index
+
+    def __repr__(self):
+        fields = [repr(self.index)] + [
+            f'{name}={getattr(self, name)!r}' for name in (
+                'label', 'data_type', 'group', 'default_value'
+            ) if getattr(self, name) is not None
+        ]
+        return f"{type(self).__name__}({', '.join(fields)})"
 
 
 class FluxRecord(FluxStructure):
@@ -95,3 +106,7 @@ class FluxRecord(FluxStructure):
         """Return formatted output."""
         cls_name = type(self).__name__
         return cls_name + "() table: " + str(self.table) + ", " + str(self.values)
+
+    def __repr__(self):
+        d = self.values
+        return f"<{type(self).__name__} field={d.get('_field')} value={d.get('_value')}>"
