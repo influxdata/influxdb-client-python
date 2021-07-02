@@ -33,7 +33,7 @@ class FluxTable(FluxStructure):
         return cls_name + "() columns: " + str(len(self.columns)) + ", records: " + str(len(self.records))
 
     def __repr__(self):
-        """Format for inspection"""
+        """Format for inspection."""
         return f"<{type(self).__name__}: {len(self.columns)} columns, {len(self.records)} records>"
 
     def __iter__(self):
@@ -53,7 +53,7 @@ class FluxColumn(FluxStructure):
         self.index = index
 
     def __repr__(self):
-        """Format for inspection"""
+        """Format for inspection."""
         fields = [repr(self.index)] + [
             f'{name}={getattr(self, name)!r}' for name in (
                 'label', 'data_type', 'group', 'default_value'
@@ -110,6 +110,6 @@ class FluxRecord(FluxStructure):
         return cls_name + "() table: " + str(self.table) + ", " + str(self.values)
 
     def __repr__(self):
-        """Format for inspection"""
+        """Format for inspection."""
         d = self.values
         return f"<{type(self).__name__} field={d.get('_field')} value={d.get('_value')}>"
