@@ -1,4 +1,4 @@
-## 1.19.0 [unreleased]
+## 1.19.0 [2021-07-09]
 
 ### Features
 1. [#264](https://github.com/influxdata/influxdb-client-python/pull/264): Org parameter can be specified as ID, Name or Organization Object [write, query]
