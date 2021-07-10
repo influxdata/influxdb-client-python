@@ -115,6 +115,7 @@ class InfluxDBClient(object):
             - connection_pool_maxsize
             - auth_basic
             - profilers
+            - proxy
 
 
         config.ini example::
@@ -127,6 +128,7 @@ class InfluxDBClient(object):
             connection_pool_maxsize=25
             auth_basic=false
             profilers=query,operator
+            proxy=http:proxy.domain.org:8080
 
             [tags]
             id = 132-987-655
@@ -143,6 +145,7 @@ class InfluxDBClient(object):
                 connection_pool_maxsize = 25
                 auth_basic = false
                 profilers="query, operator"
+                proxy = "http://proxy.domain.org:8080"
 
             [tags]
                 id = "132-987-655"
@@ -192,10 +195,14 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'profilers'):
             profilers = [x.strip() for x in config_value('profilers').split(',')]
 
+        proxy = None
+        if config.has_option('influx2', 'proxy'):
+            proxy = config_value('proxy')
+
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers)
+                   profilers=profilers, proxy=proxy)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
