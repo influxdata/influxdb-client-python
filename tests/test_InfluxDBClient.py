@@ -75,6 +75,11 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual(False, self.client.api_client.configuration.auth_basic)
         self.assertEqual(["query", "operator"], self.client.profilers)
 
+    def test_init_from_file_proxy(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-enabled-proxy.ini')
+        self.assertConfig()
+        self.assertEqual("http://proxy.domain.org:8080", self.client.api_client.configuration.proxy)
+
     def test_init_from_file_ssl_default(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
 
