@@ -32,11 +32,11 @@ class Check(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'type': 'str',
+        'type': 'str'
     }
 
     attribute_map = {
-        'type': 'type',
+        'type': 'type'
     }
 
     discriminator_value_class_map = {
