@@ -6,10 +6,10 @@ from influxdb_client import InfluxDBClient, ChecksService
 from tests.base_test import BaseTest
 
 
-class ChecksClientTest(BaseTest):
+class ThresholdsClientTest(BaseTest):
 
     def setUp(self) -> None:
-        super(ChecksClientTest, self).setUp()
+        super(ThresholdsClientTest, self).setUp()
 
         httpretty.enable()
         httpretty.reset()
