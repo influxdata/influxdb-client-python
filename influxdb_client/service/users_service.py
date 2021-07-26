@@ -148,7 +148,7 @@ class UsersService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :return: Flags
+        :return: dict(str, object)
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -169,7 +169,7 @@ class UsersService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :return: Flags
+        :return: dict(str, object)
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -225,7 +225,7 @@ class UsersService(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Flags',  # noqa: E501
+            response_type='dict(str, object)',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -792,6 +792,7 @@ class UsersService(object):
         :param str user_id: The user ID. (required)
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -815,13 +816,14 @@ class UsersService(object):
         :param str user_id: The user ID. (required)
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params = locals()
 
-        all_params = ['user_id', 'password_reset_body', 'zap_trace_span']  # noqa: E501
+        all_params = ['user_id', 'password_reset_body', 'zap_trace_span', 'authorization']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -856,6 +858,8 @@ class UsersService(object):
         header_params = {}
         if 'zap_trace_span' in local_var_params:
             header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'authorization' in local_var_params:
+            header_params['Authorization'] = local_var_params['authorization']  # noqa: E501
 
         form_params = []
         local_var_files = {}
@@ -907,6 +911,7 @@ class UsersService(object):
         :param async_req bool
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -929,13 +934,14 @@ class UsersService(object):
         :param async_req bool
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params = locals()
 
-        all_params = ['password_reset_body', 'zap_trace_span']  # noqa: E501
+        all_params = ['password_reset_body', 'zap_trace_span', 'authorization']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -964,6 +970,8 @@ class UsersService(object):
         header_params = {}
         if 'zap_trace_span' in local_var_params:
             header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'authorization' in local_var_params:
+            header_params['Authorization'] = local_var_params['authorization']  # noqa: E501
 
         form_params = []
         local_var_files = {}

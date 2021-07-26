@@ -240,6 +240,7 @@ class DefaultService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -261,13 +262,14 @@ class DefaultService(object):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params = locals()
 
-        all_params = ['zap_trace_span']  # noqa: E501
+        all_params = ['zap_trace_span', 'authorization']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -292,6 +294,8 @@ class DefaultService(object):
         header_params = {}
         if 'zap_trace_span' in local_var_params:
             header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'authorization' in local_var_params:
+            header_params['Authorization'] = local_var_params['authorization']  # noqa: E501
 
         form_params = []
         local_var_files = {}
