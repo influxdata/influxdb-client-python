@@ -17,7 +17,7 @@ from rx.subject import Subject
 
 from influxdb_client import WritePrecision, WriteService
 from influxdb_client.client.util.helpers import get_org_query_param
-from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
+from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
 
@@ -134,7 +134,7 @@ class _BatchItem(object):
         pass
 
     def __str__(self) -> str:
-        return '_BatchItem[key:\'{}\', \'{}\']' \
+        return '_BatchItem[key:\'{}\', size: \'{}\']' \
             .format(str(self.key), str(self.size))
 
 
@@ -312,8 +312,8 @@ class WriteApi:
             self._serialize(Point.from_dict(record, write_precision=write_precision),
                             write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
-            _data = data_frame_to_list_of_points(record, self._point_settings, write_precision, **kwargs)
-            self._serialize(_data, write_precision, payload, **kwargs)
+            serializer = DataframeSerializer(record, self._point_settings, write_precision, **kwargs)
+            self._serialize(serializer.serialize(), write_precision, payload, **kwargs)
 
         elif isinstance(record, Iterable):
             for item in record:
@@ -338,9 +338,12 @@ class WriteApi:
                                  precision, **kwargs)
 
         elif 'DataFrame' in type(data).__name__:
-            self._write_batching(bucket, org,
-                                 data_frame_to_list_of_points(data, self._point_settings, precision, **kwargs),
-                                 precision, **kwargs)
+            serializer = DataframeSerializer(data, self._point_settings, precision, self._write_options.batch_size,
+                                             **kwargs)
+            for chunk_idx in range(serializer.number_of_chunks):
+                self._write_batching(bucket, org,
+                                     serializer.serialize(chunk_idx),
+                                     precision, **kwargs)
 
         elif isinstance(data, Iterable):
             for item in data:

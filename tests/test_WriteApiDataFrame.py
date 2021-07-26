@@ -3,7 +3,8 @@ import unittest
 from datetime import timedelta
 
 from influxdb_client import InfluxDBClient, WriteOptions, WriteApi, WritePrecision
-from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points
+from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points, DataframeSerializer
+from influxdb_client.client.write.point import DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write_api import SYNCHRONOUS, PointSettings
 from tests.base_test import BaseTest
 
@@ -352,3 +353,52 @@ class DataSerializerTest(unittest.TestCase):
                                                   precision=precision[0])
             self.assertEqual(1, len(points))
             self.assertEqual(f"h2o level=15i {precision[1]}", points[0])
+
+
+class DataSerializerChunksTest(unittest.TestCase):
+    def test_chunks(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(
+            data=[
+                ["a", 1, 2],
+                ["b", 3, 4],
+                ["c", 5, 6],
+                ["d", 7, 8],
+            ],
+            index=[1, 2, 3, 4],
+            columns=["tag", "field1", "field2"])
+
+        #
+        # Batch size = 2
+        #
+        serializer = DataframeSerializer(data_frame, PointSettings(), DEFAULT_WRITE_PRECISION, 2,
+                                         data_frame_measurement_name='m', data_frame_tag_columns={"tag"})
+        self.assertEqual(2, serializer.number_of_chunks)
+        self.assertEqual(['m,tag=a field1=1i,field2=2i 1',
+                          'm,tag=b field1=3i,field2=4i 2'], serializer.serialize(chunk_idx=0))
+        self.assertEqual(['m,tag=c field1=5i,field2=6i 3',
+                          'm,tag=d field1=7i,field2=8i 4'], serializer.serialize(chunk_idx=1))
+
+        #
+        # Batch size = 10
+        #
+        serializer = DataframeSerializer(data_frame, PointSettings(), DEFAULT_WRITE_PRECISION, 10,
+                                         data_frame_measurement_name='m', data_frame_tag_columns={"tag"})
+        self.assertEqual(1, serializer.number_of_chunks)
+        self.assertEqual(['m,tag=a field1=1i,field2=2i 1',
+                          'm,tag=b field1=3i,field2=4i 2',
+                          'm,tag=c field1=5i,field2=6i 3',
+                          'm,tag=d field1=7i,field2=8i 4'
+                          ], serializer.serialize(chunk_idx=0))
+
+        #
+        # Batch size = 3
+        #
+        serializer = DataframeSerializer(data_frame, PointSettings(), DEFAULT_WRITE_PRECISION, 3,
+                                         data_frame_measurement_name='m', data_frame_tag_columns={"tag"})
+        self.assertEqual(2, serializer.number_of_chunks)
+        self.assertEqual(['m,tag=a field1=1i,field2=2i 1',
+                          'm,tag=b field1=3i,field2=4i 2',
+                          'm,tag=c field1=5i,field2=6i 3'
+                          ], serializer.serialize(chunk_idx=0))
+        self.assertEqual(['m,tag=d field1=7i,field2=8i 4'], serializer.serialize(chunk_idx=1))
