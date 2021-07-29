@@ -2,6 +2,7 @@
 
 ### Features
 1. [#281](https://github.com/influxdata/influxdb-client-python/pull/281): `FluxTable`, `FluxColumn` and `FluxRecord` objects have helpful reprs
+1. [#293](https://github.com/influxdata/influxdb-client-python/pull/293): `dataframe_serializer` supports batching
 
 ### Bug Fixes
 1. [#283](https://github.com/influxdata/influxdb-client-python/pull/283): Set proxy server in config file
