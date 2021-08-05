@@ -86,7 +86,7 @@ class FluxCsvParser(object):
             if len(csv) < 1:
                 continue
 
-            if "error" == csv[1] and "reference" == csv[2]:
+            if len(csv) >= 3 and "error" == csv[1] and "reference" == csv[2]:
                 parsing_state_error = True
                 continue
 
