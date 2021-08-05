@@ -8,6 +8,7 @@
 1. [#283](https://github.com/influxdata/influxdb-client-python/pull/283): Set proxy server in config file
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `Threshold` domain models mapping 
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `DashboardService` responses types
+1. [#297](https://github.com/influxdata/influxdb-client-python/pull/297): Potential out of range in parsing a Flux response
 
 ## 1.19.0 [2021-07-09]
 
