@@ -20,6 +20,10 @@ influxdb-client-python
    :target: https://pypi.org/project/influxdb-client/
    :alt: PyPI package
 
+.. image:: https://anaconda.org/influxdata/influxdb_client/badges/version.svg
+   :target: https://anaconda.org/influxdata/influxdb_client
+   :alt: Anaconda.org package
+
 .. image:: https://img.shields.io/pypi/pyversions/influxdb-client.svg
    :target: https://pypi.python.org/pypi/influxdb-client
    :alt: Supported Python versions
