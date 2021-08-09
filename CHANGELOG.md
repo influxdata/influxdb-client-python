@@ -9,6 +9,9 @@
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `Threshold` domain models mapping 
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `DashboardService` responses types
 
+### CI
+1. [#299](https://github.com/influxdata/influxdb-client-python/pull/299): Deploy package to [Anaconda.org](https://anaconda.org/influxdata/influxdb_client)
+
 ## 1.19.0 [2021-07-09]
 
 ### Features
