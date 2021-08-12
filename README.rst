@@ -76,6 +76,7 @@ InfluxDB 2.0 client features
     - `How to use Jupyter + Pandas + InfluxDB 2`_
 - Advanced Usage
     - `Gzip support`_
+    - `Proxy configuration`_
     - `Delete data`_
 
 Installation
@@ -1058,6 +1059,41 @@ Gzip support
    _db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", enable_gzip=True)
 
 .. marker-gzip-end
+
+Proxy configuration
+^^^^^^^^^^^^^^^^^^^
+.. marker-proxy-start
+
+You can configure the client to tunnel requests through an HTTP proxy.
+The following proxy options are supported:
+
+- ``proxy`` - Set this to configure the http proxy to be used, ex. ``http://localhost:3128``
+- ``proxy_headers`` - A dictionary containing headers that will be sent to the proxy. Could be used for proxy authentication.
+
+.. code-block:: python
+
+   from influxdb_client import InfluxDBClient
+
+   with InfluxDBClient(url="http://localhost:8086",
+                       token="my-token",
+                       org="my-org",
+                       proxy="http://localhost:3128") as client:
+
+.. note::
+
+    If your proxy notify the client with permanent redirect (``HTTP 301``) to **different host**.
+    The client removes ``Authorization`` header, because otherwise the contents of ``Authorization`` is sent to third parties
+    which is a security vulnerability.
+
+    You can change this behaviour by:
+
+    .. code-block:: python
+
+       from urllib3 import Retry
+       Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
+       Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
+
+.. marker-proxy-end
 
 Delete data
 ^^^^^^^^^^^
