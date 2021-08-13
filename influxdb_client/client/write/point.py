@@ -43,7 +43,7 @@ try:
     import numpy as np
 
     _HAS_NUMPY = True
-except ModuleNotFoundError as err:
+except ModuleNotFoundError:
     _HAS_NUMPY = False
 
 
