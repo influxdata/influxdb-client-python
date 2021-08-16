@@ -267,7 +267,7 @@ class PointTest(unittest.TestCase):
         point._tags = {
             "empty_tag": "",
             "none_tag": None,
-            "backslash_tag": "C:\\",
+            "backslash_tag": "C:\\\\",
             "integer_tag": 2,
             "string_tag": "hello"
         }
@@ -378,6 +378,15 @@ class PointTest(unittest.TestCase):
         exception = ve.exception
 
         self.assertEqual('Type: "<class \'pytz.UTC\'>" of field: "level" is not supported.', f'{exception}')
+
+    def test_backslash(self):
+        point = Point.from_dict({"measurement": "test",
+                                 "tags": {"tag1": "value1", "tag2": "value\2", "tag3": "value\\3",
+                                          "tag4": r"value\4", "tag5": r"value\\5"}, "time": 1624989000000000000,
+                                 "fields": {"value": 10}}, write_precision=WritePrecision.NS)
+        self.assertEqual(
+            "test,tag1=value1,tag2=value\2,tag3=value\\3,tag4=value\\4,tag5=value\\\\5 value=10i 1624989000000000000",
+            point.to_line_protocol())
 
 
 if __name__ == '__main__':
