@@ -10,17 +10,17 @@ Query
   :start-after: marker-query-start
   :end-before: marker-query-end
 
-Pandas DataFrame
-^^^^^^^^^^^^^^^^
-.. include:: ../README.rst
-  :start-after: marker-pandas-start
-  :end-before: marker-pandas-end
-
 Write
 ^^^^^
 .. include:: ../README.rst
   :start-after: marker-writes-start
   :end-before: marker-writes-end
+
+Pandas DataFrame
+^^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-pandas-start
+  :end-before: marker-pandas-end
 
 Delete data
 ^^^^^^^^^^^
@@ -33,6 +33,12 @@ Gzip support
 .. include:: ../README.rst
   :start-after: marker-gzip-start
   :end-before: marker-gzip-end
+
+Proxy configuration
+^^^^^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-proxy-start
+  :end-before: marker-proxy-end
 
 Debugging
 ^^^^^^^^^

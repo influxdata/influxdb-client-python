@@ -5,7 +5,9 @@ import threading
 import unittest
 
 from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.write_api import SYNCHRONOUS, ASYNCHRONOUS, WriteOptions, WriteType
+from influxdb_client.client.write_api import WriteOptions, WriteType
+
+from tests.base_test import BaseTest
 
 
 class InfluxDBClientTest(unittest.TestCase):
@@ -166,6 +168,49 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.assertIsNone(api_client._pool)
         self.assertIsNone(self.client.api_client)
+
+
+class InfluxDBClientTestIT(BaseTest):
+    httpRequest = []
+
+    def tearDown(self) -> None:
+        super(InfluxDBClientTestIT, self).tearDown()
+        if hasattr(self, 'httpd'):
+            self.httpd.shutdown()
+        if hasattr(self, 'httpd_thread'):
+            self.httpd_thread.join()
+        InfluxDBClientTestIT.httpRequest = []
+
+    def test_proxy(self):
+        self._start_proxy_server()
+
+        self.client.close()
+        self.client = InfluxDBClient(url=self.host,
+                                     token=self.auth_token,
+                                     proxy=f"http://localhost:{self.httpd.server_address[1]}",
+                                     proxy_headers={'ProxyHeader': 'Val'})
+        ready = self.client.ready()
+        self.assertEqual(ready.status, "ready")
+        self.assertEqual(1, len(InfluxDBClientTestIT.httpRequest))
+        self.assertEqual('Val', InfluxDBClientTestIT.httpRequest[0].headers.get('ProxyHeader'))
+
+    def _start_proxy_server(self):
+        import http.server
+        import urllib.request
+
+        class ProxyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+
+            def do_GET(self):
+                InfluxDBClientTestIT.httpRequest.append(self)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.copyfile(urllib.request.urlopen(self.path), self.wfile)
+
+        self.httpd = http.server.HTTPServer(('localhost', 0), ProxyHTTPRequestHandler)
+        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
+        self.httpd_thread.start()
+
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self):

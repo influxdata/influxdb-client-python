@@ -38,6 +38,8 @@ class InfluxDBClient(object):
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
         :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
         :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
+        :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
+                                authentication.
         :key int connection_pool_maxsize: Number of connections to save that can be reused by urllib3.
                                           Defaults to "multiprocessing.cpu_count() * 5".
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
@@ -63,6 +65,7 @@ class InfluxDBClient(object):
         conf.verify_ssl = kwargs.get('verify_ssl', True)
         conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
         conf.proxy = kwargs.get('proxy', None)
+        conf.proxy_headers = kwargs.get('proxy_headers', None)
         conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', conf.connection_pool_maxsize)
         conf.timeout = timeout
 

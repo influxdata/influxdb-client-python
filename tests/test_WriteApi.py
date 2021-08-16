@@ -515,6 +515,30 @@ class WriteApiTestMock(BaseTest):
         self.assertEqual(1, len(requests))
         self.assertEqual("h2o,customer=California\\ Miner,id=132-987-655 level=1 1", requests[0].parsed_body)
 
+    def test_redirect(self):
+        from urllib3 import Retry
+        Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
+        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
+        self.influxdb_client.close()
+
+        self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", org="my-org")
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost2/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=301,
+                               adding_headers={'Location': 'http://localhost2/api/v2/write'})
+
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
+
+        self.write_client.write("my-bucket", "my-org", {"measurement": "h2o", "fields": {"level": 1.0}, "time": 1})
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(2, len(requests))
+        self.assertEqual('Token my-token', requests[0].headers['Authorization'])
+        self.assertEqual('Token my-token', requests[1].headers['Authorization'])
+
+        from urllib3 import Retry
+        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
+
 
 class AsynchronousWriteTest(BaseTest):
 
