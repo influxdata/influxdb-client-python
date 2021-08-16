@@ -388,6 +388,26 @@ class PointTest(unittest.TestCase):
             "test,tag1=value1,tag2=value\2,tag3=value\\3,tag4=value\\4,tag5=value\\\\5 value=10i 1624989000000000000",
             point.to_line_protocol())
 
+    def test_numpy_types(self):
+        from influxdb_client.extras import np
+
+        point = Point.measurement("h2o")\
+            .tag("location", "europe")\
+            .field("np.float1", np.float(1.123))\
+            .field("np.float2", np.float16(2.123))\
+            .field("np.float3", np.float32(3.123))\
+            .field("np.float4", np.float64(4.123))\
+            .field("np.int1", np.int8(1))\
+            .field("np.int2", np.int16(2))\
+            .field("np.int3", np.int32(3))\
+            .field("np.int4", np.int64(4))\
+            .field("np.uint1", np.uint8(5))\
+            .field("np.uint2", np.uint16(6))\
+            .field("np.uint3", np.uint32(7))\
+            .field("np.uint4", np.uint64(8))
+
+        self.assertEqual("h2o,location=europe np.float1=1.123,np.float2=2.123,np.float3=3.123,np.float4=4.123,np.int1=1i,np.int2=2i,np.int3=3i,np.int4=4i,np.uint1=5i,np.uint2=6i,np.uint3=7i,np.uint4=8i", point.to_line_protocol())
+
 
 if __name__ == '__main__':
     unittest.main()

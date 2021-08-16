@@ -39,6 +39,13 @@ _ESCAPE_STRING = str.maketrans({
     '\\': r'\\',
 })
 
+try:
+    import numpy as np
+
+    _HAS_NUMPY = True
+except ModuleNotFoundError:
+    _HAS_NUMPY = False
+
 
 class Point(object):
     """
@@ -145,7 +152,7 @@ def _append_fields(fields):
         if value is None:
             continue
 
-        if isinstance(value, float) or isinstance(value, Decimal):
+        if isinstance(value, float) or isinstance(value, Decimal) or _np_is_subtype(value, 'float'):
             if not math.isfinite(value):
                 continue
             s = str(value)
@@ -156,7 +163,7 @@ def _append_fields(fields):
             if s.endswith('.0'):
                 s = s[:-2]
             _return.append(f'{_escape_key(field)}={s}')
-        elif isinstance(value, int) and not isinstance(value, bool):
+        elif (isinstance(value, int) or _np_is_subtype(value, 'int')) and not isinstance(value, bool):
             _return.append(f'{_escape_key(field)}={str(value)}i')
         elif isinstance(value, bool):
             _return.append(f'{_escape_key(field)}={str(value).lower()}')
@@ -216,3 +223,14 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
             return ns / 1e9
 
     raise ValueError(timestamp)
+
+
+def _np_is_subtype(value, np_type):
+    if not _HAS_NUMPY or not hasattr(value, 'dtype'):
+        return False
+
+    if np_type == 'float':
+        return np.issubdtype(value, np.floating)
+    elif np_type == 'int':
+        return np.issubdtype(value, np.integer)
+    return False
