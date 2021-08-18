@@ -14,6 +14,7 @@
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `Threshold` domain models mapping 
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `DashboardService` responses types
 1. [#303](https://github.com/influxdata/influxdb-client-python/pull/303): Backslash escaping in serialization to Line protocol
+1. [#312](https://github.com/influxdata/influxdb-client-python/pull/312): Zip structure for AWS Lambda
 
 ## 1.19.0 [2021-07-09]
 
