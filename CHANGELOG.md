@@ -16,6 +16,9 @@
 1. [#303](https://github.com/influxdata/influxdb-client-python/pull/303): Backslash escaping in serialization to Line protocol
 1. [#312](https://github.com/influxdata/influxdb-client-python/pull/312): Zip structure for AWS Lambda
 
+### CI
+1. [#299](https://github.com/influxdata/influxdb-client-python/pull/299): Deploy package to [Anaconda.org](https://anaconda.org/influxdata/influxdb_client)
+
 ## 1.19.0 [2021-07-09]
 
 ### Features
