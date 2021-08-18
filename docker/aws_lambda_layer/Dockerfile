@@ -11,5 +11,6 @@ RUN source lambda/bin/activate
 # Python dependencies to be included in output zip file:
 RUN python3.8 -m pip install --no-cache-dir influxdb-client[ciso] -t /install/python
 # Create zip file
-RUN zip -r /install/python.zip python/
+WORKDIR /install/python
+RUN zip -r ../python.zip .
 VOLUME ["/install"]
