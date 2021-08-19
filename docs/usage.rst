@@ -40,6 +40,12 @@ Proxy configuration
   :start-after: marker-proxy-start
   :end-before: marker-proxy-end
 
+Nanosecond precision
+^^^^^^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-nanosecond-start
+  :end-before: marker-nanosecond-end
+
 Debugging
 ^^^^^^^^^
 
