@@ -78,9 +78,10 @@ InfluxDB 2.0 client features
     - `How to efficiently import large dataset`_
     - `Efficiency write data from IOT sensor`_
     - `How to use Jupyter + Pandas + InfluxDB 2`_
-- Advanced Usage
+- `Advanced Usage`_
     - `Gzip support`_
     - `Proxy configuration`_
+    - `Nanosecond precision`_
     - `Delete data`_
 
 Installation
@@ -1163,6 +1164,7 @@ For more info about how configure HTTP retry see details in `urllib3 documentati
 
 Nanosecond precision
 ^^^^^^^^^^^^^^^^^^^^
+.. marker-nanosecond-start
 
 The Python's `datetime <https://docs.python.org/3/library/datetime.html>`_ doesn't support precision with nanoseconds
 so the library during writes and queries ignores everything after microseconds.
@@ -1226,6 +1228,7 @@ that is replacement for python ``datetime.datetime`` object and also you should 
     """
     client.close()
 
+.. marker-nanosecond-end
 
 Local tests
 -----------
