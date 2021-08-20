@@ -1,4 +1,4 @@
-## 1.20.0 [unreleased]
+## 1.20.0 [2021-08-20]
 
 ### Features
 1. [#281](https://github.com/influxdata/influxdb-client-python/pull/281): `FluxTable`, `FluxColumn` and `FluxRecord` objects have helpful reprs
