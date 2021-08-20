@@ -1,6 +1,5 @@
 """Delete time series data from InfluxDB."""
 
-import datetime
 from datetime import datetime
 
 from influxdb_client import DeleteService, DeletePredicateRequest
@@ -26,7 +25,6 @@ class DeleteApi(object):
         :param org: organization id or name
         :return:
         """
-
         date_helper = get_date_helper()
         if isinstance(start, datetime):
             start = date_helper.to_utc(start)
