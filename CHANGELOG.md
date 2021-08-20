@@ -3,6 +3,7 @@
 ### Features
 1. [#319](https://github.com/influxdata/influxdb-client-python/pull/319): Add supports for array expressions in query parameters
 2. [#320](https://github.com/influxdata/influxdb-client-python/pull/320): Add JSONEncoder to encode query results to JSON
+1. [#317](https://github.com/influxdata/influxdb-client-python/pull/317): `delete_api` also accept `datetime` as a value for `start` and `stop`
 
 ### Bug Fixes
 1. [#321](https://github.com/influxdata/influxdb-client-python/pull/321): Fixes return type for dashboard when `include=properties` is used
