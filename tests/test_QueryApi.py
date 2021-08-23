@@ -5,7 +5,7 @@ import unittest
 from dateutil.tz import tzutc
 from httpretty import httpretty
 
-from influxdb_client import QueryApi, DurationLiteral, Duration, CallExpression, Expression, UnaryExpression, \
+from influxdb_client import QueryApi, DurationLiteral, Duration, CallExpression, UnaryExpression, \
     Identifier, InfluxDBClient
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.util.date_utils import get_date_helper
@@ -47,7 +47,7 @@ class SimpleQueryTest(BaseTest):
         val_count = 0
         for table in tables:
             for row in table:
-                for cell in row.values:
+                for _ in row.values:
                     val_count += 1
 
         print("Values count: ", val_count)
@@ -61,7 +61,7 @@ class SimpleQueryTest(BaseTest):
 
         val_count = 0
         for row in csv_result:
-            for cell in row:
+            for _ in row:
                 val_count += 1
 
         print("Values count: ", val_count)
@@ -98,7 +98,7 @@ class SimpleQueryTest(BaseTest):
 
         val_count = 0
         for row in csv_result:
-            for cell in row:
+            for _ in row:
                 val_count += 1
 
         print("Values count: ", val_count)
@@ -263,7 +263,39 @@ class SimpleQueryTest(BaseTest):
                      }
                  ],
                  "imports": []
-             }]]
+             }], ["arrayParam", ["bar1", "bar2", "bar3"],
+                  {
+                      "body": [
+                          {
+                              "assignment": {
+                                  "id": {
+                                      "name": "arrayParam",
+                                      "type": "Identifier"
+                                  },
+                                  "init": {
+                                      "elements": [
+                                          {
+                                              "type": "StringLiteral",
+                                              "value": "bar1"
+                                          },
+                                          {
+                                              "type": "StringLiteral",
+                                              "value": "bar2"
+                                          },
+                                          {
+                                              "type": "StringLiteral",
+                                              "value": "bar3"
+                                          }
+                                      ],
+                                      "type": "ArrayExpression"
+                                  },
+                                  "type": "VariableAssignment"
+                              },
+                              "type": "OptionStatement"
+                          }
+                      ],
+                      "imports": []
+                  }]]
 
         for data in test_data:
             param = {data[0]: data[1]}
@@ -290,7 +322,7 @@ class SimpleQueryTest(BaseTest):
         for table in csv_result:
             self.assertFalse(any(filter(lambda column: (column.default_value == "_profiler"), table.columns)))
             for flux_record in table:
-                self.assertFalse( flux_record["_measurement"].startswith("profiler/"))
+                self.assertFalse(flux_record["_measurement"].startswith("profiler/"))
 
         records = self.client.query_api().query_stream(query=q, params=p)
 
