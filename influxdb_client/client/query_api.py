@@ -7,10 +7,10 @@ Flux is InfluxData’s functional data scripting language designed for querying,
 import codecs
 import csv
 from datetime import datetime, timedelta
-from typing import List, Generator, Any
+from typing import List, Generator, Any, Union, Iterable
 
 from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLiteral, DateTimeLiteral, StringLiteral, \
-    VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, \
+    VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, Expression, \
     ImportDeclaration, MemberAssignment, MemberExpression, ArrayExpression
 from influxdb_client import Query, QueryService
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
@@ -203,34 +203,42 @@ class QueryApi(object):
 
         statements = []
         for key, value in params.items():
-            if value is None:
+            expression = QueryApi._parm_to_extern_ast(value)
+            if expression is None:
                 continue
-
-            if isinstance(value, bool):
-                literal = BooleanLiteral("BooleanLiteral", value)
-            elif isinstance(value, int):
-                literal = IntegerLiteral("IntegerLiteral", str(value))
-            elif isinstance(value, float):
-                literal = FloatLiteral("FloatLiteral", value)
-            elif isinstance(value, datetime):
-                value = get_date_helper().to_utc(value)
-                literal = DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
-            elif isinstance(value, timedelta):
-                _micro_delta = int(value / timedelta(microseconds=1))
-                if _micro_delta < 0:
-                    literal = UnaryExpression("UnaryExpression", argument=DurationLiteral("DurationLiteral", [
-                        Duration(magnitude=-_micro_delta, unit="us")]), operator="-")
-                else:
-                    literal = DurationLiteral("DurationLiteral", [Duration(magnitude=_micro_delta, unit="us")])
-            elif isinstance(value, str):
-                literal = StringLiteral("StringLiteral", str(value))
-            else:
-                literal = value
 
             statements.append(OptionStatement("OptionStatement",
                                               VariableAssignment("VariableAssignment", Identifier("Identifier", key),
-                                                                 literal)))
+                                                                 expression)))
         return statements
+
+    @staticmethod
+    def _parm_to_extern_ast(value) -> Union[Expression, None]:
+        if value is None:
+            return None
+        if isinstance(value, bool):
+            return BooleanLiteral("BooleanLiteral", value)
+        elif isinstance(value, int):
+            return IntegerLiteral("IntegerLiteral", str(value))
+        elif isinstance(value, float):
+            return FloatLiteral("FloatLiteral", value)
+        elif isinstance(value, datetime):
+            value = get_date_helper().to_utc(value)
+            return DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
+        elif isinstance(value, timedelta):
+            _micro_delta = int(value / timedelta(microseconds=1))
+            if _micro_delta < 0:
+                return UnaryExpression("UnaryExpression", argument=DurationLiteral("DurationLiteral", [
+                    Duration(magnitude=-_micro_delta, unit="us")]), operator="-")
+            else:
+                return DurationLiteral("DurationLiteral", [Duration(magnitude=_micro_delta, unit="us")])
+        elif isinstance(value, str):
+            return StringLiteral("StringLiteral", str(value))
+        elif isinstance(value, Iterable):
+            return ArrayExpression("ArrayExpression",
+                                   elements=list(map(lambda it: QueryApi._parm_to_extern_ast(it), value)))
+        else:
+            return value
 
     @staticmethod
     def _build_flux_ast(params: dict = None, profilers: List[str] = None):
