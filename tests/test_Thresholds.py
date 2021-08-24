@@ -33,7 +33,7 @@ class ThresholdsClientTest(BaseTest):
             }],
         }
         httpretty.register_uri(httpretty.GET, uri="http://localhost/api/v2/checks/01", status=200,
-                               body=json.dumps(dictionary, indent=4),
+                               body=json.dumps(dictionary, indent=2),
                                adding_headers={'Content-Type': 'application/json'})
         self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", debug=True)
         checks_service = ChecksService(api_client=self.client.api_client)

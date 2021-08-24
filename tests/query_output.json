@@ -1,0 +1,336 @@
+[
+  {
+    "columns": [
+      {
+        "default_value": "_result",
+        "group": false,
+        "data_type": "string",
+        "label": "result",
+        "index": 0
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "long",
+        "label": "table",
+        "index": 1
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "_field",
+        "index": 2
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "_measurement",
+        "index": 3
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "dateTime:RFC3339",
+        "label": "_start",
+        "index": 4
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "dateTime:RFC3339",
+        "label": "_stop",
+        "index": 5
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "dateTime:RFC3339",
+        "label": "_time",
+        "index": 6
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "double",
+        "label": "_value",
+        "index": 7
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "tag",
+        "index": 8
+      }
+    ],
+    "records": [
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:20:00+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:21:40+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:23:20+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:25:00+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:26:40+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:28:20+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      },
+      {
+        "table": 0,
+        "values": {
+          "result": "_result",
+          "table": 0,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:30:00+00:00",
+          "_value": 2.0,
+          "tag": "test1"
+        }
+      }
+    ]
+  },
+  {
+    "columns": [
+      {
+        "default_value": "_result",
+        "group": false,
+        "data_type": "string",
+        "label": "result",
+        "index": 0
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "long",
+        "label": "table",
+        "index": 1
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "_field",
+        "index": 2
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "_measurement",
+        "index": 3
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "dateTime:RFC3339",
+        "label": "_start",
+        "index": 4
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "dateTime:RFC3339",
+        "label": "_stop",
+        "index": 5
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "dateTime:RFC3339",
+        "label": "_time",
+        "index": 6
+      },
+      {
+        "default_value": "",
+        "group": false,
+        "data_type": "double",
+        "label": "_value",
+        "index": 7
+      },
+      {
+        "default_value": "",
+        "group": true,
+        "data_type": "string",
+        "label": "tag",
+        "index": 8
+      }
+    ],
+    "records": [
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:20:00+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:21:40+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:23:20+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:25:00+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:26:40+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:28:20+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      },
+      {
+        "table": 1,
+        "values": {
+          "result": "_result",
+          "table": 1,
+          "_field": "value",
+          "_measurement": "python_client_test",
+          "_start": "2010-02-27T04:48:32.752600+00:00",
+          "_stop": "2020-02-27T16:48:32.752600+00:00",
+          "_time": "2020-02-27T16:30:00+00:00",
+          "_value": 2.0,
+          "tag": "test2"
+        }
+      }
+    ]
+  }
+]
