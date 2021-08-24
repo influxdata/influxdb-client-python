@@ -1,7 +1,7 @@
 ## 1.21.0 [unreleased]
 
 ### Features
-1. [#xxx](https://github.com/influxdata/influxdb-client-python/pull/xxx): Add supports for array expressions in query parameters
+1. [#319](https://github.com/influxdata/influxdb-client-python/pull/319): Add supports for array expressions in query parameters
  
 ## 1.20.0 [2021-08-20]
 
