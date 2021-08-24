@@ -207,7 +207,7 @@ class FluxCsvParserTest(unittest.TestCase):
                ",,1,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:30:00Z,2,test2\n"
 
         tables = self._parse_to_tables(data=data)
-        with open('query_output.json', 'r') as file:
+        with open('tests/query_output.json', 'r') as file:
             query_output = file.read()
             import json
             self.assertEqual(query_output, json.dumps(tables, cls=FluxStructureEncoder, indent=2))
