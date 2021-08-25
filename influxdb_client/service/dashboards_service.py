@@ -733,7 +733,7 @@ class DashboardsService(object):
         :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str include: Includes the cell view properties in the response if set to `properties`
-        :return: Dashboard
+        :return: DashboardWithViewProperties
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -756,7 +756,7 @@ class DashboardsService(object):
         :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str include: Includes the cell view properties in the response if set to `properties`
-        :return: Dashboard
+        :return: DashboardWithViewProperties
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -820,7 +820,7 @@ class DashboardsService(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Dashboard',  # noqa: E501
+            response_type='DashboardWithViewProperties',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
