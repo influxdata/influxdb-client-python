@@ -2,6 +2,9 @@
 
 ### Features
 1. [#319](https://github.com/influxdata/influxdb-client-python/pull/319): Add supports for array expressions in query parameters
+
+### Bug Fixes
+1. [#321](https://github.com/influxdata/influxdb-client-python/pull/321): Fixes return type for dashboard when `include=properties` is used
  
 ## 1.20.0 [2021-08-20]
 

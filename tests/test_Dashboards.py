@@ -31,3 +31,22 @@ class DashboardsClientTest(BaseTest):
         self.assertIsNotNone(cell.id)
         view = cells_service.get_dashboards_id_cells_id_view(dashboard_id=dashboard.id, cell_id=cell.id)
         self.assertEqual(view.name, f"Cell_{unique_id}_IT")
+
+    def test_get_dashboard_with_cell_with_properties(self):
+        unique_id = str(datetime.datetime.now().timestamp())
+
+        dashboard = self.dashboards_service.post_dashboards(
+            create_dashboard_request=CreateDashboardRequest(org_id=self.find_my_org().id,
+                                                            name=f"Dashboard_{unique_id}_IT"))
+
+        # create cell
+        CellsService(self.client.api_client).post_dashboards_id_cells(
+            dashboard_id=dashboard.id, create_cell=CreateCell(name=f"Cell_{unique_id}_IT", h=3, w=12))
+
+        # retrieve dashboard
+        dashboard = self.dashboards_service.get_dashboards_id(dashboard.id)
+
+        from influxdb_client import DashboardWithViewProperties, CellWithViewProperties
+        self.assertEqual(DashboardWithViewProperties, type(dashboard))
+        self.assertEqual(1, len(dashboard.cells))
+        self.assertEqual(CellWithViewProperties, type(dashboard.cells[0]))
