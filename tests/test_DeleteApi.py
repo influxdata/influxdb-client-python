@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from pytz import UTC
+
 from influxdb_client import PermissionResource, Permission, InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from tests.base_test import BaseTest
@@ -11,7 +15,6 @@ class DeleteApiTest(BaseTest):
 
         for bucket in response.buckets:
             if bucket.name.endswith("_IT"):
-                print("Delete bucket: ", bucket.name)
                 self.buckets_api.delete_bucket(bucket)
 
         self.bucket = self.create_test_bucket()
@@ -25,7 +28,7 @@ class DeleteApiTest(BaseTest):
                                                                               permissions=[read_bucket, write_bucket])
         self.auth_token = authorization.token
         self.client.close()
-        self.client = InfluxDBClient(url=self.host, token=self.auth_token, debug=True, org=self.org)
+        self.client = InfluxDBClient(url=self.host, token=self.auth_token, org=self.org)
         self.delete_api = self.client.delete_api()
 
     def test_delete_buckets(self):
@@ -33,7 +36,6 @@ class DeleteApiTest(BaseTest):
         self._write_data()
 
         q = f'from(bucket:\"{self.bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(q)
         flux_tables = self.client.query_api().query(query=q, org=self.organization.id)
         self.assertEqual(len(flux_tables), 1)
         self.assertEqual(len(flux_tables[0].records), 12)
@@ -52,19 +54,30 @@ class DeleteApiTest(BaseTest):
         self._write_data()
 
         q = f'from(bucket:\"{self.bucket.name}\") |> range(start: 1970-01-01T00:00:00.000000001Z)'
-        print(q)
         flux_tables = self.client.query_api().query(query=q, org=self.organization.id)
         self.assertEqual(len(flux_tables), 1)
         self.assertEqual(len(flux_tables[0].records), 12)
 
         start = "1970-01-01T00:00:00.000000001Z"
         stop = "1970-01-01T00:00:00.000000012Z"
-        self.delete_api.delete(start, stop, "", bucket=self.bucket.name, org=self.organization.name)
+        self._delete_and_verify(start, stop)
 
-        flux_tables2 = self.client.query_api().query(
+    def test_start_stop_types(self):
+        starts_stops = [
+            ("1970-01-01T00:00:00.000000001Z", "1970-01-01T00:00:00.000000012Z"),
+            (datetime(1970, 1, 1, 0, 0, 0, 0, UTC), datetime(1970, 1, 1, 0, 0, 0, 1, UTC)),
+            (datetime(1970, 1, 1, 0, 0, 0, 0), datetime(1970, 1, 1, 0, 0, 0, 1))
+        ]
+        for start_stop in starts_stops:
+            self._write_data()
+            self._delete_and_verify(start_stop[0], start_stop[1])
+
+    def _delete_and_verify(self, start, stop):
+        self.delete_api.delete(start, stop, "", bucket=self.bucket.name, org=self.organization.name)
+        flux_tables = self.client.query_api().query(
             f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)',
             org=self.organization.id)
-        self.assertEqual(len(flux_tables2), 0)
+        self.assertEqual(len(flux_tables), 0)
 
     def _write_data(self):
 
