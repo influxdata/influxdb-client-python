@@ -3,6 +3,7 @@ Flux employs a basic data model built from basic data types.
 
 The data model consists of tables, records, columns.
 """
+from json import JSONEncoder
 
 
 class FluxStructure:
@@ -11,8 +12,32 @@ class FluxStructure:
     pass
 
 
+class FluxStructureEncoder(JSONEncoder):
+    """The FluxStructure encoder to encode query results to JSON."""
+
+    def default(self, obj):
+        """Return serializable objects for JSONEncoder."""
+        import datetime
+        if isinstance(obj, FluxStructure):
+            return obj.__dict__
+        elif isinstance(obj, (datetime.datetime, datetime.date)):
+            return obj.isoformat()
+        return super().default(obj)
+
+
 class FluxTable(FluxStructure):
-    """A table is set of records with a common set of columns and a group key."""
+    """
+    A table is set of records with a common set of columns and a group key.
+
+    The table can be serialized into JSON by::
+
+        import json
+        from influxdb_client.client.flux_table import FluxStructureEncoder
+
+        output = json.dumps(tables, cls=FluxStructureEncoder, indent=2)
+        print(output)
+
+    """
 
     def __init__(self) -> None:
         """Initialize defaults."""

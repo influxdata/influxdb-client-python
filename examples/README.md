@@ -11,6 +11,7 @@
 ## Queries
 - [query.py](query.py) - How to query data into `FluxTable`s, `Stream` and `CSV`
 - [query_from_file.py](query_from_file.py) - How to use a Flux query defined in a separate file
+- [query_response_to_json.py](query_response_to_json.py) - How to serialize Query response to JSON
 
 
 ## Management API
