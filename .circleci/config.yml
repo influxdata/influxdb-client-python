@@ -24,9 +24,9 @@ commands:
           keys:
             - &cache-key pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
             - pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
-      - run:
-          command: |  # use pipenv to install dependencies
-            sudo pip install pipenv
+#      - run:
+#          command: |  # use pipenv to install dependencies
+#            sudo pip install pipenv
       - run:
           name: "Running tests"
           command: ./scripts/ci-test.sh
