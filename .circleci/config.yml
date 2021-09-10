@@ -22,8 +22,8 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v9-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
-            - pip-cache-v9-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
+            - &cache-key pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
+            - pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
       - run:
           command: |  # use pipenv to install dependencies
             sudo pip install pipenv
@@ -46,7 +46,7 @@ jobs:
     parameters:
       python-image:
         type: string
-        default: &default-python "circleci/python:3.6-buster"
+        default: &default-python "cimg/python:3.6"
       influxdb-image:
         type: string
         default: &default-influxdb "influxdb:latest"
@@ -173,13 +173,13 @@ workflows:
           influxdb-image: "quay.io/influxdb/influxdb:nightly"
       - tests-python:
           name: test-3.7
-          python-image: "circleci/python:3.7-buster"
+          python-image: "cimg/python:3.7"
       - tests-python:
           name: test-3.8
-          python-image: "circleci/python:3.8-buster"
+          python-image: "cimg/python:3.8"
       - tests-python:
           name: test-3.9
-          python-image: "circleci/python:3.9-buster"
+          python-image: "cimg/python:3.9"
 
   nightly:
     triggers:
