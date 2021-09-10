@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Checks that the description will render correctly on PyPI.
           command: |
-            pip install setuptools_rust --user
+            pip install --upgrade pip
             pip install twine --user
             python setup.py sdist bdist_wheel
             twine check dist/*
