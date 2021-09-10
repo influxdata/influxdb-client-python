@@ -22,11 +22,8 @@ commands:
       - restore_cache:
           name: Restoring Pip Cache
           keys:
-            - &cache-key pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
-            - pip-cache-v10-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
-#      - run:
-#          command: |  # use pipenv to install dependencies
-#            sudo pip install pipenv
+            - &cache-key pip-cache-v11-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-{{ checksum "setup.py" }}
+            - pip-cache-v11-<< parameters.python-image >>-<< parameters.enabled-ciso-8601 >>-
       - run:
           name: "Running tests"
           command: ./scripts/ci-test.sh
@@ -93,6 +90,7 @@ jobs:
       - run:
           name: Checks that the description will render correctly on PyPI.
           command: |
+            pip install setuptools_rust --user
             pip install twine --user
             python setup.py sdist bdist_wheel
             twine check dist/*
