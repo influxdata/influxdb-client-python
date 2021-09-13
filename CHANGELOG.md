@@ -7,6 +7,9 @@
 
 ### Bug Fixes
 1. [#321](https://github.com/influxdata/influxdb-client-python/pull/321): Fixes return type for dashboard when `include=properties` is used
+
+### CI
+1. [#327](https://github.com/influxdata/influxdb-client-python/pull/327): Switch to next-gen CircleCI's convenience images
  
 ## 1.20.0 [2021-08-20]
 
