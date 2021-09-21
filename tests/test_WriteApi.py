@@ -576,13 +576,13 @@ class WriteApiTestMock(BaseTest):
         car = Car('12V-BT', 'sport-cars', 125.25)
         self.write_client.write("my-bucket", "my-org",
                                 record=car,
-                                record_measurement_key="engine",
+                                record_measurement_name="performance",
                                 record_tag_keys=["engine", "type"],
                                 record_field_keys=["speed"])
 
         requests = httpretty.httpretty.latest_requests
         self.assertEqual(1, len(requests))
-        self.assertEqual("12V-BT,engine=12V-BT,type=sport-cars speed=125.25", requests[0].parsed_body)
+        self.assertEqual("performance,engine=12V-BT,type=sport-cars speed=125.25", requests[0].parsed_body)
 
 
 class AsynchronousWriteTest(BaseTest):

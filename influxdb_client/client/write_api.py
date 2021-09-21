@@ -259,6 +259,7 @@ class WriteApi:
                                      rest columns will be fields - ``DataFrame``
         :key record_measurement_key: key of record with specified measurement -
                                      ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key record_measurement_name: static measurement name - ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_time_key: key of record with specified timestamp - ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_tag_keys: list of record keys to use as a tag - ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_field_keys: list of record keys to use as a field  - ``dictionary``, ``NamedTuple``, ``dataclass``

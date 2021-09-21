@@ -61,6 +61,6 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
     """
     write_api.write(bucket="my-bucket",
                     record=car,
-                    record_measurement_key="engine",
+                    record_measurement_name="performance",
                     record_tag_keys=["engine", "type"],
                     record_field_keys=["speed"])

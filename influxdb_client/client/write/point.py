@@ -102,15 +102,19 @@ class Point(object):
                                         record_tag_keys=["location", "version"],
                                         record_field_keys=["pressure", "temperature"])
 
-        :param dictionary: dictionary for serialize into Point structure
+        :param dictionary: dictionary for serialize into data Point
         :param write_precision: sets the precision for the supplied time values
         :key record_measurement_key: key of dictionary with specified measurement
+        :key record_measurement_name: static measurement name for data Point
         :key record_time_key: key of dictionary with specified timestamp
         :key record_tag_keys: list of dictionary keys to use as a tag
         :key record_field_keys: list of dictionary keys to use as a field
         :return: new data point
         """
-        point = Point(dictionary[kwargs.get('record_measurement_key', 'measurement')])
+        measurement_ = kwargs.get('record_measurement_name', None)
+        if measurement_ is None:
+            measurement_ = dictionary[kwargs.get('record_measurement_key', 'measurement')]
+        point = Point(measurement_)
 
         record_tag_keys = kwargs.get('record_tag_keys', None)
         if record_tag_keys is not None:

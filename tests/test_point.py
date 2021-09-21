@@ -472,6 +472,19 @@ class PointTest(unittest.TestCase):
                                 record_field_keys=["pressure", "temperature"])
         self.assertEqual("sensor_pt859,location=warehouse_125 pressure=125i", point.to_line_protocol())
 
+    def test_static_measurement_name(self):
+        dictionary = {
+            "name": "sensor_pt859",
+            "location": "warehouse_125",
+            "pressure": 125
+        }
+        point = Point.from_dict(dictionary,
+                                write_precision=WritePrecision.S,
+                                record_measurement_name="custom_sensor_id",
+                                record_tag_keys=["location", "version"],
+                                record_field_keys=["pressure", "temperature"])
+        self.assertEqual("custom_sensor_id,location=warehouse_125 pressure=125i", point.to_line_protocol())
+
 
 if __name__ == '__main__':
     unittest.main()

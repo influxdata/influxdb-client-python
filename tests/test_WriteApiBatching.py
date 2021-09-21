@@ -562,7 +562,7 @@ class BatchingWriteTest(unittest.TestCase):
         car = Car('12V-BT', 'sport-cars', 125.25)
         self._write_client.write("my-bucket", "my-org",
                                  record=car,
-                                 record_measurement_key="engine",
+                                 record_measurement_name="performance",
                                  record_tag_keys=["engine", "type"],
                                  record_field_keys=["speed"])
 
@@ -571,7 +571,7 @@ class BatchingWriteTest(unittest.TestCase):
         _requests = httpretty.httpretty.latest_requests
 
         self.assertEqual(1, len(_requests))
-        self.assertEqual("12V-BT,engine=12V-BT,type=sport-cars speed=125.25", _requests[0].parsed_body)
+        self.assertEqual("performance,engine=12V-BT,type=sport-cars speed=125.25", _requests[0].parsed_body)
 
 
 if __name__ == '__main__':
