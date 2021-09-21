@@ -26,7 +26,7 @@ class Car:
 """
 Initialize client
 """
-with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True) as client:
+with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
     write_api = client.write_api(write_options=SYNCHRONOUS)
 
     """

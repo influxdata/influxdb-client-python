@@ -1,7 +1,6 @@
 """Collect and write time series data to InfluxDB Cloud and InfluxDB OSS."""
 
 # coding: utf-8
-import dataclasses
 import logging
 import os
 from collections import defaultdict
@@ -26,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 try:
-    from dataclasses import dataclass
+    import dataclasses
 
     _HAS_DATACLASS = True
 except ModuleNotFoundError:
@@ -252,7 +251,8 @@ class WriteApi:
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.
-        :param record: Point, Line Protocol, Dictionary, NamedTuple, dataclass, Pandas DataFrame or RxPY Observable to write
+        :param record: Point, Line Protocol, Dictionary, NamedTuple,  Data Classes, Pandas DataFrame or
+                       RxPY Observable to write
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
                                      rest columns will be fields - ``DataFrame``
