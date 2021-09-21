@@ -532,9 +532,9 @@ class BatchingWriteTest(unittest.TestCase):
         factory = Factory(measurement='factory', position="central europe", customers=123456)
 
         self._write_client.write("my-bucket", "my-org", factory,
-                                 dictionary_measurement_key="measurement",
-                                 dictionary_tag_keys=["position"],
-                                 dictionary_field_keys=["customers"])
+                                 record_measurement_key="measurement",
+                                 record_tag_keys=["position"],
+                                 record_field_keys=["customers"])
 
         time.sleep(1)
 
@@ -562,9 +562,9 @@ class BatchingWriteTest(unittest.TestCase):
         car = Car('12V-BT', 'sport-cars', 125.25)
         self._write_client.write("my-bucket", "my-org",
                                  record=car,
-                                 dictionary_measurement_key="engine",
-                                 dictionary_tag_keys=["engine", "type"],
-                                 dictionary_field_keys=["speed"])
+                                 record_measurement_key="engine",
+                                 record_tag_keys=["engine", "type"],
+                                 record_field_keys=["speed"])
 
         time.sleep(1)
 

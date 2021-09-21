@@ -45,10 +45,10 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
     """
     write_api.write(bucket="my-bucket",
                     record=sensor,
-                    dictionary_measurement_key="name",
-                    dictionary_time_key="timestamp",
-                    dictionary_tag_keys=["location", "version"],
-                    dictionary_field_keys=["pressure", "temperature"])
+                    record_measurement_key="name",
+                    record_time_key="timestamp",
+                    record_tag_keys=["location", "version"],
+                    record_field_keys=["pressure", "temperature"])
 
     """
     Car "current" speed
@@ -61,6 +61,6 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
     """
     write_api.write(bucket="my-bucket",
                     record=car,
-                    dictionary_measurement_key="engine",
-                    dictionary_tag_keys=["engine", "type"],
-                    dictionary_field_keys=["speed"])
+                    record_measurement_key="engine",
+                    record_tag_keys=["engine", "type"],
+                    record_field_keys=["speed"])

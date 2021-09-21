@@ -257,14 +257,11 @@ class WriteApi:
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
                                      rest columns will be fields - ``DataFrame``
-        :key dictionary_measurement_key: key of record with specified measurement -
-                                         ``dictionary``, ``NamedTuple``, ``dataclass``
-        :key dictionary_time_key: key of record with specified timestamp -
-                                  ``dictionary``, ``NamedTuple``, ``dataclass``
-        :key dictionary_tag_keys: list of record keys to use as a tag -
-                                  ``dictionary``, ``NamedTuple``, ``dataclass``
-        :key dictionary_field_keys: list of record keys to use as a field  -
-                                    ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key record_measurement_key: key of record with specified measurement -
+                                     ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key record_time_key: key of record with specified timestamp - ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key record_tag_keys: list of record keys to use as a tag - ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key record_field_keys: list of record keys to use as a field  - ``dictionary``, ``NamedTuple``, ``dataclass``
 
         Example:
             .. code-block:: python

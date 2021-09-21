@@ -551,9 +551,9 @@ class WriteApiTestMock(BaseTest):
         factory = Factory(measurement='factory', position="central europe", customers=123456)
 
         self.write_client.write("my-bucket", "my-org", factory,
-                                dictionary_measurement_key="measurement",
-                                dictionary_tag_keys=["position"],
-                                dictionary_field_keys=["customers"])
+                                record_measurement_key="measurement",
+                                record_tag_keys=["position"],
+                                record_field_keys=["customers"])
 
         requests = httpretty.httpretty.latest_requests
         self.assertEqual(1, len(requests))
@@ -576,9 +576,9 @@ class WriteApiTestMock(BaseTest):
         car = Car('12V-BT', 'sport-cars', 125.25)
         self.write_client.write("my-bucket", "my-org",
                                 record=car,
-                                dictionary_measurement_key="engine",
-                                dictionary_tag_keys=["engine", "type"],
-                                dictionary_field_keys=["speed"])
+                                record_measurement_key="engine",
+                                record_tag_keys=["engine", "type"],
+                                record_field_keys=["speed"])
 
         requests = httpretty.httpretty.latest_requests
         self.assertEqual(1, len(requests))

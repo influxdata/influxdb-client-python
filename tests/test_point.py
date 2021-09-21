@@ -415,7 +415,7 @@ class PointTest(unittest.TestCase):
             "fields": {"value": 1},
             "time": 1,
         }
-        point = Point.from_dict(dictionary, dictionary_measurement_key="name")
+        point = Point.from_dict(dictionary, record_measurement_key="name")
         self.assertEqual("test,tag=a value=1i 1", point.to_line_protocol())
 
     def test_from_dictionary_custom_time(self):
@@ -426,8 +426,8 @@ class PointTest(unittest.TestCase):
             "created": 100250,
         }
         point = Point.from_dict(dictionary,
-                                dictionary_measurement_key="name",
-                                dictionary_time_key="created")
+                                record_measurement_key="name",
+                                record_time_key="created")
         self.assertEqual("test,tag=a value=1i 100250", point.to_line_protocol())
 
     def test_from_dictionary_custom_tags(self):
@@ -439,8 +439,8 @@ class PointTest(unittest.TestCase):
             "time": 1,
         }
         point = Point.from_dict(dictionary,
-                                dictionary_measurement_key="name",
-                                dictionary_tag_keys=["tag_a", "tag_b"])
+                                record_measurement_key="name",
+                                record_tag_keys=["tag_a", "tag_b"])
         self.assertEqual("test,tag_a=a,tag_b=b value=1i 1", point.to_line_protocol())
 
     def test_from_dictionary_custom_fields(self):
@@ -454,9 +454,9 @@ class PointTest(unittest.TestCase):
         }
         point = Point.from_dict(dictionary,
                                 write_precision=WritePrecision.S,
-                                dictionary_measurement_key="name",
-                                dictionary_tag_keys=["location", "version"],
-                                dictionary_field_keys=["pressure", "temperature"])
+                                record_measurement_key="name",
+                                record_tag_keys=["location", "version"],
+                                record_field_keys=["pressure", "temperature"])
         self.assertEqual("sensor_pt859,location=warehouse_125,version=2021.06.05.5874 pressure=125i,temperature=10i 1632208639", point.to_line_protocol())
 
     def test_from_dictionary_tolerant_to_missing_tags_and_fields(self):
@@ -467,9 +467,9 @@ class PointTest(unittest.TestCase):
         }
         point = Point.from_dict(dictionary,
                                 write_precision=WritePrecision.S,
-                                dictionary_measurement_key="name",
-                                dictionary_tag_keys=["location", "version"],
-                                dictionary_field_keys=["pressure", "temperature"])
+                                record_measurement_key="name",
+                                record_tag_keys=["location", "version"],
+                                record_field_keys=["pressure", "temperature"])
         self.assertEqual("sensor_pt859,location=warehouse_125 pressure=125i", point.to_line_protocol())
 
 

@@ -97,42 +97,42 @@ class Point(object):
                 }
                 point = Point.from_dict(dictionary,
                                         write_precision=WritePrecision.S,
-                                        dictionary_measurement_key="name",
-                                        dictionary_time_key="created",
-                                        dictionary_tag_keys=["location", "version"],
-                                        dictionary_field_keys=["pressure", "temperature"])
+                                        record_measurement_key="name",
+                                        record_time_key="created",
+                                        record_tag_keys=["location", "version"],
+                                        record_field_keys=["pressure", "temperature"])
 
         :param dictionary: dictionary for serialize into Point structure
         :param write_precision: sets the precision for the supplied time values
-        :key dictionary_measurement_key: key of dictionary with specified measurement
-        :key dictionary_time_key: key of dictionary with specified timestamp
-        :key dictionary_tag_keys: list of dictionary keys to use as a tag
-        :key dictionary_field_keys: list of dictionary keys to use as a field
+        :key record_measurement_key: key of dictionary with specified measurement
+        :key record_time_key: key of dictionary with specified timestamp
+        :key record_tag_keys: list of dictionary keys to use as a tag
+        :key record_field_keys: list of dictionary keys to use as a field
         :return: new data point
         """
-        point = Point(dictionary[kwargs.get('dictionary_measurement_key', 'measurement')])
+        point = Point(dictionary[kwargs.get('record_measurement_key', 'measurement')])
 
-        dictionary_tag_keys = kwargs.get('dictionary_tag_keys', None)
-        if dictionary_tag_keys is not None:
-            for tag_key in dictionary_tag_keys:
+        record_tag_keys = kwargs.get('record_tag_keys', None)
+        if record_tag_keys is not None:
+            for tag_key in record_tag_keys:
                 if tag_key in dictionary:
                     point.tag(tag_key, dictionary[tag_key])
         elif 'tags' in dictionary:
             for tag_key, tag_value in dictionary['tags'].items():
                 point.tag(tag_key, tag_value)
 
-        dictionary_field_keys = kwargs.get('dictionary_field_keys', None)
-        if dictionary_field_keys is not None:
-            for field_key in dictionary_field_keys:
+        record_field_keys = kwargs.get('record_field_keys', None)
+        if record_field_keys is not None:
+            for field_key in record_field_keys:
                 if field_key in dictionary:
                     point.field(field_key, dictionary[field_key])
         else:
             for field_key, field_value in dictionary['fields'].items():
                 point.field(field_key, field_value)
 
-        dictionary_time_key = kwargs.get('dictionary_time_key', 'time')
-        if dictionary_time_key in dictionary:
-            point.time(dictionary[dictionary_time_key], write_precision=write_precision)
+        record_time_key = kwargs.get('record_time_key', 'time')
+        if record_time_key in dictionary:
+            point.time(dictionary[record_time_key], write_precision=write_precision)
         return point
 
     def __init__(self, measurement_name):
