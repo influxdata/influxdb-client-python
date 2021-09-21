@@ -364,7 +364,7 @@ The data could be written as
 6. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
 7. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
-You can find write examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#writes>`_.
+You can find write examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#writes>`__.
 
 Batching
 """"""""
@@ -1046,7 +1046,7 @@ The second example shows how to use client capabilities to realtime visualizatio
 Other examples
 """"""""""""""
 
-You can find all examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples>`_.
+You can find all examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples>`__.
 
 .. marker-examples-end
 

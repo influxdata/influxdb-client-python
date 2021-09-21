@@ -244,7 +244,8 @@ class WriteApi:
                                                and is use for write.
         :param record: Point, Line Protocol, Dictionary, Pandas DataFrame or RxPY Observable to write
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
-        :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields - ``DataFrame``
+        :key data_frame_tag_columns: list of DataFrame columns which are tags,
+                                     rest columns will be fields - ``DataFrame``
         :key dictionary_measurement_key: key of dictionary with specified measurement - ``dictionary``
         :key dictionary_time_key: key of dictionary with specified timestamp - ``dictionary``
         :key dictionary_tag_keys: list of dictionary keys to use as a tag - ``dictionary``
