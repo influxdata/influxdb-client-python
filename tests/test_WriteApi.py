@@ -5,6 +5,7 @@ from __future__ import absolute_import
 import datetime
 import os
 import unittest
+from collections import namedtuple
 from datetime import timedelta
 from multiprocessing.pool import ApplyResult
 
@@ -538,6 +539,23 @@ class WriteApiTestMock(BaseTest):
 
         from urllib3 import Retry
         Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
+
+    def test_named_tuple(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
+
+        Factory = namedtuple('Factory', ['measurement', 'position', 'customers'])
+        factory = Factory(measurement='factory', position="central europe", customers=123456)
+
+        self.write_client.write("my-bucket", "my-org", factory,
+                                dictionary_measurement_key="measurement",
+                                dictionary_tag_keys=["position"],
+                                dictionary_field_keys=["customers"])
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual("factory,position=central\\ europe customers=123456i", requests[0].parsed_body)
 
 
 class AsynchronousWriteTest(BaseTest):

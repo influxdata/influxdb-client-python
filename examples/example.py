@@ -37,4 +37,4 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
     print("val count: ", val_count)
 
     response = query_api.query_raw('from(bucket:"my-bucket") |> range(start: -10m)')
-    print (codecs.decode(response.data))
+    print(codecs.decode(response.data))

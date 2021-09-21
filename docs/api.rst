@@ -19,6 +19,12 @@ WriteApi
 .. autoclass:: influxdb_client.WriteApi
    :members:
 
+.. autoclass:: influxdb_client.client.write.point.Point
+   :members:
+
+.. autoclass:: influxdb_client.domain.write_precision.WritePrecision
+   :members:
+
 BucketsApi
 """"""""""
 .. autoclass:: influxdb_client.BucketsApi

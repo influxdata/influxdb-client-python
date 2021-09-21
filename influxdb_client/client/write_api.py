@@ -173,7 +173,20 @@ def _body_reduce(batch_items):
 
 
 class WriteApi:
-    """Implementation for '/api/v2/write' endpoint."""
+    """
+    Implementation for '/api/v2/write' endpoint.
+
+    Example:
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+            from influxdb_client.client.write_api import SYNCHRONOUS
+
+
+            # Initialize SYNCHRONOUS instance of WriteApi
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                write_api = client.write_api(write_options=SYNCHRONOUS)
+    """
 
     def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
                  point_settings: PointSettings = PointSettings()) -> None:
@@ -222,16 +235,41 @@ class WriteApi:
         """
         Write time-series data into InfluxDB.
 
+        :param str bucket: specifies the destination bucket for writes (required)
         :param str, Organization org: specifies the destination organization for writes;
                                       take the ID, Name or Organization;
                                       if it's not specified then is used default from client.org.
-        :param str bucket: specifies the destination bucket for writes (required)
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.
-        :param record: Points, line protocol, Pandas DataFrame, RxPY Observable to write
-        :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
-        :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
+        :param record: Point, Line Protocol, Dictionary, Pandas DataFrame or RxPY Observable to write
+        :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
+        :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields - ``DataFrame``
+        :key dictionary_measurement_key: key of dictionary with specified measurement - ``dictionary``
+        :key dictionary_time_key: key of dictionary with specified timestamp - ``dictionary``
+        :key dictionary_tag_keys: list of dictionary keys to use as a tag - ``dictionary``
+        :key dictionary_field_keys: list of dictionary keys to use as a field  - ``dictionary``
+
+        Example:
+            .. code-block:: python
+
+                # Record as Line Protocol
+                write_api.write("my-bucket", "my-org", "h2o_feet,location=us-west level=125i 1")
+
+                # Record as Dictionary
+                dictionary = {
+                    "measurement": "h2o_feet",
+                    "tags": {"location": "us-west"},
+                    "fields": {"level": 125},
+                    "time": 1
+                }
+                write_api.write("my-bucket", "my-org", dictionary)
+
+                # Record as Point
+                from influxdb_client import Point
+                point = Point("h2o_feet").tag("location", "us-west").field("level", 125).time(1)
+                write_api.write("my-bucket", "my-org", point)
+
         """
         org = get_org_query_param(org=org, client=self._influxdb_client)
 
@@ -309,12 +347,14 @@ class WriteApi:
             self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
 
         elif isinstance(record, dict):
-            self._serialize(Point.from_dict(record, write_precision=write_precision),
+            self._serialize(Point.from_dict(record, write_precision=write_precision, **kwargs),
                             write_precision, payload, **kwargs)
         elif 'DataFrame' in type(record).__name__:
             serializer = DataframeSerializer(record, self._point_settings, write_precision, **kwargs)
             self._serialize(serializer.serialize(), write_precision, payload, **kwargs)
-
+        elif hasattr(record, "_asdict"):
+            # noinspection PyProtectedMember
+            self._serialize(record._asdict(), write_precision, payload, **kwargs)
         elif isinstance(record, Iterable):
             for item in record:
                 self._serialize(item, write_precision, payload, **kwargs)
@@ -334,7 +374,7 @@ class WriteApi:
             self._write_batching(bucket, org, data.to_line_protocol(), data.write_precision, **kwargs)
 
         elif isinstance(data, dict):
-            self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision),
+            self._write_batching(bucket, org, Point.from_dict(data, write_precision=precision, **kwargs),
                                  precision, **kwargs)
 
         elif 'DataFrame' in type(data).__name__:
@@ -344,6 +384,9 @@ class WriteApi:
                 self._write_batching(bucket, org,
                                      serializer.serialize(chunk_idx),
                                      precision, **kwargs)
+        elif hasattr(data, "_asdict"):
+            # noinspection PyProtectedMember
+            self._write_batching(bucket, org, data._asdict(), precision, **kwargs)
 
         elif isinstance(data, Iterable):
             for item in data:

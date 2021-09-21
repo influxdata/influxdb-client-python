@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 import time
 import unittest
+from collections import namedtuple
 
 import httpretty
 import rx
@@ -244,7 +245,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
-                                      write_options=WriteOptions(max_retries=0,batch_size=2, flush_interval=1_000))
+                                      write_options=WriteOptions(max_retries=0, batch_size=2, flush_interval=1_000))
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
@@ -517,6 +518,28 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(_request1, _requests[0].parsed_body)
         self.assertEqual(_request2, _requests[1].parsed_body)
+
+    def test_named_tuple(self):
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=1))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        Factory = namedtuple('Factory', ['measurement', 'position', 'customers'])
+        factory = Factory(measurement='factory', position="central europe", customers=123456)
+
+        self._write_client.write("my-bucket", "my-org", factory,
+                                 dictionary_measurement_key="measurement",
+                                 dictionary_tag_keys=["position"],
+                                 dictionary_field_keys=["customers"])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("factory,position=central\\ europe customers=123456i", _requests[0].parsed_body)
 
 
 if __name__ == '__main__':
