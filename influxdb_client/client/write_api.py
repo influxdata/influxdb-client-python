@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 try:
     import dataclasses
+    from dataclasses import dataclass
 
     _HAS_DATACLASS = True
 except ModuleNotFoundError:
