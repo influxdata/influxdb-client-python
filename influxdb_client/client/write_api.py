@@ -1,6 +1,7 @@
 """Collect and write time series data to InfluxDB Cloud and InfluxDB OSS."""
 
 # coding: utf-8
+import dataclasses
 import logging
 import os
 from collections import defaultdict
@@ -8,7 +9,7 @@ from datetime import timedelta
 from enum import Enum
 from random import random
 from time import sleep
-from typing import Union, Any, Iterable
+from typing import Union, Any, Iterable, NamedTuple
 
 import rx
 from rx import operators as ops, Observable
@@ -22,6 +23,14 @@ from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
 
 logger = logging.getLogger(__name__)
+
+
+try:
+    from dataclasses import dataclass
+
+    _HAS_DATACLASS = True
+except ModuleNotFoundError:
+    _HAS_DATACLASS = False
 
 
 class WriteType(Enum):
@@ -230,7 +239,8 @@ class WriteApi:
     def write(self, bucket: str, org: str = None,
               record: Union[
                   str, Iterable['str'], Point, Iterable['Point'], dict, Iterable['dict'], bytes, Iterable['bytes'],
-                  Observable] = None,
+                  Observable, NamedTuple, Iterable['NamedTuple'], 'dataclass', Iterable['dataclass']
+              ] = None,
               write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs) -> Any:
         """
         Write time-series data into InfluxDB.
@@ -242,14 +252,18 @@ class WriteApi:
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.
-        :param record: Point, Line Protocol, Dictionary, Pandas DataFrame or RxPY Observable to write
+        :param record: Point, Line Protocol, Dictionary, NamedTuple, dataclass, Pandas DataFrame or RxPY Observable to write
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
                                      rest columns will be fields - ``DataFrame``
-        :key dictionary_measurement_key: key of dictionary with specified measurement - ``dictionary``
-        :key dictionary_time_key: key of dictionary with specified timestamp - ``dictionary``
-        :key dictionary_tag_keys: list of dictionary keys to use as a tag - ``dictionary``
-        :key dictionary_field_keys: list of dictionary keys to use as a field  - ``dictionary``
+        :key dictionary_measurement_key: key of record with specified measurement -
+                                         ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key dictionary_time_key: key of record with specified timestamp -
+                                  ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key dictionary_tag_keys: list of record keys to use as a tag -
+                                  ``dictionary``, ``NamedTuple``, ``dataclass``
+        :key dictionary_field_keys: list of record keys to use as a field  -
+                                    ``dictionary``, ``NamedTuple``, ``dataclass``
 
         Example:
             .. code-block:: python
@@ -356,6 +370,8 @@ class WriteApi:
         elif hasattr(record, "_asdict"):
             # noinspection PyProtectedMember
             self._serialize(record._asdict(), write_precision, payload, **kwargs)
+        elif _HAS_DATACLASS and dataclasses.is_dataclass(record):
+            self._serialize(dataclasses.asdict(record), write_precision, payload, **kwargs)
         elif isinstance(record, Iterable):
             for item in record:
                 self._serialize(item, write_precision, payload, **kwargs)
@@ -388,6 +404,9 @@ class WriteApi:
         elif hasattr(data, "_asdict"):
             # noinspection PyProtectedMember
             self._write_batching(bucket, org, data._asdict(), precision, **kwargs)
+
+        elif _HAS_DATACLASS and dataclasses.is_dataclass(data):
+            self._write_batching(bucket, org, dataclasses.asdict(data), precision, **kwargs)
 
         elif isinstance(data, Iterable):
             for item in data:

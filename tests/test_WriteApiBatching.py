@@ -2,11 +2,13 @@
 
 from __future__ import absolute_import
 
+import sys
 import time
 import unittest
 from collections import namedtuple
 
 import httpretty
+import pytest
 import rx
 from rx import operators as ops
 
@@ -540,6 +542,36 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(1, len(_requests))
         self.assertEqual("factory,position=central\\ europe customers=123456i", _requests[0].parsed_body)
+
+    @pytest.mark.skipif(sys.version_info < (3, 8), reason="requires python3.8 or higher")
+    def test_data_class(self):
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=1))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        from dataclasses import dataclass
+
+        @dataclass
+        class Car:
+            engine: str
+            type: str
+            speed: float
+
+        car = Car('12V-BT', 'sport-cars', 125.25)
+        self._write_client.write("my-bucket", "my-org",
+                                 record=car,
+                                 dictionary_measurement_key="engine",
+                                 dictionary_tag_keys=["engine", "type"],
+                                 dictionary_field_keys=["speed"])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("12V-BT,engine=12V-BT,type=sport-cars speed=125.25", _requests[0].parsed_body)
 
 
 if __name__ == '__main__':

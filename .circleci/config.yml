@@ -108,7 +108,7 @@ jobs:
             pydocstyle --count influxdb_client
   check-examples:
     docker:
-      - image: *default-python
+      - image: "cimg/python:3.8"
         environment:
           PIPENV_VENV_IN_PROJECT: true
       - image: *default-influxdb

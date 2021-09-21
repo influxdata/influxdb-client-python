@@ -360,9 +360,10 @@ The data could be written as
 2. `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
 3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time`` or custom structure
 4. `NamedTuple <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
-5. List of above items
-6. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
-7. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+5. `Data Classes <https://docs.python.org/3/library/dataclasses.html>`_
+6. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+7. List of above items
+8. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
 
 You can find write examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#writes>`__.
 
