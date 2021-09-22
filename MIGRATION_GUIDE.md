@@ -15,14 +15,15 @@ Please take a moment to review the following client docs:
 
 ## Initializing Client
 
-##### `influxdb-python`
+**influxdb-python**
+
 ```python
 from influxdb import InfluxDBClient
 
 client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
 ```
 
-##### `influxdb-client-python`
+**influxdb-client-python**
 
 ```python
 from influxdb_client import InfluxDBClient
