@@ -53,7 +53,7 @@ This release introduces a support for new InfluxDB OSS API definitions - [oss.ym
 - `AuthorizationsService` uses `AuthorizationPostRequest` to create `Authorization`
 - `BucketsService` uses `PatchBucketRequest` to update `Bucket`
 - `DashboardsService` uses `PatchDashboardRequest` to update `Dashboard`
-- `DeleteService` is used to delete tome series date instead of `DefaultService`
+- `DeleteService` is used to delete time series date instead of `DefaultService`
 - `DBRPs` contains list of `DBRP` in `content` property
 - `OrganizationsService` uses `PostOrganizationRequest` to create `Organization`
 - `Run` contains list of `LogEvent` in `log` property
