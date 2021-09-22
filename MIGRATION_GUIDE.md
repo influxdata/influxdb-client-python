@@ -28,7 +28,7 @@ client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='
 ```python
 from influxdb_client import InfluxDBClient
 
-client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+client = InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
 ```
 
 ## Creating Database/Bucket
