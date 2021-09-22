@@ -12,3 +12,33 @@ Please take a moment to review the following client docs:
 - [Examples](examples/README.md#examples)
 - [API Reference](https://influxdb-client.readthedocs.io/en/stable/api.html)
 - [CHANGELOG.md](CHANGELOG.md)
+
+## Initializing Client
+
+##### `influxdb-python`
+```python
+from influxdb import InfluxDBClient
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+```
+
+##### `influxdb-client-python`
+
+```python
+from influxdb_client import InfluxDBClient
+
+client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+```
+
+## Creating Database/Bucket
+
+## Dropping Database/Bucket
+
+## Writing LineProtocol
+
+## Writing Point Object
+
+## Writing Structured Data
+
+## Querying
+
