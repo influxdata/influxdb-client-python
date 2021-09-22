@@ -12,7 +12,3 @@ Please take a moment to review the following client docs:
 - [Examples](examples/README.md#examples)
 - [API Reference](https://influxdb-client.readthedocs.io/en/stable/api.html)
 - [CHANGELOG.md](CHANGELOG.md)
-
-
-
-
