@@ -353,7 +353,7 @@ The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.
 
     The ``WriteApi`` in batching mode (default mode) is suppose to run as a singleton.
     To flush all your data you should wrap the execution using ``with client.write_api(...) as write_api:`` statement
-    or call ``write_api.close()`` at the end of your script.**
+    or call ``write_api.close()`` at the end of your script.
 
 *The default instance of WriteApi use batching.*
 
