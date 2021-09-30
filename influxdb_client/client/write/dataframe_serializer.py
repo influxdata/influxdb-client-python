@@ -101,7 +101,7 @@ class DataframeSerializer:
             # Instead, it would probably be better to leave
             # out the timestamp unless a time column is explicitly
             # enabled.
-            data_frame.index = pd.to_datetime(data_frame.index)
+            data_frame.index = pd.to_datetime(data_frame.index, unit=precision)
 
         if data_frame.index.tzinfo is None:
             data_frame.index = data_frame.index.tz_localize('UTC')

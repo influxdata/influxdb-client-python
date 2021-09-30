@@ -354,6 +354,26 @@ class DataSerializerTest(unittest.TestCase):
             self.assertEqual(1, len(points))
             self.assertEqual(f"h2o level=15i {precision[1]}", points[0])
 
+    def test_index_not_periodIndex_respect_write_precision(self):
+        from influxdb_client.extras import pd
+
+        precisions = [
+            (WritePrecision.NS, 1586044800000000000),
+            (WritePrecision.US, 1586044800000000),
+            (WritePrecision.MS, 1586044800000),
+            (WritePrecision.S, 1586044800),
+            (None, 1586044800000000000)
+        ]
+
+        for precision in precisions:
+            data_frame = pd.DataFrame([15], index=[precision[1]], columns=['level'])
+            points = data_frame_to_list_of_points(data_frame=data_frame,
+                                                  data_frame_measurement_name='h2o',
+                                                  point_settings=PointSettings(),
+                                                  precision=precision[0])
+            self.assertEqual(1, len(points))
+            self.assertEqual(f"h2o level=15i {precision[1]}", points[0])
+
 
 class DataSerializerChunksTest(unittest.TestCase):
     def test_chunks(self):

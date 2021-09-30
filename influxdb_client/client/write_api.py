@@ -252,7 +252,7 @@ class WriteApi:
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.
-        :param record: Point, Line Protocol, Dictionary, NamedTuple,  Data Classes, Pandas DataFrame or
+        :param record: Point, Line Protocol, Dictionary, NamedTuple, Data Classes, Pandas DataFrame or
                        RxPY Observable to write
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
@@ -284,7 +284,26 @@ class WriteApi:
                 point = Point("h2o_feet").tag("location", "us-west").field("level", 125).time(1)
                 write_api.write("my-bucket", "my-org", point)
 
-        """
+        DataFrame:
+            The index of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+            is used as a ``timestamp`` for written data. The index should be `PeriodIndex <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.PeriodIndex.html#pandas.PeriodIndex>`_
+            or its must be transformable to ``datetime`` by
+            `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_.
+
+            If you would like to transform a column to ``PeriodIndex``, you can use something like:
+
+            .. code-block:: python
+
+                import pandas as pd
+
+                # DataFrame
+                data_frame = ...
+                # Set column as Index
+                data_frame.set_index('column_name', inplace=True)
+                # Transform index to PeriodIndex
+                data_frame.index = pd.to_datetime(data_frame.index, unit='s')
+                
+        """  # noqa: E501
         org = get_org_query_param(org=org, client=self._influxdb_client)
 
         if self._point_settings.defaultTags and record is not None:
