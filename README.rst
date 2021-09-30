@@ -349,7 +349,11 @@ Writes
 The `WriteApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write_api.py>`_ supports synchronous, asynchronous and batching writes into InfluxDB 2.0.
 The data should be passed as a `InfluxDB Line Protocol <https://docs.influxdata.com/influxdb/latest/write_protocols/line_protocol_tutorial/>`_\ , `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py>`_ or Observable stream.
 
-**Important: The WriteApi in batching mode (default mode) is suppose to run as a singleton. To flush all your data you should wrap the execution using ``with client.write_api(...) as write_api:`` statement or call ``_write_client.close()`` at the end of your script.**
+.. warning::
+
+    The ``WriteApi`` in batching mode (default mode) is suppose to run as a singleton.
+    To flush all your data you should wrap the execution using ``with client.write_api(...) as write_api:`` statement
+    or call ``write_api.close()`` at the end of your script.**
 
 *The default instance of WriteApi use batching.*
 
