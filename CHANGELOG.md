@@ -1,8 +1,8 @@
 ## 1.22.0 [unreleased]
 
 ### Features
-1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add supports for write structured data - `NamedTuple`, `Data Classes`
-1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add supports for custom precision for index specified as number [DataFrame] 
+1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add support for write structured data - `NamedTuple`, `Data Classes`
+1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame] 
 
 ### Documentation
 1. [#331](https://github.com/influxdata/influxdb-client-python/pull/331): Add [Migration Guide](MIGRATION_GUIDE.rst)
