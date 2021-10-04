@@ -23,6 +23,7 @@ Please take a moment to review the following client docs:
   - [Dictionary-style object](#writing-dictionary-style-object)
   - [Structured data](#writing-structured-data)
   - [Pandas DataFrame](#writing-pandas-dataframe)
+- [Querying](#querying)
 
 ## Initializing Client
 
@@ -285,9 +286,36 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
 **influxdb-python**
 
 ```python
+from influxdb import InfluxDBClient
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+
+points = client.query('SELECT * from cpu').get_points()
+for point in points:
+    print(point)
 ```
 
 **influxdb-client-python**
 
 ```python
+from influxdb_client import InfluxDBClient
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org', debug=True) as client:
+    query = '''from(bucket: "my-bucket")
+  |> range(start: -10000d)
+  |> filter(fn: (r) => r["_measurement"] == "cpu")
+  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+'''
+
+    tables = client.query_api().query(query)
+    for record in [record for table in tables for record in table.records]:
+        print(record.values)
 ```
+
+If you would like to omit boilerplate columns such as `_result`, `_table`, `_start`, ... you can filter the record values by following expression:
+
+```python
+print({k: v for k, v in record.values.items() if k not in ['result', 'table', '_start', '_stop', '_measurement']})
+```
+
+For more info see [Flux Response Format](https://github.com/influxdata/flux/blob/master/docs/SPEC.md#response-format).
