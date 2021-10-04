@@ -13,6 +13,12 @@ Please take a moment to review the following client docs:
 - [API Reference](https://influxdb-client.readthedocs.io/en/stable/api.html)
 - [CHANGELOG.md](CHANGELOG.md)
 
+## Content
+
+- [Initializing Client](#initializing-client)
+- [Creating Database/Bucket](#creating-databasebucket)
+- [Dropping Database/Bucket](#dropping-databasebucket)
+
 ## Initializing Client
 
 **influxdb-python**
@@ -40,8 +46,8 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
 from influxdb import InfluxDBClient
 
 client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
-dbname = 'example'
 
+dbname = 'example'
 client.create_database(dbname)
 client.create_retention_policy('awesome_policy', '60m', 3, database=dbname, default=True)
 ```
@@ -61,7 +67,6 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org=org) as c
     created_bucket = buckets_api.create_bucket(bucket_name="bucket-by-python",
                                                retention_rules=retention_rules,
                                                org=org)
-    print(created_bucket)
 ```
 
 ## Dropping Database/Bucket
@@ -69,11 +74,24 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org=org) as c
 **influxdb-python**
 
 ```python
+from influxdb import InfluxDBClient
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+
+dbname = 'example'
+client.drop_database(dbname)
 ```
 
 **influxdb-client-python**
 
 ```python
+from influxdb_client import InfluxDBClient
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    buckets_api = client.buckets_api()
+
+    bucket = buckets_api.find_bucket_by_name("my-bucket")
+    buckets_api.delete_bucket(bucket)
 ```
 
 ## Writing LineProtocol
