@@ -18,6 +18,8 @@ Please take a moment to review the following client docs:
 - [Initializing Client](#initializing-client)
 - [Creating Database/Bucket](#creating-databasebucket)
 - [Dropping Database/Bucket](#dropping-databasebucket)
+- [Writing LineProtocol](#writing-lineprotocol)
+- [Writing Dictionary-style object](#writing-dictionary-style-object)
 
 ## Initializing Client
 
@@ -118,16 +120,63 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
     write_api.write(bucket='my-bucket', record='h2o_feet,location=coyote_creek water_level=1.0 1')
 ```
 
-## Writing Point Object
+## Writing Dictionary-style object
 
 **influxdb-python**
 
 ```python
+from influxdb import InfluxDBClient
+
+record = [
+        {
+            "measurement": "cpu_load_short",
+            "tags": {
+                "host": "server01",
+                "region": "us-west"
+            },
+            "time": "2009-11-10T23:00:00Z",
+            "fields": {
+                "Float_value": 0.64,
+                "Int_value": 3,
+                "String_value": "Text",
+                "Bool_value": True
+            }
+        }
+    ]
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+
+client.write_points(record)
 ```
 
 **influxdb-client-python**
 
 ```python
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    record = [
+        {
+            "measurement": "cpu_load_short",
+            "tags": {
+                "host": "server01",
+                "region": "us-west"
+            },
+            "time": "2009-11-10T23:00:00Z",
+            "fields": {
+                "Float_value": 0.64,
+                "Int_value": 3,
+                "String_value": "Text",
+                "Bool_value": True
+            }
+        }
+    ]
+
+    write_api.write(bucket='my-bucket', record=record)
+
 ```
 
 ## Writing Structured Data
