@@ -21,6 +21,7 @@ Please take a moment to review the following client docs:
 - Writes
   - [LineProtocol](#writing-lineprotocol)
   - [Dictionary-style object](#writing-dictionary-style-object)
+  - [Strutured data](#writing-structured-data)
   - [Pandas DataFrame](#writing-pandas-dataframe)
 
 ## Initializing Client
@@ -186,11 +187,75 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
 **influxdb-python**
 
 ```python
+from influxdb import InfluxDBClient
+from influxdb import SeriesHelper
+
+my_client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+
+class MySeriesHelper(SeriesHelper):
+    """Instantiate SeriesHelper to write points to the backend."""
+
+    class Meta:
+        """Meta class stores time series helper configuration."""
+
+        # The client should be an instance of InfluxDBClient.
+        client = my_client
+
+        # The series name must be a string. Add dependent fields/tags
+        # in curly brackets.
+        series_name = 'events.stats.{server_name}'
+
+        # Defines all the fields in this time series.
+        fields = ['some_stat', 'other_stat']
+
+        # Defines all the tags for the series.
+        tags = ['server_name']
+
+        # Defines the number of data points to store prior to writing
+        # on the wire.
+        bulk_size = 5
+
+        # autocommit must be set to True when using bulk_size
+        autocommit = True
+
+MySeriesHelper(server_name='us.east-1', some_stat=159, other_stat=10)
+MySeriesHelper(server_name='us.east-1', some_stat=158, other_stat=20)
+
+MySeriesHelper.commit()
 ```
+
+There `influxdb-client-python` doesn't have an equivalent implementation for `MySeriesHelper`, but there is an option
+to use Python [Data Classes](https://docs.python.org/3/library/dataclasses.html) way.
 
 **influxdb-client-python**
 
 ```python
+from dataclasses import dataclass
+
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+
+@dataclass
+class Car:
+    """
+    DataClass structure - Car
+    """
+    engine: str
+    type: str
+    speed: float
+
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    car = Car('12V-BT', 'sport-cars', 125.25)
+
+    write_api.write(bucket="my-bucket",
+                    record=car,
+                    record_measurement_name="performance",
+                    record_tag_keys=["engine", "type"],
+                    record_field_keys=["speed"])
 ```
 
 ## Writing Pandas DataFrame
