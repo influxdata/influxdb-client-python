@@ -28,18 +28,98 @@ client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='
 ```python
 from influxdb_client import InfluxDBClient
 
-client = InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    pass
 ```
 
 ## Creating Database/Bucket
 
+**influxdb-python**
+
+```python
+from influxdb import InfluxDBClient
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+dbname = 'example'
+
+client.create_database(dbname)
+client.create_retention_policy('awesome_policy', '60m', 3, database=dbname, default=True)
+```
+
+**influxdb-client-python**
+
+```python
+from influxdb_client import InfluxDBClient, BucketRetentionRules
+
+org = 'my-org'
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org=org) as client:
+    buckets_api = client.buckets_api()
+
+    # Create Bucket with retention policy set to 3600 seconds and name "bucket-by-python"
+    retention_rules = BucketRetentionRules(type="expire", every_seconds=3600)
+    created_bucket = buckets_api.create_bucket(bucket_name="bucket-by-python",
+                                               retention_rules=retention_rules,
+                                               org=org)
+    print(created_bucket)
+```
+
 ## Dropping Database/Bucket
+
+**influxdb-python**
+
+```python
+```
+
+**influxdb-client-python**
+
+```python
+```
 
 ## Writing LineProtocol
 
+**influxdb-python**
+
+```python
+```
+
+**influxdb-client-python**
+
+```python
+```
+
 ## Writing Point Object
+
+**influxdb-python**
+
+```python
+```
+
+**influxdb-client-python**
+
+```python
+```
 
 ## Writing Structured Data
 
+**influxdb-python**
+
+```python
+```
+
+**influxdb-client-python**
+
+```python
+```
+
 ## Querying
 
+**influxdb-python**
+
+```python
+```
+
+**influxdb-client-python**
+
+```python
+```
