@@ -21,7 +21,7 @@ Please take a moment to review the following client docs:
 - Writes
   - [LineProtocol](#writing-lineprotocol)
   - [Dictionary-style object](#writing-dictionary-style-object)
-  - [Strutured data](#writing-structured-data)
+  - [Structured data](#writing-structured-data)
   - [Pandas DataFrame](#writing-pandas-dataframe)
 
 ## Initializing Client
