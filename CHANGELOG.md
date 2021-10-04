@@ -1,7 +1,7 @@
 ## 1.22.0 [unreleased]
 
 ### Documentation
-1. [#331](https://github.com/influxdata/influxdb-client-python/pull/331): Add [Migration Guide](MIGRATION_GUIDE.md)
+1. [#331](https://github.com/influxdata/influxdb-client-python/pull/331): Add [Migration Guide](MIGRATION_GUIDE.rst)
 
 ## 1.21.0 [2021-09-17]
 
