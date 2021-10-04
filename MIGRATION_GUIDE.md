@@ -18,8 +18,10 @@ Please take a moment to review the following client docs:
 - [Initializing Client](#initializing-client)
 - [Creating Database/Bucket](#creating-databasebucket)
 - [Dropping Database/Bucket](#dropping-databasebucket)
-- [Writing LineProtocol](#writing-lineprotocol)
-- [Writing Dictionary-style object](#writing-dictionary-style-object)
+- Writes
+  - [LineProtocol](#writing-lineprotocol)
+  - [Dictionary-style object](#writing-dictionary-style-object)
+  - [Pandas DataFrame](#writing-pandas-dataframe)
 
 ## Initializing Client
 
@@ -189,6 +191,43 @@ with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org')
 **influxdb-client-python**
 
 ```python
+```
+
+## Writing Pandas DataFrame
+
+**influxdb-python**
+
+```python
+import pandas as pd
+
+from influxdb import InfluxDBClient
+
+df = pd.DataFrame(data=list(range(30)),
+                  index=pd.date_range(start='2014-11-16', periods=30, freq='H'),
+                  columns=['0'])
+
+client = InfluxDBClient(host='127.0.0.1', port=8086, username='root', password='root', database='dbname')
+
+client.write_points(df, 'demo', protocol='line')
+```
+
+**influxdb-client-python**
+
+```python
+import pandas as pd
+
+from influxdb_client import InfluxDBClient
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    df = pd.DataFrame(data=list(range(30)),
+                      index=pd.date_range(start='2014-11-16', periods=30, freq='H'),
+                      columns=['0'])
+
+    write_api.write(bucket='my-bucket', record=df, data_frame_measurement_name='demo')
+
 ```
 
 ## Querying
