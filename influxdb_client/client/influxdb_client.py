@@ -262,6 +262,23 @@ class InfluxDBClient(object):
                 with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
                     write_api = client.write_api(write_options=SYNCHRONOUS)
 
+        If you would like to use a **background batching**, you have to configure client like this:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            # Initialize background batching instance of WriteApi
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                with client.write_api() as write_api:
+                    pass
+
+        There is also possibility to use callbacks to notify about state of background batches:
+
+        .. code-block:: python
+
+            TBD
+
         :param write_options: Write API configuration
         :param point_settings: settings to store default tags
         :key success_callback: The callable ``callback`` to run after successfully writen a batch.
