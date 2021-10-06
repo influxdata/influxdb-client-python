@@ -40,7 +40,7 @@ class BatchingCallback(object):
 
 
 callback = BatchingCallback()
-with InfluxDBClient(url=url, token=token, org=org, debug=False) as client:
+with InfluxDBClient(url=url, token=token, org=org) as client:
     """
     Use batching API
     """
