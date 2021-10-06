@@ -247,15 +247,50 @@ class InfluxDBClient(object):
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
                    profilers=profilers)
 
-    def write_api(self, write_options=WriteOptions(), point_settings=PointSettings()) -> WriteApi:
+    def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
         """
         Create a Write API instance.
 
-        :param point_settings:
-        :param write_options: write api configuration
+        Example:
+            .. code-block:: python
+
+                from influxdb_client import InfluxDBClient
+                from influxdb_client.client.write_api import SYNCHRONOUS
+
+
+                # Initialize SYNCHRONOUS instance of WriteApi
+                with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+        :param write_options: Write API configuration
+        :param point_settings: settings to store default tags
+        :key success_callback: The callable ``callback`` to run after successfully writen a batch.
+
+                               The callable must accept two arguments:
+                                    - `Tuple`: ``(bucket, organization, precision)``
+                                    - `str`: written data
+
+                               **[batching mode]**
+
+        :key error_callback: The callable ``callback`` to run after unsuccessfully writen a batch.
+
+                             The callable must accept three arguments:
+                                - `Tuple`: ``(bucket, organization, precision)``
+                                - `str`: written data
+                                - `Exception`: an occurred error
+
+                             **[batching mode]**
+        :key retry_callback: The callable ``callback`` to run after retryable error occurred.
+
+                             The callable must accept three arguments:
+                                - `Tuple`: ``(bucket, organization, precision)``
+                                - `str`: written data
+                                - `Exception`: an retryable error
+
+                             **[batching mode]**
         :return: write api instance
         """
-        return WriteApi(influxdb_client=self, write_options=write_options, point_settings=point_settings)
+        return WriteApi(influxdb_client=self, write_options=write_options, point_settings=point_settings, **kwargs)
 
     def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApi:
         """
