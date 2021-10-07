@@ -3,9 +3,11 @@
 ### Features
 1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add support for write structured data - `NamedTuple`, `Data Classes`
 1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame] 
+1. [#341](https://github.com/influxdata/influxdb-client-python/pull/341): Add support for handling batch events
 
 ### Documentation
 1. [#331](https://github.com/influxdata/influxdb-client-python/pull/331): Add [Migration Guide](MIGRATION_GUIDE.rst)
+1. [#341](https://github.com/influxdata/influxdb-client-python/pull/341): How to handle client errors
 
 ## 1.21.0 [2021-09-17]
 
