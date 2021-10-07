@@ -618,7 +618,7 @@ class BatchingWriteTest(unittest.TestCase):
                 self.data = None
                 self.error = None
 
-            def __call__(self, conf: (str, str, str), data: str, error: ApiException):
+            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
                 self.conf = conf
                 self.data = data
                 self.error = error
@@ -645,8 +645,8 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertEqual("my-org", callback.conf[1])
         self.assertEqual("ns", callback.conf[2])
         self.assertIsNotNone(callback.error)
-        self.assertEqual(ApiException, type(callback.error))
-        self.assertEqual(400, callback.error.status)
+        self.assertIsInstance(callback.error, InfluxDBError)
+        self.assertEqual(400, callback.error.response.status)
 
     def test_retry_callback(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
@@ -689,7 +689,7 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertEqual("my-org", callback.conf[1])
         self.assertEqual("ns", callback.conf[2])
         self.assertIsNotNone(callback.error)
-        self.assertEqual(InfluxDBError, type(callback.error))
+        self.assertIsInstance(callback.error, InfluxDBError)
         self.assertEqual(429, callback.error.response.status)
 
 

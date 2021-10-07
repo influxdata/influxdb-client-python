@@ -278,6 +278,7 @@ class InfluxDBClient(object):
         .. code-block:: python
 
             from influxdb_client import InfluxDBClient
+            from influxdb_client.client.exceptions import InfluxDBError
 
 
             class BatchingCallback(object):
@@ -285,10 +286,10 @@ class InfluxDBClient(object):
                 def success(self, conf: (str, str, str), data: str):
                     print(f"Written batch: {conf}, data: {data}")
 
-                def error(self, conf: (str, str, str), data: str, exception: Exception):
+                def error(self, conf: (str, str, str), data: str, exception: InfluxDBError):
                     print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
 
-                def retry(self, conf: (str, str, str), data: str, exception: Exception):
+                def retry(self, conf: (str, str, str), data: str, exception: InfluxDBError):
                     print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
 
 
