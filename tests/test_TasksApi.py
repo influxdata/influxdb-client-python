@@ -165,7 +165,7 @@ class TasksApiTest(BaseTest):
                                         self.organization.id)
         tasks = self.tasks_api.find_tasks_by_user(task_user_id=task_user.id)
         print(tasks)
-        self.assertEquals(len(tasks), 1)
+        self.assertEqual(len(tasks), 1)
 
     def test_delete_task(self):
         task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",

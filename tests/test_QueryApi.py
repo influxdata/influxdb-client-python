@@ -479,11 +479,11 @@ class SimpleQueryTest(BaseTest):
         self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
         query_api = self.client.query_api(query_options=QueryOptions(profilers=["query", "operator"]))
         tables = query_api.query(query=query)
-        self.assertEquals(len(tables), 1)
-        self.assertEquals(len(tables[0].columns), 10)
-        self.assertEquals(len(tables[0].records), 6)
+        self.assertEqual(len(tables), 1)
+        self.assertEqual(len(tables[0].columns), 10)
+        self.assertEqual(len(tables[0].records), 6)
 
-        self.assertEquals(tables[0].records[5].values,
+        self.assertEqual(tables[0].records[5].values,
                           {'result': '_result', 'table': 0,
                            '_start': datetime.datetime(2021, 5, 24, 8, 40, 44, 785000, tzinfo=tzutc()),
                            '_stop': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=tzutc()),
