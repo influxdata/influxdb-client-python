@@ -277,7 +277,27 @@ class InfluxDBClient(object):
 
         .. code-block:: python
 
-            TBD
+            from influxdb_client import InfluxDBClient
+
+
+            class BatchingCallback(object):
+
+                def success(self, conf: (str, str, str), data: str):
+                    print(f"Written batch: {conf}, data: {data}")
+
+                def error(self, conf: (str, str, str), data: str, exception: Exception):
+                    print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
+
+                def retry(self, conf: (str, str, str), data: str, exception: Exception):
+                    print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
+
+
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                callback = BatchingCallback()
+                with client.write_api(success_callback=callback.success,
+                                      error_callback=callback.error,
+                                      retry_callback=callback.retry) as write_api:
+                    pass
 
         :param write_options: Write API configuration
         :param point_settings: settings to store default tags
