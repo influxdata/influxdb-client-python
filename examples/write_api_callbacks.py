@@ -20,11 +20,6 @@ points = [Point("my-temperature").tag("location", "Prague").field("temperature",
 
 
 class BatchingCallback(object):
-    """
-    Define callback for success, error and retry state
-    """
-    def __init__(self):
-        pass
 
     def success(self, conf: (str, str, str), data: str):
         """Successfully writen batch."""
