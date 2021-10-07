@@ -46,6 +46,12 @@ Nanosecond precision
   :start-after: marker-nanosecond-start
   :end-before: marker-nanosecond-end
 
+Handling Errors
+^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-handling-errors-start
+  :end-before: marker-handling-errors-end
+
 Debugging
 ^^^^^^^^^
 

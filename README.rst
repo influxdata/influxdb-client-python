@@ -83,6 +83,7 @@ InfluxDB 2.0 client features
     - `Proxy configuration`_
     - `Nanosecond precision`_
     - `Delete data`_
+    - `Handling Errors`_
 
 Installation
 ------------
@@ -1152,8 +1153,61 @@ The following forward compatible APIs are available:
 
 For detail info see `InfluxDB 1.8 example <examples/influxdb_18_example.py>`_.
 
+Handling Errors
+^^^^^^^^^^^^^^^
+.. marker-handling-errors-start
+
+Errors happen and it's important that your code is prepared for them. All client related  exceptions are delivered from
+``InfluxDBError``. If the exception cannot be recovered in the client it is returned to the application.
+These exceptions are left for the developer to handle.
+
+Almost all APIs directly return unrecoverable exceptions to be handled this way:
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient
+    from influxdb_client.client.exceptions import InfluxDBError
+    from influxdb_client.client.write_api import SYNCHRONOUS
+
+    with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+        try:
+            client.write_api(write_options=SYNCHRONOUS).write("my-bucket", record="mem,tag=a value=86")
+        except InfluxDBError as e:
+            if e.response.status == 401:
+                raise Exception(f"Insufficient write permissions to 'my-bucket'.") from e
+            raise
+
+
+The only exception is **batching** ``WriteAPI`` (for more info see `Batching`_). where you need to register custom callbacks to handle batch events.
+This is because this API runs in the ``background`` in a ``separate`` thread and isn't possible to directly
+return underlying exceptions.
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient
+
+
+    class BatchingCallback(object):
+
+        def success(self, conf: (str, str, str), data: str):
+            print(f"Written batch: {conf}, data: {data}")
+
+        def error(self, conf: (str, str, str), data: str, exception: Exception):
+            print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
+
+        def retry(self, conf: (str, str, str), data: str, exception: Exception):
+            print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
+
+
+    with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+        callback = BatchingCallback()
+        with client.write_api(success_callback=callback.success,
+                              error_callback=callback.error,
+                              retry_callback=callback.retry) as write_api:
+            pass
+
 HTTP Retry Strategy
-^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""
 By default the client uses a retry strategy only for batching writes (for more info see `Batching`_).
 For other HTTP requests there is no one retry strategy, but it could be configured by ``retries``
 parameter of ``InfluxDBClient``.
@@ -1168,6 +1222,8 @@ For more info about how configure HTTP retry see details in `urllib3 documentati
 
     retries = Retry(connect=5, read=2, redirect=5)
     client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", retries=retries)
+
+.. marker-handling-errors-end
 
 Nanosecond precision
 ^^^^^^^^^^^^^^^^^^^^
