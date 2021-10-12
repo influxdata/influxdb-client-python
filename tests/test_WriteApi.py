@@ -4,11 +4,14 @@ from __future__ import absolute_import
 
 import datetime
 import os
+import sys
 import unittest
+from collections import namedtuple
 from datetime import timedelta
 from multiprocessing.pool import ApplyResult
 
 import httpretty
+import pytest
 
 import influxdb_client
 from influxdb_client import Point, WritePrecision, InfluxDBClient
@@ -541,6 +544,48 @@ class WriteApiTestMock(BaseTest):
 
         from urllib3 import Retry
         Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
+
+    def test_named_tuple(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
+
+        Factory = namedtuple('Factory', ['measurement', 'position', 'customers'])
+        factory = Factory(measurement='factory', position="central europe", customers=123456)
+
+        self.write_client.write("my-bucket", "my-org", factory,
+                                record_measurement_key="measurement",
+                                record_tag_keys=["position"],
+                                record_field_keys=["customers"])
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual("factory,position=central\\ europe customers=123456i", requests[0].parsed_body)
+
+    @pytest.mark.skipif(sys.version_info < (3, 8), reason="requires python3.8 or higher")
+    def test_data_class(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self.write_client = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
+
+        from dataclasses import dataclass
+
+        @dataclass
+        class Car:
+            engine: str
+            type: str
+            speed: float
+
+        car = Car('12V-BT', 'sport-cars', 125.25)
+        self.write_client.write("my-bucket", "my-org",
+                                record=car,
+                                record_measurement_name="performance",
+                                record_tag_keys=["engine", "type"],
+                                record_field_keys=["speed"])
+
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual("performance,engine=12V-BT,type=sport-cars speed=125.25", requests[0].parsed_body)
 
 
 class AsynchronousWriteTest(BaseTest):

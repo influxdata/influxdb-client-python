@@ -2,10 +2,13 @@
 
 from __future__ import absolute_import
 
+import sys
 import time
 import unittest
+from collections import namedtuple
 
 import httpretty
+import pytest
 import rx
 from rx import operators as ops
 
@@ -244,7 +247,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
-                                      write_options=WriteOptions(max_retries=0,batch_size=2, flush_interval=1_000))
+                                      write_options=WriteOptions(max_retries=0, batch_size=2, flush_interval=1_000))
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
@@ -517,6 +520,58 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(_request1, _requests[0].parsed_body)
         self.assertEqual(_request2, _requests[1].parsed_body)
+
+    def test_named_tuple(self):
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=1))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        Factory = namedtuple('Factory', ['measurement', 'position', 'customers'])
+        factory = Factory(measurement='factory', position="central europe", customers=123456)
+
+        self._write_client.write("my-bucket", "my-org", factory,
+                                 record_measurement_key="measurement",
+                                 record_tag_keys=["position"],
+                                 record_field_keys=["customers"])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("factory,position=central\\ europe customers=123456i", _requests[0].parsed_body)
+
+    @pytest.mark.skipif(sys.version_info < (3, 8), reason="requires python3.8 or higher")
+    def test_data_class(self):
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=1))
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        from dataclasses import dataclass
+
+        @dataclass
+        class Car:
+            engine: str
+            type: str
+            speed: float
+
+        car = Car('12V-BT', 'sport-cars', 125.25)
+        self._write_client.write("my-bucket", "my-org",
+                                 record=car,
+                                 record_measurement_name="performance",
+                                 record_tag_keys=["engine", "type"],
+                                 record_field_keys=["speed"])
+
+        time.sleep(1)
+
+        _requests = httpretty.httpretty.latest_requests
+
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("performance,engine=12V-BT,type=sport-cars speed=125.25", _requests[0].parsed_body)
 
 
 if __name__ == '__main__':

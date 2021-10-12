@@ -362,11 +362,14 @@ The data could be written as
 
 1. ``string`` or ``bytes`` that is formatted as a InfluxDB's line protocol
 2. `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
-3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time``
-4. List of above items
-5. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
+3. Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time`` or custom structure
+4. `NamedTuple <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
+5. `Data Classes <https://docs.python.org/3/library/dataclasses.html>`_
 6. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+7. List of above items
+8. A ``batching`` type of write also supports an ``Observable`` that produce one of an above item
 
+You can find write examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#writes>`__.
 
 Batching
 """"""""
@@ -532,7 +535,7 @@ In a `init <https://docs.python.org/3/library/configparser.html>`_ configuration
     customer = California Miner
     data_center = ${env.data_center}
 
-You could also use a `TOML <https://toml.io/en/>`_ format for the configuration file.
+You can also use a `TOML <https://toml.io/en/>`_ format for the configuration file.
 
 Via Environment Properties
 __________________________
@@ -1048,7 +1051,7 @@ The second example shows how to use client capabilities to realtime visualizatio
 Other examples
 """"""""""""""
 
-You could find all examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples>`_.
+You can find all examples at GitHub: `influxdb-client-python/examples <https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples>`__.
 
 .. marker-examples-end
 

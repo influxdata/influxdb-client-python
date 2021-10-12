@@ -108,7 +108,7 @@ jobs:
             pydocstyle --count influxdb_client
   check-examples:
     docker:
-      - image: *default-python
+      - image: "cimg/python:3.8"
         environment:
           PIPENV_VENV_IN_PROJECT: true
       - image: *default-influxdb
@@ -123,6 +123,7 @@ jobs:
             export PYTHONPATH="$PWD"
             python examples/monitoring_and_alerting.py
             python examples/buckets_management.py
+            python examples/write_structured_data.py
   check-sphinx:
     docker:
       - image: *default-python

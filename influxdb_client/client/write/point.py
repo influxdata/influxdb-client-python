@@ -61,16 +61,82 @@ class Point(object):
         return p
 
     @staticmethod
-    def from_dict(dictionary: dict, write_precision: WritePrecision = DEFAULT_WRITE_PRECISION):
-        """Initialize point from 'dict' structure."""
-        point = Point(dictionary['measurement'])
-        if 'tags' in dictionary:
+    def from_dict(dictionary: dict, write_precision: WritePrecision = DEFAULT_WRITE_PRECISION, **kwargs):
+        """
+        Initialize point from 'dict' structure.
+
+        The expected dict structure is:
+            - measurement
+            - tags
+            - fields
+            - time
+
+        Example:
+            .. code-block:: python
+
+                # Use default dictionary structure
+                dict_structure = {
+                    "measurement": "h2o_feet",
+                    "tags": {"location": "coyote_creek"},
+                    "fields": {"water_level": 1.0},
+                    "time": 1
+                }
+                point = Point.from_dict(dict_structure, WritePrecision.NS)
+
+        Example:
+            .. code-block:: python
+
+                # Use custom dictionary structure
+                dictionary = {
+                    "name": "sensor_pt859",
+                    "location": "warehouse_125",
+                    "version": "2021.06.05.5874",
+                    "pressure": 125,
+                    "temperature": 10,
+                    "created": 1632208639,
+                }
+                point = Point.from_dict(dictionary,
+                                        write_precision=WritePrecision.S,
+                                        record_measurement_key="name",
+                                        record_time_key="created",
+                                        record_tag_keys=["location", "version"],
+                                        record_field_keys=["pressure", "temperature"])
+
+        :param dictionary: dictionary for serialize into data Point
+        :param write_precision: sets the precision for the supplied time values
+        :key record_measurement_key: key of dictionary with specified measurement
+        :key record_measurement_name: static measurement name for data Point
+        :key record_time_key: key of dictionary with specified timestamp
+        :key record_tag_keys: list of dictionary keys to use as a tag
+        :key record_field_keys: list of dictionary keys to use as a field
+        :return: new data point
+        """
+        measurement_ = kwargs.get('record_measurement_name', None)
+        if measurement_ is None:
+            measurement_ = dictionary[kwargs.get('record_measurement_key', 'measurement')]
+        point = Point(measurement_)
+
+        record_tag_keys = kwargs.get('record_tag_keys', None)
+        if record_tag_keys is not None:
+            for tag_key in record_tag_keys:
+                if tag_key in dictionary:
+                    point.tag(tag_key, dictionary[tag_key])
+        elif 'tags' in dictionary:
             for tag_key, tag_value in dictionary['tags'].items():
                 point.tag(tag_key, tag_value)
-        for field_key, field_value in dictionary['fields'].items():
-            point.field(field_key, field_value)
-        if 'time' in dictionary:
-            point.time(dictionary['time'], write_precision=write_precision)
+
+        record_field_keys = kwargs.get('record_field_keys', None)
+        if record_field_keys is not None:
+            for field_key in record_field_keys:
+                if field_key in dictionary:
+                    point.field(field_key, dictionary[field_key])
+        else:
+            for field_key, field_value in dictionary['fields'].items():
+                point.field(field_key, field_value)
+
+        record_time_key = kwargs.get('record_time_key', 'time')
+        if record_time_key in dictionary:
+            point.time(dictionary[record_time_key], write_precision=write_precision)
         return point
 
     def __init__(self, measurement_name):
