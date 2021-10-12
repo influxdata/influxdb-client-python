@@ -17,7 +17,6 @@ from influxdb_client import WritePrecision, InfluxDBClient, CLIENT_VERSION
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
-from influxdb_client.rest import ApiException
 
 
 class BatchingWriteTest(unittest.TestCase):
