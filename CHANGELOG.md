@@ -3,6 +3,9 @@
 ### Features
 1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add supports for write structured data - `NamedTuple`, `Data Classes`
 
+### Documentation
+1. [#331](https://github.com/influxdata/influxdb-client-python/pull/331): Add [Migration Guide](MIGRATION_GUIDE.rst)
+
 ## 1.21.0 [2021-09-17]
 
 ### Features
@@ -56,7 +59,7 @@ This release introduces a support for new InfluxDB OSS API definitions - [oss.ym
 - `AuthorizationsService` uses `AuthorizationPostRequest` to create `Authorization`
 - `BucketsService` uses `PatchBucketRequest` to update `Bucket`
 - `DashboardsService` uses `PatchDashboardRequest` to update `Dashboard`
-- `DeleteService` is used to delete tome series date instead of `DefaultService`
+- `DeleteService` is used to delete time series date instead of `DefaultService`
 - `DBRPs` contains list of `DBRP` in `content` property
 - `OrganizationsService` uses `PostOrganizationRequest` to create `Organization`
 - `Run` contains list of `LogEvent` in `log` property

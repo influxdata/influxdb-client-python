@@ -8,6 +8,7 @@ InfluxDB 2.0 python client
 
    usage
    api
+   migration
 
 .. include:: ../README.rst
   :start-after: marker-index-start
