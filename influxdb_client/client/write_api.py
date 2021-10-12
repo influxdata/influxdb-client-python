@@ -302,7 +302,7 @@ class WriteApi:
                 data_frame.set_index('column_name', inplace=True)
                 # Transform index to PeriodIndex
                 data_frame.index = pd.to_datetime(data_frame.index, unit='s')
-                
+
         """  # noqa: E501
         org = get_org_query_param(org=org, client=self._influxdb_client)
 
