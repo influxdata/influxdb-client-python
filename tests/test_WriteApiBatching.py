@@ -14,6 +14,7 @@ from rx import operators as ops
 
 import influxdb_client
 from influxdb_client import WritePrecision, InfluxDBClient, CLIENT_VERSION
+from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
 
@@ -263,7 +264,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         self._write_client.close()
         self._write_client = WriteApi(influxdb_client=self.influxdb_client,
-                                      write_options=WriteOptions(max_retry_time=0,batch_size=2, flush_interval=1_000))
+                                      write_options=WriteOptions(max_retry_time=0, batch_size=2, flush_interval=1_000))
 
         self._write_client.write("my-bucket", "my-org",
                                  ["h2o_feet,location=coyote_creek level\\ water_level=1 1",
@@ -349,7 +350,7 @@ class BatchingWriteTest(unittest.TestCase):
         # Tuple
         _bytes3 = "h2o_feet,location=coyote_creek level\\ water_level=19 19".encode("utf-8")
         _bytes4 = "h2o_feet,location=coyote_creek level\\ water_level=20 20".encode("utf-8")
-        self._write_client.write("my-bucket", "my-org", (_bytes3, _bytes4, ))
+        self._write_client.write("my-bucket", "my-org", (_bytes3, _bytes4,))
 
         time.sleep(1)
 
@@ -572,6 +573,123 @@ class BatchingWriteTest(unittest.TestCase):
 
         self.assertEqual(1, len(_requests))
         self.assertEqual("performance,engine=12V-BT,type=sport-cars speed=125.25", _requests[0].parsed_body)
+
+    def test_success_callback(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        class SuccessCallback(object):
+            def __init__(self):
+                self.conf = None
+                self.data = None
+
+            def __call__(self, conf: (str, str, str), data: str):
+                self.conf = conf
+                self.data = data
+
+        callback = SuccessCallback()
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=2), success_callback=callback)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek water_level=1 1",
+                                  "h2o_feet,location=coyote_creek water_level=2 2"])
+
+        time.sleep(1)
+        _requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek water_level=2 2", _requests[0].parsed_body)
+
+        self.assertEqual(b"h2o_feet,location=coyote_creek water_level=1 1\n"
+                         b"h2o_feet,location=coyote_creek water_level=2 2", callback.data)
+        self.assertEqual("my-bucket", callback.conf[0])
+        self.assertEqual("my-org", callback.conf[1])
+        self.assertEqual("ns", callback.conf[2])
+
+    def test_error_callback(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=400)
+
+        class ErrorCallback(object):
+            def __init__(self):
+                self.conf = None
+                self.data = None
+                self.error = None
+
+            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+                self.conf = conf
+                self.data = data
+                self.error = error
+
+        callback = ErrorCallback()
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=2), error_callback=callback)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek water_level=1 x",
+                                  "h2o_feet,location=coyote_creek water_level=2 2"])
+
+        time.sleep(1)
+        _requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek water_level=1 x\n"
+                         "h2o_feet,location=coyote_creek water_level=2 2", _requests[0].parsed_body)
+
+        self.assertEqual(b"h2o_feet,location=coyote_creek water_level=1 x\n"
+                         b"h2o_feet,location=coyote_creek water_level=2 2", callback.data)
+        self.assertEqual("my-bucket", callback.conf[0])
+        self.assertEqual("my-org", callback.conf[1])
+        self.assertEqual("ns", callback.conf[2])
+        self.assertIsNotNone(callback.error)
+        self.assertIsInstance(callback.error, InfluxDBError)
+        self.assertEqual(400, callback.error.response.status)
+
+    def test_retry_callback(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429, adding_headers={'Retry-After': '1'})
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=503, adding_headers={'Retry-After': '1'})
+
+        class RetryCallback(object):
+            def __init__(self):
+                self.count = 0
+                self.conf = None
+                self.data = None
+                self.error = None
+
+            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+                self.count += 1
+                self.conf = conf
+                self.data = data
+                self.error = error
+
+        callback = RetryCallback()
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=2), retry_callback=callback)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek water_level=1 1",
+                                  "h2o_feet,location=coyote_creek water_level=2 2"])
+
+        time.sleep(3)
+        _requests = httpretty.httpretty.latest_requests
+        self.assertEqual(3, len(_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek water_level=1 1\n"
+                         "h2o_feet,location=coyote_creek water_level=2 2", _requests[0].parsed_body)
+
+        self.assertEqual(2, callback.count)
+        self.assertEqual(b"h2o_feet,location=coyote_creek water_level=1 1\n"
+                         b"h2o_feet,location=coyote_creek water_level=2 2", callback.data)
+        self.assertEqual("my-bucket", callback.conf[0])
+        self.assertEqual("my-org", callback.conf[1])
+        self.assertEqual("ns", callback.conf[2])
+        self.assertIsNotNone(callback.error)
+        self.assertIsInstance(callback.error, InfluxDBError)
+        self.assertEqual(429, callback.error.response.status)
 
 
 if __name__ == '__main__':

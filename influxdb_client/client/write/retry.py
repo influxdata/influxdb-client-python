@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timedelta
 from itertools import takewhile
 from random import random
+from typing import Callable
 
 from urllib3 import Retry
 from urllib3.exceptions import MaxRetryError, ResponseError
@@ -17,25 +18,32 @@ class WritesRetry(Retry):
     """
     Writes retry configuration.
 
-    :param int jitter_interval: random milliseconds when retrying writes
-    :param num max_retry_delay: maximum delay when retrying write in seconds
-    :param int max_retry_time: maximum total retry timeout in seconds, attempt after this timout throws MaxRetryError
-    :param int total: maximum number of retries
-    :param num retry_interval: initial first retry delay range in seconds
-    :param int exponential_base: base for the exponential retry delay,
-
     The next delay is computed as random value between range
-    `retry_interval * exponential_base^(attempts-1)` and `retry_interval * exponential_base^(attempts)
+        `retry_interval * exponential_base^(attempts-1)` and `retry_interval * exponential_base^(attempts)
 
-    Example: for retry_interval=5, exponential_base=2, max_retry_delay=125, total=5
-    retry delays are random distributed values within the ranges of
-    [5-10, 10-20, 20-40, 40-80, 80-125]
-
+    Example:
+        for retry_interval=5, exponential_base=2, max_retry_delay=125, total=5
+        retry delays are random distributed values within the ranges of
+        [5-10, 10-20, 20-40, 40-80, 80-125]
     """
 
     def __init__(self, jitter_interval=0, max_retry_delay=125, exponential_base=2, max_retry_time=180, total=5,
-                 retry_interval=5, **kw):
-        """Initialize defaults."""
+                 retry_interval=5, retry_callback: Callable[[Exception], int] = None, **kw):
+        """
+        Initialize defaults.
+
+        :param int jitter_interval: random milliseconds when retrying writes
+        :param num max_retry_delay: maximum delay when retrying write in seconds
+        :param int max_retry_time: maximum total retry timeout in seconds,
+                                   attempt after this timout throws MaxRetryError
+        :param int total: maximum number of retries
+        :param num retry_interval: initial first retry delay range in seconds
+        :param int exponential_base: base for the exponential retry delay,
+        :param Callable[[Exception], int] retry_callback: the callable ``callback`` to run after retryable
+                                                          error occurred.
+                                                          The callable must accept one argument:
+                                                                - `Exception`: an retryable error
+        """
         super().__init__(**kw)
         self.jitter_interval = jitter_interval
         self.total = total
@@ -44,6 +52,7 @@ class WritesRetry(Retry):
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.retry_timeout = datetime.now() + timedelta(seconds=max_retry_time)
+        self.retry_callback = retry_callback
 
     def new(self, **kw):
         """Initialize defaults."""
@@ -57,6 +66,8 @@ class WritesRetry(Retry):
             kw['max_retry_time'] = self.max_retry_time
         if 'exponential_base' not in kw:
             kw['exponential_base'] = self.exponential_base
+        if 'retry_callback' not in kw:
+            kw['retry_callback'] = self.retry_callback
 
         new = super().new(**kw)
         new.retry_timeout = self.retry_timeout
@@ -122,6 +133,9 @@ class WritesRetry(Retry):
         message = f"The retriable error occurred during request. Reason: '{parsed_error}'."
         if isinstance(parsed_error, InfluxDBError):
             message += f" Retry in {parsed_error.retry_after}s."
+
+        if self.retry_callback:
+            self.retry_callback(parsed_error)
 
         logger.warning(message)
 

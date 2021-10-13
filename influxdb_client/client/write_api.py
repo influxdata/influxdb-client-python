@@ -79,8 +79,14 @@ class WriteOptions(object):
         self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
 
-    def to_retry_strategy(self):
-        """Create a Retry strategy from write options."""
+    def to_retry_strategy(self, **kwargs):
+        """
+        Create a Retry strategy from write options.
+
+        :key retry_callback: The callable ``callback`` to run after retryable error occurred.
+                             The callable must accept one argument:
+                                - `Exception`: an retryable error
+        """
         return WritesRetry(
             total=self.max_retries,
             retry_interval=self.retry_interval / 1_000,
@@ -88,6 +94,7 @@ class WriteOptions(object):
             max_retry_delay=self.max_retry_delay / 1_000,
             max_retry_time=self.max_retry_time / 1_000,
             exponential_base=self.exponential_base,
+            retry_callback=kwargs.get("retry_callback", None),
             method_whitelist=["POST"])
 
     def __getstate__(self):
@@ -135,18 +142,6 @@ class PointSettings(object):
         self.defaultTags[key] = self._get_value(value)
 
 
-class _BatchItem(object):
-    def __init__(self, key, data, size=1) -> None:
-        self.key = key
-        self.data = data
-        self.size = size
-        pass
-
-    def __str__(self) -> str:
-        return '_BatchItem[key:\'{}\', size: \'{}\']' \
-            .format(str(self.key), str(self.size))
-
-
 class _BatchItemKey(object):
     def __init__(self, bucket, org, precision=DEFAULT_WRITE_PRECISION) -> None:
         self.bucket = bucket
@@ -166,8 +161,23 @@ class _BatchItemKey(object):
             .format(str(self.bucket), str(self.org), str(self.precision))
 
 
+class _BatchItem(object):
+    def __init__(self, key: _BatchItemKey, data, size=1) -> None:
+        self.key = key
+        self.data = data
+        self.size = size
+        pass
+
+    def to_key_tuple(self) -> (str, str, str):
+        return self.key.bucket, self.key.org, self.key.precision
+
+    def __str__(self) -> str:
+        return '_BatchItem[key:\'{}\', size: \'{}\']' \
+            .format(str(self.key), str(self.size))
+
+
 class _BatchResponse(object):
-    def __init__(self, data: _BatchItem, exception=None):
+    def __init__(self, data: _BatchItem, exception: Exception = None):
         self.data = data
         self.exception = exception
         pass
@@ -197,13 +207,48 @@ class WriteApi:
                 write_api = client.write_api(write_options=SYNCHRONOUS)
     """
 
-    def __init__(self, influxdb_client, write_options: WriteOptions = WriteOptions(),
-                 point_settings: PointSettings = PointSettings()) -> None:
-        """Initialize defaults."""
+    def __init__(self,
+                 influxdb_client,
+                 write_options: WriteOptions = WriteOptions(),
+                 point_settings: PointSettings = PointSettings(),
+                 **kwargs) -> None:
+        """
+        Initialize defaults.
+
+        :param influxdb_client: with default settings (organization)
+        :param write_options: write api configuration
+        :param point_settings: settings to store default tags.
+        :key success_callback: The callable ``callback`` to run after successfully writen a batch.
+
+                               The callable must accept two arguments:
+                                    - `Tuple`: ``(bucket, organization, precision)``
+                                    - `str`: written data
+
+                               **[batching mode]**
+        :key error_callback: The callable ``callback`` to run after unsuccessfully writen a batch.
+
+                             The callable must accept three arguments:
+                                - `Tuple`: ``(bucket, organization, precision)``
+                                - `str`: written data
+                                - `Exception`: an occurred error
+
+                             **[batching mode]**
+        :key retry_callback: The callable ``callback`` to run after retryable error occurred.
+
+                             The callable must accept three arguments:
+                                - `Tuple`: ``(bucket, organization, precision)``
+                                - `str`: written data
+                                - `Exception`: an retryable error
+
+                             **[batching mode]**
+        """
         self._influxdb_client = influxdb_client
         self._write_service = WriteService(influxdb_client.api_client)
         self._write_options = write_options
         self._point_settings = point_settings
+        self._success_callback = kwargs.get('success_callback', None)
+        self._error_callback = kwargs.get('error_callback', None)
+        self._retry_callback = kwargs.get('retry_callback', None)
 
         if influxdb_client.default_tags:
             for key, value in influxdb_client.default_tags.items():
@@ -452,7 +497,13 @@ class WriteApi:
 
         logger.debug("Write time series data into InfluxDB: %s", batch_item)
 
-        retry = self._write_options.to_retry_strategy()
+        if self._retry_callback:
+            def _retry_callback_delegate(exception):
+                return self._retry_callback(batch_item.to_key_tuple(), batch_item.data, exception)
+        else:
+            _retry_callback_delegate = None
+
+        retry = self._write_options.to_retry_strategy(retry_callback=_retry_callback_delegate)
 
         self._post_write(False, batch_item.key.bucket, batch_item.key.org, batch_item.data,
                          batch_item.key.precision, urlopen_kw={'retries': retry})
@@ -483,12 +534,15 @@ class WriteApi:
     def _jitter_delay(self):
         return timedelta(milliseconds=random() * self._write_options.jitter_interval)
 
-    @staticmethod
-    def _on_next(response: _BatchResponse):
+    def _on_next(self, response: _BatchResponse):
         if response.exception:
             logger.error("The batch item wasn't processed successfully because: %s", response.exception)
+            if self._error_callback:
+                self._error_callback(response.data.to_key_tuple(), response.data.data, response.exception)
         else:
             logger.debug("The batch item: %s was processed successfully.", response)
+            if self._success_callback:
+                self._success_callback(response.data.to_key_tuple(), response.data.data)
 
     @staticmethod
     def _on_error(ex):
