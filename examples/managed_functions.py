@@ -14,7 +14,7 @@ influx_cloud_token = '...'
 bucket_name = '...'
 org_name = '...'
 
-with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name, debug=True, timeout=20_000) as client:
+with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name, debug=False, timeout=20_000) as client:
     uniqueId = str(datetime.datetime.now())
     """
     Find Organization ID by Organization API.
@@ -31,7 +31,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
                                            description="my first try",
                                            language=FunctionLanguage.FLUX,
                                            org_id=org.id,
-                                           script=f"from(bucket: \"{bucket_name}\") |> range(start: -7d) |> limit(n:2)")
+                                           script=f"from(bucket: \"{bucket_name}\") |> range(start: -30d) |> limit(n:2)")
 
     created_function = functions_service.post_functions(function_create_request=create_request)
     print(created_function)
@@ -39,15 +39,16 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     Invoke Function
     """
-    print(f"\n------- Invoke Function: -------\n")
+    print(f"\n------- Invoke -------\n")
     response = functions_service.post_functions_id_invoke(function_id=created_function.id,
                                                           function_invocation_params=FunctionInvocationParams(
                                                               params={"bucket_name": bucket_name}))
+    print(response)
 
     """
     List all Functions
     """
-    print(f"\n------- Functions: -------\n")
+    print(f"\n------- List -------\n")
     functions = functions_service.get_functions(org=org).functions
     print("\n".join([f" ---\n ID: {it.id}\n Name: {it.name}\n Description: {it.description}" for it in functions]))
     print("---")
@@ -57,4 +58,4 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     print(f"------- Delete -------\n")
     functions_service.delete_functions_id(created_function.id)
-    print(f" successfully deleted function: {created_function.name}")
+    print(f" Successfully deleted function: '{created_function.name}'")

@@ -353,7 +353,7 @@ class FunctionsService(object):
         :param async_req bool
         :param str function_id: (required)
         :param dict(str, object) params:
-        :return: FunctionHTTPResponseData
+        :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -375,7 +375,7 @@ class FunctionsService(object):
         :param async_req bool
         :param str function_id: (required)
         :param dict(str, object) params:
-        :return: FunctionHTTPResponseData
+        :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -437,7 +437,7 @@ class FunctionsService(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='FunctionHTTPResponseData',  # noqa: E501
+            response_type='str',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -891,7 +891,7 @@ class FunctionsService(object):
         :param async_req bool
         :param str function_id: (required)
         :param FunctionInvocationParams function_invocation_params:
-        :return: FunctionHTTPResponseData
+        :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -913,7 +913,7 @@ class FunctionsService(object):
         :param async_req bool
         :param str function_id: (required)
         :param FunctionInvocationParams function_invocation_params:
-        :return: FunctionHTTPResponseData
+        :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -979,7 +979,7 @@ class FunctionsService(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='FunctionHTTPResponse',  # noqa: E501
+            response_type='str',  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
