@@ -43,6 +43,7 @@ from influxdb_client.service.variables_service import VariablesService
 from influxdb_client.service.views_service import ViewsService
 from influxdb_client.service.write_service import WriteService
 from influxdb_client.service.default_service import DefaultService
+from influxdb_client.service.functions_service import FunctionsService
 
 # import ApiClient
 from influxdb_client.api_client import ApiClient
@@ -286,6 +287,21 @@ from influxdb_client.domain.views import Views
 from influxdb_client.domain.write_precision import WritePrecision
 from influxdb_client.domain.xy_geom import XYGeom
 from influxdb_client.domain.xy_view_properties import XYViewProperties
+from influxdb_client.domain.function import Function
+from influxdb_client.domain.function_create_request import FunctionCreateRequest
+from influxdb_client.domain.function_http_response import FunctionHTTPResponse
+from influxdb_client.domain.function_http_response_data import FunctionHTTPResponseData
+from influxdb_client.domain.function_http_response_no_data import FunctionHTTPResponseNoData
+from influxdb_client.domain.function_invocation_params import FunctionInvocationParams
+from influxdb_client.domain.function_language import FunctionLanguage
+from influxdb_client.domain.function_run import FunctionRun
+from influxdb_client.domain.function_run_base import FunctionRunBase
+from influxdb_client.domain.function_run_log import FunctionRunLog
+from influxdb_client.domain.function_runs import FunctionRuns
+from influxdb_client.domain.function_trigger_request import FunctionTriggerRequest
+from influxdb_client.domain.function_trigger_response import FunctionTriggerResponse
+from influxdb_client.domain.function_update_request import FunctionUpdateRequest
+from influxdb_client.domain.functions import Functions
 
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi

@@ -41,3 +41,4 @@ from influxdb_client.service.variables_service import VariablesService
 from influxdb_client.service.views_service import ViewsService
 from influxdb_client.service.write_service import WriteService
 from influxdb_client.service.default_service import DefaultService
+from influxdb_client.service.functions_service import FunctionsService
