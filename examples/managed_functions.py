@@ -31,7 +31,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
                                            description="my first try",
                                            language=FunctionLanguage.FLUX,
                                            org_id=org.id,
-                                           script=f"from(bucket: \"{bucket_name}\") |> range(start: -30d) |> limit(n:2)")
+                                           script=f"from(bucket: params.bucket_name) |> range(start: -30d) |> limit(n:2)")
 
     created_function = functions_service.post_functions(function_create_request=create_request)
     print(created_function)
