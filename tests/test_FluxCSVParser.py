@@ -212,11 +212,38 @@ class FluxCsvParserTest(unittest.TestCase):
             import json
             self.assertEqual(query_output, json.dumps(tables, cls=FluxStructureEncoder, indent=2))
 
+    def test_pandas_lot_of_columns(self):
+        data_types = ""
+        groups = ""
+        defaults = ""
+        columns = ""
+        values = ""
+        for i in range(0, 200):
+            data_types += f",long"
+            groups += f",false"
+            defaults += f","
+            columns += f",column_{i}"
+            values += f",{i}"
+
+        data = f"#datatype,string,long,string,string,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string{data_types}\n" \
+               f"#group,false,false,true,true,true,true,false,false,true{groups}\n" \
+               f"#default,_result,,,,,,,,{defaults}\n" \
+               f",result,table,_field,_measurement,_start,_stop,_time,_value,tag{columns}\n" \
+               f",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:20:00Z,2,test1{values}\n" \
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame)
+        _dataFrames = list(parser.generator())
+        self.assertEqual(1, _dataFrames.__len__())
+
     @staticmethod
-    def _parse_to_tables(data: str):
-        fp = BytesIO(str.encode(data))
-        _parser = FluxCsvParser(response=HTTPResponse(fp, preload_content=False),
-                                serialization_mode=FluxSerializationMode.tables)
+    def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables):
+        _parser = FluxCsvParserTest._parse(data, serialization_mode)
         list(_parser.generator())
         tables = _parser.tables
         return tables
+
+    @staticmethod
+    def _parse(data, serialization_mode):
+        fp = BytesIO(str.encode(data))
+        return FluxCsvParser(response=HTTPResponse(fp, preload_content=False),
+                             serialization_mode=serialization_mode)
