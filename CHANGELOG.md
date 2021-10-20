@@ -2,8 +2,8 @@
 
 ### Features
 1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add support for write structured data - `NamedTuple`, `Data Classes`
-2. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame] 
-3. [#341](https://github.com/influxdata/influxdb-client-python/pull/341): Add support for handling batch events
+1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame] 
+1. [#341](https://github.com/influxdata/influxdb-client-python/pull/341): Add support for handling batch events
 
 ### Bug Fixes
 1. [#348](https://github.com/influxdata/influxdb-client-python/pull/348): Optimize appending new columns to Pandas DataFrame [DataFrame]
