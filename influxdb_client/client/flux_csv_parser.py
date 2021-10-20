@@ -133,9 +133,8 @@ class FluxCsvParser(object):
                     # Create DataFrame with default values
                     if self._serialization_mode is FluxSerializationMode.dataFrame:
                         from ..extras import pd
-                        self._data_frame = pd.DataFrame(data=[], columns=[], index=None)
-                        for column in table.columns:
-                            self._data_frame[column.label] = column.default_value
+                        labels = list(map(lambda it: it.label, table.columns))
+                        self._data_frame = pd.DataFrame(data=[], columns=labels, index=None)
                         pass
                     continue
 
