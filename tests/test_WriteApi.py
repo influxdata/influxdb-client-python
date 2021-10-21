@@ -343,7 +343,7 @@ class SynchronousWriteTest(BaseTest):
 
         from distutils.version import LooseVersion
         version = self.client.version()
-        if version != 'nightly' and LooseVersion(version) <= LooseVersion("2.0.8"):
+        if 'nightly' not in version and LooseVersion(version) <= LooseVersion("2.0.8"):
             with self.assertRaises(ApiException) as cm:
                 self.write_client.write(bucket.name, record="")
             exception = cm.exception
