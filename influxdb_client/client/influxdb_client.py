@@ -3,10 +3,12 @@
 from __future__ import absolute_import
 
 import configparser
+import logging
 import os
 import base64
+import warnings
 
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService
+from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService, PingService
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
@@ -16,6 +18,9 @@ from influxdb_client.client.query_api import QueryApi, QueryOptions
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
+
+
+logger = logging.getLogger(__name__)
 
 
 class InfluxDBClient(object):
@@ -403,6 +408,7 @@ class InfluxDBClient(object):
 
         :return: HealthCheck
         """
+        warnings.warn("This method is deprecated. Call 'ping()' instead.", DeprecationWarning)
         health_service = HealthService(self.api_client)
 
         try:
@@ -410,6 +416,36 @@ class InfluxDBClient(object):
             return health
         except Exception as e:
             return HealthCheck(name="influxdb", message=str(e), status="fail")
+
+    def ping(self) -> bool:
+        """
+        Return the the status of InfluxDB instance.
+
+        :return: The status of InfluxDB.
+        """
+        ping_service = PingService(self.api_client)
+
+        try:
+            ping_service.get_ping()
+            return True
+        except Exception as ex:
+            logger.error("Unexpected error during /ping: %s", ex)
+            return False
+
+    def version(self) -> str:
+        """
+        Return the version of the connected InfluxDB Server.
+
+        :return: The version of InfluxDB.
+        """
+        ping_service = PingService(self.api_client)
+
+        response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
+        if response is not None and len(response) >= 3:
+            if 'X-Influxdb-Version' in response[2]:
+                return response[2]['X-Influxdb-Version']
+
+        return "unknown"
 
     def ready(self) -> Ready:
         """

@@ -27,6 +27,7 @@ from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
 from influxdb_client.service.notification_rules_service import NotificationRulesService
 from influxdb_client.service.organizations_service import OrganizationsService
+from influxdb_client.service.ping_service import PingService
 from influxdb_client.service.query_service import QueryService
 from influxdb_client.service.ready_service import ReadyService
 from influxdb_client.service.rules_service import RulesService

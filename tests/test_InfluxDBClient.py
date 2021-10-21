@@ -4,9 +4,10 @@ import os
 import threading
 import unittest
 
+from urllib3.exceptions import NewConnectionError
+
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import WriteOptions, WriteType
-
 from tests.base_test import BaseTest
 
 
@@ -36,11 +37,9 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=False)
-        health = self.client.health()
+        ping = self.client.ping()
 
-        self.assertEqual(health.message, 'ready for queries and writes')
-        self.assertEqual(health.status, "pass")
-        self.assertEqual(health.name, "influxdb")
+        self.assertTrue(ping)
 
     def test_certificate_file(self):
         self._start_http_server()
@@ -48,11 +47,9 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=True,
                                      ssl_ca_cert=f'{os.path.dirname(__file__)}/server.pem')
-        health = self.client.health()
+        ping = self.client.ping()
 
-        self.assertEqual(health.message, 'ready for queries and writes')
-        self.assertEqual(health.status, "pass")
-        self.assertEqual(health.name, "influxdb")
+        self.assertTrue(ping)
 
     def test_init_from_ini_file(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
@@ -193,6 +190,27 @@ class InfluxDBClientTestIT(BaseTest):
         self.assertEqual(ready.status, "ready")
         self.assertEqual(1, len(InfluxDBClientTestIT.httpRequest))
         self.assertEqual('Val', InfluxDBClientTestIT.httpRequest[0].headers.get('ProxyHeader'))
+
+    def test_ping(self):
+        ping = self.client.ping()
+        self.assertTrue(ping)
+
+    def test_ping_not_running_instance(self):
+        client_not_running = InfluxDBClient("http://localhost:8099", token="my-token", debug=True)
+        ping = client_not_running.ping()
+        self.assertFalse(ping)
+        client_not_running.close()
+
+    def test_version(self):
+        version = self.client.version()
+        self.assertTrue(len(version) > 0)
+
+    def test_version_not_running_instance(self):
+        client_not_running = InfluxDBClient("http://localhost:8099", token="my-token", debug=True)
+        with self.assertRaises(NewConnectionError) as cm:
+            client_not_running.version()
+
+        client_not_running.close()
 
     def _start_proxy_server(self):
         import http.server

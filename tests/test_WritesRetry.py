@@ -52,7 +52,6 @@ class TestWritesRetry(unittest.TestCase):
         with self.assertRaises(MaxRetryError) as cm:
             retry.increment()
         exception = cm.exception
-        print(exception)
 
         self.assertEqual("max_retry_time exceeded", exception.reason.args[0])
 
