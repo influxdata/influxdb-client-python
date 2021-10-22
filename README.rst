@@ -1146,9 +1146,9 @@ The following forward compatible APIs are available:
 =======================================================  ====================================================================================================  =======
  API                                                     Endpoint                                                                                              Description
 =======================================================  ====================================================================================================  =======
-`query_api.py <influxdb_client/client/query_api.py>`_    `/api/v2/query <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-query-http-endpoint>`_  Query data in InfluxDB 1.8.0+ using the InfluxDB 2.0 API and `Flux <https://docs.influxdata.com/flux/latest/>`_ (endpoint should be enabled by `flux-enabled option <https://docs.influxdata.com/influxdb/v1.8/administration/config/#flux-enabled-false>`_)
-`write_api.py <influxdb_client/client/write_api.py>`_    `/api/v2/write <https://docs.influxdata.com/influxdb/latest/tools/api/#api-v2-write-http-endpoint>`_  Write data to InfluxDB 1.8.0+ using the InfluxDB 2.0 API
-`health() <influxdb_client/client/influxdb_client.py>`_  `/health <https://docs.influxdata.com/influxdb/latest/tools/api/#health-http-endpointt>`_             Check the health of your InfluxDB instance
+`query_api.py <influxdb_client/client/query_api.py>`_    `/api/v2/query <https://docs.influxdata.com/influxdb/v1.8/tools/api/#apiv2query-http-endpoint>`_      Query data in InfluxDB 1.8.0+ using the InfluxDB 2.0 API and `Flux <https://docs.influxdata.com/flux/latest/>`_ (endpoint should be enabled by `flux-enabled option <https://docs.influxdata.com/influxdb/v1.8/administration/config/#flux-enabled-false>`_)
+`write_api.py <influxdb_client/client/write_api.py>`_    `/api/v2/write <https://docs.influxdata.com/influxdb/v1.8/tools/api/#apiv2write-http-endpoint>`_      Write data to InfluxDB 1.8.0+ using the InfluxDB 2.0 API
+`ping() <influxdb_client/client/influxdb_client.py>`_    `/ping <https://docs.influxdata.com/influxdb/v1.8/tools/api/#ping-http-endpoint>`_                    Check the status of your InfluxDB instance
 =======================================================  ====================================================================================================  =======
 
 For detail info see `InfluxDB 1.8 example <examples/influxdb_18_example.py>`_.
