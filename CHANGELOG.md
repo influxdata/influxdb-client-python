@@ -1,4 +1,4 @@
-## 1.22.0 [unreleased]
+## 1.22.0 [2021-10-22]
 
 ### Features
 1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add support for write structured data - `NamedTuple`, `Data Classes`
