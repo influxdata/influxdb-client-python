@@ -339,7 +339,7 @@ class InvocableScriptsService(object):
     def patch_scripts_id(self, script_id, script_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a script.
 
-        Updates properties (`name`, `description`, and `script`) of an invocable script. 
+        Updates properties (`name`, `description`, and `script`) of an invocable script.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_scripts_id(script_id, script_update_request, async_req=True)
@@ -362,7 +362,7 @@ class InvocableScriptsService(object):
     def patch_scripts_id_with_http_info(self, script_id, script_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a script.
 
-        Updates properties (`name`, `description`, and `script`) of an invocable script. 
+        Updates properties (`name`, `description`, and `script`) of an invocable script.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_scripts_id_with_http_info(script_id, script_update_request, async_req=True)
