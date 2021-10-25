@@ -6,6 +6,9 @@
 ### Features
 1. [#352](https://github.com/influxdata/influxdb-client-python/pull/352): Add `PingService` to check status of OSS and Cloud instance
 
+### Documentation
+1. [#344](https://github.com/influxdata/influxdb-client-python/pull/344): Add an example How to use Invocable scripts Cloud API
+
 ## 1.22.0 [2021-10-22]
 
 ### Features
