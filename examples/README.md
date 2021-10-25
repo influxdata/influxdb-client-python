@@ -24,5 +24,5 @@
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
 - [nanosecond_precision.py](nanosecond_precision.py) - How to use nanoseconds precision
-- [managed_functions.py](managed_functions.py) - How to use Cloud Managed Functions
+- [invocable_scripts.py](invocable_scripts.py) - How to use Invocable scripts Cloud API to create custom endpoints that query data
   

@@ -20,8 +20,8 @@ from influxdb_client.service.checks_service import ChecksService
 from influxdb_client.service.dbr_ps_service import DBRPsService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.delete_service import DeleteService
-from influxdb_client.service.functions_service import FunctionsService
 from influxdb_client.service.health_service import HealthService
+from influxdb_client.service.invocable_scripts_service import InvocableScriptsService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
 from influxdb_client.service.notification_rules_service import NotificationRulesService
