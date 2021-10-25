@@ -23,6 +23,7 @@ from influxdb_client.service.dbr_ps_service import DBRPsService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.delete_service import DeleteService
 from influxdb_client.service.health_service import HealthService
+from influxdb_client.service.invocable_scripts_service import InvocableScriptsService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.notification_endpoints_service import NotificationEndpointsService
 from influxdb_client.service.notification_rules_service import NotificationRulesService
@@ -233,6 +234,12 @@ from influxdb_client.domain.schema_type import SchemaType
 from influxdb_client.domain.scraper_target_request import ScraperTargetRequest
 from influxdb_client.domain.scraper_target_response import ScraperTargetResponse
 from influxdb_client.domain.scraper_target_responses import ScraperTargetResponses
+from influxdb_client.domain.script import Script
+from influxdb_client.domain.script_create_request import ScriptCreateRequest
+from influxdb_client.domain.script_invocation_params import ScriptInvocationParams
+from influxdb_client.domain.script_language import ScriptLanguage
+from influxdb_client.domain.script_update_request import ScriptUpdateRequest
+from influxdb_client.domain.scripts import Scripts
 from influxdb_client.domain.secret_keys import SecretKeys
 from influxdb_client.domain.secret_keys_response import SecretKeysResponse
 from influxdb_client.domain.single_stat_view_properties import SingleStatViewProperties
