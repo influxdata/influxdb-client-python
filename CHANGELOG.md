@@ -1,4 +1,4 @@
-## 1.23.0 [unreleased]
+## 1.23.0 [2021-10-26]
 
 ### Deprecates
  - `InfluxDBClient.health()`: instead use `InfluxDBClient.ping()`
