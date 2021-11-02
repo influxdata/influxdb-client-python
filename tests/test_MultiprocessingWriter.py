@@ -66,7 +66,6 @@ class MultiprocessingWriterTest(unittest.TestCase):
 
         # write data
         with MultiprocessingWriter(url=self.url, token=self.token, org=self.org, write_options=SYNCHRONOUS) as writer:
-            print(f"write: {os.getpid()}")
             writer.write(bucket="my-bucket", record=f"mem_{unique},tag=a value=5i 10", write_precision=WritePrecision.S)
 
         # query data

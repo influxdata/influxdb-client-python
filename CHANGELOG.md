@@ -5,6 +5,7 @@
    - `BucketsApi` - add possibility to: `update`
    - `OrganizationsApi` - add possibility to: `update`
    - `UsersApi` - add possibility to: `update`, `delete`, `find`
+1. [#356](https://github.com/influxdata/influxdb-client-python/pull/356): Add `MultiprocessingWriter` to write data in independent OS process
 
 ### Bug Fixes
 1. [#359](https://github.com/influxdata/influxdb-client-python/pull/359): Correct serialization empty columns into LineProtocol [DataFrame]
