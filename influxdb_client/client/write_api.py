@@ -565,4 +565,9 @@ class WriteApi:
         """Set your object with the provided dict."""
         self.__dict__.update(state)
         # Init Rx
-        self.__init__(self._influxdb_client, self._write_options, self._point_settings)
+        self.__init__(self._influxdb_client,
+                      self._write_options,
+                      self._point_settings,
+                      success_callback=self._success_callback,
+                      error_callback=self._error_callback,
+                      retry_callback=self._retry_callback)
