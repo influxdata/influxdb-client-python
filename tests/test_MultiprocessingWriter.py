@@ -3,16 +3,9 @@ import unittest
 from datetime import datetime
 
 from influxdb_client import WritePrecision, InfluxDBClient
-from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.multiprocessing_helper import MultiprocessingWriter
 from influxdb_client.client.write_api import SYNCHRONOUS
-
-
-# noinspection PyUnusedLocal
-def _error_callback(conf: (str, str, str), data: str, error: InfluxDBError):
-    with open("test_MultiprocessingWriter.txt", "w+") as file:
-        file.write(error.message)
 
 
 # noinspection PyMethodMayBeStatic
@@ -23,8 +16,6 @@ class MultiprocessingWriterTest(unittest.TestCase):
         self.token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         self.org = os.getenv('INFLUXDB_V2_ORG', "my-org")
         self.writer = None
-        if os.path.exists("test_MultiprocessingWriter.txt"):
-            os.remove("test_MultiprocessingWriter.txt")
 
     def tearDown(self) -> None:
         if self.writer:
@@ -79,10 +70,3 @@ class MultiprocessingWriterTest(unittest.TestCase):
             self.assertEqual("a", record["tag"])
             self.assertEqual(5, record["_value"])
             self.assertEqual(get_date_helper().to_utc(datetime.utcfromtimestamp(10)), record["_time"])
-
-    def test_wrong_configuration(self):
-
-        with MultiprocessingWriter(url=self.url, token="ddd", org=self.org, error_callback=_error_callback) as writer:
-            writer.write(bucket="my-bucket", record=f"mem,tag=a value=5i 10", write_precision=WritePrecision.S)
-
-        self.assertTrue(os.path.exists("test_MultiprocessingWriter.txt"))

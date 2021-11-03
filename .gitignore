@@ -47,7 +47,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 influxdb2_test/*.csv
-tests/test_MultiprocessingWriter.txt
 
 # Translations
 *.mo
