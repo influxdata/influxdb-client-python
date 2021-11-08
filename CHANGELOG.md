@@ -1,5 +1,8 @@
 ## 1.24.0 [unreleased]
 
+### Features
+1. [#358](https://github.com/influxdata/influxdb-client-python/pull/358): Add possibility to update `Bucket` from API
+
 ## 1.23.0 [2021-10-26]
 
 ### Deprecates
