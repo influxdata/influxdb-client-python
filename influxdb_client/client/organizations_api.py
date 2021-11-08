@@ -4,8 +4,7 @@ An organization is a workspace for a group of users.
 All dashboards, tasks, buckets, members, etc., belong to an organization.
 """
 
-
-from influxdb_client import OrganizationsService, UsersService, Organization
+from influxdb_client import OrganizationsService, UsersService, Organization, PatchOrganizationRequest
 
 
 class OrganizationsApi(object):
@@ -44,6 +43,17 @@ class OrganizationsApi(object):
         if organization is None:
             organization = Organization(name=name)
         return self._organizations_service.post_orgs(post_organization_request=organization)
+
+    def update_organization(self, organization: Organization) -> Organization:
+        """Update an organization.
+
+        :param organization: Organization update to apply (required)
+        :return: Organization
+        """
+        request = PatchOrganizationRequest(name=organization.name,
+                                           description=organization.description)
+
+        return self._organizations_service.patch_orgs_id(org_id=organization.id, patch_organization_request=request)
 
     def delete_organization(self, org_id: str):
         """Delete an organization."""

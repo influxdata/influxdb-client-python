@@ -58,7 +58,7 @@ class BucketsApi(object):
 
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
-    def update_bucket(self, bucket: Bucket):
+    def update_bucket(self, bucket: Bucket) -> Bucket:
         """Update a bucket.
 
         :param bucket: Bucket update to apply (required)
