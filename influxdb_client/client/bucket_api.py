@@ -6,7 +6,7 @@ A bucket belongs to an organization.
 """
 import warnings
 
-from influxdb_client import BucketsService, Bucket, PostBucketRequest
+from influxdb_client import BucketsService, Bucket, PostBucketRequest, PatchBucketRequest
 from influxdb_client.client.util.helpers import get_org_query_param
 
 
@@ -58,13 +58,23 @@ class BucketsApi(object):
 
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
+    def update_bucket(self, bucket: Bucket):
+        """Update a bucket.
+
+        :param bucket: Bucket update to apply (required)
+        :return: Bucket
+        """
+        request = PatchBucketRequest(name=bucket.name,
+                                     description=bucket.description,
+                                     retention_rules=bucket.retention_rules)
+
+        return self._buckets_service.patch_buckets_id(bucket_id=bucket.id, patch_bucket_request=request)
+
     def delete_bucket(self, bucket):
         """Delete a bucket.
 
         :param bucket: bucket id or Bucket
         :return: Bucket
-                 If the method is called asynchronously,
-                 returns the request thread.
         """
         if isinstance(bucket, Bucket):
             bucket_id = bucket.id

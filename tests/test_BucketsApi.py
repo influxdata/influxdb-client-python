@@ -103,6 +103,18 @@ class BucketsClientTest(BaseTest):
         buckets = self.buckets_api.find_buckets(limit=1).buckets
         self.assertEqual(1, len(buckets))
 
+    def test_update_bucket(self):
+        my_org = self.find_my_org()
+
+        bucket = self.buckets_api.create_bucket(bucket_name=generate_bucket_name(),
+                                                org=my_org,
+                                                description="my description")
+        self.assertEqual("my description", bucket.description)
+
+        bucket.description = "updated description"
+        self.buckets_api.update_bucket(bucket=bucket)
+        self.assertEqual("updated description", bucket.description)
+
 
 if __name__ == '__main__':
     unittest.main()
