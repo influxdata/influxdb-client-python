@@ -180,7 +180,9 @@ class DataframeSerializer:
                 field_value = f'{sep}{key_format}={{{val_format}}}'
             elif issubclass(value.type, np.floating):
                 if null_columns[index]:
-                    field_value = f"""{{"{_EMPTY_EXPRESSION}" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"}}"""
+                    field_value = f"""{{
+                    "{_EMPTY_EXPRESSION}" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"
+                    }}"""
                 else:
                     field_value = f'{sep}{key_format}={{{val_format}}}'
             else:
