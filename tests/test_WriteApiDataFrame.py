@@ -1,6 +1,7 @@
 import time
 import unittest
 from datetime import timedelta
+from io import StringIO
 
 from influxdb_client import InfluxDBClient, WriteOptions, WriteApi, WritePrecision
 from influxdb_client.client.write.dataframe_serializer import data_frame_to_list_of_points, DataframeSerializer
@@ -373,6 +374,27 @@ class DataSerializerTest(unittest.TestCase):
                                                   precision=precision[0])
             self.assertEqual(1, len(points))
             self.assertEqual(f"h2o level=15i {precision[1]}", points[0])
+
+    def test_serialize_strings_with_commas(self):
+        from influxdb_client.extras import pd
+
+        csv = StringIO("""sep=;
+Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Note;Recurring;
+"01.10.2018";"Expense";"-1,00";"EUR";"Testcategory";"";"Testaccount";"";"";"This, works";"no";
+"02.10.2018";"Expense";"-1,00";"EUR";"Testcategory";"";"Testaccount";"";"";"This , works not";"no";
+""")
+        data_frame = pd.read_csv(csv, sep=";", skiprows=1, decimal=",", encoding="utf-8")
+        data_frame['Date'] = pd.to_datetime(data_frame['Date'], format="%d.%m.%Y")
+        data_frame.set_index('Date', inplace=True)
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="bookings",
+                                              data_frame_tag_columns=['Entry Type', 'Category', 'Person', 'Account'],
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual("bookings,Account=Testaccount,Category=Testcategory,Entry\\ Type=Expense Currencs=\"EUR\",Note=\"This, works\",Recurring=\"no\",Value=-1.0 1538352000000000000", points[0])
+        self.assertEqual("bookings,Account=Testaccount,Category=Testcategory,Entry\\ Type=Expense Currencs=\"EUR\",Note=\"This , works not\",Recurring=\"no\",Value=-1.0 1538438400000000000", points[1])
 
 
 class DataSerializerChunksTest(unittest.TestCase):
