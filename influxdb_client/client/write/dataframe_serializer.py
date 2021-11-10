@@ -160,9 +160,9 @@ class DataframeSerializer:
                 # This column is a tag column.
                 if null_columns[index]:
                     key_value = f"""{{
-                            '' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
+                            '{_EMPTY_EXPRESSION}' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
                             f',{key_format}={{str({val_format}).translate(_ESCAPE_STRING)}}'
-                        }}"""
+                        }}"""  # noqa: E501
                 else:
                     key_value = f',{key_format}={{str({val_format}).translate(_ESCAPE_KEY)}}'
                 tags.append(key_value)
