@@ -160,9 +160,9 @@ class DataframeSerializer:
                 # This column is a tag column.
                 if null_columns[index]:
                     key_value = f"""{{
-                            '{_EMPTY_EXPRESSION}' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
+                            '' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
                             f',{key_format}={{str({val_format}).translate(_ESCAPE_STRING)}}'
-                        }}"""  # noqa: E501
+                        }}"""
                 else:
                     key_value = f',{key_format}={{str({val_format}).translate(_ESCAPE_KEY)}}'
                 tags.append(key_value)
@@ -181,14 +181,14 @@ class DataframeSerializer:
             elif issubclass(value.type, np.floating):
                 if null_columns[index]:
                     field_value = f"""{{
-                    "{_EMPTY_EXPRESSION}" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"
+                    "{sep}{_EMPTY_EXPRESSION}" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"
                     }}"""
                 else:
                     field_value = f'{sep}{key_format}={{{val_format}}}'
             else:
                 if null_columns[index]:
                     field_value = f"""{{
-                            '{_EMPTY_EXPRESSION}' if type({val_format}) == float and math.isnan({val_format}) else
+                            '{sep}{_EMPTY_EXPRESSION}' if type({val_format}) == float and math.isnan({val_format}) else
                             f'{sep}{key_format}="{{str({val_format}).translate(_ESCAPE_STRING)}}"'
                         }}"""
                 else:
@@ -249,7 +249,7 @@ class DataframeSerializer:
         if self.first_field_maybe_null:
             # When the first field is null (None/NaN), we'll have
             # a spurious leading comma which needs to be removed.
-            lp = (re.sub(f"{_EMPTY_EXPRESSION},|{_EMPTY_EXPRESSION}", '', self.f(p))
+            lp = (re.sub(f",{_EMPTY_EXPRESSION}|{_EMPTY_EXPRESSION},|{_EMPTY_EXPRESSION}", '', self.f(p))
                   for p in filter(lambda x: _any_not_nan(x, self.field_indexes), _itertuples(chunk)))
             return list(lp)
         else:
