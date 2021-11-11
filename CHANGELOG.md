@@ -6,6 +6,9 @@
    - `OrganizationsApi` - add possibility to: `update`
    - `UsersApi` - add possibility to: `update`, `delete`, `find`
 
+### Bug Fixes
+1. [#359](https://github.com/influxdata/influxdb-client-python/pull/359): Correct serialization empty columns into LineProtocol [DataFrame]
+
 ## 1.23.0 [2021-10-26]
 
 ### Deprecates
