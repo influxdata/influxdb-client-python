@@ -25,6 +25,14 @@ with InfluxDBClient(url=url, token=token) as client:
     print(created_bucket)
 
     """
+    Update Bucket
+    """
+    print(f"------- Update -------\n")
+    created_bucket.description = "Update description"
+    created_bucket = buckets_api.update_bucket(bucket=created_bucket)
+    print(created_bucket)
+
+    """
     List all Buckets
     """
     print(f"\n------- List -------\n")
@@ -39,4 +47,3 @@ with InfluxDBClient(url=url, token=token) as client:
     print(f"------- Delete -------\n")
     buckets_api.delete_bucket(created_bucket)
     print(f" successfully deleted bucket: {created_bucket.name}")
-

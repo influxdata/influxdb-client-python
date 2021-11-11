@@ -11,7 +11,11 @@ current_milli_time = lambda: int(round(time.time() * 1000))
 
 
 def generate_bucket_name():
-    return "test_bucket_" + str(datetime.datetime.now().timestamp()) + "_IT"
+    return generate_name(key="bucket")
+
+
+def generate_name(key: str):
+    return f"test_{key}_" + str(datetime.datetime.now().timestamp()) + "_IT"
 
 
 class BaseTest(unittest.TestCase):
