@@ -12,9 +12,14 @@ class InfluxDBError(Exception):
 
     def __init__(self, response: HTTPResponse):
         """Initialize the InfluxDBError handler."""
-        self.response = response
-        self.message = self._get_message(response)
-        self.retry_after = response.getheader('Retry-After')
+        if response is not None:
+            self.response = response
+            self.message = self._get_message(response)
+            self.retry_after = response.getheader('Retry-After')
+        else:
+            self.response = None
+            self.message = 'response unavailable'
+            self.retry_after = None
         super().__init__(self.message)
 
     def _get_message(self, response):
