@@ -69,3 +69,15 @@ DeleteApi
 
 .. autoclass:: influxdb_client.domain.DeletePredicateRequest
    :members:
+
+Helpers
+"""""""
+.. autoclass:: influxdb_client.client.util.date_utils.DateHelper
+   :members:
+
+.. autoclass:: influxdb_client.client.util.date_utils_pandas.PandasDateTimeHelper
+   :members:
+
+.. autoclass:: influxdb_client.client.util.multiprocessing_helper.MultiprocessingWriter
+   :members:
+
