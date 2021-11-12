@@ -49,6 +49,6 @@ class TestInfluxDBError(unittest.TestCase):
 
     def test_no_response(self):
         influx_db_error = InfluxDBError(response=None)
-        self.assertEqual("response unavailable", str(influx_db_error))
+        self.assertEqual("no response", str(influx_db_error))
         self.assertIsNone(influx_db_error.response)
         self.assertIsNone(influx_db_error.retry_after)
