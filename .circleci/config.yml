@@ -180,6 +180,9 @@ workflows:
       - tests-python:
           name: test-3.9
           python-image: "cimg/python:3.9"
+      - tests-python:
+          name: test-3.10
+          python-image: "cimg/python:3.10"
 
   nightly:
     triggers:
