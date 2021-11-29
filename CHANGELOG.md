@@ -1,5 +1,7 @@
 ## 1.25.0 [unreleased]
 
+### CI
+1. [#54](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
 ## 1.24.0 [2021-11-26]
 
 ### Features
