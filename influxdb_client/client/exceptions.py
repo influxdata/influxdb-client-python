@@ -18,7 +18,7 @@ class InfluxDBError(Exception):
             self.retry_after = response.getheader('Retry-After')
         else:
             self.response = None
-            self.message = 'response unavailable'
+            self.message = 'no response'
             self.retry_after = None
         super().__init__(self.message)
 
