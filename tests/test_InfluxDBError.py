@@ -46,3 +46,9 @@ class TestInfluxDBError(unittest.TestCase):
         influx_db_error = InfluxDBError(response=HTTPResponse(reason="too many requests"))
         self.assertEqual("too many requests", str(influx_db_error))
         self.assertEqual(None, influx_db_error.retry_after)
+
+    def test_no_response(self):
+        influx_db_error = InfluxDBError(response=None)
+        self.assertEqual("no response", str(influx_db_error))
+        self.assertIsNone(influx_db_error.response)
+        self.assertIsNone(influx_db_error.retry_after)
