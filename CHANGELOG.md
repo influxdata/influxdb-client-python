@@ -1,7 +1,11 @@
 ## 1.25.0 [unreleased]
 
+### Bug Fixes
+1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response 
+
 ### CI
-1. [#54](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
+1. [#370](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
+
 ## 1.24.0 [2021-11-26]
 
 ### Features
