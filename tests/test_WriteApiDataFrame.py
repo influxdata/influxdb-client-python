@@ -396,6 +396,23 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         self.assertEqual("bookings,Account=Testaccount,Category=Testcategory,Entry\\ Type=Expense Currencs=\"EUR\",Note=\"This, works\",Recurring=\"no\",Value=-1.0 1538352000000000000", points[0])
         self.assertEqual("bookings,Account=Testaccount,Category=Testcategory,Entry\\ Type=Expense Currencs=\"EUR\",Note=\"This , works not\",Recurring=\"no\",Value=-1.0 1538438400000000000", points[1])
 
+    def test_without_tags_and_fields_with_nan(self):
+        from influxdb_client.extras import pd, np
+
+        df = pd.DataFrame({
+            'a': np.arange(0., 3.),
+            'b': [0., np.nan, 1.],
+        }).set_index(pd.to_datetime(['2021-01-01 0:00', '2021-01-01 0:01', '2021-01-01 0:02']))
+
+        points = data_frame_to_list_of_points(data_frame=df,
+                                              data_frame_measurement_name="test",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(3, len(points))
+        self.assertEqual("test a=0.0,b=0.0 1609459200000000000", points[0])
+        self.assertEqual("test a=1.0 1609459260000000000", points[1])
+        self.assertEqual("test a=2.0,b=1.0 1609459320000000000", points[2])
+
 
 class DataSerializerChunksTest(unittest.TestCase):
     def test_chunks(self):

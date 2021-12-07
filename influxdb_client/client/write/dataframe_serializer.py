@@ -27,9 +27,6 @@ def _any_not_nan(p, indexes):
     return any(map(lambda x: _not_nan(p[x]), indexes))
 
 
-_EMPTY_EXPRESSION = "_EMPTY_LINE_PROTOCOL_PART_"
-
-
 class DataframeSerializer:
     """Serialize DataFrame into LineProtocols."""
 
@@ -180,15 +177,13 @@ class DataframeSerializer:
                 field_value = f'{sep}{key_format}={{{val_format}}}'
             elif issubclass(value.type, np.floating):
                 if null_columns[index]:
-                    field_value = f"""{{
-                    "{sep}{_EMPTY_EXPRESSION}" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"
-                    }}"""
+                    field_value = f"""{{"" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"}}"""
                 else:
                     field_value = f'{sep}{key_format}={{{val_format}}}'
             else:
                 if null_columns[index]:
                     field_value = f"""{{
-                            '{sep}{_EMPTY_EXPRESSION}' if type({val_format}) == float and math.isnan({val_format}) else
+                            '' if type({val_format}) == float and math.isnan({val_format}) else
                             f'{sep}{key_format}="{{str({val_format}).translate(_ESCAPE_STRING)}}"'
                         }}"""
                 else:
@@ -249,7 +244,7 @@ class DataframeSerializer:
         if self.first_field_maybe_null:
             # When the first field is null (None/NaN), we'll have
             # a spurious leading comma which needs to be removed.
-            lp = (re.sub(f",{_EMPTY_EXPRESSION}|{_EMPTY_EXPRESSION},|{_EMPTY_EXPRESSION}", '', self.f(p))
+            lp = (re.sub('^(( |[^ ])* ),([a-zA-Z])(.*)', '\\1\\3\\4', self.f(p))
                   for p in filter(lambda x: _any_not_nan(x, self.field_indexes), _itertuples(chunk)))
             return list(lp)
         else:
