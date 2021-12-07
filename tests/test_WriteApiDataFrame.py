@@ -408,8 +408,10 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
                                               data_frame_measurement_name="test",
                                               point_settings=PointSettings())
 
+        self.assertEqual(3, len(points))
         self.assertEqual("test a=0.0,b=0.0 1609459200000000000", points[0])
         self.assertEqual("test a=1.0 1609459260000000000", points[1])
+        self.assertEqual("test a=2.0,b=1.0 1609459320000000000", points[2])
 
 
 class DataSerializerChunksTest(unittest.TestCase):
