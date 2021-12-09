@@ -235,6 +235,29 @@ class FluxCsvParserTest(unittest.TestCase):
         _dataFrames = list(parser.generator())
         self.assertEqual(1, _dataFrames.__len__())
 
+    def test_pandas_column_datatype(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,unsignedLong,string,boolean,double\n" \
+               "#group,false,false,true,true,true,true,true,true,false,false,false,false,false\n" \
+               "#default,_result,,,,,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value1,value2,value3,value4,value5\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test,true,6.56\n"
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame)
+        df = list(parser.generator())[0]
+        self.assertEqual(13, df.dtypes.__len__())
+        self.assertEqual('object', df.dtypes['result'].name)
+        self.assertEqual('int64', df.dtypes['table'].name)
+        self.assertEqual('datetime64[ns, UTC]', df.dtypes['_start'].name)
+        self.assertEqual('datetime64[ns, UTC]', df.dtypes['_stop'].name)
+        self.assertEqual('object', df.dtypes['_field'].name)
+        self.assertEqual('object', df.dtypes['_measurement'].name)
+        self.assertEqual('object', df.dtypes['host'].name)
+        self.assertEqual('object', df.dtypes['region'].name)
+        self.assertEqual('int64', df.dtypes['value1'].name)
+        self.assertEqual('int64', df.dtypes['value2'].name)
+        self.assertEqual('object', df.dtypes['value3'].name)
+        self.assertEqual('bool', df.dtypes['value4'].name)
+        self.assertEqual('float64', df.dtypes['value5'].name)
+
     @staticmethod
     def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables):
         _parser = FluxCsvParserTest._parse(data, serialization_mode)

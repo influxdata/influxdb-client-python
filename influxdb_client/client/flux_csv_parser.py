@@ -9,9 +9,8 @@ from typing import List
 
 from urllib3 import HTTPResponse
 
-from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
-
+from influxdb_client.client.util.date_utils import get_date_helper
 
 ANNOTATION_DEFAULT = "#default"
 ANNOTATION_GROUP = "#group"
@@ -187,7 +186,7 @@ class FluxCsvParser(object):
             _temp_df = _temp_df.set_index(self._data_frame_index)
 
         # Append data
-        return self._data_frame.append(_temp_df)
+        return self._data_frame.astype(_temp_df.dtypes).append(_temp_df)
 
     def parse_record(self, table_index, table, csv):
         """Parse one record."""
