@@ -161,7 +161,7 @@ class RESTClientObject(object):
         timeout = None
         _configured_timeout = _request_timeout or self.configuration.timeout
         if _configured_timeout:
-            if isinstance(_configured_timeout, (int, ) if six.PY3 else (int, long)):  # noqa: E501,F821
+            if isinstance(_configured_timeout, (int, float, ) if six.PY3 else (int, long, float, )):  # noqa: E501,F821
                 timeout = urllib3.Timeout(total=_configured_timeout / 1_000)
             elif (isinstance(_configured_timeout, tuple) and
                   len(_configured_timeout) == 2):
