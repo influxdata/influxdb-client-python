@@ -4,10 +4,11 @@ import os
 import threading
 import unittest
 
-from urllib3.exceptions import NewConnectionError
+import pytest
+from urllib3.exceptions import NewConnectionError, HTTPError
 
 from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.write_api import WriteOptions, WriteType
+from influxdb_client.client.write_api import WriteOptions, WriteType, SYNCHRONOUS
 from tests.base_test import BaseTest
 
 
@@ -165,6 +166,14 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.assertIsNone(api_client._pool)
         self.assertIsNone(self.client.api_client)
+
+    def test_timeout_as_float(self):
+        self.client = InfluxDBClient(url="http://localhost:8088", token="my-token", org="my-org", timeout=1000.5)
+        self.assertEqual(1000.5, self.client.api_client.configuration.timeout)
+        with pytest.raises(HTTPError) as e:
+            write_api = self.client.write_api(write_options=SYNCHRONOUS)
+            write_api.write(bucket="my-bucket", org="my-org", record="mem,tag=a value=1")
+        self.assertIn("Failed to establish a new connection", str(e.value))
 
 
 class InfluxDBClientTestIT(BaseTest):
