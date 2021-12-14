@@ -131,7 +131,8 @@ class QueryApi(object):
         """
         Execute synchronous Flux query and return Pandas DataFrame.
 
-        Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+        Note that if a query returns tables with differing schemas than the client generates
+        a DataFrame for each of them.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
@@ -157,7 +158,8 @@ class QueryApi(object):
         """
         Execute synchronous Flux query and return stream of Pandas DataFrame as a Generator['pd.DataFrame'].
 
-        Note that if a query returns more then one table than the client generates a DataFrame for each of them.
+        Note that if a query returns tables with differing schemas than the client generates
+        a DataFrame for each of them.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
