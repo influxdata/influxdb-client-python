@@ -429,7 +429,7 @@ class InfluxDBClient(object):
             ping_service.get_ping()
             return True
         except Exception as ex:
-            logger.error("Unexpected error during /ping: %s", ex)
+            logger.debug("Unexpected error during /ping: %s", ex)
             return False
 
     def version(self) -> str:
