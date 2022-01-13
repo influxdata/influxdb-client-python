@@ -2,10 +2,13 @@
 
 ### Bug Fixes
 1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response 
-1. [#378](https://github.com/influxdata/influxdb-client-python/pull/378): Correct serialization DataFrame with nan values [DataFrame]
-1. [#384](https://github.com/influxdata/influxdb-client-python/pull/384): Timeout can be specified as a `float`
-1. [#380](https://github.com/influxdata/influxdb-client-python/pull/380): Correct data types for querying [DataFrame]
-1. [#391](https://github.com/influxdata/influxdb-client-python/pull/391): Ping function uses debug for log 
+2. [#378](https://github.com/influxdata/influxdb-client-python/pull/378): Correct serialization DataFrame with nan values [DataFrame]
+3. [#384](https://github.com/influxdata/influxdb-client-python/pull/384): Timeout can be specified as a `float`
+4. [#380](https://github.com/influxdata/influxdb-client-python/pull/380): Correct data types for querying [DataFrame]
+5. [#391](https://github.com/influxdata/influxdb-client-python/pull/391): Ping function uses debug for log
+
+### Features
+1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers:
 
 ### CI
 1. [#370](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
