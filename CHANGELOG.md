@@ -8,7 +8,7 @@
 5. [#391](https://github.com/influxdata/influxdb-client-python/pull/391): Ping function uses debug for log
 
 ### Features
-1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers:
+1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers with example and test
 
 ### CI
 1. [#370](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
