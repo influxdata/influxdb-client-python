@@ -104,7 +104,7 @@ class QueryApi(object):
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
-                                query_options=self._query_options)
+                                query_options=self._get_query_options())
 
         list(_parser.generator())
 
@@ -126,7 +126,7 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
-                                query_options=self._query_options)
+                                query_options=self._get_query_options())
 
         return _parser.generator()
 
@@ -179,17 +179,18 @@ class QueryApi(object):
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
                                 data_frame_index=data_frame_index,
-                                query_options=self._query_options)
+                                query_options=self._get_query_options())
         return _parser.generator()
 
-    def _profilers(self):
+    def _get_query_options(self):
         if self._query_options and self._query_options.profilers:
-            return self._query_options.profilers
-        else:
-            return self._influxdb_client.profilers
+            return self._query_options
+        elif self._influxdb_client.profilers:
+            return QueryOptions(profilers=self._influxdb_client.profilers)
 
     def _create_query(self, query, dialect=default_dialect, params: dict = None):
-        profilers = self._profilers()
+        query_options = self._get_query_options()
+        profilers = query_options.profilers if query_options is not None else None
         q = Query(query=query, dialect=dialect, extern=QueryApi._build_flux_ast(params, profilers))
 
         if profilers:
