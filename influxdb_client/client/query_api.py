@@ -17,18 +17,21 @@ from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializat
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
+from typing import Callable
 
 
 class QueryOptions(object):
     """Query options."""
 
-    def __init__(self, profilers: List[str] = None) -> None:
+    def __init__(self, profilers: List[str] = None, profiler_callback: Callable = None) -> None:
         """
         Initialize query options.
 
         :param profilers: list of enabled flux profilers
+        :param profiler_callback: callback function return profilers (FluxRecord)
         """
         self.profilers = profilers
+        self.profiler_callback = profiler_callback
 
 
 class QueryApi(object):
@@ -101,7 +104,7 @@ class QueryApi(object):
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
-                                profilers=self._profilers())
+                                query_options=self._query_options)
 
         list(_parser.generator())
 
@@ -123,7 +126,7 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
-                                profilers=self._profilers())
+                                query_options=self._query_options)
 
         return _parser.generator()
 
@@ -176,7 +179,7 @@ class QueryApi(object):
 
         _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
                                 data_frame_index=data_frame_index,
-                                profilers=self._profilers())
+                                query_options=self._query_options)
         return _parser.generator()
 
     def _profilers(self):
