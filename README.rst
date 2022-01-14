@@ -337,7 +337,7 @@ Example of a profiler output:
     DurationSum         : 940500
     MeanDuration        : 940500.0
 
-You can also use callback function to get profilers.
+You can also use callback function to get profilers output.
 Return value of this callback is type of FluxRecord.
 
 Example how to use profilers with callback:
