@@ -1,5 +1,4 @@
 from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.flux_table import FluxRecord
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.write_api import SYNCHRONOUS
 

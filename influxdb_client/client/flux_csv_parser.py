@@ -45,7 +45,7 @@ class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
-                 data_frame_index: List[str] = None, query_options: object = None) -> None:
+                 data_frame_index: List[str] = None, query_options=None) -> None:
         """Initialize defaults."""
         self._response = response
         self.tables = []

@@ -337,6 +337,36 @@ Example of a profiler output:
     DurationSum         : 940500
     MeanDuration        : 940500.0
 
+You can also use callback function to get profilers.
+Return value of this callback is type of FluxRecord.
+
+Example how to use profilers with callback:
+
+.. code-block:: python
+
+     class ProfilersCallback(object):
+        def __init__(self):
+            self.records = []
+
+        def __call__(self, flux_record):
+            self.records.append(flux_record.values)
+
+    callback = ProfilersCallback()
+
+    query_api = client.query_api(query_options=QueryOptions(profilers=["query", "operator"], profiler_callback=callback))
+    tables = query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+    for profiler in callback.records:
+        print(f'Custom processing of profiler result: {profiler}')
+
+Example output of this callback:
+
+.. code-block::
+
+    Custom processing of profiler result: {'result': '_profiler', 'table': 0, '_measurement': 'profiler/query', 'TotalDuration': 18843792, 'CompileDuration': 1078666, 'QueueDuration': 93375, 'PlanDuration': 0, 'RequeueDuration': 0, 'ExecuteDuration': 17371000, 'Concurrency': 0, 'MaxAllocated': 448, 'TotalAllocated': 0, 'RuntimeErrors': None, 'flux/query-plan': 'digraph {\r\n  ReadRange2\r\n  generated_yield\r\n\r\n  ReadRange2 -> generated_yield\r\n}\r\n\r\n', 'influxdb/scanned-bytes': 0, 'influxdb/scanned-values': 0}
+    Custom processing of profiler result: {'result': '_profiler', 'table': 1, '_measurement': 'profiler/operator', 'Type': '*influxdb.readFilterSource', 'Label': 'ReadRange2', 'Count': 1, 'MinDuration': 3274084, 'MaxDuration': 3274084, 'DurationSum': 3274084, 'MeanDuration': 3274084.0}
+
+
 .. marker-index-end
 
 
