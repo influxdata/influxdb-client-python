@@ -45,14 +45,15 @@ class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
-                 data_frame_index: List[str] = None, profilers: List[str] = None) -> None:
+                 data_frame_index: List[str] = None, query_options=None) -> None:
         """Initialize defaults."""
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
-        self._profilers = profilers
+        self._profilers = query_options.profilers if query_options is not None else None
+        self._profiler_callback = query_options.profiler_callback if query_options is not None else None
         pass
 
     def __enter__(self):
@@ -289,16 +290,18 @@ class FluxCsvParser(object):
         else:
             return list(filter(lambda table: not self._is_profiler_table(table), self.tables))
 
-    @staticmethod
-    def _print_profiler_info(flux_record: FluxRecord):
+    def _print_profiler_info(self, flux_record: FluxRecord):
         if flux_record.get_measurement().startswith("profiler/"):
-            msg = "Profiler: " + flux_record.get_measurement()
-            print("\n" + len(msg) * "=")
-            print(msg)
-            print(len(msg) * "=")
-            for name in flux_record.values:
-                val = flux_record[name]
-                if isinstance(val, str) and len(val) > 50:
-                    print(f"{name:<20}: \n\n{val}")
-                elif val is not None:
-                    print(f"{name:<20}: {val:<20}")
+            if self._profiler_callback:
+                self._profiler_callback(flux_record)
+            else:
+                msg = "Profiler: " + flux_record.get_measurement()
+                print("\n" + len(msg) * "=")
+                print(msg)
+                print(len(msg) * "=")
+                for name in flux_record.values:
+                    val = flux_record[name]
+                    if isinstance(val, str) and len(val) > 50:
+                        print(f"{name:<20}: \n\n{val}")
+                    elif val is not None:
+                        print(f"{name:<20}: {val:<20}")

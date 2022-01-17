@@ -376,6 +376,27 @@ class SimpleQueryTest(BaseTest):
                 print(f"Profiler record: {flux_record}")
         self.assertTrue(found_profiler_records)
 
+    def test_profilers_callback(self):
+
+        class ProfilersCallback(object):
+            def __init__(self):
+                self.records = []
+
+            def __call__(self, flux_record):
+                self.records.append(flux_record.values)
+
+            def get_record(self, num, val):
+                return (self.records[num])[val]
+
+        callback = ProfilersCallback()
+
+        query_api = self.client.query_api(query_options=QueryOptions(profilers=["query", "operator"],
+                                                                     profiler_callback=callback))
+        query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+        self.assertEqual("profiler/query", callback.get_record(0, "_measurement"))
+        self.assertEqual("profiler/operator", callback.get_record(1, "_measurement"))
+
     def test_profiler_ast(self):
 
         expect = {
