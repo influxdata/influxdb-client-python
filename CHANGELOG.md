@@ -1,5 +1,8 @@
 ## 1.25.0 [unreleased]
 
+### Features
+1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers output with example and test
+
 ### Bug Fixes
 1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response 
 1. [#378](https://github.com/influxdata/influxdb-client-python/pull/378): Correct serialization DataFrame with nan values [DataFrame]
@@ -7,8 +10,8 @@
 1. [#380](https://github.com/influxdata/influxdb-client-python/pull/380): Correct data types for querying [DataFrame]
 1. [#391](https://github.com/influxdata/influxdb-client-python/pull/391): Ping function uses debug for log
 
-### Features
-1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers output with example and test
+### Documentation
+1. [#395](https://github.com/influxdata/influxdb-client-python/pull/395): Add an example How to use create a Task by API
 
 ### CI
 1. [#370](https://github.com/influxdata/influxdb-client-python/pull/370): Add Python 3.10 to CI builds
