@@ -1,4 +1,4 @@
-## 1.25.0 [unreleased]
+## 1.25.0 [2022-01-20]
 
 ### Features
 1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Added callback function for getting profilers output with example and test
