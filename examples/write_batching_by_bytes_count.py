@@ -39,7 +39,7 @@ def _buffer_bytes_size(buffer: Collection['bytes']):
 
 def buffer_by_bytes_count(bytes_count: int = 5120):
     """
-    Buffer emitted items until the byte count is reached.
+    Buffer items until the bytes count is reached.
     """
 
     def _buffer_by_bytes_count(source: Observable) -> Observable:
@@ -82,7 +82,7 @@ Define Retry strategy - 3 attempts => 2, 4, 8
 retries = WritesRetry(total=3, retry_interval=1, exponential_base=2)
 with InfluxDBClient(url='http://localhost:8086', token='my-token', org='my-org', retries=retries) as client:
     """
-    Use synchronous version of WriteApi to strongly depends on result of write
+    Use synchronous version of WriteApi.
     """
     write_api = client.write_api(write_options=SYNCHRONOUS)
 

@@ -116,6 +116,9 @@ This release introduces a support for new version of InfluxDB OSS API definition
 1. [#408](https://github.com/influxdata/influxdb-client-python/pull/408): Improve error message when the client cannot find organization by name
 1. [#407](https://github.com/influxdata/influxdb-client-python/pull/407): Use `pandas.concat()` instead of deprecated `DataFrame.append()` [DataFrame]
 
+### Documentation
+1. [#397](https://github.com/influxdata/influxdb-client-python/pull/397): Add an example: How to use RxPY to prepare batches by maximum bytes count
+
 ## 1.25.0 [2022-01-20]
 
 ### Features
