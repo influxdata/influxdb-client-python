@@ -271,7 +271,7 @@ class RestoreService(object):
         :param async_req bool
         :param file body: Full KV snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: PostRestoreKVResponse
                  If the method is called asynchronously,
@@ -295,7 +295,7 @@ class RestoreService(object):
         :param async_req bool
         :param file body: Full KV snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: PostRestoreKVResponse
                  If the method is called asynchronously,
@@ -388,7 +388,7 @@ class RestoreService(object):
         :param str shard_id: The shard ID. (required)
         :param file body: TSM snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: None
                  If the method is called asynchronously,
@@ -413,7 +413,7 @@ class RestoreService(object):
         :param str shard_id: The shard ID. (required)
         :param file body: TSM snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: None
                  If the method is called asynchronously,
@@ -511,7 +511,7 @@ class RestoreService(object):
         :param async_req bool
         :param file body: Full SQL snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: None
                  If the method is called asynchronously,
@@ -535,7 +535,7 @@ class RestoreService(object):
         :param async_req bool
         :param file body: Full SQL snapshot. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type:
         :return: None
                  If the method is called asynchronously,

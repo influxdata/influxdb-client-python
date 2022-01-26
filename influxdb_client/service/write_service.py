@@ -46,7 +46,7 @@ class WriteService(object):
         :param str bucket: The destination bucket for writes. (required)
         :param str body: Data in line protocol format. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type: The header value indicates the format of the data in the request body.
         :param int content_length: The header value indicates the size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
         :param str accept: The header value specifies the response format.
@@ -77,7 +77,7 @@ class WriteService(object):
         :param str bucket: The destination bucket for writes. (required)
         :param str body: Data in line protocol format. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header. 
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
         :param str content_type: The header value indicates the format of the data in the request body.
         :param int content_length: The header value indicates the size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
         :param str accept: The header value specifies the response format.
