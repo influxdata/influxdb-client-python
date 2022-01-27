@@ -41,7 +41,7 @@ with InfluxDBClient(url=url, token=token, org=org_name, debug=True) as client:
                                    patch_stack_request=PatchStackRequest(name="linux_system"))
 
     """
-    Create template as a inline definition
+    Create template as an inline definition
     """
     template_definition = {
         "apiVersion": "influxdata.com/v2alpha1",
@@ -69,8 +69,8 @@ with InfluxDBClient(url=url, token=token, org=org_name, debug=True) as client:
     print("---")
 
     """
-    Delete previously created Script
+    Delete previously created Stack
     """
     print(f"------- Delete -------\n")
     templates_service.delete_stack(stack_id=template_linux.stack_id, org_id=org.id)
-    print(f" Successfully deleted script: '{template_linux.stack_id}'")
+    print(f" Successfully deleted stack: '{template_linux.stack_id}'")
