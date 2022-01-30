@@ -53,6 +53,7 @@ class InfluxDBClient(object):
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         :key list[str] profilers: list of enabled Flux profilers
+        :key str server_hostname: Sets the SNI field, if using TLS, and sets the Host header to a custom host. 
         """
         self.url = url
         self.token = token
@@ -86,8 +87,10 @@ class InfluxDBClient(object):
 
         self.profilers = kwargs.get('profilers', None)
 
+        server_hostname = kwargs.get('server_hostname', None)
+
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
-                                    header_value=auth_header_value, retries=retries)
+                                    header_value=auth_header_value, retries=retries, server_hostname=server_hostname)
 
     def __enter__(self):
         """
@@ -207,10 +210,14 @@ class InfluxDBClient(object):
         if config.has_option('influx2', 'proxy'):
             proxy = config_value('proxy')
 
+        server_hostname = None
+        if config.has_option('influx2','server_hostname'):
+            server_hostname = config_value(server_hostname)
+
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers, proxy=proxy)
+                   profilers=profilers, proxy=proxy, server_hostname=server_hostname)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):

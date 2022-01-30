@@ -1,3 +1,9 @@
+## 1.26.0 [unreleased]
+
+### Features
+1. Added custom SNI support
+
+
 ## 1.25.0 [2022-01-20]
 
 ### Features

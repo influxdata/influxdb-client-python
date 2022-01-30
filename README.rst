@@ -193,6 +193,7 @@ The following options are supported:
 - ``connection_pool_maxsize`` - set the number of connections to save that can be reused by urllib3
 - ``auth_basic`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 - ``profilers`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
+- ``server_hostname`` - custom server hostname to be passed on the HTTP Host request and on the TLS Server Name Identification 
 
 .. code-block:: python
 

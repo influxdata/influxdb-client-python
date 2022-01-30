@@ -63,17 +63,23 @@ class ApiClient(object):
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None, pool_threads=None, retries=False):
+                 cookie=None, pool_threads=None, retries=False, server_hostname=None):
         """Initialize generic API client."""
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
-        self.rest_client = rest.RESTClientObject(configuration, retries=retries)
+
+        self.rest_client = rest.RESTClientObject(configuration, retries=retries, server_hostname=server_hostname)
         self.default_headers = {}
+        
+        if server_hostname is not None:
+            self.set_default_header("Host",server_hostname)
+        
         if header_name is not None:
             self.default_headers[header_name] = header_value
+
         self.cookie = cookie
         # Set default User-Agent.
         from influxdb_client import CLIENT_VERSION

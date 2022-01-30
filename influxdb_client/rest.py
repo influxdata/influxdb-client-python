@@ -63,13 +63,14 @@ class RESTClientObject(object):
     Do not edit the class manually.
     """
 
-    def __init__(self, configuration, pools_size=4, maxsize=None, retries=False):
+    def __init__(self, configuration, pools_size=4, maxsize=None, retries=False, server_hostname=None):
         """Initialize REST client."""
         # urllib3.PoolManager will pass all kw parameters to connectionpool
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/poolmanager.py#L75  # noqa: E501
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680  # noqa: E501
         # maxsize is the number of requests to host that are allowed in parallel  # noqa: E501
         # Custom SSL certificates and client certificates: http://urllib3.readthedocs.io/en/latest/advanced-usage.html  # noqa: E501
+        # server_hostname change the SNI/Host (https://urllib3.readthedocs.io/en/latest/advanced-usage.html)
 
         self.configuration = configuration
         self.pools_size = pools_size
@@ -89,6 +90,15 @@ class RESTClientObject(object):
             ca_certs = None
 
         addition_pool_args = {}
+
+        # server_hostname (SNI)
+        if server_hostname is not None:
+            addition_pool_args['server_hostname'] = server_hostname
+            self.has_custom_hostname = True
+        else:
+            self.has_custom_hostname = False
+
+
         if configuration.assert_hostname is not None:
             addition_pool_args['assert_hostname'] = configuration.assert_hostname  # noqa: E501
         addition_pool_args['retries'] = self.retries
@@ -157,6 +167,9 @@ class RESTClientObject(object):
 
         post_params = post_params or {}
         headers = headers or {}
+
+        if self.has_custom_hostname:
+            urlopen_kw["assert_same_host"] = False
 
         timeout = None
         _configured_timeout = _request_timeout or self.configuration.timeout
