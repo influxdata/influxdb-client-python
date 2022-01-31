@@ -70,12 +70,11 @@ class ApiClient(object):
         self.configuration = configuration
         self.pool_threads = pool_threads
 
-
         self.rest_client = rest.RESTClientObject(configuration, retries=retries, server_hostname=server_hostname)
         self.default_headers = {}
         
         if server_hostname is not None:
-            self.set_default_header("Host",server_hostname)
+            self.set_default_header("Host", server_hostname)
         
         if header_name is not None:
             self.default_headers[header_name] = header_value
