@@ -53,7 +53,7 @@ class InfluxDBClient(object):
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         :key list[str] profilers: list of enabled Flux profilers
-        :key str server_hostname: Sets the SNI field, if using TLS, and sets the Host header to a custom host. 
+        :key str server_hostname: Sets the SNI field, if using TLS, and sets the Host header to a custom host.
         """
         self.url = url
         self.token = token
