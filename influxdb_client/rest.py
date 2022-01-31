@@ -98,7 +98,6 @@ class RESTClientObject(object):
         else:
             self.has_custom_hostname = False
 
-
         if configuration.assert_hostname is not None:
             addition_pool_args['assert_hostname'] = configuration.assert_hostname  # noqa: E501
         addition_pool_args['retries'] = self.retries
