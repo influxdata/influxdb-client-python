@@ -211,7 +211,7 @@ class InfluxDBClient(object):
             proxy = config_value('proxy')
 
         server_hostname = None
-        if config.has_option('influx2','server_hostname'):
+        if config.has_option('influx2', 'server_hostname'):
             server_hostname = config_value(server_hostname)
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
