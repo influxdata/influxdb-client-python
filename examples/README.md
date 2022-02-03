@@ -21,6 +21,7 @@
 - [buckets_management.py](buckets_management.py) - How to create, list and delete Buckets
 - [monitoring_and_alerting.py](monitoring_and_alerting.py) - How to create the Check with Slack notification.
 - [task_example.py](task_example.py) - How to create a Task by API
+- [templates_management.py](templates_management.py) - How to use Templates and Stack API
 
 ## Others
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud

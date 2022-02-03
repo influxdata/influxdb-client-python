@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-Influx OSS API Service.
+InfluxDB OSS API Service.
 
 The InfluxDB v2 API provides a programmatic interface for all interactions with InfluxDB. Access the InfluxDB API using the `/api/v2/` endpoint.   # noqa: E501
 
