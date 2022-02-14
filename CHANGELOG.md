@@ -2,6 +2,39 @@
 
 ### Features
 1. [#400](https://github.com/influxdata/influxdb-client-python/pull/400): Added support for custom SNI on TLS layer.
+=======
+### Breaking Changes
+
+This release introduces a support for new version of InfluxDB OSS API definitions - [oss.yml](https://github.com/influxdata/openapi/blob/master/contracts/oss.yml). The following breaking changes are in underlying API services and doesn't affect common apis such as - `WriteApi`, `QueryApi`, `BucketsApi`, `OrganizationsApi`...
+- Add `LegacyAuthorizationsService` to deal with legacy authorizations
+- Add `ResourceService` to retrieve all knows resources
+- Add `BackupService` to represents the data backup functions of InfluxDB
+- Add `ReplicationsService` to represents the replication functions of InfluxDB
+- Add `RestoreService` to represents the data restore functions of InfluxDB
+- Add `ConfigService` to retrieve InfluxDB's runtime configuration
+- Add `RemoteConnectionsService` to deal with registered remote InfluxDB connections
+- Add `TelegrafPluginsService` to retrieve all Telegraf's plugins
+- Update `TemplatesService` to deal with `Stack` and `Template` API
+- `DBRPsService`:
+  - doesn't requires `org_id` parameter for operations
+  - `get_dbr_ps_id` operation uses `DBRPGet` as a type of result
+  - `patch_dbrpid` operation uses `DBRPGet` as a type of result
+  - `post_dbrp` operation uses `DBRPCreate` as a type of request
+- `DefaultService`:
+  - `get_routes` operation is moved to `RoutesService`
+  - `get_telegraf_plugin` operation is moved to `TelegrafsService`
+  - `post_signin` operation is moved to `SigninService`
+  - `post_signout` operation is moved to `SignoutService`
+- `OrganizationsService`:
+  - `get_orgs_id_secrets` operation is moved to `SecretsService`
+  - `patch_orgs_id_secrets` operation is moved to `SecretsService` 
+  - `post_orgs_id_secrets` operation is moved to `SecretsService`
+- Remove `DocumentApi` in favour of [InfluxDB Community Templates](https://github.com/influxdata/community-templates). For more info see - [influxdb#19300](https://github.com/influxdata/influxdb/pull/19300), [openapi#192](https://github.com/influxdata/openapi/pull/192)
+- `TelegrafsService` uses `TelegrafPluginRequest` to create `Telegraf` configuration
+- `TelegrafsService` uses `TelegrafPluginRequest` to update `Telegraf` configuration
+
+### API
+1. [#399](https://github.com/influxdata/influxdb-client-python/pull/399): Use the latest InfluxDB OSS API definitions to generated APIs
 
 ## 1.25.0 [2022-01-20]
 
