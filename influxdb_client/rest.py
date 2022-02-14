@@ -70,7 +70,7 @@ class RESTClientObject(object):
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680  # noqa: E501
         # maxsize is the number of requests to host that are allowed in parallel  # noqa: E501
         # Custom SSL certificates and client certificates: http://urllib3.readthedocs.io/en/latest/advanced-usage.html  # noqa: E501
-        # server_hostname change the SNI/Host (https://urllib3.readthedocs.io/en/latest/advanced-usage.html)
+        # server_hostname change the tls SNI field (https://urllib3.readthedocs.io/en/latest/advanced-usage.html)
 
         self.configuration = configuration
         self.pools_size = pools_size

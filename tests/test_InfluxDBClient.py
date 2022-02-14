@@ -41,6 +41,15 @@ class InfluxDBClientTest(unittest.TestCase):
         ping = self.client.ping()
 
         self.assertTrue(ping)
+    
+    def test_ConnectUsingServerCustomSNI(self):
+        self._start_http_server()
+
+        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                     token="my-token", verify_ssl=False, server_hostname="influx.custom_sni")
+        ping = self.client.ping()
+
+        self.assertTrue(ping)
 
     def test_certificate_file(self):
         self._start_http_server()
@@ -112,6 +121,12 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-ssl-ca-cert.ini')
 
         self.assertEqual("/path/to/my/cert", self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_file_tls_servername(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config_tls_servername.ini')
+
+        self.assertEqual("influx.custom_sni", self.client.api_client.rest_client.pool_manager.connection_pool_kw["server_hostname"])
+        self.assertEqual(True, self.client.api_client.rest_client.has_custom_hostname)
 
     def test_init_from_env_ssl_ca_cert_default(self):
         if os.getenv("INFLUXDB_V2_SSL_CA_CERT"):

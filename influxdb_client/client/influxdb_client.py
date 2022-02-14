@@ -212,7 +212,7 @@ class InfluxDBClient(object):
 
         server_hostname = None
         if config.has_option('influx2', 'server_hostname'):
-            server_hostname = config_value(server_hostname)
+            server_hostname = config_value('server_hostname')
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,

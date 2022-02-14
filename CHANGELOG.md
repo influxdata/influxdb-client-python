@@ -1,5 +1,8 @@
 ## 1.26.0 [unreleased]
 
+### Features
+1. [#400](https://github.com/influxdata/influxdb-client-python/pull/400): Added support for custom SNI on TLS layer.
+
 ## 1.25.0 [2022-01-20]
 
 ### Features
