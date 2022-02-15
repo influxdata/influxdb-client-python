@@ -27,10 +27,9 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     Create Invocable Script
     """
     print(f"------- Create -------\n")
-    create_request = ScriptCreateRequest(name=f"my_scrupt_{uniqueId}",
+    create_request = ScriptCreateRequest(name=f"my_script_{uniqueId}",
                                          description="my first try",
                                          language=ScriptLanguage.FLUX,
-                                         org_id=org.id,
                                          script=f"from(bucket: params.bucket_name) |> range(start: -30d) |> limit(n:2)")
 
     created_script = scripts_service.post_scripts(script_create_request=create_request)
