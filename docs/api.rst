@@ -62,6 +62,17 @@ TasksApi
 .. autoclass:: influxdb_client.domain.Task
    :members:
 
+InvocableScriptsApi
+"""""""""""""""""""
+.. autoclass:: influxdb_client.InvocableScriptsApi
+   :members:
+
+.. autoclass:: influxdb_client.domain.Script
+   :members:
+
+.. autoclass:: influxdb_client.domain.ScriptCreateRequest
+   :members:
+
 DeleteApi
 """""""""
 .. autoclass:: influxdb_client.DeleteApi
