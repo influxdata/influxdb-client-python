@@ -383,6 +383,7 @@ from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions
 from influxdb_client.client.influxdb_client import InfluxDBClient
+from influxdb_client.client.loggingHandler import InfluxLoggingHandler
 from influxdb_client.client.write.point import Point
 
 from influxdb_client.version import CLIENT_VERSION
