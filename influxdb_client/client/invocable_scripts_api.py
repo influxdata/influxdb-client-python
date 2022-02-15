@@ -23,3 +23,21 @@ class InvocableScriptsApi(object):
         :return: The created script.
         """
         return self._invocable_scripts_service.post_scripts(script_create_request=create_request)
+
+    def delete_script(self, script_id: str) -> None:
+        """Delete a script.
+
+        :param str script_id: The ID of the script to delete. (required)
+        :return: None
+        """
+        self._invocable_scripts_service.delete_scripts_id(script_id=script_id)
+
+    def find_scripts(self, **kwargs):
+        """List scripts.
+
+        :key int limit: The number of scripts to return.
+        :key int offset: The offset for pagination.
+        :return: List of scripts.
+        :rtype: list[Script]
+        """
+        return self._invocable_scripts_service.get_scripts(**kwargs).scripts
