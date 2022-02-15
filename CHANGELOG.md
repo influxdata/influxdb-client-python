@@ -1,8 +1,5 @@
 ## 1.26.0 [unreleased]
 
-### Features
-1. [#400](https://github.com/influxdata/influxdb-client-python/pull/400): Added support for custom SNI on TLS layer.
-=======
 ### Breaking Changes
 
 This release introduces a support for new version of InfluxDB OSS API definitions - [oss.yml](https://github.com/influxdata/openapi/blob/master/contracts/oss.yml). The following breaking changes are in underlying API services and doesn't affect common apis such as - `WriteApi`, `QueryApi`, `BucketsApi`, `OrganizationsApi`...
@@ -32,6 +29,9 @@ This release introduces a support for new version of InfluxDB OSS API definition
 - Remove `DocumentApi` in favour of [InfluxDB Community Templates](https://github.com/influxdata/community-templates). For more info see - [influxdb#19300](https://github.com/influxdata/influxdb/pull/19300), [openapi#192](https://github.com/influxdata/openapi/pull/192)
 - `TelegrafsService` uses `TelegrafPluginRequest` to create `Telegraf` configuration
 - `TelegrafsService` uses `TelegrafPluginRequest` to update `Telegraf` configuration
+
+### Features
+1. [#400](https://github.com/influxdata/influxdb-client-python/pull/400): Added support for custom SNI on TLS layer.
 
 ### API
 1. [#399](https://github.com/influxdata/influxdb-client-python/pull/399): Use the latest InfluxDB OSS API definitions to generated APIs
