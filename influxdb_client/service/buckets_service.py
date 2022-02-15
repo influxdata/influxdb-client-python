@@ -484,7 +484,7 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`.
+        :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
         :param str org: The name of the organization.
         :param str org_id: The organization ID.
         :param str name: Only returns buckets with a specific name.
@@ -512,7 +512,7 @@ class BucketsService(object):
         :param str zap_trace_span: OpenTracing span context
         :param int offset:
         :param int limit:
-        :param str after: The last resource ID from which to seek from (but not including). This is to be used instead of `offset`.
+        :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
         :param str org: The name of the organization.
         :param str org_id: The organization ID.
         :param str name: Only returns buckets with a specific name.

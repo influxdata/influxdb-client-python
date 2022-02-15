@@ -162,7 +162,7 @@ class Task(object):
     def type(self):
         """Get the type of this Task.
 
-        The type of task, this can be used for filtering tasks on list actions.
+        Type of the task, useful for filtering a task list.
 
         :return: The type of this Task.
         :rtype: str
@@ -173,7 +173,7 @@ class Task(object):
     def type(self, type):
         """Set the type of this Task.
 
-        The type of task, this can be used for filtering tasks on list actions.
+        Type of the task, useful for filtering a task list.
 
         :param type: The type of this Task.
         :type: str
@@ -184,7 +184,7 @@ class Task(object):
     def org_id(self):
         """Get the org_id of this Task.
 
-        The ID of the organization that owns this Task.
+        ID of the organization that owns the task.
 
         :return: The org_id of this Task.
         :rtype: str
@@ -195,7 +195,7 @@ class Task(object):
     def org_id(self, org_id):
         """Set the org_id of this Task.
 
-        The ID of the organization that owns this Task.
+        ID of the organization that owns the task.
 
         :param org_id: The org_id of this Task.
         :type: str
@@ -208,7 +208,7 @@ class Task(object):
     def org(self):
         """Get the org of this Task.
 
-        The name of the organization that owns this Task.
+        Name of the organization that owns the task.
 
         :return: The org of this Task.
         :rtype: str
@@ -219,7 +219,7 @@ class Task(object):
     def org(self, org):
         """Set the org of this Task.
 
-        The name of the organization that owns this Task.
+        Name of the organization that owns the task.
 
         :param org: The org of this Task.
         :type: str
@@ -230,7 +230,7 @@ class Task(object):
     def name(self):
         """Get the name of this Task.
 
-        The name of the task.
+        Name of the task.
 
         :return: The name of this Task.
         :rtype: str
@@ -241,7 +241,7 @@ class Task(object):
     def name(self, name):
         """Set the name of this Task.
 
-        The name of the task.
+        Name of the task.
 
         :param name: The name of this Task.
         :type: str
@@ -254,7 +254,7 @@ class Task(object):
     def owner_id(self):
         """Get the owner_id of this Task.
 
-        The ID of the user who owns this Task.
+        ID of the user who owns this Task.
 
         :return: The owner_id of this Task.
         :rtype: str
@@ -265,7 +265,7 @@ class Task(object):
     def owner_id(self, owner_id):
         """Set the owner_id of this Task.
 
-        The ID of the user who owns this Task.
+        ID of the user who owns this Task.
 
         :param owner_id: The owner_id of this Task.
         :type: str
@@ -276,7 +276,7 @@ class Task(object):
     def description(self):
         """Get the description of this Task.
 
-        An optional description of the task.
+        Description of the task.
 
         :return: The description of this Task.
         :rtype: str
@@ -287,7 +287,7 @@ class Task(object):
     def description(self, description):
         """Set the description of this Task.
 
-        An optional description of the task.
+        Description of the task.
 
         :param description: The description of this Task.
         :type: str
@@ -334,7 +334,7 @@ class Task(object):
     def authorization_id(self):
         """Get the authorization_id of this Task.
 
-        The ID of the authorization used when this task communicates with the query engine.
+        ID of the authorization used when the task communicates with the query engine.
 
         :return: The authorization_id of this Task.
         :rtype: str
@@ -345,7 +345,7 @@ class Task(object):
     def authorization_id(self, authorization_id):
         """Set the authorization_id of this Task.
 
-        The ID of the authorization used when this task communicates with the query engine.
+        ID of the authorization used when the task communicates with the query engine.
 
         :param authorization_id: The authorization_id of this Task.
         :type: str
@@ -356,7 +356,7 @@ class Task(object):
     def flux(self):
         """Get the flux of this Task.
 
-        The Flux script to run for this task.
+        Flux script to run for this task.
 
         :return: The flux of this Task.
         :rtype: str
@@ -367,7 +367,7 @@ class Task(object):
     def flux(self, flux):
         """Set the flux of this Task.
 
-        The Flux script to run for this task.
+        Flux script to run for this task.
 
         :param flux: The flux of this Task.
         :type: str
@@ -380,7 +380,7 @@ class Task(object):
     def every(self):
         """Get the every of this Task.
 
-        A simple task repetition schedule; parsed from Flux.
+        Interval at which the task runs. `every` also determines when the task first runs, depending on the specified time. Value is a [duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals)).
 
         :return: The every of this Task.
         :rtype: str
@@ -391,7 +391,7 @@ class Task(object):
     def every(self, every):
         """Set the every of this Task.
 
-        A simple task repetition schedule; parsed from Flux.
+        Interval at which the task runs. `every` also determines when the task first runs, depending on the specified time. Value is a [duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals)).
 
         :param every: The every of this Task.
         :type: str
@@ -402,7 +402,7 @@ class Task(object):
     def cron(self):
         """Get the cron of this Task.
 
-        A task repetition schedule in the form '* * * * * *'; parsed from Flux.
+        [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. Cron scheduling is based on system time. Value is a [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview).
 
         :return: The cron of this Task.
         :rtype: str
@@ -413,7 +413,7 @@ class Task(object):
     def cron(self, cron):
         """Set the cron of this Task.
 
-        A task repetition schedule in the form '* * * * * *'; parsed from Flux.
+        [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. Cron scheduling is based on system time. Value is a [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview).
 
         :param cron: The cron of this Task.
         :type: str
@@ -424,7 +424,7 @@ class Task(object):
     def offset(self):
         """Get the offset of this Task.
 
-        Duration to delay after the schedule, before executing the task; parsed from flux, if set to zero it will remove this option and use 0 as the default.
+        [Duration](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals) to delay execution of the task after the scheduled time has elapsed. `0` removes the offset. The value is a [duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals).
 
         :return: The offset of this Task.
         :rtype: str
@@ -435,7 +435,7 @@ class Task(object):
     def offset(self, offset):
         """Set the offset of this Task.
 
-        Duration to delay after the schedule, before executing the task; parsed from flux, if set to zero it will remove this option and use 0 as the default.
+        [Duration](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals) to delay execution of the task after the scheduled time has elapsed. `0` removes the offset. The value is a [duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals).
 
         :param offset: The offset of this Task.
         :type: str
@@ -446,7 +446,7 @@ class Task(object):
     def latest_completed(self):
         """Get the latest_completed of this Task.
 
-        Timestamp of latest scheduled, completed run, RFC3339.
+        Timestamp of the latest scheduled and completed run. Value is a timestamp in [RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax).
 
         :return: The latest_completed of this Task.
         :rtype: datetime
@@ -457,7 +457,7 @@ class Task(object):
     def latest_completed(self, latest_completed):
         """Set the latest_completed of this Task.
 
-        Timestamp of latest scheduled, completed run, RFC3339.
+        Timestamp of the latest scheduled and completed run. Value is a timestamp in [RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax).
 
         :param latest_completed: The latest_completed of this Task.
         :type: datetime

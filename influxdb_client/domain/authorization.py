@@ -139,7 +139,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org_id(self):
         """Get the org_id of this Authorization.
 
-        ID of org that authorization is scoped to.
+        ID of the organization that the authorization is scoped to.
 
         :return: The org_id of this Authorization.
         :rtype: str
@@ -150,7 +150,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org_id(self, org_id):
         """Set the org_id of this Authorization.
 
-        ID of org that authorization is scoped to.
+        ID of the organization that the authorization is scoped to.
 
         :param org_id: The org_id of this Authorization.
         :type: str
@@ -161,7 +161,7 @@ class Authorization(AuthorizationUpdateRequest):
     def permissions(self):
         """Get the permissions of this Authorization.
 
-        List of permissions for an auth.  An auth must have at least one Permission.
+        List of permissions for an authorization.  An authorization must have at least one permission.
 
         :return: The permissions of this Authorization.
         :rtype: list[Permission]
@@ -172,7 +172,7 @@ class Authorization(AuthorizationUpdateRequest):
     def permissions(self, permissions):
         """Set the permissions of this Authorization.
 
-        List of permissions for an auth.  An auth must have at least one Permission.
+        List of permissions for an authorization.  An authorization must have at least one permission.
 
         :param permissions: The permissions of this Authorization.
         :type: list[Permission]
@@ -201,7 +201,7 @@ class Authorization(AuthorizationUpdateRequest):
     def token(self):
         """Get the token of this Authorization.
 
-        Passed via the Authorization Header and Token Authentication type.
+        Token used to authenticate API requests.
 
         :return: The token of this Authorization.
         :rtype: str
@@ -212,7 +212,7 @@ class Authorization(AuthorizationUpdateRequest):
     def token(self, token):
         """Set the token of this Authorization.
 
-        Passed via the Authorization Header and Token Authentication type.
+        Token used to authenticate API requests.
 
         :param token: The token of this Authorization.
         :type: str
@@ -223,7 +223,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user_id(self):
         """Get the user_id of this Authorization.
 
-        ID of user that created and owns the token.
+        ID of the user that created and owns the token.
 
         :return: The user_id of this Authorization.
         :rtype: str
@@ -234,7 +234,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user_id(self, user_id):
         """Set the user_id of this Authorization.
 
-        ID of user that created and owns the token.
+        ID of the user that created and owns the token.
 
         :param user_id: The user_id of this Authorization.
         :type: str
@@ -245,7 +245,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user(self):
         """Get the user of this Authorization.
 
-        Name of user that created and owns the token.
+        Name of the user that created and owns the token.
 
         :return: The user of this Authorization.
         :rtype: str
@@ -256,7 +256,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user(self, user):
         """Set the user of this Authorization.
 
-        Name of user that created and owns the token.
+        Name of the user that created and owns the token.
 
         :param user: The user of this Authorization.
         :type: str
@@ -267,7 +267,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org(self):
         """Get the org of this Authorization.
 
-        Name of the org token is scoped to.
+        Name of the organization that the token is scoped to.
 
         :return: The org of this Authorization.
         :rtype: str
@@ -278,7 +278,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org(self, org):
         """Set the org of this Authorization.
 
-        Name of the org token is scoped to.
+        Name of the organization that the token is scoped to.
 
         :param org: The org of this Authorization.
         :type: str

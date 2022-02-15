@@ -76,7 +76,7 @@ class Axis(object):
     def bounds(self):
         """Get the bounds of this Axis.
 
-        The extents of an axis in the form [lower, upper]. Clients determine whether bounds are to be inclusive or exclusive of their limits
+        The extents of the axis in the form [lower, upper]. Clients determine whether bounds are inclusive or exclusive of their limits.
 
         :return: The bounds of this Axis.
         :rtype: list[str]
@@ -87,7 +87,7 @@ class Axis(object):
     def bounds(self, bounds):
         """Set the bounds of this Axis.
 
-        The extents of an axis in the form [lower, upper]. Clients determine whether bounds are to be inclusive or exclusive of their limits
+        The extents of the axis in the form [lower, upper]. Clients determine whether bounds are inclusive or exclusive of their limits.
 
         :param bounds: The bounds of this Axis.
         :type: list[str]
@@ -98,7 +98,7 @@ class Axis(object):
     def label(self):
         """Get the label of this Axis.
 
-        Label is a description of this Axis
+        Description of the axis.
 
         :return: The label of this Axis.
         :rtype: str
@@ -109,7 +109,7 @@ class Axis(object):
     def label(self, label):
         """Set the label of this Axis.
 
-        Label is a description of this Axis
+        Description of the axis.
 
         :param label: The label of this Axis.
         :type: str
@@ -120,7 +120,7 @@ class Axis(object):
     def prefix(self):
         """Get the prefix of this Axis.
 
-        Prefix represents a label prefix for formatting axis values.
+        Label prefix for formatting axis values.
 
         :return: The prefix of this Axis.
         :rtype: str
@@ -131,7 +131,7 @@ class Axis(object):
     def prefix(self, prefix):
         """Set the prefix of this Axis.
 
-        Prefix represents a label prefix for formatting axis values.
+        Label prefix for formatting axis values.
 
         :param prefix: The prefix of this Axis.
         :type: str
@@ -142,7 +142,7 @@ class Axis(object):
     def suffix(self):
         """Get the suffix of this Axis.
 
-        Suffix represents a label suffix for formatting axis values.
+        Label suffix for formatting axis values.
 
         :return: The suffix of this Axis.
         :rtype: str
@@ -153,7 +153,7 @@ class Axis(object):
     def suffix(self, suffix):
         """Set the suffix of this Axis.
 
-        Suffix represents a label suffix for formatting axis values.
+        Label suffix for formatting axis values.
 
         :param suffix: The suffix of this Axis.
         :type: str
@@ -164,7 +164,7 @@ class Axis(object):
     def base(self):
         """Get the base of this Axis.
 
-        Base represents the radix for formatting axis values.
+        Radix for formatting axis values.
 
         :return: The base of this Axis.
         :rtype: str
@@ -175,7 +175,7 @@ class Axis(object):
     def base(self, base):
         """Set the base of this Axis.
 
-        Base represents the radix for formatting axis values.
+        Radix for formatting axis values.
 
         :param base: The base of this Axis.
         :type: str

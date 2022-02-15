@@ -56,7 +56,7 @@ class AuthorizationUpdateRequest(object):
     def status(self):
         """Get the status of this AuthorizationUpdateRequest.
 
-        If inactive the token is inactive and requests using the token will be rejected.
+        Status of the token. If `inactive`, requests using the token will be rejected.
 
         :return: The status of this AuthorizationUpdateRequest.
         :rtype: str
@@ -67,7 +67,7 @@ class AuthorizationUpdateRequest(object):
     def status(self, status):
         """Set the status of this AuthorizationUpdateRequest.
 
-        If inactive the token is inactive and requests using the token will be rejected.
+        Status of the token. If `inactive`, requests using the token will be rejected.
 
         :param status: The status of this AuthorizationUpdateRequest.
         :type: str
