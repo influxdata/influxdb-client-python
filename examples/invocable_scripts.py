@@ -22,6 +22,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     org = client.organizations_api().find_organizations(org=org_name)[0]
 
     scripts_service = InvocableScriptsService(api_client=client.api_client)
+    scripts_api = client.invocable_scripts_api()
 
     """
     Create Invocable Script
@@ -32,7 +33,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
                                          language=ScriptLanguage.FLUX,
                                          script=f"from(bucket: params.bucket_name) |> range(start: -30d) |> limit(n:2)")
 
-    created_script = scripts_service.post_scripts(script_create_request=create_request)
+    created_script = scripts_api.create_script(create_request=create_request)
     print(created_script)
 
     """
@@ -48,7 +49,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     List scripts
     """
     print(f"\n------- List -------\n")
-    scripts = scripts_service.get_scripts().scripts
+    scripts = scripts_api.find_scripts()
     print("\n".join([f" ---\n ID: {it.id}\n Name: {it.name}\n Description: {it.description}" for it in scripts]))
     print("---")
 
@@ -56,5 +57,5 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     Delete previously created Script
     """
     print(f"------- Delete -------\n")
-    scripts_service.delete_scripts_id(script_id=created_script.id)
+    scripts_api.delete_script(script_id=created_script.id)
     print(f" Successfully deleted script: '{created_script.name}'")
