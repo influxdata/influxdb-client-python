@@ -5,7 +5,7 @@ API invokable scripts let you assign scripts to API endpoints and then execute t
 in InfluxDB Cloud.
 """
 
-from influxdb_client import Script, InvocableScriptsService, ScriptCreateRequest
+from influxdb_client import Script, InvocableScriptsService, ScriptCreateRequest, ScriptUpdateRequest
 
 
 class InvocableScriptsApi(object):
@@ -23,6 +23,16 @@ class InvocableScriptsApi(object):
         :return: The created script.
         """
         return self._invocable_scripts_service.post_scripts(script_create_request=create_request)
+
+    def update_script(self, script_id: str, update_request: ScriptUpdateRequest) -> Script:
+        """Update a script.
+
+        :param str script_id: The ID of the script to update. (required)
+        :param ScriptUpdateRequest update_request: Script updates to apply (required)
+        :return: The updated.
+        """
+        return self._invocable_scripts_service.patch_scripts_id(script_id=script_id,
+                                                                script_update_request=update_request)
 
     def delete_script(self, script_id: str) -> None:
         """Delete a script.

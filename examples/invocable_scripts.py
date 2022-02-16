@@ -4,7 +4,7 @@ How to use Invocable scripts Cloud API to create custom endpoints that query dat
 import datetime
 
 from influxdb_client import InfluxDBClient, InvocableScriptsService, ScriptCreateRequest, ScriptInvocationParams, \
-    ScriptLanguage
+    ScriptLanguage, ScriptUpdateRequest
 
 """
 Define credentials
@@ -34,6 +34,14 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
                                          script=f"from(bucket: params.bucket_name) |> range(start: -30d) |> limit(n:2)")
 
     created_script = scripts_api.create_script(create_request=create_request)
+    print(created_script)
+
+    """
+    Update Invocable Script
+    """
+    print(f"------- Update -------\n")
+    update_request = ScriptUpdateRequest(description="my updated description")
+    created_script = scripts_api.update_script(script_id=created_script.id, update_request=update_request)
     print(created_script)
 
     """
