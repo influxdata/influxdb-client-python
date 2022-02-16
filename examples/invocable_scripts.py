@@ -3,8 +3,9 @@ How to use Invocable scripts Cloud API to create custom endpoints that query dat
 """
 import datetime
 
-from influxdb_client import InfluxDBClient, InvocableScriptsService, ScriptCreateRequest, ScriptInvocationParams, \
-    ScriptLanguage, ScriptUpdateRequest
+from influxdb_client import InfluxDBClient, InvocableScriptsService, ScriptCreateRequest, ScriptLanguage, \
+    ScriptUpdateRequest, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 """
 Define credentials
@@ -14,8 +15,17 @@ influx_cloud_token = '...'
 bucket_name = '...'
 org_name = '...'
 
-with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name, debug=False, timeout=20_000) as client:
+with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name, debug=False,
+                    timeout=20_000) as client:
     uniqueId = str(datetime.datetime.now())
+
+    """
+    Prepare data
+    """
+    _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+    client.write_api(write_options=SYNCHRONOUS).write(bucket=bucket_name, record=[_point1, _point2])
+
     """
     Find Organization ID by Organization API.
     """
@@ -47,11 +57,16 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     Invoke a script
     """
-    print(f"\n------- Invoke -------\n")
-    response = scripts_service.post_scripts_id_invoke(script_id=created_script.id,
-                                                      script_invocation_params=ScriptInvocationParams(
-                                                          params={"bucket_name": bucket_name}))
-    print(response)
+    # CSV
+    print(f"\n------- Invoke to CSV-------\n")
+    csv_lines = scripts_api.invoke_scripts_csv(script_id=created_script.id, params={"bucket_name": bucket_name})
+    for csv_line in csv_lines:
+        if not len(csv_line) == 0:
+            print(f'CSV row: {csv_line}')
+    # RAW
+    print(f"\n------- Invoke to Raw-------\n")
+    raw = scripts_api.invoke_scripts_raw(script_id=created_script.id, params={"bucket_name": bucket_name})
+    print(f'RAW output:\n {raw}')
 
     """
     List scripts
