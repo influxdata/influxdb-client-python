@@ -1,15 +1,26 @@
-"""
-Use the influxdb_client together with python native logging
-"""
+"""Use the influxdb_client with python native logging."""
 import logging
 
 from influxdb_client import InfluxDBClient
 
 
 class InfluxLoggingHandler(logging.Handler):
+    """
+    InfluxLoggingHandler instances dispatch logging events to influx.
+
+    There is no need to set a Formater.
+    The raw input will be passed on to the influx write api.
+    """
+
     DEFAULT_LOG_RECORD_KEYS = logging.makeLogRecord({}).__dict__.keys()
 
     def __init__(self, *, url, token, org, bucket, client_args=None, write_api_args=None):
+        """
+        Initialize defaults.
+
+        The arguments `client_args` and `write_api_args` can be dicts of kwargs.
+        They are passed on to the InfluxDBClient and write_api calls respectively.
+        """
         super().__init__()
 
         self.bucket = bucket
@@ -21,15 +32,17 @@ class InfluxLoggingHandler(logging.Handler):
         self.write_api = self.client.write_api(**write_api_args)
 
     def __del__(self):
+        """Make sure all resources are closed."""
         self.close()
 
     def close(self) -> None:
+        """Close the write_api, client and logger."""
         self.write_api.close()
         self.client.close()
         super().close()
 
     def emit(self, record: logging.LogRecord) -> None:
-        """ Emit a record via the influxDB WriteApi """
+        """Emit a record via the influxDB WriteApi."""
         try:
             extra = self._get_extra_values(record)
             return self.write_api.write(record=record.msg, **extra)
@@ -39,7 +52,11 @@ class InfluxLoggingHandler(logging.Handler):
             self.handleError(record)
 
     def _get_extra_values(self, record: logging.LogRecord) -> dict:
-        """extracts all items from the record that were injected by logging.debug(msg, extra={key: value, ...})"""
+        """
+        Extract all items from the record that were injected via extra.
+
+        Example: `logging.debug(msg, extra={key: value, ...})`.
+        """
         extra = {key: value
                  for key, value in record.__dict__.items() if key not in self.DEFAULT_LOG_RECORD_KEYS}
         if 'bucket' not in extra.keys():
