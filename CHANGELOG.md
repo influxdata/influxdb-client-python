@@ -45,6 +45,9 @@ This release introduces a support for new version of InfluxDB OSS API definition
 1. [#408](https://github.com/influxdata/influxdb-client-python/pull/408): Improve error message when the client cannot find organization by name
 1. [#407](https://github.com/influxdata/influxdb-client-python/pull/407): Use `pandas.concat()` instead of deprecated `DataFrame.append()` [DataFrame]
 
+### Features
+1. [#405](https://github.com/influxdata/influxdb-client-python/pull/405): Add `InfluxLoggingHandler`. A handler to use the influx client in native python logging.
+ 
 ## 1.25.0 [2022-01-20]
 
 ### Features
