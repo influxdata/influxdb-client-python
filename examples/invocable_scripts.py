@@ -3,7 +3,7 @@ How to use Invocable scripts Cloud API to create custom endpoints that query dat
 """
 import datetime
 
-from influxdb_client import InfluxDBClient, InvocableScriptsService, ScriptCreateRequest, ScriptLanguage, \
+from influxdb_client import InfluxDBClient, ScriptCreateRequest, ScriptLanguage, \
     ScriptUpdateRequest, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -31,7 +31,6 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     org = client.organizations_api().find_organizations(org=org_name)[0]
 
-    scripts_service = InvocableScriptsService(api_client=client.api_client)
     scripts_api = client.invocable_scripts_api()
 
     """

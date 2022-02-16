@@ -5,7 +5,7 @@ Flux is InfluxData’s functional data scripting language designed for querying,
 """
 
 from datetime import datetime, timedelta
-from typing import List, Generator, Any, Union, Iterable, Callable, Iterator
+from typing import List, Generator, Any, Union, Iterable, Callable
 
 from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLiteral, DateTimeLiteral, StringLiteral, \
     VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, Expression, \
