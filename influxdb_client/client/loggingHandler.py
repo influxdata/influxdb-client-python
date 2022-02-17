@@ -12,7 +12,7 @@ class InfluxLoggingHandler(logging.Handler):
     The raw input will be passed on to the influx write api.
     """
 
-    DEFAULT_LOG_RECORD_KEYS = logging.makeLogRecord({}).__dict__.keys()
+    DEFAULT_LOG_RECORD_KEYS = list(logging.makeLogRecord({}).__dict__.keys()) + ['message']
 
     def __init__(self, *, url, token, org, bucket, client_args=None, write_api_args=None):
         """
@@ -44,8 +44,9 @@ class InfluxLoggingHandler(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:
         """Emit a record via the influxDB WriteApi."""
         try:
+            message = self.format(record)
             extra = self._get_extra_values(record)
-            return self.write_api.write(record=record.msg, **extra)
+            return self.write_api.write(record=message, **extra)
         except (KeyboardInterrupt, SystemExit):
             raise
         except (Exception,):
@@ -57,8 +58,7 @@ class InfluxLoggingHandler(logging.Handler):
 
         Example: `logging.debug(msg, extra={key: value, ...})`.
         """
-        extra = {key: value
-                 for key, value in record.__dict__.items() if key not in self.DEFAULT_LOG_RECORD_KEYS}
-        if 'bucket' not in extra.keys():
-            extra['bucket'] = self.bucket
+        extra = {'bucket': self.bucket}
+        extra.update({key: value for key, value in record.__dict__.items()
+                      if key not in self.DEFAULT_LOG_RECORD_KEYS})
         return extra

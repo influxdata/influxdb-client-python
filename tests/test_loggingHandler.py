@@ -95,7 +95,7 @@ class LoggingHandlerTest(LoggingWithAttachedHandler):
     def test_can_log_points(self):
         point = Point("measurement").field("field_name", "field_value").time(333, WritePrecision.NS)
         self.logger.debug(point)
-        self.mock_write_api.write.assert_called_once_with(bucket="my-bucket", record=point)
+        self.mock_write_api.write.assert_called_once_with(bucket="my-bucket", record=str(point))
 
     def test_catches_urllib_exceptions(self):
         self.mock_write_api.write.side_effect = urllib3.exceptions.HTTPError()
@@ -131,6 +131,18 @@ class LoggingHandlerTest(LoggingWithAttachedHandler):
                                                           record=self.fake_line_record,
                                                           write_precision=WritePrecision.S,
                                                           arg3=3, arg2="two")
+
+    def test_formatter(self):
+        class MyFormatter(logging.Formatter):
+            def format(self, record: logging.LogRecord) -> str:
+                time_ns = int(record.created * 1e9) * 0 + 123
+                return f"{record.name},level={record.levelname} message=\"{record.msg}\" {time_ns}"
+
+        self.handler.setFormatter(MyFormatter())
+        msg = "a debug message"
+        self.logger.debug(msg)
+        expected_record = f"test-logger,level=DEBUG message=\"{msg}\" 123"
+        self.mock_write_api.write.assert_called_once_with(bucket="my-bucket", record=expected_record)
 
 
 if __name__ == "__main__":
