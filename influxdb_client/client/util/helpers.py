@@ -32,7 +32,13 @@ def get_org_query_param(org, client, required_id=False):
         _org = _org.id
     if required_id and _org and not _is_id(_org):
         try:
-            return client.organizations_api().find_organizations(org=_org)[0].id
+            organizations = client.organizations_api().find_organizations(org=_org)
+            if len(organizations) < 1:
+                from influxdb_client.client.exceptions import InfluxDBError
+                message = f"The client cannot find organization with name: '{_org}' " \
+                          "to determine their ID. Are you using token with sufficient permission?"
+                raise InfluxDBError(response=None, message=message)
+            return organizations[0].id
         except ApiException:
             return None
 

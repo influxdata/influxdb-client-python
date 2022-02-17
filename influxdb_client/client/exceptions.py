@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class InfluxDBError(Exception):
     """Raised when a server error occurs."""
 
-    def __init__(self, response: HTTPResponse):
+    def __init__(self, response: HTTPResponse = None, message: str = None):
         """Initialize the InfluxDBError handler."""
         if response is not None:
             self.response = response
@@ -18,7 +18,7 @@ class InfluxDBError(Exception):
             self.retry_after = response.getheader('Retry-After')
         else:
             self.response = None
-            self.message = 'no response'
+            self.message = message or 'no response'
             self.retry_after = None
         super().__init__(self.message)
 
