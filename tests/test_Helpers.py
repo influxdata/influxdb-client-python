@@ -1,5 +1,8 @@
-from influxdb_client import InfluxDBClient, Organization
+import pytest
+
+from influxdb_client import InfluxDBClient, Organization, PermissionResource, Permission
 # noinspection PyProtectedMember
+from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.util.helpers import get_org_query_param, _is_id
 from tests.base_test import BaseTest
 
@@ -36,3 +39,21 @@ class HelpersTest(BaseTest):
         self.client = InfluxDBClient(url=self.client.url, token="my-token")
         org = get_org_query_param(None, self.client)
         self.assertIsNone(org)
+
+    def test_not_permission_to_read_org(self):
+        # Create Token without permission to read Organizations
+        resource = PermissionResource(type="buckets", org_id=self.find_my_org().id)
+        authorization = self.client \
+            .authorizations_api() \
+            .create_authorization(org_id=self.find_my_org().id,
+                                  permissions=[Permission(resource=resource, action="read"),
+                                               Permission(resource=resource, action="write")])
+        self.client.close()
+
+        # Initialize client without permission to read Organizations
+        self.client = InfluxDBClient(url=self.client.url, token=authorization.token)
+
+        with pytest.raises(InfluxDBError) as e:
+            get_org_query_param("my-org", self.client, required_id=True)
+        assert "The client cannot find organization with name: 'my-org' to determine their ID. Are you using token " \
+               "with sufficient permission?" in f"{e.value} "
