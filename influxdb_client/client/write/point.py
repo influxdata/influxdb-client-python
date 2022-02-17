@@ -1,6 +1,5 @@
 """Point data structure to represent LineProtocol."""
 
-
 import math
 from builtins import int
 from datetime import datetime, timedelta
@@ -53,6 +52,8 @@ class Point(object):
 
     Ref: http://bit.ly/influxdata-point
     """
+
+    __str___rep = None
 
     @staticmethod
     def measurement(measurement):
@@ -146,7 +147,6 @@ class Point(object):
         self._name = measurement_name
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
-        pass
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
@@ -194,6 +194,24 @@ class Point(object):
     def write_precision(self):
         """Get precision."""
         return self._write_precision
+
+    @classmethod
+    def set_str_rep(cls, rep_function):
+        """Set the string representation for all Points."""
+        cls.__str___rep = rep_function
+
+    def __str__(self):
+        """
+        Create string representation of this Point.
+
+        Can be set via `Point.set_str_rep`. Defaults to `to_line_protocol`
+        Example:
+            .. code-block:: python
+                Point.set_str_rep(lambda p: f'{p._name} - {p._tags} - {p._fields} - {p._time}')
+        """
+        if self.__str___rep is None:
+            return self.to_line_protocol()
+        return self.__str___rep()
 
 
 def _append_tags(tags):
