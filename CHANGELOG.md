@@ -35,6 +35,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 
 ### Bug Fixes
 1. [#408](https://github.com/influxdata/influxdb-client-python/pull/408): Improve error message when the client cannot find organization by name
+1. [#407](https://github.com/influxdata/influxdb-client-python/pull/407): Use `pandas.concat()` instead of deprecated `DataFrame.append()` [DataFrame]
 
 ## 1.25.0 [2022-01-20]
 

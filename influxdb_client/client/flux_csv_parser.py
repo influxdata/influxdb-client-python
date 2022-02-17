@@ -187,7 +187,7 @@ class FluxCsvParser(object):
             _temp_df = _temp_df.set_index(self._data_frame_index)
 
         # Append data
-        return self._data_frame.astype(_temp_df.dtypes).append(_temp_df)
+        return pd.concat([self._data_frame.astype(_temp_df.dtypes), _temp_df])
 
     def parse_record(self, table_index, table, csv):
         """Parse one record."""
