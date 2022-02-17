@@ -33,6 +33,9 @@ This release introduces a support for new version of InfluxDB OSS API definition
 ### API
 1. [#399](https://github.com/influxdata/influxdb-client-python/pull/399): Use the latest InfluxDB OSS API definitions to generated APIs
 
+### Bug Fixes
+1. [#408](https://github.com/influxdata/influxdb-client-python/pull/408): Improve error message when the client cannot find organization by name
+
 ## 1.25.0 [2022-01-20]
 
 ### Features
