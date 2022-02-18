@@ -1,4 +1,4 @@
-## 1.26.0 [unreleased]
+## 1.26.0 [2022-02-18]
 
 ### Breaking Changes
 
