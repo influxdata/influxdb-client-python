@@ -127,6 +127,7 @@ class InfluxDBClient(object):
             - auth_basic
             - profilers
             - proxy
+            - server_hostname
 
 
         config.ini example::
@@ -140,6 +141,7 @@ class InfluxDBClient(object):
             auth_basic=false
             profilers=query,operator
             proxy=http:proxy.domain.org:8080
+            server_hostname="influxdb.server.com"
 
             [tags]
             id = 132-987-655
@@ -157,6 +159,7 @@ class InfluxDBClient(object):
                 auth_basic = false
                 profilers="query, operator"
                 proxy = "http://proxy.domain.org:8080"
+                server_hostname = "influxdb.server.com"
 
             [tags]
                 id = "132-987-655"
@@ -233,6 +236,7 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_SSL_CA_CERT
             - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
             - INFLUXDB_V2_AUTH_BASIC
+            - INFLUXDB_V2_SERVER_HOSTNAME
         """
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
@@ -242,6 +246,7 @@ class InfluxDBClient(object):
         ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
         connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
         auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
+        server_hostname = os.getenv('INFLUXDB_V2_SERVER_HOSTNAME', "influxdb.server.com")
 
         prof = os.getenv("INFLUXDB_V2_PROFILERS", None)
         profilers = None
@@ -257,7 +262,7 @@ class InfluxDBClient(object):
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers)
+                   profilers=profilers, server_hostname=server_hostname)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
         """
