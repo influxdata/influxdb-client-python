@@ -1,5 +1,8 @@
 ## 1.27.0 [unreleased]
 
+### CI
+ 1. [#411](https://github.com/influxdata/influxdb-client-python/pull/411): Use new Codecov uploader for reporting code coverage
+
 ## 1.26.0 [2022-02-18]
 
 ### Breaking Changes
