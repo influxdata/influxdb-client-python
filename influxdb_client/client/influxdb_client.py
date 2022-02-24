@@ -37,9 +37,9 @@ class InfluxDBClient(object):
         :param timeout: HTTP client timeout setting for a request specified in milliseconds.
                         If one number provided, it will be total request timeout.
                         It can also be a pair (tuple) of (connection, read) timeouts.
-        :param enable_gzip: Enable Gzip compression for http requests. Currently only the "Write" and "Query" endpoints
+        :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
                             supports the Gzip compression.
-        :param org: organization name (used as a default in query and write API)
+        :param org: organization name (used as a default in Query, Write and Delete API)
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
         :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
         :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)

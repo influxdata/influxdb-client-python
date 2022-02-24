@@ -31,7 +31,7 @@ def setup(app):
 
 
 project = 'influxdb_client'
-copyright = '2019 InfluxData, Inc'
+copyright = '2022 InfluxData, Inc'
 author = 'Robert Hajek, Jakub Bednar'
 
 autoclass_content = 'both'

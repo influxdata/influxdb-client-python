@@ -292,8 +292,8 @@ class WriteApi:
 
         :param str bucket: specifies the destination bucket for writes (required)
         :param str, Organization org: specifies the destination organization for writes;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      take the ID, Name or Organization.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param WritePrecision write_precision: specifies the precision for the unix timestamps within
                                                the body line-protocol. The precision specified on a Point has precedes
                                                and is use for write.

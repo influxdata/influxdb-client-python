@@ -29,8 +29,8 @@ class BucketsApi(object):
         :param bucket_name: bucket name
         :param retention_rules: retention rules array or single BucketRetentionRules
         :param str, Organization org: specifies the organization for create the bucket;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
