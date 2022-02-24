@@ -1,7 +1,10 @@
 ## 1.27.0 [unreleased]
 
+### Features
+1. [#412](https://github.com/influxdata/influxdb-client-python/pull/412): `DeleteApi` uses default value from `InfluxDBClient.org` if an `org` parameter is not specified
+
 ### CI
- 1. [#411](https://github.com/influxdata/influxdb-client-python/pull/411): Use new Codecov uploader for reporting code coverage
+1. [#411](https://github.com/influxdata/influxdb-client-python/pull/411): Use new Codecov uploader for reporting code coverage
 
 ## 1.26.0 [2022-02-18]
 
