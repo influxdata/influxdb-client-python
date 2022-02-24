@@ -246,7 +246,7 @@ class InfluxDBClient(object):
         ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
         connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
         auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
-        server_hostname = os.getenv('INFLUXDB_V2_SERVER_HOSTNAME', "influxdb.server.com")
+        server_hostname = os.getenv('INFLUXDB_V2_SERVER_HOSTNAME', None)
 
         prof = os.getenv("INFLUXDB_V2_PROFILERS", None)
         profilers = None
