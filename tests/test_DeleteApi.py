@@ -60,7 +60,20 @@ class DeleteApiTest(BaseTest):
 
         start = "1970-01-01T00:00:00.000000001Z"
         stop = "1970-01-01T00:00:00.000000012Z"
-        self._delete_and_verify(start, stop)
+        self._delete_and_verify(start, stop, self.organization.name)
+
+    def test_delete_org_parameters_types(self):
+
+        orgs = [
+            self.organization,
+            self.organization.id,
+            self.organization.name,
+            None
+        ]
+
+        for org in orgs:
+            self._write_data()
+            self._delete_and_verify("1970-01-01T00:00:00.000000001Z", "1970-01-01T00:00:00.000000012Z", org)
 
     def test_start_stop_types(self):
         starts_stops = [
@@ -70,10 +83,10 @@ class DeleteApiTest(BaseTest):
         ]
         for start_stop in starts_stops:
             self._write_data()
-            self._delete_and_verify(start_stop[0], start_stop[1])
+            self._delete_and_verify(start_stop[0], start_stop[1], self.organization.name)
 
-    def _delete_and_verify(self, start, stop):
-        self.delete_api.delete(start, stop, "", bucket=self.bucket.name, org=self.organization.name)
+    def _delete_and_verify(self, start, stop, org):
+        self.delete_api.delete(start, stop, "", bucket=self.bucket.name, org=org)
         flux_tables = self.client.query_api().query(
             f'from(bucket:"{self.bucket.name}") |> range(start: 1970-01-01T00:00:00.000000001Z)',
             org=self.organization.id)

@@ -55,8 +55,8 @@ class QueryApi(object):
 
         :param query: a Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: The returned object is an iterator.  Each iteration returns a row of the CSV file
@@ -74,8 +74,8 @@ class QueryApi(object):
 
         :param query: a Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: str
@@ -92,8 +92,8 @@ class QueryApi(object):
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param params: bind parameters
         :return:
         """
@@ -115,8 +115,8 @@ class QueryApi(object):
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param params: bind parameters
         :return:
         """
@@ -138,8 +138,8 @@ class QueryApi(object):
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return:
@@ -165,8 +165,8 @@ class QueryApi(object):
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
-                                      take the ID, Name or Organization;
-                                      if it's not specified then is used default from client.org.
+                                      Take the ``ID``, ``Name`` or ``Organization``.
+                                      If not specified the default value from ``InfluxDBClient.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return:

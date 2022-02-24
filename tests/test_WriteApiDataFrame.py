@@ -327,7 +327,10 @@ class DataSerializerTest(unittest.TestCase):
         from influxdb_client.extras import pd, np
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
-        for np_float_type in [np.float, np.float16, np.float32, np.float64, np.float128]:
+        float_types = [np.float, np.float16, np.float32, np.float64]
+        if hasattr(np, 'float128'):
+            float_types.append(np.float128)
+        for np_float_type in float_types:
             data_frame = pd.DataFrame([15.5], index=[now], columns=['level']).astype(np_float_type)
             points = data_frame_to_list_of_points(data_frame=data_frame,
                                                   data_frame_measurement_name='h2o',
