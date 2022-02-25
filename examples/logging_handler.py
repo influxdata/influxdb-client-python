@@ -10,6 +10,7 @@ import logging
 import time
 
 from influxdb_client import InfluxLoggingHandler, WritePrecision, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 DATA_LOGGER_NAME = '…'
 
@@ -20,9 +21,10 @@ def setup_logger():
 
     This can happen in your core module.
     """
-    influx_logging_handler = InfluxLoggingHandler(url="…", token="…", org="…", bucket="…",
-                                                  client_args={'arg1': '…'},
-                                                  write_api_args={'arg': '…'})
+    influx_logging_handler = InfluxLoggingHandler(
+        url="http://localhost:8086", token="my-token", org="my-org", bucket="my-bucket",
+        client_args={'timeout': 30_000},  # optional configuration of the client
+        write_api_args={'write_options': SYNCHRONOUS})  # optional configuration of the write api
     influx_logging_handler.setLevel(logging.DEBUG)
 
     data_logger = logging.getLogger(DATA_LOGGER_NAME)
@@ -45,3 +47,8 @@ def use_logger():
             .field('temperature', 25.3)
             .time(datetime.datetime.utcnow(), WritePrecision.MS)
     )
+
+
+if __name__ == "__main__":
+    setup_logger()
+    use_logger()

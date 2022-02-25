@@ -53,8 +53,6 @@ class Point(object):
     Ref: http://bit.ly/influxdata-point
     """
 
-    __str___rep = None
-
     @staticmethod
     def measurement(measurement):
         """Create a new Point with specified measurement name."""
@@ -201,17 +199,8 @@ class Point(object):
         cls.__str___rep = rep_function
 
     def __str__(self):
-        """
-        Create string representation of this Point.
-
-        Can be set via `Point.set_str_rep`. Defaults to `to_line_protocol`
-        Example:
-            .. code-block:: python
-                Point.set_str_rep(lambda p: f'{p._name} - {p._tags} - {p._fields} - {p._time}')
-        """
-        if self.__str___rep is None:
-            return self.to_line_protocol()
-        return self.__str___rep()
+        """Create string representation of this Point."""
+        return self.to_line_protocol()
 
 
 def _append_tags(tags):

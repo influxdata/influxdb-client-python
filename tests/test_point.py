@@ -13,15 +13,8 @@ class PointTest(unittest.TestCase):
 
     def test_ToStr(self):
         point = Point.measurement("h2o").tag("location", "europe").field("level", 2.2)
-        expected_str = "h2o,location=europe level=2.2"
+        expected_str = point.to_line_protocol()
         self.assertEqual(expected_str, str(point))
-
-        def my_str_rep(p: Point) -> str:
-            return f'{p._name} - {p._tags} - {p._fields} - {p._time}'
-
-        Point.set_str_rep(my_str_rep)
-
-        self.assertEqual(my_str_rep(point), str(point))
 
     def test_MeasurementEscape(self):
         point = Point.measurement("h2 o").tag("location", "europe").tag("", "warn").field("level", 2)
