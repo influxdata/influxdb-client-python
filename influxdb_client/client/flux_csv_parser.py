@@ -34,22 +34,32 @@ class FluxCsvParserException(Exception):
 
 
 class FluxSerializationMode(Enum):
-    """The type how we wan't to serialize data."""
+    """The type how we want to serialize data."""
 
     tables = 1
     stream = 2
     dataFrame = 3
 
 
+class FluxResponseMetadataMode(Enum):
+    """The configuration for expected amount of metadata respons from InfluxDB."""
+
+    full = 1
+    # useful for Invocable scripts
+    only_names = 2
+
+
 class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
     def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
-                 data_frame_index: List[str] = None, query_options=None) -> None:
+                 data_frame_index: List[str] = None, query_options=None,
+                 response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> None:
         """Initialize defaults."""
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
+        self._response_metadata_mode = response_metadata_mode
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
         self._profilers = query_options.profilers if query_options is not None else None
@@ -97,8 +107,9 @@ class FluxCsvParser(object):
                 raise FluxQueryException(error, reference_value)
 
             token = csv[0]
-            # start    new    table
-            if token in ANNOTATIONS and not start_new_table:
+            # start new table
+            if (token in ANNOTATIONS and not start_new_table) or \
+                    (self._response_metadata_mode is FluxResponseMetadataMode.only_names and not table):
 
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
@@ -127,6 +138,10 @@ class FluxCsvParser(object):
             else:
                 # parse column names
                 if start_new_table:
+                    # Invocable scripts doesn't supports dialect => all columns are string
+                    if not table.columns and self._response_metadata_mode is FluxResponseMetadataMode.only_names:
+                        self.add_data_types(table, list(map(lambda column: 'string', csv)))
+                        groups = list(map(lambda column: 'false', csv))
                     self.add_groups(table, groups)
                     self.add_column_names_and_tags(table, csv)
                     start_new_table = False

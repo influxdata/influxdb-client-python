@@ -9,6 +9,7 @@ from typing import List, Iterator, Generator, Any
 
 from influxdb_client import Script, InvocableScriptsService, ScriptCreateRequest, ScriptUpdateRequest, \
     ScriptInvocationParams
+from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.queryable_api import QueryableApi
 
@@ -74,7 +75,7 @@ class InvocableScriptsApi(QueryableApi):
                                     async_req=False,
                                     _preload_content=False,
                                     _return_http_data_only=False)
-        return self._to_tables(response, query_options=None)
+        return self._to_tables(response, query_options=None, response_metadata_mode=FluxResponseMetadataMode.only_names)
 
     def invoke_scripts_stream(self, script_id: str, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
@@ -94,7 +95,8 @@ class InvocableScriptsApi(QueryableApi):
                                     _preload_content=False,
                                     _return_http_data_only=False)
 
-        return self._to_flux_record_stream(response, query_options=None)
+        return self._to_flux_record_stream(response, query_options=None,
+                                           response_metadata_mode=FluxResponseMetadataMode.only_names)
 
     def invoke_scripts_data_frame(self, script_id: str, params: dict = None, data_frame_index: List[str] = None):
         """
@@ -134,7 +136,8 @@ class InvocableScriptsApi(QueryableApi):
                                     _preload_content=False,
                                     _return_http_data_only=False)
 
-        return self._to_data_frame_stream(data_frame_index, response, query_options=None)
+        return self._to_data_frame_stream(data_frame_index, response, query_options=None,
+                                          response_metadata_mode=FluxResponseMetadataMode.only_names)
 
     def invoke_scripts_csv(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
         """

@@ -56,6 +56,16 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     Invoke a script
     """
+    # FluxRecords
+    print(f"\n------- Invoke to FluxRecords -------\n")
+    tables = scripts_api.invoke_scripts(script_id=created_script.id, params={"bucket_name": bucket_name})
+    for table in tables:
+        for record in table.records:
+            print(f'FluxRecord {record}')
+    # Pandas DataFrame
+    print(f"\n------- Invoke to PandasData Frame -------\n")
+    data_frame = scripts_api.invoke_scripts_data_frame(script_id=created_script.id, params={"bucket_name": bucket_name})
+    print(data_frame.to_string())
     # CSV
     print(f"\n------- Invoke to CSV-------\n")
     csv_lines = scripts_api.invoke_scripts_csv(script_id=created_script.id, params={"bucket_name": bucket_name})

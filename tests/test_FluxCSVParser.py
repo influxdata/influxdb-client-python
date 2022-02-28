@@ -4,7 +4,8 @@ from io import BytesIO
 
 from urllib3 import HTTPResponse
 
-from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode, FluxQueryException
+from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode, FluxQueryException, \
+    FluxResponseMetadataMode
 from influxdb_client.client.flux_table import FluxStructureEncoder
 
 
@@ -231,7 +232,8 @@ class FluxCsvParserTest(unittest.TestCase):
                f",result,table,_field,_measurement,_start,_stop,_time,_value,tag{columns}\n" \
                f",,0,value,python_client_test,2010-02-27T04:48:32.752600083Z,2020-02-27T16:48:32.752600083Z,2020-02-27T16:20:00Z,2,test1{values}\n" \
 
-        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame)
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
         _dataFrames = list(parser.generator())
         self.assertEqual(1, _dataFrames.__len__())
 
@@ -241,7 +243,8 @@ class FluxCsvParserTest(unittest.TestCase):
                "#default,_result,,,,,,,,,,,,\n" \
                ",result,table,_start,_stop,_field,_measurement,host,region,value1,value2,value3,value4,value5\n" \
                ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test,true,6.56\n"
-        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame)
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
         self.assertEqual(13, df.dtypes.__len__())
         self.assertEqual('object', df.dtypes['result'].name)
@@ -258,15 +261,30 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual('bool', df.dtypes['value4'].name)
         self.assertEqual('float64', df.dtypes['value5'].name)
 
+    def test_parse_without_datatype(self):
+        data = ",result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str\n" \
+               ",,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test\n" \
+               ",,1,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test\n"
+
+        tables = self._parse_to_tables(data=data, response_metadata_mode=FluxResponseMetadataMode.only_names)
+        self.assertEqual(2, tables.__len__())
+        self.assertEqual(11, tables[0].columns.__len__())
+        self.assertEqual(1, tables[0].records.__len__())
+        self.assertEqual(11, tables[0].records[0].values.__len__())
+        self.assertEqual('0', tables[0].records[0]['table'])
+        self.assertEqual('11', tables[0].records[0]['value1'])
+        self.assertEqual('west', tables[0].records[0]['region'])
+
     @staticmethod
-    def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables):
-        _parser = FluxCsvParserTest._parse(data, serialization_mode)
+    def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables,
+                         response_metadata_mode=FluxResponseMetadataMode.full):
+        _parser = FluxCsvParserTest._parse(data, serialization_mode, response_metadata_mode=response_metadata_mode)
         list(_parser.generator())
         tables = _parser.tables
         return tables
 
     @staticmethod
-    def _parse(data, serialization_mode):
+    def _parse(data, serialization_mode, response_metadata_mode):
         fp = BytesIO(str.encode(data))
         return FluxCsvParser(response=HTTPResponse(fp, preload_content=False),
-                             serialization_mode=serialization_mode)
+                             serialization_mode=serialization_mode, response_metadata_mode=response_metadata_mode)
