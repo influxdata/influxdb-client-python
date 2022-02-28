@@ -8,7 +8,7 @@ class InfluxLoggingHandler(logging.Handler):
     """
     InfluxLoggingHandler instances dispatch logging events to influx.
 
-    There is no need to set a Formater.
+    There is no need to set a Formatter.
     The raw input will be passed on to the influx write api.
     """
 
