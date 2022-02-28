@@ -17,7 +17,7 @@ class LoggingBaseTestCase(unittest.TestCase):
     BUCKET = 'my-bucket'
 
     def setUp(self) -> None:
-        self.mock_InfluxDBClient = unittest.mock.patch("influxdb_client.client.loggingHandler.InfluxDBClient").start()
+        self.mock_InfluxDBClient = unittest.mock.patch("influxdb_client.client.logging_handler.InfluxDBClient").start()
         self.mock_client = unittest.mock.MagicMock(spec=InfluxDBClient)
         self.mock_write_api = unittest.mock.MagicMock(spec=WriteApi)
         self.mock_client.write_api.return_value = self.mock_write_api
