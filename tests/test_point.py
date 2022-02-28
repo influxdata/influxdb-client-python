@@ -11,6 +11,11 @@ from influxdb_client import Point, WritePrecision
 
 class PointTest(unittest.TestCase):
 
+    def test_ToStr(self):
+        point = Point.measurement("h2o").tag("location", "europe").field("level", 2.2)
+        expected_str = point.to_line_protocol()
+        self.assertEqual(expected_str, str(point))
+
     def test_MeasurementEscape(self):
         point = Point.measurement("h2 o").tag("location", "europe").tag("", "warn").field("level", 2)
         self.assertEqual(point.to_line_protocol(), "h2\\ o,location=europe level=2i")
@@ -36,17 +41,17 @@ class PointTest(unittest.TestCase):
         self.assertEqual("h2o,location=europe level=2i", point.to_line_protocol())
 
     def test_TagEscapingKeyAndValue(self):
-
         point = Point.measurement("h\n2\ro\t_data") \
             .tag("new\nline", "new\nline") \
             .tag("carriage\rreturn", "carriage\nreturn") \
             .tag("t\tab", "t\tab") \
             .field("level", 2)
 
-        self.assertEqual("h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\nreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i", point.to_line_protocol())
+        self.assertEqual(
+            "h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\nreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i",
+            point.to_line_protocol())
 
     def test_EqualSignEscaping(self):
-
         point = Point.measurement("h=2o") \
             .tag("l=ocation", "e=urope") \
             .field("l=evel", 2)
@@ -391,22 +396,24 @@ class PointTest(unittest.TestCase):
     def test_numpy_types(self):
         from influxdb_client.extras import np
 
-        point = Point.measurement("h2o")\
-            .tag("location", "europe")\
-            .field("np.float1", np.float(1.123))\
-            .field("np.float2", np.float16(2.123))\
-            .field("np.float3", np.float32(3.123))\
-            .field("np.float4", np.float64(4.123))\
-            .field("np.int1", np.int8(1))\
-            .field("np.int2", np.int16(2))\
-            .field("np.int3", np.int32(3))\
-            .field("np.int4", np.int64(4))\
-            .field("np.uint1", np.uint8(5))\
-            .field("np.uint2", np.uint16(6))\
-            .field("np.uint3", np.uint32(7))\
+        point = Point.measurement("h2o") \
+            .tag("location", "europe") \
+            .field("np.float1", np.float(1.123)) \
+            .field("np.float2", np.float16(2.123)) \
+            .field("np.float3", np.float32(3.123)) \
+            .field("np.float4", np.float64(4.123)) \
+            .field("np.int1", np.int8(1)) \
+            .field("np.int2", np.int16(2)) \
+            .field("np.int3", np.int32(3)) \
+            .field("np.int4", np.int64(4)) \
+            .field("np.uint1", np.uint8(5)) \
+            .field("np.uint2", np.uint16(6)) \
+            .field("np.uint3", np.uint32(7)) \
             .field("np.uint4", np.uint64(8))
 
-        self.assertEqual("h2o,location=europe np.float1=1.123,np.float2=2.123,np.float3=3.123,np.float4=4.123,np.int1=1i,np.int2=2i,np.int3=3i,np.int4=4i,np.uint1=5i,np.uint2=6i,np.uint3=7i,np.uint4=8i", point.to_line_protocol())
+        self.assertEqual(
+            "h2o,location=europe np.float1=1.123,np.float2=2.123,np.float3=3.123,np.float4=4.123,np.int1=1i,np.int2=2i,np.int3=3i,np.int4=4i,np.uint1=5i,np.uint2=6i,np.uint3=7i,np.uint4=8i",
+            point.to_line_protocol())
 
     def test_from_dictionary_custom_measurement(self):
         dictionary = {
@@ -457,7 +464,9 @@ class PointTest(unittest.TestCase):
                                 record_measurement_key="name",
                                 record_tag_keys=["location", "version"],
                                 record_field_keys=["pressure", "temperature"])
-        self.assertEqual("sensor_pt859,location=warehouse_125,version=2021.06.05.5874 pressure=125i,temperature=10i 1632208639", point.to_line_protocol())
+        self.assertEqual(
+            "sensor_pt859,location=warehouse_125,version=2021.06.05.5874 pressure=125i,temperature=10i 1632208639",
+            point.to_line_protocol())
 
     def test_from_dictionary_tolerant_to_missing_tags_and_fields(self):
         dictionary = {

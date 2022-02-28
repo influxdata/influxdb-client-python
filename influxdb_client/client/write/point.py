@@ -1,6 +1,5 @@
 """Point data structure to represent LineProtocol."""
 
-
 import math
 from builtins import int
 from datetime import datetime, timedelta
@@ -146,7 +145,6 @@ class Point(object):
         self._name = measurement_name
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
-        pass
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
@@ -194,6 +192,15 @@ class Point(object):
     def write_precision(self):
         """Get precision."""
         return self._write_precision
+
+    @classmethod
+    def set_str_rep(cls, rep_function):
+        """Set the string representation for all Points."""
+        cls.__str___rep = rep_function
+
+    def __str__(self):
+        """Create string representation of this Point."""
+        return self.to_line_protocol()
 
 
 def _append_tags(tags):
