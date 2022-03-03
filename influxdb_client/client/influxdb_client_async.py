@@ -1,4 +1,4 @@
-"""InfluxDBClientAsync is client for API defined in https://github.com/influxdata/influxdb/blob/master/http/swagger.yml."""
+"""InfluxDBClientAsync is client for API defined in https://github.com/influxdata/openapi/blob/master/contracts/oss.yml."""  # noqa: E501
 
 from influxdb_client.client._base import _BaseClient
 
