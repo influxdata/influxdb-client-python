@@ -81,6 +81,11 @@ DeleteApi
 .. autoclass:: influxdb_client.domain.DeletePredicateRequest
    :members:
 
+InfluxDBClientAsync
+"""""""""""""""""""
+.. autoclass:: influxdb_client.client.influxdb_client_async.InfluxDBClientAsync
+   :members:
+
 Helpers
 """""""
 .. autoclass:: influxdb_client.client.util.date_utils.DateHelper
