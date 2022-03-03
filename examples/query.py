@@ -3,7 +3,7 @@ import datetime as datetime
 from influxdb_client import InfluxDBClient, Point, Dialect
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",debug=True) as client:
+with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False) as client:
 
     write_api = client.write_api(write_options=SYNCHRONOUS)
 

@@ -78,7 +78,7 @@ class LineProtocolLengthError(object):
     def message(self):
         """Get the message of this LineProtocolLengthError.
 
-        Message is a human-readable message.
+        Human-readable message.
 
         :return: The message of this LineProtocolLengthError.
         :rtype: str
@@ -89,7 +89,7 @@ class LineProtocolLengthError(object):
     def message(self, message):
         """Set the message of this LineProtocolLengthError.
 
-        Message is a human-readable message.
+        Human-readable message.
 
         :param message: The message of this LineProtocolLengthError.
         :type: str

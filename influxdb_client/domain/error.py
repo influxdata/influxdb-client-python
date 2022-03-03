@@ -54,7 +54,8 @@ class Error(object):
         self.discriminator = None
 
         self.code = code
-        self.message = message
+        if message is not None:
+            self.message = message
         if op is not None:
             self.op = op
         if err is not None:
@@ -88,7 +89,7 @@ class Error(object):
     def message(self):
         """Get the message of this Error.
 
-        message is a human-readable message.
+        Human-readable message.
 
         :return: The message of this Error.
         :rtype: str
@@ -99,20 +100,18 @@ class Error(object):
     def message(self, message):
         """Set the message of this Error.
 
-        message is a human-readable message.
+        Human-readable message.
 
         :param message: The message of this Error.
         :type: str
         """  # noqa: E501
-        if message is None:
-            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
         self._message = message
 
     @property
     def op(self):
         """Get the op of this Error.
 
-        op describes the logical code operation during error. Useful for debugging.
+        Describes the logical code operation when the error occurred. Useful for debugging.
 
         :return: The op of this Error.
         :rtype: str
@@ -123,7 +122,7 @@ class Error(object):
     def op(self, op):
         """Set the op of this Error.
 
-        op describes the logical code operation during error. Useful for debugging.
+        Describes the logical code operation when the error occurred. Useful for debugging.
 
         :param op: The op of this Error.
         :type: str
@@ -134,7 +133,7 @@ class Error(object):
     def err(self):
         """Get the err of this Error.
 
-        err is a stack of errors that occurred during processing of the request. Useful for debugging.
+        Stack of errors that occurred during processing of the request. Useful for debugging.
 
         :return: The err of this Error.
         :rtype: str
@@ -145,7 +144,7 @@ class Error(object):
     def err(self, err):
         """Set the err of this Error.
 
-        err is a stack of errors that occurred during processing of the request. Useful for debugging.
+        Stack of errors that occurred during processing of the request. Useful for debugging.
 
         :param err: The err of this Error.
         :type: str

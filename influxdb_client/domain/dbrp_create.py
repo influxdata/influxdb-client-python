@@ -73,7 +73,7 @@ class DBRPCreate(object):
     def org_id(self):
         """Get the org_id of this DBRPCreate.
 
-        the organization ID that owns this mapping.
+        ID of the organization that owns this mapping.
 
         :return: The org_id of this DBRPCreate.
         :rtype: str
@@ -84,7 +84,7 @@ class DBRPCreate(object):
     def org_id(self, org_id):
         """Set the org_id of this DBRPCreate.
 
-        the organization ID that owns this mapping.
+        ID of the organization that owns this mapping.
 
         :param org_id: The org_id of this DBRPCreate.
         :type: str
@@ -95,7 +95,7 @@ class DBRPCreate(object):
     def org(self):
         """Get the org of this DBRPCreate.
 
-        the organization that owns this mapping.
+        Name of the organization that owns this mapping.
 
         :return: The org of this DBRPCreate.
         :rtype: str
@@ -106,7 +106,7 @@ class DBRPCreate(object):
     def org(self, org):
         """Set the org of this DBRPCreate.
 
-        the organization that owns this mapping.
+        Name of the organization that owns this mapping.
 
         :param org: The org of this DBRPCreate.
         :type: str
@@ -117,7 +117,7 @@ class DBRPCreate(object):
     def bucket_id(self):
         """Get the bucket_id of this DBRPCreate.
 
-        the bucket ID used as target for the translation.
+        ID of the bucket used as the target for the translation.
 
         :return: The bucket_id of this DBRPCreate.
         :rtype: str
@@ -128,7 +128,7 @@ class DBRPCreate(object):
     def bucket_id(self, bucket_id):
         """Set the bucket_id of this DBRPCreate.
 
-        the bucket ID used as target for the translation.
+        ID of the bucket used as the target for the translation.
 
         :param bucket_id: The bucket_id of this DBRPCreate.
         :type: str
@@ -189,7 +189,7 @@ class DBRPCreate(object):
     def default(self):
         """Get the default of this DBRPCreate.
 
-        Specify if this mapping represents the default retention policy for the database specificed.
+        Mapping represents the default retention policy for the database specified.
 
         :return: The default of this DBRPCreate.
         :rtype: bool
@@ -200,7 +200,7 @@ class DBRPCreate(object):
     def default(self, default):
         """Set the default of this DBRPCreate.
 
-        Specify if this mapping represents the default retention policy for the database specificed.
+        Mapping represents the default retention policy for the database specified.
 
         :param default: The default of this DBRPCreate.
         :type: bool

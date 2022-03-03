@@ -57,9 +57,12 @@ class LineProtocolError(object):
         self.discriminator = None
 
         self.code = code
-        self.message = message
-        self.op = op
-        self.err = err
+        if message is not None:
+            self.message = message
+        if op is not None:
+            self.op = op
+        if err is not None:
+            self.err = err
         if line is not None:
             self.line = line
 
@@ -91,7 +94,7 @@ class LineProtocolError(object):
     def message(self):
         """Get the message of this LineProtocolError.
 
-        Message is a human-readable message.
+        Human-readable message.
 
         :return: The message of this LineProtocolError.
         :rtype: str
@@ -102,20 +105,18 @@ class LineProtocolError(object):
     def message(self, message):
         """Set the message of this LineProtocolError.
 
-        Message is a human-readable message.
+        Human-readable message.
 
         :param message: The message of this LineProtocolError.
         :type: str
         """  # noqa: E501
-        if message is None:
-            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
         self._message = message
 
     @property
     def op(self):
         """Get the op of this LineProtocolError.
 
-        Op describes the logical code operation during error. Useful for debugging.
+        Describes the logical code operation when the error occurred. Useful for debugging.
 
         :return: The op of this LineProtocolError.
         :rtype: str
@@ -126,20 +127,18 @@ class LineProtocolError(object):
     def op(self, op):
         """Set the op of this LineProtocolError.
 
-        Op describes the logical code operation during error. Useful for debugging.
+        Describes the logical code operation when the error occurred. Useful for debugging.
 
         :param op: The op of this LineProtocolError.
         :type: str
         """  # noqa: E501
-        if op is None:
-            raise ValueError("Invalid value for `op`, must not be `None`")  # noqa: E501
         self._op = op
 
     @property
     def err(self):
         """Get the err of this LineProtocolError.
 
-        Err is a stack of errors that occurred during processing of the request. Useful for debugging.
+        Stack of errors that occurred during processing of the request. Useful for debugging.
 
         :return: The err of this LineProtocolError.
         :rtype: str
@@ -150,20 +149,18 @@ class LineProtocolError(object):
     def err(self, err):
         """Set the err of this LineProtocolError.
 
-        Err is a stack of errors that occurred during processing of the request. Useful for debugging.
+        Stack of errors that occurred during processing of the request. Useful for debugging.
 
         :param err: The err of this LineProtocolError.
         :type: str
         """  # noqa: E501
-        if err is None:
-            raise ValueError("Invalid value for `err`, must not be `None`")  # noqa: E501
         self._err = err
 
     @property
     def line(self):
         """Get the line of this LineProtocolError.
 
-        First line within sent body containing malformed data
+        First line in the request body that contains malformed data.
 
         :return: The line of this LineProtocolError.
         :rtype: int
@@ -174,7 +171,7 @@ class LineProtocolError(object):
     def line(self, line):
         """Set the line of this LineProtocolError.
 
-        First line within sent body containing malformed data
+        First line in the request body that contains malformed data.
 
         :param line: The line of this LineProtocolError.
         :type: int

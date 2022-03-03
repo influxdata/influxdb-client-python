@@ -8,7 +8,8 @@ import os
 import base64
 import warnings
 
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService, PingService
+from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService, PingService, \
+    InvocableScriptsApi
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
@@ -337,12 +338,20 @@ class InfluxDBClient(object):
 
     def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApi:
         """
-        Create a Query API instance.
+        Create an Query API instance.
 
         :param query_options: optional query api configuration
         :return: Query api instance
         """
         return QueryApi(self, query_options)
+
+    def invocable_scripts_api(self) -> InvocableScriptsApi:
+        """
+        Create an InvocableScripts API instance.
+
+        :return: InvocableScripts API instance
+        """
+        return InvocableScriptsApi(self)
 
     def close(self):
         """Shutdown the client."""

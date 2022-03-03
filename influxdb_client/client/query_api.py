@@ -4,8 +4,6 @@ Querying InfluxDB bu FluxLang.
 Flux is InfluxData’s functional data scripting language designed for querying, analyzing, and acting on data.
 """
 
-import codecs
-import csv
 from datetime import datetime, timedelta
 from typing import List, Generator, Any, Union, Iterable, Callable
 
@@ -13,8 +11,8 @@ from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLitera
     VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, Expression, \
     ImportDeclaration, MemberAssignment, MemberExpression, ArrayExpression
 from influxdb_client import Query, QueryService
-from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.queryable_api import QueryableApi
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
 
@@ -33,7 +31,7 @@ class QueryOptions(object):
         self.profiler_callback = profiler_callback
 
 
-class QueryApi(object):
+class QueryApi(QueryableApi):
     """Implementation for '/api/v2/query' endpoint."""
 
     default_dialect = Dialect(header=True, delimiter=",", comment_prefix="#",
@@ -59,14 +57,14 @@ class QueryApi(object):
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param dialect: csv dialect format
         :param params: bind parameters
-        :return: The returned object is an iterator.  Each iteration returns a row of the CSV file
+        :return: The returned object is an iterator. Each iteration returns a row of the CSV file
                  (which can span multiple input lines).
         """
         org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
                                               async_req=False, _preload_content=False)
 
-        return csv.reader(codecs.iterdecode(response, 'utf-8'))
+        return self._to_csv(response)
 
     def query_raw(self, query: str, org=None, dialect=default_dialect, params: dict = None):
         """
@@ -102,12 +100,7 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
-                                query_options=self._get_query_options())
-
-        list(_parser.generator())
-
-        return _parser.table_list()
+        return self._to_tables(response, query_options=self._get_query_options())
 
     def query_stream(self, query: str, org=None, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
@@ -124,10 +117,7 @@ class QueryApi(object):
 
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
-                                query_options=self._get_query_options())
-
-        return _parser.generator()
+        return self._to_flux_record_stream(response, query_options=self._get_query_options())
 
     def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None):
         """
@@ -144,17 +134,8 @@ class QueryApi(object):
         :param params: bind parameters
         :return:
         """
-        from ..extras import pd
-
         _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index, params=params)
-        _dataFrames = list(_generator)
-
-        if len(_dataFrames) == 0:
-            return pd.DataFrame(columns=[], index=None)
-        elif len(_dataFrames) == 1:
-            return _dataFrames[0]
-        else:
-            return _dataFrames
+        return self._to_data_frames(_generator)
 
     def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None):
         """
@@ -176,10 +157,9 @@ class QueryApi(object):
         response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
-                                data_frame_index=data_frame_index,
-                                query_options=self._get_query_options())
-        return _parser.generator()
+        return self._to_data_frame_stream(data_frame_index=data_frame_index,
+                                          response=response,
+                                          query_options=self._get_query_options())
 
     def _get_query_options(self):
         if self._query_options and self._query_options.profilers:
