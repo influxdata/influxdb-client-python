@@ -1,9 +1,12 @@
 """Commons function for Sync and Async client."""
+from __future__ import absolute_import
+
 import base64
 
 from influxdb_client import Configuration
 
 
+# noinspection PyMethodMayBeStatic
 class _BaseClient(object):
     def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
                  default_tags: dict = None, **kwargs) -> None:
@@ -39,6 +42,13 @@ class _BaseClient(object):
 
         self.profilers = kwargs.get('profilers', None)
         pass
+
+    def _version(self, response) -> str:
+        if response is not None and len(response) >= 3:
+            if 'X-Influxdb-Version' in response[2]:
+                return response[2]['X-Influxdb-Version']
+
+        return "unknown"
 
 
 class _Configuration(Configuration):

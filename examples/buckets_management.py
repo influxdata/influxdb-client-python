@@ -1,5 +1,5 @@
 """
-How to How to create, list and delete Buckets.
+How to create, list and delete Buckets.
 """
 
 from influxdb_client import InfluxDBClient, BucketRetentionRules

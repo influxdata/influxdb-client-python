@@ -20,7 +20,7 @@ from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
 
 class InfluxDBClient(_BaseClient):
@@ -399,7 +399,7 @@ class InfluxDBClient(_BaseClient):
 
     def ping(self) -> bool:
         """
-        Return the the status of InfluxDB instance.
+        Return the status of InfluxDB instance.
 
         :return: The status of InfluxDB.
         """
@@ -421,11 +421,8 @@ class InfluxDBClient(_BaseClient):
         ping_service = PingService(self.api_client)
 
         response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
-        if response is not None and len(response) >= 3:
-            if 'X-Influxdb-Version' in response[2]:
-                return response[2]['X-Influxdb-Version']
 
-        return "unknown"
+        return self._version(response)
 
     def ready(self) -> Ready:
         """

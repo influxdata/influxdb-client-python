@@ -1,6 +1,10 @@
 """InfluxDBClientAsync is client for API defined in https://github.com/influxdata/openapi/blob/master/contracts/oss.yml."""  # noqa: E501
+import logging
 
+from influxdb_client import PingService
 from influxdb_client.client._base import _BaseClient
+
+logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
 
 class InfluxDBClientAsync(_BaseClient):
@@ -37,3 +41,29 @@ class InfluxDBClientAsync(_BaseClient):
         if self.api_client:
             await self.api_client.close()
             self.api_client = None
+
+    async def ping(self) -> bool:
+        """
+        Return the status of InfluxDB instance.
+
+        :return: The status of InfluxDB.
+        """
+        ping_service = PingService(self.api_client)
+
+        try:
+            await ping_service.get_ping_with_http_info()
+            return True
+        except Exception as ex:
+            logger.debug("Unexpected error during /ping: %s", ex)
+            raise ex
+
+    async def version(self) -> str:
+        """
+        Return the version of the connected InfluxDB Server.
+
+        :return: The version of InfluxDB.
+        """
+        ping_service = PingService(self.api_client)
+
+        response = await ping_service.get_ping_with_http_info(_return_http_data_only=False)
+        return self._version(response)
