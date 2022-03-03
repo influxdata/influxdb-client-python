@@ -35,23 +35,23 @@ class WriteService(object):
     def post_write(self, org, bucket, body, **kwargs):  # noqa: E501,D401,D403
         """Write data.
 
-        Writes data to a bucket.  To write data into InfluxDB, you need the following:  - **organization name or ID** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **bucket** – _See [View buckets](https://docs.influxdata.com/influxdb/v2.1/organizations/buckets/view-buckets/) for  instructions on viewing your bucket ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - data in [line protocol](https://docs.influxdata.com/influxdb/v2.1/reference/syntax/line-protocol) format.  InfluxDB Cloud enforces rate and size limits different from InfluxDB OSS. For details, see Responses.  For more information and examples, see the following: - [Write data with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/write-data/developer-tools/api). - [Optimize writes to InfluxDB](https://docs.influxdata.com/influxdb/v2.1/write-data/best-practices/optimize-writes/).
+        Writes data to a bucket.  To write data into InfluxDB, you need the following:  - **organization name or ID** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **bucket** – _See [View buckets](https://docs.influxdata.com/influxdb/v2.1/organizations/buckets/view-buckets/) for  instructions on viewing your bucket ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - data in [line protocol](https://docs.influxdata.com/influxdb/v2.1/reference/syntax/line-protocol) format.  InfluxDB Cloud enforces rate and size limits different from InfluxDB OSS. For details, see Responses.  For more information and examples, see the following: - [Write data with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/write-data/developer-tools/api). - [Optimize writes to InfluxDB](https://docs.influxdata.com/influxdb/v2.1/write-data/best-practices/optimize-writes/). - [Troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_write(org, bucket, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: The parameter value specifies the destination organization for writes. The database writes all points in the batch to this organization. If you provide both `orgID` and `org` parameters, `org` takes precedence. (required)
-        :param str bucket: The destination bucket for writes. (required)
+        :param str org: Destination organization for writes. The database writes all points in the batch to this organization. If you provide both `orgID` and `org` parameters, `org` takes precedence. (required)
+        :param str bucket: Destination bucket for writes. (required)
         :param str body: Data in line protocol format. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
-        :param str content_type: The header value indicates the format of the data in the request body.
-        :param int content_length: The header value indicates the size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
-        :param str accept: The header value specifies the response format.
-        :param str org_id: The parameter value specifies the ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
-        :param WritePrecision precision: The precision for the unix timestamps within the body line-protocol.
+        :param str content_type: Format of the data in the request body. To make an API request with a line protocol payload, send `Content-Type: text/plain; charset=utf-8` as a request header.
+        :param int content_length: Size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
+        :param str accept: Content type that the client can understand. Writes only return a response body if they fail, e.g. due to a formatting problem or quota limit. #### InfluxDB Cloud   - returns only `application/json` for format and limit errors.   - returns only `text/html` for some quota limit errors.   #### InfluxDB OSS   - returns only `application/json` for format and limit errors.   For more information about write errors, see how to [troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/).
+        :param str org_id: ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param WritePrecision precision: Precision for unix timestamps in the line protocol of the request payload.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -66,23 +66,23 @@ class WriteService(object):
     def post_write_with_http_info(self, org, bucket, body, **kwargs):  # noqa: E501,D401,D403
         """Write data.
 
-        Writes data to a bucket.  To write data into InfluxDB, you need the following:  - **organization name or ID** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **bucket** – _See [View buckets](https://docs.influxdata.com/influxdb/v2.1/organizations/buckets/view-buckets/) for  instructions on viewing your bucket ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - data in [line protocol](https://docs.influxdata.com/influxdb/v2.1/reference/syntax/line-protocol) format.  InfluxDB Cloud enforces rate and size limits different from InfluxDB OSS. For details, see Responses.  For more information and examples, see the following: - [Write data with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/write-data/developer-tools/api). - [Optimize writes to InfluxDB](https://docs.influxdata.com/influxdb/v2.1/write-data/best-practices/optimize-writes/).
+        Writes data to a bucket.  To write data into InfluxDB, you need the following:  - **organization name or ID** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **bucket** – _See [View buckets](https://docs.influxdata.com/influxdb/v2.1/organizations/buckets/view-buckets/) for  instructions on viewing your bucket ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - data in [line protocol](https://docs.influxdata.com/influxdb/v2.1/reference/syntax/line-protocol) format.  InfluxDB Cloud enforces rate and size limits different from InfluxDB OSS. For details, see Responses.  For more information and examples, see the following: - [Write data with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/write-data/developer-tools/api). - [Optimize writes to InfluxDB](https://docs.influxdata.com/influxdb/v2.1/write-data/best-practices/optimize-writes/). - [Troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_write_with_http_info(org, bucket, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org: The parameter value specifies the destination organization for writes. The database writes all points in the batch to this organization. If you provide both `orgID` and `org` parameters, `org` takes precedence. (required)
-        :param str bucket: The destination bucket for writes. (required)
+        :param str org: Destination organization for writes. The database writes all points in the batch to this organization. If you provide both `orgID` and `org` parameters, `org` takes precedence. (required)
+        :param str bucket: Destination bucket for writes. (required)
         :param str body: Data in line protocol format. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
-        :param str content_type: The header value indicates the format of the data in the request body.
-        :param int content_length: The header value indicates the size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
-        :param str accept: The header value specifies the response format.
-        :param str org_id: The parameter value specifies the ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
-        :param WritePrecision precision: The precision for the unix timestamps within the body line-protocol.
+        :param str content_type: Format of the data in the request body. To make an API request with a line protocol payload, send `Content-Type: text/plain; charset=utf-8` as a request header.
+        :param int content_length: Size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
+        :param str accept: Content type that the client can understand. Writes only return a response body if they fail, e.g. due to a formatting problem or quota limit. #### InfluxDB Cloud   - returns only `application/json` for format and limit errors.   - returns only `text/html` for some quota limit errors.   #### InfluxDB OSS   - returns only `application/json` for format and limit errors.   For more information about write errors, see how to [troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/).
+        :param str org_id: ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param WritePrecision precision: Precision for unix timestamps in the line protocol of the request payload.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -166,6 +166,125 @@ class WriteService(object):
             urlopen_kw = kwargs['urlopen_kw']
 
         return self.api_client.call_api(
+            '/api/v2/write', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
+
+    async def post_write_async(self, org, bucket, body, **kwargs):  # noqa: E501,D401,D403
+        """Write data.
+
+        Writes data to a bucket.  To write data into InfluxDB, you need the following:  - **organization name or ID** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **bucket** – _See [View buckets](https://docs.influxdata.com/influxdb/v2.1/organizations/buckets/view-buckets/) for  instructions on viewing your bucket ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - data in [line protocol](https://docs.influxdata.com/influxdb/v2.1/reference/syntax/line-protocol) format.  InfluxDB Cloud enforces rate and size limits different from InfluxDB OSS. For details, see Responses.  For more information and examples, see the following: - [Write data with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/write-data/developer-tools/api). - [Optimize writes to InfluxDB](https://docs.influxdata.com/influxdb/v2.1/write-data/best-practices/optimize-writes/). - [Troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/)
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_write_with_http_info(org, bucket, body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str org: Destination organization for writes. The database writes all points in the batch to this organization. If you provide both `orgID` and `org` parameters, `org` takes precedence. (required)
+        :param str bucket: Destination bucket for writes. (required)
+        :param str body: Data in line protocol format. (required)
+        :param str zap_trace_span: OpenTracing span context
+        :param str content_encoding: The value tells InfluxDB what compression is applied to the line protocol in the request payload. To make an API request with a GZIP payload, send `Content-Encoding: gzip` as a request header.
+        :param str content_type: Format of the data in the request body. To make an API request with a line protocol payload, send `Content-Type: text/plain; charset=utf-8` as a request header.
+        :param int content_length: Size of the entity-body, in bytes, sent to the database. If the length is greater than the database's `max body` configuration option, the server responds with status code `413`.
+        :param str accept: Content type that the client can understand. Writes only return a response body if they fail, e.g. due to a formatting problem or quota limit. #### InfluxDB Cloud   - returns only `application/json` for format and limit errors.   - returns only `text/html` for some quota limit errors.   #### InfluxDB OSS   - returns only `application/json` for format and limit errors.   For more information about write errors, see how to [troubleshoot issues writing data](https://docs.influxdata.com/influxdb/v2.1/write-data/troubleshoot/).
+        :param str org_id: ID of the destination organization for writes. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param WritePrecision precision: Precision for unix timestamps in the line protocol of the request payload.
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params = locals()
+
+        all_params = ['org', 'bucket', 'body', 'zap_trace_span', 'content_encoding', 'content_type', 'content_length', 'accept', 'org_id', 'precision']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method post_write" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'org' is set
+        if ('org' not in local_var_params or
+                local_var_params['org'] is None):
+            raise ValueError("Missing the required parameter `org` when calling `post_write`")  # noqa: E501
+        # verify the required parameter 'bucket' is set
+        if ('bucket' not in local_var_params or
+                local_var_params['bucket'] is None):
+            raise ValueError("Missing the required parameter `bucket` when calling `post_write`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `post_write`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'org' in local_var_params:
+            query_params.append(('org', local_var_params['org']))  # noqa: E501
+        if 'org_id' in local_var_params:
+            query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
+        if 'bucket' in local_var_params:
+            query_params.append(('bucket', local_var_params['bucket']))  # noqa: E501
+        if 'precision' in local_var_params:
+            query_params.append(('precision', local_var_params['precision']))  # noqa: E501
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'content_encoding' in local_var_params:
+            header_params['Content-Encoding'] = local_var_params['content_encoding']  # noqa: E501
+        if 'content_type' in local_var_params:
+            header_params['Content-Type'] = local_var_params['content_type']  # noqa: E501
+        if 'content_length' in local_var_params:
+            header_params['Content-Length'] = local_var_params['content_length']  # noqa: E501
+        if 'accept' in local_var_params:
+            header_params['Accept'] = local_var_params['accept']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json', 'text/html', ])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['text/plain'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
+        return await self.api_client.call_api(
             '/api/v2/write', 'POST',
             path_params,
             query_params,

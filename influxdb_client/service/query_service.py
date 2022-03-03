@@ -245,8 +245,8 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: Specifies the name of the organization executing the query. Takes either the ID or Name. If both `orgID` and `org` are specified, `org` takes precedence.
-        :param str org_id: Specifies the ID of the organization executing the query. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -272,8 +272,8 @@ class QueryService(object):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: Specifies the name of the organization executing the query. Takes either the ID or Name. If both `orgID` and `org` are specified, `org` takes precedence.
-        :param str org_id: Specifies the ID of the organization executing the query. If both `orgID` and `org` are specified, `org` takes precedence.
+        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -338,6 +338,101 @@ class QueryService(object):
             urlopen_kw = kwargs['urlopen_kw']
 
         return self.api_client.call_api(
+            '/api/v2/query', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            urlopen_kw=urlopen_kw)
+
+    async def post_query_async(self, **kwargs):  # noqa: E501,D401,D403
+        """Query data.
+
+        Retrieves data from InfluxDB buckets.  To query data, you need the following: - **organization** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - **Flux query** – _See [Flux](https://docs.influxdata.com/flux/v0.x/)._  For more information and examples, see [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/query-data/execute-queries/influx-api/).
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.post_query_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str zap_trace_span: OpenTracing span context
+        :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
+        :param str content_type:
+        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param Query query: Flux query or specification to execute
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params = locals()
+
+        all_params = ['zap_trace_span', 'accept_encoding', 'content_type', 'org', 'org_id', 'query']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+        all_params.append('urlopen_kw')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method post_query" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'org' in local_var_params:
+            query_params.append(('org', local_var_params['org']))  # noqa: E501
+        if 'org_id' in local_var_params:
+            query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'accept_encoding' in local_var_params:
+            header_params['Accept-Encoding'] = local_var_params['accept_encoding']  # noqa: E501
+        if 'content_type' in local_var_params:
+            header_params['Content-Type'] = local_var_params['content_type']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'query' in local_var_params:
+            body_params = local_var_params['query']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['text/csv', 'application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json', 'application/vnd.flux'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        # urlopen optional setting
+        urlopen_kw = None
+        if 'urlopen_kw' in kwargs:
+            urlopen_kw = kwargs['urlopen_kw']
+
+        return await self.api_client.call_api(
             '/api/v2/query', 'POST',
             path_params,
             query_params,
