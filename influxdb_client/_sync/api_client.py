@@ -24,7 +24,7 @@ from six.moves.urllib.parse import quote
 
 from influxdb_client.configuration import Configuration
 import influxdb_client.domain
-from influxdb_client import rest
+from influxdb_client._sync import rest
 
 
 class ApiClient(object):

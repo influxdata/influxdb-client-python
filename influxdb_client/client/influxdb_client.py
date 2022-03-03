@@ -2,13 +2,13 @@
 
 from __future__ import absolute_import
 
+import base64
 import configparser
 import logging
 import os
-import base64
 import warnings
 
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService, PingService, \
+from influxdb_client import Configuration, HealthCheck, HealthService, Ready, ReadyService, PingService, \
     InvocableScriptsApi
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
@@ -19,7 +19,6 @@ from influxdb_client.client.query_api import QueryApi, QueryOptions
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
-
 
 logger = logging.getLogger(__name__)
 
@@ -87,6 +86,7 @@ class InfluxDBClient(object):
 
         self.profilers = kwargs.get('profilers', None)
 
+        from .._sync.api_client import ApiClient
         self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
                                     header_value=auth_header_value, retries=retries)
 
