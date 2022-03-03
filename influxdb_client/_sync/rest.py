@@ -346,4 +346,3 @@ class RESTClientObject(object):
         self.__dict__.update(state)
         # Init Pool manager
         self.__init__(self.configuration, self.pools_size, self.maxsize, self.retries)
-

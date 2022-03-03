@@ -80,6 +80,7 @@ class ApiClientAsync(object):
         self.user_agent = f'influxdb-client-python/{CLIENT_VERSION}'
 
     async def close(self):
+        """Dispose api client."""
         await self.rest_client.close()
         """Dispose pools."""
         if self._pool:
