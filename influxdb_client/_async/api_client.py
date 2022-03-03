@@ -70,7 +70,7 @@ class ApiClientAsync(object):
         self.configuration = configuration
         self.pool_threads = pool_threads
 
-        self.rest_client = rest.RESTClientObjectAsync(configuration, retries=retries)
+        self.rest_client = rest.RESTClientObjectAsync(configuration)
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
@@ -87,8 +87,6 @@ class ApiClientAsync(object):
             self._pool.close()
             self._pool.join()
             self._pool = None
-        if self.rest_client and self.rest_client.pool_manager and hasattr(self.rest_client.pool_manager, 'clear'):
-            self.rest_client.pool_manager.clear()
 
     @property
     def pool(self):

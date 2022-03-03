@@ -34,6 +34,10 @@ ciso_requires = [
     'ciso8601>=2.1.1'
 ]
 
+async_requires = [
+    'aiohttp>=3.8.1'
+]
+
 with open('README.rst', 'r') as f:
     readme = f.read()
 
@@ -52,7 +56,7 @@ setup(
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
     install_requires=requires,
-    extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'test': test_requires},
+    extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'async': async_requires, 'test': test_requires},
     long_description_content_type="text/x-rst",
     packages=find_packages(exclude=('tests*',)),
     test_suite='tests',

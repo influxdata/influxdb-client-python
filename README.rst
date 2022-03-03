@@ -120,6 +120,12 @@ Then import the package:
 
    import influxdb_client
 
+If your application uses async/await in Python you can install with the ``async`` extra::
+
+    $ pip install influxdb-client[async]
+
+For more info se `How to use asyncio`_.
+
 Setuptools
 ^^^^^^^^^^
 
@@ -1323,6 +1329,14 @@ that is replacement for python ``datetime.datetime`` object and also you should 
     client.close()
 
 .. marker-nanosecond-end
+
+How to use asyncio
+^^^^^^^^^^^^^^^^^^
+.. marker-asyncio-start
+
+TBD
+
+.. marker-asyncio-end
 
 Local tests
 -----------

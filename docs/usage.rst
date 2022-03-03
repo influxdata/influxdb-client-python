@@ -52,6 +52,12 @@ Handling Errors
   :start-after: marker-handling-errors-start
   :end-before: marker-handling-errors-end
 
+How to use Asyncio
+^^^^^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-asyncio-start
+  :end-before: marker-asyncio-end
+
 Debugging
 ^^^^^^^^^
 

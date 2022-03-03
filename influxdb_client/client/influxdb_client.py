@@ -2,14 +2,14 @@
 
 from __future__ import absolute_import
 
-import base64
 import configparser
 import logging
 import os
 import warnings
 
-from influxdb_client import Configuration, HealthCheck, HealthService, Ready, ReadyService, PingService, \
+from influxdb_client import HealthCheck, HealthService, Ready, ReadyService, PingService, \
     InvocableScriptsApi
+from influxdb_client.client._base import _BaseClient
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
@@ -23,7 +23,7 @@ from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettin
 logger = logging.getLogger(__name__)
 
 
-class InfluxDBClient(object):
+class InfluxDBClient(_BaseClient):
     """InfluxDBClient is client for InfluxDB v2."""
 
     def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
@@ -54,41 +54,12 @@ class InfluxDBClient(object):
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         :key list[str] profilers: list of enabled Flux profilers
         """
-        self.url = url
-        self.token = token
-        self.org = org
-
-        self.default_tags = default_tags
-
-        conf = _Configuration()
-        if self.url.endswith("/"):
-            conf.host = self.url[:-1]
-        else:
-            conf.host = self.url
-        conf.enable_gzip = enable_gzip
-        conf.debug = debug
-        conf.verify_ssl = kwargs.get('verify_ssl', True)
-        conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
-        conf.proxy = kwargs.get('proxy', None)
-        conf.proxy_headers = kwargs.get('proxy_headers', None)
-        conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', conf.connection_pool_maxsize)
-        conf.timeout = timeout
-
-        auth_token = self.token
-        auth_header_name = "Authorization"
-        auth_header_value = "Token " + auth_token
-
-        auth_basic = kwargs.get('auth_basic', False)
-        if auth_basic:
-            auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
-
-        retries = kwargs.get('retries', False)
-
-        self.profilers = kwargs.get('profilers', None)
+        super().__init__(url=url, token=token, debug=debug, timeout=timeout, enable_gzip=enable_gzip, org=org,
+                         default_tags=default_tags, **kwargs)
 
         from .._sync.api_client import ApiClient
-        self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
-                                    header_value=auth_header_value, retries=retries)
+        self.api_client = ApiClient(configuration=self.conf, header_name=self.auth_header_name,
+                                    header_value=self.auth_header_value, retries=self.retries)
 
     def __enter__(self):
         """
@@ -472,41 +443,6 @@ class InfluxDBClient(object):
         :return: delete api
         """
         return DeleteApi(self)
-
-
-class _Configuration(Configuration):
-    def __init__(self):
-        Configuration.__init__(self)
-        self.enable_gzip = False
-
-    def update_request_header_params(self, path: str, params: dict):
-        super().update_request_header_params(path, params)
-        if self.enable_gzip:
-            # GZIP Request
-            if path == '/api/v2/write':
-                params["Content-Encoding"] = "gzip"
-                params["Accept-Encoding"] = "identity"
-                pass
-            # GZIP Response
-            if path == '/api/v2/query':
-                # params["Content-Encoding"] = "gzip"
-                params["Accept-Encoding"] = "gzip"
-                pass
-            pass
-        pass
-
-    def update_request_body(self, path: str, body):
-        _body = super().update_request_body(path, body)
-        if self.enable_gzip:
-            # GZIP Request
-            if path == '/api/v2/write':
-                import gzip
-                if isinstance(_body, bytes):
-                    return gzip.compress(data=_body)
-                else:
-                    return gzip.compress(bytes(_body, "utf-8"))
-
-        return _body
 
 
 def _to_bool(bool_value):
