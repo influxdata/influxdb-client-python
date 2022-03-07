@@ -6,7 +6,7 @@ Flux is InfluxData’s functional data scripting language designed for querying,
 from typing import List
 
 from influxdb_client import QueryService
-from influxdb_client.client._base import _BaseQueryApi, CSV_ENCODING
+from influxdb_client.client._base import _BaseQueryApi, _CSV_ENCODING
 from influxdb_client.client.flux_table import FluxTable
 from influxdb_client.client.query_api import QueryOptions
 
@@ -62,4 +62,4 @@ class QueryApiAsync(_BaseQueryApi):
                                                         async_req=False, _preload_content=False,
                                                         _return_http_data_only=True)
         raw_bytes = await result.read()
-        return raw_bytes.decode(CSV_ENCODING)
+        return raw_bytes.decode(_CSV_ENCODING)

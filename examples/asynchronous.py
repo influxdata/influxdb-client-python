@@ -27,8 +27,8 @@ async def main():
             """
             Prepare data
             """
-            _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-            _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
+            _point1 = Point("async_m").tag("location", "Prague").field("temperature", 25.3)
+            _point2 = Point("async_m").tag("location", "New York").field("temperature", 24.3)
             write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
         """
@@ -36,7 +36,9 @@ async def main():
         """
         print(f"\n------- Query: using Table structure -------\n")
         query_api = client.query_api()
-        tables = await query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
+        tables = await query_api.query('from(bucket:"my-bucket") '
+                                       '|> range(start: -10m) '
+                                       '|> filter(fn: (r) => r["_measurement"] == "async_m")')
 
         for table in tables:
             for record in table.records:
@@ -47,7 +49,9 @@ async def main():
         """
         print(f"\n------- Query: using raw str output -------\n")
         query_api = client.query_api()
-        raw = await query_api.query_raw('from(bucket:"my-bucket") |> range(start: -10m)')
+        raw = await query_api.query_raw('from(bucket:"my-bucket") '
+                                        '|> range(start: -10m) '
+                                        '|> filter(fn: (r) => r["_measurement"] == "async_m")')
         print(raw)
 
 if __name__ == "__main__":

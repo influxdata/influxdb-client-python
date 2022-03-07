@@ -13,7 +13,7 @@ from influxdb_client import Configuration, Dialect, Query, OptionStatement, Vari
     Expression, BooleanLiteral, IntegerLiteral, FloatLiteral, DateTimeLiteral, UnaryExpression, DurationLiteral, \
     Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode, \
-    CSV_ENCODING
+    _CSV_ENCODING
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
@@ -105,7 +105,7 @@ class _BaseQueryApi(object):
 
     def _to_csv(self, response: HTTPResponse) -> Iterator[List[str]]:
         """Parse HTTP response to CSV."""
-        return csv.reader(codecs.iterdecode(response, CSV_ENCODING))
+        return csv.reader(codecs.iterdecode(response, _CSV_ENCODING))
 
     def _to_flux_record_stream(self, response, query_options=None,
                                response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> \
