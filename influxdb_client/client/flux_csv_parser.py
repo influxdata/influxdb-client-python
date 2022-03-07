@@ -10,7 +10,7 @@ from typing import List
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
 
-_CSV_ENCODING = 'utf-8'
+CSV_ENCODING = 'utf-8'
 
 ANNOTATION_DEFAULT = "#default"
 ANNOTATION_GROUP = "#group"
@@ -83,7 +83,7 @@ class FluxCsvParser(object):
 
     def __enter__(self):
         """Initialize CSV reader."""
-        self._reader = csv_parser.reader(codecs.iterdecode(self._response, _CSV_ENCODING))
+        self._reader = csv_parser.reader(codecs.iterdecode(self._response, CSV_ENCODING))
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -127,7 +127,7 @@ class FluxCsvParser(object):
         metadata = _FluxCsvParserMetadata()
 
         async for line in self._reader:
-            csv = list(csv_parser.reader([line.decode(_CSV_ENCODING)]))
+            csv = list(csv_parser.reader([line.decode(CSV_ENCODING)]))
             if len(csv) >= 1:
                 for val in self._parse_flux_response_row(metadata, csv[0]):
                     yield val

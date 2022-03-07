@@ -34,7 +34,7 @@ async def main():
         """
         Query: using Table structure
         """
-        print(f"\n------- Query -------\n")
+        print(f"\n------- Query: using Table structure -------\n")
         query_api = client.query_api()
         tables = await query_api.query('from(bucket:"my-bucket") |> range(start: -10m)')
 
@@ -42,9 +42,13 @@ async def main():
             for record in table.records:
                 print(f'Temperature in {record["location"]} is {record["_value"]}')
 
-        print()
-        print()
-
+        """
+        Query: using raw str output
+        """
+        print(f"\n------- Query: using raw str output -------\n")
+        query_api = client.query_api()
+        raw = await query_api.query_raw('from(bucket:"my-bucket") |> range(start: -10m)')
+        print(raw)
 
 if __name__ == "__main__":
     asyncio.run(main())
