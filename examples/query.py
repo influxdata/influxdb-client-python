@@ -10,10 +10,8 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
     """
     Prepare data
     """
-
     _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
     _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
-
     write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
     query_api = client.query_api()
