@@ -56,7 +56,11 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         tables = await query_api.query(query)
         self.assertEqual(2, len(tables))
         self.assertEqual(1, len(tables[0].records))
+        self.assertEqual("New York", tables[0].records[0]['location'])
+        self.assertEqual(24.3, tables[0].records[0]['_value'])
         self.assertEqual(1, len(tables[1].records))
+        self.assertEqual("Prague", tables[1].records[0]['location'])
+        self.assertEqual(25.3, tables[1].records[0]['_value'])
 
     def _prepare_data(self, measurement: str):
         with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True) as client_sync:
