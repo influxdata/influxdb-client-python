@@ -3,6 +3,8 @@ import logging
 
 from influxdb_client import PingService
 from influxdb_client.client._base import _BaseClient
+from influxdb_client.client.query_api import QueryOptions
+from influxdb_client.client.query_api_async import QueryApiAsync
 
 logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
@@ -67,3 +69,12 @@ class InfluxDBClientAsync(_BaseClient):
 
         response = await ping_service.get_ping_with_http_info(_return_http_data_only=False)
         return self._version(response)
+
+    def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApiAsync:
+        """
+        Create an asynchronous Query API instance.
+
+        :param query_options: optional query api configuration
+        :return: Query api instance
+        """
+        return QueryApiAsync(self, query_options)

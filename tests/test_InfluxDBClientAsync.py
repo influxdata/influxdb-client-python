@@ -7,6 +7,7 @@ from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 def async_test(coro):
     def wrapper(*args, **kwargs):
         return asyncio.get_event_loop().run_until_complete(coro(*args, **kwargs))
+
     return wrapper
 
 
@@ -33,3 +34,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     async def test_version(self):
         version = await self.client.version()
         self.assertTrue(len(version) > 0)
+
+    def test_create_query_api(self):
+        query_api = self.client.query_api()
+        self.assertIsNotNone(query_api)

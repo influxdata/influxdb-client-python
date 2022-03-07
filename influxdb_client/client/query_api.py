@@ -1,5 +1,5 @@
 """
-Querying InfluxDB bu FluxLang.
+Querying InfluxDB by FluxLang.
 
 Flux is InfluxData’s functional data scripting language designed for querying, analyzing, and acting on data.
 """
@@ -11,8 +11,8 @@ from influxdb_client import Dialect, IntegerLiteral, BooleanLiteral, FloatLitera
     VariableAssignment, Identifier, OptionStatement, File, DurationLiteral, Duration, UnaryExpression, Expression, \
     ImportDeclaration, MemberAssignment, MemberExpression, ArrayExpression
 from influxdb_client import Query, QueryService
+from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
-from influxdb_client.client.queryable_api import QueryableApi
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
 
@@ -31,7 +31,7 @@ class QueryOptions(object):
         self.profiler_callback = profiler_callback
 
 
-class QueryApi(QueryableApi):
+class QueryApi(_BaseQueryApi):
     """Implementation for '/api/v2/query' endpoint."""
 
     default_dialect = Dialect(header=True, delimiter=",", comment_prefix="#",
