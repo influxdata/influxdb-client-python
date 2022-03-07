@@ -80,8 +80,29 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual(',,0,24.3,temperature,New York', raw.splitlines()[4])
         self.assertEqual(',,1,25.3,temperature,Prague', raw.splitlines()[5])
 
+    @async_test
+    async def test_query_stream_records(self):
+        measurement = generate_name("measurement")
+        self._prepare_data(measurement)
+        query = f'''
+                    from(bucket:"my-bucket") 
+                        |> range(start: -10m)
+                        |> filter(fn: (r) => r["_measurement"] == "{measurement}")
+                '''
+        query_api = self.client.query_api()
+
+        records = []
+        async for record in await query_api.query_stream(query):
+            records.append(record)
+
+        self.assertEqual(2, len(records))
+        self.assertEqual("New York", records[0]['location'])
+        self.assertEqual(24.3, records[0]['_value'])
+        self.assertEqual("Prague", records[1]['location'])
+        self.assertEqual(25.3, records[1]['_value'])
+
     def _prepare_data(self, measurement: str):
-        with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=True) as client_sync:
+        with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client_sync:
             write_api = client_sync.write_api(write_options=SYNCHRONOUS)
 
             """

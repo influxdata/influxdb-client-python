@@ -103,7 +103,7 @@ class QueryApi(_BaseQueryApi):
                                       Take the ``ID``, ``Name`` or ``Organization``.
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param params: bind parameters
-        :return:
+        :return: Generator['FluxRecord']
         """
         org = self._org_param(org)
 

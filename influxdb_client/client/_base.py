@@ -5,7 +5,7 @@ import base64
 import codecs
 import csv
 from datetime import datetime, timedelta
-from typing import Iterator, List, Generator, Any, Union, Iterable
+from typing import Iterator, List, Generator, Any, Union, Iterable, AsyncGenerator
 
 from urllib3 import HTTPResponse
 
@@ -81,9 +81,9 @@ class _BaseQueryApi(object):
         """
         Parse HTTP response to FluxTables.
 
-        :param response: HTTP response from a HTTP client. Expected type: `urllib3.response.HTTPResponse`.
+        :param response: HTTP response from an HTTP client. Expected type: `urllib3.response.HTTPResponse`.
         """
-        _parser = self.to_tables_parser(response, query_options, response_metadata_mode)
+        _parser = self._to_tables_parser(response, query_options, response_metadata_mode)
         list(_parser.generator())
         return _parser.table_list()
 
@@ -92,16 +92,12 @@ class _BaseQueryApi(object):
         """
         Parse HTTP response to FluxTables.
 
-        :param response: HTTP response from a HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
+        :param response: HTTP response from an HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
         """
-        async with self.to_tables_parser(response, query_options, response_metadata_mode) as parser:
+        async with self._to_tables_parser(response, query_options, response_metadata_mode) as parser:
             async for _ in parser.generator_async():
                 pass
             return parser.table_list()
-
-    def to_tables_parser(self, response, query_options, response_metadata_mode):
-        return FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
-                             query_options=query_options, response_metadata_mode=response_metadata_mode)
 
     def _to_csv(self, response: HTTPResponse) -> Iterator[List[str]]:
         """Parse HTTP response to CSV."""
@@ -110,10 +106,24 @@ class _BaseQueryApi(object):
     def _to_flux_record_stream(self, response, query_options=None,
                                response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> \
             Generator[FluxRecord, Any, None]:
-        """Parse HTTP response to FluxRecord stream."""
-        _parser = FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
-                                query_options=query_options, response_metadata_mode=response_metadata_mode)
+        """
+        Parse HTTP response to FluxRecord stream.
+
+        :param response: HTTP response from an HTTP client. Expected type: `urllib3.response.HTTPResponse`.
+        """
+        _parser = self._to_flux_record_stream_parser(query_options, response, response_metadata_mode)
         return _parser.generator()
+
+    async def _to_flux_record_stream_async(self, response, query_options=None, response_metadata_mode:
+                                           FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> \
+            AsyncGenerator['FluxRecord', None]:
+        """
+        Parse HTTP response to FluxRecord stream.
+
+        :param response: HTTP response from an HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
+        """
+        _parser = self._to_flux_record_stream_parser(query_options, response, response_metadata_mode)
+        return (await _parser.__aenter__()).generator_async()
 
     def _to_data_frame_stream(self, data_frame_index, response, query_options=None,
                               response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full):
@@ -122,6 +132,14 @@ class _BaseQueryApi(object):
                                 data_frame_index=data_frame_index, query_options=query_options,
                                 response_metadata_mode=response_metadata_mode)
         return _parser.generator()
+
+    def _to_tables_parser(self, response, query_options, response_metadata_mode):
+        return FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.tables,
+                             query_options=query_options, response_metadata_mode=response_metadata_mode)
+
+    def _to_flux_record_stream_parser(self, query_options, response, response_metadata_mode):
+        return FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
+                             query_options=query_options, response_metadata_mode=response_metadata_mode)
 
     def _to_data_frames(self, _generator):
         """Parse stream of DataFrames into expected type."""

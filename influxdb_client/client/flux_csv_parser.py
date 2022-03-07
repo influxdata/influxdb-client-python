@@ -81,6 +81,9 @@ class FluxCsvParser(object):
         self._profiler_callback = query_options.profiler_callback if query_options is not None else None
         self._async_mode = True if 'ClientResponse' in type(response).__name__ else False
 
+    def _close(self):
+        self._response.close()
+
     def __enter__(self):
         """Initialize CSV reader."""
         self._reader = csv_parser.reader(codecs.iterdecode(self._response, _CSV_ENCODING))
@@ -88,7 +91,7 @@ class FluxCsvParser(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Close HTTP response."""
-        self._response.close()
+        self._close()
 
     async def __aenter__(self) -> 'FluxCsvParser':
         """Initialize CSV reader."""
@@ -126,17 +129,20 @@ class FluxCsvParser(object):
     async def _parse_flux_response_async(self):
         metadata = _FluxCsvParserMetadata()
 
-        async for line in self._reader:
-            csv = list(csv_parser.reader([line.decode(_CSV_ENCODING)]))
-            if len(csv) >= 1:
-                for val in self._parse_flux_response_row(metadata, csv[0]):
-                    yield val
+        try:
+            async for line in self._reader:
+                csv = list(csv_parser.reader([line.decode(_CSV_ENCODING)]))
+                if len(csv) >= 1:
+                    for val in self._parse_flux_response_row(metadata, csv[0]):
+                        yield val
 
-        # Return latest DataFrame
-        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
-            df = self._prepare_data_frame()
-            if not self._is_profiler_table(metadata.table):
-                yield df
+            # Return latest DataFrame
+            if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+                df = self._prepare_data_frame()
+                if not self._is_profiler_table(metadata.table):
+                    yield df
+        finally:
+            self._close()
 
     def _parse_flux_response_row(self, metadata, csv):
         if len(csv) < 1:

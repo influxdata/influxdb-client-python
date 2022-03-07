@@ -45,6 +45,17 @@ async def main():
                 print(f'Temperature in {record["location"]} is {record["_value"]}')
 
         """
+        Query: using stream FluxRecords
+        """
+        print(f"\n------- Query: using stream FluxRecords -------\n")
+        query_api = client.query_api()
+        records = await query_api.query_stream('from(bucket:"my-bucket") '
+                                               '|> range(start: -10m) '
+                                               '|> filter(fn: (r) => r["_measurement"] == "async_m")')
+        async for record in records:
+            print(record)
+
+        """
         Query: using raw str output
         """
         print(f"\n------- Query: using raw str output -------\n")
