@@ -14,6 +14,12 @@ QueryApi
 .. autoclass:: influxdb_client.QueryApi
    :members:
 
+.. autoclass:: influxdb_client.client.flux_table.FluxTable
+   :members:
+
+.. autoclass:: influxdb_client.client.flux_table.FluxRecord
+   :members:
+
 WriteApi
 """"""""
 .. autoclass:: influxdb_client.WriteApi
@@ -79,11 +85,6 @@ DeleteApi
    :members:
 
 .. autoclass:: influxdb_client.domain.DeletePredicateRequest
-   :members:
-
-InfluxDBClientAsync
-"""""""""""""""""""
-.. autoclass:: influxdb_client.client.influxdb_client_async.InfluxDBClientAsync
    :members:
 
 Helpers
