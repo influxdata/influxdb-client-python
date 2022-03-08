@@ -1,7 +1,7 @@
 """Collect and async write time series data to InfluxDB Cloud or InfluxDB OSS."""
 import logging
 from collections import defaultdict
-from typing import Union, Iterable, NamedTuple, Any
+from typing import Union, Iterable, NamedTuple
 
 from influxdb_client import Point, WritePrecision
 from influxdb_client.client._base import _BaseWriteApi, _HAS_DATACLASS

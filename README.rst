@@ -124,7 +124,7 @@ If your application uses async/await in Python you can install with the ``async`
 
     $ pip install influxdb-client[async]
 
-For more info se `How to use asyncio`_.
+For more info se `How to use Asyncio`_.
 
 Setuptools
 ^^^^^^^^^^
@@ -586,27 +586,6 @@ Examples:
 .. code-block:: python
 
     self.client = InfluxDBClient.from_env_properties()
-
-Asynchronous client
-"""""""""""""""""""
-
-Data are writes in an asynchronous HTTP request.
-
-.. code-block:: python
-
-   from influxdb_client import InfluxDBClient, Point
-   from influxdb_client.client.write_api import ASYNCHRONOUS
-
-   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
-   write_api = client.write_api(write_options=ASYNCHRONOUS)
-
-   _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-   _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
-
-   async_result = write_api.write(bucket="my-bucket", record=[_point1, _point2])
-   async_result.get()
-
-   client.close()
 
 Synchronous client
 """"""""""""""""""
@@ -1330,7 +1309,7 @@ that is replacement for python ``datetime.datetime`` object and also you should 
 
 .. marker-nanosecond-end
 
-How to use asyncio
+How to use Asyncio
 ^^^^^^^^^^^^^^^^^^
 .. marker-asyncio-start
 
