@@ -25,10 +25,10 @@ async def main():
         await write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
         """
-        Query: using Table structure
+        Query: List of FluxTables
         """
         query_api = client.query_api()
-        print(f"\n------- Query: using Table structure -------\n")
+        print(f"\n------- Query: List of FluxTables -------\n")
         tables = await query_api.query('from(bucket:"my-bucket") '
                                        '|> range(start: -10m) '
                                        '|> filter(fn: (r) => r["_measurement"] == "async_m")')
@@ -38,9 +38,9 @@ async def main():
                 print(f'Temperature in {record["location"]} is {record["_value"]}')
 
         """
-        Query: using stream FluxRecords
+        Query: Stream of FluxRecords
         """
-        print(f"\n------- Query: using stream FluxRecords -------\n")
+        print(f"\n------- Query: Stream of FluxRecords -------\n")
         query_api = client.query_api()
         records = await query_api.query_stream('from(bucket:"my-bucket") '
                                                '|> range(start: -10m) '
@@ -49,9 +49,9 @@ async def main():
             print(record)
 
         """
-        Query: using Pandas DataFrame
+        Query: Pandas DataFrame
         """
-        print(f"\n------- Query: using Pandas DataFrame -------\n")
+        print(f"\n------- Query: Pandas DataFrame -------\n")
         query_api = client.query_api()
         dataframe = await query_api.query_data_frame('from(bucket:"my-bucket") '
                                                      '|> range(start: -10m) '
@@ -60,9 +60,9 @@ async def main():
         print(dataframe)
 
         """
-        Query: using raw str output
+        Query: String output
         """
-        print(f"\n------- Query: using raw str output -------\n")
+        print(f"\n------- Query: String output -------\n")
         query_api = client.query_api()
         raw = await query_api.query_raw('from(bucket:"my-bucket") '
                                         '|> range(start: -10m) '
