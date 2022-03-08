@@ -124,7 +124,7 @@ class QueryApi(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
-        :return:
+        :return: DataFrame or List of DataFrames
         """
         _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index, params=params)
         return self._to_data_frames(_generator)

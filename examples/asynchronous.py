@@ -56,6 +56,17 @@ async def main():
             print(record)
 
         """
+        Query: using Pandas DataFrame
+        """
+        print(f"\n------- Query: using Pandas DataFrame -------\n")
+        query_api = client.query_api()
+        dataframe = await query_api.query_data_frame('from(bucket:"my-bucket") '
+                                                     '|> range(start: -10m) '
+                                                     '|> filter(fn: (r) => r["_measurement"] == "async_m")'
+                                                     ' |> group()')
+        print(dataframe)
+
+        """
         Query: using raw str output
         """
         print(f"\n------- Query: using raw str output -------\n")
@@ -64,6 +75,7 @@ async def main():
                                         '|> range(start: -10m) '
                                         '|> filter(fn: (r) => r["_measurement"] == "async_m")')
         print(raw)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
