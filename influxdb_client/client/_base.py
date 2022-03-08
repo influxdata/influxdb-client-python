@@ -12,7 +12,7 @@ from urllib3 import HTTPResponse
 from influxdb_client import Configuration, Dialect, Query, OptionStatement, VariableAssignment, Identifier, \
     Expression, BooleanLiteral, IntegerLiteral, FloatLiteral, DateTimeLiteral, UnaryExpression, DurationLiteral, \
     Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File, \
-    WriteService, QueryService
+    WriteService, QueryService, DeleteService, DeletePredicateRequest
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode, \
     _CSV_ENCODING
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
@@ -339,6 +339,22 @@ class _BaseWriteApi(object):
         elif isinstance(record, Iterable):
             for item in record:
                 self._serialize(item, write_precision, payload, **kwargs)
+
+
+# noinspection PyMethodMayBeStatic
+class _BaseDeleteApi(object):
+    def __init__(self, influxdb_client):
+        self._influxdb_client = influxdb_client
+        self._service = DeleteService(influxdb_client.api_client)
+
+    def _prepare_predicate_request(self, start, stop, predicate):
+        date_helper = get_date_helper()
+        if isinstance(start, datetime):
+            start = date_helper.to_utc(start)
+        if isinstance(stop, datetime):
+            stop = date_helper.to_utc(stop)
+        predicate_request = DeletePredicateRequest(start=start, stop=stop, predicate=predicate)
+        return predicate_request
 
 
 class _Configuration(Configuration):

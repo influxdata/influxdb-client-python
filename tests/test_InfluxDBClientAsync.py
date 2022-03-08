@@ -47,6 +47,10 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         write_api = self.client.write_api()
         self.assertIsNotNone(write_api)
 
+    def test_create_delete_api(self):
+        delete_api = self.client.delete_api()
+        self.assertIsNotNone(delete_api)
+
     @async_test
     async def test_query_tables(self):
         measurement = generate_name("measurement")
@@ -169,6 +173,25 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual(',,0,1970-01-01T00:00:02Z', raw.splitlines()[4])
         self.assertEqual(',,0,1970-01-01T00:00:01Z', raw.splitlines()[5])
         self.assertEqual(',,0,1970-01-01T00:00:00Z', raw.splitlines()[6])
+
+    @async_test
+    async def test_delete_api(self):
+        measurement = generate_name("measurement")
+        await self._prepare_data(measurement)
+
+        await self.client.delete_api().delete(start="1970-01-01T00:00:00Z", stop=datetime.now(), predicate="location = \"Prague\"",
+                                              bucket="my-bucket")
+        query = f'''
+                        from(bucket:"my-bucket") 
+                            |> range(start: -10m)
+                            |> filter(fn: (r) => r["_measurement"] == "{measurement}")
+                    '''
+        query_api = self.client.query_api()
+        tables = await query_api.query(query)
+        self.assertEqual(1, len(tables))
+        self.assertEqual(1, len(tables[0].records))
+        self.assertEqual("New York", tables[0].records[0]['location'])
+        self.assertEqual(24.3, tables[0].records[0]['_value'])
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)

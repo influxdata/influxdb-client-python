@@ -3,6 +3,7 @@ import logging
 
 from influxdb_client import PingService
 from influxdb_client.client._base import _BaseClient
+from influxdb_client.client.delete_api_async import DeleteApiAsync
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.query_api_async import QueryApiAsync
 from influxdb_client.client.write_api import PointSettings
@@ -101,3 +102,11 @@ class InfluxDBClientAsync(_BaseClient):
         :return: write api instance
         """
         return WriteApiAsync(influxdb_client=self, point_settings=point_settings)
+
+    def delete_api(self) -> DeleteApiAsync:
+        """
+        Get the asynchronous delete metrics API instance.
+
+        :return: delete api
+        """
+        return DeleteApiAsync(self)

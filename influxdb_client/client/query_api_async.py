@@ -28,7 +28,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param params: bind parameters
         :return: List of FluxTable.
         """
@@ -48,7 +48,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param params: bind parameters
         :return: AsyncGenerator['FluxRecord']
         """
@@ -71,7 +71,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return: DataFrame or List of DataFrames
@@ -96,7 +96,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return: AsyncGenerator['pd.DataFrame']
@@ -118,7 +118,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param query: a Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: str

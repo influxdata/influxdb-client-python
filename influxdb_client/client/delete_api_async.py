@@ -8,15 +8,15 @@ from influxdb_client.client._base import _BaseDeleteApi
 from influxdb_client.client.util.helpers import get_org_query_param
 
 
-class DeleteApi(_BaseDeleteApi):
-    """Implementation for '/api/v2/delete' endpoint."""
+class DeleteApiAsync(_BaseDeleteApi):
+    """Async implementation for '/api/v2/delete' endpoint."""
 
     def __init__(self, influxdb_client):
         """Initialize defaults."""
         super().__init__(influxdb_client)
 
-    def delete(self, start: Union[str, datetime], stop: Union[str, datetime], predicate: str, bucket: str,
-               org: Union[str, Organization, None] = None) -> None:
+    async def delete(self, start: Union[str, datetime], stop: Union[str, datetime], predicate: str, bucket: str,
+                     org: Union[str, Organization, None] = None) -> None:
         """
         Delete Time series data from InfluxDB.
 
@@ -26,10 +26,11 @@ class DeleteApi(_BaseDeleteApi):
         :param str bucket: bucket id or name from which data will be deleted
         :param str, Organization org: specifies the organization to delete data from.
                                       Take the ``ID``, ``Name`` or ``Organization``.
-                                      If not specified the default value from ``InfluxDBClient.org`` is used.
+                                      If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :return:
         """
         predicate_request = self._prepare_predicate_request(start, stop, predicate)
         org_param = get_org_query_param(org=org, client=self._influxdb_client, required_id=False)
 
-        return self._service.post_delete(delete_predicate_request=predicate_request, bucket=bucket, org=org_param)
+        return await self._service.post_delete_async(delete_predicate_request=predicate_request, bucket=bucket,
+                                                     org=org_param)

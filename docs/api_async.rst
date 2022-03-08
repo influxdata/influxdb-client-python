@@ -18,3 +18,8 @@ WriteApiAsync
 """""""""""""
 .. autoclass:: influxdb_client.client.write_api_async.WriteApiAsync
    :members:
+
+DeleteApiAsync
+""""""""""""""
+.. autoclass:: influxdb_client.client.delete_api_async.DeleteApiAsync
+   :members:
