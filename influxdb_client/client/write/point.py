@@ -181,7 +181,7 @@ class Point(object):
         """
         Create LineProtocol.
 
-         :param precision: required precision of LineProtocol. If it's not set then use the precision from Point.
+         :param precision: required precision of LineProtocol. If it's not set then use the precision from ``Point``.
         """
         _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
         _tags = _append_tags(self._tags)
