@@ -18,6 +18,14 @@ from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, Flu
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
+from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
+
+try:
+    import dataclasses
+
+    _HAS_DATACLASS = True
+except ModuleNotFoundError:
+    _HAS_DATACLASS = False
 
 
 # noinspection PyMethodMayBeStatic
@@ -282,6 +290,55 @@ class _BaseWriteApi(object):
         self._influxdb_client = influxdb_client
         self._point_settings = point_settings
         self._write_service = WriteService(influxdb_client.api_client)
+        if influxdb_client.default_tags:
+            for key, value in influxdb_client.default_tags.items():
+                self._point_settings.add_default_tag(key, value)
+
+    def _append_default_tag(self, key, val, record):
+        from influxdb_client import Point
+        if isinstance(record, bytes) or isinstance(record, str):
+            pass
+        elif isinstance(record, Point):
+            record.tag(key, val)
+        elif isinstance(record, dict):
+            record.setdefault("tags", {})
+            record.get("tags")[key] = val
+        elif isinstance(record, Iterable):
+            for item in record:
+                self._append_default_tag(key, val, item)
+
+    def _append_default_tags(self, record):
+        if self._point_settings.defaultTags and record is not None:
+            for key, val in self._point_settings.defaultTags.items():
+                self._append_default_tag(key, val, record)
+
+    def _serialize(self, record, write_precision, payload, **kwargs):
+        from influxdb_client import Point
+        if isinstance(record, bytes):
+            payload[write_precision].append(record)
+
+        elif isinstance(record, str):
+            self._serialize(record.encode("utf-8"), write_precision, payload, **kwargs)
+
+        elif isinstance(record, Point):
+            precision_from_point = kwargs.get('precision_from_point', True)
+            precision = record.write_precision if precision_from_point else write_precision
+            self._serialize(record.to_line_protocol(precision=precision), precision, payload, **kwargs)
+
+        elif isinstance(record, dict):
+            self._serialize(Point.from_dict(record, write_precision=write_precision, **kwargs),
+                            write_precision, payload, **kwargs)
+        elif 'DataFrame' in type(record).__name__:
+            serializer = DataframeSerializer(record, self._point_settings, write_precision, **kwargs)
+            self._serialize(serializer.serialize(), write_precision, payload, **kwargs)
+        elif hasattr(record, "_asdict"):
+            # noinspection PyProtectedMember
+            self._serialize(record._asdict(), write_precision, payload, **kwargs)
+        elif _HAS_DATACLASS and dataclasses.is_dataclass(record):
+            self._serialize(dataclasses.asdict(record), write_precision, payload, **kwargs)
+        elif isinstance(record, Iterable):
+            for item in record:
+                self._serialize(item, write_precision, payload, **kwargs)
 
 
 class _Configuration(Configuration):

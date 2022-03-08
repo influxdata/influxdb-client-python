@@ -177,14 +177,18 @@ class Point(object):
         self._fields[field] = value
         return self
 
-    def to_line_protocol(self):
-        """Create LineProtocol."""
+    def to_line_protocol(self, precision=None):
+        """
+        Create LineProtocol.
+
+         :param precision: required precision of LineProtocol. If it's not set then use the precision from Point.
+        """
         _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
         _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
         if not _fields:
             return ""
-        _time = _append_time(self._time, self._write_precision)
+        _time = _append_time(self._time, self._write_precision if precision is None else precision)
 
         return f"{_measurement}{_tags}{_fields}{_time}"
 

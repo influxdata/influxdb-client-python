@@ -1,9 +1,9 @@
 import asyncio
 import unittest
+from datetime import datetime
 
-from influxdb_client import InfluxDBClient, Point
+from influxdb_client import Point, WritePrecision
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
-from influxdb_client.client.write_api import SYNCHRONOUS
 from tests.base_test import generate_name
 
 
@@ -50,7 +50,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     @async_test
     async def test_query_tables(self):
         measurement = generate_name("measurement")
-        self._prepare_data(measurement)
+        await self._prepare_data(measurement)
         query = f'''
                     from(bucket:"my-bucket") 
                         |> range(start: -10m)
@@ -70,7 +70,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     @async_test
     async def test_query_raw(self):
         measurement = generate_name("measurement")
-        self._prepare_data(measurement)
+        await self._prepare_data(measurement)
         query = f'''
                     from(bucket:"my-bucket") 
                         |> range(start: -10m)
@@ -87,7 +87,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     @async_test
     async def test_query_stream_records(self):
         measurement = generate_name("measurement")
-        self._prepare_data(measurement)
+        await self._prepare_data(measurement)
         query = f'''
                     from(bucket:"my-bucket") 
                         |> range(start: -10m)
@@ -108,7 +108,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     @async_test
     async def test_query_data_frame(self):
         measurement = generate_name("measurement")
-        self._prepare_data(measurement)
+        await self._prepare_data(measurement)
         query = f'''
                     from(bucket:"my-bucket") 
                         |> range(start: -10m)
@@ -129,13 +129,48 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual('New York', dataframe['location'][0])
         self.assertEqual('Prague', dataframe['location'][1])
 
-    def _prepare_data(self, measurement: str):
-        with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client_sync:
-            write_api = client_sync.write_api(write_options=SYNCHRONOUS)
+    @async_test
+    async def test_write_response_type(self):
+        measurement = generate_name("measurement")
+        point = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
+        response = await self.client.write_api().write(bucket="my-bucket", record=point)
 
-            """
-            Prepare data
-            """
-            _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
-            _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
-            write_api.write(bucket="my-bucket", record=[_point1, _point2])
+        self.assertEqual(True, response)
+
+    @async_test
+    async def test_write_empty_data(self):
+        measurement = generate_name("measurement")
+        point = Point(measurement).tag("location", "Prague")
+        response = await self.client.write_api().write(bucket="my-bucket", record=point)
+
+        self.assertEqual(True, response)
+
+    @async_test
+    async def test_write_points_different_precision(self):
+        measurement = generate_name("measurement")
+        _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3) \
+            .time(datetime.utcfromtimestamp(0), write_precision=WritePrecision.S)
+        _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3) \
+            .time(datetime.utcfromtimestamp(1), write_precision=WritePrecision.MS)
+        _point3 = Point(measurement).tag("location", "Berlin").field("temperature", 24.3) \
+            .time(datetime.utcfromtimestamp(2), write_precision=WritePrecision.NS)
+        await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2, _point3],
+                                            write_precision=WritePrecision.NS)
+        query = f'''
+                    from(bucket:"my-bucket") 
+                        |> range(start: 0)
+                        |> filter(fn: (r) => r["_measurement"] == "{measurement}") 
+                        |> keep(columns: ["_time"])
+                '''
+        query_api = self.client.query_api()
+
+        raw = await query_api.query_raw(query)
+        self.assertEqual(8, len(raw.splitlines()))
+        self.assertEqual(',,0,1970-01-01T00:00:02Z', raw.splitlines()[4])
+        self.assertEqual(',,0,1970-01-01T00:00:01Z', raw.splitlines()[5])
+        self.assertEqual(',,0,1970-01-01T00:00:00Z', raw.splitlines()[6])
+
+    async def _prepare_data(self, measurement: str):
+        _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
+        _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
+        await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2])

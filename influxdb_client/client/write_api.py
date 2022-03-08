@@ -16,7 +16,7 @@ from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
 from influxdb_client import WritePrecision
-from influxdb_client.client._base import _BaseWriteApi
+from influxdb_client.client._base import _BaseWriteApi, _HAS_DATACLASS
 from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
@@ -25,13 +25,9 @@ from influxdb_client.client.write.retry import WritesRetry
 logger = logging.getLogger(__name__)
 
 
-try:
+if _HAS_DATACLASS:
     import dataclasses
     from dataclasses import dataclass
-
-    _HAS_DATACLASS = True
-except ModuleNotFoundError:
-    _HAS_DATACLASS = False
 
 
 class WriteType(Enum):
@@ -249,10 +245,6 @@ class WriteApi(_BaseWriteApi):
         self._error_callback = kwargs.get('error_callback', None)
         self._retry_callback = kwargs.get('retry_callback', None)
 
-        if influxdb_client.default_tags:
-            for key, value in influxdb_client.default_tags.items():
-                self._point_settings.add_default_tag(key, value)
-
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
@@ -350,9 +342,7 @@ class WriteApi(_BaseWriteApi):
         """  # noqa: E501
         org = get_org_query_param(org=org, client=self._influxdb_client)
 
-        if self._point_settings.defaultTags and record is not None:
-            for key, val in self._point_settings.defaultTags.items():
-                self._append_default_tag(key, val, record)
+        self._append_default_tags(record)
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record,
@@ -413,31 +403,6 @@ class WriteApi(_BaseWriteApi):
             self._disposable = None
         pass
 
-    def _serialize(self, record, write_precision, payload, **kwargs):
-        if isinstance(record, bytes):
-            payload[write_precision].append(record)
-
-        elif isinstance(record, str):
-            self._serialize(record.encode("utf-8"), write_precision, payload, **kwargs)
-
-        elif isinstance(record, Point):
-            self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
-
-        elif isinstance(record, dict):
-            self._serialize(Point.from_dict(record, write_precision=write_precision, **kwargs),
-                            write_precision, payload, **kwargs)
-        elif 'DataFrame' in type(record).__name__:
-            serializer = DataframeSerializer(record, self._point_settings, write_precision, **kwargs)
-            self._serialize(serializer.serialize(), write_precision, payload, **kwargs)
-        elif hasattr(record, "_asdict"):
-            # noinspection PyProtectedMember
-            self._serialize(record._asdict(), write_precision, payload, **kwargs)
-        elif _HAS_DATACLASS and dataclasses.is_dataclass(record):
-            self._serialize(dataclasses.asdict(record), write_precision, payload, **kwargs)
-        elif isinstance(record, Iterable):
-            for item in record:
-                self._serialize(item, write_precision, payload, **kwargs)
-
     def _write_batching(self, bucket, org, data,
                         precision=DEFAULT_WRITE_PRECISION,
                         **kwargs):
@@ -479,18 +444,6 @@ class WriteApi(_BaseWriteApi):
             pass
 
         return None
-
-    def _append_default_tag(self, key, val, record):
-        if isinstance(record, bytes) or isinstance(record, str):
-            pass
-        elif isinstance(record, Point):
-            record.tag(key, val)
-        elif isinstance(record, dict):
-            record.setdefault("tags", {})
-            record.get("tags")[key] = val
-        elif isinstance(record, Iterable):
-            for item in record:
-                self._append_default_tag(key, val, item)
 
     def _http(self, batch_item: _BatchItem):
 
