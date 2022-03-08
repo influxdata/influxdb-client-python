@@ -2,6 +2,7 @@
 How to use Asyncio with InfluxDB client.
 """
 import asyncio
+from datetime import datetime
 
 from influxdb_client import Point
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
@@ -19,10 +20,12 @@ async def main():
         """
         Prepare data
         """
+        print(f"\n------- Write data by async API: -------\n")
         write_api = client.write_api()
         _point1 = Point("async_m").tag("location", "Prague").field("temperature", 25.3)
         _point2 = Point("async_m").tag("location", "New York").field("temperature", 24.3)
-        await write_api.write(bucket="my-bucket", record=[_point1, _point2])
+        successfully = await write_api.write(bucket="my-bucket", record=[_point1, _point2])
+        print(f" > successfully: {successfully}")
 
         """
         Query: List of FluxTables
@@ -68,6 +71,14 @@ async def main():
                                         '|> range(start: -10m) '
                                         '|> filter(fn: (r) => r["_measurement"] == "async_m")')
         print(raw)
+
+        """
+        Delete data
+        """
+        print(f"\n------- Delete data with location = 'Prague' -------\n")
+        successfully = await client.delete_api().delete(start=datetime.utcfromtimestamp(0), stop=datetime.now(),
+                                                        predicate="location = \"Prague\"", bucket="my-bucket")
+        print(f" > successfully: {successfully}")
 
 
 if __name__ == "__main__":

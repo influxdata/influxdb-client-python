@@ -16,7 +16,7 @@ class DeleteApiAsync(_BaseDeleteApi):
         super().__init__(influxdb_client)
 
     async def delete(self, start: Union[str, datetime], stop: Union[str, datetime], predicate: str, bucket: str,
-                     org: Union[str, Organization, None] = None) -> None:
+                     org: Union[str, Organization, None] = None) -> bool:
         """
         Delete Time series data from InfluxDB.
 
@@ -27,10 +27,11 @@ class DeleteApiAsync(_BaseDeleteApi):
         :param str, Organization org: specifies the organization to delete data from.
                                       Take the ``ID``, ``Name`` or ``Organization``.
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
-        :return:
+        :return: ``True`` for successfully deleted data, otherwise raise an exception
         """
         predicate_request = self._prepare_predicate_request(start, stop, predicate)
         org_param = get_org_query_param(org=org, client=self._influxdb_client, required_id=False)
 
-        return await self._service.post_delete_async(delete_predicate_request=predicate_request, bucket=bucket,
-                                                     org=org_param)
+        response = await self._service.post_delete_async(delete_predicate_request=predicate_request, bucket=bucket,
+                                                         org=org_param)
+        return response[1] == 204
