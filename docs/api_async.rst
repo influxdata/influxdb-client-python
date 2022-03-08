@@ -13,3 +13,8 @@ QueryApiAsync
 """""""""""""
 .. autoclass:: influxdb_client.client.query_api_async.QueryApiAsync
    :members:
+
+WriteApiAsync
+"""""""""""""
+.. autoclass:: influxdb_client.client.write_api_async.WriteApiAsync
+   :members:

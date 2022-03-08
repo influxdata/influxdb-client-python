@@ -226,7 +226,7 @@ class InfluxDBClient(_BaseClient):
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
         """
-        Create a Write API instance.
+        Create Write API instance.
 
         Example:
             .. code-block:: python

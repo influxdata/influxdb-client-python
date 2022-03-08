@@ -1,4 +1,4 @@
-"""Collect and write time series data to InfluxDB Cloud and InfluxDB OSS."""
+"""Collect and write time series data to InfluxDB Cloud or InfluxDB OSS."""
 
 # coding: utf-8
 import logging
@@ -15,7 +15,8 @@ from rx import operators as ops, Observable
 from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
-from influxdb_client import WritePrecision, WriteService
+from influxdb_client import WritePrecision
+from influxdb_client.client._base import _BaseWriteApi
 from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
@@ -191,7 +192,7 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
-class WriteApi:
+class WriteApi(_BaseWriteApi):
     """
     Implementation for '/api/v2/write' endpoint.
 
@@ -242,10 +243,8 @@ class WriteApi:
 
                              **[batching mode]**
         """
-        self._influxdb_client = influxdb_client
-        self._write_service = WriteService(influxdb_client.api_client)
+        super().__init__(influxdb_client=influxdb_client, point_settings=point_settings)
         self._write_options = write_options
-        self._point_settings = point_settings
         self._success_callback = kwargs.get('success_callback', None)
         self._error_callback = kwargs.get('error_callback', None)
         self._retry_callback = kwargs.get('retry_callback', None)

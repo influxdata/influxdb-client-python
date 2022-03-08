@@ -7,7 +7,6 @@ Flux is InfluxData’s functional data scripting language designed for querying,
 from typing import List, Generator, Any, Callable
 
 from influxdb_client import Dialect
-from influxdb_client import QueryService
 from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 
@@ -36,8 +35,6 @@ class QueryApi(_BaseQueryApi):
         :param influxdb_client: influxdb client
         """
         super().__init__(influxdb_client=influxdb_client, query_options=query_options)
-
-        self._query_api = QueryService(influxdb_client.api_client)
 
     def query_csv(self, query: str, org=None, dialect: Dialect = _BaseQueryApi.default_dialect, params: dict = None):
         """

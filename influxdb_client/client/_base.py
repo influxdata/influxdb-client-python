@@ -11,7 +11,8 @@ from urllib3 import HTTPResponse
 
 from influxdb_client import Configuration, Dialect, Query, OptionStatement, VariableAssignment, Identifier, \
     Expression, BooleanLiteral, IntegerLiteral, FloatLiteral, DateTimeLiteral, UnaryExpression, DurationLiteral, \
-    Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File
+    Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File, \
+    WriteService, QueryService
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode, \
     _CSV_ENCODING
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
@@ -73,6 +74,7 @@ class _BaseQueryApi(object):
         from influxdb_client.client.query_api import QueryOptions
         self._query_options = QueryOptions() if query_options is None else query_options
         self._influxdb_client = influxdb_client
+        self._query_api = QueryService(influxdb_client.api_client)
 
     """Base implementation for Queryable API."""
 
@@ -273,6 +275,13 @@ class _BaseQueryApi(object):
             body.extend(_BaseQueryApi._params_to_extern_ast(params))
 
         return File(package=None, name=None, type=None, imports=imports, body=body)
+
+
+class _BaseWriteApi(object):
+    def __init__(self, influxdb_client, point_settings=None):
+        self._influxdb_client = influxdb_client
+        self._point_settings = point_settings
+        self._write_service = WriteService(influxdb_client.api_client)
 
 
 class _Configuration(Configuration):

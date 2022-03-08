@@ -43,6 +43,10 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         query_api = self.client.query_api()
         self.assertIsNotNone(query_api)
 
+    def test_create_write_api(self):
+        write_api = self.client.write_api()
+        self.assertIsNotNone(write_api)
+
     @async_test
     async def test_query_tables(self):
         measurement = generate_name("measurement")

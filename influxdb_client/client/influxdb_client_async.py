@@ -5,6 +5,8 @@ from influxdb_client import PingService
 from influxdb_client.client._base import _BaseClient
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.query_api_async import QueryApiAsync
+from influxdb_client.client.write_api import PointSettings
+from influxdb_client.client.write_api_async import WriteApiAsync
 
 logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
@@ -78,3 +80,24 @@ class InfluxDBClientAsync(_BaseClient):
         :return: Query api instance
         """
         return QueryApiAsync(self, query_options)
+
+    def write_api(self, point_settings=PointSettings()) -> WriteApiAsync:
+        """
+        Create an asynchronous Write API instance.
+
+        Example:
+            .. code-block:: python
+
+                from influxdb_client_async import InfluxDBClientAsync
+
+
+                # Initialize async/await instance of Write API
+                async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                    write_api = client.write_api()
+
+        If you would like to use a **background batching**, you have to configure client like this:
+
+        :param point_settings: settings to store default tags
+        :return: write api instance
+        """
+        return WriteApiAsync(influxdb_client=self, point_settings=point_settings)
