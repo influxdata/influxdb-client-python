@@ -39,7 +39,12 @@ async_requires = [
 ]
 
 with open('README.rst', 'r') as f:
-    readme = f.read()
+    # Remove `class` text role as it's not allowed on PyPI
+    lines = []
+    for line in f:
+        lines.append(line.replace(":class:`~", "`"))
+
+    readme = "".join(lines)
 
 NAME = "influxdb_client"
 
