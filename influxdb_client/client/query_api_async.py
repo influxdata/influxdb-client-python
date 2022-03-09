@@ -23,8 +23,7 @@ class QueryApiAsync(_BaseQueryApi):
 
     async def query(self, query: str, org=None, params: dict = None) -> List['FluxTable']:
         """
-        Execute asynchronous Flux query and return result as
-        a List[:class:`~influxdb_client.client.flux_table.FluxTable`].
+        Execute asynchronous Flux query and return result as a List[:class:`~influxdb_client.client.flux_table.FluxTable`].
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
@@ -32,7 +31,7 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param params: bind parameters
         :return: List of :class:`~influxdb_client.client.flux_table.FluxTable`.
-        """
+        """  # noqa: E501
         org = self._org_param(org)
 
         response = await self._query_api.post_query_async(org=org,
@@ -44,8 +43,7 @@ class QueryApiAsync(_BaseQueryApi):
 
     async def query_stream(self, query: str, org=None, params: dict = None) -> AsyncGenerator['FluxRecord', None]:
         """
-        Execute asynchronous Flux query and return stream of :class:`~influxdb_client.client.flux_table.FluxRecord` as
-        an AsyncGenerator[:class:`~influxdb_client.client.flux_table.FluxRecord`].
+        Execute asynchronous Flux query and return stream of :class:`~influxdb_client.client.flux_table.FluxRecord` as an AsyncGenerator[:class:`~influxdb_client.client.flux_table.FluxRecord`].
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
@@ -53,7 +51,7 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param params: bind parameters
         :return: AsyncGenerator[:class:`~influxdb_client.client.flux_table.FluxRecord`]
-        """
+        """  # noqa: E501
         org = self._org_param(org)
 
         response = await self._query_api.post_query_async(org=org,
@@ -90,8 +88,7 @@ class QueryApiAsync(_BaseQueryApi):
     async def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None,
                                       params: dict = None):
         """
-        Execute asynchronous Flux query and return stream of :class:`~pandas.core.frame.DataFrame`
-        as an AsyncGenerator[:class:`~pandas.core.frame.DataFrame`].
+        Execute asynchronous Flux query and return stream of :class:`~pandas.core.frame.DataFrame` as an AsyncGenerator[:class:`~pandas.core.frame.DataFrame`].
 
         Note that if a query returns tables with differing schemas than the client generates
         a DataFrame for each of them.
@@ -103,7 +100,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
         :return: AsyncGenerator[:class:`~pandas.core.frame.DataFrame`]
-        """
+        """  # noqa: E501
         org = self._org_param(org)
 
         response = await self._query_api.post_query_async(org=org,
