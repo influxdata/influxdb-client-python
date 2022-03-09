@@ -96,8 +96,6 @@ class InfluxDBClientAsync(_BaseClient):
                 async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
                     write_api = client.write_api()
 
-        If you would like to use a **background batching**, you have to configure client like this:
-
         :param point_settings: settings to store default tags
         :return: write api instance
         """

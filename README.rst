@@ -1313,7 +1313,142 @@ How to use Asyncio
 ^^^^^^^^^^^^^^^^^^
 .. marker-asyncio-start
 
-TBD
+Starting from version 1.27.0 for Python 3.6+ the ``influxdb-client`` package supports ``async/await`` based on
+`asyncio <https://docs.python.org/3/library/asyncio.html>`_ and `aiohttp <https://docs.aiohttp.org>`_.
+You can install ``aiohttp`` directly:
+
+ .. code-block:: bash
+
+    $ python -m pip install influxdb-client aiohttp
+
+or use the ``[async]`` extra:
+
+ .. code-block:: bash
+
+    $ python -m pip install influxdb-client[async]
+
+Async APIs
+""""""""""
+All async APIs are available via :class:`~influxdb_client.client.influxdb_client_async.InfluxDBClientAsync`.
+The ``async`` version of the client supports following asynchronous APIs:
+
+* :class:`~influxdb_client.client.write_api_async.WriteApiAsync`
+* :class:`~influxdb_client.client.query_api_async.QueryApiAsync`
+* :class:`~influxdb_client.client.delete_api_async.DeleteApiAsync`
+
+and also check to readiness of the InfluxDB via ``/ping`` endpoint:
+
+ .. code-block:: python
+
+        import asyncio
+
+        from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+        async def main():
+            async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                ready = await client.ping()
+                print(f"InfluxDB: {ready}")
+
+
+        if __name__ == "__main__":
+            asyncio.run(main())
+
+Async Write API
+"""""""""""""""
+
+The :class:`~influxdb_client.client.write_api_async.WriteApiAsync` supports ingesting data as:
+
+* ``string`` or ``bytes`` that is formatted as a InfluxDB's line protocol
+* `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
+* Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time`` or custom structure
+* `NamedTuple <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
+* `Data Classes <https://docs.python.org/3/library/dataclasses.html>`_
+* `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+* List of above items
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client import Point
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+            write_api = client.write_api()
+
+            _point1 = Point("async_m").tag("location", "Prague").field("temperature", 25.3)
+            _point2 = Point("async_m").tag("location", "New York").field("temperature", 24.3)
+
+            successfully = await write_api.write(bucket="my-bucket", record=[_point1, _point2])
+
+            print(f" > successfully: {successfully}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Async Query API
+"""""""""""""""
+
+The :class:`~influxdb_client.client.query_api_async.QueryApiAsync` supports retrieve data as:
+
+* List of :class:`~influxdb_client.client.flux_table.FluxTable`
+* Stream of :class:`~influxdb_client.client.flux_table.FluxRecord` via :class:`~typing.AsyncGenerator`
+* `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+* Stream of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ via :class:`~typing.AsyncGenerator`
+* Raw :class:`~str` output
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+            # Stream of FluxRecords
+            query_api = client.query_api()
+            records = await query_api.query_stream('from(bucket:"my-bucket") '
+                                                   '|> range(start: -10m) '
+                                                   '|> filter(fn: (r) => r["_measurement"] == "async_m")')
+            async for record in records:
+                print(record)
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Async Delete API
+""""""""""""""""
+
+ .. code-block:: python
+
+    import asyncio
+    from datetime import datetime
+
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+            start = datetime.utcfromtimestamp(0)
+            stop = datetime.now()
+            # Delete data with location = 'Prague'
+            successfully = await client.delete_api().delete(start=start, stop=stop, bucket="my-bucket",
+                                                            predicate="location = \"Prague\"")
+            print(f" > successfully: {successfully}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 
 .. marker-asyncio-end
 
