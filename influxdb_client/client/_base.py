@@ -13,12 +13,12 @@ from influxdb_client import Configuration, Dialect, Query, OptionStatement, Vari
     Expression, BooleanLiteral, IntegerLiteral, FloatLiteral, DateTimeLiteral, UnaryExpression, DurationLiteral, \
     Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File, \
     WriteService, QueryService, DeleteService, DeletePredicateRequest
-from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode, \
-    _CSV_ENCODING
+from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
+from influxdb_client.rest import _UTF_8_encoding
 
 try:
     import dataclasses
@@ -111,7 +111,7 @@ class _BaseQueryApi(object):
 
     def _to_csv(self, response: HTTPResponse) -> Iterator[List[str]]:
         """Parse HTTP response to CSV."""
-        return csv.reader(codecs.iterdecode(response, _CSV_ENCODING))
+        return csv.reader(codecs.iterdecode(response, _UTF_8_encoding))
 
     def _to_flux_record_stream(self, response, query_options=None,
                                response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> \
@@ -318,7 +318,7 @@ class _BaseWriteApi(object):
             payload[write_precision].append(record)
 
         elif isinstance(record, str):
-            self._serialize(record.encode("utf-8"), write_precision, payload, **kwargs)
+            self._serialize(record.encode(_UTF_8_encoding), write_precision, payload, **kwargs)
 
         elif isinstance(record, Point):
             precision_from_point = kwargs.get('precision_from_point', True)
@@ -387,6 +387,6 @@ class _Configuration(Configuration):
                 if isinstance(_body, bytes):
                     return gzip.compress(data=_body)
                 else:
-                    return gzip.compress(bytes(_body, "utf-8"))
+                    return gzip.compress(bytes(_body, _UTF_8_encoding))
 
         return _body

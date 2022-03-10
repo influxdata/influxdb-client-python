@@ -19,8 +19,35 @@ import aiohttp
 from six.moves.urllib.parse import urlencode
 
 from influxdb_client.rest import ApiException
+from influxdb_client.rest import _UTF_8_encoding
 
 logger = logging.getLogger(__name__)
+
+
+async def _on_request_start(session, trace_config_ctx, params):
+    print(f">>> Request: '{params.method} {params.url}'")
+    print(f">>> Headers: '{params.headers}'")
+
+
+async def _on_request_chunk_sent(session, context, params):
+    if params.chunk:
+        print(f">>> Body: {params.chunk}")
+
+
+async def _on_request_end(session, trace_config_ctx, params):
+    print(f"<<< Response: {params.response.status}")
+    print(f"<<< Headers: '{params.response.headers}")
+
+    response_content = params.response.content
+    data = bytearray()
+    while True:
+        chunk = await response_content.read(100)
+        if not chunk:
+            break
+        data += chunk
+    if data:
+        print(f"<<< Body: {data.decode(_UTF_8_encoding)}")
+        response_content.unread_data(data=data)
 
 
 class RESTResponseAsync(io.IOBase):
@@ -77,10 +104,17 @@ class RESTClientObjectAsync(object):
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
 
+        # configure tracing
+        trace_config = aiohttp.TraceConfig()
+        trace_config.on_request_start.append(_on_request_start)
+        trace_config.on_request_chunk_sent.append(_on_request_chunk_sent)
+        trace_config.on_request_end.append(_on_request_end)
+
         # https pool manager
         self.pool_manager = aiohttp.ClientSession(
             connector=connector,
-            trust_env=True
+            trust_env=True,
+            trace_configs=[trace_config] if configuration.debug else None
         )
 
     async def close(self):

@@ -21,6 +21,7 @@ from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
+from influxdb_client.rest import _UTF_8_encoding
 
 logger = logging.getLogger(__name__)
 
@@ -411,7 +412,7 @@ class WriteApi(_BaseWriteApi):
             self._subject.on_next(_BatchItem(key=_key, data=data))
 
         elif isinstance(data, str):
-            self._write_batching(bucket, org, data.encode("utf-8"),
+            self._write_batching(bucket, org, data.encode(_UTF_8_encoding),
                                  precision, **kwargs)
 
         elif isinstance(data, Point):

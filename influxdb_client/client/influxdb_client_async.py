@@ -15,15 +15,16 @@ logger = logging.getLogger('influxdb_client.client.influxdb_client')
 class InfluxDBClientAsync(_BaseClient):
     """InfluxDBClientAsync is client for InfluxDB v2."""
 
-    def __init__(self, url, token, org: str = None, **kwargs) -> None:
+    def __init__(self, url, token, org: str = None, debug=None, **kwargs) -> None:
         """
         Initialize defaults.
 
         :param url: InfluxDB server API url (ex. http://localhost:8086).
         :param token: auth token
         :param org: organization name (used as a default in Query, Write and Delete API)
+        :param debug: enable verbose logging of http requests
         """
-        super().__init__(url=url, token=token, org=org, **kwargs)
+        super().__init__(url=url, token=token, org=org, debug=debug, **kwargs)
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,
