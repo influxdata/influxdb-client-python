@@ -28,6 +28,17 @@ class InfluxDBClientAsync(_BaseClient):
                         It can also be a :class:`~aiohttp.ClientTimeout` which is directly pass to ``aiohttp``.
         :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
                             supports the Gzip compression.
+        :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
+        :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
+        :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
+        :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
+                                authentication.
+        :key int connection_pool_maxsize: The total number of simultaneous connections.
+                                          Defaults to "multiprocessing.cpu_count() * 5".
+        :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
+                              does not use auth-enabled but is protected by a reverse proxy with basic authentication.
+                              (defaults to false, don't set to true when talking to InfluxDB 2)
+        :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)
 
