@@ -224,7 +224,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         await client_from_envs.close()
 
 
-async def _prepare_data(self, measurement: str):
-    _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
-    _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
-    await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2])
+    async def _prepare_data(self, measurement: str):
+        _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
+        _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
+        await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2])
