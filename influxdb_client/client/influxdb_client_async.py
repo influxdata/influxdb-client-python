@@ -64,6 +64,85 @@ class InfluxDBClientAsync(_BaseClient):
             await self.api_client.close()
             self.api_client = None
 
+    @classmethod
+    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+        """
+        Configure client via configuration file. The configuration has to be under 'influx' section.
+
+        The supported formats:
+            - https://docs.python.org/3/library/configparser.html
+            - https://toml.io/en/
+
+        Configuration options:
+            - url
+            - org
+            - token
+            - timeout,
+            - verify_ssl
+            - ssl_ca_cert
+            - connection_pool_maxsize
+            - auth_basic
+            - profilers
+            - proxy
+
+
+        config.ini example::
+
+            [influx2]
+            url=http://localhost:8086
+            org=my-org
+            token=my-token
+            timeout=6000
+            connection_pool_maxsize=25
+            auth_basic=false
+            profilers=query,operator
+            proxy=http:proxy.domain.org:8080
+
+            [tags]
+            id = 132-987-655
+            customer = California Miner
+            data_center = ${env.data_center}
+
+        config.toml example::
+
+            [influx2]
+                url = "http://localhost:8086"
+                token = "my-token"
+                org = "my-org"
+                timeout = 6000
+                connection_pool_maxsize = 25
+                auth_basic = false
+                profilers="query, operator"
+                proxy = "http://proxy.domain.org:8080"
+
+            [tags]
+                id = "132-987-655"
+                customer = "California Miner"
+                data_center = "${env.data_center}"
+
+        """
+        return super(InfluxDBClientAsync, cls)._from_config_file(config_file=config_file, debug=debug,
+                                                                 enable_gzip=enable_gzip)
+
+    @classmethod
+    def from_env_properties(cls, debug=None, enable_gzip=False):
+        """
+        Configure client via environment properties.
+
+        Supported environment properties:
+            - INFLUXDB_V2_URL
+            - INFLUXDB_V2_ORG
+            - INFLUXDB_V2_TOKEN
+            - INFLUXDB_V2_TIMEOUT
+            - INFLUXDB_V2_VERIFY_SSL
+            - INFLUXDB_V2_SSL_CA_CERT
+            - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
+            - INFLUXDB_V2_AUTH_BASIC
+            - INFLUXDB_V2_PROFILERS
+            - INFLUXDB_V2_TAG
+        """
+        return super(InfluxDBClientAsync, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip)
+
     async def ping(self) -> bool:
         """
         Return the status of InfluxDB instance.

@@ -3,7 +3,9 @@ from __future__ import absolute_import
 
 import base64
 import codecs
+import configparser
 import csv
+import os
 from datetime import datetime, timedelta
 from typing import Iterator, List, Generator, Any, Union, Iterable, AsyncGenerator
 
@@ -71,6 +73,86 @@ class _BaseClient(object):
                 return response[2]['X-Influxdb-Version']
 
         return "unknown"
+
+    @classmethod
+    def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+        config = configparser.ConfigParser()
+        config.read(config_file)
+
+        def config_value(key: str):
+            return config['influx2'][key].strip('"')
+
+        url = config_value('url')
+        token = config_value('token')
+
+        timeout = None
+        if config.has_option('influx2', 'timeout'):
+            timeout = config_value('timeout')
+
+        org = None
+        if config.has_option('influx2', 'org'):
+            org = config_value('org')
+
+        verify_ssl = True
+        if config.has_option('influx2', 'verify_ssl'):
+            verify_ssl = config_value('verify_ssl')
+
+        ssl_ca_cert = None
+        if config.has_option('influx2', 'ssl_ca_cert'):
+            ssl_ca_cert = config_value('ssl_ca_cert')
+
+        connection_pool_maxsize = None
+        if config.has_option('influx2', 'connection_pool_maxsize'):
+            connection_pool_maxsize = config_value('connection_pool_maxsize')
+
+        auth_basic = False
+        if config.has_option('influx2', 'auth_basic'):
+            auth_basic = config_value('auth_basic')
+
+        default_tags = None
+        if config.has_section('tags'):
+            tags = {k: v.strip('"') for k, v in config.items('tags')}
+            default_tags = dict(tags)
+
+        profilers = None
+        if config.has_option('influx2', 'profilers'):
+            profilers = [x.strip() for x in config_value('profilers').split(',')]
+
+        proxy = None
+        if config.has_option('influx2', 'proxy'):
+            proxy = config_value('proxy')
+
+        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
+                   profilers=profilers, proxy=proxy)
+
+    @classmethod
+    def _from_env_properties(cls, debug=None, enable_gzip=False):
+        url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
+        token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
+        timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
+        org = os.getenv('INFLUXDB_V2_ORG', "my-org")
+        verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
+        ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
+        connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
+        auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
+
+        prof = os.getenv("INFLUXDB_V2_PROFILERS", None)
+        profilers = None
+        if prof is not None:
+            profilers = [x.strip() for x in prof.split(',')]
+
+        default_tags = dict()
+
+        for key, value in os.environ.items():
+            if key.startswith("INFLUXDB_V2_TAG_"):
+                default_tags[key[16:].lower()] = value
+
+        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
+                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
+                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
+                   profilers=profilers)
 
 
 # noinspection PyMethodMayBeStatic
@@ -390,3 +472,11 @@ class _Configuration(Configuration):
                     return gzip.compress(bytes(_body, _UTF_8_encoding))
 
         return _body
+
+
+def _to_bool(bool_value):
+    return str(bool_value).lower() in ("yes", "true")
+
+
+def _to_int(int_value):
+    return int(int_value) if int_value is not None else None

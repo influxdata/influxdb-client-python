@@ -1,5 +1,6 @@
 import asyncio
 import unittest
+import os
 from datetime import datetime
 
 from influxdb_client import Point, WritePrecision
@@ -194,7 +195,36 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual("New York", tables[0].records[0]['location'])
         self.assertEqual(24.3, tables[0].records[0]['_value'])
 
-    async def _prepare_data(self, measurement: str):
-        _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
-        _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
-        await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2])
+    @async_test
+    async def test_init_from_ini_file(self):
+        client_from_config = InfluxDBClientAsync.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+        self.assertEqual("http://localhost:8086", client_from_config.url)
+        self.assertEqual("my-org", client_from_config.org)
+        self.assertEqual("my-token", client_from_config.token)
+        self.assertEqual(6000, client_from_config.api_client.configuration.timeout)
+        self.assertEqual(3, len(client_from_config.default_tags))
+        self.assertEqual("132-987-655", client_from_config.default_tags["id"])
+        self.assertEqual("California Miner", client_from_config.default_tags["customer"])
+        self.assertEqual("${env.data_center}", client_from_config.default_tags["data_center"])
+
+        await client_from_config.close()
+
+    @async_test
+    async def test_init_from_env(self):
+        os.environ["INFLUXDB_V2_URL"] = "http://localhost:8086"
+        os.environ["INFLUXDB_V2_ORG"] = "my-org"
+        os.environ["INFLUXDB_V2_TOKEN"] = "my-token"
+        os.environ["INFLUXDB_V2_TIMEOUT"] = "5500"
+        client_from_envs = InfluxDBClientAsync.from_env_properties()
+        self.assertEqual("http://localhost:8086", client_from_envs.url)
+        self.assertEqual("my-org", client_from_envs.org)
+        self.assertEqual("my-token", client_from_envs.token)
+        self.assertEqual(5500, client_from_envs.api_client.configuration.timeout)
+
+        await client_from_envs.close()
+
+
+async def _prepare_data(self, measurement: str):
+    _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
+    _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
+    await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2])
