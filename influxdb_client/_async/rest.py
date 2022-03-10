@@ -16,6 +16,7 @@ import ssl
 
 import aiohttp
 # python 2 and python 3 compatibility library
+import six
 from six.moves.urllib.parse import urlencode
 
 from influxdb_client.rest import ApiException
@@ -110,10 +111,19 @@ class RESTClientObjectAsync(object):
         trace_config.on_request_chunk_sent.append(_on_request_chunk_sent)
         trace_config.on_request_end.append(_on_request_end)
 
+        # timeout
+        if isinstance(configuration.timeout, (int, float,) if six.PY3 else (int, long, float,)):  # noqa: E501,F821
+            timeout = aiohttp.ClientTimeout(total=configuration.timeout / 1_000)
+        elif isinstance(configuration.timeout, aiohttp.ClientTimeout):
+            timeout = configuration.timeout
+        else:
+            timeout = aiohttp.client.DEFAULT_TIMEOUT
+
         # https pool manager
         self.pool_manager = aiohttp.ClientSession(
             connector=connector,
             trust_env=True,
+            timeout=timeout,
             trace_configs=[trace_config] if configuration.debug else None
         )
 
@@ -152,7 +162,6 @@ class RESTClientObjectAsync(object):
 
         post_params = post_params or {}
         headers = headers or {}
-        timeout = _request_timeout or 5 * 60
 
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'
@@ -160,7 +169,6 @@ class RESTClientObjectAsync(object):
         args = {
             "method": method,
             "url": url,
-            "timeout": timeout,
             "headers": headers
         }
 

@@ -15,7 +15,7 @@ logger = logging.getLogger('influxdb_client.client.influxdb_client')
 class InfluxDBClientAsync(_BaseClient):
     """InfluxDBClientAsync is client for InfluxDB v2."""
 
-    def __init__(self, url, token, org: str = None, debug=None, **kwargs) -> None:
+    def __init__(self, url, token, org: str = None, debug=None, timeout=10_000, **kwargs) -> None:
         """
         Initialize defaults.
 
@@ -23,8 +23,11 @@ class InfluxDBClientAsync(_BaseClient):
         :param token: auth token
         :param org: organization name (used as a default in Query, Write and Delete API)
         :param debug: enable verbose logging of http requests
+        :param timeout: The maximal number of milliseconds for the whole HTTP request including
+                        connection establishment, request sending and response reading.
+                        It can also be a :class:`~aiohttp.ClientTimeout` which is directly pass to ``aiohttp``.
         """
-        super().__init__(url=url, token=token, org=org, debug=debug, **kwargs)
+        super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, **kwargs)
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,
