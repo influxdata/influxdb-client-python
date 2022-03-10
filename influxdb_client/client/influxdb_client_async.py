@@ -15,7 +15,7 @@ logger = logging.getLogger('influxdb_client.client.influxdb_client')
 class InfluxDBClientAsync(_BaseClient):
     """InfluxDBClientAsync is client for InfluxDB v2."""
 
-    def __init__(self, url, token, org: str = None, debug=None, timeout=10_000, **kwargs) -> None:
+    def __init__(self, url, token, org: str = None, debug=None, timeout=10_000, enable_gzip=False, **kwargs) -> None:
         """
         Initialize defaults.
 
@@ -26,8 +26,10 @@ class InfluxDBClientAsync(_BaseClient):
         :param timeout: The maximal number of milliseconds for the whole HTTP request including
                         connection establishment, request sending and response reading.
                         It can also be a :class:`~aiohttp.ClientTimeout` which is directly pass to ``aiohttp``.
+        :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
+                            supports the Gzip compression.
         """
-        super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, **kwargs)
+        super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,
