@@ -1327,6 +1327,12 @@ or use the ``[async]`` extra:
 
     $ python -m pip install influxdb-client[async]
 
+.. warning::
+
+    The ``InfluxDBClientAsync`` should be initialised inside ``async coroutine``
+    otherwise there can be unexpected behaviour.
+    For more info see: `Why is creating a ClientSession outside of an event loop dangerous? <https://docs.aiohttp.org/en/stable/faq.html#why-is-creating-a-clientsession-outside-of-an-event-loop-dangerous>`__.
+
 Async APIs
 """"""""""
 All async APIs are available via :class:`~influxdb_client.client.influxdb_client_async.InfluxDBClientAsync`.
