@@ -152,7 +152,7 @@ class InfluxDBClientAsync(_BaseClient):
         ping_service = PingService(self.api_client)
 
         try:
-            await ping_service.get_ping_with_http_info()
+            await ping_service.get_ping_async()
             return True
         except Exception as ex:
             logger.debug("Unexpected error during /ping: %s", ex)
@@ -166,7 +166,7 @@ class InfluxDBClientAsync(_BaseClient):
         """
         ping_service = PingService(self.api_client)
 
-        response = await ping_service.get_ping_with_http_info(_return_http_data_only=False)
+        response = await ping_service.get_ping_async(_return_http_data_only=False)
         return self._version(response)
 
     def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApiAsync:
