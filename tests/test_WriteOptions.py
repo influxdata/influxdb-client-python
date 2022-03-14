@@ -12,7 +12,7 @@ class TestWriteOptions(unittest.TestCase):
         self.assertEqual(retry.max_retry_time, 180)
         self.assertEqual(retry.max_retry_delay, 125)
         self.assertEqual(retry.exponential_base, 2)
-        self.assertEqual(retry.method_whitelist, ["POST"])
+        self.assertEqual(retry.allowed_methods, ["POST"])
 
     def test_custom(self):
         retry = WriteOptions(max_retries=5, max_retry_delay=7500,
@@ -24,4 +24,4 @@ class TestWriteOptions(unittest.TestCase):
         self.assertEqual(retry.retry_interval, 0.5)
         self.assertEqual(retry.max_retry_delay, 7.5)
         self.assertEqual(retry.exponential_base, 2)
-        self.assertEqual(retry.method_whitelist, ["POST"])
+        self.assertEqual(retry.allowed_methods, ["POST"])
