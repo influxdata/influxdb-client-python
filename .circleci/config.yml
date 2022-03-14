@@ -136,6 +136,7 @@ jobs:
             python examples/write_structured_data.py
             python examples/write_api_callbacks.py
             python examples/asynchronous.py
+            python examples/asynchronous_management.py
   check-sphinx:
     docker:
       - image: *default-python
