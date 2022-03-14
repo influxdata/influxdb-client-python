@@ -1341,6 +1341,7 @@ The ``async`` version of the client supports following asynchronous APIs:
 * :class:`~influxdb_client.client.write_api_async.WriteApiAsync`
 * :class:`~influxdb_client.client.query_api_async.QueryApiAsync`
 * :class:`~influxdb_client.client.delete_api_async.DeleteApiAsync`
+* Management services into ``influxdb_client.service`` supports async operation
 
 and also check to readiness of the InfluxDB via ``/ping`` endpoint:
 
@@ -1450,6 +1451,32 @@ Async Delete API
             successfully = await client.delete_api().delete(start=start, stop=stop, bucket="my-bucket",
                                                             predicate="location = \"Prague\"")
             print(f" > successfully: {successfully}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Management API
+""""""""""""""
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client import OrganizationsService
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org') as client:
+            # Initialize async OrganizationsService
+            organizations_service = OrganizationsService(api_client=client.api_client)
+
+            # Find organization with name 'my-org'
+            organizations = await organizations_service.get_orgs(org='my-org')
+            for organization in organizations.orgs:
+                print(f'name: {organization.name}, id: {organization.id}')
 
 
     if __name__ == "__main__":
