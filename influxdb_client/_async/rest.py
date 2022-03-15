@@ -81,7 +81,7 @@ class RESTClientObjectAsync(object):
     Do not edit the class manually.
     """
 
-    def __init__(self, configuration, pools_size=4, maxsize=None):
+    def __init__(self, configuration, pools_size=4, maxsize=None, **kwargs):
         """Initialize REST client."""
         # maxsize is number of requests to host that are allowed in parallel
         if maxsize is None:
@@ -104,6 +104,8 @@ class RESTClientObjectAsync(object):
 
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
+        self.allow_redirects = kwargs.get('allow_redirects', True)
+        self.max_redirects = kwargs.get('max_redirects', 10)
 
         # configure tracing
         trace_config = aiohttp.TraceConfig()
@@ -169,7 +171,9 @@ class RESTClientObjectAsync(object):
         args = {
             "method": method,
             "url": url,
-            "headers": headers
+            "headers": headers,
+            "allow_redirects": self.allow_redirects,
+            "max_redirects": self.max_redirects
         }
 
         if self.proxy:

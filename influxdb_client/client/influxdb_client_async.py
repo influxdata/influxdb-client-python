@@ -38,13 +38,15 @@ class InfluxDBClientAsync(_BaseClient):
         :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
+        :key bool allow_redirects: If set to ``False``, do not follow HTTP redirects. ``True`` by default.
+        :key int max_redirects: Maximum number of HTTP redirects to follow. ``10`` by default.
         :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,
-                                         header_value=self.auth_header_value, retries=self.retries)
+                                         header_value=self.auth_header_value, retries=self.retries, **kwargs)
 
     async def __aenter__(self) -> 'InfluxDBClientAsync':
         """

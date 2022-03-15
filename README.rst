@@ -1483,6 +1483,37 @@ Management API
         asyncio.run(main())
 
 
+Proxy and redirects
+"""""""""""""""""""
+
+You can configure the client to tunnel requests through an HTTP proxy.
+The following proxy options are supported:
+
+- ``proxy`` - Set this to configure the http proxy to be used, ex. ``http://localhost:3128``
+- ``proxy_headers`` - A dictionary containing headers that will be sent to the proxy. Could be used for proxy authentication.
+
+.. code-block:: python
+
+   from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+   async with InfluxDBClientAsync(url="http://localhost:8086",
+                                  token="my-token",
+                                  org="my-org",
+                                  proxy="http://localhost:3128") as client:
+
+.. note::
+
+    If your proxy notify the client with permanent redirect (``HTTP 301``) to **different host**.
+    The client removes ``Authorization`` header, because otherwise the contents of ``Authorization`` is sent to third parties
+    which is a security vulnerability.
+
+Client automatically follows HTTP redirects. The default redirect policy is to follow up to ``10`` consecutive requests. The redirects can be configured via:
+
+- ``allow_redirects`` - If set to ``False``, do not follow HTTP redirects. ``True`` by default.
+- ``max_redirects`` - Maximum number of HTTP redirects to follow. ``10`` by default.
+
+
 .. marker-asyncio-end
 
 Local tests
