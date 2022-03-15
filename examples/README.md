@@ -33,4 +33,5 @@
 ## Asynchronous
 - [asynchronous.py](asynchronous.py) - How to use Asyncio with InfluxDB client
 - [asynchronous_management.py](asynchronous_management.py) - How to use asynchronous Management API
+- [asynchronous_batching.py](asynchronous_batching.py) - HHow to use [RxPY](https://rxpy.readthedocs.io/en/latest/) to prepare batches for Asyncio client
   
