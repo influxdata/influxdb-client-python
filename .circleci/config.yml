@@ -131,13 +131,14 @@ jobs:
             pip install -e .\[async\] --user
             pip install -e .\[extra\] --user
             export PYTHONPATH="$PWD"
-            python examples/monitoring_and_alerting.py
-            python examples/buckets_management.py
-            python examples/write_structured_data.py
-            python examples/write_api_callbacks.py
-            python examples/asynchronous.py
-            python examples/asynchronous_management.py
-            python examples/asynchronous_batching.py
+            cd examples
+            python ./monitoring_and_alerting.py
+            python ./buckets_management.py
+            python ./write_structured_data.py
+            python ./write_api_callbacks.py
+            python ./asynchronous.py
+            python ./asynchronous_management.py
+            python ./asynchronous_batching.py
   check-sphinx:
     docker:
       - image: *default-python
