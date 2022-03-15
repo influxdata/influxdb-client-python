@@ -40,6 +40,9 @@ class InfluxDBClientAsync(_BaseClient):
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         :key bool allow_redirects: If set to ``False``, do not follow HTTP redirects. ``True`` by default.
         :key int max_redirects: Maximum number of HTTP redirects to follow. ``10`` by default.
+        :key dict client_session_kwargs: Additional configuration arguments for :class:`~aiohttp.ClientSession`
+        :key type client_session_type: Type of aiohttp client to use. Useful for third party wrappers like
+                                       ``aiohttp-retry``. :class:`~aiohttp.ClientSession` by default.
         :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)

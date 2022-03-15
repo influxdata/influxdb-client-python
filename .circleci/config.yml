@@ -130,6 +130,7 @@ jobs:
             pip install -e . --user
             pip install -e .\[async\] --user
             pip install -e .\[extra\] --user
+            pip install aiohttp-retry --user
             export PYTHONPATH="$PWD"
             cd examples
             python ./monitoring_and_alerting.py
@@ -139,6 +140,7 @@ jobs:
             python ./asynchronous.py
             python ./asynchronous_management.py
             python ./asynchronous_batching.py
+            python ./asynchronous_retry.py
   check-sphinx:
     docker:
       - image: *default-python
