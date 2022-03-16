@@ -4,7 +4,13 @@
 1. [#412](https://github.com/influxdata/influxdb-client-python/pull/412): `DeleteApi` uses default value from `InfluxDBClient.org` if an `org` parameter is not specified
 1. [#405](https://github.com/influxdata/influxdb-client-python/pull/405): Add `InfluxLoggingHandler`. A handler to use the client in native python logging.
 1. [#404](https://github.com/influxdata/influxdb-client-python/pull/404): Add `InvocableScriptsApi` to create, update, list, delete and invoke scripts by seamless way
-1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Bump urllib3 to 1.26.0 and change `method_whitelist` to `allowed_methods` to clear deprecation warning
+
+### Bug Fixes
+1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Use `allowed_methods` to clear deprecation warning [urllib3]
+
+### Dependencies
+1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Update dependencies:
+   - `urllib3` to 1.26.0 
 
 ### CI
 1. [#411](https://github.com/influxdata/influxdb-client-python/pull/411): Use new Codecov uploader for reporting code coverage
