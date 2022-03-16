@@ -184,27 +184,27 @@ class TestWritesRetry(unittest.TestCase):
         self.assertLessEqual(retry_after, 7)
 
     def test_is_retry(self):
-        retry = WritesRetry(method_whitelist=["POST"])
+        retry = WritesRetry(allowed_methods=["POST"])
 
         self.assertTrue(retry.is_retry("POST", 429, True))
 
     def test_is_retry_428(self):
-        retry = WritesRetry(method_whitelist=["POST"])
+        retry = WritesRetry(allowed_methods=["POST"])
 
         self.assertFalse(retry.is_retry("POST", 428, True))
 
     def test_is_retry_430(self):
-        retry = WritesRetry(method_whitelist=["POST"])
+        retry = WritesRetry(allowed_methods=["POST"])
 
         self.assertTrue(retry.is_retry("POST", 430, True))
 
     def test_is_retry_retry_after_header_is_not_required(self):
-        retry = WritesRetry(method_whitelist=["POST"])
+        retry = WritesRetry(allowed_methods=["POST"])
 
         self.assertTrue(retry.is_retry("POST", 429, False))
 
     def test_is_retry_respect_method(self):
-        retry = WritesRetry(method_whitelist=["POST"])
+        retry = WritesRetry(allowed_methods=["POST"])
 
         self.assertFalse(retry.is_retry("GET", 429, False))
 
