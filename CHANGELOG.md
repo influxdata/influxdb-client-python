@@ -1,4 +1,4 @@
-## 1.27.0 [unreleased]
+## 1.27.0 [2022-03-18]
 
 ### Features
 1. [#412](https://github.com/influxdata/influxdb-client-python/pull/412): `DeleteApi` uses default value from `InfluxDBClient.org` if an `org` parameter is not specified
