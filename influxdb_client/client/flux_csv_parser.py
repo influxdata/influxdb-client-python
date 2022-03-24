@@ -42,7 +42,7 @@ class FluxSerializationMode(Enum):
 
 
 class FluxResponseMetadataMode(Enum):
-    """The configuration for expected amount of metadata respons from InfluxDB."""
+    """The configuration for expected amount of metadata response from InfluxDB."""
 
     full = 1
     # useful for Invocable scripts

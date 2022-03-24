@@ -26,11 +26,6 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
     client.write_api(write_options=SYNCHRONOUS).write(bucket=bucket_name, record=[_point1, _point2])
 
-    """
-    Find Organization ID by Organization API.
-    """
-    org = client.organizations_api().find_organizations(org=org_name)[0]
-
     scripts_api = client.invocable_scripts_api()
 
     """
