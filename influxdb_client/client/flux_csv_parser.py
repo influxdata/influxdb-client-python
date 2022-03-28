@@ -145,7 +145,7 @@ class FluxCsvParser(object):
 
     def _parse_flux_response_row(self, metadata, csv):
         if len(csv) < 1:
-            # Response has HTTP status ok, but response is error.
+            # Skip empty line in results (new line is used as a delimiter between tables or table and error)
             pass
 
         elif "error" == csv[1] and "reference" == csv[2]:
