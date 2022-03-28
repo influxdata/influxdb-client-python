@@ -11,6 +11,7 @@ python --version
 pip install -e . --user
 pip install -e .\[extra\] --user
 pip install -e .\[test\] --user
+pip install -e .\[async\] --user
 if [ "$ENABLED_CISO_8601" = true ] ; then
   echo "ciso8601 is enabled"
   pip install -e .\[ciso\] --user

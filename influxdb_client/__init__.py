@@ -56,8 +56,6 @@ from influxdb_client.service.variables_service import VariablesService
 from influxdb_client.service.views_service import ViewsService
 from influxdb_client.service.write_service import WriteService
 
-# import ApiClient
-from influxdb_client.api_client import ApiClient
 from influxdb_client.configuration import Configuration
 # import models into sdk package
 from influxdb_client.domain.ast_response import ASTResponse
@@ -317,8 +315,6 @@ from influxdb_client.domain.template_export_by_id import TemplateExportByID
 from influxdb_client.domain.template_export_by_id_org_ids import TemplateExportByIDOrgIDs
 from influxdb_client.domain.template_export_by_id_resource_filters import TemplateExportByIDResourceFilters
 from influxdb_client.domain.template_export_by_id_resources import TemplateExportByIDResources
-from influxdb_client.domain.template_export_by_name import TemplateExportByName
-from influxdb_client.domain.template_export_by_name_resources import TemplateExportByNameResources
 from influxdb_client.domain.template_kind import TemplateKind
 from influxdb_client.domain.template_summary import TemplateSummary
 from influxdb_client.domain.template_summary_diff import TemplateSummaryDiff

@@ -9,12 +9,12 @@ from typing import List, Iterator, Generator, Any
 
 from influxdb_client import Script, InvocableScriptsService, ScriptCreateRequest, ScriptUpdateRequest, \
     ScriptInvocationParams
+from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
-from influxdb_client.client.queryable_api import QueryableApi
 
 
-class InvocableScriptsApi(QueryableApi):
+class InvocableScriptsApi(_BaseQueryApi):
     """Use API invokable scripts to create custom InfluxDB API endpoints that query, process, and shape data."""
 
     def __init__(self, influxdb_client):

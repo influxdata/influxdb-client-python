@@ -120,6 +120,12 @@ Then import the package:
 
    import influxdb_client
 
+If your application uses async/await in Python you can install with the ``async`` extra::
+
+    $ pip install influxdb-client[async]
+
+For more info se `How to use Asyncio`_.
+
 Setuptools
 ^^^^^^^^^^
 
@@ -580,27 +586,6 @@ Examples:
 .. code-block:: python
 
     self.client = InfluxDBClient.from_env_properties()
-
-Asynchronous client
-"""""""""""""""""""
-
-Data are writes in an asynchronous HTTP request.
-
-.. code-block:: python
-
-   from influxdb_client import InfluxDBClient, Point
-   from influxdb_client.client.write_api import ASYNCHRONOUS
-
-   client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
-   write_api = client.write_api(write_options=ASYNCHRONOUS)
-
-   _point1 = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-   _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
-
-   async_result = write_api.write(bucket="my-bucket", record=[_point1, _point2])
-   async_result.get()
-
-   client.close()
 
 Synchronous client
 """"""""""""""""""
@@ -1323,6 +1308,213 @@ that is replacement for python ``datetime.datetime`` object and also you should 
     client.close()
 
 .. marker-nanosecond-end
+
+How to use Asyncio
+^^^^^^^^^^^^^^^^^^
+.. marker-asyncio-start
+
+Starting from version 1.27.0 for Python 3.6+ the ``influxdb-client`` package supports ``async/await`` based on
+`asyncio <https://docs.python.org/3/library/asyncio.html>`_ and `aiohttp <https://docs.aiohttp.org>`_.
+You can install ``aiohttp`` directly:
+
+ .. code-block:: bash
+
+    $ python -m pip install influxdb-client aiohttp
+
+or use the ``[async]`` extra:
+
+ .. code-block:: bash
+
+    $ python -m pip install influxdb-client[async]
+
+.. warning::
+
+    The ``InfluxDBClientAsync`` should be initialised inside ``async coroutine``
+    otherwise there can be unexpected behaviour.
+    For more info see: `Why is creating a ClientSession outside of an event loop dangerous? <https://docs.aiohttp.org/en/stable/faq.html#why-is-creating-a-clientsession-outside-of-an-event-loop-dangerous>`__.
+
+Async APIs
+""""""""""
+All async APIs are available via :class:`~influxdb_client.client.influxdb_client_async.InfluxDBClientAsync`.
+The ``async`` version of the client supports following asynchronous APIs:
+
+* :class:`~influxdb_client.client.write_api_async.WriteApiAsync`
+* :class:`~influxdb_client.client.query_api_async.QueryApiAsync`
+* :class:`~influxdb_client.client.delete_api_async.DeleteApiAsync`
+* Management services into ``influxdb_client.service`` supports async operation
+
+and also check to readiness of the InfluxDB via ``/ping`` endpoint:
+
+ .. code-block:: python
+
+        import asyncio
+
+        from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+        async def main():
+            async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                ready = await client.ping()
+                print(f"InfluxDB: {ready}")
+
+
+        if __name__ == "__main__":
+            asyncio.run(main())
+
+Async Write API
+"""""""""""""""
+
+The :class:`~influxdb_client.client.write_api_async.WriteApiAsync` supports ingesting data as:
+
+* ``string`` or ``bytes`` that is formatted as a InfluxDB's line protocol
+* `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
+* Dictionary style mapping with keys: ``measurement``, ``tags``, ``fields`` and ``time`` or custom structure
+* `NamedTuple <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
+* `Data Classes <https://docs.python.org/3/library/dataclasses.html>`_
+* `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+* List of above items
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client import Point
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+            write_api = client.write_api()
+
+            _point1 = Point("async_m").tag("location", "Prague").field("temperature", 25.3)
+            _point2 = Point("async_m").tag("location", "New York").field("temperature", 24.3)
+
+            successfully = await write_api.write(bucket="my-bucket", record=[_point1, _point2])
+
+            print(f" > successfully: {successfully}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Async Query API
+"""""""""""""""
+
+The :class:`~influxdb_client.client.query_api_async.QueryApiAsync` supports retrieve data as:
+
+* List of :class:`~influxdb_client.client.flux_table.FluxTable`
+* Stream of :class:`~influxdb_client.client.flux_table.FluxRecord` via :class:`~typing.AsyncGenerator`
+* `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+* Stream of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ via :class:`~typing.AsyncGenerator`
+* Raw :class:`~str` output
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+            # Stream of FluxRecords
+            query_api = client.query_api()
+            records = await query_api.query_stream('from(bucket:"my-bucket") '
+                                                   '|> range(start: -10m) '
+                                                   '|> filter(fn: (r) => r["_measurement"] == "async_m")')
+            async for record in records:
+                print(record)
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Async Delete API
+""""""""""""""""
+
+ .. code-block:: python
+
+    import asyncio
+    from datetime import datetime
+
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+            start = datetime.utcfromtimestamp(0)
+            stop = datetime.now()
+            # Delete data with location = 'Prague'
+            successfully = await client.delete_api().delete(start=start, stop=stop, bucket="my-bucket",
+                                                            predicate="location = \"Prague\"")
+            print(f" > successfully: {successfully}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Management API
+""""""""""""""
+
+ .. code-block:: python
+
+    import asyncio
+
+    from influxdb_client import OrganizationsService
+    from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+    async def main():
+        async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org') as client:
+            # Initialize async OrganizationsService
+            organizations_service = OrganizationsService(api_client=client.api_client)
+
+            # Find organization with name 'my-org'
+            organizations = await organizations_service.get_orgs(org='my-org')
+            for organization in organizations.orgs:
+                print(f'name: {organization.name}, id: {organization.id}')
+
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+
+Proxy and redirects
+"""""""""""""""""""
+
+You can configure the client to tunnel requests through an HTTP proxy.
+The following proxy options are supported:
+
+- ``proxy`` - Set this to configure the http proxy to be used, ex. ``http://localhost:3128``
+- ``proxy_headers`` - A dictionary containing headers that will be sent to the proxy. Could be used for proxy authentication.
+
+.. code-block:: python
+
+   from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+
+   async with InfluxDBClientAsync(url="http://localhost:8086",
+                                  token="my-token",
+                                  org="my-org",
+                                  proxy="http://localhost:3128") as client:
+
+.. note::
+
+    If your proxy notify the client with permanent redirect (``HTTP 301``) to **different host**.
+    The client removes ``Authorization`` header, because otherwise the contents of ``Authorization`` is sent to third parties
+    which is a security vulnerability.
+
+Client automatically follows HTTP redirects. The default redirect policy is to follow up to ``10`` consecutive requests. The redirects can be configured via:
+
+- ``allow_redirects`` - If set to ``False``, do not follow HTTP redirects. ``True`` by default.
+- ``max_redirects`` - Maximum number of HTTP redirects to follow. ``10`` by default.
+
+
+.. marker-asyncio-end
 
 Local tests
 -----------

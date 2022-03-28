@@ -2,14 +2,12 @@
 
 from __future__ import absolute_import
 
-import configparser
 import logging
-import os
-import base64
 import warnings
 
-from influxdb_client import Configuration, ApiClient, HealthCheck, HealthService, Ready, ReadyService, PingService, \
+from influxdb_client import HealthCheck, HealthService, Ready, ReadyService, PingService, \
     InvocableScriptsApi
+from influxdb_client.client._base import _BaseClient
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
@@ -20,11 +18,10 @@ from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
 
+logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
-logger = logging.getLogger(__name__)
 
-
-class InfluxDBClient(object):
+class InfluxDBClient(_BaseClient):
     """InfluxDBClient is client for InfluxDB v2."""
 
     def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
@@ -55,40 +52,12 @@ class InfluxDBClient(object):
                               (defaults to false, don't set to true when talking to InfluxDB 2)
         :key list[str] profilers: list of enabled Flux profilers
         """
-        self.url = url
-        self.token = token
-        self.org = org
+        super().__init__(url=url, token=token, debug=debug, timeout=timeout, enable_gzip=enable_gzip, org=org,
+                         default_tags=default_tags, **kwargs)
 
-        self.default_tags = default_tags
-
-        conf = _Configuration()
-        if self.url.endswith("/"):
-            conf.host = self.url[:-1]
-        else:
-            conf.host = self.url
-        conf.enable_gzip = enable_gzip
-        conf.debug = debug
-        conf.verify_ssl = kwargs.get('verify_ssl', True)
-        conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
-        conf.proxy = kwargs.get('proxy', None)
-        conf.proxy_headers = kwargs.get('proxy_headers', None)
-        conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', conf.connection_pool_maxsize)
-        conf.timeout = timeout
-
-        auth_token = self.token
-        auth_header_name = "Authorization"
-        auth_header_value = "Token " + auth_token
-
-        auth_basic = kwargs.get('auth_basic', False)
-        if auth_basic:
-            auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
-
-        retries = kwargs.get('retries', False)
-
-        self.profilers = kwargs.get('profilers', None)
-
-        self.api_client = ApiClient(configuration=conf, header_name=auth_header_name,
-                                    header_value=auth_header_value, retries=retries)
+        from .._sync.api_client import ApiClient
+        self.api_client = ApiClient(configuration=self.conf, header_name=self.auth_header_name,
+                                    header_value=self.auth_header_value, retries=self.retries)
 
     def __enter__(self):
         """
@@ -162,56 +131,8 @@ class InfluxDBClient(object):
                 data_center = "${env.data_center}"
 
         """
-        config = configparser.ConfigParser()
-        config.read(config_file)
-
-        def config_value(key: str):
-            return config['influx2'][key].strip('"')
-
-        url = config_value('url')
-        token = config_value('token')
-
-        timeout = None
-        if config.has_option('influx2', 'timeout'):
-            timeout = config_value('timeout')
-
-        org = None
-        if config.has_option('influx2', 'org'):
-            org = config_value('org')
-
-        verify_ssl = True
-        if config.has_option('influx2', 'verify_ssl'):
-            verify_ssl = config_value('verify_ssl')
-
-        ssl_ca_cert = None
-        if config.has_option('influx2', 'ssl_ca_cert'):
-            ssl_ca_cert = config_value('ssl_ca_cert')
-
-        connection_pool_maxsize = None
-        if config.has_option('influx2', 'connection_pool_maxsize'):
-            connection_pool_maxsize = config_value('connection_pool_maxsize')
-
-        auth_basic = False
-        if config.has_option('influx2', 'auth_basic'):
-            auth_basic = config_value('auth_basic')
-
-        default_tags = None
-        if config.has_section('tags'):
-            tags = {k: v.strip('"') for k, v in config.items('tags')}
-            default_tags = dict(tags)
-
-        profilers = None
-        if config.has_option('influx2', 'profilers'):
-            profilers = [x.strip() for x in config_value('profilers').split(',')]
-
-        proxy = None
-        if config.has_option('influx2', 'proxy'):
-            proxy = config_value('proxy')
-
-        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
-                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers, proxy=proxy)
+        return super(InfluxDBClient, cls)._from_config_file(config_file=config_file, debug=debug,
+                                                            enable_gzip=enable_gzip)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False):
@@ -227,35 +148,14 @@ class InfluxDBClient(object):
             - INFLUXDB_V2_SSL_CA_CERT
             - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
             - INFLUXDB_V2_AUTH_BASIC
+            - INFLUXDB_V2_PROFILERS
+            - INFLUXDB_V2_TAG
         """
-        url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
-        token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
-        timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
-        org = os.getenv('INFLUXDB_V2_ORG', "my-org")
-        verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
-        ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
-        connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
-        auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
-
-        prof = os.getenv("INFLUXDB_V2_PROFILERS", None)
-        profilers = None
-        if prof is not None:
-            profilers = [x.strip() for x in prof.split(',')]
-
-        default_tags = dict()
-
-        for key, value in os.environ.items():
-            if key.startswith("INFLUXDB_V2_TAG_"):
-                default_tags[key[16:].lower()] = value
-
-        return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
-                   enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers)
+        return super(InfluxDBClient, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
         """
-        Create a Write API instance.
+        Create Write API instance.
 
         Example:
             .. code-block:: python
@@ -428,7 +328,7 @@ class InfluxDBClient(object):
 
     def ping(self) -> bool:
         """
-        Return the the status of InfluxDB instance.
+        Return the status of InfluxDB instance.
 
         :return: The status of InfluxDB.
         """
@@ -450,11 +350,8 @@ class InfluxDBClient(object):
         ping_service = PingService(self.api_client)
 
         response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
-        if response is not None and len(response) >= 3:
-            if 'X-Influxdb-Version' in response[2]:
-                return response[2]['X-Influxdb-Version']
 
-        return "unknown"
+        return self._version(response)
 
     def ready(self) -> Ready:
         """
@@ -472,46 +369,3 @@ class InfluxDBClient(object):
         :return: delete api
         """
         return DeleteApi(self)
-
-
-class _Configuration(Configuration):
-    def __init__(self):
-        Configuration.__init__(self)
-        self.enable_gzip = False
-
-    def update_request_header_params(self, path: str, params: dict):
-        super().update_request_header_params(path, params)
-        if self.enable_gzip:
-            # GZIP Request
-            if path == '/api/v2/write':
-                params["Content-Encoding"] = "gzip"
-                params["Accept-Encoding"] = "identity"
-                pass
-            # GZIP Response
-            if path == '/api/v2/query':
-                # params["Content-Encoding"] = "gzip"
-                params["Accept-Encoding"] = "gzip"
-                pass
-            pass
-        pass
-
-    def update_request_body(self, path: str, body):
-        _body = super().update_request_body(path, body)
-        if self.enable_gzip:
-            # GZIP Request
-            if path == '/api/v2/write':
-                import gzip
-                if isinstance(_body, bytes):
-                    return gzip.compress(data=_body)
-                else:
-                    return gzip.compress(bytes(_body, "utf-8"))
-
-        return _body
-
-
-def _to_bool(bool_value):
-    return str(bool_value).lower() in ("yes", "true")
-
-
-def _to_int(int_value):
-    return int(int_value) if int_value is not None else None

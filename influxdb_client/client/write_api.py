@@ -1,4 +1,4 @@
-"""Collect and write time series data to InfluxDB Cloud and InfluxDB OSS."""
+"""Collect and write time series data to InfluxDB Cloud or InfluxDB OSS."""
 
 # coding: utf-8
 import logging
@@ -15,22 +15,20 @@ from rx import operators as ops, Observable
 from rx.scheduler import ThreadPoolScheduler
 from rx.subject import Subject
 
-from influxdb_client import WritePrecision, WriteService
+from influxdb_client import WritePrecision
+from influxdb_client.client._base import _BaseWriteApi, _HAS_DATACLASS
 from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
+from influxdb_client.rest import _UTF_8_encoding
 
 logger = logging.getLogger(__name__)
 
 
-try:
+if _HAS_DATACLASS:
     import dataclasses
     from dataclasses import dataclass
-
-    _HAS_DATACLASS = True
-except ModuleNotFoundError:
-    _HAS_DATACLASS = False
 
 
 class WriteType(Enum):
@@ -191,7 +189,7 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
-class WriteApi:
+class WriteApi(_BaseWriteApi):
     """
     Implementation for '/api/v2/write' endpoint.
 
@@ -242,17 +240,11 @@ class WriteApi:
 
                              **[batching mode]**
         """
-        self._influxdb_client = influxdb_client
-        self._write_service = WriteService(influxdb_client.api_client)
+        super().__init__(influxdb_client=influxdb_client, point_settings=point_settings)
         self._write_options = write_options
-        self._point_settings = point_settings
         self._success_callback = kwargs.get('success_callback', None)
         self._error_callback = kwargs.get('error_callback', None)
         self._retry_callback = kwargs.get('retry_callback', None)
-
-        if influxdb_client.default_tags:
-            for key, value in influxdb_client.default_tags.items():
-                self._point_settings.add_default_tag(key, value)
 
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
@@ -351,9 +343,7 @@ class WriteApi:
         """  # noqa: E501
         org = get_org_query_param(org=org, client=self._influxdb_client)
 
-        if self._point_settings.defaultTags and record is not None:
-            for key, val in self._point_settings.defaultTags.items():
-                self._append_default_tag(key, val, record)
+        self._append_default_tags(record)
 
         if self._write_options.write_type is WriteType.batching:
             return self._write_batching(bucket, org, record,
@@ -414,31 +404,6 @@ class WriteApi:
             self._disposable = None
         pass
 
-    def _serialize(self, record, write_precision, payload, **kwargs):
-        if isinstance(record, bytes):
-            payload[write_precision].append(record)
-
-        elif isinstance(record, str):
-            self._serialize(record.encode("utf-8"), write_precision, payload, **kwargs)
-
-        elif isinstance(record, Point):
-            self._serialize(record.to_line_protocol(), record.write_precision, payload, **kwargs)
-
-        elif isinstance(record, dict):
-            self._serialize(Point.from_dict(record, write_precision=write_precision, **kwargs),
-                            write_precision, payload, **kwargs)
-        elif 'DataFrame' in type(record).__name__:
-            serializer = DataframeSerializer(record, self._point_settings, write_precision, **kwargs)
-            self._serialize(serializer.serialize(), write_precision, payload, **kwargs)
-        elif hasattr(record, "_asdict"):
-            # noinspection PyProtectedMember
-            self._serialize(record._asdict(), write_precision, payload, **kwargs)
-        elif _HAS_DATACLASS and dataclasses.is_dataclass(record):
-            self._serialize(dataclasses.asdict(record), write_precision, payload, **kwargs)
-        elif isinstance(record, Iterable):
-            for item in record:
-                self._serialize(item, write_precision, payload, **kwargs)
-
     def _write_batching(self, bucket, org, data,
                         precision=DEFAULT_WRITE_PRECISION,
                         **kwargs):
@@ -447,7 +412,7 @@ class WriteApi:
             self._subject.on_next(_BatchItem(key=_key, data=data))
 
         elif isinstance(data, str):
-            self._write_batching(bucket, org, data.encode("utf-8"),
+            self._write_batching(bucket, org, data.encode(_UTF_8_encoding),
                                  precision, **kwargs)
 
         elif isinstance(data, Point):
@@ -480,18 +445,6 @@ class WriteApi:
             pass
 
         return None
-
-    def _append_default_tag(self, key, val, record):
-        if isinstance(record, bytes) or isinstance(record, str):
-            pass
-        elif isinstance(record, Point):
-            record.tag(key, val)
-        elif isinstance(record, dict):
-            record.setdefault("tags", {})
-            record.get("tags")[key] = val
-        elif isinstance(record, Iterable):
-            for item in record:
-                self._append_default_tag(key, val, item)
 
     def _http(self, batch_item: _BatchItem):
 

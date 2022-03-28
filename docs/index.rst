@@ -8,6 +8,7 @@ InfluxDB 2.0 python client
 
    usage
    api
+   api_async
    migration
 
 .. include:: ../README.rst

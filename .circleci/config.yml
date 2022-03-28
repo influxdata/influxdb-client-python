@@ -128,11 +128,19 @@ jobs:
           name: Checks that examples are runnable
           command: |
             pip install -e . --user
+            pip install -e .\[async\] --user
+            pip install -e .\[extra\] --user
+            pip install aiohttp-retry --user
             export PYTHONPATH="$PWD"
-            python examples/monitoring_and_alerting.py
-            python examples/buckets_management.py
-            python examples/write_structured_data.py
-            python examples/write_api_callbacks.py
+            cd examples
+            python ./monitoring_and_alerting.py
+            python ./buckets_management.py
+            python ./write_structured_data.py
+            python ./write_api_callbacks.py
+            python ./asynchronous.py
+            python ./asynchronous_management.py
+            python ./asynchronous_batching.py
+            python ./asynchronous_retry.py
   check-sphinx:
     docker:
       - image: *default-python

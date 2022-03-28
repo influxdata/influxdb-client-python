@@ -7,10 +7,9 @@ import csv as csv_parser
 from enum import Enum
 from typing import List
 
-from urllib3 import HTTPResponse
-
 from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
 from influxdb_client.client.util.date_utils import get_date_helper
+from influxdb_client.rest import _UTF_8_encoding
 
 ANNOTATION_DEFAULT = "#default"
 ANNOTATION_GROUP = "#group"
@@ -49,13 +48,28 @@ class FluxResponseMetadataMode(Enum):
     only_names = 2
 
 
+class _FluxCsvParserMetadata(object):
+    def __init__(self):
+        self.table_index = 0
+        self.table_id = -1
+        self.start_new_table = False
+        self.table = None
+        self.groups = []
+        self.parsing_state_error = False
+
+
 class FluxCsvParser(object):
     """Parse to processing response from InfluxDB to FluxStructures or DataFrame."""
 
-    def __init__(self, response: HTTPResponse, serialization_mode: FluxSerializationMode,
+    def __init__(self, response, serialization_mode: FluxSerializationMode,
                  data_frame_index: List[str] = None, query_options=None,
                  response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> None:
-        """Initialize defaults."""
+        """
+        Initialize defaults.
+
+        :param response: HTTP response from a HTTP client.
+                         Acceptable types: `urllib3.response.HTTPResponse`, `aiohttp.client_reqrep.ClientResponse`.
+        """
         self._response = response
         self.tables = []
         self._serialization_mode = serialization_mode
@@ -64,130 +78,162 @@ class FluxCsvParser(object):
         self._data_frame_values = []
         self._profilers = query_options.profilers if query_options is not None else None
         self._profiler_callback = query_options.profiler_callback if query_options is not None else None
-        pass
+        self._async_mode = True if 'ClientResponse' in type(response).__name__ else False
+
+    def _close(self):
+        self._response.close()
 
     def __enter__(self):
         """Initialize CSV reader."""
-        self._reader = csv_parser.reader(codecs.iterdecode(self._response, 'utf-8'))
+        self._reader = csv_parser.reader(codecs.iterdecode(self._response, _UTF_8_encoding))
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Close HTTP response."""
-        self._response.close()
+        self._close()
+
+    async def __aenter__(self) -> 'FluxCsvParser':
+        """Initialize CSV reader."""
+        self._reader = self._response.content
+
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Shutdown the client."""
+        self.__exit__(exc_type, exc_val, exc_tb)
 
     def generator(self):
         """Return Python generator."""
         with self as parser:
-            yield from parser._parse_flux_response()
+            for val in parser._parse_flux_response():
+                yield val
+
+    def generator_async(self):
+        """Return Python async-generator."""
+        return self._parse_flux_response_async()
 
     def _parse_flux_response(self):
-        table_index = 0
-        table_id = -1
-        start_new_table = False
-        table = None
-        groups = []
-        parsing_state_error = False
+        metadata = _FluxCsvParserMetadata()
 
         for csv in self._reader:
-            # debug
-            # print("parsing: ", csv)
+            for val in self._parse_flux_response_row(metadata, csv):
+                yield val
 
-            # Response has HTTP status ok, but response is error.
-            if len(csv) < 1:
-                continue
+        # Return latest DataFrame
+        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+            df = self._prepare_data_frame()
+            if not self._is_profiler_table(metadata.table):
+                yield df
 
-            if "error" == csv[1] and "reference" == csv[2]:
-                parsing_state_error = True
-                continue
+    async def _parse_flux_response_async(self):
+        metadata = _FluxCsvParserMetadata()
 
+        try:
+            async for line in self._reader:
+                csv = list(csv_parser.reader([line.decode(_UTF_8_encoding)]))
+                if len(csv) >= 1:
+                    for val in self._parse_flux_response_row(metadata, csv[0]):
+                        yield val
+
+            # Return latest DataFrame
+            if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
+                df = self._prepare_data_frame()
+                if not self._is_profiler_table(metadata.table):
+                    yield df
+        finally:
+            self._close()
+
+    def _parse_flux_response_row(self, metadata, csv):
+        if len(csv) < 1:
+            # Skip empty line in results (new line is used as a delimiter between tables or table and error)
+            pass
+
+        elif "error" == csv[1] and "reference" == csv[2]:
+            metadata.parsing_state_error = True
+
+        else:
             # Throw  InfluxException with error response
-            if parsing_state_error:
+            if metadata.parsing_state_error:
                 error = csv[1]
                 reference_value = csv[2]
                 raise FluxQueryException(error, reference_value)
 
             token = csv[0]
             # start new table
-            if (token in ANNOTATIONS and not start_new_table) or \
-                    (self._response_metadata_mode is FluxResponseMetadataMode.only_names and not table):
+            if (token in ANNOTATIONS and not metadata.start_new_table) or \
+                    (self._response_metadata_mode is FluxResponseMetadataMode.only_names and not metadata.table):
 
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
                     df = self._prepare_data_frame()
-                    if not self._is_profiler_table(table):
+                    if not self._is_profiler_table(metadata.table):
                         yield df
 
-                start_new_table = True
-                table = FluxTable()
-                self._insert_table(table, table_index)
-                table_index = table_index + 1
-                table_id = -1
-            elif table is None:
+                metadata.start_new_table = True
+                metadata.table = FluxTable()
+                self._insert_table(metadata.table, metadata.table_index)
+                metadata.table_index = metadata.table_index + 1
+                metadata.table_id = -1
+            elif metadata.table is None:
                 raise FluxCsvParserException("Unable to parse CSV response. FluxTable definition was not found.")
 
             #  # datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string,string,string
             if ANNOTATION_DATATYPE == token:
-                self.add_data_types(table, csv)
+                self.add_data_types(metadata.table, csv)
 
             elif ANNOTATION_GROUP == token:
-                groups = csv
+                metadata.groups = csv
 
             elif ANNOTATION_DEFAULT == token:
-                self.add_default_empty_values(table, csv)
+                self.add_default_empty_values(metadata.table, csv)
 
             else:
                 # parse column names
-                if start_new_table:
+                if metadata.start_new_table:
                     # Invocable scripts doesn't supports dialect => all columns are string
-                    if not table.columns and self._response_metadata_mode is FluxResponseMetadataMode.only_names:
-                        self.add_data_types(table, list(map(lambda column: 'string', csv)))
-                        groups = list(map(lambda column: 'false', csv))
-                    self.add_groups(table, groups)
-                    self.add_column_names_and_tags(table, csv)
-                    start_new_table = False
+                    if not metadata.table.columns and \
+                            self._response_metadata_mode is FluxResponseMetadataMode.only_names:
+                        self.add_data_types(metadata.table, list(map(lambda column: 'string', csv)))
+                        metadata.groups = list(map(lambda column: 'false', csv))
+                    self.add_groups(metadata.table, metadata.groups)
+                    self.add_column_names_and_tags(metadata.table, csv)
+                    metadata.start_new_table = False
                     # Create DataFrame with default values
                     if self._serialization_mode is FluxSerializationMode.dataFrame:
                         from ..extras import pd
-                        labels = list(map(lambda it: it.label, table.columns))
+                        labels = list(map(lambda it: it.label, metadata.table.columns))
                         self._data_frame = pd.DataFrame(data=[], columns=labels, index=None)
                         pass
-                    continue
+                else:
 
-                # to int converions todo
-                current_id = int(csv[2])
-                if table_id == -1:
-                    table_id = current_id
+                    # to int converions todo
+                    current_id = int(csv[2])
+                    if metadata.table_id == -1:
+                        metadata.table_id = current_id
 
-                if table_id != current_id:
-                    # create    new        table       with previous column headers settings
-                    flux_columns = table.columns
-                    table = FluxTable()
-                    table.columns.extend(flux_columns)
-                    self._insert_table(table, table_index)
-                    table_index = table_index + 1
-                    table_id = current_id
+                    if metadata.table_id != current_id:
+                        # create    new        table       with previous column headers settings
+                        flux_columns = metadata.table.columns
+                        metadata.table = FluxTable()
+                        metadata.table.columns.extend(flux_columns)
+                        self._insert_table(metadata.table, metadata.table_index)
+                        metadata.table_index = metadata.table_index + 1
+                        metadata.table_id = current_id
 
-                flux_record = self.parse_record(table_index - 1, table, csv)
+                    flux_record = self.parse_record(metadata.table_index - 1, metadata.table, csv)
 
-                if self._is_profiler_record(flux_record):
-                    self._print_profiler_info(flux_record)
-                    continue
+                    if self._is_profiler_record(flux_record):
+                        self._print_profiler_info(flux_record)
+                    else:
+                        if self._serialization_mode is FluxSerializationMode.tables:
+                            self.tables[metadata.table_index - 1].records.append(flux_record)
 
-                if self._serialization_mode is FluxSerializationMode.tables:
-                    self.tables[table_index - 1].records.append(flux_record)
+                        if self._serialization_mode is FluxSerializationMode.stream:
+                            yield flux_record
 
-                if self._serialization_mode is FluxSerializationMode.stream:
-                    yield flux_record
-
-                if self._serialization_mode is FluxSerializationMode.dataFrame:
-                    self._data_frame_values.append(flux_record.values)
-                    pass
-
-        # Return latest DataFrame
-        if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
-            df = self._prepare_data_frame()
-            if not self._is_profiler_table(table):
-                yield df
+                        if self._serialization_mode is FluxSerializationMode.dataFrame:
+                            self._data_frame_values.append(flux_record.values)
+                            pass
 
     def _prepare_data_frame(self):
         from ..extras import pd
