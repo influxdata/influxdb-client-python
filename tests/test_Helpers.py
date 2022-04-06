@@ -31,8 +31,9 @@ class HelpersTest(BaseTest):
         self.assertEqual(self.my_organization.id, org)
 
     def test_required_id_not_exist(self):
-        org = get_org_query_param("not_exist_name", self.client, required_id=True)
-        self.assertIsNone(org)
+        with pytest.raises(InfluxDBError) as e:
+            get_org_query_param("not_exist_name", self.client, required_id=True)
+        assert "The client cannot find organization with name: 'not_exist_name' to determine their ID." in f"{e.value} "
 
     def test_both_none(self):
         self.client.close()

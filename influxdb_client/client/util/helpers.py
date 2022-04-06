@@ -39,7 +39,12 @@ def get_org_query_param(org, client, required_id=False):
                           "to determine their ID. Are you using token with sufficient permission?"
                 raise InfluxDBError(response=None, message=message)
             return organizations[0].id
-        except ApiException:
-            return None
+        except ApiException as e:
+            if e.status == 404:
+                from influxdb_client.client.exceptions import InfluxDBError
+                message = f"The client cannot find organization with name: '{_org}' " \
+                          "to determine their ID."
+                raise InfluxDBError(response=None, message=message)
+            raise e
 
     return _org

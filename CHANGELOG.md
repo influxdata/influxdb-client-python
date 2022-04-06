@@ -1,5 +1,8 @@
 ## 1.28.0 [unreleased]
 
+### Bug Fixes
+1. [#425](https://github.com/influxdata/influxdb-client-python/pull/425): Improve error message if there is no `organization` with required `name`
+
 ## 1.27.0 [2022-03-18]
 
 ### Features
