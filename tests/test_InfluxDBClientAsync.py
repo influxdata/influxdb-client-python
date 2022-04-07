@@ -3,7 +3,10 @@ import unittest
 import os
 from datetime import datetime
 
+import pytest
+
 from influxdb_client import Point, WritePrecision
+from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 from tests.base_test import generate_name
 
@@ -222,6 +225,12 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual(5500, client_from_envs.api_client.configuration.timeout)
 
         await client_from_envs.close()
+
+    def test_initialize_out_side_async_context(self):
+        with pytest.raises(InfluxDBError) as e:
+            InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org")
+        self.assertEqual("The async client should be initialised inside async coroutine "
+                         "otherwise there can be unexpected behaviour.", e.value.message)
 
 
     async def _prepare_data(self, measurement: str):
