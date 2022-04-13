@@ -1,5 +1,6 @@
 """InfluxDBClientAsync is client for API defined in https://github.com/influxdata/openapi/blob/master/contracts/oss.yml."""  # noqa: E501
 import logging
+import sys
 
 from influxdb_client import PingService
 from influxdb_client.client._base import _BaseClient
@@ -46,6 +47,24 @@ class InfluxDBClientAsync(_BaseClient):
         :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)
+
+        # compatibility with Python 3.6
+        if sys.version_info[:2] >= (3, 7):
+            from asyncio import get_running_loop
+        else:
+            from asyncio import _get_running_loop as get_running_loop
+
+        # check present asynchronous context
+        try:
+            loop = get_running_loop()
+            # compatibility with Python 3.6
+            if loop is None:
+                raise RuntimeError('no running event loop')
+        except RuntimeError:
+            from influxdb_client.client.exceptions import InfluxDBError
+            message = "The async client should be initialised inside async coroutine " \
+                      "otherwise there can be unexpected behaviour."
+            raise InfluxDBError(response=None, message=message)
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,

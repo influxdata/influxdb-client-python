@@ -1,5 +1,8 @@
 ## 1.28.0 [unreleased]
 
+### Features
+1. [#413](https://github.com/influxdata/influxdb-client-python/pull/413): Add support for `async/await` with asyncio via `InfluxDBClientAsync`, for more info see: **How to use Asyncio**
+
 ### Bug Fixes
 1. [#425](https://github.com/influxdata/influxdb-client-python/pull/425): Improve error message if there is no `organization` with required `name`
 
@@ -9,7 +12,6 @@
 1. [#412](https://github.com/influxdata/influxdb-client-python/pull/412): `DeleteApi` uses default value from `InfluxDBClient.org` if an `org` parameter is not specified
 1. [#405](https://github.com/influxdata/influxdb-client-python/pull/405): Add `InfluxLoggingHandler`. A handler to use the client in native python logging.
 1. [#404](https://github.com/influxdata/influxdb-client-python/pull/404): Add `InvocableScriptsApi` to create, update, list, delete and invoke scripts by seamless way
-1. [#413](https://github.com/influxdata/influxdb-client-python/pull/413): Add support for `async/await` with asyncio via `InfluxDBClientAsync`, for more info see: **How to use Asyncio**
 
 ### Bug Fixes
 1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Use `allowed_methods` to clear deprecation warning [urllib3]
