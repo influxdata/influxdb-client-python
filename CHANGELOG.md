@@ -1,4 +1,4 @@
-## 1.28.0 [unreleased]
+## 1.28.0 [2022-04-19]
 
 ### Features
 1. [#413](https://github.com/influxdata/influxdb-client-python/pull/413): Add support for `async/await` with asyncio via `InfluxDBClientAsync`, for more info see: **How to use Asyncio**
