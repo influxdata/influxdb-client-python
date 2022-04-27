@@ -7,20 +7,20 @@ in InfluxDB Cloud.
 
 from typing import List, Iterator, Generator, Any
 
-from influxdb_client import Script, InvocableScriptsService, ScriptCreateRequest, ScriptUpdateRequest, \
+from influxdb_client import Script, InvokableScriptsService, ScriptCreateRequest, ScriptUpdateRequest, \
     ScriptInvocationParams
 from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode
 from influxdb_client.client.flux_table import FluxTable, FluxRecord
 
 
-class InvocableScriptsApi(_BaseQueryApi):
+class InvokableScriptsApi(_BaseQueryApi):
     """Use API invokable scripts to create custom InfluxDB API endpoints that query, process, and shape data."""
 
     def __init__(self, influxdb_client):
         """Initialize defaults."""
         self._influxdb_client = influxdb_client
-        self._invocable_scripts_service = InvocableScriptsService(influxdb_client.api_client)
+        self._invokable_scripts_service = InvokableScriptsService(influxdb_client.api_client)
 
     def create_script(self, create_request: ScriptCreateRequest) -> Script:
         """Create a script.
@@ -28,7 +28,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :param ScriptCreateRequest create_request: The script to create. (required)
         :return: The created script.
         """
-        return self._invocable_scripts_service.post_scripts(script_create_request=create_request)
+        return self._invokable_scripts_service.post_scripts(script_create_request=create_request)
 
     def update_script(self, script_id: str, update_request: ScriptUpdateRequest) -> Script:
         """Update a script.
@@ -37,7 +37,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :param ScriptUpdateRequest update_request: Script updates to apply (required)
         :return: The updated.
         """
-        return self._invocable_scripts_service.patch_scripts_id(script_id=script_id,
+        return self._invokable_scripts_service.patch_scripts_id(script_id=script_id,
                                                                 script_update_request=update_request)
 
     def delete_script(self, script_id: str) -> None:
@@ -46,7 +46,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :param str script_id: The ID of the script to delete. (required)
         :return: None
         """
-        self._invocable_scripts_service.delete_scripts_id(script_id=script_id)
+        self._invokable_scripts_service.delete_scripts_id(script_id=script_id)
 
     def find_scripts(self, **kwargs):
         """List scripts.
@@ -56,9 +56,9 @@ class InvocableScriptsApi(_BaseQueryApi):
         :return: List of scripts.
         :rtype: list[Script]
         """
-        return self._invocable_scripts_service.get_scripts(**kwargs).scripts
+        return self._invokable_scripts_service.get_scripts(**kwargs).scripts
 
-    def invoke_scripts(self, script_id: str, params: dict = None) -> List['FluxTable']:
+    def invoke_script(self, script_id: str, params: dict = None) -> List['FluxTable']:
         """
         Invoke synchronously a script and return result as a List['FluxTable'].
 
@@ -69,7 +69,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :return: List of FluxTable.
         :rtype: list[FluxTable]
         """
-        response = self._invocable_scripts_service \
+        response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
                                     async_req=False,
@@ -77,7 +77,7 @@ class InvocableScriptsApi(_BaseQueryApi):
                                     _return_http_data_only=False)
         return self._to_tables(response, query_options=None, response_metadata_mode=FluxResponseMetadataMode.only_names)
 
-    def invoke_scripts_stream(self, script_id: str, params: dict = None) -> Generator['FluxRecord', Any, None]:
+    def invoke_script_stream(self, script_id: str, params: dict = None) -> Generator['FluxRecord', Any, None]:
         """
         Invoke synchronously a script and return result as a Generator['FluxRecord'].
 
@@ -88,7 +88,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :return: Stream of FluxRecord.
         :rtype: Generator['FluxRecord']
         """
-        response = self._invocable_scripts_service \
+        response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
                                     async_req=False,
@@ -98,7 +98,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         return self._to_flux_record_stream(response, query_options=None,
                                            response_metadata_mode=FluxResponseMetadataMode.only_names)
 
-    def invoke_scripts_data_frame(self, script_id: str, params: dict = None, data_frame_index: List[str] = None):
+    def invoke_script_data_frame(self, script_id: str, params: dict = None, data_frame_index: List[str] = None):
         """
         Invoke synchronously a script and return Pandas DataFrame.
 
@@ -112,12 +112,12 @@ class InvocableScriptsApi(_BaseQueryApi):
         :param params: bind parameters
         :return: Pandas DataFrame.
         """
-        _generator = self.invoke_scripts_data_frame_stream(script_id=script_id,
-                                                           params=params,
-                                                           data_frame_index=data_frame_index)
+        _generator = self.invoke_script_data_frame_stream(script_id=script_id,
+                                                          params=params,
+                                                          data_frame_index=data_frame_index)
         return self._to_data_frames(_generator)
 
-    def invoke_scripts_data_frame_stream(self, script_id: str, params: dict = None, data_frame_index: List[str] = None):
+    def invoke_script_data_frame_stream(self, script_id: str, params: dict = None, data_frame_index: List[str] = None):
         """
         Invoke synchronously a script and return stream of Pandas DataFrame as a Generator['pd.DataFrame'].
 
@@ -129,7 +129,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :return: Stream of Pandas DataFrames.
         :rtype: Generator['pd.DataFrame']
         """
-        response = self._invocable_scripts_service \
+        response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
                                     async_req=False,
@@ -139,7 +139,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         return self._to_data_frame_stream(data_frame_index, response, query_options=None,
                                           response_metadata_mode=FluxResponseMetadataMode.only_names)
 
-    def invoke_scripts_csv(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
+    def invoke_script_csv(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
         """
         Invoke synchronously a script and return result as a CSV iterator.
 
@@ -150,7 +150,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :return: The returned object is an iterator. Each iteration returns a row of the CSV file
                  (which can span multiple input lines).
         """
-        response = self._invocable_scripts_service \
+        response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
                                     async_req=False,
@@ -158,7 +158,7 @@ class InvocableScriptsApi(_BaseQueryApi):
 
         return self._to_csv(response)
 
-    def invoke_scripts_raw(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
+    def invoke_script_raw(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
         """
         Invoke synchronously a script and return result as raw unprocessed result as a str.
 
@@ -168,7 +168,7 @@ class InvocableScriptsApi(_BaseQueryApi):
         :param params: bind parameters
         :return: Result as a str.
         """
-        response = self._invocable_scripts_service \
+        response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
                                     async_req=False,

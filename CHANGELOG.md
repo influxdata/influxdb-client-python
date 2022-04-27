@@ -13,7 +13,7 @@
 ### Features
 1. [#412](https://github.com/influxdata/influxdb-client-python/pull/412): `DeleteApi` uses default value from `InfluxDBClient.org` if an `org` parameter is not specified
 1. [#405](https://github.com/influxdata/influxdb-client-python/pull/405): Add `InfluxLoggingHandler`. A handler to use the client in native python logging.
-1. [#404](https://github.com/influxdata/influxdb-client-python/pull/404): Add `InvocableScriptsApi` to create, update, list, delete and invoke scripts by seamless way
+1. [#404](https://github.com/influxdata/influxdb-client-python/pull/404): Add `InvokableScriptsApi` to create, update, list, delete and invoke scripts by seamless way
 
 ### Bug Fixes
 1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Use `allowed_methods` to clear deprecation warning [urllib3]
@@ -103,7 +103,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 1. [#352](https://github.com/influxdata/influxdb-client-python/pull/352): Add `PingService` to check status of OSS and Cloud instance
 
 ### Documentation
-1. [#344](https://github.com/influxdata/influxdb-client-python/pull/344): Add an example How to use Invocable scripts Cloud API
+1. [#344](https://github.com/influxdata/influxdb-client-python/pull/344): Add an example How to use Invokable scripts Cloud API
 
 ## 1.22.0 [2021-10-22]
 

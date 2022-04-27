@@ -1,5 +1,5 @@
 """
-How to use Invocable scripts Cloud API to create custom endpoints that query data
+How to use Invokable scripts Cloud API to create custom endpoints that query data
 """
 import datetime
 
@@ -26,10 +26,10 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     _point2 = Point("my_measurement").tag("location", "New York").field("temperature", 24.3)
     client.write_api(write_options=SYNCHRONOUS).write(bucket=bucket_name, record=[_point1, _point2])
 
-    scripts_api = client.invocable_scripts_api()
+    scripts_api = client.invokable_scripts_api()
 
     """
-    Create Invocable Script
+    Create Invokable Script
     """
     print(f"------- Create -------\n")
     create_request = ScriptCreateRequest(name=f"my_script_{uniqueId}",
@@ -41,7 +41,7 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     print(created_script)
 
     """
-    Update Invocable Script
+    Update Invokable Script
     """
     print(f"------- Update -------\n")
     update_request = ScriptUpdateRequest(description="my updated description")
@@ -53,23 +53,23 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token, org=org_name
     """
     # FluxRecords
     print(f"\n------- Invoke to FluxRecords -------\n")
-    tables = scripts_api.invoke_scripts(script_id=created_script.id, params={"bucket_name": bucket_name})
+    tables = scripts_api.invoke_script(script_id=created_script.id, params={"bucket_name": bucket_name})
     for table in tables:
         for record in table.records:
             print(f'FluxRecord {record}')
     # Pandas DataFrame
     print(f"\n------- Invoke to PandasData Frame -------\n")
-    data_frame = scripts_api.invoke_scripts_data_frame(script_id=created_script.id, params={"bucket_name": bucket_name})
+    data_frame = scripts_api.invoke_script_data_frame(script_id=created_script.id, params={"bucket_name": bucket_name})
     print(data_frame.to_string())
     # CSV
     print(f"\n------- Invoke to CSV-------\n")
-    csv_lines = scripts_api.invoke_scripts_csv(script_id=created_script.id, params={"bucket_name": bucket_name})
+    csv_lines = scripts_api.invoke_script_csv(script_id=created_script.id, params={"bucket_name": bucket_name})
     for csv_line in csv_lines:
         if not len(csv_line) == 0:
             print(f'CSV row: {csv_line}')
     # RAW
     print(f"\n------- Invoke to Raw-------\n")
-    raw = scripts_api.invoke_scripts_raw(script_id=created_script.id, params={"bucket_name": bucket_name})
+    raw = scripts_api.invoke_script_raw(script_id=created_script.id, params={"bucket_name": bucket_name})
     print(f'RAW output:\n {raw}')
 
     """
