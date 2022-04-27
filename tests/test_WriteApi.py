@@ -341,16 +341,6 @@ class SynchronousWriteTest(BaseTest):
     def test_write_empty_data(self):
         bucket = self.create_test_bucket()
 
-        from distutils.version import LooseVersion
-        version = self.client.version().strip('v')
-        if 'nightly' not in version and LooseVersion(version) <= LooseVersion("2.0.8"):
-            with self.assertRaises(ApiException) as cm:
-                self.write_client.write(bucket.name, record="")
-            exception = cm.exception
-
-            self.assertEqual(400, exception.status)
-            self.assertEqual("Bad Request", exception.reason)
-
         result = self.query_api.query(
             "from(bucket:\"" + bucket.name + "\") |> range(start: 1970-01-01T00:00:00.000000001Z) |> last()", self.org)
 
