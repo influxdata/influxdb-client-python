@@ -44,7 +44,7 @@ class FluxResponseMetadataMode(Enum):
     """The configuration for expected amount of metadata response from InfluxDB."""
 
     full = 1
-    # useful for Invocable scripts
+    # useful for Invokable scripts
     only_names = 2
 
 
@@ -190,7 +190,7 @@ class FluxCsvParser(object):
             else:
                 # parse column names
                 if metadata.start_new_table:
-                    # Invocable scripts doesn't supports dialect => all columns are string
+                    # Invokable scripts doesn't supports dialect => all columns are string
                     if not metadata.table.columns and \
                             self._response_metadata_mode is FluxResponseMetadataMode.only_names:
                         self.add_data_types(metadata.table, list(map(lambda column: 'string', csv)))

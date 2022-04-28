@@ -25,7 +25,7 @@ from influxdb_client.service.dbr_ps_service import DBRPsService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.delete_service import DeleteService
 from influxdb_client.service.health_service import HealthService
-from influxdb_client.service.invocable_scripts_service import InvocableScriptsService
+from influxdb_client.service.invokable_scripts_service import InvokableScriptsService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.legacy_authorizations_service import LegacyAuthorizationsService
 from influxdb_client.service.metrics_service import MetricsService
@@ -372,7 +372,7 @@ from influxdb_client.domain.xy_view_properties import XYViewProperties
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.client.delete_api import DeleteApi
-from influxdb_client.client.invocable_scripts_api import InvocableScriptsApi
+from influxdb_client.client.invokable_scripts_api import InvokableScriptsApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi

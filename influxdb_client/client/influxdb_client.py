@@ -6,7 +6,7 @@ import logging
 import warnings
 
 from influxdb_client import HealthCheck, HealthService, Ready, ReadyService, PingService, \
-    InvocableScriptsApi
+    InvokableScriptsApi
 from influxdb_client.client._base import _BaseClient
 from influxdb_client.client.authorizations_api import AuthorizationsApi
 from influxdb_client.client.bucket_api import BucketsApi
@@ -245,13 +245,13 @@ class InfluxDBClient(_BaseClient):
         """
         return QueryApi(self, query_options)
 
-    def invocable_scripts_api(self) -> InvocableScriptsApi:
+    def invokable_scripts_api(self) -> InvokableScriptsApi:
         """
-        Create an InvocableScripts API instance.
+        Create an InvokableScripts API instance.
 
-        :return: InvocableScripts API instance
+        :return: InvokableScripts API instance
         """
-        return InvocableScriptsApi(self)
+        return InvokableScriptsApi(self)
 
     def close(self):
         """Shutdown the client."""

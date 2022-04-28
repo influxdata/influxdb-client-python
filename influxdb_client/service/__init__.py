@@ -23,7 +23,7 @@ from influxdb_client.service.dbr_ps_service import DBRPsService
 from influxdb_client.service.dashboards_service import DashboardsService
 from influxdb_client.service.delete_service import DeleteService
 from influxdb_client.service.health_service import HealthService
-from influxdb_client.service.invocable_scripts_service import InvocableScriptsService
+from influxdb_client.service.invokable_scripts_service import InvokableScriptsService
 from influxdb_client.service.labels_service import LabelsService
 from influxdb_client.service.legacy_authorizations_service import LegacyAuthorizationsService
 from influxdb_client.service.metrics_service import MetricsService
