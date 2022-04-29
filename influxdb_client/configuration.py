@@ -167,9 +167,6 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
             # if debug status is True, turn on debug logging
             for _, logger in six.iteritems(self.loggers):
                 logger.setLevel(logging.DEBUG)
-                handler = logging.StreamHandler(sys.stdout)
-                handler.setLevel(logging.DEBUG)
-                logger.addHandler(handler)
             # turn on httplib debug
             httplib.HTTPConnection.debuglevel = 1
         else:
