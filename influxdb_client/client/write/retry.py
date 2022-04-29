@@ -11,7 +11,7 @@ from urllib3.exceptions import MaxRetryError, ResponseError
 
 from influxdb_client.client.exceptions import InfluxDBError
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('influxdb_client.client.write.retry')
 
 
 class WritesRetry(Retry):

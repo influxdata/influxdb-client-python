@@ -23,7 +23,7 @@ from influxdb_client.client.write.point import Point, DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write.retry import WritesRetry
 from influxdb_client.rest import _UTF_8_encoding
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('influxdb_client.client.write_api')
 
 
 if _HAS_DATACLASS:

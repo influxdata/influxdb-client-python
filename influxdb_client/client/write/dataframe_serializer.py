@@ -11,7 +11,7 @@ import re
 from influxdb_client import WritePrecision
 from influxdb_client.client.write.point import _ESCAPE_KEY, _ESCAPE_STRING, _ESCAPE_MEASUREMENT, DEFAULT_WRITE_PRECISION
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('influxdb_client.client.write.dataframe_serializer')
 
 
 def _itertuples(data_frame):

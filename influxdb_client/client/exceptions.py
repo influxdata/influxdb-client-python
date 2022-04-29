@@ -1,10 +1,6 @@
 """Exceptions utils for InfluxDB."""
 
-import logging
-
 from urllib3 import HTTPResponse
-
-logger = logging.getLogger(__name__)
 
 
 class InfluxDBError(Exception):

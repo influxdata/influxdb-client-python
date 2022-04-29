@@ -70,9 +70,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.password = ""
 
         # Logging Settings
-        self.logger = {}
-        self.logger["package_logger"] = logging.getLogger("influxdb_client")
-        self.logger["urllib3_logger"] = logging.getLogger("urllib3")
+        self.loggers = {}
         # Log format
         self.logger_format = '%(asctime)s %(levelname)s %(message)s'
         # Log stream handler
@@ -145,7 +143,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
             # then add file handler and remove stream handler.
             self.logger_file_handler = logging.FileHandler(self.__logger_file)
             self.logger_file_handler.setFormatter(self.logger_formatter)
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in six.iteritems(self.loggers):
                 logger.addHandler(self.logger_file_handler)
 
     @property
@@ -167,14 +165,17 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.__debug = value
         if self.__debug:
             # if debug status is True, turn on debug logging
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in six.iteritems(self.loggers):
                 logger.setLevel(logging.DEBUG)
+                handler = logging.StreamHandler(sys.stdout)
+                handler.setLevel(logging.DEBUG)
+                logger.addHandler(handler)
             # turn on httplib debug
             httplib.HTTPConnection.debuglevel = 1
         else:
             # if debug status is False, turn off debug logging,
             # setting log level to default `logging.WARNING`
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in six.iteritems(self.loggers):
                 logger.setLevel(logging.WARNING)
             # turn off httplib debug
             httplib.HTTPConnection.debuglevel = 0

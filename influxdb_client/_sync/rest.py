@@ -14,7 +14,6 @@ from __future__ import absolute_import
 
 import io
 import json
-import logging
 import re
 import ssl
 
@@ -28,9 +27,6 @@ try:
     import urllib3
 except ImportError:
     raise ImportError('OpenAPI Python client requires urllib3.')
-
-
-logger = logging.getLogger(__name__)
 
 
 class RESTResponse(io.IOBase):
@@ -246,9 +242,6 @@ class RESTClientObject(object):
             # we need to decode it to string.
             if six.PY3:
                 r.data = r.data.decode('utf8')
-
-            # log response body
-            logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)
