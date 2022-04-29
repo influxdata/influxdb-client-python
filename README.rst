@@ -1521,7 +1521,7 @@ Logging
 ^^^^^^^
 .. marker-logging-start
 
-The client uses uses Python's :mod:`logging` facility for logging the library activity. The following logger categories are exposed:
+The client uses uses Python's `logging <https://docs.python.org/3/library/logging.html>`_ facility for logging the library activity. The following logger categories are exposed:
 
 - ``influxdb_client.client.influxdb_client``
 - ``influxdb_client.client.influxdb_client_async``
@@ -1530,6 +1530,7 @@ The client uses uses Python's :mod:`logging` facility for logging the library ac
 - ``influxdb_client.client.write.retry``
 - ``influxdb_client.client.write.dataframe_serializer``
 - ``influxdb_client.client.util.multiprocessing_helper``
+- ``influxdb_client.client.exceptions``
 
 The default logging level is `warning` without configured logger output. You can use the standard logger interface to change the log level and handler:
 
