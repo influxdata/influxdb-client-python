@@ -1521,7 +1521,7 @@ Logging
 ^^^^^^^
 .. marker-logging-start
 
-The client uses uses Python's `logging <https://docs.python.org/3/library/logging.html>`_ facility for logging the library activity. The following logger categories are exposed:
+The client uses uses Python's `logging <https://docs.python.org/3/library/logging.html>`__ facility for logging the library activity. The following logger categories are exposed:
 
 - ``influxdb_client.client.influxdb_client``
 - ``influxdb_client.client.influxdb_client_async``
