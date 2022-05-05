@@ -1,5 +1,8 @@
 ## 1.29.0 [unreleased]
 
+### Features
+1. [#435](https://github.com/influxdata/influxdb-client-python/pull/435): Add possibility to authenticate by `username/password`
+
 ### Breaking Changes
 1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
 
