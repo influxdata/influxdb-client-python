@@ -24,7 +24,7 @@ logger = logging.getLogger('influxdb_client.client.influxdb_client')
 class InfluxDBClient(_BaseClient):
     """InfluxDBClient is client for InfluxDB v2."""
 
-    def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
+    def __init__(self, url, token: str = None, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
                  default_tags: dict = None, **kwargs) -> None:
         """
         Initialize defaults.

@@ -70,13 +70,20 @@ class _BaseClient(object):
             self.conf.loggers[client_logger] = logging.getLogger(client_logger)
         self.conf.debug = debug
 
-        auth_token = self.token
+        self.conf.username = kwargs.get('username', None)
+        self.conf.password = kwargs.get('password', None)
+        # by token
         self.auth_header_name = "Authorization"
-        self.auth_header_value = "Token " + auth_token
-
+        if self.token:
+            self.auth_header_value = "Token " + self.token
+        # by HTTP basic
         auth_basic = kwargs.get('auth_basic', False)
         if auth_basic:
             self.auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
+        # by username, password
+        if self.conf.username and self.conf.password:
+            self.auth_header_name = None
+            self.auth_header_value = None
 
         self.retries = kwargs.get('retries', False)
 
@@ -459,6 +466,8 @@ class _Configuration(Configuration):
     def __init__(self):
         Configuration.__init__(self)
         self.enable_gzip = False
+        self.username = None
+        self.password = None
 
     def update_request_header_params(self, path: str, params: dict):
         super().update_request_header_params(path, params)

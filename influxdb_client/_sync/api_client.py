@@ -25,6 +25,9 @@ from six.moves.urllib.parse import quote
 from influxdb_client.configuration import Configuration
 import influxdb_client.domain
 from influxdb_client._sync import rest
+from influxdb_client import SigninService
+from influxdb_client import SignoutService
+from influxdb_client.rest import _requires_create_user_session, _requires_expire_user_session
 
 
 class ApiClient(object):
@@ -81,6 +84,7 @@ class ApiClient(object):
 
     def __del__(self):
         """Dispose pools."""
+        self._signout()
         if self._pool:
             self._pool.close()
             self._pool.join()
@@ -117,6 +121,7 @@ class ApiClient(object):
             _preload_content=True, _request_timeout=None, urlopen_kw=None):
 
         config = self.configuration
+        self._signin(resource_path=resource_path)
 
         # header parameters
         header_params = header_params or {}
@@ -649,3 +654,13 @@ class ApiClient(object):
             if klass_name:
                 instance = self.__deserialize(data, klass_name)
         return instance
+
+    def _signin(self, resource_path: str):
+        if _requires_create_user_session(self.configuration, self.cookie, resource_path):
+            http_info = SigninService(self).post_signin_with_http_info()
+            self.cookie = http_info[2]['set-cookie']
+
+    def _signout(self):
+        if _requires_expire_user_session(self.configuration, self.cookie):
+            SignoutService(self).post_signout()
+            self.cookie = None

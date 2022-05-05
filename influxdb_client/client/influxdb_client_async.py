@@ -16,7 +16,8 @@ logger = logging.getLogger('influxdb_client.client.influxdb_client_async')
 class InfluxDBClientAsync(_BaseClient):
     """InfluxDBClientAsync is client for InfluxDB v2."""
 
-    def __init__(self, url, token, org: str = None, debug=None, timeout=10_000, enable_gzip=False, **kwargs) -> None:
+    def __init__(self, url, token: str = None, org: str = None, debug=None, timeout=10_000, enable_gzip=False,
+                 **kwargs) -> None:
         """
         Initialize defaults.
 
