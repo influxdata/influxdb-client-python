@@ -22,7 +22,7 @@ class InfluxDBClientAsync(_BaseClient):
         Initialize defaults.
 
         :param url: InfluxDB server API url (ex. http://localhost:8086).
-        :param token: auth token
+        :param token: ``token`` to authenticate to the InfluxDB 2.x
         :param org: organization name (used as a default in Query, Write and Delete API)
         :param debug: enable verbose logging of http requests
         :param timeout: The maximal number of milliseconds for the whole HTTP request including
@@ -40,6 +40,8 @@ class InfluxDBClientAsync(_BaseClient):
         :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
+        :key str username: ``username`` to authenticate via username and password credentials to the InfluxDB 2.x
+        :key str password: ``password`` to authenticate via username and password credentials to the InfluxDB 2.x
         :key bool allow_redirects: If set to ``False``, do not follow HTTP redirects. ``True`` by default.
         :key int max_redirects: Maximum number of HTTP redirects to follow. ``10`` by default.
         :key dict client_session_kwargs: Additional configuration arguments for :class:`~aiohttp.ClientSession`

@@ -30,7 +30,7 @@ class InfluxDBClient(_BaseClient):
         Initialize defaults.
 
         :param url: InfluxDB server API url (ex. http://localhost:8086).
-        :param token: auth token
+        :param token: ``token`` to authenticate to the InfluxDB API
         :param debug: enable verbose logging of http requests
         :param timeout: HTTP client timeout setting for a request specified in milliseconds.
                         If one number provided, it will be total request timeout.
@@ -50,6 +50,8 @@ class InfluxDBClient(_BaseClient):
         :key bool auth_basic: Set this to true to enable basic authentication when talking to a InfluxDB 1.8.x that
                               does not use auth-enabled but is protected by a reverse proxy with basic authentication.
                               (defaults to false, don't set to true when talking to InfluxDB 2)
+        :key str username: ``username`` to authenticate via username and password credentials to the InfluxDB 2.x
+        :key str password: ``password`` to authenticate via username and password credentials to the InfluxDB 2.x
         :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, debug=debug, timeout=timeout, enable_gzip=enable_gzip, org=org,
