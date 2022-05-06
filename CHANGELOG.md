@@ -1,7 +1,10 @@
 ## 1.29.0 [unreleased]
 
 ### Breaking Changes
- 1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
+1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
+
+### Documentation
+1. [#434](https://github.com/influxdata/influxdb-client-python/pull/434): How the client uses [logging](https://docs.python.org/3/library/logging.html)
 
 ## 1.28.0 [2022-04-19]
 

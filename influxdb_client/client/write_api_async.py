@@ -9,7 +9,7 @@ from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.point import DEFAULT_WRITE_PRECISION
 from influxdb_client.client.write_api import PointSettings
 
-logger = logging.getLogger('influxdb_client.client.influxdb_client')
+logger = logging.getLogger('influxdb_client.client.write_api_async')
 
 if _HAS_DATACLASS:
     from dataclasses import dataclass

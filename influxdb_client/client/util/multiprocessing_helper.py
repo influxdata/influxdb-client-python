@@ -10,7 +10,7 @@ import multiprocessing
 from influxdb_client import InfluxDBClient, WriteOptions
 from influxdb_client.client.exceptions import InfluxDBError
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('influxdb_client.client.util.multiprocessing_helper')
 
 
 def _success_callback(conf: (str, str, str), data: str):

@@ -58,15 +58,12 @@ How to use Asyncio
   :start-after: marker-asyncio-start
   :end-before: marker-asyncio-end
 
-Debugging
-^^^^^^^^^
+Logging
+^^^^^^^
 
-For debug purpose you can enable verbose logging of http requests.
-Both request header and body will be logged to standard output.
-
-.. code-block:: python
-
-    _client = InfluxDBClient(url="http://localhost:8086", token="my-token", debug=True, org="my-org")
+.. include:: ../README.rst
+  :start-after: marker-logging-start
+  :end-before: marker-logging-end
 
 Examples
 ^^^^^^^^

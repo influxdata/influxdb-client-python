@@ -10,7 +10,7 @@ from influxdb_client.client.query_api_async import QueryApiAsync
 from influxdb_client.client.write_api import PointSettings
 from influxdb_client.client.write_api_async import WriteApiAsync
 
-logger = logging.getLogger('influxdb_client.client.influxdb_client')
+logger = logging.getLogger('influxdb_client.client.influxdb_client_async')
 
 
 class InfluxDBClientAsync(_BaseClient):
@@ -46,7 +46,8 @@ class InfluxDBClientAsync(_BaseClient):
                                        ``aiohttp-retry``. :class:`~aiohttp.ClientSession` by default.
         :key list[str] profilers: list of enabled Flux profilers
         """
-        super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip, **kwargs)
+        super().__init__(url=url, token=token, org=org, debug=debug, timeout=timeout, enable_gzip=enable_gzip,
+                         http_client_logger="aiohttp.client", **kwargs)
 
         # compatibility with Python 3.6
         if sys.version_info[:2] >= (3, 7):

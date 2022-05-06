@@ -53,7 +53,7 @@ class InfluxDBClient(_BaseClient):
         :key list[str] profilers: list of enabled Flux profilers
         """
         super().__init__(url=url, token=token, debug=debug, timeout=timeout, enable_gzip=enable_gzip, org=org,
-                         default_tags=default_tags, **kwargs)
+                         default_tags=default_tags, http_client_logger="urllib3", **kwargs)
 
         from .._sync.api_client import ApiClient
         self.api_client = ApiClient(configuration=self.conf, header_name=self.auth_header_name,

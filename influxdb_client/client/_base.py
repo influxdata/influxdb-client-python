@@ -5,6 +5,7 @@ import base64
 import codecs
 import configparser
 import csv
+import logging
 import os
 from datetime import datetime, timedelta
 from typing import Iterator, List, Generator, Any, Union, Iterable, AsyncGenerator
@@ -29,11 +30,22 @@ try:
 except ModuleNotFoundError:
     _HAS_DATACLASS = False
 
+LOGGERS_NAMES = [
+    'influxdb_client.client.influxdb_client',
+    'influxdb_client.client.influxdb_client_async',
+    'influxdb_client.client.write_api',
+    'influxdb_client.client.write_api_async',
+    'influxdb_client.client.write.retry',
+    'influxdb_client.client.write.dataframe_serializer',
+    'influxdb_client.client.util.multiprocessing_helper',
+    'influxdb_client.client.exceptions'
+]
+
 
 # noinspection PyMethodMayBeStatic
 class _BaseClient(object):
     def __init__(self, url, token, debug=None, timeout=10_000, enable_gzip=False, org: str = None,
-                 default_tags: dict = None, **kwargs) -> None:
+                 default_tags: dict = None, http_client_logger: str = None, **kwargs) -> None:
         self.url = url
         self.token = token
         self.org = org
@@ -46,13 +58,17 @@ class _BaseClient(object):
         else:
             self.conf.host = self.url
         self.conf.enable_gzip = enable_gzip
-        self.conf.debug = debug
         self.conf.verify_ssl = kwargs.get('verify_ssl', True)
         self.conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
         self.conf.proxy = kwargs.get('proxy', None)
         self.conf.proxy_headers = kwargs.get('proxy_headers', None)
         self.conf.connection_pool_maxsize = kwargs.get('connection_pool_maxsize', self.conf.connection_pool_maxsize)
         self.conf.timeout = timeout
+        # logging
+        self.conf.loggers["http_client_logger"] = logging.getLogger(http_client_logger)
+        for client_logger in LOGGERS_NAMES:
+            self.conf.loggers[client_logger] = logging.getLogger(client_logger)
+        self.conf.debug = debug
 
         auth_token = self.token
         self.auth_header_name = "Authorization"

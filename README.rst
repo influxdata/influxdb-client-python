@@ -84,6 +84,7 @@ InfluxDB 2.0 client features
     - `Nanosecond precision`_
     - `Delete data`_
     - `Handling Errors`_
+    - `Logging`_
 
 Installation
 ------------
@@ -1515,6 +1516,50 @@ Client automatically follows HTTP redirects. The default redirect policy is to f
 
 
 .. marker-asyncio-end
+
+Logging
+^^^^^^^
+.. marker-logging-start
+
+The client uses uses Python's `logging <https://docs.python.org/3/library/logging.html>`__ facility for logging the library activity. The following logger categories are exposed:
+
+- ``influxdb_client.client.influxdb_client``
+- ``influxdb_client.client.influxdb_client_async``
+- ``influxdb_client.client.write_api``
+- ``influxdb_client.client.write_api_async``
+- ``influxdb_client.client.write.retry``
+- ``influxdb_client.client.write.dataframe_serializer``
+- ``influxdb_client.client.util.multiprocessing_helper``
+- ``influxdb_client.client.exceptions``
+
+The default logging level is `warning` without configured logger output. You can use the standard logger interface to change the log level and handler:
+
+.. code-block:: python
+
+    import logging
+    import sys
+
+    from influxdb_client import InfluxDBClient
+
+    with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+        for _, logger in client.conf.loggers.items():
+            logger.setLevel(logging.DEBUG)
+            logger.addHandler(logging.StreamHandler(sys.stdout))
+
+Debugging
+"""""""""
+
+For debug purpose you can enable verbose logging of HTTP requests and set the ``debug`` level to all client's logger categories by:
+
+.. code-block:: python
+
+    client = InfluxDBClient(url="http://localhost:8086", token="my-token", debug=True)
+
+.. note::
+
+    Both HTTP request headers and body will be logged to standard output.
+
+.. marker-logging-end
 
 Local tests
 -----------
