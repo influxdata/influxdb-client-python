@@ -1089,6 +1089,64 @@ Gzip support
 
 .. marker-gzip-end
 
+Authenticate to the InfluxDB
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. marker-authenticate-start
+
+``InfluxDBClient`` supports three options how to authorize a connection:
+
+- `Token`
+- `Username & Password`
+- `HTTP Basic`
+
+Token
+"""""
+
+Use the ``token`` to authenticate to the InfluxDB API. In your API requests, an `Authorization` header will be send.
+The header value, provide the word `Token` followed by a space and an InfluxDB API token. The word `token`` is case-sensitive.
+
+.. code-block:: python
+
+   from influxdb_client import InfluxDBClient
+
+   with InfluxDBClient(url="http://localhost:8086", token="my-token") as client
+
+.. note:: Note that this is a preferred way how to authenticate to InfluxDB API.
+
+Username & Password
+"""""""""""""""""""
+
+Authenticates via username and password credentials. If successful, creates a new session for the user.
+
+.. code-block:: python
+
+   from influxdb_client import InfluxDBClient
+
+   with InfluxDBClient(url="http://localhost:8086", username="my-user", password="my-password") as client
+
+.. warning::
+
+    The ``username/password`` auth is based on the HTTP "Basic" authentication.
+    The authorization expires when the `time-to-live (TTL) <https://docs.influxdata.com/influxdb/latest/reference/config-options/#session-length>`__
+    (default 60 minutes) is reached and client produces ``unauthorized exception``.
+
+HTTP Basic
+""""""""""
+
+Use this to enable basic authentication when talking to a InfluxDB 1.8.x that does not use auth-enabled
+but is protected by a reverse proxy with basic authentication.
+
+.. code-block:: python
+
+   from influxdb_client import InfluxDBClient
+
+   with InfluxDBClient(url="http://localhost:8086", auth_basic=True, token="my-proxy-secret") as client
+
+
+.. warning:: Don't use this when directly talking to InfluxDB 2.
+
+.. marker-authenticate-end
+
 Proxy configuration
 ^^^^^^^^^^^^^^^^^^^
 .. marker-proxy-start

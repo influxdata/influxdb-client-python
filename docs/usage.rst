@@ -16,17 +16,23 @@ Write
   :start-after: marker-writes-start
   :end-before: marker-writes-end
 
+Delete data
+^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-delete-start
+  :end-before: marker-delete-end
+
 Pandas DataFrame
 ^^^^^^^^^^^^^^^^
 .. include:: ../README.rst
   :start-after: marker-pandas-start
   :end-before: marker-pandas-end
 
-Delete data
-^^^^^^^^^^^
+How to use Asyncio
+^^^^^^^^^^^^^^^^^^
 .. include:: ../README.rst
-  :start-after: marker-delete-start
-  :end-before: marker-delete-end
+  :start-after: marker-asyncio-start
+  :end-before: marker-asyncio-end
 
 Gzip support
 ^^^^^^^^^^^^
@@ -40,6 +46,12 @@ Proxy configuration
   :start-after: marker-proxy-start
   :end-before: marker-proxy-end
 
+Authentication
+^^^^^^^^^^^^^^
+.. include:: ../README.rst
+  :start-after: marker-authenticate-start
+  :end-before: marker-authenticate-end
+
 Nanosecond precision
 ^^^^^^^^^^^^^^^^^^^^
 .. include:: ../README.rst
@@ -51,12 +63,6 @@ Handling Errors
 .. include:: ../README.rst
   :start-after: marker-handling-errors-start
   :end-before: marker-handling-errors-end
-
-How to use Asyncio
-^^^^^^^^^^^^^^^^^^
-.. include:: ../README.rst
-  :start-after: marker-asyncio-start
-  :end-before: marker-asyncio-end
 
 Logging
 ^^^^^^^

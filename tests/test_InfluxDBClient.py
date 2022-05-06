@@ -216,10 +216,15 @@ class InfluxDBClientTestIT(BaseTest):
 
     def test_version_not_running_instance(self):
         client_not_running = InfluxDBClient("http://localhost:8099", token="my-token", debug=True)
-        with self.assertRaises(NewConnectionError) as cm:
+        with self.assertRaises(NewConnectionError):
             client_not_running.version()
 
         client_not_running.close()
+
+    def test_username_password_authorization(self):
+        self.client.close()
+        self.client = InfluxDBClient(url=self.host, username="my-user", password="my-password", debug=True)
+        self.client.query_api().query("buckets()", "my-org")
 
     def _start_proxy_server(self):
         import http.server

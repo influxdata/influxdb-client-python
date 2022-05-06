@@ -232,6 +232,11 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual("The async client should be initialised inside async coroutine "
                          "otherwise there can be unexpected behaviour.", e.value.message)
 
+    @async_test
+    async def test_username_password_authorization(self):
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", username="my-user", password="my-password", debug=True)
+        await self.client.query_api().query("buckets()", "my-org")
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
