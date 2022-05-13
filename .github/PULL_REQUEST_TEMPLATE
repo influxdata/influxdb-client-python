@@ -12,5 +12,5 @@ _Briefly describe your proposed changes:_
 - [ ] Rebased/mergeable
 - [ ] A test has been added if appropriate
 - [ ] `pytest tests` completes successfully
-- [ ] Commit messages are in [semantic format](https://seesparkbox.com/foundry/semantic_commit_messages)
+- [ ] Commit messages are [conventional](https://www.conventionalcommits.org/en/v1.0.0/)
 - [ ] Sign [CLA](https://www.influxdata.com/legal/cla/) (if not already signed)
