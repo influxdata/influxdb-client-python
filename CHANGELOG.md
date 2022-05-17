@@ -1,10 +1,13 @@
 ## 1.29.0 [unreleased]
 
+### Breaking Changes
+1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
+
 ### Features
 1. [#435](https://github.com/influxdata/influxdb-client-python/pull/435): Add possibility to authenticate by `username/password`
 
-### Breaking Changes
-1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
+### Dependencies
+1. [#439](https://github.com/influxdata/influxdb-client-python/pull/439): Remove `six` library
 
 ### Documentation
 1. [#434](https://github.com/influxdata/influxdb-client-python/pull/434): How the client uses [logging](https://docs.python.org/3/library/logging.html)
