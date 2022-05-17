@@ -12,11 +12,9 @@ import io
 import json
 import re
 import ssl
+from urllib.parse import urlencode
 
 import aiohttp
-# python 2 and python 3 compatibility library
-import six
-from six.moves.urllib.parse import urlencode
 
 from influxdb_client.rest import ApiException
 from influxdb_client.rest import _UTF_8_encoding
@@ -111,7 +109,7 @@ class RESTClientObjectAsync(object):
         trace_config.on_request_end.append(_on_request_end)
 
         # timeout
-        if isinstance(configuration.timeout, (int, float,) if six.PY3 else (int, long, float,)):  # noqa: E501,F821
+        if isinstance(configuration.timeout, (int, float,)):  # noqa: E501,F821
             timeout = aiohttp.ClientTimeout(total=configuration.timeout / 1_000)
         elif isinstance(configuration.timeout, aiohttp.ClientTimeout):
             timeout = configuration.timeout

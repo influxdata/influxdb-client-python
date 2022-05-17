@@ -34,18 +34,19 @@ class DeleteService(_BaseService):
     def post_delete(self, delete_predicate_request, **kwargs):  # noqa: E501,D401,D403
         """Delete data.
 
+        Deletes data from a bucket.  Use this endpoint to delete points from a bucket in a specified time range.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns _success_ if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously,   and then responds with success or failure.  #### Required permissions  - `write-buckets` or `write-bucket BUCKET_ID`.    `BUCKET_ID` is the ID of the destination bucket.  #### Rate limits (with InfluxDB Cloud)  `write` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/). - Learn how InfluxDB handles [deleted tags](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementtagkeys/)   and [deleted fields](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementfieldkeys/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_delete(delete_predicate_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param DeletePredicateRequest delete_predicate_request: Deletes data from an InfluxDB bucket. (required)
+        :param DeletePredicateRequest delete_predicate_request: Time range parameters and an optional **delete predicate expression**.  To select points to delete within the specified time range, pass a **delete predicate expression** in the `predicate` property of the request body. If you don't pass a `predicate`, InfluxDB deletes all data with timestamps in the specified time range.  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/).  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: Specifies the organization to delete data from.
-        :param str bucket: Specifies the bucket to delete data from.
-        :param str org_id: Specifies the organization ID of the resource.
-        :param str bucket_id: Specifies the bucket ID to delete data from.
+        :param str org: The organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket: The name or ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
+        :param str org_id: The ID of the organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket_id: The ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -60,18 +61,19 @@ class DeleteService(_BaseService):
     def post_delete_with_http_info(self, delete_predicate_request, **kwargs):  # noqa: E501,D401,D403
         """Delete data.
 
+        Deletes data from a bucket.  Use this endpoint to delete points from a bucket in a specified time range.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns _success_ if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously,   and then responds with success or failure.  #### Required permissions  - `write-buckets` or `write-bucket BUCKET_ID`.    `BUCKET_ID` is the ID of the destination bucket.  #### Rate limits (with InfluxDB Cloud)  `write` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/). - Learn how InfluxDB handles [deleted tags](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementtagkeys/)   and [deleted fields](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementfieldkeys/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_delete_with_http_info(delete_predicate_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param DeletePredicateRequest delete_predicate_request: Deletes data from an InfluxDB bucket. (required)
+        :param DeletePredicateRequest delete_predicate_request: Time range parameters and an optional **delete predicate expression**.  To select points to delete within the specified time range, pass a **delete predicate expression** in the `predicate` property of the request body. If you don't pass a `predicate`, InfluxDB deletes all data with timestamps in the specified time range.  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/).  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: Specifies the organization to delete data from.
-        :param str bucket: Specifies the bucket to delete data from.
-        :param str org_id: Specifies the organization ID of the resource.
-        :param str bucket_id: Specifies the bucket ID to delete data from.
+        :param str org: The organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket: The name or ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
+        :param str org_id: The ID of the organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket_id: The ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -99,15 +101,16 @@ class DeleteService(_BaseService):
     async def post_delete_async(self, delete_predicate_request, **kwargs):  # noqa: E501,D401,D403
         """Delete data.
 
+        Deletes data from a bucket.  Use this endpoint to delete points from a bucket in a specified time range.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns _success_ if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously,   and then responds with success or failure.  #### Required permissions  - `write-buckets` or `write-bucket BUCKET_ID`.    `BUCKET_ID` is the ID of the destination bucket.  #### Rate limits (with InfluxDB Cloud)  `write` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/). - Learn how InfluxDB handles [deleted tags](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementtagkeys/)   and [deleted fields](https://docs.influxdata.com/flux/v0.x/stdlib/influxdata/influxdb/schema/measurementfieldkeys/).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param DeletePredicateRequest delete_predicate_request: Deletes data from an InfluxDB bucket. (required)
+        :param DeletePredicateRequest delete_predicate_request: Time range parameters and an optional **delete predicate expression**.  To select points to delete within the specified time range, pass a **delete predicate expression** in the `predicate` property of the request body. If you don't pass a `predicate`, InfluxDB deletes all data with timestamps in the specified time range.  #### Related guides  - [Delete data](https://docs.influxdata.com/influxdb/v2.2/write-data/delete-data/). - Learn how to use [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/).  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org: Specifies the organization to delete data from.
-        :param str bucket: Specifies the bucket to delete data from.
-        :param str org_id: Specifies the organization ID of the resource.
-        :param str bucket_id: Specifies the bucket ID to delete data from.
+        :param str org: The organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket: The name or ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
+        :param str org_id: The ID of the organization to delete data from. If you pass both `orgID` and `org`, they must both be valid.  #### InfluxDB Cloud  - Doesn't require `org` or `orgID`. - Deletes data from the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str bucket_id: The ID of the bucket to delete data from. If you pass both `bucket` and `bucketID`, `bucketID` takes precedence.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.

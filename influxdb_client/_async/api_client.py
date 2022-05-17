@@ -13,20 +13,17 @@ from __future__ import absolute_import
 import datetime
 import json
 import mimetypes
-from multiprocessing.pool import ThreadPool
 import os
 import re
 import tempfile
+from multiprocessing.pool import ThreadPool
+from urllib.parse import quote
 
-# python 2 and python 3 compatibility library
-import six
-from six.moves.urllib.parse import quote
-
-from influxdb_client.configuration import Configuration
 import influxdb_client.domain
-from influxdb_client._async import rest
 from influxdb_client import SigninService
 from influxdb_client import SignoutService
+from influxdb_client._async import rest
+from influxdb_client.configuration import Configuration
 from influxdb_client.rest import _requires_create_user_session, _requires_expire_user_session
 
 
@@ -52,10 +49,10 @@ class ApiClientAsync(object):
         to the API. More threads means more concurrent API requests.
     """
 
-    PRIMITIVE_TYPES = (float, bool, bytes, six.text_type) + six.integer_types
+    PRIMITIVE_TYPES = (float, bool, bytes, str, int)
     NATIVE_TYPES_MAPPING = {
         'int': int,
-        'long': int if six.PY3 else long,  # noqa: F821
+        'long': int,
         'float': float,
         'str': str,
         'bool': bool,
@@ -231,11 +228,11 @@ class ApiClientAsync(object):
             # Convert attribute name to json key in
             # model definition for request.
             obj_dict = {obj.attribute_map[attr]: getattr(obj, attr)
-                        for attr, _ in six.iteritems(obj.openapi_types)
+                        for attr, _ in obj.openapi_types.items()
                         if getattr(obj, attr) is not None}
 
         return {key: self.sanitize_for_serialization(val)
-                for key, val in six.iteritems(obj_dict)}
+                for key, val in obj_dict.items()}
 
     def deserialize(self, response, response_type):
         """Deserializes response into an object.
@@ -279,7 +276,7 @@ class ApiClientAsync(object):
             if klass.startswith('dict('):
                 sub_kls = re.match(r'dict\(([^,]*), (.*)\)', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
-                        for k, v in six.iteritems(data)}
+                        for k, v in data.items()}
 
             # convert str to class
             if klass in self.NATIVE_TYPES_MAPPING:
@@ -438,7 +435,7 @@ class ApiClientAsync(object):
         new_params = []
         if collection_formats is None:
             collection_formats = {}
-        for k, v in six.iteritems(params) if isinstance(params, dict) else params:  # noqa: E501
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
@@ -471,7 +468,7 @@ class ApiClientAsync(object):
             params = post_params
 
         if files:
-            for k, v in six.iteritems(files):
+            for k, v in files.items():
                 if not v:
                     continue
                 file_names = v if type(v) is list else [v]
@@ -577,7 +574,7 @@ class ApiClientAsync(object):
         try:
             return klass(data)
         except UnicodeEncodeError:
-            return six.text_type(data)
+            return str(data)
         except TypeError:
             return data
 
@@ -640,7 +637,7 @@ class ApiClientAsync(object):
 
         kwargs = {}
         if klass.openapi_types is not None:
-            for attr, attr_type in six.iteritems(klass.openapi_types):
+            for attr, attr_type in klass.openapi_types.items():
                 if (data is not None and
                         klass.attribute_map[attr] in data and
                         isinstance(data, (list, dict))):

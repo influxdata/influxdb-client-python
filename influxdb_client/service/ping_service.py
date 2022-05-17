@@ -32,8 +32,9 @@ class PingService(_BaseService):
         self.api_client = api_client
 
     def get_ping(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_ping(async_req=True)
@@ -52,8 +53,9 @@ class PingService(_BaseService):
             return data
 
     def get_ping_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_ping_with_http_info(async_req=True)
@@ -85,8 +87,9 @@ class PingService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_ping_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -130,8 +133,9 @@ class PingService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def head_ping(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.head_ping(async_req=True)
@@ -150,8 +154,9 @@ class PingService(_BaseService):
             return data
 
     def head_ping_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.head_ping_with_http_info(async_req=True)
@@ -183,8 +188,9 @@ class PingService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def head_ping_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Checks the status of InfluxDB instance and version of InfluxDB..
+        """Get the status and version of the instance.
 
+        Returns the status and InfluxDB version of the instance.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool

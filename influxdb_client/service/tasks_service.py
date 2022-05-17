@@ -526,7 +526,7 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def delete_tasks_id_runs_id(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.
+        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -549,7 +549,7 @@ class TasksService(_BaseService):
             return data
 
     def delete_tasks_id_runs_id_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.
+        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -585,7 +585,7 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def delete_tasks_id_runs_id_async(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.
+        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
 
         This method makes an asynchronous HTTP request.
 

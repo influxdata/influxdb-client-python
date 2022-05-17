@@ -385,7 +385,7 @@ class LabelsService(_BaseService):
 
         :param async_req bool
         :param str label_id: The ID of the label to update. (required)
-        :param LabelUpdate label_update: Label update (required)
+        :param LabelUpdate label_update: A label update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -408,7 +408,7 @@ class LabelsService(_BaseService):
 
         :param async_req bool
         :param str label_id: The ID of the label to update. (required)
-        :param LabelUpdate label_update: Label update (required)
+        :param LabelUpdate label_update: A label update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -441,7 +441,7 @@ class LabelsService(_BaseService):
 
         :param async_req bool
         :param str label_id: The ID of the label to update. (required)
-        :param LabelUpdate label_update: Label update (required)
+        :param LabelUpdate label_update: A label update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -513,7 +513,7 @@ class LabelsService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param LabelCreateRequest label_create_request: Label to create (required)
+        :param LabelCreateRequest label_create_request: The label to create. (required)
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -534,7 +534,7 @@ class LabelsService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param LabelCreateRequest label_create_request: Label to create (required)
+        :param LabelCreateRequest label_create_request: The label to create. (required)
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -565,7 +565,7 @@ class LabelsService(_BaseService):
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param LabelCreateRequest label_create_request: Label to create (required)
+        :param LabelCreateRequest label_create_request: The label to create. (required)
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.

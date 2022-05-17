@@ -1007,7 +1007,7 @@ class UsersService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PasswordResetBody password_reset_body: New password (required)
+        :param PasswordResetBody password_reset_body: The new password. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str authorization: An auth credential for the Basic scheme
         :return: None
@@ -1030,7 +1030,7 @@ class UsersService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param PasswordResetBody password_reset_body: New password (required)
+        :param PasswordResetBody password_reset_body: The new password. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str authorization: An auth credential for the Basic scheme
         :return: None
@@ -1063,7 +1063,7 @@ class UsersService(_BaseService):
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param PasswordResetBody password_reset_body: New password (required)
+        :param PasswordResetBody password_reset_body: The new password. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str authorization: An auth credential for the Basic scheme
         :return: None
