@@ -32,8 +32,9 @@ class ConfigService(_BaseService):
         self.api_client = api_client
 
     def get_config(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the run-time configuration of the instance.
+        """Retrieve runtime configuration.
 
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_config(async_req=True)
@@ -53,8 +54,9 @@ class ConfigService(_BaseService):
             return data
 
     def get_config_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the run-time configuration of the instance.
+        """Retrieve runtime configuration.
 
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_config_with_http_info(async_req=True)
@@ -87,8 +89,9 @@ class ConfigService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_config_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the run-time configuration of the instance.
+        """Retrieve runtime configuration.
 
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool

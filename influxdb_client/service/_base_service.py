@@ -1,4 +1,3 @@
-import six
 
 
 # noinspection PyMethodMayBeStatic
@@ -9,7 +8,7 @@ class _BaseService(object):
         supported_params.append('_preload_content')
         supported_params.append('_request_timeout')
         supported_params.append('urlopen_kw')
-        for key, val in six.iteritems(local_params['kwargs']):
+        for key, val in local_params['kwargs'].items():
             if key not in supported_params:
                 raise TypeError(
                     f"Got an unexpected keyword argument '{key}'"

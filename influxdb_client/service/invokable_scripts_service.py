@@ -139,10 +139,6 @@ class InvokableScriptsService(_BaseService):
         header_params = {}
 
         body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_scripts(self, **kwargs):  # noqa: E501,D401,D403

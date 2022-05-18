@@ -7,7 +7,6 @@ from decimal import Decimal
 from numbers import Integral
 
 from pytz import UTC
-from six import iteritems
 
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
@@ -50,7 +49,7 @@ class Point(object):
     """
     Point defines the values that will be written to the database.
 
-    Ref: http://bit.ly/influxdata-point
+    Ref: https://docs.influxdata.com/influxdb/latest/reference/key-concepts/data-elements/#point
     """
 
     @staticmethod
@@ -209,7 +208,7 @@ class Point(object):
 
 def _append_tags(tags):
     _return = []
-    for tag_key, tag_value in sorted(iteritems(tags)):
+    for tag_key, tag_value in sorted(tags.items()):
 
         if tag_value is None:
             continue
@@ -225,7 +224,7 @@ def _append_tags(tags):
 def _append_fields(fields):
     _return = []
 
-    for field, value in sorted(iteritems(fields)):
+    for field, value in sorted(fields.items()):
         if value is None:
             continue
 

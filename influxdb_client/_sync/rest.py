@@ -16,10 +16,7 @@ import io
 import json
 import re
 import ssl
-
-# python 2 and python 3 compatibility library
-import six
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode
 
 from influxdb_client.rest import ApiException
 
@@ -157,7 +154,7 @@ class RESTClientObject(object):
         timeout = None
         _configured_timeout = _request_timeout or self.configuration.timeout
         if _configured_timeout:
-            if isinstance(_configured_timeout, (int, float, ) if six.PY3 else (int, long, float, )):  # noqa: E501,F821
+            if isinstance(_configured_timeout, (int, float, )):  # noqa: E501,F821
                 timeout = urllib3.Timeout(total=_configured_timeout / 1_000)
             elif (isinstance(_configured_timeout, tuple) and
                   len(_configured_timeout) == 2):
@@ -240,8 +237,7 @@ class RESTClientObject(object):
 
             # In the python 3, the response.data is bytes.
             # we need to decode it to string.
-            if six.PY3:
-                r.data = r.data.decode('utf8')
+            r.data = r.data.decode('utf8')
 
         if not 200 <= r.status <= 299:
             raise ApiException(http_resp=r)

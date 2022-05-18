@@ -32,8 +32,9 @@ class HealthService(_BaseService):
         self.api_client = api_client
 
     def get_health(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the health of an instance.
+        """Retrieve the health of the instance.
 
+        Returns the health of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_health(async_req=True)
@@ -53,8 +54,9 @@ class HealthService(_BaseService):
             return data
 
     def get_health_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the health of an instance.
+        """Retrieve the health of the instance.
 
+        Returns the health of the instance.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_health_with_http_info(async_req=True)
@@ -87,8 +89,9 @@ class HealthService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_health_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the health of an instance.
+        """Retrieve the health of the instance.
 
+        Returns the health of the instance.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool

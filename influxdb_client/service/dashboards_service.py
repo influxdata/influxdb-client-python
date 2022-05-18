@@ -801,7 +801,7 @@ class DashboardsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_dashboards_id(self, dashboard_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a Dashboard.
+        """Retrieve a dashboard.
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -811,7 +811,7 @@ class DashboardsService(_BaseService):
         :param async_req bool
         :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str include: Includes the cell view properties in the response if set to `properties`
+        :param str include: If `properties`, includes the cell view properties in the response.
         :return: DashboardWithViewProperties
                  If the method is called asynchronously,
                  returns the request thread.
@@ -824,7 +824,7 @@ class DashboardsService(_BaseService):
             return data
 
     def get_dashboards_id_with_http_info(self, dashboard_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a Dashboard.
+        """Retrieve a dashboard.
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -834,7 +834,7 @@ class DashboardsService(_BaseService):
         :param async_req bool
         :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str include: Includes the cell view properties in the response if set to `properties`
+        :param str include: If `properties`, includes the cell view properties in the response.
         :return: DashboardWithViewProperties
                  If the method is called asynchronously,
                  returns the request thread.
@@ -860,14 +860,14 @@ class DashboardsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_dashboards_id_async(self, dashboard_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a Dashboard.
+        """Retrieve a dashboard.
 
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str dashboard_id: The ID of the dashboard to update. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str include: Includes the cell view properties in the response if set to `properties`
+        :param str include: If `properties`, includes the cell view properties in the response.
         :return: DashboardWithViewProperties
                  If the method is called asynchronously,
                  returns the request thread.

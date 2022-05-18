@@ -257,7 +257,7 @@ class QueryService(_BaseService):
     def post_query(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from InfluxDB buckets.  To query data, you need the following: - **organization** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - **Flux query** – _See [Flux](https://docs.influxdata.com/flux/v0.x/)._  For more information and examples, see [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/query-data/execute-queries/influx-api/).
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query(async_req=True)
@@ -265,10 +265,10 @@ class QueryService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
+        :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
-        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -284,7 +284,7 @@ class QueryService(_BaseService):
     def post_query_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from InfluxDB buckets.  To query data, you need the following: - **organization** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - **Flux query** – _See [Flux](https://docs.influxdata.com/flux/v0.x/)._  For more information and examples, see [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/query-data/execute-queries/influx-api/).
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_with_http_info(async_req=True)
@@ -292,10 +292,10 @@ class QueryService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
+        :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
-        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -324,15 +324,15 @@ class QueryService(_BaseService):
     async def post_query_async(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from InfluxDB buckets.  To query data, you need the following: - **organization** – _See [View organizations](https://docs.influxdata.com/influxdb/v2.1/organizations/view-orgs/#view-your-organization-id) for instructions on viewing your organization ID._ - **API token** – _See [View tokens](https://docs.influxdata.com/influxdb/v2.1/security/tokens/view-tokens/)  for instructions on viewing your API token._ - **InfluxDB URL** – _See [InfluxDB URLs](https://docs.influxdata.com/influxdb/v2.1/reference/urls/)_. - **Flux query** – _See [Flux](https://docs.influxdata.com/flux/v0.x/)._  For more information and examples, see [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.1/query-data/execute-queries/influx-api/).
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
+        :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: Name of the organization executing the query. Accepts either the ID or Name. If you provide both `orgID` and `org`, `org` takes precedence.
-        :param str org_id: ID of the organization executing the query. If you provide both `orgID` and `org`, `org` takes precedence.
+        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
