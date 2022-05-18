@@ -294,6 +294,7 @@ class WriteApi(_BaseWriteApi):
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
                                      rest columns will be fields - ``DataFrame``
+        :key data_frame_timestamp_column: DataFrame column which contains timestamp - ``DataFrame``                            
         :key record_measurement_key: key of record with specified measurement -
                                      ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_measurement_name: static measurement name - ``dictionary``, ``NamedTuple``, ``dataclass``
