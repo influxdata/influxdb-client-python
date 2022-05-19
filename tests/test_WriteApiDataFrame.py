@@ -433,6 +433,32 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         self.assertEqual('test value1=10i,value2=30i 1586044800000000000', points[0])
         self.assertEqual('test value1=20i,value2=40i 1588636800000000000', points[1])
 
+    def test_str_format_for_timestamp(self):
+        from influxdb_client.extras import pd
+
+        time_formats = [
+            ('2018-10-26', 'test value1=10i,value2=20i 1540512000000000000'),
+            ('2018-10-26 10:00', 'test value1=10i,value2=20i 1540548000000000000'),
+            ('2018-10-26 10:00:00-05:00', 'test value1=10i,value2=20i 1540566000000000000'),
+            ('2018-10-26T11:00:00+00:00', 'test value1=10i,value2=20i 1540551600000000000'),
+            ('2018-10-26 12:00:00+00:00', 'test value1=10i,value2=20i 1540555200000000000'),
+            ('2018-10-26T16:00:00-01:00', 'test value1=10i,value2=20i 1540573200000000000'),
+        ]
+
+        for time_format in time_formats:
+            data_frame = pd.DataFrame(data={
+                'column_time': [time_format[0]],
+                'value1': [10],
+                'value2': [20],
+            }, index=['A'])
+            points = data_frame_to_list_of_points(data_frame=data_frame,
+                                                  data_frame_measurement_name="test",
+                                                  data_frame_timestamp_column="column_time",
+                                                  point_settings=PointSettings())
+
+            self.assertEqual(1, len(points))
+            self.assertEqual(time_format[1], points[0])
+
 
 class DataSerializerChunksTest(unittest.TestCase):
     def test_chunks(self):

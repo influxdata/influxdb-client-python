@@ -41,8 +41,10 @@ class DataframeSerializer:
         :param chunk_size: The size of chunk for serializing into chunks.
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
-        :key data_frame_timestamp_column: DataFrame column which contains timestamp
-        """
+        :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
+                                          formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
+                                          or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+        """  # noqa: E501
         # This function is hard to understand but for good reason:
         # the approach used here is considerably more efficient
         # than the alternatives.
@@ -279,6 +281,8 @@ def data_frame_to_list_of_points(data_frame, point_settings, precision=DEFAULT_W
     :param precision: The precision for the unix timestamps within the body line-protocol.
     :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
     :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
-    :key data_frame_timestamp_column: DataFrame column which contains timestamps
-    """
+    :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
+                                      formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
+                                      or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+    """  # noqa: E501
     return DataframeSerializer(data_frame, point_settings, precision, **kwargs).serialize()
