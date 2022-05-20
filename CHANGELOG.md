@@ -1,4 +1,4 @@
-## 1.29.0 [unreleased]
+## 1.29.0 [2022-05-20]
 
 ### Breaking Changes
 1. [#433](https://github.com/influxdata/influxdb-client-python/pull/433): Rename `InvocableScripts` to `InvokableScripts`
