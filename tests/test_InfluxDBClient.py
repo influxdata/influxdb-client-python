@@ -175,6 +175,10 @@ class InfluxDBClientTest(unittest.TestCase):
             write_api.write(bucket="my-bucket", org="my-org", record="mem,tag=a value=1")
         self.assertIn("Failed to establish a new connection", str(e.value))
 
+    def test_init_without_token(self):
+        self.client = InfluxDBClient("http://localhost:8086")
+        self.assertIsNotNone(self.client)
+
 
 class InfluxDBClientTestIT(BaseTest):
     httpRequest = []

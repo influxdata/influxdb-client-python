@@ -72,8 +72,10 @@ class _BaseClient(object):
 
         self.conf.username = kwargs.get('username', None)
         self.conf.password = kwargs.get('password', None)
-        # by token
+        # by header
         self.auth_header_name = "Authorization"
+        self.auth_header_value = None
+        # by token
         if self.token:
             self.auth_header_value = "Token " + self.token
         # by HTTP basic
