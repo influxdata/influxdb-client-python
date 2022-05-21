@@ -178,6 +178,7 @@ class InfluxDBClientTest(unittest.TestCase):
     def test_init_without_token(self):
         self.client = InfluxDBClient("http://localhost:8086")
         self.assertIsNotNone(self.client)
+        self.client.query_api().query("buckets()", "my-org")
 
 
 class InfluxDBClientTestIT(BaseTest):

@@ -72,15 +72,17 @@ class _BaseClient(object):
 
         self.conf.username = kwargs.get('username', None)
         self.conf.password = kwargs.get('password', None)
-        # by header
-        self.auth_header_name = "Authorization"
+        # defaults
+        self.auth_header_name = None
         self.auth_header_value = None
         # by token
         if self.token:
+            self.auth_header_name = "Authorization"
             self.auth_header_value = "Token " + self.token
         # by HTTP basic
         auth_basic = kwargs.get('auth_basic', False)
         if auth_basic:
+            self.auth_header_name = "Authorization"
             self.auth_header_value = "Basic " + base64.b64encode(token.encode()).decode()
         # by username, password
         if self.conf.username and self.conf.password:

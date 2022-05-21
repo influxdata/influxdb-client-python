@@ -242,6 +242,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     async def test_init_without_token(self):
         await self.client.close()
         self.client = InfluxDBClientAsync("http://localhost:8086")
+        await self.client.query_api().query("buckets()", "my-org")
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
