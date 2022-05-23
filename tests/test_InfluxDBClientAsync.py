@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 import pytest
+from aioresponses import aioresponses
 
 from influxdb_client import Point, WritePrecision
 from influxdb_client.client.exceptions import InfluxDBError
@@ -236,6 +237,14 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     async def test_username_password_authorization(self):
         await self.client.close()
         self.client = InfluxDBClientAsync(url="http://localhost:8086", username="my-user", password="my-password", debug=True)
+        await self.client.query_api().query("buckets()", "my-org")
+
+    @async_test
+    @aioresponses()
+    async def test_init_without_token(self, mocked):
+        mocked.post('http://localhost/api/v2/query?org=my-org', status=200, body='')
+        await self.client.close()
+        self.client = InfluxDBClientAsync("http://localhost")
         await self.client.query_api().query("buckets()", "my-org")
 
     async def _prepare_data(self, measurement: str):

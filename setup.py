@@ -21,7 +21,8 @@ test_requires = [
     'randomize>=0.13',
     'pytest>=5.0.0',
     'httpretty==1.0.5',
-    'psutil>=5.6.3'
+    'psutil>=5.6.3',
+    'aioresponses>=0.7.3'
 ]
 
 extra_requires = [

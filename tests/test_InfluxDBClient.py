@@ -4,6 +4,7 @@ import os
 import threading
 import unittest
 
+import httpretty
 import pytest
 from urllib3.exceptions import NewConnectionError, HTTPError
 
@@ -242,6 +243,24 @@ class InfluxDBClientTestIT(BaseTest):
         self.httpd = http.server.HTTPServer(('localhost', 0), ProxyHTTPRequestHandler)
         self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
         self.httpd_thread.start()
+
+
+class InfluxDBClientTestMock(unittest.TestCase):
+
+    def setUp(self) -> None:
+        httpretty.enable()
+        httpretty.reset()
+
+    def tearDown(self) -> None:
+        if self.influxdb_client:
+            self.influxdb_client.close()
+        httpretty.disable()
+
+    def test_init_without_token(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body="")
+        self.influxdb_client = InfluxDBClient("http://localhost")
+        self.assertIsNotNone(self.influxdb_client)
+        self.influxdb_client.query_api().query("buckets()", "my-org")
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
