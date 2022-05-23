@@ -1,6 +1,6 @@
 ## 1.30.0 [unreleased]
 
-## 1.29.1 [unreleased]
+## 1.29.1 [2022-05-23]
 
 ### Bug Fixes
 1. [#443](https://github.com/influxdata/influxdb-client-python/pull/443): Initialization of the client without auth credentials
