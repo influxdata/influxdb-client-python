@@ -44,6 +44,7 @@ class DataframeSerializer:
         :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
                                           formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
                                           or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+        :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
         """  # noqa: E501
         # This function is hard to understand but for good reason:
         # the approach used here is considerably more efficient
@@ -96,6 +97,7 @@ class DataframeSerializer:
             raise TypeError('"data_frame_measurement_name" is a Required Argument')
 
         timestamp_column = kwargs.get('data_frame_timestamp_column', None)
+        timestamp_timezone = kwargs.get('data_frame_timestamp_timezone', None)
         data_frame = data_frame.copy(deep=False)
         data_frame_timestamp = data_frame.index if timestamp_column is None else data_frame[timestamp_column]
         if isinstance(data_frame_timestamp, pd.PeriodIndex):
@@ -107,6 +109,12 @@ class DataframeSerializer:
             # out the timestamp unless a time column is explicitly
             # enabled.
             data_frame_timestamp = pd.to_datetime(data_frame_timestamp, unit=precision)
+
+        if timestamp_timezone:
+            if isinstance(data_frame_timestamp, pd.DatetimeIndex):
+                data_frame_timestamp = data_frame_timestamp.tz_localize(timestamp_timezone)
+            else:
+                data_frame_timestamp = data_frame_timestamp.dt.tz_localize(timestamp_timezone)
 
         if hasattr(data_frame_timestamp, 'tzinfo') and data_frame_timestamp.tzinfo is None:
             data_frame_timestamp = data_frame_timestamp.tz_localize('UTC')
@@ -284,5 +292,6 @@ def data_frame_to_list_of_points(data_frame, point_settings, precision=DEFAULT_W
     :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
                                       formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
                                       or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+    :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
     """  # noqa: E501
     return DataframeSerializer(data_frame, point_settings, precision, **kwargs).serialize()

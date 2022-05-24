@@ -61,6 +61,7 @@ class WriteApiAsync(_BaseWriteApi):
         :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
                                           formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
                                           or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+        :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
         :key record_measurement_key: key of record with specified measurement -
                                      ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_measurement_name: static measurement name - ``dictionary``, ``NamedTuple``, ``dataclass``
