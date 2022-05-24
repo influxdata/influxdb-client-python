@@ -58,6 +58,10 @@ class WriteApiAsync(_BaseWriteApi):
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame - ``DataFrame``
         :key data_frame_tag_columns: list of DataFrame columns which are tags,
                                      rest columns will be fields - ``DataFrame``
+        :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
+                                          formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
+                                          or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+        :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
         :key record_measurement_key: key of record with specified measurement -
                                      ``dictionary``, ``NamedTuple``, ``dataclass``
         :key record_measurement_name: static measurement name - ``dictionary``, ``NamedTuple``, ``dataclass``
@@ -87,8 +91,8 @@ class WriteApiAsync(_BaseWriteApi):
                 await write_api.write("my-bucket", "my-org", point)
 
         DataFrame:
-            The index of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
-            is used as a ``timestamp`` for written data. The index should be `PeriodIndex <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.PeriodIndex.html#pandas.PeriodIndex>`_
+            If the ``data_frame_timestamp_column`` is not specified the index of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+            is used as a ``timestamp`` for written data. The index can be `PeriodIndex <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.PeriodIndex.html#pandas.PeriodIndex>`_
             or its must be transformable to ``datetime`` by
             `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_.
 

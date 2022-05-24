@@ -416,6 +416,101 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         self.assertEqual("test a=1.0 1609459260000000000", points[1])
         self.assertEqual("test a=2.0,b=1.0 1609459320000000000", points[2])
 
+    def test_use_timestamp_from_specified_column(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(data={
+            'column_time': ['2020-04-05', '2020-05-05'],
+            'value1': [10, 20],
+            'value2': [30, 40],
+        }, index=['A', 'B'])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="test",
+                                              data_frame_timestamp_column="column_time",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual('test value1=10i,value2=30i 1586044800000000000', points[0])
+        self.assertEqual('test value1=20i,value2=40i 1588636800000000000', points[1])
+
+    def test_str_format_for_timestamp(self):
+        from influxdb_client.extras import pd
+
+        time_formats = [
+            ('2018-10-26', 'test value1=10i,value2=20i 1540512000000000000'),
+            ('2018-10-26 10:00', 'test value1=10i,value2=20i 1540548000000000000'),
+            ('2018-10-26 10:00:00-05:00', 'test value1=10i,value2=20i 1540566000000000000'),
+            ('2018-10-26T11:00:00+00:00', 'test value1=10i,value2=20i 1540551600000000000'),
+            ('2018-10-26 12:00:00+00:00', 'test value1=10i,value2=20i 1540555200000000000'),
+            ('2018-10-26T16:00:00-01:00', 'test value1=10i,value2=20i 1540573200000000000'),
+        ]
+
+        for time_format in time_formats:
+            data_frame = pd.DataFrame(data={
+                'column_time': [time_format[0]],
+                'value1': [10],
+                'value2': [20],
+            }, index=['A'])
+            points = data_frame_to_list_of_points(data_frame=data_frame,
+                                                  data_frame_measurement_name="test",
+                                                  data_frame_timestamp_column="column_time",
+                                                  point_settings=PointSettings())
+
+            self.assertEqual(1, len(points))
+            self.assertEqual(time_format[1], points[0])
+
+    def test_specify_timezone(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(data={
+            'column_time': ['2020-05-24 10:00', '2020-05-24 01:00'],
+            'value1': [10, 20],
+            'value2': [30, 40],
+        }, index=['A', 'B'])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="test",
+                                              data_frame_timestamp_column="column_time",
+                                              data_frame_timestamp_timezone="Europe/Berlin",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual('test value1=10i,value2=30i 1590307200000000000', points[0])
+        self.assertEqual('test value1=20i,value2=40i 1590274800000000000', points[1])
+
+    def test_specify_timezone_date_time_index(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(data={
+            'value1': [10, 20],
+            'value2': [30, 40],
+        }, index=[pd.Timestamp('2020-05-24 10:00'), pd.Timestamp('2020-05-24 01:00')])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="test",
+                                              data_frame_timestamp_timezone="Europe/Berlin",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual('test value1=10i,value2=30i 1590307200000000000', points[0])
+        self.assertEqual('test value1=20i,value2=40i 1590274800000000000', points[1])
+
+    def test_specify_timezone_period_time_index(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(data={
+            'value1': [10, 20],
+            'value2': [30, 40],
+        }, index=pd.period_range(start='2020-05-24 10:00', freq='H', periods=2))
+
+        print(data_frame.to_string())
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="test",
+                                              data_frame_timestamp_timezone="Europe/Berlin",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual('test value1=10i,value2=30i 1590307200000000000', points[0])
+        self.assertEqual('test value1=20i,value2=40i 1590310800000000000', points[1])
+
 
 class DataSerializerChunksTest(unittest.TestCase):
     def test_chunks(self):

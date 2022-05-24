@@ -41,7 +41,11 @@ class DataframeSerializer:
         :param chunk_size: The size of chunk for serializing into chunks.
         :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
         :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
-        """
+        :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
+                                          formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
+                                          or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+        :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
+        """  # noqa: E501
         # This function is hard to understand but for good reason:
         # the approach used here is considerably more efficient
         # than the alternatives.
@@ -92,19 +96,32 @@ class DataframeSerializer:
         if data_frame_measurement_name is None:
             raise TypeError('"data_frame_measurement_name" is a Required Argument')
 
+        timestamp_column = kwargs.get('data_frame_timestamp_column', None)
+        timestamp_timezone = kwargs.get('data_frame_timestamp_timezone', None)
         data_frame = data_frame.copy(deep=False)
-        if isinstance(data_frame.index, pd.PeriodIndex):
-            data_frame.index = data_frame.index.to_timestamp()
+        data_frame_timestamp = data_frame.index if timestamp_column is None else data_frame[timestamp_column]
+        if isinstance(data_frame_timestamp, pd.PeriodIndex):
+            data_frame_timestamp = data_frame_timestamp.to_timestamp()
         else:
             # TODO: this is almost certainly not what you want
             # when the index is the default RangeIndex.
             # Instead, it would probably be better to leave
             # out the timestamp unless a time column is explicitly
             # enabled.
-            data_frame.index = pd.to_datetime(data_frame.index, unit=precision)
+            data_frame_timestamp = pd.to_datetime(data_frame_timestamp, unit=precision)
 
-        if data_frame.index.tzinfo is None:
-            data_frame.index = data_frame.index.tz_localize('UTC')
+        if timestamp_timezone:
+            if isinstance(data_frame_timestamp, pd.DatetimeIndex):
+                data_frame_timestamp = data_frame_timestamp.tz_localize(timestamp_timezone)
+            else:
+                data_frame_timestamp = data_frame_timestamp.dt.tz_localize(timestamp_timezone)
+
+        if hasattr(data_frame_timestamp, 'tzinfo') and data_frame_timestamp.tzinfo is None:
+            data_frame_timestamp = data_frame_timestamp.tz_localize('UTC')
+        if timestamp_column is None:
+            data_frame.index = data_frame_timestamp
+        else:
+            data_frame[timestamp_column] = data_frame_timestamp
 
         data_frame_tag_columns = kwargs.get('data_frame_tag_columns')
         data_frame_tag_columns = set(data_frame_tag_columns or [])
@@ -141,6 +158,7 @@ class DataframeSerializer:
         # null_columns has a bool value for each column holding
         # whether that column contains any null (NaN or None) values.
         null_columns = data_frame.isnull().any()
+        timestamp_index = 0
 
         # Iterate through the columns building up the expression for each column.
         for index, (key, value) in columns:
@@ -163,6 +181,9 @@ class DataframeSerializer:
                 else:
                     key_value = f',{key_format}={{str({val_format}).translate(_ESCAPE_KEY)}}'
                 tags.append(key_value)
+                continue
+            elif timestamp_column is not None and key in timestamp_column:
+                timestamp_index = field_index
                 continue
 
             # This column is a field column.
@@ -195,13 +216,13 @@ class DataframeSerializer:
 
         tags = ''.join(tags)
         fields = ''.join(fields)
-        timestamp = '{p[0].value}'
+        timestamp = '{p[%s].value}' % timestamp_index
         if precision == WritePrecision.US:
-            timestamp = '{int(p[0].value / 1e3)}'
+            timestamp = '{int(p[%s].value / 1e3)}' % timestamp_index
         elif precision == WritePrecision.MS:
-            timestamp = '{int(p[0].value / 1e6)}'
+            timestamp = '{int(p[%s].value / 1e6)}' % timestamp_index
         elif precision == WritePrecision.S:
-            timestamp = '{int(p[0].value / 1e9)}'
+            timestamp = '{int(p[%s].value / 1e9)}' % timestamp_index
 
         f = eval(f'lambda p: f"""{{measurement_name}}{tags} {fields} {timestamp}"""', {
             'measurement_name': measurement_name,
@@ -268,5 +289,9 @@ def data_frame_to_list_of_points(data_frame, point_settings, precision=DEFAULT_W
     :param precision: The precision for the unix timestamps within the body line-protocol.
     :key data_frame_measurement_name: name of measurement for writing Pandas DataFrame
     :key data_frame_tag_columns: list of DataFrame columns which are tags, rest columns will be fields
-    """
+    :key data_frame_timestamp_column: name of DataFrame column which contains a timestamp. The column can be defined as a :class:`~str` value
+                                      formatted as `2018-10-26`, `2018-10-26 12:00`, `2018-10-26 12:00:00-05:00`
+                                      or other formats and types supported by `pandas.to_datetime <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_datetime.html#pandas.to_datetime>`_ - ``DataFrame``
+    :key data_frame_timestamp_timezone: name of the timezone which is used for timestamp column - ``DataFrame``
+    """  # noqa: E501
     return DataframeSerializer(data_frame, point_settings, precision, **kwargs).serialize()
