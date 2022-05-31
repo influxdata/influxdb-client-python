@@ -22,7 +22,7 @@ class PandasDateTimeHelperTest(unittest.TestCase):
         self.assertEqual(date.nanosecond, 158)
 
     def test_to_nanoseconds(self):
-        date = self.helper.parse_date('2020-08-07T06:21:57.331249158Z')
+        date = self.helper.parse_date('2020-08-07T06:21:57.331249158Z').replace(tzinfo=timezone.utc)
         nanoseconds = self.helper.to_nanoseconds(date - datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc))
 
         self.assertEqual(nanoseconds, 1596781317331249158)
