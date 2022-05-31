@@ -2,7 +2,7 @@ import datetime
 import json
 import unittest
 
-from dateutil.tz import tzutc
+from datetime import timezone
 from httpretty import httpretty
 
 from influxdb_client import QueryApi, DurationLiteral, Duration, CallExpression, UnaryExpression, \
@@ -506,9 +506,9 @@ class SimpleQueryTest(BaseTest):
 
         self.assertEqual(tables[0].records[5].values,
                           {'result': '_result', 'table': 0,
-                           '_start': datetime.datetime(2021, 5, 24, 8, 40, 44, 785000, tzinfo=tzutc()),
-                           '_stop': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=tzutc()),
-                           '_time': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=tzutc()),
+                           '_start': datetime.datetime(2021, 5, 24, 8, 40, 44, 785000, tzinfo=timezone.utc),
+                           '_stop': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=timezone.utc),
+                           '_time': datetime.datetime(2021, 5, 24, 8, 45, 44, 785000, tzinfo=timezone.utc),
                            '_measurement': 'mem',
                            'host': 'kozel.local',
                            'available': 5727718400, 'free': 35330048,

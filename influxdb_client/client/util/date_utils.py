@@ -1,8 +1,8 @@
 """Utils to get right Date parsing function."""
 import datetime
+from datetime import timezone as tz
 
 from dateutil import parser
-from pytz import UTC
 
 date_helper = None
 
@@ -10,7 +10,7 @@ date_helper = None
 class DateHelper:
     """DateHelper to groups different implementations of date operations."""
 
-    def __init__(self, timezone: datetime.tzinfo = UTC) -> None:
+    def __init__(self, timezone: datetime.tzinfo = tz.utc) -> None:
         """
         Initialize defaults.
 
@@ -51,7 +51,7 @@ class DateHelper:
         if not value.tzinfo:
             return self.to_utc(value.replace(tzinfo=self.timezone))
         else:
-            return value.astimezone(UTC)
+            return value.astimezone(tz.utc)
 
 
 def get_date_helper() -> DateHelper:

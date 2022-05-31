@@ -3,9 +3,7 @@ How to load and execute query that is stored in file.
 """
 import calendar
 import random
-from datetime import datetime, timedelta
-
-from pytz import UTC
+from datetime import datetime, timedelta, timezone
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -18,7 +16,7 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
     """
 
     _points = []
-    now = datetime.now(UTC).replace(hour=13, minute=20, second=15, microsecond=0)
+    now = datetime.now(timezone.utc).replace(hour=13, minute=20, second=15, microsecond=0)
     for i in range(50):
         _point = Point("weather")\
             .tag("location", "New York")\

@@ -2,16 +2,14 @@
 
 import math
 from builtins import int
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from numbers import Integral
-
-from pytz import UTC
 
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
 
-EPOCH = UTC.localize(datetime.utcfromtimestamp(0))
+EPOCH = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
 
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
 

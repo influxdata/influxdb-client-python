@@ -9,8 +9,7 @@ requires = [
     'certifi >= 14.05.14',
     'python_dateutil >= 2.5.3',
     'setuptools >= 21.0.0',
-    'urllib3 >= 1.26.0',
-    'pytz>=2019.1'
+    'urllib3 >= 1.26.0'
 ]
 
 test_requires = [

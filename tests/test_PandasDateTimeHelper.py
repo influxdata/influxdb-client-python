@@ -1,7 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
-
-from pytz import UTC
+from datetime import datetime, timedelta, timezone
 
 from influxdb_client.client.util.date_utils_pandas import PandasDateTimeHelper
 
@@ -25,7 +23,7 @@ class PandasDateTimeHelperTest(unittest.TestCase):
 
     def test_to_nanoseconds(self):
         date = self.helper.parse_date('2020-08-07T06:21:57.331249158Z')
-        nanoseconds = self.helper.to_nanoseconds(date - UTC.localize(datetime.utcfromtimestamp(0)))
+        nanoseconds = self.helper.to_nanoseconds(date - datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc))
 
         self.assertEqual(nanoseconds, 1596781317331249158)
 
