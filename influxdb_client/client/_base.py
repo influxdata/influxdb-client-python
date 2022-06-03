@@ -17,7 +17,7 @@ from influxdb_client import Configuration, Dialect, Query, OptionStatement, Vari
     Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File, \
     WriteService, QueryService, DeleteService, DeletePredicateRequest
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode
-from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.flux_table import FluxRecord, TableList
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
@@ -196,9 +196,9 @@ class _BaseQueryApi(object):
     """Base implementation for Queryable API."""
 
     def _to_tables(self, response, query_options=None, response_metadata_mode:
-                   FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> List[FluxTable]:
+                   FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> TableList:
         """
-        Parse HTTP response to FluxTables.
+        Parse HTTP response to TableList.
 
         :param response: HTTP response from an HTTP client. Expected type: `urllib3.response.HTTPResponse`.
         """
@@ -207,9 +207,9 @@ class _BaseQueryApi(object):
         return _parser.table_list()
 
     async def _to_tables_async(self, response, query_options=None, response_metadata_mode:
-                               FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> List[FluxTable]:
+                               FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> TableList:
         """
-        Parse HTTP response to FluxTables.
+        Parse HTTP response to TableList.
 
         :param response: HTTP response from an HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
         """

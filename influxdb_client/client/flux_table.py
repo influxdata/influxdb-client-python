@@ -4,6 +4,7 @@ Flux employs a basic data model built from basic data types.
 The data model consists of tables, records, columns.
 """
 from json import JSONEncoder
+from typing import List
 
 
 class FluxStructure:
@@ -137,3 +138,9 @@ class FluxRecord(FluxStructure):
     def __repr__(self):
         """Format for inspection."""
         return f"<{type(self).__name__}: field={self.values.get('_field')}, value={self.values.get('_value')}>"
+
+
+class TableList(List[FluxTable]):
+    """List of 'FluxTable's with additionally functional to better handle of query result."""
+
+    pass

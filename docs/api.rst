@@ -20,6 +20,9 @@ QueryApi
 .. autoclass:: influxdb_client.client.flux_table.FluxRecord
    :members:
 
+.. autoclass:: influxdb_client.client.flux_table.TableList
+   :members:
+
 WriteApi
 """"""""
 .. autoclass:: influxdb_client.WriteApi

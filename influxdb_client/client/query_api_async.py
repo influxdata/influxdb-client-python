@@ -6,7 +6,7 @@ Flux is InfluxData’s functional data scripting language designed for querying,
 from typing import List, AsyncGenerator
 
 from influxdb_client.client._base import _BaseQueryApi
-from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.flux_table import FluxRecord, TableList
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.rest import _UTF_8_encoding
 
@@ -22,9 +22,9 @@ class QueryApiAsync(_BaseQueryApi):
         """
         super().__init__(influxdb_client=influxdb_client, query_options=query_options)
 
-    async def query(self, query: str, org=None, params: dict = None) -> List['FluxTable']:
+    async def query(self, query: str, org=None, params: dict = None) -> TableList:
         """
-        Execute asynchronous Flux query and return result as a List[:class:`~influxdb_client.client.flux_table.FluxTable`].
+        Execute asynchronous Flux query and return result as a :class:`~influxdb_client.client.flux_table.TableList`.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;

@@ -8,7 +8,7 @@ from typing import List, Generator, Any, Callable
 
 from influxdb_client import Dialect
 from influxdb_client.client._base import _BaseQueryApi
-from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.flux_table import FluxRecord, TableList
 
 
 class QueryOptions(object):
@@ -73,9 +73,9 @@ class QueryApi(_BaseQueryApi):
 
         return result
 
-    def query(self, query: str, org=None, params: dict = None) -> List['FluxTable']:
+    def query(self, query: str, org=None, params: dict = None) -> TableList:
         """
-        Execute synchronous Flux query and return result as a List['FluxTable'].
+        Execute synchronous Flux query and return result as a TableList.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;

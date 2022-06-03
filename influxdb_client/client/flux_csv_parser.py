@@ -7,7 +7,7 @@ import csv as csv_parser
 from enum import Enum
 from typing import List
 
-from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord
+from influxdb_client.client.flux_table import FluxTable, FluxColumn, FluxRecord, TableList
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.rest import _UTF_8_encoding
 
@@ -71,7 +71,7 @@ class FluxCsvParser(object):
                          Acceptable types: `urllib3.response.HTTPResponse`, `aiohttp.client_reqrep.ClientResponse`.
         """
         self._response = response
-        self.tables = []
+        self.tables = TableList()
         self._serialization_mode = serialization_mode
         self._response_metadata_mode = response_metadata_mode
         self._data_frame_index = data_frame_index
@@ -344,12 +344,12 @@ class FluxCsvParser(object):
         return any(filter(lambda column: (column.default_value == "_profiler" and column.label == "result"),
                           table.columns))
 
-    def table_list(self) -> List[FluxTable]:
+    def table_list(self) -> TableList:
         """Get the list of flux tables."""
         if not self._profilers:
             return self.tables
         else:
-            return list(filter(lambda table: not self._is_profiler_table(table), self.tables))
+            return TableList(filter(lambda table: not self._is_profiler_table(table), self.tables))
 
     def _print_profiler_info(self, flux_record: FluxRecord):
         if flux_record.get_measurement().startswith("profiler/"):
