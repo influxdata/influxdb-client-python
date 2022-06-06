@@ -452,7 +452,6 @@ The batching is configurable by ``write_options``\ :
 
     import pandas as pd
     import rx
-    from pytz import UTC
     from rx import operators as ops
 
     from influxdb_client import InfluxDBClient, Point, WriteOptions
@@ -512,7 +511,7 @@ The batching is configurable by ``write_options``\ :
             """
             Write Pandas DataFrame
             """
-            _now = datetime.now(UTC)
+            _now = datetime.utcnow()
             _data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
                                        index=[_now, _now + timedelta(hours=1)],
                                        columns=["location", "water_level"])
@@ -824,11 +823,11 @@ If you would like to import gigabytes of data then use our multiprocessing examp
        """
         For better performance is sometimes useful directly create a LineProtocol to avoid unnecessary escaping overhead:
         """
-        # from pytz import UTC
+        # from datetime import timezone
         # import ciso8601
         # from influxdb_client.client.write.point import EPOCH
         #
-        # time = (UTC.localize(ciso8601.parse_datetime(row["Date"])) - EPOCH).total_seconds() * 1e9
+        # time = (ciso8601.parse_datetime(row["Date"]).replace(tzinfo=timezone.utc) - EPOCH).total_seconds() * 1e9
         # return f"financial-analysis,type=vix-daily" \
         #        f" close={float(row['VIX Close'])},high={float(row['VIX High'])},low={float(row['VIX Low'])},open={float(row['VIX Open'])} " \
         #        f" {int(time)}"

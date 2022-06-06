@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from pytz import UTC
+from datetime import datetime, timezone
 
 from influxdb_client import PermissionResource, Permission, InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -78,7 +76,7 @@ class DeleteApiTest(BaseTest):
     def test_start_stop_types(self):
         starts_stops = [
             ("1970-01-01T00:00:00.000000001Z", "1970-01-01T00:00:00.000000012Z"),
-            (datetime(1970, 1, 1, 0, 0, 0, 0, UTC), datetime(1970, 1, 1, 0, 0, 0, 1, UTC)),
+            (datetime(1970, 1, 1, 0, 0, 0, 0, timezone.utc), datetime(1970, 1, 1, 0, 0, 0, 1, timezone.utc)),
             (datetime(1970, 1, 1, 0, 0, 0, 0), datetime(1970, 1, 1, 0, 0, 0, 1))
         ]
         for start_stop in starts_stops:

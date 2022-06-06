@@ -5,11 +5,11 @@ https://datahub.io/core/finance-vix#data
 """
 from collections import OrderedDict
 from csv import DictReader
+from datetime import timezone
 
 import ciso8601
 import requests
 import rx
-from pytz import UTC
 from rx import operators as ops
 
 from influxdb_client import InfluxDBClient, WriteOptions
@@ -41,7 +41,7 @@ def parse_row(row: OrderedDict):
     if _progress % 10000 == 0:
         print(_progress)
 
-    time = (UTC.localize(ciso8601.parse_datetime(row["date"])) - EPOCH).total_seconds() * 1e9
+    time = (ciso8601.parse_datetime(row["date"]).replace(tzinfo=timezone.utc) - EPOCH).total_seconds() * 1e9
 
     return f'financial-analysis,symbol={row["symbol"]} ' \
            f'close={row["close"]},high={row["high"]},low={row["low"]},open={row["open"]} ' \

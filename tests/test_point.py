@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime, timezone, timedelta
 from decimal import Decimal
 
-from pytz import UTC, timezone
+from dateutil import tz
 
 from influxdb_client import Point, WritePrecision
 
@@ -181,7 +181,7 @@ class PointTest(unittest.TestCase):
 
         self.assertEqual("h2o,location=europe level=2i 1444897215000", point.to_line_protocol())
 
-        date_time = datetime(2015, 10, 15, 8, 20, 15, 750, UTC)
+        date_time = datetime(2015, 10, 15, 8, 20, 15, 750, timezone.utc)
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
@@ -214,7 +214,7 @@ class PointTest(unittest.TestCase):
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", True) \
-            .time(datetime.now(UTC), WritePrecision.S)
+            .time(datetime.now(timezone.utc), WritePrecision.S)
 
         line_protocol = point.to_line_protocol()
         self.assertTrue("." not in line_protocol)
@@ -222,7 +222,7 @@ class PointTest(unittest.TestCase):
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
             .field("level", True) \
-            .time(datetime.now(UTC), WritePrecision.NS)
+            .time(datetime.now(timezone.utc), WritePrecision.NS)
 
         line_protocol = point.to_line_protocol()
         self.assertTrue("." not in line_protocol)
@@ -293,9 +293,9 @@ class PointTest(unittest.TestCase):
     def test_timestamp(self):
         """Test timezone in TestLineProtocol object."""
         dt = datetime(2009, 11, 10, 23, 0, 0, 123456)
-        utc = UTC.localize(dt)
-        berlin = timezone('Europe/Berlin').localize(dt)
-        eastern = berlin.astimezone(timezone('US/Eastern'))
+        utc = dt.replace(tzinfo=timezone.utc)
+        berlin = dt.replace(tzinfo=tz.gettz('Europe/Berlin'))
+        eastern = berlin.astimezone(tz.gettz('US/Eastern'))
 
         exp_utc = 'A val=1i 1257894000123456000'
         exp_est = 'A val=1i 1257890400123456000'
@@ -335,9 +335,9 @@ class PointTest(unittest.TestCase):
     def test_timezone(self):
         """Test timezone in TestLineProtocol object."""
         dt = datetime(2009, 11, 10, 23, 0, 0, 123456)
-        utc = UTC.localize(dt)
-        berlin = timezone('Europe/Berlin').localize(dt)
-        eastern = berlin.astimezone(timezone('US/Eastern'))
+        utc = dt.replace(tzinfo=timezone.utc)
+        berlin = dt.replace(tzinfo=tz.gettz('Europe/Berlin'))
+        eastern = berlin.astimezone(tz.gettz('US/Eastern'))
 
         self.assertEqual("h2o val=1i 0", Point.measurement("h2o").field("val", 1).time(0).to_line_protocol())
         self.assertEqual("h2o val=1i 1257894000123456000", Point.measurement("h2o").field("val", 1).time(
@@ -367,8 +367,8 @@ class PointTest(unittest.TestCase):
         self.assertEqual("my-org field1=1i,field2=2i", point.to_line_protocol())
 
     def test_points_from_different_timezones(self):
-        time_in_utc = UTC.localize(datetime(2020, 7, 4, 0, 0, 0, 123456))
-        time_in_hk = timezone('Asia/Hong_Kong').localize(datetime(2020, 7, 4, 8, 0, 0, 123456))  # +08:00
+        time_in_utc = datetime(2020, 7, 4, 0, 0, 0, 123456).replace(tzinfo=timezone.utc)
+        time_in_hk = datetime(2020, 7, 4, 8, 0, 0, 123456).replace(tzinfo=tz.gettz('Asia/Hong_Kong'))  # +08:00
 
         point_utc = Point.measurement("h2o").field("val", 1).time(time_in_utc)
         point_hk = Point.measurement("h2o").field("val", 1).time(time_in_hk)
@@ -378,11 +378,11 @@ class PointTest(unittest.TestCase):
         with self.assertRaises(ValueError) as ve:
             Point.measurement("h2o") \
                 .tag("location", "europe") \
-                .field("level", UTC) \
+                .field("level", timezone.utc) \
                 .to_line_protocol()
         exception = ve.exception
 
-        self.assertEqual('Type: "<class \'pytz.UTC\'>" of field: "level" is not supported.', f'{exception}')
+        self.assertEqual('Type: "<class \'datetime.timezone\'>" of field: "level" is not supported.', f'{exception}')
 
     def test_backslash(self):
         point = Point.from_dict({"measurement": "test",

@@ -35,11 +35,11 @@ def parse_row(row: OrderedDict):
     """
     For better performance is sometimes useful directly create a LineProtocol to avoid unnecessary escaping overhead:
     """
-    # from pytz import UTC
+    # from datetime import timezone
     # import ciso8601
     # from influxdb_client.client.write.point import EPOCH
     #
-    # time = (UTC.localize(ciso8601.parse_datetime(row["Date"])) - EPOCH).total_seconds() * 1e9
+    # time = (ciso8601.parse_datetime(row["Date"]).replace(tzinfo=timezone.utc) - EPOCH).total_seconds() * 1e9
     # return f"financial-analysis,type=vix-daily" \
     #        f" close={float(row['VIX Close'])},high={float(row['VIX High'])},low={float(row['VIX Low'])},open={float(row['VIX Open'])} " \
     #        f" {int(time)}"

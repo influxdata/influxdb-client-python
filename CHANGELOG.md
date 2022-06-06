@@ -3,6 +3,9 @@
 ### Features
 1. [#440](https://github.com/influxdata/influxdb-client-python/pull/440): Add possibility to specify timestamp column and its timezone [DataFrame]
 
+### Dependencies
+1. [#449](https://github.com/influxdata/influxdb-client-python/pull/449): Remove `pytz` library
+
 ## 1.29.1 [2022-05-23]
 
 ### Bug Fixes
