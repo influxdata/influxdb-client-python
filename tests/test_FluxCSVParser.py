@@ -188,7 +188,7 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual(math.inf, tables[0].records[10]["le"])
         self.assertEqual(-math.inf, tables[0].records[11]["le"])
 
-    def test_to_json(self):
+    def test_to_json_by_encoder(self):
         data = "#datatype,string,long,string,string,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string\n" \
                "#group,false,false,true,true,true,true,false,false,true\n" \
                "#default,_result,,,,,,,,\n" \
@@ -330,6 +330,31 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual("west", parsed[0]['region'])
         self.assertEqual(1, parsed[1].__len__())
         self.assertEqual("north", parsed[1]['region'])
+
+    def test_parse_to_values(self):
+        data = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value,value_str
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,C,north,50,40,abc
+
+#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value,value_str
+,,1,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,B,south,121,18,test
+,,1,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,D,south,50,22,abc
+"""
+
+        tables = self._parse_to_tables(data=data)
+        parsed = tables.to_values(['region', 'host', 'not_exits', 'value'])
+        self.assertEqual(4, parsed.__len__())
+
+        self.assertEqual(['west', 'A', None, 11], parsed[0])
+        self.assertEqual(['north', 'C', None, 40], parsed[1])
+        self.assertEqual(['south', 'B', None, 18], parsed[2])
+        self.assertEqual(['south', 'D', None, 22], parsed[3])
 
     @staticmethod
     def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables,

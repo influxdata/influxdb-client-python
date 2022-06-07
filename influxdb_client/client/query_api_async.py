@@ -34,7 +34,22 @@ class QueryApiAsync(_BaseQueryApi):
         :return: :class:`~influxdb_client.client.flux_table.FluxTable` list wrapped into
                  :class:`~influxdb_client.client.flux_table.TableList`
 
-        The query results can be serialized to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
+        Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.TableList.to_values`:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using Table structure
+                tables = await client.query_api().query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+                # Serialize to values
+                output = tables.to_values(columns=['location', '_time', '_value'])
+                print(output)
+
+        Serialization the query results to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
 
         .. code-block:: python
 

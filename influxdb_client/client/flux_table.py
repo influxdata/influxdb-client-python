@@ -143,11 +143,52 @@ class FluxRecord(FluxStructure):
 class TableList(List[FluxTable]):
     """:class:`~influxdb_client.client.flux_table.FluxTable` list with additionally functional to better handle of query result."""  # noqa: E501
 
-    def to_json(self, columns: List['str'] = None, **kwargs):
+    def to_values(self, columns: List['str'] = None) -> List[List[object]]:
         """
-        Serialize query results to a JSON formatted ``string``.
+        Serialize query results to a flattened list of values.
 
         :param columns: if not ``None`` then only specified columns are presented in results
+        :return: :class:`~list` of values
+
+        Output example:
+
+        .. code-block:: python
+
+            [
+                ['New York', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 24.3],
+                ['Prague', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 25.3],
+                ...
+            ]
+
+        Configure required columns:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+                with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using Table structure
+                tables = client.query_api().query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+                # Serialize to values
+                output = tables.to_values(columns=['location', '_time', '_value'])
+                print(output)
+        """
+
+        def filter_values(record):
+            if columns is not None:
+                return [record.values.get(k) for k in columns]
+            return record.values.values()
+
+        return self._to_values(filter_values)
+
+    def to_json(self, columns: List['str'] = None, **kwargs) -> str:
+        """
+        Serialize query results to a JSON formatted :class:`~str`.
+
+        :param columns: if not ``None`` then only specified columns are presented in results
+        :return: :class:`~str`
 
         The query results is flattened to array:
 
@@ -162,7 +203,6 @@ class TableList(List[FluxTable]):
                     "region": "north",
                      "_field": "usage",
                     "_value": 15
-                    ...
                 },
                 {
                     "_measurement": "mem",
@@ -172,7 +212,6 @@ class TableList(List[FluxTable]):
                     "region": "west",
                      "_field": "usage",
                     "_value": 10
-                    ...
                 },
                 ...
             ]
@@ -194,16 +233,16 @@ class TableList(List[FluxTable]):
 
         For all available options see - `json.dump <https://docs.python.org/3/library/json.html#json.dump>`_.
         """
-        import json
+        if 'indent' not in kwargs:
+            kwargs['indent'] = 2
 
         def filter_values(record):
             if columns is not None:
                 return {k: v for (k, v) in record.values.items() if k in columns}
             return record.values
 
-        records = [filter_values(record) for table in self for record in table.records]
+        import json
+        return json.dumps(self._to_values(filter_values), cls=FluxStructureEncoder, **kwargs)
 
-        if 'indent' not in kwargs:
-            kwargs['indent'] = 2
-
-        return json.dumps(records, cls=FluxStructureEncoder, **kwargs)
+    def _to_values(self, mapping):
+        return [mapping(record) for table in self for record in table.records]
