@@ -24,14 +24,30 @@ class QueryApiAsync(_BaseQueryApi):
 
     async def query(self, query: str, org=None, params: dict = None) -> TableList:
         """
-        Execute asynchronous Flux query and return result as a :class:`~influxdb_client.client.flux_table.TableList`.
+        Execute asynchronous Flux query and return result as a :class:`~influxdb_client.client.flux_table.FluxTable` list.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
                                       Take the ``ID``, ``Name`` or ``Organization``.
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param params: bind parameters
-        :return: List of :class:`~influxdb_client.client.flux_table.FluxTable`.
+        :return: :class:`~influxdb_client.client.flux_table.FluxTable` list wrapped into
+                 :class:`~influxdb_client.client.flux_table.TableList`
+
+        The query results can be serialized to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
+
+        .. code-block:: python
+
+            from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+
+            async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
+                # Query: using Table structure
+                tables = await client.query_api().query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+                # Serialize to JSON
+                output = tables.to_json(indent=5)
+                print(output)
+
         """  # noqa: E501
         org = self._org_param(org)
 

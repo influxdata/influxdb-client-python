@@ -141,6 +141,69 @@ class FluxRecord(FluxStructure):
 
 
 class TableList(List[FluxTable]):
-    """List of 'FluxTable's with additionally functional to better handle of query result."""
+    """:class:`~influxdb_client.client.flux_table.FluxTable` list with additionally functional to better handle of query result."""  # noqa: E501
 
-    pass
+    def to_json(self, columns: List['str'] = None, **kwargs):
+        """
+        Serialize query results to a JSON formatted ``string``.
+
+        :param columns: if not ``None`` then only specified columns are presented in results
+
+        The query results is flattened to array:
+
+        .. code-block:: javascript
+
+            [
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:00.897825+00:00",
+                    "region": "north",
+                     "_field": "usage",
+                    "_value": 15
+                    ...
+                },
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:01.897825+00:00",
+                    "region": "west",
+                     "_field": "usage",
+                    "_value": 10
+                    ...
+                },
+                ...
+            ]
+
+        The JSON format could be configured via ``**kwargs`` arguments:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using Table structure
+                tables = client.query_api().query('from(bucket:"my-bucket") |> range(start: -10m)')
+
+                # Serialize to JSON
+                output = tables.to_json(indent=5)
+                print(output)
+
+        For all available options see - `json.dump <https://docs.python.org/3/library/json.html#json.dump>`_.
+        """
+        import json
+
+        def filter_values(record):
+            if columns is not None:
+                return {k: v for (k, v) in record.values.items() if k in columns}
+            return record.values
+
+        records = [filter_values(record) for table in self for record in table.records]
+
+        if 'indent' not in kwargs:
+            kwargs['indent'] = 2
+
+        return json.dumps(records, cls=FluxStructureEncoder, **kwargs)
