@@ -8,7 +8,7 @@ from typing import List, Generator, Any, Callable
 
 from influxdb_client import Dialect
 from influxdb_client.client._base import _BaseQueryApi
-from influxdb_client.client.flux_table import FluxRecord, TableList
+from influxdb_client.client.flux_table import FluxRecord, TableList, CSVIterator
 
 
 class QueryOptions(object):
@@ -36,7 +36,8 @@ class QueryApi(_BaseQueryApi):
         """
         super().__init__(influxdb_client=influxdb_client, query_options=query_options)
 
-    def query_csv(self, query: str, org=None, dialect: Dialect = _BaseQueryApi.default_dialect, params: dict = None):
+    def query_csv(self, query: str, org=None, dialect: Dialect = _BaseQueryApi.default_dialect, params: dict = None) \
+            -> CSVIterator:
         """
         Execute the Flux query and return results as a CSV iterator. Each iteration returns a row of the CSV file.
 
@@ -46,9 +47,23 @@ class QueryApi(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param dialect: csv dialect format
         :param params: bind parameters
-        :return: The returned object is an iterator. Each iteration returns a row of the CSV file
-                 (which can span multiple input lines).
-        """
+        :return: :class:`~Iterator[List[str]]` wrapped into :class:`~influxdb_client.client.flux_table.CSVIterator`
+
+        Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.CSVIterator.to_values`:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using CSV iterator
+                csv_iterator = client.query_api().query_csv('from(bucket:"my-bucket") |> range(start: -10m)')
+
+                # Serialize to values
+                output = csv_iterator.to_values()
+                print(output)
+        """  # noqa: E501
         org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
                                               async_req=False, _preload_content=False)

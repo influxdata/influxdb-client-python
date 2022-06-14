@@ -11,7 +11,7 @@ from influxdb_client import Script, InvokableScriptsService, ScriptCreateRequest
     ScriptInvocationParams
 from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode
-from influxdb_client.client.flux_table import FluxRecord, TableList
+from influxdb_client.client.flux_table import FluxRecord, TableList, CSVIterator
 
 
 class InvokableScriptsApi(_BaseQueryApi):
@@ -139,17 +139,16 @@ class InvokableScriptsApi(_BaseQueryApi):
         return self._to_data_frame_stream(data_frame_index, response, query_options=None,
                                           response_metadata_mode=FluxResponseMetadataMode.only_names)
 
-    def invoke_script_csv(self, script_id: str, params: dict = None) -> Iterator[List[str]]:
+    def invoke_script_csv(self, script_id: str, params: dict = None) -> CSVIterator:
         """
-        Invoke synchronously a script and return result as a CSV iterator.
+        Invoke synchronously a script and return result as a CSV iterator. Each iteration returns a row of the CSV file.
 
         The bind parameters referenced in the script are substitutes with `params` key-values sent in the request body.
 
         :param str script_id: The ID of the script to invoke. (required)
         :param params: bind parameters
-        :return: The returned object is an iterator. Each iteration returns a row of the CSV file
-                 (which can span multiple input lines).
-        """
+        :return: :class:`~Iterator[List[str]]` wrapped into :class:`~influxdb_client.client.flux_table.CSVIterator`
+        """  # noqa: E501
         response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),

@@ -3,8 +3,12 @@ Flux employs a basic data model built from basic data types.
 
 The data model consists of tables, records, columns.
 """
+import codecs
+import csv
+from http.client import HTTPResponse
 from json import JSONEncoder
-from typing import List
+from typing import List, Iterator
+from influxdb_client.rest import _UTF_8_encoding
 
 
 class FluxStructure:
@@ -246,3 +250,37 @@ class TableList(List[FluxTable]):
 
     def _to_values(self, mapping):
         return [mapping(record) for table in self for record in table.records]
+
+
+class CSVIterator(Iterator[List[str]]):
+    """:class:`Iterator[List[str]]` with additionally functional to better handle of query result."""
+
+    def __init__(self, response: HTTPResponse) -> None:
+        """Initialize ``csv.reader``."""
+        self.delegate = csv.reader(codecs.iterdecode(response, _UTF_8_encoding))
+
+    def __iter__(self):
+        """Return an iterator object."""
+        return self.delegate.__iter__()
+
+    def __next__(self):
+        """Retrieve the next item from the iterator."""
+        return self.delegate.__next__()
+
+    def to_values(self) -> List[List[str]]:
+        """
+        Serialize query results to a flattened list of values.
+
+        :return: :class:`~list` of values
+
+        Output example:
+
+        .. code-block:: python
+
+            [
+                ['New York', '2022-06-14T08:00:51.749072045Z', '24.3'],
+                ['Prague', '2022-06-14T08:00:51.749072045Z', '25.3'],
+                ...
+            ]
+        """
+        return list(self.delegate)

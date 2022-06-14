@@ -23,6 +23,9 @@ QueryApi
 .. autoclass:: influxdb_client.client.flux_table.TableList
    :members:
 
+.. autoclass:: influxdb_client.client.flux_table.CSVIterator
+   :members:
+
 WriteApi
 """"""""
 .. autoclass:: influxdb_client.WriteApi
