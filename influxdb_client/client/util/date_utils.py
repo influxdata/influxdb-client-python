@@ -8,7 +8,24 @@ date_helper = None
 
 
 class DateHelper:
-    """DateHelper to groups different implementations of date operations."""
+    """
+    DateHelper to groups different implementations of date operations.
+
+    If you would like to serialize the query results to custom timezone. You can use following code:
+
+    .. code-block:: python
+
+        from influxdb_client.client.util import date_utils
+        from influxdb_client.client.util.date_utils import DateHelper
+        import dateutil.parser
+        from dateutil import tz
+
+        def parse_date(date_string: str):
+            return dateutil.parser.parse(date_string).astimezone(tz.gettz('ETC/GMT+2'))
+
+        date_utils.date_helper = DateHelper()
+        date_utils.date_helper.parse_date = parse_date
+    """
 
     def __init__(self, timezone: datetime.tzinfo = tz.utc) -> None:
         """
