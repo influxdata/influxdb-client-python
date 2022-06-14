@@ -63,6 +63,21 @@ class QueryApi(_BaseQueryApi):
                 # Serialize to values
                 output = csv_iterator.to_values()
                 print(output)
+
+        If you would like to turn off `Annotated CSV header's <https://docs.influxdata.com/influxdb/latest/reference/syntax/annotated-csv/>`_ you can use following code:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient, Dialect
+
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using CSV iterator
+                csv_iterator = client.query_api().query_csv('from(bucket:"my-bucket") |> range(start: -10m)',
+                                                            dialect=Dialect(header=False, annotations=[]))
+
+                for csv_line in csv_iterator:
+                    print(csv_line)
         """  # noqa: E501
         org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
