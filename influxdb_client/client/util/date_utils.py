@@ -11,7 +11,7 @@ class DateHelper:
     """
     DateHelper to groups different implementations of date operations.
 
-    If you would like to serialize the query results to custom timezone. You can use following code:
+    If you would like to serialize the query results to custom timezone, you can use following code:
 
     .. code-block:: python
 
