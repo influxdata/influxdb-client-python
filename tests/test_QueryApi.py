@@ -132,7 +132,7 @@ class SimpleQueryTest(BaseTest):
                         },
                         "init": {
                             "type": "DateTimeLiteral",
-                            "value": "2021-03-20T15:59:10.607352Z"
+                            "value": "2021-03-20T15:59:10.607352000Z"
                         },
                         "type": "VariableAssignment"
                     },
@@ -150,7 +150,7 @@ class SimpleQueryTest(BaseTest):
                         },
                         "init": {
                             "type": "DateTimeLiteral",
-                            "value": "2021-03-20T15:59:10.607352Z"
+                            "value": "2021-03-20T15:59:10.607352000Z"
                         },
                         "type": "VariableAssignment"
                     },
@@ -513,6 +513,22 @@ class SimpleQueryTest(BaseTest):
                            'host': 'kozel.local',
                            'available': 5727718400, 'free': 35330048,
                            'used': 11452150784})
+
+    def test_time_to_ast(self):
+        from influxdb_client.extras import pd
+        import dateutil.parser
+
+        literals = [
+            (pd.Timestamp('1996-02-25T21:20:00.001001231Z'), '1996-02-25T21:20:00.001001231Z'),
+            (dateutil.parser.parse('1996-02-25T21:20:00.001001231Z'), '1996-02-25T21:20:00.001001000Z'),
+            (dateutil.parser.parse('1996-02-25'), '1996-02-25T00:00:00.000000000Z'),
+            (datetime.datetime(2021, 5, 24, 8, 40, 44, 785000, tzinfo=timezone.utc), '2021-05-24T08:40:44.785000000Z'),
+        ]
+
+        for literal in literals:
+            ast = QueryApi._build_flux_ast({'date': literal[0]})
+            self.assertEqual('DateTimeLiteral', ast.body[0].assignment.init.type)
+            self.assertEqual(literal[1], ast.body[0].assignment.init.value)
 
 
 if __name__ == '__main__':
