@@ -341,7 +341,9 @@ class _BaseQueryApi(object):
             return FloatLiteral("FloatLiteral", value)
         elif isinstance(value, datetime):
             value = get_date_helper().to_utc(value)
-            return DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.%fZ'))
+            nanoseconds = getattr(value, 'nanosecond', 0)
+            fraction = f'{(value.microsecond * 1000 + nanoseconds):09d}'
+            return DateTimeLiteral("DateTimeLiteral", value.strftime('%Y-%m-%dT%H:%M:%S.') + fraction + 'Z')
         elif isinstance(value, timedelta):
             _micro_delta = int(value / timedelta(microseconds=1))
             if _micro_delta < 0:
