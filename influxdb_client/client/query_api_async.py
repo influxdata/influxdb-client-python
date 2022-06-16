@@ -129,8 +129,7 @@ class QueryApiAsync(_BaseQueryApi):
         """
         Execute asynchronous Flux query and return :class:`~pandas.core.frame.DataFrame`.
 
-        Note that if a query returns tables with differing schemas than the client generates
-        a DataFrame for each of them.
+        .. note:: If the ``query`` returns tables with differing schemas than the client generates a :class:`~DataFrame` for each of them.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
@@ -138,8 +137,22 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
-        :return: :class:`~pandas.core.frame.DataFrame` or List of :class:`~pandas.core.frame.DataFrame`
-        """
+        :return: :class:`~DataFrame` or :class:`~List[DataFrame]`
+
+        .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
+
+            .. code-block:: text
+
+                from(bucket:"my-bucket")
+                    |> range(start: -5m, stop: now())
+                    |> filter(fn: (r) => r._measurement == "mem")
+                    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+
+            For more info see:
+                - https://docs.influxdata.com/resources/videos/pivots-in-flux/
+                - https://docs.influxdata.com/flux/latest/stdlib/universe/pivot/
+                - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
+        """  # noqa: E501
         _generator = await self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index,
                                                         params=params)
 
@@ -154,8 +167,7 @@ class QueryApiAsync(_BaseQueryApi):
         """
         Execute asynchronous Flux query and return stream of :class:`~pandas.core.frame.DataFrame` as an AsyncGenerator[:class:`~pandas.core.frame.DataFrame`].
 
-        Note that if a query returns tables with differing schemas than the client generates
-        a DataFrame for each of them.
+        .. note:: If the ``query`` returns tables with differing schemas than the client generates a :class:`~DataFrame` for each of them.
 
         :param query: the Flux query
         :param str, Organization org: specifies the organization for executing the query;
@@ -163,7 +175,21 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
-        :return: AsyncGenerator[:class:`~pandas.core.frame.DataFrame`]
+        :return: :class:`AsyncGenerator[:class:`DataFrame`]`
+
+        .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
+
+            .. code-block:: text
+
+                from(bucket:"my-bucket")
+                    |> range(start: -5m, stop: now())
+                    |> filter(fn: (r) => r._measurement == "mem")
+                    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+
+            For more info see:
+                - https://docs.influxdata.com/resources/videos/pivots-in-flux/
+                - https://docs.influxdata.com/flux/latest/stdlib/universe/pivot/
+                - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
         """  # noqa: E501
         org = self._org_param(org)
 

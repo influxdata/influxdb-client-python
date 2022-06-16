@@ -165,16 +165,29 @@ class InvokableScriptsApi(_BaseQueryApi):
         """
         Invoke synchronously a script and return Pandas DataFrame.
 
-        Note that if a script returns tables with differing schemas than the client generates
-        a DataFrame for each of them.
-
         The bind parameters referenced in the script are substitutes with `params` key-values sent in the request body.
+
+        .. note:: If the ``script`` returns tables with differing schemas than the client generates a :class:`~DataFrame` for each of them.
 
         :param str script_id: The ID of the script to invoke. (required)
         :param List[str] data_frame_index: The list of columns that are used as DataFrame index.
         :param params: bind parameters
-        :return: Pandas DataFrame.
-        """
+        :return: :class:`~DataFrame` or :class:`~List[DataFrame]`
+
+        .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
+
+            .. code-block:: text
+
+                from(bucket:"my-bucket")
+                    |> range(start: -5m, stop: now())
+                    |> filter(fn: (r) => r._measurement == "mem")
+                    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+
+            For more info see:
+                - https://docs.influxdata.com/resources/videos/pivots-in-flux/
+                - https://docs.influxdata.com/flux/latest/stdlib/universe/pivot/
+                - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
+        """  # noqa: E501
         _generator = self.invoke_script_data_frame_stream(script_id=script_id,
                                                           params=params,
                                                           data_frame_index=data_frame_index)
@@ -186,12 +199,27 @@ class InvokableScriptsApi(_BaseQueryApi):
 
         The bind parameters referenced in the script are substitutes with `params` key-values sent in the request body.
 
+        .. note:: If the ``script`` returns tables with differing schemas than the client generates a :class:`~DataFrame` for each of them.
+
         :param str script_id: The ID of the script to invoke. (required)
         :param List[str] data_frame_index: The list of columns that are used as DataFrame index.
         :param params: bind parameters
-        :return: Stream of Pandas DataFrames.
-        :rtype: Generator['pd.DataFrame']
-        """
+        :return: :class:`~Generator[DataFrame]`
+
+        .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
+
+            .. code-block:: text
+
+                from(bucket:"my-bucket")
+                    |> range(start: -5m, stop: now())
+                    |> filter(fn: (r) => r._measurement == "mem")
+                    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+
+            For more info see:
+                - https://docs.influxdata.com/resources/videos/pivots-in-flux/
+                - https://docs.influxdata.com/flux/latest/stdlib/universe/pivot/
+                - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
+        """  # noqa: E501
         response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
