@@ -75,7 +75,7 @@ class QueryApi(_BaseQueryApi):
                 ['', '', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
                 ['', '', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
                 ...
-            ]                
+            ]
 
         If you would like to turn off `Annotated CSV header's <https://docs.influxdata.com/influxdb/latest/reference/syntax/annotated-csv/>`_ you can use following code:
 
@@ -91,14 +91,14 @@ class QueryApi(_BaseQueryApi):
 
                 for csv_line in csv_iterator:
                     print(csv_line)
-                    
+
         .. code-block:: python
 
             [
                 ['', '_result', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
                 ['', '_result', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
                 ...
-            ]  
+            ]
         """  # noqa: E501
         org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
@@ -150,7 +150,7 @@ class QueryApi(_BaseQueryApi):
                 # Serialize to values
                 output = tables.to_values(columns=['location', '_time', '_value'])
                 print(output)
-                
+
         .. code-block:: python
 
             [
@@ -173,7 +173,7 @@ class QueryApi(_BaseQueryApi):
                 # Serialize to JSON
                 output = tables.to_json(indent=5)
                 print(output)
-                
+
         .. code-block:: javascript
 
             [
@@ -196,7 +196,7 @@ class QueryApi(_BaseQueryApi):
                     "_value": 10
                 },
                 ...
-            ]                
+            ]
         """  # noqa: E501
         org = self._org_param(org)
 

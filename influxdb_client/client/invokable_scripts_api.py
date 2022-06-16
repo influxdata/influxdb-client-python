@@ -84,7 +84,7 @@ class InvokableScriptsApi(_BaseQueryApi):
                 # Serialize to values
                 output = tables.to_values(columns=['location', '_time', '_value'])
                 print(output)
-                
+
         .. code-block:: python
 
             [
@@ -107,7 +107,7 @@ class InvokableScriptsApi(_BaseQueryApi):
                 # Serialize to JSON
                 output = tables.to_json(indent=5)
                 print(output)
-                
+
         .. code-block:: javascript
 
             [
@@ -130,7 +130,7 @@ class InvokableScriptsApi(_BaseQueryApi):
                     "_value": 10
                 },
                 ...
-            ]                
+            ]
         """  # noqa: E501
         response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
@@ -235,7 +235,7 @@ class InvokableScriptsApi(_BaseQueryApi):
                 ['', '', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
                 ['', '', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
                 ...
-            ]                
+            ]
 
         """  # noqa: E501
         response = self._invokable_scripts_service \

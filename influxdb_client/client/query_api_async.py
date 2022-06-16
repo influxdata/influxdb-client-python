@@ -71,7 +71,7 @@ class QueryApiAsync(_BaseQueryApi):
                 # Serialize to JSON
                 output = tables.to_json(indent=5)
                 print(output)
-                
+
         .. code-block:: javascript
 
             [
@@ -94,7 +94,7 @@ class QueryApiAsync(_BaseQueryApi):
                     "_value": 10
                 },
                 ...
-            ]                
+            ]
         """  # noqa: E501
         org = self._org_param(org)
 
