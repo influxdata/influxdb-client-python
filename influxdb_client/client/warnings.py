@@ -13,7 +13,7 @@ class MissingPivotFunction(UserWarning):
 
         message = f"""The query doesn't contains the pivot() function.
 
-The result will not be shape to optimal processing by pandas.DataFrame. Use the pivot() function by:
+The result will not be shaped to optimal processing by pandas.DataFrame. Use the pivot() function by:
 
     {query} |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
 
