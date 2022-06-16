@@ -18,6 +18,7 @@ from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, Flu
 from influxdb_client.client.flux_table import FluxRecord, TableList, CSVIterator
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
+from influxdb_client.client.warnings import MissingPivotFunction
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.rest import _UTF_8_encoding
 
@@ -300,7 +301,7 @@ class _BaseQueryApi(object):
             from influxdb_client.client.query_api import QueryOptions
             return QueryOptions(profilers=self._influxdb_client.profilers)
 
-    def _create_query(self, query, dialect=default_dialect, params: dict = None):
+    def _create_query(self, query, dialect=default_dialect, params: dict = None, **kwargs):
         query_options = self._get_query_options()
         profilers = query_options.profilers if query_options is not None else None
         q = Query(query=query, dialect=dialect, extern=_BaseQueryApi._build_flux_ast(params, profilers))
@@ -310,6 +311,9 @@ class _BaseQueryApi(object):
             print("Profiler: query")
             print("===============")
             print(query)
+
+        if kwargs.get('dataframe_query', False):
+            MissingPivotFunction.print_warning(query)
 
         return q
 

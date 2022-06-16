@@ -136,7 +136,8 @@ class QueryApiAsync(_BaseQueryApi):
         org = self._org_param(org)
 
         response = await self._query_api.post_query_async(org=org,
-                                                          query=self._create_query(query, self.default_dialect, params),
+                                                          query=self._create_query(query, self.default_dialect, params,
+                                                                                   dataframe_query=True),
                                                           async_req=False, _preload_content=False,
                                                           _return_http_data_only=True)
 

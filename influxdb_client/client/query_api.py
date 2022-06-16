@@ -203,7 +203,8 @@ class QueryApi(_BaseQueryApi):
         """
         org = self._org_param(org)
 
-        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params),
+        response = self._query_api.post_query(org=org, query=self._create_query(query, self.default_dialect, params,
+                                                                                dataframe_query=True),
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
 
         return self._to_data_frame_stream(data_frame_index=data_frame_index,

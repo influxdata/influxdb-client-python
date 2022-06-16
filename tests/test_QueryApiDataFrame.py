@@ -1,12 +1,14 @@
 import random
 
 import httpretty
+import pytest
 import rx
 from pandas import DataFrame
 from pandas._libs.tslibs.timestamps import Timestamp
 from rx import operators as ops
 
 from influxdb_client import InfluxDBClient, Point, WritePrecision, WriteOptions
+from influxdb_client.client.warnings import MissingPivotFunction
 from influxdb_client.rest import ApiException
 from tests.base_test import BaseTest, current_milli_time
 
@@ -251,6 +253,44 @@ class QueryDataFrameApi(BaseTest):
                               Timestamp('2019-11-12 08:09:07+0000'), Timestamp('2019-11-12 08:09:08+0000'),
                               Timestamp('2019-11-12 08:09:09+0000')], list(_dataFrames[2].index))
         self.assertEqual(5, len(_dataFrames[2]))
+
+    def test_query_with_warning(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body='\n')
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        with pytest.warns(MissingPivotFunction) as warnings:
+            self.client.query_api().query_data_frame(
+                'from(bucket: "my-bucket")'
+                '|> range(start: -5s, stop: now()) '
+                '|> filter(fn: (r) => r._measurement == "mem") '
+                "my-org")
+        self.assertEqual(1, len(warnings))
+
+    def test_query_without_warning(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body='\n')
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        with pytest.warns(None) as warnings:
+            self.client.query_api().query_data_frame(
+                'import "influxdata/influxdb/schema"'
+                ''
+                'from(bucket: "my-bucket")'
+                '|> range(start: -5s, stop: now()) '
+                '|> filter(fn: (r) => r._measurement == "mem") '
+                '|> schema.fieldsAsCols() '
+                "my-org")
+        self.assertEqual(0, len(warnings))
+
+        with pytest.warns(None) as warnings:
+            self.client.query_api().query_data_frame(
+                'from(bucket: "my-bucket")'
+                '|> range(start: -5s, stop: now()) '
+                '|> filter(fn: (r) => r._measurement == "mem") '
+                '|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")'
+                "my-org")
+        self.assertEqual(0, len(warnings))
 
 
 class QueryDataFrameIntegrationApi(BaseTest):
