@@ -33,6 +33,7 @@ class QueryApiAsync(_BaseQueryApi):
         :param params: bind parameters
         :return: :class:`~influxdb_client.client.flux_table.FluxTable` list wrapped into
                  :class:`~influxdb_client.client.flux_table.TableList`
+        :rtype: TableList
 
         Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.TableList.to_values`:
 
@@ -49,6 +50,14 @@ class QueryApiAsync(_BaseQueryApi):
                 output = tables.to_values(columns=['location', '_time', '_value'])
                 print(output)
 
+        .. code-block:: python
+
+            [
+                ['New York', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 24.3],
+                ['Prague', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 25.3],
+                ...
+            ]
+
         Serialization the query results to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
 
         .. code-block:: python
@@ -62,7 +71,30 @@ class QueryApiAsync(_BaseQueryApi):
                 # Serialize to JSON
                 output = tables.to_json(indent=5)
                 print(output)
+                
+        .. code-block:: javascript
 
+            [
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:00.897825+00:00",
+                    "region": "north",
+                     "_field": "usage",
+                    "_value": 15
+                },
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:01.897825+00:00",
+                    "region": "west",
+                     "_field": "usage",
+                    "_value": 10
+                },
+                ...
+            ]                
         """  # noqa: E501
         org = self._org_param(org)
 

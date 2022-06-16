@@ -66,9 +66,72 @@ class InvokableScriptsApi(_BaseQueryApi):
 
         :param str script_id: The ID of the script to invoke. (required)
         :param params: bind parameters
-        :return: List of FluxTable.
+        :return: :class:`~influxdb_client.client.flux_table.FluxTable` list wrapped into
+                 :class:`~influxdb_client.client.flux_table.TableList`
         :rtype: TableList
-        """
+
+        Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.TableList.to_values`:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            with InfluxDBClient(url="https://us-west-2-1.aws.cloud2.influxdata.com", token="my-token", org="my-org") as client:
+
+                # Query: using Table structure
+                tables = client.invokable_scripts_api().invoke_script(script_id="script-id")
+
+                # Serialize to values
+                output = tables.to_values(columns=['location', '_time', '_value'])
+                print(output)
+                
+        .. code-block:: python
+
+            [
+                ['New York', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 24.3],
+                ['Prague', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 25.3],
+                ...
+            ]
+
+        Serialization the query results to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            with InfluxDBClient(url="https://us-west-2-1.aws.cloud2.influxdata.com", token="my-token", org="my-org") as client:
+
+                # Query: using Table structure
+                tables = client.invokable_scripts_api().invoke_script(script_id="script-id")
+
+                # Serialize to JSON
+                output = tables.to_json(indent=5)
+                print(output)
+                
+        .. code-block:: javascript
+
+            [
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:00.897825+00:00",
+                    "region": "north",
+                     "_field": "usage",
+                    "_value": 15
+                },
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:01.897825+00:00",
+                    "region": "west",
+                     "_field": "usage",
+                    "_value": 10
+                },
+                ...
+            ]                
+        """  # noqa: E501
         response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,
                                     script_invocation_params=ScriptInvocationParams(params=params),
@@ -148,6 +211,32 @@ class InvokableScriptsApi(_BaseQueryApi):
         :param str script_id: The ID of the script to invoke. (required)
         :param params: bind parameters
         :return: :class:`~Iterator[List[str]]` wrapped into :class:`~influxdb_client.client.flux_table.CSVIterator`
+        :rtype: CSVIterator
+
+        Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.CSVIterator.to_values`:
+
+        .. code-block:: python
+
+            from influxdb_client import InfluxDBClient
+
+            with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+
+                # Query: using CSV iterator
+                csv_iterator = client.invokable_scripts_api().invoke_script_csv(script_id="script-id")
+
+                # Serialize to values
+                output = csv_iterator.to_values()
+                print(output)
+
+        .. code-block:: python
+
+            [
+                ['', 'result', 'table', '_start', '_stop', '_time', '_value', '_field', '_measurement', 'location']
+                ['', '', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
+                ['', '', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
+                ...
+            ]                
+
         """  # noqa: E501
         response = self._invokable_scripts_service \
             .post_scripts_id_invoke(script_id=script_id,

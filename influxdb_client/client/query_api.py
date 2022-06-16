@@ -48,6 +48,7 @@ class QueryApi(_BaseQueryApi):
         :param dialect: csv dialect format
         :param params: bind parameters
         :return: :class:`~Iterator[List[str]]` wrapped into :class:`~influxdb_client.client.flux_table.CSVIterator`
+        :rtype: CSVIterator
 
         Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.CSVIterator.to_values`:
 
@@ -64,6 +65,18 @@ class QueryApi(_BaseQueryApi):
                 output = csv_iterator.to_values()
                 print(output)
 
+        .. code-block:: python
+
+            [
+                ['#datatype', 'string', 'long', 'dateTime:RFC3339', 'dateTime:RFC3339', 'dateTime:RFC3339', 'double', 'string', 'string', 'string']
+                ['#group', 'false', 'false', 'true', 'true', 'false', 'false', 'true', 'true', 'true']
+                ['#default', '_result', '', '', '', '', '', '', '', '']
+                ['', 'result', 'table', '_start', '_stop', '_time', '_value', '_field', '_measurement', 'location']
+                ['', '', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
+                ['', '', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
+                ...
+            ]                
+
         If you would like to turn off `Annotated CSV header's <https://docs.influxdata.com/influxdb/latest/reference/syntax/annotated-csv/>`_ you can use following code:
 
         .. code-block:: python
@@ -78,6 +91,14 @@ class QueryApi(_BaseQueryApi):
 
                 for csv_line in csv_iterator:
                     print(csv_line)
+                    
+        .. code-block:: python
+
+            [
+                ['', '_result', '0', '2022-06-16', '2022-06-16', '2022-06-16', '24.3', 'temperature', 'my_measurement', 'New York']
+                ['', '_result', '1', '2022-06-16', '2022-06-16', '2022-06-16', '25.3', 'temperature', 'my_measurement', 'Prague']
+                ...
+            ]  
         """  # noqa: E501
         org = self._org_param(org)
         response = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params),
@@ -113,6 +134,7 @@ class QueryApi(_BaseQueryApi):
         :param params: bind parameters
         :return: :class:`~influxdb_client.client.flux_table.FluxTable` list wrapped into
                  :class:`~influxdb_client.client.flux_table.TableList`
+        :rtype: TableList
 
         Serialization the query results to flattened list of values via :func:`~influxdb_client.client.flux_table.TableList.to_values`:
 
@@ -128,6 +150,14 @@ class QueryApi(_BaseQueryApi):
                 # Serialize to values
                 output = tables.to_values(columns=['location', '_time', '_value'])
                 print(output)
+                
+        .. code-block:: python
+
+            [
+                ['New York', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 24.3],
+                ['Prague', datetime.datetime(2022, 6, 7, 11, 3, 22, 917593, tzinfo=tzutc()), 25.3],
+                ...
+            ]
 
         Serialization the query results to JSON via :func:`~influxdb_client.client.flux_table.TableList.to_json`:
 
@@ -143,6 +173,30 @@ class QueryApi(_BaseQueryApi):
                 # Serialize to JSON
                 output = tables.to_json(indent=5)
                 print(output)
+                
+        .. code-block:: javascript
+
+            [
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:00.897825+00:00",
+                    "region": "north",
+                     "_field": "usage",
+                    "_value": 15
+                },
+                {
+                    "_measurement": "mem",
+                    "_start": "2021-06-23T06:50:11.897825+00:00",
+                    "_stop": "2021-06-25T06:50:11.897825+00:00",
+                    "_time": "2020-02-27T16:20:01.897825+00:00",
+                    "region": "west",
+                     "_field": "usage",
+                    "_value": 10
+                },
+                ...
+            ]                
         """  # noqa: E501
         org = self._org_param(org)
 
