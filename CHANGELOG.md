@@ -1,4 +1,4 @@
-## 1.30.0 [unreleased]
+## 1.30.0 [2022-06-24]
 
 ### Features
 1. [#440](https://github.com/influxdata/influxdb-client-python/pull/440): Add possibility to specify timestamp column and its timezone [DataFrame]
