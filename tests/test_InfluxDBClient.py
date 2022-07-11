@@ -1,8 +1,10 @@
 import http.server
 import json
+import logging
 import os
 import threading
 import unittest
+from io import StringIO
 
 import httpretty
 import pytest
@@ -261,6 +263,25 @@ class InfluxDBClientTestMock(unittest.TestCase):
         self.influxdb_client = InfluxDBClient("http://localhost")
         self.assertIsNotNone(self.influxdb_client)
         self.influxdb_client.query_api().query("buckets()", "my-org")
+
+    def test_redacted_auth_header(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body="")
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+
+        log_stream = StringIO()
+        for _, logger in self.influxdb_client.conf.loggers.items():
+            logger.setLevel(logging.DEBUG)
+            logger.addHandler(logging.StreamHandler(log_stream))
+
+        logger = logging.getLogger("urllib3")
+        logger.addHandler(logging.StreamHandler(log_stream))
+
+        self.influxdb_client.query_api().query("buckets()", "my-org")
+        requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(requests))
+        self.assertEqual("Token my-token", requests[0].headers["Authorization"])
+
+        self.assertIn("Authorization: Token ***", log_stream.getvalue())
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
