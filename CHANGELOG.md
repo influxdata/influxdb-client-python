@@ -1,5 +1,8 @@
 ## 1.31.0 [unreleased]
 
+### Bug Fixes
+1. [#462](https://github.com/influxdata/influxdb-client-python/pull/462): Redact the `Authorization` HTTP header from log
+
 ## 1.30.0 [2022-06-24]
 
 ### Features
