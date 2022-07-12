@@ -38,7 +38,8 @@ LOGGERS_NAMES = [
     'influxdb_client.client.write.retry',
     'influxdb_client.client.write.dataframe_serializer',
     'influxdb_client.client.util.multiprocessing_helper',
-    'influxdb_client.client.exceptions'
+    'influxdb_client.client.http',
+    'influxdb_client.client.exceptions',
 ]
 
 

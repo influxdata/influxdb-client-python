@@ -1,7 +1,9 @@
 import asyncio
+import logging
 import unittest
 import os
 from datetime import datetime
+from io import StringIO
 
 import pytest
 from aioresponses import aioresponses
@@ -246,6 +248,19 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         await self.client.close()
         self.client = InfluxDBClientAsync("http://localhost")
         await self.client.query_api().query("buckets()", "my-org")
+
+    @async_test
+    async def test_redacted_auth_header(self):
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org", debug=True)
+
+        log_stream = StringIO()
+        logger = logging.getLogger("influxdb_client.client.http")
+        logger.addHandler(logging.StreamHandler(log_stream))
+
+        await self.client.query_api().query("buckets()", "my-org")
+
+        self.assertIn("Authorization: ***", log_stream.getvalue())
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)

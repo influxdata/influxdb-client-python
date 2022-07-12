@@ -1587,6 +1587,7 @@ The client uses uses Python's `logging <https://docs.python.org/3/library/loggin
 - ``influxdb_client.client.write.retry``
 - ``influxdb_client.client.write.dataframe_serializer``
 - ``influxdb_client.client.util.multiprocessing_helper``
+- ``influxdb_client.client.http``
 - ``influxdb_client.client.exceptions``
 
 The default logging level is `warning` without configured logger output. You can use the standard logger interface to change the log level and handler:

@@ -269,11 +269,7 @@ class InfluxDBClientTestMock(unittest.TestCase):
         self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
 
         log_stream = StringIO()
-        for _, logger in self.influxdb_client.conf.loggers.items():
-            logger.setLevel(logging.DEBUG)
-            logger.addHandler(logging.StreamHandler(log_stream))
-
-        logger = logging.getLogger("urllib3")
+        logger = logging.getLogger("influxdb_client.client.http")
         logger.addHandler(logging.StreamHandler(log_stream))
 
         self.influxdb_client.query_api().query("buckets()", "my-org")
@@ -281,7 +277,7 @@ class InfluxDBClientTestMock(unittest.TestCase):
         self.assertEqual(1, len(requests))
         self.assertEqual("Token my-token", requests[0].headers["Authorization"])
 
-        self.assertIn("Authorization: Token ***", log_stream.getvalue())
+        self.assertIn("Authorization: ***", log_stream.getvalue())
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
