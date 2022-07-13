@@ -184,7 +184,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         measurement = generate_name("measurement")
         await self._prepare_data(measurement)
 
-        successfully = await self.client.delete_api().delete(start=datetime.utcfromtimestamp(0), stop=datetime.now(),
+        successfully = await self.client.delete_api().delete(start=datetime.utcfromtimestamp(0), stop=datetime.utcnow(),
                                                              predicate="location = \"Prague\"", bucket="my-bucket")
         self.assertEqual(True, successfully)
         query = f'''
