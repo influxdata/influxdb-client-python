@@ -17,22 +17,23 @@ from urllib.parse import urlencode
 import aiohttp
 
 from influxdb_client.rest import ApiException
+from influxdb_client.rest import _BaseRESTClient
 from influxdb_client.rest import _UTF_8_encoding
 
 
 async def _on_request_start(session, trace_config_ctx, params):
-    print(f">>> Request: '{params.method} {params.url}'")
-    print(f">>> Headers: '{params.headers}'")
+    _BaseRESTClient.log_request(params.method, params.url)
+    _BaseRESTClient.log_headers(params.headers, '>>>')
 
 
 async def _on_request_chunk_sent(session, context, params):
     if params.chunk:
-        print(f">>> Body: {params.chunk}")
+        _BaseRESTClient.log_body(params.chunk, '>>>')
 
 
 async def _on_request_end(session, trace_config_ctx, params):
-    print(f"<<< Response: {params.response.status}")
-    print(f"<<< Headers: '{params.response.headers}")
+    _BaseRESTClient.log_response(params.response.status)
+    _BaseRESTClient.log_headers(params.headers, '<<<')
 
     response_content = params.response.content
     data = bytearray()
@@ -42,7 +43,7 @@ async def _on_request_end(session, trace_config_ctx, params):
             break
         data += chunk
     if data:
-        print(f"<<< Body: {data.decode(_UTF_8_encoding)}")
+        _BaseRESTClient.log_body(data.decode(_UTF_8_encoding), '<<<')
         response_content.unread_data(data=data)
 
 
