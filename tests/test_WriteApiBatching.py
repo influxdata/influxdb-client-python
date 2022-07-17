@@ -13,7 +13,7 @@ import rx
 from rx import operators as ops
 
 import influxdb_client
-from influxdb_client import WritePrecision, InfluxDBClient, CLIENT_VERSION
+from influxdb_client import WritePrecision, InfluxDBClient, VERSION
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
@@ -463,7 +463,7 @@ class BatchingWriteTest(unittest.TestCase):
 
         requests = httpretty.httpretty.latest_requests
         self.assertEqual(1, len(requests))
-        self.assertEqual(f'influxdb-client-python/{CLIENT_VERSION}', requests[0].headers['User-Agent'])
+        self.assertEqual(f'influxdb-client-python/{VERSION}', requests[0].headers['User-Agent'])
 
     def test_to_low_flush_interval(self):
 
