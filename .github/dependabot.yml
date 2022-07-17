@@ -6,4 +6,4 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 10
     ignore:
-      - dependency-name: "docutils"
+      - dependency-name: "docutils"  # pinned version for readthedocs.org - https://github.com/influxdata/influxdb-client-python/pull/361
