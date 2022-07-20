@@ -1,5 +1,8 @@
 ## 1.31.0 [unreleased]
 
+### Features
+1. [#467](https://github.com/influxdata/influxdb-client-python/pull/467): Add possibility to initialize client by json file
+
 ### Bug Fixes
 1. [#462](https://github.com/influxdata/influxdb-client-python/pull/462): Redact the `Authorization` HTTP header from log
 

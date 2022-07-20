@@ -108,7 +108,7 @@ class _BaseClient(object):
         is_json = False
         try:
             config.read(config_file)
-        except configparser.ParsingError as e:
+        except configparser.ParsingError:
             with open(config_file) as json_file:
                 import json
                 config = json.load(json_file)
