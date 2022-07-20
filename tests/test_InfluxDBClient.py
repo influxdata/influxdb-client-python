@@ -65,6 +65,11 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.assertConfig()
 
+    def test_init_from_json_file(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.json')
+
+        self.assertConfig()
+
     def assertConfig(self):
         self.assertEqual("http://localhost:8086", self.client.url)
         self.assertEqual("my-org", self.client.org)

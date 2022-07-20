@@ -572,7 +572,7 @@ In a `init <https://docs.python.org/3/library/configparser.html>`_ configuration
     customer = California Miner
     data_center = ${env.data_center}
 
-You can also use a `TOML <https://toml.io/en/>`_ format for the configuration file.
+You can also use a `TOML <https://toml.io/en/>`_  or a`JSON <https://www.json.org/json-en.html>`_ format for the configuration file.
 
 Via Environment Properties
 __________________________

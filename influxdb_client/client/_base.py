@@ -105,50 +105,67 @@ class _BaseClient(object):
     @classmethod
     def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
         config = configparser.ConfigParser()
-        config.read(config_file)
+        is_json = False
+        try:
+            config.read(config_file)
+        except configparser.ParsingError as e:
+            with open(config_file) as json_file:
+                import json
+                config = json.load(json_file)
+                is_json = True
 
-        def config_value(key: str):
-            return config['influx2'][key].strip('"')
+        def _config_value(key: str):
+            value = str(config[key]) if is_json else config['influx2'][key]
+            return value.strip('"')
 
-        url = config_value('url')
-        token = config_value('token')
+        def _has_option(key: str):
+            return key in config if is_json else config.has_option('influx2', key)
+
+        def _has_section(key: str):
+            return key in config if is_json else config.has_section(key)
+
+        url = _config_value('url')
+        token = _config_value('token')
 
         timeout = None
-        if config.has_option('influx2', 'timeout'):
-            timeout = config_value('timeout')
+        if _has_option('timeout'):
+            timeout = _config_value('timeout')
 
         org = None
-        if config.has_option('influx2', 'org'):
-            org = config_value('org')
+        if _has_option('org'):
+            org = _config_value('org')
 
         verify_ssl = True
-        if config.has_option('influx2', 'verify_ssl'):
-            verify_ssl = config_value('verify_ssl')
+        if _has_option('verify_ssl'):
+            verify_ssl = _config_value('verify_ssl')
 
         ssl_ca_cert = None
-        if config.has_option('influx2', 'ssl_ca_cert'):
-            ssl_ca_cert = config_value('ssl_ca_cert')
+        if _has_option('ssl_ca_cert'):
+            ssl_ca_cert = _config_value('ssl_ca_cert')
 
         connection_pool_maxsize = None
-        if config.has_option('influx2', 'connection_pool_maxsize'):
-            connection_pool_maxsize = config_value('connection_pool_maxsize')
+        if _has_option('connection_pool_maxsize'):
+            connection_pool_maxsize = _config_value('connection_pool_maxsize')
 
         auth_basic = False
-        if config.has_option('influx2', 'auth_basic'):
-            auth_basic = config_value('auth_basic')
+        if _has_option('auth_basic'):
+            auth_basic = _config_value('auth_basic')
 
         default_tags = None
-        if config.has_section('tags'):
-            tags = {k: v.strip('"') for k, v in config.items('tags')}
-            default_tags = dict(tags)
+        if _has_section('tags'):
+            if is_json:
+                default_tags = config['tags']
+            else:
+                tags = {k: v.strip('"') for k, v in config.items('tags')}
+                default_tags = dict(tags)
 
         profilers = None
-        if config.has_option('influx2', 'profilers'):
-            profilers = [x.strip() for x in config_value('profilers').split(',')]
+        if _has_option('profilers'):
+            profilers = [x.strip() for x in _config_value('profilers').split(',')]
 
         proxy = None
-        if config.has_option('influx2', 'proxy'):
-            proxy = config_value('proxy')
+        if _has_option('proxy'):
+            proxy = _config_value('proxy')
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
