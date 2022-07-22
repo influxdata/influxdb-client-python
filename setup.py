@@ -49,11 +49,11 @@ NAME = "influxdb_client"
 
 meta = {}
 with open(Path(__file__).parent / 'influxdb_client' / 'version.py') as f:
-    exec('\n'.join(l for l in f if l.startswith('CLIENT_VERSION')), meta)
+    exec('\n'.join(l for l in f if l.startswith('VERSION')), meta)
 
 setup(
     name=NAME,
-    version=meta['CLIENT_VERSION'],
+    version=meta['VERSION'],
     description="InfluxDB 2.0 Python client library",
     long_description=readme,
     url="https://github.com/influxdata/influxdb-client-python",

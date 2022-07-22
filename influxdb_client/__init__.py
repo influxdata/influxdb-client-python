@@ -383,6 +383,6 @@ from influxdb_client.client.influxdb_client import InfluxDBClient
 from influxdb_client.client.logging_handler import InfluxLoggingHandler
 from influxdb_client.client.write.point import Point
 
-from influxdb_client.version import CLIENT_VERSION
+from influxdb_client.version import VERSION
 
-__version__ = CLIENT_VERSION
+__version__ = VERSION

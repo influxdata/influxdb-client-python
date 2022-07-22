@@ -249,13 +249,13 @@ class Configuration(object, metaclass=TypeWithDefault):
 
         :return: The report for debugging.
         """
-        from influxdb_client import CLIENT_VERSION
+        from influxdb_client import VERSION
         return "Python SDK Debug Report:\n"\
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 2.0.0\n"\
                "SDK Package Version: {client_version}".\
-               format(env=sys.platform, pyversion=sys.version, client_version=CLIENT_VERSION)
+               format(env=sys.platform, pyversion=sys.version, client_version=VERSION)
 
     def update_request_header_params(self, path: str, params: dict):
         """Update header params based on custom settings.
