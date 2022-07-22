@@ -5,7 +5,7 @@ from pathlib import Path
 from setuptools import setup, find_packages  # noqa: H301
 
 requires = [
-    'rx >= 3.0.1',
+    'reactivex >= 4.0.4',
     'certifi >= 14.05.14',
     'python_dateutil >= 2.5.3',
     'setuptools >= 21.0.0',
@@ -64,13 +64,12 @@ setup(
     long_description_content_type="text/x-rst",
     packages=find_packages(exclude=('tests*',)),
     test_suite='tests',
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     include_package_data=True,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',

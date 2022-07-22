@@ -92,7 +92,7 @@ Installation
 
 InfluxDB python library uses `RxPY <https://github.com/ReactiveX/RxPY>`__ - The Reactive Extensions for Python (RxPY).
 
-**Python 3.6** or later is required.
+**Python 3.7** or later is required.
 
 .. note::
 
@@ -451,8 +451,8 @@ The batching is configurable by ``write_options``\ :
     from datetime import datetime, timedelta
 
     import pandas as pd
-    import rx
-    from rx import operators as ops
+    import reactivex as rx
+    from reactivex import operators as ops
 
     from influxdb_client import InfluxDBClient, Point, WriteOptions
 
@@ -795,8 +795,8 @@ If you would like to import gigabytes of data then use our multiprocessing examp
    from collections import OrderedDict
    from csv import DictReader
 
-   import rx
-   from rx import operators as ops
+   import reactivex as rx
+   from reactivex import operators as ops
 
    from influxdb_client import InfluxDBClient, Point, WriteOptions
 
@@ -899,8 +899,8 @@ Efficiency write data from IOT sensor
    from datetime import timedelta
 
    import psutil as psutil
-   import rx
-   from rx import operators as ops
+   import reactivex as rx
+   from reactivex import operators as ops
 
    from influxdb_client import InfluxDBClient, WriteApi, WriteOptions
 
@@ -1370,7 +1370,7 @@ How to use Asyncio
 ^^^^^^^^^^^^^^^^^^
 .. marker-asyncio-start
 
-Starting from version 1.27.0 for Python 3.6+ the ``influxdb-client`` package supports ``async/await`` based on
+Starting from version 1.27.0 for Python 3.7+ the ``influxdb-client`` package supports ``async/await`` based on
 `asyncio <https://docs.python.org/3/library/asyncio.html>`_ and `aiohttp <https://docs.aiohttp.org>`_.
 You can install ``aiohttp`` directly:
 
