@@ -2,12 +2,20 @@
 
 ## 1.31.0 [2022-07-29]
 
+:warning: This release drop supports for Python 3.6. As of 2021-12-23, 3.6 has reached the end-of-life phase of its release cycle. 3.6.15 was the final security release. For more info see: https://peps.python.org/pep-0494/#lifespan
+
 ### Features
 1. [#467](https://github.com/influxdata/influxdb-client-python/pull/467): Add possibility to initialize client by json file
 1. [#450](https://github.com/influxdata/influxdb-client-python/pull/450): Improve Query UX - simplify serialization to JSON and add possibility to serialize query results as a flattened list of values
 
 ### Bug Fixes
 1. [#462](https://github.com/influxdata/influxdb-client-python/pull/462): Redact the `Authorization` HTTP header from log
+
+### Dependencies
+1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Update `RxPY` to `4.0.4`
+
+### Others
+1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Drop supports for Python 3.6
 
 ## 1.30.0 [2022-06-24]
 
