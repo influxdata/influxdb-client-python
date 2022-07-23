@@ -4,9 +4,9 @@ How to use RxPY to prepare batches for asyncio client.
 import asyncio
 from csv import DictReader
 
-import rx
-from rx import operators as ops
-from rx.scheduler.eventloop import AsyncIOScheduler
+import reactivex as rx
+from reactivex import operators as ops
+from reactivex.scheduler.eventloop import AsyncIOScheduler
 
 from influxdb_client import Point
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
