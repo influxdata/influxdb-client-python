@@ -12,8 +12,8 @@ from datetime import datetime
 from multiprocessing import Value
 from urllib.request import urlopen
 
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 from influxdb_client import Point, InfluxDBClient, WriteOptions
 from influxdb_client.client.write_api import WriteType
