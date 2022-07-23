@@ -84,6 +84,7 @@ class InfluxDBClient(_BaseClient):
         The supported formats:
             - https://docs.python.org/3/library/configparser.html
             - https://toml.io/en/
+            - https://www.json.org/json-en.html
 
         Configuration options:
             - url
@@ -131,6 +132,24 @@ class InfluxDBClient(_BaseClient):
                 id = "132-987-655"
                 customer = "California Miner"
                 data_center = "${env.data_center}"
+
+        config.json example::
+
+            {
+                "url": "http://localhost:8086",
+                "token": "my-token",
+                "org": "my-org",
+                "active": true,
+                "timeout": 6000,
+                "connection_pool_maxsize": 55,
+                "auth_basic": false,
+                "profilers": "query, operator",
+                "tags": {
+                    "id": "132-987-655",
+                    "customer": "California Miner",
+                    "data_center": "${env.data_center}"
+                }
+            }
 
         """
         return super(InfluxDBClient, cls)._from_config_file(config_file=config_file, debug=debug,
