@@ -9,8 +9,8 @@ from datetime import timezone
 
 import ciso8601
 import requests
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 from influxdb_client import InfluxDBClient, WriteOptions
 from influxdb_client.client.write.point import EPOCH
