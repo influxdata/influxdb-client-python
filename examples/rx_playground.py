@@ -3,11 +3,10 @@ import time
 from random import random
 from threading import current_thread
 
-import rx
-from rx import operators as ops
-from rx.core import GroupedObservable
-from rx.scheduler import ThreadPoolScheduler
-from rx.subject import Subject
+import reactivex as rx
+from reactivex import operators as ops, GroupedObservable
+from reactivex.scheduler import ThreadPoolScheduler
+from reactivex.subject import Subject
 
 
 class _WriterKey(object):
