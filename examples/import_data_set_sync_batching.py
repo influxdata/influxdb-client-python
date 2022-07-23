@@ -4,8 +4,8 @@ How to use RxPY to prepare batches for synchronous write into InfluxDB
 
 from csv import DictReader
 
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write.retry import WritesRetry
