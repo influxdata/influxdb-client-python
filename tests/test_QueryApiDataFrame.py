@@ -2,10 +2,10 @@ import random
 
 import httpretty
 import pytest
-import rx
+import reactivex as rx
 from pandas import DataFrame
 from pandas._libs.tslibs.timestamps import Timestamp
-from rx import operators as ops
+from reactivex import operators as ops
 
 from influxdb_client import InfluxDBClient, Point, WritePrecision, WriteOptions
 from influxdb_client.client.warnings import MissingPivotFunction

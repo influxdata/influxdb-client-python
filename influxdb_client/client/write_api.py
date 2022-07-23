@@ -10,10 +10,10 @@ from random import random
 from time import sleep
 from typing import Union, Any, Iterable, NamedTuple
 
-import rx
-from rx import operators as ops, Observable
-from rx.scheduler import ThreadPoolScheduler
-from rx.subject import Subject
+import reactivex as rx
+from reactivex import operators as ops, Observable
+from reactivex.scheduler import ThreadPoolScheduler
+from reactivex.subject import Subject
 
 from influxdb_client import WritePrecision
 from influxdb_client.client._base import _BaseWriteApi, _HAS_DATACLASS

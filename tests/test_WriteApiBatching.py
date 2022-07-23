@@ -9,8 +9,8 @@ from collections import namedtuple
 
 import httpretty
 import pytest
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 import influxdb_client
 from influxdb_client import WritePrecision, InfluxDBClient, VERSION
