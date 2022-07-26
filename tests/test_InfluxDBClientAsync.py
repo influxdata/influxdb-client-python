@@ -11,6 +11,7 @@ from aioresponses import aioresponses
 from influxdb_client import Point, WritePrecision
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+from influxdb_client.client.warnings import MissingPivotFunction
 from tests.base_test import generate_name
 
 
@@ -141,6 +142,39 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual('Prague', dataframe['location'][1])
 
     @async_test
+    async def test_query_data_frame_with_warning(self):
+        measurement = generate_name("measurement")
+        await self._prepare_data(measurement)
+        query = f'''
+                    from(bucket:"my-bucket") 
+                        |> range(start: -10m)
+                        |> filter(fn: (r) => r["_measurement"] == "{measurement}") 
+                '''
+        query_api = self.client.query_api()
+
+        with pytest.warns(MissingPivotFunction) as warnings:
+            dataframe = await query_api.query_data_frame(query)
+            self.assertIsNotNone(dataframe)
+        self.assertEqual(1, len(warnings))
+
+    @async_test
+    async def test_query_data_frame_without_warning(self):
+        measurement = generate_name("measurement")
+        await self._prepare_data(measurement)
+        query = f'''
+                    from(bucket:"my-bucket") 
+                        |> range(start: -10m)
+                        |> filter(fn: (r) => r["_measurement"] == "{measurement}") 
+                        |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+                '''
+        query_api = self.client.query_api()
+
+        with pytest.warns(None) as warnings:
+            dataframe = await query_api.query_data_frame(query)
+            self.assertIsNotNone(dataframe)
+        self.assertEqual(0, len(warnings))
+
+    @async_test
     async def test_write_response_type(self):
         measurement = generate_name("measurement")
         point = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
@@ -238,7 +272,8 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     @async_test
     async def test_username_password_authorization(self):
         await self.client.close()
-        self.client = InfluxDBClientAsync(url="http://localhost:8086", username="my-user", password="my-password", debug=True)
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", username="my-user", password="my-password",
+                                          debug=True)
         await self.client.query_api().query("buckets()", "my-org")
 
     @async_test

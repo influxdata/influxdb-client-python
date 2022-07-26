@@ -19,8 +19,5 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
     """
     Serialize to JSON
     """
-    import json
-    from influxdb_client.client.flux_table import FluxStructureEncoder
-
-    output = json.dumps(tables, cls=FluxStructureEncoder, indent=2)
+    output = tables.to_json(indent=5)
     print(output)

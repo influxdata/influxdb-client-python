@@ -1,3 +1,4 @@
+import json
 import math
 import unittest
 from io import BytesIO
@@ -6,7 +7,7 @@ from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode, FluxQueryException, \
     FluxResponseMetadataMode
-from influxdb_client.client.flux_table import FluxStructureEncoder
+from influxdb_client.client.flux_table import FluxStructureEncoder, TableList
 
 
 class FluxCsvParserTest(unittest.TestCase):
@@ -187,7 +188,7 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual(math.inf, tables[0].records[10]["le"])
         self.assertEqual(-math.inf, tables[0].records[11]["le"])
 
-    def test_to_json(self):
+    def test_to_json_by_encoder(self):
         data = "#datatype,string,long,string,string,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string\n" \
                "#group,false,false,true,true,true,true,false,false,true\n" \
                "#default,_result,,,,,,,,\n" \
@@ -275,9 +276,89 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual('11', tables[0].records[0]['value1'])
         self.assertEqual('west', tables[0].records[0]['region'])
 
+    def test_parse_to_json(self):
+        data = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,C,north,50,40,abc
+
+#group,false,false,true,true,true,true,true,true,true,true,false,false
+#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,string,string,double,double
+#default,_result,,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,language,license,name,owner,le,_value
+,,0,2021-06-23T06:50:11.897825012Z,2021-06-25T06:50:11.897825012Z,stars,github_repository,C#,MIT License,influxdb-client-csharp,influxdata,0,0
+,,0,2021-06-23T06:50:11.897825012Z,2021-06-25T06:50:11.897825012Z,stars,github_repository,C#,MIT License,influxdb-client-csharp,influxdata,10,0
+
+"""
+
+        tables = self._parse_to_tables(data=data)
+        parsed = json.loads(tables.to_json())
+        self.assertEqual(4, parsed.__len__())
+
+        self.assertEqual(11, parsed[0].__len__())
+        self.assertEqual(11, parsed[0]['value1'])
+        self.assertEqual("test", parsed[0]['value_str'])
+
+        self.assertEqual(11, parsed[1].__len__())
+        self.assertEqual(40, parsed[1]['value1'])
+        self.assertEqual("abc", parsed[1]['value_str'])
+
+        self.assertEqual(12, parsed[2].__len__())
+        self.assertEqual(0, parsed[2]['le'])
+        self.assertEqual("influxdata", parsed[2]['owner'])
+
+        self.assertEqual(12, parsed[3].__len__())
+        self.assertEqual(10, parsed[3]['le'])
+        self.assertEqual("influxdata", parsed[3]['owner'])
+
+    def test_parse_to_json_columns(self):
+        data = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,C,north,50,40,abc
+"""
+
+        tables = self._parse_to_tables(data=data)
+        parsed = json.loads(tables.to_json(columns=['region', 'size']))
+        self.assertEqual(2, parsed.__len__())
+
+        self.assertEqual(1, parsed[0].__len__())
+        self.assertEqual("west", parsed[0]['region'])
+        self.assertEqual(1, parsed[1].__len__())
+        self.assertEqual("north", parsed[1]['region'])
+
+    def test_parse_to_values(self):
+        data = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value,value_str
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test
+,,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,C,north,50,40,abc
+
+#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string
+#group,false,false,true,true,true,true,true,true,false,false,false
+#default,_result,,,,,,,,,,
+,result,table,_start,_stop,_field,_measurement,host,region,_value2,value,value_str
+,,1,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,B,south,121,18,test
+,,1,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,D,south,50,22,abc
+"""
+
+        tables = self._parse_to_tables(data=data)
+        parsed = tables.to_values(['region', 'host', 'not_exits', 'value'])
+        self.assertEqual(4, parsed.__len__())
+
+        self.assertEqual(['west', 'A', None, 11], parsed[0])
+        self.assertEqual(['north', 'C', None, 40], parsed[1])
+        self.assertEqual(['south', 'B', None, 18], parsed[2])
+        self.assertEqual(['south', 'D', None, 22], parsed[3])
+
     @staticmethod
     def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables,
-                         response_metadata_mode=FluxResponseMetadataMode.full):
+                         response_metadata_mode=FluxResponseMetadataMode.full) -> TableList:
         _parser = FluxCsvParserTest._parse(data, serialization_mode, response_metadata_mode=response_metadata_mode)
         list(_parser.generator())
         tables = _parser.tables

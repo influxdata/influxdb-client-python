@@ -10,6 +10,7 @@
 
 ### Features
 1. [#440](https://github.com/influxdata/influxdb-client-python/pull/440): Add possibility to specify timestamp column and its timezone [DataFrame]
+1. [#450](https://github.com/influxdata/influxdb-client-python/pull/450): Improve Query UX - simplify serialization to JSON and add possibility to serialize query results as a flattened list of values
 
 ### Bug Fixes
 1. [#457](https://github.com/influxdata/influxdb-client-python/pull/457): Formatting nanoseconds to Flux AST

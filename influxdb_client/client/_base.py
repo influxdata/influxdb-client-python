@@ -2,13 +2,11 @@
 from __future__ import absolute_import
 
 import base64
-import codecs
 import configparser
-import csv
 import logging
 import os
 from datetime import datetime, timedelta
-from typing import Iterator, List, Generator, Any, Union, Iterable, AsyncGenerator
+from typing import List, Generator, Any, Union, Iterable, AsyncGenerator
 
 from urllib3 import HTTPResponse
 
@@ -17,9 +15,10 @@ from influxdb_client import Configuration, Dialect, Query, OptionStatement, Vari
     Duration, StringLiteral, ArrayExpression, ImportDeclaration, MemberExpression, MemberAssignment, File, \
     WriteService, QueryService, DeleteService, DeletePredicateRequest
 from influxdb_client.client.flux_csv_parser import FluxResponseMetadataMode, FluxCsvParser, FluxSerializationMode
-from influxdb_client.client.flux_table import FluxTable, FluxRecord
+from influxdb_client.client.flux_table import FluxRecord, TableList, CSVIterator
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.client.util.helpers import get_org_query_param
+from influxdb_client.client.warnings import MissingPivotFunction
 from influxdb_client.client.write.dataframe_serializer import DataframeSerializer
 from influxdb_client.rest import _UTF_8_encoding
 
@@ -214,9 +213,9 @@ class _BaseQueryApi(object):
     """Base implementation for Queryable API."""
 
     def _to_tables(self, response, query_options=None, response_metadata_mode:
-                   FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> List[FluxTable]:
+                   FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> TableList:
         """
-        Parse HTTP response to FluxTables.
+        Parse HTTP response to TableList.
 
         :param response: HTTP response from an HTTP client. Expected type: `urllib3.response.HTTPResponse`.
         """
@@ -225,9 +224,9 @@ class _BaseQueryApi(object):
         return _parser.table_list()
 
     async def _to_tables_async(self, response, query_options=None, response_metadata_mode:
-                               FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> List[FluxTable]:
+                               FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> TableList:
         """
-        Parse HTTP response to FluxTables.
+        Parse HTTP response to TableList.
 
         :param response: HTTP response from an HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
         """
@@ -236,9 +235,9 @@ class _BaseQueryApi(object):
                 pass
             return parser.table_list()
 
-    def _to_csv(self, response: HTTPResponse) -> Iterator[List[str]]:
+    def _to_csv(self, response: HTTPResponse) -> CSVIterator:
         """Parse HTTP response to CSV."""
-        return csv.reader(codecs.iterdecode(response, _UTF_8_encoding))
+        return CSVIterator(response)
 
     def _to_flux_record_stream(self, response, query_options=None,
                                response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> \
@@ -320,7 +319,7 @@ class _BaseQueryApi(object):
             from influxdb_client.client.query_api import QueryOptions
             return QueryOptions(profilers=self._influxdb_client.profilers)
 
-    def _create_query(self, query, dialect=default_dialect, params: dict = None):
+    def _create_query(self, query, dialect=default_dialect, params: dict = None, **kwargs):
         query_options = self._get_query_options()
         profilers = query_options.profilers if query_options is not None else None
         q = Query(query=query, dialect=dialect, extern=_BaseQueryApi._build_flux_ast(params, profilers))
@@ -330,6 +329,9 @@ class _BaseQueryApi(object):
             print("Profiler: query")
             print("===============")
             print(query)
+
+        if kwargs.get('dataframe_query', False):
+            MissingPivotFunction.print_warning(query)
 
         return q
 
