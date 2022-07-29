@@ -1,5 +1,8 @@
 ## 1.32.0[unreleased]
 
+### Bug Fixes
+1. [#477](https://github.com/influxdata/influxdb-client-python/pull/477): parsing date fails due to thread race
+
 ## 1.31.0 [2022-07-29]
 
 ### Features
