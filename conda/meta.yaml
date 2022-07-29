@@ -1,5 +1,5 @@
 {% set name = "influxdb_client" %}
-{% set version = "1.30.0" %}
+{% set version = "1.31.0" %}
 
 
 package:
@@ -7,8 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://files.pythonhosted.org/packages/c5/c1/02a50d9c2bfa450f4ae807e8be83f72f0b79c447e9762dc8337c545fdf5e/influxdb_client-1.30.0.tar.gz
-  sha256: 691acd05d3ca205c1c561991e1d7888d65706feb0a44076f2a22eb572aed9926
+  url: https://files.pythonhosted.org/packages/66/79/eabacb1f737216da92023a3137e4ebb8a6cbafc870efdde8af9b167e33ae/influxdb_client-1.31.0.tar.gz
+  sha256: adf6dfdf35f7c39cf543b243359d2c0ae79fc462f1ef57a09d0f1623f181796d
 
 build:
   number: 0
