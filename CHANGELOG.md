@@ -1,4 +1,4 @@
-## 1.31.0 [unreleased]
+## 1.31.0 [2022-07-29]
 
 ### Features
 1. [#467](https://github.com/influxdata/influxdb-client-python/pull/467): Add possibility to initialize client by json file
