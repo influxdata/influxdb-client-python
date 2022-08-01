@@ -6,8 +6,8 @@ import platform
 from datetime import timedelta
 
 import psutil as psutil
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 from influxdb_client import WriteApi, WriteOptions
 from influxdb_client.client.influxdb_client import InfluxDBClient

@@ -33,9 +33,6 @@ commands:
           paths:
             - ".venv"
             - "~/.cache/pip"
-            # - "/usr/local/lib/python3.8/site-packages"
-            # - "/usr/local/lib/python3.7/site-packages"
-            # - "/usr/local/lib/python3.6/site-packages"
             - "/usr/local/lib/site-python"
           when: always
 jobs:
@@ -43,7 +40,7 @@ jobs:
     parameters:
       python-image:
         type: string
-        default: &default-python "cimg/python:3.6"
+        default: &default-python "cimg/python:3.7"
       influxdb-image:
         type: string
         default: &default-influxdb "influxdb:latest"
@@ -154,6 +151,7 @@ jobs:
             pip install -e . --user
             pip install sphinx==1.8.5 --user
             pip install sphinx_rtd_theme --user
+            pip install jinja2==3.0.3 --user
             cd docs
             python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html
   check-aws-lambda-layer:
@@ -180,16 +178,13 @@ workflows:
       - check-examples
       - check-sphinx
       - tests-python:
-          name: test-3.6
+          name: test-3.7
       - tests-python:
-          name: test-3.6-without-ciso8601
+          name: test-3.7-without-ciso8601
           enabled-ciso-8601: false
       - tests-python:
-          name: test-3.6-influxdb-nightly
+          name: test-3.7-influxdb-nightly
           influxdb-image: "quay.io/influxdb/influxdb:nightly"
-      - tests-python:
-          name: test-3.7
-          python-image: "cimg/python:3.7"
       - tests-python:
           name: test-3.8
           python-image: "cimg/python:3.8"

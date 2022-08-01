@@ -7,8 +7,8 @@ https://datahub.io/core/finance-vix#data
 from collections import OrderedDict
 from csv import DictReader
 
-import rx
-from rx import operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 from influxdb_client import Point, InfluxDBClient, WriteOptions
 
