@@ -10,6 +10,11 @@
 - [write_api_callbacks.py](write_api_callbacks.py) - How to handle batch events
 - [write_structured_data.py](write_structured_data.py) - How to write structured data - [NamedTuple](https://docs.python.org/3/library/collections.html#collections.namedtuple), [Data Classes](https://docs.python.org/3/library/dataclasses.html) - (_requires Python v3.8+_)
 - [logging_handler.py](logging_handler.py) - How to set up a python native logging handler that writes to InfluxDB
+- [import_parquet.py](import_parquet.py) - How to import [Apache Parquet](https://parquet.apache.org/) data files, 
+  the example requires: 
+  - manually download [NYC TLC Trip Record Data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) 
+  - install Apache Arrow `pip install pyarrow` dependency
+
 
 ## Queries
 - [query.py](query.py) - How to query data into `FluxTable`s, `Stream` and `CSV`
