@@ -6,10 +6,15 @@ clean:
 	rm -f .coverage coverage.xml writer.pickle
 	rm -rf .pytest_cache build dist htmlcov test-reports
 
+.PHONY: docs
+docs:
+	cd docs && python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html
+
 .PHONY: help
 help:
 	@echo 'Makefile Targets'
 	@echo '  clean      clean up local files'
+	@echo '  docs       build docs locally'
 	@echo '  help       print this help output'
 	@echo '  install    install library as editable with all dependencies'
 	@echo '  lint       execute flake8 against source code'
