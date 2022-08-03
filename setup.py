@@ -13,15 +13,20 @@ requires = [
 ]
 
 test_requires = [
+    'flake8>=5.0.3',
     'coverage>=4.0.3',
     'nose>=1.3.7',
     'pluggy>=0.3.1',
     'py>=1.4.31',
     'randomize>=0.13',
     'pytest>=5.0.0',
+    'pytest-cov>=3.0.0',
     'httpretty==1.0.5',
     'psutil>=5.6.3',
-    'aioresponses>=0.7.3'
+    'aioresponses>=0.7.3',
+    'sphinx==1.8.5',
+    'sphinx_rtd_theme',
+    'jinja2==3.0.3'
 ]
 
 extra_requires = [
@@ -49,7 +54,7 @@ NAME = "influxdb_client"
 
 meta = {}
 with open(Path(__file__).parent / 'influxdb_client' / 'version.py') as f:
-    exec('\n'.join(l for l in f if l.startswith('VERSION')), meta)
+    exec('\n'.join(line for line in f if line.startswith('VERSION')), meta)
 
 setup(
     name=NAME,
