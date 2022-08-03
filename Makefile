@@ -4,7 +4,7 @@ all: help
 .PHONY: clean
 clean:
 	rm -f .coverage coverage.xml writer.pickle
-	rm -rf .pytest_cache build dist htmlcov test-reports
+	rm -rf .pytest_cache build dist htmlcov test-reports docs/_build
 
 .PHONY: docs
 docs:
