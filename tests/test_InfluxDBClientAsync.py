@@ -301,9 +301,12 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     async def test_query_and_debug(self):
         await self.client.close()
         self.client = InfluxDBClientAsync(url="http://localhost:8086", token="my-token", debug=True)
-        # Query API
+        # Query
         results = await self.client.query_api().query("buckets()", "my-org")
         self.assertIn("my-bucket", list(map(lambda record: record["name"], results[0].records)))
+        # Query RAW
+        results = await self.client.query_api().query_raw("buckets()", "my-org")
+        self.assertIn("my-bucket", results)
         # Bucket API
         buckets_service = BucketsService(api_client=self.client.api_client)
         results = await buckets_service.get_buckets()
