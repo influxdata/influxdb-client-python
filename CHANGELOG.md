@@ -2,6 +2,9 @@
 
 :warning: This release drop supports for Python 3.6. As of 2021-12-23, 3.6 has reached the end-of-life phase of its release cycle. 3.6.15 was the final security release. For more info see: https://peps.python.org/pep-0494/#lifespan
 
+### Bug Fixes
+1. [#483](https://github.com/influxdata/influxdb-client-python/pull/483): Querying data if the `debug` is enabled
+
 ### Dependencies
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Update `RxPY` to `4.0.4`
 
