@@ -26,7 +26,7 @@ test_requires = [
     'aioresponses>=0.7.3',
     'sphinx==1.8.5',
     'sphinx_rtd_theme',
-    'jinja2==3.0.3'
+    'jinja2==3.1.2'
 ]
 
 extra_requires = [
