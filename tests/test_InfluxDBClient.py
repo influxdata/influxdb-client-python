@@ -234,6 +234,16 @@ class InfluxDBClientTestIT(BaseTest):
         self.client = InfluxDBClient(url=self.host, username="my-user", password="my-password", debug=True)
         self.client.query_api().query("buckets()", "my-org")
 
+    def test_query_and_debug(self):
+        self.client.close()
+        self.client = InfluxDBClient(url=self.host, token="my-token", debug=True)
+        # Query API
+        results = self.client.query_api().query("buckets()", "my-org")
+        self.assertIn("my-bucket", list(map(lambda record: record["name"], results[0].records)))
+        # Bucket API
+        results = self.client.buckets_api().find_buckets()
+        self.assertIn("my-bucket", list(map(lambda bucket: bucket.name, results.buckets)))
+
     def _start_proxy_server(self):
         import http.server
         import urllib.request
