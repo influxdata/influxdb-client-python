@@ -8,7 +8,7 @@ from io import StringIO
 import pytest
 from aioresponses import aioresponses
 
-from influxdb_client import Point, WritePrecision
+from influxdb_client import Point, WritePrecision, BucketsService
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 from influxdb_client.client.warnings import MissingPivotFunction
@@ -296,6 +296,21 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         await self.client.query_api().query("buckets()", "my-org")
 
         self.assertIn("Authorization: ***", log_stream.getvalue())
+
+    @async_test
+    async def test_query_and_debug(self):
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", token="my-token", debug=True)
+        # Query
+        results = await self.client.query_api().query("buckets()", "my-org")
+        self.assertIn("my-bucket", list(map(lambda record: record["name"], results[0].records)))
+        # Query RAW
+        results = await self.client.query_api().query_raw("buckets()", "my-org")
+        self.assertIn("my-bucket", results)
+        # Bucket API
+        buckets_service = BucketsService(api_client=self.client.api_client)
+        results = await buckets_service.get_buckets()
+        self.assertIn("my-bucket", list(map(lambda bucket: bucket.name, results.buckets)))
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)

@@ -85,7 +85,12 @@ class FluxCsvParser(object):
 
     def __enter__(self):
         """Initialize CSV reader."""
-        self._reader = csv_parser.reader(codecs.iterdecode(self._response, _UTF_8_encoding))
+        # response can be exhausted by logger, so we have to use data that has already been read
+        if hasattr(self._response, 'closed') and self._response.closed:
+            from io import StringIO
+            self._reader = csv_parser.reader(StringIO(self._response.data.decode(_UTF_8_encoding)))
+        else:
+            self._reader = csv_parser.reader(codecs.iterdecode(self._response, _UTF_8_encoding))
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
