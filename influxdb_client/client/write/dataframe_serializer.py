@@ -265,7 +265,7 @@ class DataframeSerializer:
         if self.first_field_maybe_null:
             # When the first field is null (None/NaN), we'll have
             # a spurious leading comma which needs to be removed.
-            lp = (re.sub('^(( |[^ ])* ),([a-zA-Z])(.*)', '\\1\\3\\4', self.f(p))
+            lp = (re.sub('^(( |[^ ])* ),([a-zA-Z0-9])(.*)', '\\1\\3\\4', self.f(p))
                   for p in filter(lambda x: _any_not_nan(x, self.field_indexes), _itertuples(chunk)))
             return list(lp)
         else:

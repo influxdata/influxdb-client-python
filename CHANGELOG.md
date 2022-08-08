@@ -5,6 +5,7 @@
 ### Bug Fixes
 1. [#483](https://github.com/influxdata/influxdb-client-python/pull/483): Querying data if the `debug` is enabled
 1. [#477](https://github.com/influxdata/influxdb-client-python/pull/477): Parsing date fails due to thread race
+1. [#486](https://github.com/influxdata/influxdb-client-python/pull/486): Fix bug when serializing DataFrames that might occur if you're inserting NaN values and have columns starting with digits.
 
 ### Dependencies
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Update `RxPY` to `4.0.4`
