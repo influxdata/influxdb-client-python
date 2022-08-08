@@ -511,6 +511,39 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         self.assertEqual('test value1=10i,value2=30i 1590307200000000000', points[0])
         self.assertEqual('test value1=20i,value2=40i 1590310800000000000', points[1])
 
+    def test_serialization_for_nan_in_columns_starting_with_digits(self):
+        from influxdb_client.extras import pd
+        from influxdb_client.extras import np
+        data_frame = pd.DataFrame(data={
+            '1value': [np.nan, 30.0, np.nan, 30.0, np.nan],
+            '2value': [30.0, np.nan, np.nan, np.nan, np.nan],
+            '3value': [30.0, 30.0, 30.0, np.nan, np.nan],
+            'avalue': [30.0, 30.0, 30.0, 30.0, 30.0]
+        }, index=pd.period_range('2020-05-24 10:00', freq='H', periods=5))
+
+        points = data_frame_to_list_of_points(data_frame,
+                                              PointSettings(),
+                                              data_frame_measurement_name='test')
+
+        self.assertEqual(5, len(points))
+        self.assertEqual('test 2value=30.0,3value=30.0,avalue=30.0 1590314400000000000', points[0])
+        self.assertEqual('test 1value=30.0,3value=30.0,avalue=30.0 1590318000000000000', points[1])
+        self.assertEqual('test 3value=30.0,avalue=30.0 1590321600000000000', points[2])
+        self.assertEqual('test 1value=30.0,avalue=30.0 1590325200000000000', points[3])
+        self.assertEqual('test avalue=30.0 1590328800000000000', points[4])
+
+        data_frame = pd.DataFrame(data={
+            '1value': [np.nan],
+            'avalue': [30.0],
+            'bvalue': [30.0]
+        }, index=pd.period_range('2020-05-24 10:00', freq='H', periods=1))
+
+        points = data_frame_to_list_of_points(data_frame,
+                                              PointSettings(),
+                                              data_frame_measurement_name='test')
+        self.assertEqual(1, len(points))
+        self.assertEqual('test avalue=30.0,bvalue=30.0 1590314400000000000', points[0])
+
 
 class DataSerializerChunksTest(unittest.TestCase):
     def test_chunks(self):
