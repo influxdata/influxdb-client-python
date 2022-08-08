@@ -11,6 +11,9 @@
 ### Others
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Drop supports for Python 3.6
 
+### Bug Fixes
+1. [#477](https://github.com/influxdata/influxdb-client-python/pull/477): parsing date fails due to thread race
+
 ## 1.31.0 [2022-07-29]
 
 ### Features

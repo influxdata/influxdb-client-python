@@ -1,10 +1,13 @@
 """Utils to get right Date parsing function."""
 import datetime
+import threading
 from datetime import timezone as tz
 
 from dateutil import parser
 
 date_helper = None
+
+lock_ = threading.Lock()
 
 
 class DateHelper:
@@ -79,11 +82,15 @@ def get_date_helper() -> DateHelper:
     """
     global date_helper
     if date_helper is None:
-        date_helper = DateHelper()
-        try:
-            import ciso8601
-            date_helper.parse_date = ciso8601.parse_datetime
-        except ModuleNotFoundError:
-            date_helper.parse_date = parser.parse
+        with lock_:
+            # avoid duplicate initialization
+            if date_helper is None:
+                _date_helper = DateHelper()
+                try:
+                    import ciso8601
+                    _date_helper.parse_date = ciso8601.parse_datetime
+                except ModuleNotFoundError:
+                    _date_helper.parse_date = parser.parse
+                date_helper = _date_helper
 
     return date_helper
