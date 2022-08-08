@@ -4,15 +4,13 @@
 
 ### Bug Fixes
 1. [#483](https://github.com/influxdata/influxdb-client-python/pull/483): Querying data if the `debug` is enabled
+1. [#477](https://github.com/influxdata/influxdb-client-python/pull/477): Parsing date fails due to thread race
 
 ### Dependencies
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Update `RxPY` to `4.0.4`
 
 ### Others
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Drop supports for Python 3.6
-
-### Bug Fixes
-1. [#477](https://github.com/influxdata/influxdb-client-python/pull/477): parsing date fails due to thread race
 
 ## 1.31.0 [2022-07-29]
 
