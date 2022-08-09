@@ -6,8 +6,8 @@ from csv import DictReader
 from functools import reduce
 from typing import Collection
 
-import rx
-from rx import operators as ops, Observable
+import reactivex as rx
+from reactivex import operators as ops, Observable
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write.retry import WritesRetry
@@ -69,7 +69,7 @@ def buffer_by_bytes_count(bytes_count: int = 5120):
                 on_next,
                 on_error,
                 on_completed,
-                scheduler)
+                scheduler=scheduler)
 
         return Observable(subscribe)
 
