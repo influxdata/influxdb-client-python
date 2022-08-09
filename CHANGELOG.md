@@ -13,6 +13,9 @@
 ### Others
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Drop supports for Python 3.6
 
+### Documentation
+1. [#397](https://github.com/influxdata/influxdb-client-python/pull/397): Add an example: How to use RxPY to prepare batches by maximum bytes count
+
 ## 1.31.0 [2022-07-29]
 
 ### Features

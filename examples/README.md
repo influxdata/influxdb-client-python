@@ -14,7 +14,7 @@
   the example requires: 
   - manually download [NYC TLC Trip Record Data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) 
   - install Apache Arrow `pip install pyarrow` dependency
-
+- [write_batching_by_bytes_count.py](write_batching_by_bytes_count.py) - How to use RxPY to prepare batches by maximum bytes count.
 
 ## Queries
 - [query.py](query.py) - How to query data into `FluxTable`s, `Stream` and `CSV`
