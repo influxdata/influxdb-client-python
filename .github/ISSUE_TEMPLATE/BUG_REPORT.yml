@@ -1,0 +1,56 @@
+name: Bug Report
+description: Create a bug report to help us improve
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking time to fill out this bug report! We reserve this repository issues for bugs with reproducible problems.
+        Please redirect any questions about the Python client usage to our [Community Slack](https://influxdata.com/slack) or [Community Page](https://community.influxdata.com/) we have a lot of talented community members there who could help answer your question more quickly.
+
+        * Please add a :+1: or comment on a similar existing bug report instead of opening a new one.
+        * Please check whether the bug can be reproduced with the latest release.
+  - type: textarea
+    id: specifications
+    attributes:
+      label: Specifications
+      description: Describe the steps to reproduce the bug.
+      value: |
+        * Client Version:
+        * InfluxDB Version:
+        * Platform:
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Describe the steps to reproduce the bug.
+      value: |
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen when you performed the above steps.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: Describe what actually happened when you performed the above steps.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info
+      description: Include gist of relevant config, logs, etc.
+    validations:
+      required: false
