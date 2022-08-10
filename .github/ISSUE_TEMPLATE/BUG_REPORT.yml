@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for taking time to fill out this bug report! We reserve this repository issues for bugs with reproducible problems.
-        Please redirect any questions about the Python client usage to our [Community Slack](https://influxdata.com/slack) or [Community Page](https://community.influxdata.com/) we have a lot of talented community members there who could help answer your question more quickly.
+        Please redirect any questions about the Python client usage to our [Community Slack](https://app.slack.com/client/TH8RGQX5Z/CHQ5VG6F8) or [Community Page](https://community.influxdata.com/) we have a lot of talented community members there who could help answer your question more quickly.
 
         * Please add a :+1: or comment on a similar existing bug report instead of opening a new one.
         * Please check whether the bug can be reproduced with the latest release.
@@ -24,13 +24,11 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: Steps to reproduce
-      description: Describe the steps to reproduce the bug.
+      label: Code sample to reproduce problem
+      description: Provide a code sample that reproduces the problem
       value: |
-        1.
-        2.
-        3.
-        ...
+        ```python
+        ```
     validations:
       required: true
   - type: textarea
