@@ -42,10 +42,12 @@ def check_write():
     try:
         client.write_api(write_options=SYNCHRONOUS).write(bucket, org, b"")
     except ApiException as e:
-        # missing credentials
+        # bucket does not exist
         if e.status == 404:
-            raise Exception(f"The specified token doesn't have sufficient credentials to write to '{bucket}' "
-                            f"or specified bucket doesn't exists.") from e
+            raise Exception(f"The specified bucket does not exist.") from e
+        # insufficient permissions
+        if e.status == 403:
+            raise Exception(f"The specified token does not have sufficient credentials to write to '{bucket}'.") from e
         # 400 (BadRequest) caused by empty LineProtocol
         if e.status != 400:
             raise
