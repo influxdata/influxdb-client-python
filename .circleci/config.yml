@@ -138,6 +138,7 @@ jobs:
             python ./asynchronous_management.py
             python ./asynchronous_batching.py
             python ./asynchronous_retry.py
+            python ./connection_check.py
   check-sphinx:
     docker:
       - image: *default-python

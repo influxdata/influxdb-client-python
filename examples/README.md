@@ -34,6 +34,7 @@
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
 - [nanosecond_precision.py](nanosecond_precision.py) - How to use nanoseconds precision
 - [invokable_scripts.py](invokable_scripts.py) - How to use Invokable scripts Cloud API to create custom endpoints that query data
+- [connection_check.py](connection_check.py) - How to check connection configuration
 
 ## Asynchronous
 - [asynchronous.py](asynchronous.py) - How to use Asyncio with InfluxDB client
