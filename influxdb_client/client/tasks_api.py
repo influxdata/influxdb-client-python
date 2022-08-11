@@ -4,7 +4,6 @@ Process and analyze your data with tasks in the InfluxDB task engine.
 Use tasks (scheduled Flux queries) to input a data stream and then analyze, modify, and act on the data accordingly.
 """
 
-
 import datetime
 from typing import List
 
@@ -65,7 +64,11 @@ class TasksApi(object):
             repetition += "cron: "
             repetition += '"' + cron + '"'
 
-        flux_with_options = 'option task = {{name: "{}", {}}} \n {}'.format(name, repetition, flux)
+        from_index = flux.index("from")
+        flux_with_options = \
+            flux[0:from_index] + \
+            'option task = {{name: "{}", {}}} \n\n'.format(name, repetition) + \
+            flux[from_index:]
         task.flux = flux_with_options
 
         return task
@@ -151,10 +154,10 @@ class TasksApi(object):
         Retrieve list of run records for a task.
 
         :param task_id: task id
-        :param str after: returns runs after specified ID
-        :param int limit: the number of runs to return
-        :param datetime after_time: filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: filter runs to those scheduled before this time, RFC3339
+        :key str after: returns runs after specified ID
+        :key int limit: the number of runs to return
+        :key datetime after_time: filter runs to those scheduled after this time, RFC3339
+        :key datetime before_time: filter runs to those scheduled before this time, RFC3339
         """
         return self._service.get_tasks_id_runs(task_id=task_id, **kwargs).runs
 

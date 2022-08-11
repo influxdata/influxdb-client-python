@@ -151,6 +151,23 @@ class TasksApiTest(BaseTest):
         # TODO missing get labels
         self.assertEqual(links.labels, "/api/v2/tasks/" + task.id + "/labels")
 
+    def test_create_with_import(self):
+        task_name = self.generate_name("it task")
+        task_flux = 'import "http"\n\n' \
+                    'from(bucket: "iot_center")\n' \
+                    '    |> range(start: -30d)\n' \
+                    '    |> filter(fn: (r) => r._measurement == "environment")\n' \
+                    '    |> aggregateWindow(every: 1h, fn: mean)'
+        task = self.tasks_api.create_task_cron(task_name, task_flux, "10 0 * * * *", self.organization.id)
+
+        self.assertIsNotNone(task.id)
+        self.assertEqual(task.name, task_name)
+        self.assertEqual(task.org_id, self.organization.id)
+        self.assertEqual(task.status, "active")
+        self.assertEqual(task.cron, "10 0 * * * *")
+        self.assertTrue(task.flux.startswith('import "http"\n\noption task = '))
+        self.assertTrue(task.flux.endswith('    |> aggregateWindow(every: 1h, fn: mean)'))
+
     def test_find_task_by_id(self):
         task_name = self.generate_name("it task")
         task = self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
