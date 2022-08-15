@@ -64,11 +64,7 @@ class TasksApi(object):
             repetition += "cron: "
             repetition += '"' + cron + '"'
 
-        from_index = flux.index("from")
-        flux_with_options = \
-            flux[0:from_index] + \
-            'option task = {{name: "{}", {}}} \n\n'.format(name, repetition) + \
-            flux[from_index:]
+        flux_with_options = '{} \n\noption task = {{name: "{}", {}}}'.format(flux, name, repetition)
         task.flux = flux_with_options
 
         return task
