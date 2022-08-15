@@ -121,7 +121,7 @@ class TasksApiTest(BaseTest):
         self.assertEqual(task.status, "active")
         self.assertEqual(task.every, "1h")
         self.assertEqual(task.cron, None)
-        self.assertTrue(task.flux.endswith(TASK_FLUX))
+        self.assertTrue(task.flux.startswith(TASK_FLUX))
 
     def test_create_task_cron(self):
         task_name = self.generate_name("it task")
@@ -137,7 +137,7 @@ class TasksApiTest(BaseTest):
         self.assertEqual(task.cron, "0 2 * * *")
         # self.assertEqualIgnoringWhitespace(task.flux, flux)
 
-        self.assertTrue(task.flux.endswith(TASK_FLUX))
+        self.assertTrue(task.flux.startswith(TASK_FLUX))
         # self.assertEqual(task.links, "active")
 
         links = task.links
@@ -150,6 +150,23 @@ class TasksApiTest(BaseTest):
 
         # TODO missing get labels
         self.assertEqual(links.labels, "/api/v2/tasks/" + task.id + "/labels")
+
+    def test_create_with_import(self):
+        task_name = self.generate_name("it task")
+        task_flux = 'import "http"\n\n' \
+                    'from(bucket: "iot_center")\n' \
+                    '    |> range(start: -30d)\n' \
+                    '    |> filter(fn: (r) => r._measurement == "environment")\n' \
+                    '    |> aggregateWindow(every: 1h, fn: mean)'
+        task = self.tasks_api.create_task_cron(task_name, task_flux, "10 0 * * * *", self.organization.id)
+
+        self.assertIsNotNone(task.id)
+        self.assertEqual(task.name, task_name)
+        self.assertEqual(task.org_id, self.organization.id)
+        self.assertEqual(task.status, "active")
+        self.assertEqual(task.cron, "10 0 * * * *")
+        self.assertTrue(task.flux.startswith(task_flux))
+        self.assertTrue(task.flux.splitlines()[-1].startswith('option task = '))
 
     def test_find_task_by_id(self):
         task_name = self.generate_name("it task")
@@ -182,12 +199,12 @@ class TasksApiTest(BaseTest):
         cron_task = self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
 
         flux = '''
+        {flux}
+        
         option task = {{
             name: "{task_name}",
             every: 3m
         }}
-        
-        {flux}
         '''.format(task_name=task_name, flux=TASK_FLUX)
 
         cron_task.cron = None
