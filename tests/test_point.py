@@ -4,6 +4,7 @@ import unittest
 from datetime import datetime, timezone, timedelta
 from decimal import Decimal
 
+import pytest
 from dateutil import tz
 
 from influxdb_client import Point, WritePrecision
@@ -493,6 +494,12 @@ class PointTest(unittest.TestCase):
                                 record_tag_keys=["location", "version"],
                                 record_field_keys=["pressure", "temperature"])
         self.assertEqual("custom_sensor_id,location=warehouse_125 pressure=125i", point.to_line_protocol())
+
+    def test_name_start_with_hash(self):
+        point = Point.measurement("#hash_start").tag("location", "europe").field("level", 2.2)
+        with pytest.warns(SyntaxWarning) as warnings:
+            self.assertEqual('#hash_start,location=europe level=2.2', point.to_line_protocol())
+        self.assertEqual(1, len(warnings))
 
 
 if __name__ == '__main__':
