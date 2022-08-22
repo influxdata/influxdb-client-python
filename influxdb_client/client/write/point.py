@@ -187,7 +187,7 @@ class Point(object):
 
 The output Line protocol will be interpret as a comment by InfluxDB. For more info see:
     - https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol/#comments
-            """
+"""
             warnings.warn(message, SyntaxWarning)
         _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
