@@ -13,6 +13,7 @@
 
 ### Others
 1. [#472](https://github.com/influxdata/influxdb-client-python/pull/472): Drop supports for Python 3.6
+1. [#495](https://github.com/influxdata/influxdb-client-python/pull/495): Add warning for measurement name starts with `#`
 
 ### Documentation
 1. [#397](https://github.com/influxdata/influxdb-client-python/pull/397): Add an example: How to use RxPY to prepare batches by maximum bytes count
