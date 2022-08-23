@@ -1,6 +1,7 @@
 """Point data structure to represent LineProtocol."""
 
 import math
+import warnings
 from builtins import int
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -181,6 +182,13 @@ class Point(object):
          :param precision: required precision of LineProtocol. If it's not set then use the precision from ``Point``.
         """
         _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
+        if _measurement.startswith("#"):
+            message = f"""The measurement name '{_measurement}' start with '#'.
+
+The output Line protocol will be interpret as a comment by InfluxDB. For more info see:
+    - https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol/#comments
+"""
+            warnings.warn(message, SyntaxWarning)
         _tags = _append_tags(self._tags)
         _fields = _append_fields(self._fields)
         if not _fields:
@@ -249,26 +257,26 @@ def _append_fields(fields):
     return f"{','.join(_return)}"
 
 
-def _append_time(time, write_precision):
+def _append_time(time, write_precision) -> str:
     if time is None:
         return ''
     return f" {int(_convert_timestamp(time, write_precision))}"
 
 
-def _escape_key(tag, escape_list=None):
+def _escape_key(tag, escape_list=None) -> str:
     if escape_list is None:
         escape_list = _ESCAPE_KEY
     return str(tag).translate(escape_list)
 
 
-def _escape_tag_value(value):
+def _escape_tag_value(value) -> str:
     ret = _escape_key(value)
     if ret.endswith('\\'):
         ret += ' '
     return ret
 
 
-def _escape_string(value):
+def _escape_string(value) -> str:
     return str(value).translate(_ESCAPE_STRING)
 
 
