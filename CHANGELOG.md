@@ -1,4 +1,4 @@
-## 1.32.0 [unreleased]
+## 1.32.0 [2022-08-25]
 
 :warning: This release drop supports for Python 3.6. As of 2021-12-23, 3.6 has reached the end-of-life phase of its release cycle. 3.6.15 was the final security release. For more info see: https://peps.python.org/pep-0494/#lifespan
 
@@ -78,7 +78,7 @@
 
 ### Dependencies
 1. [#419](https://github.com/influxdata/influxdb-client-python/pull/419): Update dependencies:
-   - `urllib3` to 1.26.0 
+   - `urllib3` to 1.26.0
 
 ### CI
 1. [#411](https://github.com/influxdata/influxdb-client-python/pull/411): Use new Codecov uploader for reporting code coverage
@@ -109,7 +109,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
   - `post_signout` operation is moved to `SignoutService`
 - `OrganizationsService`:
   - `get_orgs_id_secrets` operation is moved to `SecretsService`
-  - `patch_orgs_id_secrets` operation is moved to `SecretsService` 
+  - `patch_orgs_id_secrets` operation is moved to `SecretsService`
   - `post_orgs_id_secrets` operation is moved to `SecretsService`
 - Remove `DocumentApi` in favour of [InfluxDB Community Templates](https://github.com/influxdata/community-templates). For more info see - [influxdb#19300](https://github.com/influxdata/influxdb/pull/19300), [openapi#192](https://github.com/influxdata/openapi/pull/192)
 - `TelegrafsService` uses `TelegrafPluginRequest` to create `Telegraf` configuration
@@ -128,7 +128,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Add callback function for getting profilers output with example and test
 
 ### Bug Fixes
-1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response 
+1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response
 1. [#378](https://github.com/influxdata/influxdb-client-python/pull/378): Correct serialization DataFrame with nan values [DataFrame]
 1. [#384](https://github.com/influxdata/influxdb-client-python/pull/384): Timeout can be specified as a `float`
 1. [#380](https://github.com/influxdata/influxdb-client-python/pull/380): Correct data types for querying [DataFrame]
@@ -167,7 +167,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 
 ### Features
 1. [#330](https://github.com/influxdata/influxdb-client-python/pull/330): Add support for write structured data - `NamedTuple`, `Data Classes`
-1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame] 
+1. [#335](https://github.com/influxdata/influxdb-client-python/pull/335): Add support for custom precision for index specified as number [DataFrame]
 1. [#341](https://github.com/influxdata/influxdb-client-python/pull/341): Add support for handling batch events
 
 ### Bug Fixes
@@ -189,7 +189,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 
 ### CI
 1. [#327](https://github.com/influxdata/influxdb-client-python/pull/327): Switch to next-gen CircleCI's convenience images
- 
+
 ## 1.20.0 [2021-08-20]
 
 ### Features
@@ -203,7 +203,7 @@ This release introduces a support for new version of InfluxDB OSS API definition
 
 ### Bug Fixes
 1. [#283](https://github.com/influxdata/influxdb-client-python/pull/283): Set proxy server in config file
-1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `Threshold` domain models mapping 
+1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `Threshold` domain models mapping
 1. [#290](https://github.com/influxdata/influxdb-client-python/pull/290): `DashboardService` responses types
 1. [#303](https://github.com/influxdata/influxdb-client-python/pull/303): Backslash escaping in serialization to Line protocol
 1. [#312](https://github.com/influxdata/influxdb-client-python/pull/312): Zip structure for AWS Lambda
@@ -258,8 +258,8 @@ This release introduces a support for new InfluxDB OSS API definitions - [oss.ym
 ## 1.17.0 [2021-04-30]
 
 ### Features
-1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters 
-1. [#225](https://github.com/influxdata/influxdb-client-python/pull/225): Exponential random backoff retry strategy 
+1. [#203](https://github.com/influxdata/influxdb-client-python/issues/219): Bind query parameters
+1. [#225](https://github.com/influxdata/influxdb-client-python/pull/225): Exponential random backoff retry strategy
 
 ### Bug Fixes
 1. [#222](https://github.com/influxdata/influxdb-client-python/pull/222): Pass configured timeout to HTTP client
