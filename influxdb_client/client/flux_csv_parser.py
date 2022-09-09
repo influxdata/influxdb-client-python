@@ -99,7 +99,8 @@ class FluxCsvParser(object):
 
     async def __aenter__(self) -> 'FluxCsvParser':
         """Initialize CSV reader."""
-        self._reader = self._response.content
+        from aiocsv import AsyncReader
+        self._reader = AsyncReader(_StreamReaderToWithAsyncRead(self._response.content))
 
         return self
 
@@ -134,11 +135,9 @@ class FluxCsvParser(object):
         metadata = _FluxCsvParserMetadata()
 
         try:
-            async for line in self._reader:
-                csv = list(csv_parser.reader([line.decode(_UTF_8_encoding)]))
-                if len(csv) >= 1:
-                    for val in self._parse_flux_response_row(metadata, csv[0]):
-                        yield val
+            async for csv in self._reader:
+                for val in self._parse_flux_response_row(metadata, csv):
+                    yield val
 
             # Return latest DataFrame
             if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
@@ -371,3 +370,11 @@ class FluxCsvParser(object):
                         print(f"{name:<20}: \n\n{val}")
                     elif val is not None:
                         print(f"{name:<20}: {val:<20}")
+
+
+class _StreamReaderToWithAsyncRead:
+    def __init__(self, response):
+        self.response = response
+
+    async def read(self, size: int) -> str:
+        return (await self.response.read(size)).decode(_UTF_8_encoding)

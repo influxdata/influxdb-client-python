@@ -39,7 +39,8 @@ ciso_requires = [
 ]
 
 async_requires = [
-    'aiohttp>=3.8.1'
+    'aiohttp>=3.8.1',
+    'aiocsv>=1.2.2'
 ]
 
 with open('README.rst', 'r') as f:
