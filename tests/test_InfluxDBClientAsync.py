@@ -11,6 +11,7 @@ from aioresponses import aioresponses
 from influxdb_client import Point, WritePrecision, BucketsService
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
+from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.warnings import MissingPivotFunction
 from tests.base_test import generate_name
 
@@ -311,6 +312,48 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         buckets_service = BucketsService(api_client=self.client.api_client)
         results = await buckets_service.get_buckets()
         self.assertIn("my-bucket", list(map(lambda bucket: bucket.name, results.buckets)))
+
+    @async_test
+    @aioresponses()
+    async def test_parse_csv_with_new_lines_in_column(self, mocked):
+        await self.client.close()
+        self.client = InfluxDBClientAsync("http://localhost")
+        mocked.post('http://localhost/api/v2/query?org=my-org', status=200, body='''#datatype,string,long,dateTime:RFC3339
+#group,false,false,false
+#default,_result,,
+,result,table,_time
+,,0,2022-09-09T10:22:13.744147091Z
+
+#datatype,string,long,string,long,long,long,long,long,long,long,long,long,string,long,long,string
+#group,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false
+#default,_profiler,,,,,,,,,,,,,,,
+,result,table,_measurement,TotalDuration,CompileDuration,QueueDuration,PlanDuration,RequeueDuration,ExecuteDuration,Concurrency,MaxAllocated,TotalAllocated,RuntimeErrors,influxdb/scanned-bytes,influxdb/scanned-values,flux/query-plan
+,,0,profiler/query,17305459,6292042,116958,0,0,10758125,0,448,0,,0,0,"digraph {
+  ""ReadRange4""
+  ""keep2""
+  ""limit3""
+
+  ""ReadRange4"" -> ""keep2""
+  ""keep2"" -> ""limit3""
+}
+
+"
+
+#datatype,string,long,string,string,string,long,long,long,long,double
+#group,false,false,true,false,false,false,false,false,false,false
+#default,_profiler,,,,,,,,,
+,result,table,_measurement,Type,Label,Count,MinDuration,MaxDuration,DurationSum,MeanDuration
+,,1,profiler/operator,*influxdb.readFilterSource,ReadRange4,1,888209,888209,888209,888209
+,,1,profiler/operator,*universe.schemaMutationTransformation,keep2,4,1875,42042,64209,16052.25
+,,1,profiler/operator,*universe.limitTransformation,limit3,3,1333,38750,47874,15958''')
+
+        records = []
+        await self.client\
+            .query_api(QueryOptions(profilers=["operator", "query"],
+                                    profiler_callback=lambda record: records.append(record))) \
+            .query("buckets()", "my-org")
+
+        self.assertEqual(4, len(records))
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
