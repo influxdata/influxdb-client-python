@@ -1,5 +1,8 @@
 ## 1.33.0 [unreleased]
 
+### Bug Fixes
+1. [#497](https://github.com/influxdata/influxdb-client-python/pull/497): Parsing InfluxDB response with new line character in CSV column [async/await]
+
 ## 1.32.0 [2022-08-25]
 
 :warning: This release drop supports for Python 3.6. As of 2021-12-23, 3.6 has reached the end-of-life phase of its release cycle. 3.6.15 was the final security release. For more info see: https://peps.python.org/pep-0494/#lifespan
