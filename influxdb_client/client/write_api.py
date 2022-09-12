@@ -275,8 +275,8 @@ class WriteApi(_BaseWriteApi):
             self._disposable = None
 
         if self._write_options.write_type is WriteType.asynchronous:
-            message = f"""The 'WriteType.asynchronous' is deprecated and will be removed in future major version. 
-            
+            message = """The 'WriteType.asynchronous' is deprecated and will be removed in future major version.
+
 You can use native asynchronous version of the client:
 - https://influxdb-client.readthedocs.io/en/stable/usage.html#how-to-use-asyncio
         """
