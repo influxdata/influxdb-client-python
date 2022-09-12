@@ -43,3 +43,11 @@ class UsersApiTests(BaseTest):
         self.assertIsInstance(user, UserResponse)
         user = users_api.find_users(id=user.id).users[0]
         self.assertEqual("updated_" + name, user.name)
+
+    def test_update_password(self):
+        users_api = self.client.users_api()
+
+        user = users_api.create_user(name=generate_name(key='user'))
+        users_api.update_password(user, "my-password-2")
+        users_api.update_password(user, "my-password-3")
+
