@@ -3,6 +3,7 @@
 # coding: utf-8
 import logging
 import os
+import warnings
 from collections import defaultdict
 from datetime import timedelta
 from enum import Enum
@@ -272,6 +273,14 @@ class WriteApi(_BaseWriteApi):
         else:
             self._subject = None
             self._disposable = None
+
+        if self._write_options.write_type is WriteType.asynchronous:
+            message = f"""The 'WriteType.asynchronous' is deprecated and will be removed in future major version. 
+            
+You can use native asynchronous version of the client:
+- https://influxdb-client.readthedocs.io/en/stable/usage.html#how-to-use-asyncio
+        """
+            warnings.warn(message, DeprecationWarning)
 
     def write(self, bucket: str, org: str = None,
               record: Union[
