@@ -4,6 +4,7 @@
 import base64
 import codecs
 import csv as csv_parser
+import warnings
 from enum import Enum
 from typing import List
 
@@ -262,6 +263,7 @@ class FluxCsvParser(object):
             column_name = fluxColumn.label
             str_val = csv[fluxColumn.index + 1]
             record.values[column_name] = self._to_value(str_val, fluxColumn)
+            record.row.append(record.values[column_name])
 
         return record
 
@@ -321,6 +323,13 @@ class FluxCsvParser(object):
     @staticmethod
     def add_column_names_and_tags(table, csv):
         """Add labels to columns."""
+        if len(csv) != len(set(csv)):
+            message = f"""The response contains columns with duplicated names: '{csv}'.
+
+You should use the 'record.row' to access your data instead of 'record.values' dictionary.
+"""
+            warnings.warn(message, UserWarning)
+            print(message)
         i = 1
         for column in table.columns:
             column.label = csv[i]
