@@ -1371,12 +1371,12 @@ How to use Asyncio
 .. marker-asyncio-start
 
 Starting from version 1.27.0 for Python 3.7+ the ``influxdb-client`` package supports ``async/await`` based on
-`asyncio <https://docs.python.org/3/library/asyncio.html>`_ and `aiohttp <https://docs.aiohttp.org>`_.
-You can install ``aiohttp`` directly:
+`asyncio <https://docs.python.org/3/library/asyncio.html>`_, `aiohttp <https://docs.aiohttp.org>`_ and `aiocsv <https://pypi.org/project/aiocsv/>`_.
+You can install ``aiohttp`` and ``aiocsv`` directly:
 
  .. code-block:: bash
 
-    $ python -m pip install influxdb-client aiohttp
+    $ python -m pip install influxdb-client aiohttp aiocsv
 
 or use the ``[async]`` extra:
 
