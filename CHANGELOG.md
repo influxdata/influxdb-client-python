@@ -1,5 +1,8 @@
 ## 1.33.0 [unreleased]
 
+### Features
+1. [#498](https://github.com/influxdata/influxdb-client-python/pull/498): Add possibility to update user's password by `users_api`
+
 ### Bug Fixes
 1. [#497](https://github.com/influxdata/influxdb-client-python/pull/497): Parsing InfluxDB response with new line character in CSV column [async/await]
 

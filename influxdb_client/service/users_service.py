@@ -362,8 +362,9 @@ class UsersService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_users(self, **kwargs):  # noqa: E501,D401,D403
-        """List all users.
+        """List users.
 
+        Retrieves a list of users. Default limit is `20`.  To limit which users are returned, pass query parameters in your request.  #### Required permissions  - `read-user USER_ID` permission.   `USER_ID` is the ID of the user that you want to list. - InfluxDB OSS requires an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token))_ to list all users.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_users(async_req=True)
@@ -371,8 +372,8 @@ class UsersService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
         :param str name:
         :param str id:
@@ -388,8 +389,9 @@ class UsersService(_BaseService):
             return data
 
     def get_users_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all users.
+        """List users.
 
+        Retrieves a list of users. Default limit is `20`.  To limit which users are returned, pass query parameters in your request.  #### Required permissions  - `read-user USER_ID` permission.   `USER_ID` is the ID of the user that you want to list. - InfluxDB OSS requires an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token))_ to list all users.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_users_with_http_info(async_req=True)
@@ -397,8 +399,8 @@ class UsersService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
         :param str name:
         :param str id:
@@ -427,14 +429,15 @@ class UsersService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_users_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all users.
+        """List users.
 
+        Retrieves a list of users. Default limit is `20`.  To limit which users are returned, pass query parameters in your request.  #### Required permissions  - `read-user USER_ID` permission.   `USER_ID` is the ID of the user that you want to list. - InfluxDB OSS requires an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token))_ to list all users.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
         :param str name:
         :param str id:
@@ -747,13 +750,14 @@ class UsersService(_BaseService):
     def post_users(self, user, **kwargs):  # noqa: E501,D401,D403
         """Create a user.
 
+        Creates a user and returns the newly created user.  #### Required permissions  - `write-users`. Requires an InfluxDB API **Op** token.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_users(user, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: User to create (required)
+        :param User user: The user to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: UserResponse
                  If the method is called asynchronously,
@@ -769,13 +773,14 @@ class UsersService(_BaseService):
     def post_users_with_http_info(self, user, **kwargs):  # noqa: E501,D401,D403
         """Create a user.
 
+        Creates a user and returns the newly created user.  #### Required permissions  - `write-users`. Requires an InfluxDB API **Op** token.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_users_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: User to create (required)
+        :param User user: The user to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: UserResponse
                  If the method is called asynchronously,
@@ -804,10 +809,11 @@ class UsersService(_BaseService):
     async def post_users_async(self, user, **kwargs):  # noqa: E501,D401,D403
         """Create a user.
 
+        Creates a user and returns the newly created user.  #### Required permissions  - `write-users`. Requires an InfluxDB API **Op** token.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param User user: User to create (required)
+        :param User user: The user to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: UserResponse
                  If the method is called asynchronously,
@@ -867,6 +873,7 @@ class UsersService(_BaseService):
     def post_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_users_id_password(user_id, password_reset_body, async_req=True)
@@ -876,7 +883,6 @@ class UsersService(_BaseService):
         :param str user_id: The user ID. (required)
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -891,6 +897,7 @@ class UsersService(_BaseService):
     def post_users_id_password_with_http_info(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_users_id_password_with_http_info(user_id, password_reset_body, async_req=True)
@@ -900,7 +907,6 @@ class UsersService(_BaseService):
         :param str user_id: The user ID. (required)
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -917,7 +923,7 @@ class UsersService(_BaseService):
             post_params=[],
             files={},
             response_type=None,  # noqa: E501
-            auth_settings=['BasicAuthentication'],
+            auth_settings=[],
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
@@ -928,13 +934,13 @@ class UsersService(_BaseService):
     async def post_users_id_password_async(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str user_id: The user ID. (required)
         :param PasswordResetBody password_reset_body: New password (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str authorization: An auth credential for the Basic scheme
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -951,7 +957,7 @@ class UsersService(_BaseService):
             post_params=[],
             files={},
             response_type=None,  # noqa: E501
-            auth_settings=['BasicAuthentication'],
+            auth_settings=[],
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
@@ -962,7 +968,7 @@ class UsersService(_BaseService):
     def _post_users_id_password_prepare(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         local_var_params = locals()
 
-        all_params = ['user_id', 'password_reset_body', 'zap_trace_span', 'authorization']  # noqa: E501
+        all_params = ['user_id', 'password_reset_body', 'zap_trace_span']  # noqa: E501
         self._check_operation_params('post_users_id_password', all_params, local_var_params)
         # verify the required parameter 'user_id' is set
         if ('user_id' not in local_var_params or
@@ -982,8 +988,6 @@ class UsersService(_BaseService):
         header_params = {}
         if 'zap_trace_span' in local_var_params:
             header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
-        if 'authorization' in local_var_params:
-            header_params['Authorization'] = local_var_params['authorization']  # noqa: E501
 
         body_params = None
         if 'password_reset_body' in local_var_params:
@@ -1001,6 +1005,7 @@ class UsersService(_BaseService):
     def put_me_password(self, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_me_password(password_reset_body, async_req=True)
@@ -1024,6 +1029,7 @@ class UsersService(_BaseService):
     def put_me_password_with_http_info(self, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.put_me_password_with_http_info(password_reset_body, async_req=True)
@@ -1060,6 +1066,7 @@ class UsersService(_BaseService):
     async def put_me_password_async(self, password_reset_body, **kwargs):  # noqa: E501,D401,D403
         """Update a password.
 
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -1101,6 +1108,143 @@ class UsersService(_BaseService):
             raise ValueError("Missing the required parameter `password_reset_body` when calling `put_me_password`")  # noqa: E501
 
         path_params = {}
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+        if 'authorization' in local_var_params:
+            header_params['Authorization'] = local_var_params['authorization']  # noqa: E501
+
+        body_params = None
+        if 'password_reset_body' in local_var_params:
+            body_params = local_var_params['password_reset_body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        return local_var_params, path_params, query_params, header_params, body_params
+
+    def put_users_id_password(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
+        """Update a password.
+
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.put_users_id_password(user_id, password_reset_body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
+        :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.put_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
+        else:
+            (data) = self.put_users_id_password_with_http_info(user_id, password_reset_body, **kwargs)  # noqa: E501
+            return data
+
+    def put_users_id_password_with_http_info(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
+        """Update a password.
+
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.put_users_id_password_with_http_info(user_id, password_reset_body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
+        :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._put_users_id_password_prepare(user_id, password_reset_body, **kwargs)
+
+        return self.api_client.call_api(
+            '/api/v2/users/{userID}/password', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type=None,  # noqa: E501
+            auth_settings=['BasicAuthentication'],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    async def put_users_id_password_async(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
+        """Update a password.
+
+        #### InfluxDB Cloud  InfluxDB Cloud doesn't support changing user passwords through the API. Use the InfluxDB Cloud user interface to update your password.
+        This method makes an asynchronous HTTP request.
+
+        :param async_req bool
+        :param str user_id: The user ID. (required)
+        :param PasswordResetBody password_reset_body: New password (required)
+        :param str zap_trace_span: OpenTracing span context
+        :param str authorization: An auth credential for the Basic scheme
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._put_users_id_password_prepare(user_id, password_reset_body, **kwargs)
+
+        return await self.api_client.call_api(
+            '/api/v2/users/{userID}/password', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type=None,  # noqa: E501
+            auth_settings=['BasicAuthentication'],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    def _put_users_id_password_prepare(self, user_id, password_reset_body, **kwargs):  # noqa: E501,D401,D403
+        local_var_params = locals()
+
+        all_params = ['user_id', 'password_reset_body', 'zap_trace_span', 'authorization']  # noqa: E501
+        self._check_operation_params('put_users_id_password', all_params, local_var_params)
+        # verify the required parameter 'user_id' is set
+        if ('user_id' not in local_var_params or
+                local_var_params['user_id'] is None):
+            raise ValueError("Missing the required parameter `user_id` when calling `put_users_id_password`")  # noqa: E501
+        # verify the required parameter 'password_reset_body' is set
+        if ('password_reset_body' not in local_var_params or
+                local_var_params['password_reset_body'] is None):
+            raise ValueError("Missing the required parameter `password_reset_body` when calling `put_users_id_password`")  # noqa: E501
+
+        path_params = {}
+        if 'user_id' in local_var_params:
+            path_params['userID'] = local_var_params['user_id']  # noqa: E501
 
         query_params = []
 
