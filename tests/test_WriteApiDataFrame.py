@@ -313,7 +313,7 @@ class DataSerializerTest(unittest.TestCase):
         data_frame = pd.DataFrame(data={
                                       'value': [1, 2],
                                 },
-                                index=pd.period_range(start='2020-04-05 01:00+00:00', freq='H', periods=2))
+                                index=pd.period_range(start='2020-04-05 01:00', freq='H', periods=2))
 
         points = data_frame_to_list_of_points(data_frame=data_frame,
                                               point_settings=PointSettings(),
