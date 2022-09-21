@@ -2,6 +2,7 @@
 
 ### Features
 1. [#498](https://github.com/influxdata/influxdb-client-python/pull/498): Add possibility to update user's password by `users_api`
+1. [#502](https://github.com/influxdata/influxdb-client-python/pull/502): Add `FluxRecord.row` with response data stored in array
 
 ### Bug Fixes
 1. [#497](https://github.com/influxdata/influxdb-client-python/pull/497): Parsing InfluxDB response with new line character in CSV column [async/await]

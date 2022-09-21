@@ -101,6 +101,7 @@ class FluxRecord(FluxStructure):
             values = {}
         self.table = table
         self.values = values
+        self.row = []
 
     def get_start(self):
         """Get '_start' value."""

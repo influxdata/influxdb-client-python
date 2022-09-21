@@ -3,6 +3,7 @@ import math
 import unittest
 from io import BytesIO
 
+import pytest
 from urllib3 import HTTPResponse
 
 from influxdb_client.client.flux_csv_parser import FluxCsvParser, FluxSerializationMode, FluxQueryException, \
@@ -355,6 +356,26 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual(['north', 'C', None, 40], parsed[1])
         self.assertEqual(['south', 'B', None, 18], parsed[2])
         self.assertEqual(['south', 'D', None, 22], parsed[3])
+
+    def test_parse_duplicate_column_names(self):
+        data = """#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,string,string,double
+#group,false,false,true,true,false,true,true,false
+#default,_result,,,,,,,
+,result,table,_start,_stop,_time,_measurement,location,result
+,,0,2022-09-13T06:14:40.469404272Z,2022-09-13T06:24:40.469404272Z,2022-09-13T06:24:33.746Z,my_measurement,Prague,25.3
+,,0,2022-09-13T06:14:40.469404272Z,2022-09-13T06:24:40.469404272Z,2022-09-13T06:24:39.299Z,my_measurement,Prague,25.3
+,,0,2022-09-13T06:14:40.469404272Z,2022-09-13T06:24:40.469404272Z,2022-09-13T06:24:40.454Z,my_measurement,Prague,25.3
+"""
+        with pytest.warns(UserWarning) as warnings:
+            tables = self._parse_to_tables(data=data)
+        self.assertEqual(1, len(warnings))
+        self.assertEqual(1, tables.__len__())
+        self.assertEqual(8, tables[0].columns.__len__())
+        self.assertEqual(3, tables[0].records.__len__())
+        self.assertEqual(7, tables[0].records[0].values.__len__())
+        self.assertEqual(8, tables[0].records[0].row.__len__())
+        self.assertEqual(25.3, tables[0].records[0].row[7])
+
 
     @staticmethod
     def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables,
