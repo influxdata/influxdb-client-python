@@ -1,4 +1,4 @@
-## 1.33.0 [unreleased]
+## 1.33.0 [2022-09-29]
 
 ### Features
 1. [#498](https://github.com/influxdata/influxdb-client-python/pull/498): Add possibility to update user's password by `users_api`
