@@ -372,8 +372,8 @@ class TasksApiTest(BaseTest):
         logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
         self.assertGreater(len(logs), 0)
 
-        message = logs[len(logs) - 1].message
-        self.assertTrue(message.endswith("Completed(success)"), "The message: '{0}'".format(message))
+        successes = list(filter(lambda log: log.message.endswith("Completed(success)"), logs))
+        self.assertGreaterEqual(len(successes), 1)
 
     def test_runs_not_exists(self):
         task = self.tasks_api.create_task_every(self.generate_name("it task"), TASK_FLUX, "1s", self.organization)
