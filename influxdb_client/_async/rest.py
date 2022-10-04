@@ -83,15 +83,19 @@ class RESTClientObjectAsync(object):
         if maxsize is None:
             maxsize = configuration.connection_pool_maxsize
 
-        ssl_context = ssl.create_default_context(cafile=configuration.ssl_ca_cert)
-        if configuration.cert_file:
-            ssl_context.load_cert_chain(
-                configuration.cert_file, keyfile=configuration.key_file
-            )
+        if configuration.ssl_context is None:
+            ssl_context = ssl.create_default_context(cafile=configuration.ssl_ca_cert)
+            if configuration.cert_file:
+                ssl_context.load_cert_chain(
+                    certfile=configuration.cert_file, keyfile=configuration.key_file,
+                    password=configuration.key_password
+                )
 
-        if not configuration.verify_ssl:
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
+            if not configuration.verify_ssl:
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
+        else:
+            ssl_context = configuration.ssl_context
 
         connector = aiohttp.TCPConnector(
             limit=maxsize,

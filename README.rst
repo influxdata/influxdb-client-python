@@ -197,6 +197,9 @@ The following options are supported:
 - ``timeout`` - socket timeout in ms (default value is 10000)
 - ``verify_ssl`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``ssl_ca_cert`` - set this to customize the certificate file to verify the peer
+- ``cert_file`` - set this to customize the certificate client certificate file
+- ``key_file`` - set this to customize the certificate client key file
+- ``key_password`` - set this to customize the certificate client key file password
 - ``connection_pool_maxsize`` - set the number of connections to save that can be reused by urllib3
 - ``auth_basic`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 - ``profilers`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
@@ -226,6 +229,9 @@ Supported properties are:
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
 - ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
+- ``INFLUXDB_V2_CERT_FILE`` - set this to customize the certificate client certificate file
+- ``INFLUXDB_V2_KEY_FILE`` - set this to customize the certificate client key file
+- ``INFLUXDB_V2_KEY_PASSWORD`` - set this to customize the certificate client key file password
 - ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set the number of connections to save that can be reused by urllib3
 - ``INFLUXDB_V2_AUTH_BASIC`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 - ``INFLUXDB_V2_PROFILERS`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_

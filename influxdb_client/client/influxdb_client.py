@@ -102,6 +102,9 @@ class InfluxDBClient(_BaseClient):
             - timeout,
             - verify_ssl
             - ssl_ca_cert
+            - cert_file
+            - key_file
+            - key_password
             - connection_pool_maxsize
             - auth_basic
             - profilers
@@ -185,6 +188,9 @@ class InfluxDBClient(_BaseClient):
             - INFLUXDB_V2_TIMEOUT
             - INFLUXDB_V2_VERIFY_SSL
             - INFLUXDB_V2_SSL_CA_CERT
+            - INFLUXDB_V2_CERT_FILE
+            - INFLUXDB_V2_KEY_FILE
+            - INFLUXDB_V2_KEY_PASSWORD
             - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
             - INFLUXDB_V2_AUTH_BASIC
             - INFLUXDB_V2_PROFILERS

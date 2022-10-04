@@ -93,6 +93,8 @@ class RESTClientObject(object):
             else:
                 maxsize = 4
 
+        # TODO Test the context option
+
         # https pool manager
         if configuration.proxy:
             self.pool_manager = urllib3.ProxyManager(
@@ -102,8 +104,10 @@ class RESTClientObject(object):
                 ca_certs=ca_certs,
                 cert_file=configuration.cert_file,
                 key_file=configuration.key_file,
+                key_password=configuration.key_password,
                 proxy_url=configuration.proxy,
                 proxy_headers=configuration.proxy_headers,
+                ssl_context=configuration.ssl_context,
                 **addition_pool_args
             )
         else:
@@ -114,6 +118,8 @@ class RESTClientObject(object):
                 ca_certs=ca_certs,
                 cert_file=configuration.cert_file,
                 key_file=configuration.key_file,
+                key_password=configuration.key_password,
+                ssl_context=configuration.ssl_context,
                 **addition_pool_args
             )
 

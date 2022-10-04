@@ -2,6 +2,7 @@
 
 ### Features
 1. [#510](https://github.com/influxdata/influxdb-client-python/pull/510): Allow to use client's optional configs for initialization from file or environment properties
+2. [#509](https://github.com/influxdata/influxdb-client-python/pull/509): MTLS support for the InfluxDB Python client
 
 ### Bug Fixes
 1. [#512](https://github.com/influxdata/influxdb-client-python/pull/512): Exception propagation for asynchronous `QueryApi` [async/await]
