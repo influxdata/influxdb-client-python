@@ -178,7 +178,6 @@ workflows:
       - check-twine
       - check-examples
       - check-sphinx
-      - check-aws-lambda-layer
       - tests-python:
           name: test-3.7
       - tests-python:
@@ -207,3 +206,4 @@ workflows:
                 - master
     jobs:
       - tests-python
+      - check-aws-lambda-layer
