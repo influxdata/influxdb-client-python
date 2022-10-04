@@ -157,7 +157,7 @@ jobs:
             python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html
   check-aws-lambda-layer:
     docker:
-      - image: docker:19
+      - image: "cimg/python:3.8"
     steps:
       - checkout
       - setup_remote_docker
@@ -178,6 +178,7 @@ workflows:
       - check-twine
       - check-examples
       - check-sphinx
+      - check-aws-lambda-layer
       - tests-python:
           name: test-3.7
       - tests-python:
@@ -206,4 +207,3 @@ workflows:
                 - master
     jobs:
       - tests-python
-      - check-aws-lambda-layer
