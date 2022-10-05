@@ -72,7 +72,7 @@ class InfluxDBClientAsync(_BaseClient):
 
         from .._async.api_client import ApiClientAsync
         self.api_client = ApiClientAsync(configuration=self.conf, header_name=self.auth_header_name,
-                                         header_value=self.auth_header_value, retries=self.retries, **kwargs)
+                                         header_value=self.auth_header_value, **kwargs)
 
     async def __aenter__(self) -> 'InfluxDBClientAsync':
         """
@@ -93,9 +93,18 @@ class InfluxDBClientAsync(_BaseClient):
             self.api_client = None
 
     @classmethod
-    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         """
         Configure client via configuration file. The configuration has to be under 'influx' section.
+
+        :param config_file: Path to configuration file
+        :param debug: Enable verbose logging of http requests
+        :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
+                            supports the Gzip compression.
+        :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
+                                authentication.
+        :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
+                                               except batching writes. As a default there is no one retry strategy.
 
         The supported formats:
             - https://docs.python.org/3/library/configparser.html
@@ -169,12 +178,21 @@ class InfluxDBClientAsync(_BaseClient):
 
         """
         return super(InfluxDBClientAsync, cls)._from_config_file(config_file=config_file, debug=debug,
-                                                                 enable_gzip=enable_gzip)
+                                                                 enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
-    def from_env_properties(cls, debug=None, enable_gzip=False):
+    def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
         """
         Configure client via environment properties.
+
+        :param debug: Enable verbose logging of http requests
+        :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
+                            supports the Gzip compression.
+        :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
+        :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
+                                authentication.
+        :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
+                                               except batching writes. As a default there is no one retry strategy.
 
         Supported environment properties:
             - INFLUXDB_V2_URL
@@ -188,7 +206,7 @@ class InfluxDBClientAsync(_BaseClient):
             - INFLUXDB_V2_PROFILERS
             - INFLUXDB_V2_TAG
         """
-        return super(InfluxDBClientAsync, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip)
+        return super(InfluxDBClientAsync, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     async def ping(self) -> bool:
         """
