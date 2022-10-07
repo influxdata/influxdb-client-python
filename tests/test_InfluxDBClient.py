@@ -3,6 +3,7 @@ import http.server
 import json
 import logging
 import os
+import ssl
 import threading
 import unittest
 from io import StringIO
@@ -53,6 +54,18 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=True,
                                      ssl_ca_cert=f'{os.path.dirname(__file__)}/server.pem')
+        ping = self.client.ping()
+
+        self.assertTrue(ping)
+
+    def test_certificate_context(self):
+        self._start_http_server()
+
+        ssl_context = ssl.create_default_context(cafile=f"{os.path.dirname(__file__)}/server.pem")
+
+        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                     token="my-token", verify_ssl=True,
+                                     ssl_context=ssl_context)
         ping = self.client.ping()
 
         self.assertTrue(ping)

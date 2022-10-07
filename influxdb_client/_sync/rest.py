@@ -93,8 +93,6 @@ class RESTClientObject(object):
             else:
                 maxsize = 4
 
-        # TODO Test the context option
-
         # https pool manager
         if configuration.proxy:
             self.pool_manager = urllib3.ProxyManager(
