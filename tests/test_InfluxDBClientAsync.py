@@ -374,6 +374,15 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
 
         self.assertEqual(4, len(records))
 
+    @async_test
+    async def test_query_exception_propagation(self):
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", token="wrong", org="my-org")
+
+        with pytest.raises(InfluxDBError) as e:
+            await self.client.query_api().query("buckets()", "my-org")
+        self.assertEqual("unauthorized access", e.value.message)
+
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
         _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
