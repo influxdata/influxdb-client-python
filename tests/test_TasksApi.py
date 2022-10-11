@@ -369,7 +369,7 @@ class TasksApiTest(BaseTest):
         runs = self.tasks_api.get_runs(task_id=task.id)
         self.assertGreater(len(runs), 0)
 
-        logs = self.tasks_api.get_run_logs(run_id=runs[0].id, task_id=task.id)
+        logs = self.tasks_api.get_run_logs(run_id=runs[-1].id, task_id=task.id)
         self.assertGreater(len(logs), 0)
 
         successes = list(filter(lambda log: log.message.endswith("Completed(success)"), logs))
