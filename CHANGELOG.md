@@ -7,6 +7,9 @@
 ### Bug Fixes
 1. [#512](https://github.com/influxdata/influxdb-client-python/pull/512): Exception propagation for asynchronous `QueryApi` [async/await]
 
+### Breaking Changes
+1. [#509](https://github.com/influxdata/influxdb-client-python/pull/509): Rename `key_file` to `cert_key_file` inside the central [configuration class](https://github.com/influxdata/influxdb-client-python/blob/d011df72b528a45d305aa8accbe879b31be3280e/influxdb_client/configuration.py#L92)
+
 ## 1.33.0 [2022-09-29]
 
 ### Features

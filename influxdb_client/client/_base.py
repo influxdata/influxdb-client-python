@@ -61,8 +61,8 @@ class _BaseClient(object):
         self.conf.verify_ssl = kwargs.get('verify_ssl', True)
         self.conf.ssl_ca_cert = kwargs.get('ssl_ca_cert', None)
         self.conf.cert_file = kwargs.get('cert_file', None)
-        self.conf.key_file = kwargs.get('key_file', None)
-        self.conf.key_password = kwargs.get('key_password', None)
+        self.conf.cert_key_file = kwargs.get('cert_key_file', None)
+        self.conf.cert_key_password = kwargs.get('cert_key_password', None)
         self.conf.ssl_context = kwargs.get('ssl_context', None)
         self.conf.proxy = kwargs.get('proxy', None)
         self.conf.proxy_headers = kwargs.get('proxy_headers', None)
@@ -150,13 +150,13 @@ class _BaseClient(object):
         if _has_option('cert_file'):
             cert_file = _config_value('cert_file')
 
-        key_file = None
-        if _has_option('key_file'):
-            key_file = _config_value('key_file')
+        cert_key_file = None
+        if _has_option('cert_key_file'):
+            cert_key_file = _config_value('cert_key_file')
 
-        key_password = None
-        if _has_option('key_password'):
-            key_password = _config_value('key_password')
+        cert_key_password = None
+        if _has_option('cert_key_password'):
+            cert_key_password = _config_value('cert_key_password')
 
         connection_pool_maxsize = None
         if _has_option('connection_pool_maxsize'):
@@ -184,7 +184,7 @@ class _BaseClient(object):
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   cert_file=cert_file, key_file=key_file, key_password=key_password,
+                   cert_file=cert_file, cert_key_file=cert_key_file, cert_key_password=cert_key_password,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
                    profilers=profilers, proxy=proxy, **kwargs)
 
@@ -197,8 +197,8 @@ class _BaseClient(object):
         verify_ssl = os.getenv('INFLUXDB_V2_VERIFY_SSL', "True")
         ssl_ca_cert = os.getenv('INFLUXDB_V2_SSL_CA_CERT', None)
         cert_file = os.getenv('INFLUXDB_V2_CERT_FILE', None)
-        key_file = os.getenv('INFLUXDB_V2_KEY_FILE', None)
-        key_password = os.getenv('INFLUXDB_V2_KEY_PASSWORD', None)
+        cert_key_file = os.getenv('INFLUXDB_V2_CERT_KEY_FILE', None)
+        cert_key_password = os.getenv('INFLUXDB_V2_CERT_KEY_PASSWORD', None)
         connection_pool_maxsize = os.getenv('INFLUXDB_V2_CONNECTION_POOL_MAXSIZE', None)
         auth_basic = os.getenv('INFLUXDB_V2_AUTH_BASIC', "False")
 
@@ -215,7 +215,7 @@ class _BaseClient(object):
 
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
-                   cert_file=cert_file, key_file=key_file, key_password=key_password,
+                   cert_file=cert_file, cert_key_file=cert_key_file, cert_key_password=cert_key_password,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
                    profilers=profilers, **kwargs)
 

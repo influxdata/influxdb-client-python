@@ -87,8 +87,8 @@ class RESTClientObjectAsync(object):
             ssl_context = ssl.create_default_context(cafile=configuration.ssl_ca_cert)
             if configuration.cert_file:
                 ssl_context.load_cert_chain(
-                    certfile=configuration.cert_file, keyfile=configuration.key_file,
-                    password=configuration.key_password
+                    certfile=configuration.cert_file, keyfile=configuration.cert_key_file,
+                    password=configuration.cert_key_password
                 )
 
             if not configuration.verify_ssl:

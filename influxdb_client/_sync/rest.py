@@ -101,8 +101,8 @@ class RESTClientObject(object):
                 cert_reqs=cert_reqs,
                 ca_certs=ca_certs,
                 cert_file=configuration.cert_file,
-                key_file=configuration.key_file,
-                key_password=configuration.key_password,
+                key_file=configuration.cert_key_file,
+                key_password=configuration.cert_key_password,
                 proxy_url=configuration.proxy,
                 proxy_headers=configuration.proxy_headers,
                 ssl_context=configuration.ssl_context,
@@ -115,8 +115,8 @@ class RESTClientObject(object):
                 cert_reqs=cert_reqs,
                 ca_certs=ca_certs,
                 cert_file=configuration.cert_file,
-                key_file=configuration.key_file,
-                key_password=configuration.key_password,
+                key_file=configuration.cert_key_file,
+                key_password=configuration.cert_key_password,
                 ssl_context=configuration.ssl_context,
                 **addition_pool_args
             )

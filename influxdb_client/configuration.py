@@ -89,9 +89,9 @@ class Configuration(object, metaclass=TypeWithDefault):
         # client certificate file
         self.cert_file = None
         # client key file
-        self.key_file = None
+        self.cert_key_file = None
         # client key file password
-        self.key_password = None
+        self.cert_key_password = None
         # Set this to True/False to enable/disable SSL hostname verification.
         self.assert_hostname = None
 
