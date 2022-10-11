@@ -172,6 +172,9 @@ jobs:
 workflows:
   version: 2
   build:
+    when:
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - check-code-style
       - check-docstyle
@@ -197,13 +200,8 @@ workflows:
           python-image: "cimg/python:3.10"
 
   nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - master
+    when:
+      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - tests-python
       - check-aws-lambda-layer
