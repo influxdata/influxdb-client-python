@@ -1,5 +1,7 @@
 ## 1.34.0 [unreleased]
 
+### Features
+1. [#510](https://github.com/influxdata/influxdb-client-python/pull/510): Allow to use client's optional configs for initialization from file or environment properties
 
 ## 1.33.0 [2022-09-29]
 

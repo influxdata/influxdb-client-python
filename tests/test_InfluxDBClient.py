@@ -12,6 +12,7 @@ import pytest
 from urllib3.exceptions import NewConnectionError, HTTPError
 
 from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write.retry import WritesRetry
 from influxdb_client.client.write_api import WriteOptions, WriteType, SYNCHRONOUS
 from tests.base_test import BaseTest
 
@@ -94,6 +95,11 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.assertTrue(self.client.api_client.configuration.verify_ssl)
 
+    def test_init_from_file_kwargs(self):
+        retry = WritesRetry(total=1, retry_interval=2, exponential_base=3)
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini', retries=retry)
+        self.assertEqual(self.client.retries, retry)
+
     def test_init_from_file_ssl(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-disabled-ssl.ini')
 
@@ -140,6 +146,11 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_env_properties()
 
         self.assertEqual(29, self.client.api_client.configuration.connection_pool_maxsize)
+
+    def test_init_from_env_kwargs(self):
+        retry = WritesRetry(total=1, retry_interval=2, exponential_base=3)
+        self.client = InfluxDBClient.from_env_properties(retries=retry)
+        self.assertEqual(self.client.retries, retry)
 
     def _start_http_server(self):
         import http.server

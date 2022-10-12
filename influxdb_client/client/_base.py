@@ -102,7 +102,7 @@ class _BaseClient(object):
         return "unknown"
 
     @classmethod
-    def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False):
+    def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         config = configparser.ConfigParser()
         is_json = False
         try:
@@ -169,10 +169,10 @@ class _BaseClient(object):
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers, proxy=proxy)
+                   profilers=profilers, proxy=proxy, **kwargs)
 
     @classmethod
-    def _from_env_properties(cls, debug=None, enable_gzip=False):
+    def _from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
         url = os.getenv('INFLUXDB_V2_URL', "http://localhost:8086")
         token = os.getenv('INFLUXDB_V2_TOKEN', "my-token")
         timeout = os.getenv('INFLUXDB_V2_TIMEOUT', "10000")
@@ -196,7 +196,7 @@ class _BaseClient(object):
         return cls(url, token, debug=debug, timeout=_to_int(timeout), org=org, default_tags=default_tags,
                    enable_gzip=enable_gzip, verify_ssl=_to_bool(verify_ssl), ssl_ca_cert=ssl_ca_cert,
                    connection_pool_maxsize=_to_int(connection_pool_maxsize), auth_basic=_to_bool(auth_basic),
-                   profilers=profilers)
+                   profilers=profilers, **kwargs)
 
 
 # noinspection PyMethodMayBeStatic

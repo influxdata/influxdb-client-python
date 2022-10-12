@@ -13,6 +13,7 @@ from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.warnings import MissingPivotFunction
+from influxdb_client.client.write.retry import WritesRetry
 from tests.base_test import generate_name
 
 
@@ -251,6 +252,15 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         await client_from_config.close()
 
     @async_test
+    async def test_init_from_file_kwargs(self):
+        retry = WritesRetry(total=1, retry_interval=2, exponential_base=3)
+        client_from_config = InfluxDBClientAsync.from_config_file(f'{os.path.dirname(__file__)}/config.ini',
+                                                                  retries=retry)
+        self.assertEqual(client_from_config.retries, retry)
+
+        await client_from_config.close()
+
+    @async_test
     async def test_init_from_env(self):
         os.environ["INFLUXDB_V2_URL"] = "http://localhost:8086"
         os.environ["INFLUXDB_V2_ORG"] = "my-org"
@@ -261,6 +271,15 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertEqual("my-org", client_from_envs.org)
         self.assertEqual("my-token", client_from_envs.token)
         self.assertEqual(5500, client_from_envs.api_client.configuration.timeout)
+
+        await client_from_envs.close()
+
+    @async_test
+    async def test_init_from_kwargs(self):
+        retry = WritesRetry(total=1, retry_interval=2, exponential_base=3)
+        client_from_envs = InfluxDBClientAsync.from_env_properties(retries=retry)
+
+        self.assertEqual(client_from_envs.retries, retry)
 
         await client_from_envs.close()
 
