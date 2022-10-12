@@ -8,7 +8,8 @@ from typing import List, AsyncGenerator
 from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_table import FluxRecord, TableList
 from influxdb_client.client.query_api import QueryOptions
-from influxdb_client.rest import _UTF_8_encoding
+from influxdb_client.rest import _UTF_8_encoding, ApiException
+from .._async.rest import RESTResponseAsync
 
 
 class QueryApiAsync(_BaseQueryApi):
@@ -98,10 +99,7 @@ class QueryApiAsync(_BaseQueryApi):
         """  # noqa: E501
         org = self._org_param(org)
 
-        response = await self._query_api.post_query_async(org=org,
-                                                          query=self._create_query(query, self.default_dialect, params),
-                                                          async_req=False, _preload_content=False,
-                                                          _return_http_data_only=True)
+        response = await self._post_query(org=org, query=self._create_query(query, self.default_dialect, params))
 
         return await self._to_tables_async(response, query_options=self._get_query_options())
 
@@ -118,10 +116,7 @@ class QueryApiAsync(_BaseQueryApi):
         """  # noqa: E501
         org = self._org_param(org)
 
-        response = await self._query_api.post_query_async(org=org,
-                                                          query=self._create_query(query, self.default_dialect, params),
-                                                          async_req=False, _preload_content=False,
-                                                          _return_http_data_only=True)
+        response = await self._post_query(org=org, query=self._create_query(query, self.default_dialect, params))
 
         return await self._to_flux_record_stream_async(response, query_options=self._get_query_options())
 
@@ -193,11 +188,8 @@ class QueryApiAsync(_BaseQueryApi):
         """  # noqa: E501
         org = self._org_param(org)
 
-        response = await self._query_api.post_query_async(org=org,
-                                                          query=self._create_query(query, self.default_dialect, params,
-                                                                                   dataframe_query=True),
-                                                          async_req=False, _preload_content=False,
-                                                          _return_http_data_only=True)
+        response = await self._post_query(org=org, query=self._create_query(query, self.default_dialect, params,
+                                                                            dataframe_query=True))
 
         return await self._to_data_frame_stream_async(data_frame_index=data_frame_index, response=response,
                                                       query_options=self._get_query_options())
@@ -215,8 +207,18 @@ class QueryApiAsync(_BaseQueryApi):
         :return: :class:`~str`
         """
         org = self._org_param(org)
-        result = await self._query_api.post_query_async(org=org, query=self._create_query(query, dialect, params),
-                                                        async_req=False, _preload_content=False,
-                                                        _return_http_data_only=True)
+        result = await self._post_query(org=org, query=self._create_query(query, dialect, params))
         raw_bytes = await result.read()
         return raw_bytes.decode(_UTF_8_encoding)
+
+    async def _post_query(self, org, query):
+        response = await self._query_api.post_query_async(org=org,
+                                                          query=query,
+                                                          async_req=False,
+                                                          _preload_content=False,
+                                                          _return_http_data_only=True)
+        if not 200 <= response.status <= 299:
+            data = await response.read()
+            raise ApiException(http_resp=RESTResponseAsync(response, data))
+
+        return response
