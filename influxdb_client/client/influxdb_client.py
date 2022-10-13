@@ -95,11 +95,6 @@ class InfluxDBClient(_BaseClient):
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
-        :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
-        :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
-        :key str cert_file: Path to the certificate that will be used for mTLS authentication.
-        :key str cert_key_file: Path to the file contains private key for mTLS certificate.
-        :key str cert_key_password: String or function which returns password for decrypting the mTLS private key.
         :key ssl.SSLContext ssl_context: Specify a custom Python SSL Context for the TLS/ mTLS handshake.
                                          Be aware that only delivered certificate/ key files or an SSL Context are
                                          possible.
@@ -194,11 +189,6 @@ class InfluxDBClient(_BaseClient):
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
-        :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
-        :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
-        :key str cert_file: Path to the certificate that will be used for mTLS authentication.
-        :key str cert_key_file: Path to the file contains private key for mTLS certificate.
-        :key str cert_key_password: String or function which returns password for decrypting the mTLS private key.
         :key ssl.SSLContext ssl_context: Specify a custom Python SSL Context for the TLS/ mTLS handshake.
                                          Be aware that only delivered certificate/ key files or an SSL Context are
                                          possible.
