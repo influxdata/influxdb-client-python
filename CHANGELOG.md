@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 1. [#512](https://github.com/influxdata/influxdb-client-python/pull/512): Exception propagation for asynchronous `QueryApi` [async/await]
+1. [#518](https://github.com/influxdata/influxdb-client-python/pull/518): Parsing query response with two-bytes UTF-8 character [async/await]
 
 ## 1.33.0 [2022-09-29]
 

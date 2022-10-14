@@ -383,6 +383,25 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
             await self.client.query_api().query("buckets()", "my-org")
         self.assertEqual("unauthorized access", e.value.message)
 
+    @async_test
+    @aioresponses()
+    async def test_parse_utf8_two_bytes_character(self, mocked):
+        await self.client.close()
+        self.client = InfluxDBClientAsync("http://localhost")
+
+        body = '''#group,false,false,false,false,true,true,true
+#datatype,string,long,dateTime:RFC3339,string,string,string,string
+#default,_result,,,,,,
+,result,table,_time,_value,_field,_measurement,type
+'''
+        for i in range(1000):
+            body += f",,0,2022-10-13T12:28:31.{i}Z,ÂÂÂ,value,async,error\n"
+
+        mocked.post('http://localhost/api/v2/query?org=my-org', status=200, body=body)
+
+        data_frame = await self.client.query_api().query_data_frame("from()", "my-org")
+        self.assertEqual(1000, len(data_frame))
+
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
         _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)

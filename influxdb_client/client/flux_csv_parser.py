@@ -384,6 +384,10 @@ You should use the 'record.row' to access your data instead of 'record.values' d
 class _StreamReaderToWithAsyncRead:
     def __init__(self, response):
         self.response = response
+        self.decoder = codecs.getincrementaldecoder(_UTF_8_encoding)()
 
     async def read(self, size: int) -> str:
-        return (await self.response.read(size)).decode(_UTF_8_encoding)
+        raw_bytes = (await self.response.read(size))
+        if not raw_bytes:
+            return self.decoder.decode(b'', final=True)
+        return self.decoder.decode(raw_bytes, final=False)
