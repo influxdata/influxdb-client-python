@@ -40,6 +40,12 @@ class InfluxDBClient(_BaseClient):
         :param org: organization name (used as a default in Query, Write and Delete API)
         :key bool verify_ssl: Set this to false to skip verifying SSL certificate when calling API from https server.
         :key str ssl_ca_cert: Set this to customize the certificate file to verify the peer.
+        :key str cert_file: Path to the certificate that will be used for mTLS authentication.
+        :key str cert_key_file: Path to the file contains private key for mTLS certificate.
+        :key str cert_key_password: String or function which returns password for decrypting the mTLS private key.
+        :key ssl.SSLContext ssl_context: Specify a custom Python SSL Context for the TLS/ mTLS handshake.
+                                         Be aware that only delivered certificate/ key files or an SSL Context are
+                                         possible.
         :key str proxy: Set this to configure the http proxy to be used (ex. http://localhost:3128)
         :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
                                 authentication.
@@ -89,6 +95,9 @@ class InfluxDBClient(_BaseClient):
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
+        :key ssl.SSLContext ssl_context: Specify a custom Python SSL Context for the TLS/ mTLS handshake.
+                                         Be aware that only delivered certificate/ key files or an SSL Context are
+                                         possible.
 
         The supported formats:
             - https://docs.python.org/3/library/configparser.html
@@ -102,6 +111,9 @@ class InfluxDBClient(_BaseClient):
             - timeout,
             - verify_ssl
             - ssl_ca_cert
+            - cert_file
+            - cert_key_file
+            - cert_key_password
             - connection_pool_maxsize
             - auth_basic
             - profilers
@@ -177,6 +189,9 @@ class InfluxDBClient(_BaseClient):
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
                                                except batching writes. As a default there is no one retry strategy.
+        :key ssl.SSLContext ssl_context: Specify a custom Python SSL Context for the TLS/ mTLS handshake.
+                                         Be aware that only delivered certificate/ key files or an SSL Context are
+                                         possible.
 
         Supported environment properties:
             - INFLUXDB_V2_URL
@@ -185,6 +200,9 @@ class InfluxDBClient(_BaseClient):
             - INFLUXDB_V2_TIMEOUT
             - INFLUXDB_V2_VERIFY_SSL
             - INFLUXDB_V2_SSL_CA_CERT
+            - INFLUXDB_V2_CERT_FILE
+            - INFLUXDB_V2_CERT_KEY_FILE
+            - INFLUXDB_V2_CERT_KEY_PASSWORD
             - INFLUXDB_V2_CONNECTION_POOL_MAXSIZE
             - INFLUXDB_V2_AUTH_BASIC
             - INFLUXDB_V2_PROFILERS

@@ -89,9 +89,14 @@ class Configuration(object, metaclass=TypeWithDefault):
         # client certificate file
         self.cert_file = None
         # client key file
-        self.key_file = None
+        self.cert_key_file = None
+        # client key file password
+        self.cert_key_password = None
         # Set this to True/False to enable/disable SSL hostname verification.
         self.assert_hostname = None
+
+        # Set this to specify a custom ssl context to inject this context inside the urllib3 connection pool.
+        self.ssl_context = None
 
         # urllib3 connection pool's maximum number of connections saved
         # per pool. urllib3 uses 1 connection as default value, but this is

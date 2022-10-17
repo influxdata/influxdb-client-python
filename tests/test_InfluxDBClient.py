@@ -3,6 +3,7 @@ import http.server
 import json
 import logging
 import os
+import ssl
 import threading
 import unittest
 from io import StringIO
@@ -53,6 +54,18 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=True,
                                      ssl_ca_cert=f'{os.path.dirname(__file__)}/server.pem')
+        ping = self.client.ping()
+
+        self.assertTrue(ping)
+
+    def test_certificate_context(self):
+        self._start_http_server()
+
+        ssl_context = ssl.create_default_context(cafile=f"{os.path.dirname(__file__)}/server.pem")
+
+        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                     token="my-token", verify_ssl=True,
+                                     ssl_context=ssl_context)
         ping = self.client.ping()
 
         self.assertTrue(ping)
@@ -140,6 +153,75 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_env_properties()
 
         self.assertEqual("/my/custom/path/to/cert", self.client.api_client.configuration.ssl_ca_cert)
+
+    def test_init_from_env_ssl_cert_file(self):
+        os.environ["INFLUXDB_V2_CERT_FILE"] = "/my/custom/path"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertEqual("/my/custom/path", self.client.api_client.configuration.cert_file)
+
+    def test_init_from_file_ssl_cert_file_default(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertIsNone(self.client.api_client.configuration.cert_file)
+
+    def test_init_from_file_ssl_cert_file(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-ssl-mtls-certs.ini')
+
+        self.assertEqual("/path/to/my/cert", self.client.api_client.configuration.cert_file)
+
+    def test_init_from_env_ssl_cert_file_default(self):
+        if os.getenv("INFLUXDB_V2_CERT_FILE"):
+            del os.environ["INFLUXDB_V2_CERT_FILE"]
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertIsNone(self.client.api_client.configuration.cert_file)
+
+    def test_init_from_env_ssl_cert_key(self):
+        os.environ["INFLUXDB_V2_CERT_KEY_FILE"] = "/my/custom/path"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertEqual("/my/custom/path", self.client.api_client.configuration.cert_key_file)
+
+    def test_init_from_file_ssl_cert_key_default(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertIsNone(self.client.api_client.configuration.cert_key_file)
+
+    def test_init_from_file_ssl_cert_key(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-ssl-mtls-certs.ini')
+
+        self.assertEqual("/path/to/my/key", self.client.api_client.configuration.cert_key_file)
+
+    def test_init_from_env_ssl_cert_key_default(self):
+        if os.getenv("INFLUXDB_V2_CERT_KEY_FILE"):
+            del os.environ["INFLUXDB_V2_CERT_KEY_FILE"]
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertIsNone(self.client.api_client.configuration.cert_key_file)
+
+    def test_init_from_env_ssl_key_password(self):
+        os.environ["INFLUXDB_V2_CERT_KEY_PASSWORD"] = "test"
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertEqual("test", self.client.api_client.configuration.cert_key_password)
+
+    def test_init_from_file_ssl_key_password_default(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
+
+        self.assertIsNone(self.client.api_client.configuration.cert_key_password)
+
+    def test_init_from_file_ssl_key_password(self):
+        self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config-ssl-mtls-certs.ini')
+
+        self.assertEqual("test", self.client.api_client.configuration.cert_key_password)
+
+    def test_init_from_env_ssl_key_password_default(self):
+        if os.getenv("INFLUXDB_V2_CERT_KEY_PASSWORD"):
+            del os.environ["INFLUXDB_V2_CERT_KEY_PASSWORD"]
+        self.client = InfluxDBClient.from_env_properties()
+
+        self.assertIsNone(self.client.api_client.configuration.cert_key_password)
 
     def test_init_from_env_connection_pool_maxsize(self):
         os.environ["INFLUXDB_V2_CONNECTION_POOL_MAXSIZE"] = "29"

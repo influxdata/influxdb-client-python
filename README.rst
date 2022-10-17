@@ -197,6 +197,9 @@ The following options are supported:
 - ``timeout`` - socket timeout in ms (default value is 10000)
 - ``verify_ssl`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``ssl_ca_cert`` - set this to customize the certificate file to verify the peer
+- ``cert_file`` - path to the certificate that will be used for mTLS authentication
+- ``cert_key_file`` - path to the file contains private key for mTLS certificate
+- ``cert_key_password`` - string or function which returns password for decrypting the mTLS private key
 - ``connection_pool_maxsize`` - set the number of connections to save that can be reused by urllib3
 - ``auth_basic`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 - ``profilers`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
@@ -226,6 +229,9 @@ Supported properties are:
 - ``INFLUXDB_V2_TIMEOUT`` - socket timeout in ms (default value is 10000)
 - ``INFLUXDB_V2_VERIFY_SSL`` - set this to false to skip verifying SSL certificate when calling API from https server
 - ``INFLUXDB_V2_SSL_CA_CERT`` - set this to customize the certificate file to verify the peer
+- ``INFLUXDB_V2_CERT_FILE`` - path to the certificate that will be used for mTLS authentication
+- ``INFLUXDB_V2_CERT_KEY_FILE`` - path to the file contains private key for mTLS certificate
+- ``INFLUXDB_V2_CERT_KEY_PASSWORD`` - string or function which returns password for decrypting the mTLS private key
 - ``INFLUXDB_V2_CONNECTION_POOL_MAXSIZE`` - set the number of connections to save that can be reused by urllib3
 - ``INFLUXDB_V2_AUTH_BASIC`` - enable http basic authentication when talking to a InfluxDB 1.8.x without authentication but is accessed via reverse proxy with basic authentication (defaults to false)
 - ``INFLUXDB_V2_PROFILERS`` - set the list of enabled `Flux profilers <https://docs.influxdata.com/influxdb/v2.0/reference/flux/stdlib/profiler/>`_
