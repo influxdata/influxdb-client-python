@@ -391,6 +391,20 @@ class InfluxDBClientTestMock(unittest.TestCase):
 
         self.assertIn("Authorization: ***", log_stream.getvalue())
 
+    def test_duplicate_debug_logging_handler(self):
+        logging.getLogger('influxdb_client.client.http').handlers.clear()
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+        logger = logging.getLogger('influxdb_client.client.http')
+        self.assertEqual(1, len(logger.handlers))
+
+    def test_custom_debug_logging_handler(self):
+        logging.getLogger('influxdb_client.client.http').addHandler(logging.FileHandler('logs.log'))
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+        logger = logging.getLogger('influxdb_client.client.http')
+        self.assertEqual(2, len(logger.handlers))
+
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self):

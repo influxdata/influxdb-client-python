@@ -171,7 +171,10 @@ class Configuration(object, metaclass=TypeWithDefault):
             for name, logger in self.loggers.items():
                 logger.setLevel(logging.DEBUG)
                 if name == 'influxdb_client.client.http':
-                    logger.addHandler(logging.StreamHandler(sys.stdout))
+                    # makes sure to do not duplicate stdout handler
+                    if not any(map(lambda h: isinstance(h, logging.StreamHandler) and h.stream == sys.stdout,
+                                   logger.handlers)):
+                        logger.addHandler(logging.StreamHandler(sys.stdout))
             # we use 'influxdb_client.client.http' logger instead of this
             # httplib.HTTPConnection.debuglevel = 1
         else:
