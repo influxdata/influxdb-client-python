@@ -1,4 +1,4 @@
-## 1.34.0 [unreleased]
+## 1.34.0 [2022-10-27]
 
 ### Breaking Changes
 1. [#509](https://github.com/influxdata/influxdb-client-python/pull/509): Rename `key_file` to `cert_key_file` inside the central [configuration class](https://github.com/influxdata/influxdb-client-python/blob/d011df72b528a45d305aa8accbe879b31be3280e/influxdb_client/configuration.py#L92)
