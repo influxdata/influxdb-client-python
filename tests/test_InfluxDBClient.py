@@ -407,14 +407,16 @@ class InfluxDBClientTestMock(unittest.TestCase):
 
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
-    def _set_headers(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
+    def _set_headers(self, response: bytes):
+        self.send_response(http.HTTPStatus.OK)
+        self.send_header("Content-type", 'application/json')
+        self.send_header("Content-Length", f'{len(response)}')
+        self.send_header("Last-Modified", self.date_time_string())
         self.end_headers()
 
     def do_GET(self):
-        self._set_headers()
         response = json.dumps(
             dict(name="influxdb", message="ready for queries and writes", status="pass", checks=[], version="2.0.0",
                  commit="abcdefgh")).encode('utf-8')
+        self._set_headers(response)
         self.wfile.write(response)

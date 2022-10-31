@@ -198,6 +198,9 @@ workflows:
       - tests-python:
           name: test-3.10
           python-image: "cimg/python:3.10"
+      - tests-python:
+          name: test-3.11
+          python-image: "cimg/python:3.11"
 
   nightly:
     when:
