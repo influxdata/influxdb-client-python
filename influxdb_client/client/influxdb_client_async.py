@@ -189,8 +189,8 @@ class InfluxDBClientAsync(_BaseClient):
             }
 
         """
-        return super(InfluxDBClientAsync, cls)._from_config_file(config_file=config_file, debug=debug,
-                                                                 enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClientAsync._from_config_file(config_file=config_file, debug=debug,
+                                                     enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
@@ -225,7 +225,7 @@ class InfluxDBClientAsync(_BaseClient):
             - INFLUXDB_V2_PROFILERS
             - INFLUXDB_V2_TAG
         """
-        return super(InfluxDBClientAsync, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClientAsync._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     async def ping(self) -> bool:
         """

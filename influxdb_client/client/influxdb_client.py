@@ -173,8 +173,7 @@ class InfluxDBClient(_BaseClient):
             }
 
         """
-        return super(InfluxDBClient, cls)._from_config_file(config_file=config_file, debug=debug,
-                                                            enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClient._from_config_file(config_file=config_file, debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
@@ -208,7 +207,7 @@ class InfluxDBClient(_BaseClient):
             - INFLUXDB_V2_PROFILERS
             - INFLUXDB_V2_TAG
         """
-        return super(InfluxDBClient, cls)._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClient._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
         """
