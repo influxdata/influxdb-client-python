@@ -1,5 +1,8 @@
 ## 1.35.0 [unreleased]
 
+### Bug Fixes
+1. [#526](https://github.com/influxdata/influxdb-client-python/pull/526): Creating client instance from static configuration
+
 ### CI
 1. [#523](https://github.com/influxdata/influxdb-client-python/pull/523): Add Python 3.11 to CI builds
 
