@@ -29,3 +29,25 @@ For more info see:
     - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
 """
         warnings.warn(message, MissingPivotFunction)
+
+
+class CloudOnlyWarning(UserWarning):
+    """User warning about availability only on the InfluxDB Cloud."""
+
+    @staticmethod
+    def print_warning(api_name: str, doc_url: str):
+        """Print warning about availability only on the InfluxDB Cloud."""
+
+        message = f"""The '{api_name}' API is available only on the InfluxDB Cloud.
+
+For more info see:
+    - {doc_url}
+    - https://docs.influxdata.com/influxdb/cloud/
+
+You can disable this warning by:
+    import warnings
+    from influxdb_client.client.warnings import CloudOnlyWarning
+
+    warnings.simplefilter("ignore", CloudOnlyWarning)
+"""
+        warnings.warn(message, CloudOnlyWarning)

@@ -31,6 +31,10 @@ class InvokableScriptsService(_BaseService):
             raise ValueError("Invalid value for `api_client`, must be defined.")
         self.api_client = api_client
 
+        from influxdb_client.client.warnings import CloudOnlyWarning
+        CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                       'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')
+
     def delete_scripts_id(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
 

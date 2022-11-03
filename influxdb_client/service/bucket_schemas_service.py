@@ -31,6 +31,10 @@ class BucketSchemasService(_BaseService):
             raise ValueError("Invalid value for `api_client`, must be defined.")
         self.api_client = api_client
 
+        from influxdb_client.client.warnings import CloudOnlyWarning
+        CloudOnlyWarning.print_warning('BucketSchemasService',
+                                       'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')
+
     def create_measurement_schema(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Create a measurement schema for a bucket.
 
