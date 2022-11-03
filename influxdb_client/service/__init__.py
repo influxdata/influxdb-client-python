@@ -15,6 +15,7 @@ from __future__ import absolute_import
 # import apis into api package
 from influxdb_client.service.authorizations_service import AuthorizationsService
 from influxdb_client.service.backup_service import BackupService
+from influxdb_client.service.bucket_schemas_service import BucketSchemasService
 from influxdb_client.service.buckets_service import BucketsService
 from influxdb_client.service.cells_service import CellsService
 from influxdb_client.service.checks_service import ChecksService

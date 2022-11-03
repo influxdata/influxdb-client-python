@@ -17,6 +17,7 @@ from __future__ import absolute_import
 # import apis into sdk package
 from influxdb_client.service.authorizations_service import AuthorizationsService
 from influxdb_client.service.backup_service import BackupService
+from influxdb_client.service.bucket_schemas_service import BucketSchemasService
 from influxdb_client.service.buckets_service import BucketsService
 from influxdb_client.service.cells_service import CellsService
 from influxdb_client.service.checks_service import ChecksService
@@ -100,6 +101,8 @@ from influxdb_client.domain.check_patch import CheckPatch
 from influxdb_client.domain.check_status_level import CheckStatusLevel
 from influxdb_client.domain.check_view_properties import CheckViewProperties
 from influxdb_client.domain.checks import Checks
+from influxdb_client.domain.column_data_type import ColumnDataType
+from influxdb_client.domain.column_semantic_type import ColumnSemanticType
 from influxdb_client.domain.conditional_expression import ConditionalExpression
 from influxdb_client.domain.config import Config
 from influxdb_client.domain.constant_variable_properties import ConstantVariableProperties
@@ -167,6 +170,11 @@ from influxdb_client.domain.logical_expression import LogicalExpression
 from influxdb_client.domain.logs import Logs
 from influxdb_client.domain.map_variable_properties import MapVariableProperties
 from influxdb_client.domain.markdown_view_properties import MarkdownViewProperties
+from influxdb_client.domain.measurement_schema import MeasurementSchema
+from influxdb_client.domain.measurement_schema_column import MeasurementSchemaColumn
+from influxdb_client.domain.measurement_schema_create_request import MeasurementSchemaCreateRequest
+from influxdb_client.domain.measurement_schema_list import MeasurementSchemaList
+from influxdb_client.domain.measurement_schema_update_request import MeasurementSchemaUpdateRequest
 from influxdb_client.domain.member_assignment import MemberAssignment
 from influxdb_client.domain.member_expression import MemberExpression
 from influxdb_client.domain.metadata_backup import MetadataBackup
