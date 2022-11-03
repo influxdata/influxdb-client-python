@@ -38,7 +38,7 @@ class CloudOnlyWarning(UserWarning):
     def print_warning(api_name: str, doc_url: str):
         """Print warning about availability only on the InfluxDB Cloud."""
 
-        message = f"""The '{api_name}' API is available only on the InfluxDB Cloud.
+        message = f"""The '{api_name}' is available only on the InfluxDB Cloud.
 
 For more info see:
     - {doc_url}
