@@ -34,6 +34,7 @@
 
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
 - [invokable_scripts.py](invokable_scripts.py) - How to use Invokable scripts Cloud API to create custom endpoints that query data
+- [bucket_schemas.py](bucket_schemas.py) - How to manage explicit bucket schemas to enforce column names, tags, fields, and data types for your data
 
 ## Others
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
