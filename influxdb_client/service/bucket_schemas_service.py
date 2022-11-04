@@ -480,7 +480,7 @@ class BucketSchemasService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)
+            self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements/{measurementID}', 'PATCH',
@@ -516,7 +516,7 @@ class BucketSchemasService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)
+            self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements/{measurementID}', 'PATCH',
