@@ -22,18 +22,22 @@
 - [query_response_to_json.py](query_response_to_json.py) - How to serialize Query response to JSON
 - [query_with_profilers.py](query_with_profilers.py) - How to process profilers output by callback
 
-
 ## Management API
 - [buckets_management.py](buckets_management.py) - How to create, list and delete Buckets
 - [monitoring_and_alerting.py](monitoring_and_alerting.py) - How to create the Check with Slack notification.
 - [task_example.py](task_example.py) - How to create a Task by API
 - [templates_management.py](templates_management.py) - How to use Templates and Stack API
 
-## Others
+## InfluxDB Cloud
+
+:warning: The following examples are related to [InfluxDB Cloud](https://docs.influxdata.com/influxdb/cloud/) and not available on a local InfluxDB OSS instance.
+
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
+- [invokable_scripts.py](invokable_scripts.py) - How to use Invokable scripts Cloud API to create custom endpoints that query data
+
+## Others
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
 - [nanosecond_precision.py](nanosecond_precision.py) - How to use nanoseconds precision
-- [invokable_scripts.py](invokable_scripts.py) - How to use Invokable scripts Cloud API to create custom endpoints that query data
 - [connection_check.py](connection_check.py) - How to check connection configuration
 
 ## Asynchronous
