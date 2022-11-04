@@ -33,7 +33,7 @@ class BucketSchemasService(_BaseService):
 
         from influxdb_client.client.warnings import CloudOnlyWarning
         CloudOnlyWarning.print_warning('BucketSchemasService',
-                                       'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')
+                                       'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
 
     def create_measurement_schema(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Create a measurement schema for a bucket.

@@ -33,7 +33,7 @@ class InvokableScriptsService(_BaseService):
 
         from influxdb_client.client.warnings import CloudOnlyWarning
         CloudOnlyWarning.print_warning('InvokableScriptsService',
-                                       'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')
+                                       'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
 
     def delete_scripts_id(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
