@@ -98,10 +98,10 @@ class _BaseClient(object):
         self.profilers = kwargs.get('profilers', None)
         pass
 
-    def _version(self, response) -> str:
+    def _response_header(self, response, header_name='X-Influxdb-Version') -> str:
         if response is not None and len(response) >= 3:
-            if 'X-Influxdb-Version' in response[2]:
-                return response[2]['X-Influxdb-Version']
+            if header_name in response[2]:
+                return response[2][header_name]
 
         return "unknown"
 

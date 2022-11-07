@@ -407,7 +407,19 @@ class InfluxDBClient(_BaseClient):
 
         response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
 
-        return self._version(response)
+        return self._response_header(response)
+
+    def build(self) -> str:
+        """
+        Return the build type of the connected InfluxDB Server.
+
+        :return: The type of InfluxDB build.
+        """
+        ping_service = PingService(self.api_client)
+
+        response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
+
+        return self._response_header(response, header_name='X-Influxdb-Build')
 
     def ready(self) -> Ready:
         """
