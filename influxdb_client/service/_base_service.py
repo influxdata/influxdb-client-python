@@ -8,6 +8,7 @@ class _BaseService(object):
         if api_client is None:
             raise ValueError("Invalid value for `api_client`, must be defined.")
         self.api_client = api_client
+        self._build_type = None
 
     def _check_operation_params(self, operation_id, supported_params, local_params):
         supported_params.append('async_req')
@@ -25,10 +26,14 @@ class _BaseService(object):
         del local_params['kwargs']
 
     def _is_cloud_instance(self) -> bool:
-        return False
+        if not self._build_type:
+            self._build_type = self.build_type()
+        return 'cloud' in self._build_type.lower()
 
     async def _is_cloud_instance_async(self) -> bool:
-        return False
+        if not self._build_type:
+            self._build_type = await self.build_type_async()
+        return 'cloud' in self._build_type.lower()
 
     def build_type(self) -> str:
         """
