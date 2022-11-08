@@ -27,9 +27,7 @@ class QueryService(_BaseService):
 
     def __init__(self, api_client=None):  # noqa: E501,D401,D403
         """QueryService - a operation defined in OpenAPI."""
-        if api_client is None:
-            raise ValueError("Invalid value for `api_client`, must be defined.")
-        self.api_client = api_client
+        super().__init__(api_client)
 
     def get_query_suggestions(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve query suggestions.

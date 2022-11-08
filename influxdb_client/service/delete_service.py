@@ -27,9 +27,7 @@ class DeleteService(_BaseService):
 
     def __init__(self, api_client=None):  # noqa: E501,D401,D403
         """DeleteService - a operation defined in OpenAPI."""
-        if api_client is None:
-            raise ValueError("Invalid value for `api_client`, must be defined.")
-        self.api_client = api_client
+        super().__init__(api_client)
 
     def post_delete(self, delete_predicate_request, **kwargs):  # noqa: E501,D401,D403
         """Delete data.
