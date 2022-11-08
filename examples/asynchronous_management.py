@@ -10,7 +10,7 @@ async def main():
         organizations_service = OrganizationsService(api_client=client.api_client)
 
         # Find organization with name 'my-org'
-        organizations = await organizations_service.get_orgs(org='my-org')
+        organizations = await organizations_service.get_orgs_async(org='my-org')
         for organization in organizations.orgs:
             print(f'name: {organization.name}, id: {organization.id}')
 

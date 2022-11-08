@@ -8,7 +8,7 @@ from io import StringIO
 import pytest
 from aioresponses import aioresponses
 
-from influxdb_client import Point, WritePrecision, BucketsService
+from influxdb_client import Point, WritePrecision, BucketsService, OrganizationsService, Organizations
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 from influxdb_client.client.query_api import QueryOptions
@@ -329,7 +329,7 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertIn("my-bucket", results)
         # Bucket API
         buckets_service = BucketsService(api_client=self.client.api_client)
-        results = await buckets_service.get_buckets()
+        results = await buckets_service.get_buckets_async()
         self.assertIn("my-bucket", list(map(lambda bucket: bucket.name, results.buckets)))
 
     @async_test
@@ -401,6 +401,13 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
 
         data_frame = await self.client.query_api().query_data_frame("from()", "my-org")
         self.assertEqual(1000, len(data_frame))
+
+    @async_test
+    async def test_management_apis(self):
+        service = OrganizationsService(api_client=self.client.api_client)
+        results = await service.get_orgs_async()
+        self.assertIsInstance(results, Organizations)
+        self.assertIn("my-org", list(map(lambda org: org.name, results.orgs)))
 
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
