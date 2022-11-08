@@ -251,7 +251,7 @@ class InfluxDBClientAsync(_BaseClient):
         ping_service = PingService(self.api_client)
 
         response = await ping_service.get_ping_async(_return_http_data_only=False)
-        return self._response_header(response)
+        return ping_service.response_header(response)
 
     async def build(self) -> str:
         """
@@ -261,8 +261,7 @@ class InfluxDBClientAsync(_BaseClient):
         """
         ping_service = PingService(self.api_client)
 
-        response = await ping_service.get_ping_async(_return_http_data_only=False)
-        return self._response_header(response, header_name='X-Influxdb-Build')
+        return await ping_service.build_type_async()
 
     def query_api(self, query_options: QueryOptions = QueryOptions()) -> QueryApiAsync:
         """

@@ -27,13 +27,7 @@ class BucketSchemasService(_BaseService):
 
     def __init__(self, api_client=None):  # noqa: E501,D401,D403
         """BucketSchemasService - a operation defined in OpenAPI."""
-        if api_client is None:
-            raise ValueError("Invalid value for `api_client`, must be defined.")
-        self.api_client = api_client
-
-        from influxdb_client.client.warnings import CloudOnlyWarning
-        CloudOnlyWarning.print_warning('BucketSchemasService',
-                                       'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
+        super().__init__(api_client)
 
     def create_measurement_schema(self, bucket_id, measurement_schema_create_request, **kwargs):  # noqa: E501,D401,D403
         """Create a measurement schema for a bucket.

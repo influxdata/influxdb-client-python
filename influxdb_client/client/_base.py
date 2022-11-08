@@ -98,13 +98,6 @@ class _BaseClient(object):
         self.profilers = kwargs.get('profilers', None)
         pass
 
-    def _response_header(self, response, header_name='X-Influxdb-Version') -> str:
-        if response is not None and len(response) >= 3:
-            if header_name in response[2]:
-                return response[2][header_name]
-
-        return "unknown"
-
     @classmethod
     def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         config = configparser.ConfigParser()
