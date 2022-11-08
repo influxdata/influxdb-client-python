@@ -29,11 +29,6 @@ class InvokableScriptsService(_BaseService):
         """InvokableScriptsService - a operation defined in OpenAPI."""
         super().__init__(api_client)
 
-        from influxdb_client.client.warnings import CloudOnlyWarning
-        CloudOnlyWarning.print_warning('InvokableScriptsService',
-                                       'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/',
-                                       api_client)  # noqa: E501
-
     def delete_scripts_id(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
 
@@ -103,6 +98,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._delete_scripts_id_prepare(script_id, **kwargs)
 
@@ -181,6 +180,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._get_scripts_prepare(**kwargs)
 
@@ -213,6 +216,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._get_scripts_prepare(**kwargs)
 
@@ -293,6 +300,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._get_scripts_id_prepare(script_id, **kwargs)
 
@@ -325,6 +336,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._get_scripts_id_prepare(script_id, **kwargs)
 
@@ -409,6 +424,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)
 
@@ -442,6 +461,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)
 
@@ -532,6 +555,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._post_scripts_prepare(script_create_request, **kwargs)
 
@@ -563,6 +590,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._post_scripts_prepare(script_create_request, **kwargs)
 
@@ -651,6 +682,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._post_scripts_id_invoke_prepare(script_id, **kwargs)
 
@@ -684,6 +719,10 @@ class InvokableScriptsService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._post_scripts_id_invoke_prepare(script_id, **kwargs)
 

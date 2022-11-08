@@ -72,8 +72,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_measurement_schema_prepare(bucket_id, measurement_schema_create_request, **kwargs)
+            self._create_measurement_schema_prepare(bucket_id, measurement_schema_create_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements', 'POST',
@@ -107,8 +111,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_measurement_schema_prepare(bucket_id, measurement_schema_create_request, **kwargs)
+            self._create_measurement_schema_prepare(bucket_id, measurement_schema_create_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements', 'POST',
@@ -209,8 +217,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_measurement_schema_prepare(bucket_id, measurement_id, **kwargs)
+            self._get_measurement_schema_prepare(bucket_id, measurement_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements/{measurementID}', 'GET',
@@ -244,8 +256,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_measurement_schema_prepare(bucket_id, measurement_id, **kwargs)
+            self._get_measurement_schema_prepare(bucket_id, measurement_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements/{measurementID}', 'GET',
@@ -342,8 +358,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_measurement_schemas_prepare(bucket_id, **kwargs)
+            self._get_measurement_schemas_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements', 'GET',
@@ -377,8 +397,12 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_measurement_schemas_prepare(bucket_id, **kwargs)
+            self._get_measurement_schemas_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/schema/measurements', 'GET',
@@ -473,6 +497,10 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)  # noqa: E501
 
@@ -509,6 +537,10 @@ class BucketSchemasService(_BaseService):
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('BucketSchemasService',
+                                           'https://docs.influxdata.com/influxdb/cloud/organizations/buckets/bucket-schema/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
             self._update_measurement_schema_prepare(bucket_id, measurement_id, measurement_schema_update_request, **kwargs)  # noqa: E501
 
