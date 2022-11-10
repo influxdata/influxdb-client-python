@@ -186,8 +186,8 @@ class ApiClientAsync(object):
             else:
                 return_data = None
 
-        if _return_http_data_only:
-            return (return_data)
+        if _return_http_data_only is not False:
+            return return_data
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
@@ -654,7 +654,7 @@ class ApiClientAsync(object):
 
     async def _signin(self, resource_path: str):
         if _requires_create_user_session(self.configuration, self.cookie, resource_path):
-            http_info = await SigninService(self).post_signin_async()
+            http_info = await SigninService(self).post_signin_async(_return_http_data_only=False)
             self.cookie = http_info[2]['set-cookie']
 
     async def _signout(self):

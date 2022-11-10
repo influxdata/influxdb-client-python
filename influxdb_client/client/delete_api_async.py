@@ -33,5 +33,5 @@ class DeleteApiAsync(_BaseDeleteApi):
         org_param = get_org_query_param(org=org, client=self._influxdb_client, required_id=False)
 
         response = await self._service.post_delete_async(delete_predicate_request=predicate_request, bucket=bucket,
-                                                         org=org_param)
+                                                         org=org_param, _return_http_data_only=False)
         return response[1] == 204

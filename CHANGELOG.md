@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 1. [#526](https://github.com/influxdata/influxdb-client-python/pull/526): Creating client instance from static configuration
+1. [#531](https://github.com/influxdata/influxdb-client-python/pull/531): HTTP request return type for Management API [async/await]
 
 ### CI
 1. [#523](https://github.com/influxdata/influxdb-client-python/pull/523): Add Python 3.11 to CI builds
