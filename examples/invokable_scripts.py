@@ -1,4 +1,7 @@
 """
+This example is related to `InfluxDB Cloud <https://docs.influxdata.com/influxdb/cloud/>`_ and not available
+on a local InfluxDB OSS instance.
+
 How to use Invokable scripts Cloud API to create custom endpoints that query data
 """
 import datetime

@@ -27,9 +27,7 @@ class TelegrafsService(_BaseService):
 
     def __init__(self, api_client=None):  # noqa: E501,D401,D403
         """TelegrafsService - a operation defined in OpenAPI."""
-        if api_client is None:
-            raise ValueError("Invalid value for `api_client`, must be defined.")
-        self.api_client = api_client
+        super().__init__(api_client)
 
     def delete_telegrafs_id(self, telegraf_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a Telegraf configuration.

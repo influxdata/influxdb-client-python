@@ -49,6 +49,11 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         version = await self.client.version()
         self.assertTrue(len(version) > 0)
 
+    @async_test
+    async def test_build(self):
+        build = await self.client.build()
+        self.assertEqual('oss', build.lower())
+
     def test_create_query_api(self):
         query_api = self.client.query_api()
         self.assertIsNotNone(query_api)

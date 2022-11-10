@@ -316,6 +316,10 @@ class InfluxDBClientTestIT(BaseTest):
         version = self.client.version()
         self.assertTrue(len(version) > 0)
 
+    def test_build(self):
+        build = self.client.build()
+        self.assertEqual('oss', build.lower())
+
     def test_version_not_running_instance(self):
         client_not_running = InfluxDBClient("http://localhost:8099", token="my-token", debug=True)
         with self.assertRaises(NewConnectionError):

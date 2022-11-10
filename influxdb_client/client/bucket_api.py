@@ -22,7 +22,7 @@ class BucketsApi(object):
                       description=None, org=None) -> Bucket:
         """Create a bucket.
 
-        :param Bucket bucket: bucket to create
+        :param Bucket|PostBucketRequest bucket: bucket to create
         :param bucket_name: bucket name
         :param description: bucket description
         :param org_id: org_id

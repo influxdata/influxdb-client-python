@@ -27,9 +27,7 @@ class BackupService(_BaseService):
 
     def __init__(self, api_client=None):  # noqa: E501,D401,D403
         """BackupService - a operation defined in OpenAPI."""
-        if api_client is None:
-            raise ValueError("Invalid value for `api_client`, must be defined.")
-        self.api_client = api_client
+        super().__init__(api_client)
 
     def get_backup_kv(self, **kwargs):  # noqa: E501,D401,D403
         """Download snapshot of metadata stored in the server's embedded KV store. Should not be used in versions greater than 2.1.x, as it doesn't include metadata stored in embedded SQL..

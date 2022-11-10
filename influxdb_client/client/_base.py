@@ -98,13 +98,6 @@ class _BaseClient(object):
         self.profilers = kwargs.get('profilers', None)
         pass
 
-    def _version(self, response) -> str:
-        if response is not None and len(response) >= 3:
-            if 'X-Influxdb-Version' in response[2]:
-                return response[2]['X-Influxdb-Version']
-
-        return "unknown"
-
     @classmethod
     def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         config = configparser.ConfigParser()
