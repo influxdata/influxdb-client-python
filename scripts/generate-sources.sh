@@ -11,7 +11,7 @@
 git clone --single-branch --branch master https://github.com/bonitoo-io/influxdb-clients-apigen "/code/influxdb-clients-apigen"
 mkdir -p /code/influxdb-clients-apigen/build/
 ln -s /code/client /code/influxdb-clients-apigen/build/influxdb-client-python
-cd /code/influxdb-clients-apigen/
+cd /code/influxdb-clients-apigen/ || exit
 
 #
 # Download APIs contracts
