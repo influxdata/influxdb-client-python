@@ -43,7 +43,7 @@ class RESTResponse(io.IOBase):
 
     def getheaders(self):
         """Return a dictionary of the response headers."""
-        return self.urllib3_response.getheaders()
+        return self.urllib3_response.headers
 
     def getheader(self, name, default=None):
         """Return a given response header."""
