@@ -1,4 +1,4 @@
-## 1.35.0 [unreleased]
+## 1.35.0 [2022-12-01]
 
 ### Features
 1. [#528](https://github.com/influxdata/influxdb-client-python/pull/528): Add `BucketSchemasService` to manage explicit bucket schemas to enforce column names, tags, fields, and data types for your data
