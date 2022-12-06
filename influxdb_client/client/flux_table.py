@@ -262,11 +262,14 @@ class CSVIterator(Iterator[List[str]]):
 
     def __iter__(self):
         """Return an iterator object."""
-        return self.delegate.__iter__()
+        return self
 
     def __next__(self):
         """Retrieve the next item from the iterator."""
-        return self.delegate.__next__()
+        row = self.delegate.__next__()
+        while not row:
+            row = self.delegate.__next__()
+        return row
 
     def to_values(self) -> List[List[str]]:
         """
@@ -284,4 +287,4 @@ class CSVIterator(Iterator[List[str]]):
                 ...
             ]
         """
-        return list(self.delegate)
+        return list(self.__iter__())

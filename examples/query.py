@@ -95,8 +95,7 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
                                      dialect=Dialect(header=False, delimiter=",", comment_prefix="#", annotations=[],
                                                      date_time_format="RFC3339"))
     for csv_line in csv_result:
-        if not len(csv_line) == 0:
-            print(f'Temperature in {csv_line[9]} is {csv_line[6]}')
+        print(f'Temperature in {csv_line[9]} is {csv_line[6]}')
 
     print()
     print()
