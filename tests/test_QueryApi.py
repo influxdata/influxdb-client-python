@@ -557,8 +557,8 @@ class SimpleQueryTest(BaseTest):
 
         self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
 
-        csv_lines = self.client.query_api().query_csv('from(bucket: "my-bucket")', "my-org")
-        self.assertEqual(18, len(list(csv_lines)))
+        csv_lines = list(self.client.query_api().query_csv('from(bucket: "my-bucket")', "my-org"))
+        self.assertEqual(18, len(csv_lines))
         for csv_line in csv_lines:
             self.assertEqual(6, len(csv_line))
 
