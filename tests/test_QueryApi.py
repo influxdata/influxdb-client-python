@@ -530,6 +530,41 @@ class SimpleQueryTest(BaseTest):
             self.assertEqual('DateTimeLiteral', ast.body[0].assignment.init.type)
             self.assertEqual(literal[1], ast.body[0].assignment.init.value)
 
+    def test_csv_empty_lines(self):
+        query_response = '#datatype,string,long,dateTime:RFC3339,double,string\n' \
+                         '#group,false,false,false,false,true\n' \
+                         '#default,_result,,,,\n' \
+                         ',result,table,_time,_value,_field\n' \
+                         ',,0,2022-11-24T10:00:10Z,0.1,_1_current_(mA)\n' \
+                         ',,1,2022-11-24T10:00:10Z,4,_1_current_limit_(mA)\n' \
+                         ',,2,2022-11-24T10:00:10Z,1,_1_voltage_(V)\n' \
+                         ',,3,2022-11-24T10:00:10Z,1,_1_voltage_limit_(V)\n' \
+                         ',,4,2022-11-24T10:00:10Z,0,_2_current_(mA)\n' \
+                         ',,5,2022-11-24T10:00:10Z,0,_2_current_limit_(mA)\n' \
+                         ',,6,2022-11-24T10:00:10Z,0,_2_voltage_(V)\n' \
+                         ',,7,2022-11-24T10:00:10Z,0,_2_voltage_limit_(V)\n' \
+                         '\n' \
+                         '\n' \
+                         '#datatype,string,long,dateTime:RFC3339,string,string\n' \
+                         '#group,false,false,false,false,true\n' \
+                         '#default,_result,,,,\n' \
+                         ',result,table,_time,_value,_field\n' \
+                         ',,8,2022-11-24T10:00:10Z,K,type\n' \
+                         ',,9,2022-11-24T10:00:10Z,,type2\n' \
+                         '\n'
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body=query_response)
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        csv_lines = list(self.client.query_api().query_csv('from(bucket: "my-bucket")', "my-org"))
+        self.assertEqual(18, len(csv_lines))
+        for csv_line in csv_lines:
+            self.assertEqual(6, len(csv_line))
+
+        # to_values
+        csv_lines = self.client.query_api().query_csv('from(bucket: "my-bucket")', "my-org").to_values()
+        self.assertEqual(18, len(csv_lines))
 
 if __name__ == '__main__':
     unittest.main()

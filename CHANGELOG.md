@@ -1,5 +1,8 @@
 ## 1.36.0 [unreleased]
 
+### Features
+1. [#536](https://github.com/influxdata/influxdb-client-python/pull/536): Query to `CSV` skip empty lines
+
 ## 1.35.0 [2022-12-01]
 
 ### Features
