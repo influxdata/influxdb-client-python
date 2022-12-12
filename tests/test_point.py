@@ -482,6 +482,63 @@ class PointTest(unittest.TestCase):
                                 record_field_keys=["pressure", "temperature"])
         self.assertEqual("sensor_pt859,location=warehouse_125 pressure=125i", point.to_line_protocol())
 
+    def test_from_dictionary_uint(self):
+        dict_structure = {
+            "measurement": "h2o_feet",
+            "tags": {"location": "coyote_creek"},
+            "fields": {
+                "water_level": 1.0,
+                "some_counter": 108913123234
+            },
+            "time": 1
+        }
+        point = Point.from_dict(dict_structure, field_types={"some_counter": "uint"})
+        self.assertEqual("h2o_feet,location=coyote_creek some_counter=108913123234u,water_level=1 1",
+                         point.to_line_protocol())
+
+    def test_from_dictionary_int(self):
+        dict_structure = {
+            "measurement": "h2o_feet",
+            "tags": {"location": "coyote_creek"},
+            "fields": {
+                "water_level": 1.0,
+                "some_counter": 108913123234
+            },
+            "time": 1
+        }
+        point = Point.from_dict(dict_structure, field_types={"some_counter": "int"})
+        self.assertEqual("h2o_feet,location=coyote_creek some_counter=108913123234i,water_level=1 1",
+                         point.to_line_protocol())
+
+    def test_from_dictionary_float(self):
+        dict_structure = {
+            "measurement": "h2o_feet",
+            "tags": {"location": "coyote_creek"},
+            "fields": {
+                "water_level": 1.0,
+                "some_counter": 108913123234
+            },
+            "time": 1
+        }
+        point = Point.from_dict(dict_structure, field_types={"some_counter": "float"})
+        self.assertEqual("h2o_feet,location=coyote_creek some_counter=108913123234,water_level=1 1",
+                         point.to_line_protocol())
+
+    def test_from_dictionary_float_from_dict(self):
+        dict_structure = {
+            "measurement": "h2o_feet",
+            "tags": {"location": "coyote_creek"},
+            "fields": {
+                "water_level": 1.0,
+                "some_counter": 108913123234
+            },
+            "field_types": {"some_counter": "float"},
+            "time": 1
+        }
+        point = Point.from_dict(dict_structure)
+        self.assertEqual("h2o_feet,location=coyote_creek some_counter=108913123234,water_level=1 1",
+                         point.to_line_protocol())
+
     def test_static_measurement_name(self):
         dictionary = {
             "name": "sensor_pt859",

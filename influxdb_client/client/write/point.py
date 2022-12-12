@@ -99,6 +99,26 @@ class Point(object):
                                         record_tag_keys=["location", "version"],
                                         record_field_keys=["pressure", "temperature"])
 
+        Int Types:
+            The following example shows how to configure the types of integers fields.
+            It is useful when you want to serialize integers always as ``float`` to avoid ``field type conflict``
+            or use ``unsigned 64-bit integer`` as the type for serialization.
+
+            .. code-block:: python
+
+                # Use custom dictionary structure
+                dict_structure = {
+                    "measurement": "h2o_feet",
+                    "tags": {"location": "coyote_creek"},
+                    "fields": {
+                        "water_level": 1.0,
+                        "some_counter": 108913123234
+                    },
+                    "time": 1
+                }
+
+                point = Point.from_dict(dict_structure, field_types={"some_counter": "uint"})
+
         :param dictionary: dictionary for serialize into data Point
         :param write_precision: sets the precision for the supplied time values
         :key record_measurement_key: key of dictionary with specified measurement
@@ -106,8 +126,14 @@ class Point(object):
         :key record_time_key: key of dictionary with specified timestamp
         :key record_tag_keys: list of dictionary keys to use as a tag
         :key record_field_keys: list of dictionary keys to use as a field
+        :key field_types: optional dictionary to specify types of serialized fields. Currently, is supported customization for integer types.
+                          Possible integers types:
+                            - ``int`` - serialize integers as "**Signed 64-bit integers**" - ``9223372036854775807i`` (default behaviour)
+                            - ``uint`` - serialize integers as "**Unsigned 64-bit integers**" - ``9223372036854775807u``
+                            - ``float`` - serialize integers as "**IEEE-754 64-bit floating-point numbers**". Useful for unify number types in your pipeline to avoid field type conflict - ``9223372036854775807``
+                          The ``field_types`` can be also specified as part of incoming dictionary. For more info see an example above.
         :return: new data point
-        """
+        """  # noqa: E501
         measurement_ = kwargs.get('record_measurement_name', None)
         if measurement_ is None:
             measurement_ = dictionary[kwargs.get('record_measurement_key', 'measurement')]
@@ -134,6 +160,19 @@ class Point(object):
         record_time_key = kwargs.get('record_time_key', 'time')
         if record_time_key in dictionary:
             point.time(dictionary[record_time_key], write_precision=write_precision)
+
+        _field_types = kwargs.get('field_types', {})
+        if 'field_types' in dictionary:
+            _field_types = dictionary['field_types']
+        # Map API fields types to Line Protocol types postfix:
+        # - int: 'i'
+        # - uint: 'u'
+        # - float: ''
+        point._field_types = dict(map(
+            lambda item: (item[0], 'i' if item[1] == 'int' else 'u' if item[1] == 'uint' else ''),
+            _field_types.items()
+        ))
+
         return point
 
     def __init__(self, measurement_name):
@@ -143,6 +182,7 @@ class Point(object):
         self._name = measurement_name
         self._time = None
         self._write_precision = DEFAULT_WRITE_PRECISION
+        self._field_types = {}
 
     def time(self, time, write_precision=DEFAULT_WRITE_PRECISION):
         """
@@ -190,7 +230,7 @@ The output Line protocol will be interpret as a comment by InfluxDB. For more in
 """
             warnings.warn(message, SyntaxWarning)
         _tags = _append_tags(self._tags)
-        _fields = _append_fields(self._fields)
+        _fields = _append_fields(self._fields, self._field_types)
         if not _fields:
             return ""
         _time = _append_time(self._time, self._write_precision if precision is None else precision)
@@ -227,7 +267,7 @@ def _append_tags(tags):
     return f"{',' if _return else ''}{','.join(_return)} "
 
 
-def _append_fields(fields):
+def _append_fields(fields, field_types):
     _return = []
 
     for field, value in sorted(fields.items()):
@@ -246,7 +286,8 @@ def _append_fields(fields):
                 s = s[:-2]
             _return.append(f'{_escape_key(field)}={s}')
         elif (isinstance(value, int) or _np_is_subtype(value, 'int')) and not isinstance(value, bool):
-            _return.append(f'{_escape_key(field)}={str(value)}i')
+            _type = field_types.get(field, "i")
+            _return.append(f'{_escape_key(field)}={str(value)}{_type}')
         elif isinstance(value, bool):
             _return.append(f'{_escape_key(field)}={str(value).lower()}')
         elif isinstance(value, str):
