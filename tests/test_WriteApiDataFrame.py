@@ -327,7 +327,7 @@ class DataSerializerTest(unittest.TestCase):
         from influxdb_client.extras import pd, np
         now = pd.Timestamp('2020-04-05 00:00+00:00')
 
-        float_types = [np.float, np.float16, np.float32, np.float64]
+        float_types = [np.float16, np.float32, np.float64]
         if hasattr(np, 'float128'):
             float_types.append(np.float128)
         for np_float_type in float_types:
