@@ -57,17 +57,18 @@ class BucketsApi(object):
 
         try:
             return self._buckets_service.post_buckets(post_bucket_request=bucket)
-        except ApiException as ex:
+        except ApiException:
             # Fall back to v1 API if buckets are not supported
             database_name = bucket_name if bucket_name is not None else bucket
             return self.create_database(database=database_name, retention_rules=retention_rules)
 
     def create_database(self, database=None, retention_rules=None):
         """Create a database at the v1 api (legacy).
-        
+
         :param database_name: name of the new database
         :param retention_rules: retention rules array or single BucketRetentionRules
-        :return: Tuple (response body, status code, header dict)"""
+        :return: Tuple (response body, status code, header dict)
+        """
         if database is None:
             raise ValueError("Invalid value for `database`, must be defined.")
 
@@ -122,15 +123,16 @@ class BucketsApi(object):
 
         try:
             return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
-        except ApiException as ex:
+        except ApiException:
             return self.delete_database(database=bucket_id)
 
     def delete_database(self, database=None):
         """Delete a database at the v1 api (legacy).
-        
+
         :param database_name: name of the database to delete
         :param retention_rules: retention rules array or single BucketRetentionRules
-        :return: Tuple (response body, status code, header dict)"""
+        :return: Tuple (response body, status code, header dict)
+        """
         if database is None:
             raise ValueError("Invalid value for `database`, must be defined.")
 
