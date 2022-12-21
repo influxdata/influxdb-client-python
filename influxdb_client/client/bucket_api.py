@@ -58,6 +58,51 @@ class BucketsApi(object):
 
         return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
+    def create_database(self, database=None, retention_rules=None):
+        """Create a database at the v1 api (legacy).
+        
+        :param database_name: name of the new database
+        :param retention_rules: retention rules array or single BucketRetentionRules
+        :return: Tuple (response body, status code, header dict)"""
+        if database is None:
+            raise ValueError("Invalid value for `database`, must be defined.")
+
+        if retention_rules is None:
+            retention_rules = []
+
+        rules = []
+
+        if isinstance(retention_rules, list):
+            rules.extend(retention_rules)
+        else:
+            rules.append(retention_rules)
+
+        # Hedaer and local_var_params for standard procedures only
+        header_params = {}
+        header_params['Accept'] = self._influxdb_client.api_client.select_header_accept(
+            ['application/json'])
+        header_params['Content-Type'] = self._influxdb_client.api_client.select_header_content_type(
+            ['application/json'])
+        local_var_params = locals()
+        local_var_params['kwargs'] = {}
+        all_params = []
+        self._buckets_service._check_operation_params(
+            "create_database", all_params, local_var_params
+        )
+
+        return self._influxdb_client.api_client.call_api(
+            '/query', 'POST',
+            header_params=header_params,
+            path_params={}, post_params=[],
+            files={}, auth_settings=[], collection_formats={},
+            query_params={'q': f'CREATE DATABASE {database}'},
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            urlopen_kw=None
+        )
+
     def update_bucket(self, bucket: Bucket) -> Bucket:
         """Update a bucket.
 
@@ -82,6 +127,41 @@ class BucketsApi(object):
             bucket_id = bucket
 
         return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
+
+    def delete_database(self, database=None):
+        """Delete a database at the v1 api (legacy).
+        
+        :param database_name: name of the database to delete
+        :param retention_rules: retention rules array or single BucketRetentionRules
+        :return: Tuple (response body, status code, header dict)"""
+        if database is None:
+            raise ValueError("Invalid value for `database`, must be defined.")
+
+        # Hedaer and local_var_params for standard procedures only
+        header_params = {}
+        header_params['Accept'] = self._influxdb_client.api_client.select_header_accept(
+            ['application/json'])
+        header_params['Content-Type'] = self._influxdb_client.api_client.select_header_content_type(
+            ['application/json'])
+        local_var_params = locals()
+        local_var_params['kwargs'] = {}
+        all_params = []
+        self._buckets_service._check_operation_params(
+            "drop_database", all_params, local_var_params
+        )
+
+        return self._influxdb_client.api_client.call_api(
+            '/query', 'POST',
+            header_params=header_params,
+            path_params={}, post_params=[],
+            files={}, auth_settings=[], collection_formats={},
+            query_params={'q': f'DROP DATABASE {database}'},
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            urlopen_kw=None
+        )
 
     def find_bucket_by_id(self, id):
         """Find bucket by ID.
