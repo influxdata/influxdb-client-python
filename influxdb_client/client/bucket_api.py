@@ -5,7 +5,7 @@ All buckets have a retention policy, a duration of time that each data point per
 A bucket belongs to an organization.
 """
 import warnings
-
+from influxdb_client.rest import ApiException
 from influxdb_client import BucketsService, Bucket, PostBucketRequest, PatchBucketRequest
 from influxdb_client.client.util.helpers import get_org_query_param
 
@@ -20,20 +20,19 @@ class BucketsApi(object):
 
     def create_bucket(self, bucket=None, bucket_name=None, org_id=None, retention_rules=None,
                       description=None, org=None) -> Bucket:
-        """Create a bucket.
+        """Create a bucket. Database creation via v1 API as fallback.
 
         :param Bucket|PostBucketRequest bucket: bucket to create
         :param bucket_name: bucket name
         :param description: bucket description
         :param org_id: org_id
-        :param bucket_name: bucket name
         :param retention_rules: retention rules array or single BucketRetentionRules
         :param str, Organization org: specifies the organization for create the bucket;
                                       Take the ``ID``, ``Name`` or ``Organization``.
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
-        :return: Bucket
+        :return: Bucket or the request thread when falling back.
                  If the method is called asynchronously,
-                 returns the request thread.
+                 returns also the request thread.
         """
         if retention_rules is None:
             retention_rules = []
@@ -56,7 +55,12 @@ class BucketsApi(object):
                                                                   client=self._influxdb_client,
                                                                   required_id=True))
 
-        return self._buckets_service.post_buckets(post_bucket_request=bucket)
+        try:
+            return self._buckets_service.post_buckets(post_bucket_request=bucket)
+        except ApiException as ex:
+            # Fall back to v1 API if buckets are not supported
+            database_name = bucket_name if bucket_name is not None else bucket
+            return self.create_database(database=database_name, retention_rules=retention_rules)
 
     def create_database(self, database=None, retention_rules=None):
         """Create a database at the v1 api (legacy).
@@ -66,16 +70,6 @@ class BucketsApi(object):
         :return: Tuple (response body, status code, header dict)"""
         if database is None:
             raise ValueError("Invalid value for `database`, must be defined.")
-
-        if retention_rules is None:
-            retention_rules = []
-
-        rules = []
-
-        if isinstance(retention_rules, list):
-            rules.extend(retention_rules)
-        else:
-            rules.append(retention_rules)
 
         # Hedaer and local_var_params for standard procedures only
         header_params = {}
@@ -116,17 +110,20 @@ class BucketsApi(object):
         return self._buckets_service.patch_buckets_id(bucket_id=bucket.id, patch_bucket_request=request)
 
     def delete_bucket(self, bucket):
-        """Delete a bucket.
+        """Delete a bucket. Delete a database via v1 API as fallback.
 
         :param bucket: bucket id or Bucket
-        :return: Bucket
+        :return: Bucket or the request thread when falling back
         """
         if isinstance(bucket, Bucket):
             bucket_id = bucket.id
         else:
             bucket_id = bucket
 
-        return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
+        try:
+            return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
+        except ApiException as ex:
+            return self.delete_database(database=bucket_id)
 
     def delete_database(self, database=None):
         """Delete a database at the v1 api (legacy).
