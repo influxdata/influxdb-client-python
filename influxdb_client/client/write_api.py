@@ -57,10 +57,11 @@ class WriteOptions(object):
 
         :param write_type: methods of write (batching, asynchronous, synchronous)
         :param batch_size: the number of data point to collect in batch
-        :param flush_interval: flush data at least in this interval
+        :param flush_interval: flush data at least in this interval (milliseconds)
         :param jitter_interval: this is primarily to avoid large write spikes for users running a large number of
-               client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s.
-        :param retry_interval: the time to wait before retry unsuccessful write
+               client instances ie, a jitter of 5s and flush duration 10s means flushes will happen every 10-15s
+               (milliseconds)
+        :param retry_interval: the time to wait before retry unsuccessful write (milliseconds)
         :param max_retries: the number of max retries when write fails, 0 means retry is disabled
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
         :param max_retry_time: total timeout for all retry attempts in milliseconds, if 0 retry is disabled
