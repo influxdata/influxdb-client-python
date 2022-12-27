@@ -399,7 +399,6 @@ class PointTest(unittest.TestCase):
 
         point = Point.measurement("h2o") \
             .tag("location", "europe") \
-            .field("np.float1", np.float(1.123)) \
             .field("np.float2", np.float16(2.123)) \
             .field("np.float3", np.float32(3.123)) \
             .field("np.float4", np.float64(4.123)) \
@@ -413,7 +412,7 @@ class PointTest(unittest.TestCase):
             .field("np.uint4", np.uint64(8))
 
         self.assertEqual(
-            "h2o,location=europe np.float1=1.123,np.float2=2.123,np.float3=3.123,np.float4=4.123,np.int1=1i,np.int2=2i,np.int3=3i,np.int4=4i,np.uint1=5i,np.uint2=6i,np.uint3=7i,np.uint4=8i",
+            "h2o,location=europe np.float2=2.123,np.float3=3.123,np.float4=4.123,np.int1=1i,np.int2=2i,np.int3=3i,np.int4=4i,np.uint1=5i,np.uint2=6i,np.uint3=7i,np.uint4=8i",
             point.to_line_protocol())
 
     def test_from_dictionary_custom_measurement(self):
