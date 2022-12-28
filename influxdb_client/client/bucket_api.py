@@ -5,7 +5,6 @@ All buckets have a retention policy, a duration of time that each data point per
 A bucket belongs to an organization.
 """
 import warnings
-from influxdb_client.rest import ApiException
 from influxdb_client import BucketsService, Bucket, PostBucketRequest, PatchBucketRequest
 from influxdb_client.client.util.helpers import get_org_query_param
 
@@ -36,7 +35,7 @@ class BucketsApi(object):
         """
         if self._buckets_service._is_below_v2():
             # Fall back to v1 API if buckets are not supported
-            warnings.warn("InfluxDB versions below v2.0 are deprecated. " + \
+            warnings.warn("InfluxDB versions below v2.0 are deprecated. " +
                           "Falling back to CREATE DATABASE statement", DeprecationWarning)
             database_name = bucket_name if bucket_name is not None else bucket
             return self._create_database(database=database_name)
@@ -124,7 +123,7 @@ class BucketsApi(object):
 
         if self._buckets_service._is_below_v2():
             # Fall back to v1 API if buckets are not supported
-            warnings.warn("InfluxDB versions below v2.0 are deprecated. " + \
+            warnings.warn("InfluxDB versions below v2.0 are deprecated. " +
                           "Falling back to DROP DATABASE statement", DeprecationWarning)
             return self._delete_database(database=bucket_id)
 
