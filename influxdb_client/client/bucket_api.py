@@ -30,10 +30,17 @@ class BucketsApi(object):
         :param str, Organization org: specifies the organization for create the bucket;
                                       Take the ``ID``, ``Name`` or ``Organization``.
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
-        :return: Bucket or the request thread when falling back.
+        :return: Bucket
                  If the method is called asynchronously,
-                 returns also the request thread.
+                 returns the request thread.
         """
+        if self._buckets_service._is_below_v2():
+            # Fall back to v1 API if buckets are not supported
+            warnings.warn("InfluxDB versions below v2.0 are deprecated. " + \
+                          "Falling back to CREATE DATABASE statement", DeprecationWarning)
+            database_name = bucket_name if bucket_name is not None else bucket
+            return self._create_database(database=database_name)
+
         if retention_rules is None:
             retention_rules = []
 
@@ -55,19 +62,13 @@ class BucketsApi(object):
                                                                   client=self._influxdb_client,
                                                                   required_id=True))
 
-        try:
-            return self._buckets_service.post_buckets(post_bucket_request=bucket)
-        except ApiException:
-            # Fall back to v1 API if buckets are not supported
-            database_name = bucket_name if bucket_name is not None else bucket
-            return self.create_database(database=database_name, retention_rules=retention_rules)
+        return self._buckets_service.post_buckets(post_bucket_request=bucket)
 
-    def create_database(self, database=None, retention_rules=None):
+    def _create_database(self, database=None):
         """Create a database at the v1 api (legacy).
 
         :param database_name: name of the new database
-        :param retention_rules: retention rules array or single BucketRetentionRules
-        :return: Tuple (response body, status code, header dict)
+        :return: tuple(response body, status code, header dict)
         """
         if database is None:
             raise ValueError("Invalid value for `database`, must be defined.")
@@ -114,24 +115,26 @@ class BucketsApi(object):
         """Delete a bucket. Delete a database via v1 API as fallback.
 
         :param bucket: bucket id or Bucket
-        :return: Bucket or the request thread when falling back
+        :return: Bucket
         """
         if isinstance(bucket, Bucket):
             bucket_id = bucket.id
         else:
             bucket_id = bucket
 
-        try:
-            return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
-        except ApiException:
-            return self.delete_database(database=bucket_id)
+        if self._buckets_service._is_below_v2():
+            # Fall back to v1 API if buckets are not supported
+            warnings.warn("InfluxDB versions below v2.0 are deprecated. " + \
+                          "Falling back to DROP DATABASE statement", DeprecationWarning)
+            return self._delete_database(database=bucket_id)
 
-    def delete_database(self, database=None):
+        return self._buckets_service.delete_buckets_id(bucket_id=bucket_id)
+
+    def _delete_database(self, database=None):
         """Delete a database at the v1 api (legacy).
 
         :param database_name: name of the database to delete
-        :param retention_rules: retention rules array or single BucketRetentionRules
-        :return: Tuple (response body, status code, header dict)
+        :return: tuple(response body, status code, header dict)
         """
         if database is None:
             raise ValueError("Invalid value for `database`, must be defined.")
