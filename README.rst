@@ -427,7 +427,7 @@ The batching is configurable by ``write_options``\ :
      - Description
      - Default Value
    * - **batch_size**
-     - the number of data pointx to collect in a batch
+     - the number of data point to collect in a batch
      - ``1000``
    * - **flush_interval**
      - the number of milliseconds before the batch is written
