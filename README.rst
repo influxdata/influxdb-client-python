@@ -84,6 +84,7 @@ InfluxDB 2.0 client features
     - `Nanosecond precision`_
     - `Delete data`_
     - `Handling Errors`_
+    - `SQL Support`_
     - `Logging`_
 
 Installation
@@ -1578,6 +1579,29 @@ Client automatically follows HTTP redirects. The default redirect policy is to f
 
 
 .. marker-asyncio-end
+
+SQL Support
+^^^^^^^^^^^
+.. marker-sql-support-start
+
+The ability to query InfluxDB with SQL was introduced with the IOX backend.
+To make use of the SQL support users can make use of the SQL Query API:
+
+.. code-block:: python
+
+    from influxdb_client import InfluxDBClient
+
+    with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False) as client:
+        query_sql_api = client.query_sql_api()
+        reader = query_sql_api.query("my-bucket", "select * from cpu limit 10")
+        print(reader.read_all())
+
+.. warning::
+
+    The ``QuerySQLApi`` only works with InfluxDB that has SQL support enabled.
+    This does not apply to all InfluxDB versions.
+
+.. marker-sql-support-end
 
 Logging
 ^^^^^^^

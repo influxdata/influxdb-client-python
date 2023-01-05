@@ -43,6 +43,10 @@ async_requires = [
     'aiocsv>=1.2.2'
 ]
 
+sql_requires = [
+    'flightsql-dbapi@git+https://github.com/influxdata/flightsql-dbapi.git@fbc9fc1618528cd442a7e22ea11663856b0ecd5d'
+]
+
 with open('README.rst', 'r') as f:
     # Remove `class` text role as it's not allowed on PyPI
     lines = []
@@ -66,7 +70,13 @@ setup(
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
     install_requires=requires,
-    extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'async': async_requires, 'test': test_requires},
+    extras_require={
+        'async': async_requires,
+        'ciso': ciso_requires,
+        'extra': extra_requires,
+        'sql': sql_requires,
+        'test': test_requires,
+    },
     long_description_content_type="text/x-rst",
     packages=find_packages(exclude=('tests*',)),
     test_suite='tests',

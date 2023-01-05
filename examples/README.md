@@ -10,9 +10,9 @@
 - [write_api_callbacks.py](write_api_callbacks.py) - How to handle batch events
 - [write_structured_data.py](write_structured_data.py) - How to write structured data - [NamedTuple](https://docs.python.org/3/library/collections.html#collections.namedtuple), [Data Classes](https://docs.python.org/3/library/dataclasses.html) - (_requires Python v3.8+_)
 - [logging_handler.py](logging_handler.py) - How to set up a python native logging handler that writes to InfluxDB
-- [import_parquet.py](import_parquet.py) - How to import [Apache Parquet](https://parquet.apache.org/) data files, 
-  the example requires: 
-  - manually download [NYC TLC Trip Record Data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) 
+- [import_parquet.py](import_parquet.py) - How to import [Apache Parquet](https://parquet.apache.org/) data files,
+  the example requires:
+  - manually download [NYC TLC Trip Record Data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
   - install Apache Arrow `pip install pyarrow` dependency
 - [write_batching_by_bytes_count.py](write_batching_by_bytes_count.py) - How to use RxPY to prepare batches by maximum bytes count.
 
@@ -35,6 +35,7 @@
 - [influx_cloud.py](influx_cloud.py) - How to connect to InfluxDB 2 Cloud
 - [invokable_scripts.py](invokable_scripts.py) - How to use Invokable scripts Cloud API to create custom endpoints that query data
 - [bucket_schemas.py](bucket_schemas.py) - How to manage explicit bucket schemas to enforce column names, tags, fields, and data types for your data
+- [query_sql.py](query_sql.py) - How to query buckets with SQL
 
 ## Others
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
@@ -46,4 +47,4 @@
 - [asynchronous_management.py](asynchronous_management.py) - How to use asynchronous Management API
 - [asynchronous_batching.py](asynchronous_batching.py) - How to use [RxPY](https://rxpy.readthedocs.io/en/latest/) to prepare batches
 - [asynchronous_retry.py](asynchronous_retry.py) - How to use [aiohttp-retry](https://github.com/inyutin/aiohttp_retry) to configure retries
-  
+
