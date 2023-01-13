@@ -73,7 +73,7 @@ class SQLClient(_BaseSQLClient):
 
     def schemas(self):
         """
-        Returns the schema of the specified bucket.
+        Return the schema of the specified bucket.
 
         :return: PyArrow Table
 
@@ -102,7 +102,7 @@ class SQLClient(_BaseSQLClient):
         return self._get_ticket_info(self._client.get_table_types()).read_all()
 
     def _get_ticket_info(self, flightInfo):
-        """Helper function to collect results from FlightInfo."""
+        """Collect results from FlightInfo."""
         if len(flightInfo.endpoints) == 0:
             raise ValueError("no endpoints received")
         return self._client.do_get(flightInfo.endpoints[0].ticket).to_reader()
