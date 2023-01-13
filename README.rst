@@ -1589,7 +1589,7 @@ Client automatically follows HTTP redirects. The default redirect policy is to f
 .. marker-asyncio-end
 
 SQL Client Support
-^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 .. marker-sql-support-start
 
 The ability to query InfluxDB with SQL was introduced with the IOX backend.
