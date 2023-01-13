@@ -502,6 +502,12 @@ class _BaseDeleteApi(object):
         return predicate_request
 
 
+# noinspection PyMethodMayBeStatic
+class _BaseSQLClient(object):
+    def __init__(self, influxdb_client):
+        self._influxdb_client = influxdb_client
+
+
 class _Configuration(Configuration):
     def __init__(self):
         Configuration.__init__(self)

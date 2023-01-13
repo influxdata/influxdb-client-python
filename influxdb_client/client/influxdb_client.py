@@ -14,7 +14,7 @@ from influxdb_client.client.delete_api import DeleteApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi, QueryOptions
-from influxdb_client.client.query_sql_api import QuerySQLApi
+from influxdb_client.client.sql_client import SQLClient
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
@@ -302,13 +302,13 @@ class InfluxDBClient(_BaseClient):
         """
         return QueryApi(self, query_options)
 
-    def query_sql_api(self) -> QuerySQLApi:
+    def sql_client(self, bucket: str) -> SQLClient:
         """
-        Create an Query SQL API instance.
+        Create an SQL client instance.
 
-        :return: Query SQL API instance
+        :return: SQL client instance
         """
-        return QuerySQLApi(self)
+        return SQLClient(self, bucket)
 
     def invokable_scripts_api(self) -> InvokableScriptsApi:
         """

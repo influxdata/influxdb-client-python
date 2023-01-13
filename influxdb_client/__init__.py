@@ -384,7 +384,7 @@ from influxdb_client.client.invokable_scripts_api import InvokableScriptsApi
 from influxdb_client.client.labels_api import LabelsApi
 from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi
-from influxdb_client.client.query_sql_api import QuerySQLApi
+from influxdb_client.client.sql_client import SQLClient
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
 from influxdb_client.client.write_api import WriteApi, WriteOptions

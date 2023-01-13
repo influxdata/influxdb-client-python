@@ -44,7 +44,8 @@ async_requires = [
 ]
 
 sql_requires = [
-    'flightsql-dbapi@git+https://github.com/influxdata/flightsql-dbapi.git@fbc9fc1618528cd442a7e22ea11663856b0ecd5d'
+    'flightsql-dbapi@git+https://github.com/influxdata/flightsql-dbapi.git@fbc9fc1618528cd442a7e22ea11663856b0ecd5d',
+    'pandas>=0.25.3',
 ]
 
 with open('README.rst', 'r') as f:

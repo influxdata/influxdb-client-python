@@ -84,7 +84,7 @@ InfluxDB 2.0 client features
     - `Nanosecond precision`_
     - `Delete data`_
     - `Handling Errors`_
-    - `SQL Support`_
+    - `SQL client support`_
     - `Logging`_
 
 Installation
@@ -114,7 +114,7 @@ The python package is hosted on `PyPI <https://pypi.org/project/influxdb-client/
 
 .. code-block:: sh
 
-   pip install 'influxdb-client[ciso]'
+   pip install 'influxdb-client'
 
 Then import the package:
 
@@ -122,7 +122,15 @@ Then import the package:
 
    import influxdb_client
 
-If your application uses async/await in Python you can install with the ``async`` extra::
+There are additional package extras that will pull in additional dependencies:
+
+* `async`: async/await support
+* `ciso`: faster date and time parsing
+* `extra`: Pandas and NumPy support
+* `sql`: SQL client support
+
+For example if your application uses async/await in Python you can install the
+``async`` extra::
 
     $ pip install influxdb-client[async]
 
@@ -1580,25 +1588,25 @@ Client automatically follows HTTP redirects. The default redirect policy is to f
 
 .. marker-asyncio-end
 
-SQL Support
+SQL Client Support
 ^^^^^^^^^^^
 .. marker-sql-support-start
 
 The ability to query InfluxDB with SQL was introduced with the IOX backend.
-To make use of the SQL support users can make use of the SQL Query API:
+To make use of the SQL support users can create a SQL Client with this library:
 
 .. code-block:: python
 
     from influxdb_client import InfluxDBClient
 
     with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False) as client:
-        query_sql_api = client.query_sql_api()
-        reader = query_sql_api.query("my-bucket", "select * from cpu limit 10")
+        sql_client = client.sql_client()
+        reader = sql_client.query("my-bucket", "select * from cpu limit 10")
         print(reader.read_all())
 
 .. warning::
 
-    The ``QuerySQLApi`` only works with InfluxDB that has SQL support enabled.
+    The ``SQLClient`` only works with InfluxDB that has SQL support enabled.
     This does not apply to all InfluxDB versions.
 
 .. marker-sql-support-end
