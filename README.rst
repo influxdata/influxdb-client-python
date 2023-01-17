@@ -1600,8 +1600,8 @@ To make use of the SQL support users can create a SQL Client with this library:
     from influxdb_client import InfluxDBClient
 
     with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False) as client:
-        sql_client = client.sql_client()
-        reader = sql_client.query("my-bucket", "select * from cpu limit 10")
+        sql_client = client.sql_client("my-bucket")
+        reader = sql_client.query("select * from cpu limit 10")
         print(reader.read_all())
 
 .. warning::
