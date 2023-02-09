@@ -530,11 +530,25 @@ You can use native asynchronous version of the client:
         if response.exception:
             logger.error("The batch item wasn't processed successfully because: %s", response.exception)
             if self._error_callback:
-                self._error_callback(response.data.to_key_tuple(), response.data.data, response.exception)
+                try:
+                    self._error_callback(response.data.to_key_tuple(), response.data.data, response.exception)
+                except Exception as e:
+                    """
+                    Unfortunately, because callbacks are user-provided generic code, exceptions can be entirely
+                    arbitrary
+
+                    We trap it, log that it occurred and then proceed - there's not much more that we can
+                    really do.
+                    """
+                    logger.error("The configured error callback threw an exception: %s", e)
+
         else:
             logger.debug("The batch item: %s was processed successfully.", response)
             if self._success_callback:
-                self._success_callback(response.data.to_key_tuple(), response.data.data)
+                try:
+                    self._success_callback(response.data.to_key_tuple(), response.data.data)
+                except Exception as e:
+                    logger.error("The configured success callback threw an exception: %s", e)
 
     @staticmethod
     def _on_error(ex):
