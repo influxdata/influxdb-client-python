@@ -1,5 +1,8 @@
 ## 1.37.0 [unreleased]
 
+### Bug Fixes
+1. [#559](https://github.com/influxdata/influxdb-client-python/pull/559): Exceptions in callbacks can cause deadlocks
+
 ## 1.36.0 [2023-01-26]
 
 ### Features
