@@ -447,6 +447,9 @@ The batching is configurable by ``write_options``\ :
    * - **max_retry_delay**
      - the maximum delay between each retry attempt in milliseconds
      - ``125_000``
+   * - **max_close_wait**
+     - the maximum amount of time to wait for batches to flush when `.close()` is called
+     - ``300_000``
    * - **exponential_base**
      - the base for the exponential retry delay, the next delay is computed using random exponential backoff as a random value within the interval  ``retry_interval * exponential_base^(attempts-1)`` and ``retry_interval * exponential_base^(attempts)``. Example for ``retry_interval=5_000, exponential_base=2, max_retry_delay=125_000, total=5`` Retry delays are random distributed values within the ranges of ``[5_000-10_000, 10_000-20_000, 20_000-40_000, 40_000-80_000, 80_000-125_000]``
      - ``2``
@@ -470,6 +473,7 @@ The batching is configurable by ``write_options``\ :
                                                           retry_interval=5_000,
                                                           max_retries=5,
                                                           max_retry_delay=30_000,
+                                                          max_close_wait=300_000,
                                                           exponential_base=2)) as _write_client:
 
             """
