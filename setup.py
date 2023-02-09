@@ -21,6 +21,7 @@ test_requires = [
     'randomize>=0.13',
     'pytest>=5.0.0',
     'pytest-cov>=3.0.0',
+    'pytest-timeout>=2.1.0',
     'httpretty==1.0.5',
     'psutil>=5.6.3',
     'aioresponses>=0.7.3',
