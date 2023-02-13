@@ -647,6 +647,51 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertIsInstance(callback.error, InfluxDBError)
         self.assertEqual(400, callback.error.response.status)
 
+    @pytest.mark.timeout(timeout=20)
+    def test_error_callback_exception(self):
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=400)
+
+        class ErrorCallback(object):
+            def __init__(self):
+                self.conf = None
+                self.data = None
+                self.error = None
+
+            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+                self.conf = conf
+                self.data = data
+                self.error = error
+                raise Exception('Test generated an error')
+
+
+        callback = ErrorCallback()
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=WriteOptions(batch_size=2, max_close_wait=2_000), error_callback=callback)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 ["h2o_feet,location=coyote_creek water_level=1 x",
+                                  "h2o_feet,location=coyote_creek water_level=2 2"])
+
+        time.sleep(1)
+        _requests = httpretty.httpretty.latest_requests
+        self.assertEqual(1, len(_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek water_level=1 x\n"
+                         "h2o_feet,location=coyote_creek water_level=2 2", _requests[0].parsed_body)
+
+        self.assertEqual(b"h2o_feet,location=coyote_creek water_level=1 x\n"
+                         b"h2o_feet,location=coyote_creek water_level=2 2", callback.data)
+        self.assertEqual("my-bucket", callback.conf[0])
+        self.assertEqual("my-org", callback.conf[1])
+        self.assertEqual("ns", callback.conf[2])
+        self.assertIsNotNone(callback.error)
+        self.assertIsInstance(callback.error, InfluxDBError)
+        self.assertEqual(400, callback.error.response.status)
+
+        self._write_client.close()
+
+
     def test_retry_callback(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=429, adding_headers={'Retry-After': '1'})

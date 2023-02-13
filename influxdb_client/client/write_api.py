@@ -51,6 +51,7 @@ class WriteOptions(object):
                  max_retry_delay=125_000,
                  max_retry_time=180_000,
                  exponential_base=2,
+                 max_close_wait=300_000,
                  write_scheduler=ThreadPoolScheduler(max_workers=1)) -> None:
         """
         Create write api configuration.
@@ -66,6 +67,7 @@ class WriteOptions(object):
         :param max_retry_delay: the maximum delay between each retry attempt in milliseconds
         :param max_retry_time: total timeout for all retry attempts in milliseconds, if 0 retry is disabled
         :param exponential_base: base for the exponential retry delay
+        :parama max_close_wait: the maximum time to wait for writes to be flushed if close() is called
         :param write_scheduler:
         """
         self.write_type = write_type
@@ -78,6 +80,7 @@ class WriteOptions(object):
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
         self.write_scheduler = write_scheduler
+        self.max_close_wait = max_close_wait
 
     def to_retry_strategy(self, **kwargs):
         """
@@ -410,9 +413,31 @@ You can use native asynchronous version of the client:
             self._subject.dispose()
             self._subject = None
 
-            # Wait for finish writing
+            """
+            We impose a maximum wait time to ensure that we do not cause a deadlock if the
+            background thread has exited abnormally
+
+            Each iteration waits 100ms, but sleep expects the unit to be seconds so convert
+            the maximum wait time to seconds.
+
+            We keep a counter of how long we've waited
+            """
+            max_wait_time = self._write_options.max_close_wait / 1000
+            waited = 0
+            sleep_period = 0.1
+
+            # Wait for writing to finish
             while not self._disposable.is_disposed:
-                sleep(0.1)
+                sleep(sleep_period)
+                waited += sleep_period
+
+                # Have we reached the upper limit?
+                if waited >= max_wait_time:
+                    logger.warning(
+                            "Reached max_close_wait (%s seconds) waiting for batches to finish writing. Force closing",
+                            max_wait_time
+                        )
+                    break
 
         if self._disposable:
             self._disposable = None
@@ -505,11 +530,25 @@ You can use native asynchronous version of the client:
         if response.exception:
             logger.error("The batch item wasn't processed successfully because: %s", response.exception)
             if self._error_callback:
-                self._error_callback(response.data.to_key_tuple(), response.data.data, response.exception)
+                try:
+                    self._error_callback(response.data.to_key_tuple(), response.data.data, response.exception)
+                except Exception as e:
+                    """
+                    Unfortunately, because callbacks are user-provided generic code, exceptions can be entirely
+                    arbitrary
+
+                    We trap it, log that it occurred and then proceed - there's not much more that we can
+                    really do.
+                    """
+                    logger.error("The configured error callback threw an exception: %s", e)
+
         else:
             logger.debug("The batch item: %s was processed successfully.", response)
             if self._success_callback:
-                self._success_callback(response.data.to_key_tuple(), response.data.data)
+                try:
+                    self._success_callback(response.data.to_key_tuple(), response.data.data)
+                except Exception as e:
+                    logger.error("The configured success callback threw an exception: %s", e)
 
     @staticmethod
     def _on_error(ex):
