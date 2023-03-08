@@ -30,6 +30,9 @@ This release introduces a support for new version of InfluxDB API definitions wi
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]
 1. [#584](https://github.com/influxdata/influxdb-client-python/pull/584): Parsing empty query result value as `numpy.NaN`
 
+### Documentation
+1. [#566](https://github.com/influxdata/influxdb-client-python/pull/566): Fix Sphinx documentation build and add support `.readthedocs.yml` V2 configuration file
+
 ## 1.36.1 [2023-02-23]
 
 ### Bug Fixes
