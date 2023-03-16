@@ -11,7 +11,7 @@ class SQLClient(_BaseSQLClient):
     This class provides basic operations for interacting with InfluxDB via SQL.
     """
 
-    def __init__(self, influxdb_client, bucket):
+    def __init__(self, influxdb_client, bucket, **kwargs):
         """
         Initialize SQL client.
 
@@ -30,11 +30,34 @@ class SQLClient(_BaseSQLClient):
         super().__init__(influxdb_client=influxdb_client)
 
         from flightsql import FlightSQLClient
+
+        namespace = f'{influxdb_client.org}_{bucket}'
+        url = urlparse(self._influxdb_client.url)
+        port = url.port if url.port else 443
         self._client = FlightSQLClient(
-            host=urlparse(self._influxdb_client.url).hostname,
-            token=self._influxdb_client.token,
-            metadata={"bucket-name": bucket},
+            host=url.hostname,
+            port=port,
+            metadata={
+                "bucket-name": bucket,             # for cloud
+                "iox-namespace-name": namespace,   # for local instance
+            },
+            **kwargs
         )
+
+    def __enter__(self):
+        """
+        Enter the runtime context related to this object.
+
+        It will bind this method’s return value to the target(s)
+        specified in the `as` clause of the statement.
+
+        return: self instance
+        """
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Exit the runtime context related to this object and close the SQLClient."""
+        self.close()
 
     def close(self):
         """Close the client connection."""
