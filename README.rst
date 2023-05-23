@@ -56,11 +56,11 @@ InfluxDB 2.0 client features
 
 - Querying data
     - using the Flux language
-    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_ structure, `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
+    - into csv, raw data, `flux_table <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L33>`_ structure, `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to queries <#queries>`_
 - Writing data using
     - `Line Protocol <https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol>`_
-    - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__
+    - `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L47>`__
     - `RxPY <https://rxpy.readthedocs.io/en/latest/>`__ Observable
     - `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
     - `How to writes <#writes>`_
