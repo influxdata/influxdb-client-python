@@ -268,6 +268,7 @@ class FluxCsvParser(object):
         return record
 
     def _to_value(self, str_val, column):
+
         if str_val == '' or str_val is None:
             default_value = column.default_value
             if default_value == '' or default_value is None:
