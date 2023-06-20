@@ -268,10 +268,12 @@ class FluxCsvParser(object):
         return record
 
     def _to_value(self, str_val, column):
-
         if str_val == '' or str_val is None:
             default_value = column.default_value
             if default_value == '' or default_value is None:
+                if self._serialization_mode is FluxSerializationMode.dataFrame:
+                    from ..extras import np
+                    return self._to_value(np.nan, column)
                 return None
             return self._to_value(default_value, column)
 
