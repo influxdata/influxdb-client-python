@@ -126,7 +126,6 @@ class RESTClientObjectAsync(object):
         _client_session_kwargs = kwargs.get('client_session_kwargs', {})
         self.pool_manager = _client_session_type(
             connector=connector,
-            trust_env=True,
             timeout=timeout,
             trace_configs=[trace_config] if configuration.debug else None,
             **_client_session_kwargs

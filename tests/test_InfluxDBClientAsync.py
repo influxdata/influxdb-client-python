@@ -414,6 +414,15 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         self.assertIsInstance(results, Organizations)
         self.assertIn("my-org", list(map(lambda org: org.name, results.orgs)))
 
+    @async_test
+    async def test_trust_env_default(self):
+        self.assertFalse(self.client.api_client.rest_client.pool_manager.trust_env)
+
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", token="wrong", org="my-org",
+                                          client_session_kwargs={'trust_env': True})
+        self.assertTrue(self.client.api_client.rest_client.pool_manager.trust_env)
+
     async def _prepare_data(self, measurement: str):
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3)
         _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3)
