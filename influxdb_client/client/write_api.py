@@ -434,9 +434,9 @@ You can use native asynchronous version of the client:
                 # Have we reached the upper limit?
                 if waited >= max_wait_time:
                     logger.warning(
-                            "Reached max_close_wait (%s seconds) waiting for batches to finish writing. Force closing",
-                            max_wait_time
-                        )
+                        "Reached max_close_wait (%s seconds) waiting for batches to finish writing. Force closing",
+                        max_wait_time
+                    )
                     break
 
         if self._disposable:
