@@ -263,6 +263,19 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual('bool', df.dtypes['value4'].name)
         self.assertEqual('float64', df.dtypes['value5'].name)
 
+    def test_pandas_null_bool_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,boolean\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,true\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
+        df = list(parser.generator())[0]
+        self.assertEqual('bool', df.dtypes['value'].name)
+
     def test_parse_without_datatype(self):
         data = ",result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str\n" \
                ",,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test\n" \

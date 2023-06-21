@@ -2,7 +2,7 @@
 
 ### Breaking Changes
 
-This release disables using of the HTTP proxy environment variables `HTTP_PROXY` and `HTTPS_PROXY` for the asynchronous HTTP client. 
+This release disables using of the HTTP proxy environment variables `HTTP_PROXY` and `HTTPS_PROXY` for the asynchronous HTTP client.
 The proxy environment variables must be explicitly enabled in the client's configuration:
 
 ```python
@@ -15,6 +15,7 @@ async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", or
 
 ### Bug Fixes
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]
+1. [#584](https://github.com/influxdata/influxdb-client-python/pull/584): Parsing empty query result value as `numpy.NaN`
 
 ## 1.36.1 [2023-02-23]
 
