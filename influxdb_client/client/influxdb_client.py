@@ -149,7 +149,7 @@ class InfluxDBClient(_BaseClient):
                 profilers="query, operator"
                 proxy = "http://proxy.domain.org:8080"
 
-            [tags]config_name
+            [tags]
                 id = "132-987-655"
                 customer = "California Miner"
                 data_center = "${env.data_center}"
