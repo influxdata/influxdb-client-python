@@ -83,8 +83,8 @@ class InfluxDBClient(_BaseClient):
         self.close()
 
     @classmethod
-    def from_config_file(cls, config_file: str = "config.ini", config_name: str = "influx2",
-                         debug=None, enable_gzip=False, **kwargs):
+    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False,
+                         config_name: str = "influx2", **kwargs):
         """
         Configure client via configuration file. The configuration has to be under 'influx' section.
 

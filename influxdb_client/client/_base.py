@@ -99,8 +99,9 @@ class _BaseClient(object):
         pass
 
     @classmethod
-    def _from_config_file(cls, config_file: str = "config.ini", config_name: str = "influx2",
-                          debug=None, enable_gzip=False, **kwargs):
+    def _from_config_file(cls, config_file: str = "config.ini", debug=None,
+                          config_name: str = "influx2", enable_gzip=False, **kwargs):
+
         config = configparser.ConfigParser()
         is_json = False
         try:
