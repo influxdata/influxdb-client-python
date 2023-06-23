@@ -99,7 +99,7 @@ class InfluxDBClientAsync(_BaseClient):
             self.api_client = None
 
     @classmethod
-    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
+    def from_config_file(cls, config_file: str = "config.ini", config_name: str = "influx2", debug=None, enable_gzip=False, **kwargs):
         """
         Configure client via configuration file. The configuration has to be under 'influx' section.
 
@@ -189,8 +189,8 @@ class InfluxDBClientAsync(_BaseClient):
             }
 
         """
-        return InfluxDBClientAsync._from_config_file(config_file=config_file, debug=debug,
-                                                     enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClientAsync._from_config_file(config_file=config_file, config_name=config_name,
+                                                     debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):

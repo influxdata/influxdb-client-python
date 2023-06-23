@@ -83,7 +83,7 @@ class InfluxDBClient(_BaseClient):
         self.close()
 
     @classmethod
-    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
+    def from_config_file(cls, config_file: str = "config.ini", config_name: str = "influx2", debug=None, enable_gzip=False, **kwargs):
         """
         Configure client via configuration file. The configuration has to be under 'influx' section.
 
@@ -149,7 +149,7 @@ class InfluxDBClient(_BaseClient):
                 profilers="query, operator"
                 proxy = "http://proxy.domain.org:8080"
 
-            [tags]
+            [tags]config_name
                 id = "132-987-655"
                 customer = "California Miner"
                 data_center = "${env.data_center}"
@@ -173,7 +173,8 @@ class InfluxDBClient(_BaseClient):
             }
 
         """
-        return InfluxDBClient._from_config_file(config_file=config_file, debug=debug, enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClient._from_config_file(config_file=config_file, config_name=config_name,
+                                                debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
