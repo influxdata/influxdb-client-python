@@ -192,6 +192,8 @@ This release introduces a support for new version of InfluxDB OSS API definition
 
 ### Features
 1. [#393](https://github.com/influxdata/influxdb-client-python/pull/393): Add callback function for getting profilers output with example and test
+2. [#586](https://github.com/influxdata/influxdb-client-python/pull/586): Add `config_name` argument for
+    ``from_config_file`` function to allow loading a specific configuration from a config file
 
 ### Bug Fixes
 1. [#375](https://github.com/influxdata/influxdb-client-python/pull/375): Construct `InfluxDBError` without HTTP response

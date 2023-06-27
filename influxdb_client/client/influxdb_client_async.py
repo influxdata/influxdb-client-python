@@ -108,6 +108,7 @@ class InfluxDBClientAsync(_BaseClient):
         :param debug: Enable verbose logging of http requests
         :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
                             supports the Gzip compression.
+        :param config_name: Name of the configuration section of the configuration file
         :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
