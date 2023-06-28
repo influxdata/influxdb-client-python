@@ -83,8 +83,7 @@ class InfluxDBClient(_BaseClient):
         self.close()
 
     @classmethod
-    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False,
-                         config_name: str = "influx2", **kwargs):
+    def from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         """
         Configure client via configuration file. The configuration has to be under 'influx' section.
 
@@ -92,7 +91,7 @@ class InfluxDBClient(_BaseClient):
         :param debug: Enable verbose logging of http requests
         :param enable_gzip: Enable Gzip compression for http requests. Currently, only the "Write" and "Query" endpoints
                             supports the Gzip compression.
-        :param config_name: Name of the configuration section of the configuration file
+        :key config_name: Name of the configuration section of the configuration file
         :key str proxy_headers: A dictionary containing headers that will be sent to the proxy. Could be used for proxy
                                 authentication.
         :key urllib3.util.retry.Retry retries: Set the default retry strategy that is used for all HTTP requests
@@ -175,8 +174,7 @@ class InfluxDBClient(_BaseClient):
             }
 
         """
-        return InfluxDBClient._from_config_file(config_file=config_file, config_name=config_name,
-                                                debug=debug, enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClient._from_config_file(config_file=config_file, debug=debug, enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):

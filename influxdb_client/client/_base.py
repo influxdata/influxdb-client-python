@@ -100,9 +100,10 @@ class _BaseClient(object):
 
     @classmethod
     def _from_config_file(cls, config_file: str = "config.ini", debug=None,
-                          config_name: str = "influx2", enable_gzip=False, **kwargs):
+                          enable_gzip=False, **kwargs):
 
         config = configparser.ConfigParser()
+        config_name = kwargs.get('config_name', 'influx2')
         is_json = False
         try:
             config.read(config_file)
