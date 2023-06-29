@@ -12,6 +12,8 @@ async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", or
                                client_session_kwargs={'trust_env': True}) as client:
     pass
 ```
+### Features
+1. [#586](https://github.com/influxdata/influxdb-client-python/pull/586): Add `config_name` key argument for ``from_config_file`` function to allow loading a specific configuration from a config file
 
 ### Bug Fixes
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]

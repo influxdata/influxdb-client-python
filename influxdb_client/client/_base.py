@@ -101,6 +101,7 @@ class _BaseClient(object):
     @classmethod
     def _from_config_file(cls, config_file: str = "config.ini", debug=None, enable_gzip=False, **kwargs):
         config = configparser.ConfigParser()
+        config_name = kwargs.get('config_name', 'influx2')
         is_json = False
         try:
             config.read(config_file)
@@ -111,11 +112,11 @@ class _BaseClient(object):
                 is_json = True
 
         def _config_value(key: str):
-            value = str(config[key]) if is_json else config['influx2'][key]
+            value = str(config[key]) if is_json else config[config_name][key]
             return value.strip('"')
 
         def _has_option(key: str):
-            return key in config if is_json else config.has_option('influx2', key)
+            return key in config if is_json else config.has_option(config_name, key)
 
         def _has_section(key: str):
             return key in config if is_json else config.has_section(key)
