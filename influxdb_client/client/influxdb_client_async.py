@@ -190,7 +190,8 @@ class InfluxDBClientAsync(_BaseClient):
             }
 
         """
-        return InfluxDBClientAsync._from_config_file(config_file=config_file, debug=debug, enable_gzip=enable_gzip, **kwargs)
+        return InfluxDBClientAsync._from_config_file(config_file=config_file, debug=debug, 
+                                                     enable_gzip=enable_gzip, **kwargs)
 
     @classmethod
     def from_env_properties(cls, debug=None, enable_gzip=False, **kwargs):
