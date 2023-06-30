@@ -398,7 +398,7 @@ class QueryService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_query_analyze(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
         Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes a synchronous HTTP request by default. To make an
@@ -422,7 +422,7 @@ class QueryService(_BaseService):
             return data
 
     def post_query_analyze_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
         Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes a synchronous HTTP request by default. To make an
@@ -459,7 +459,7 @@ class QueryService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_query_analyze_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
         Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes an asynchronous HTTP request.
@@ -522,7 +522,7 @@ class QueryService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_query_ast(self, **kwargs):  # noqa: E501,D401,D403
-        """Generate a query Abstract Syntax Tree (AST).
+        r"""Generate a query Abstract Syntax Tree (AST).
 
         Analyzes a Flux query and returns a complete package source [Abstract Syntax Tree (AST)](https://docs.influxdata.com/influxdb/latest/reference/glossary/#abstract-syntax-tree-ast) for the query.  Use this endpoint for deep query analysis such as debugging unexpected query results.  A Flux query AST provides a semantic, tree-like representation with contextual information about the query. The AST illustrates how the query is distributed into different components for execution.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:      The following sample Flux query has correct syntax, but contains an incorrect `from()` property key:      ```js     from(foo: "iot_center")         |> range(start: -90d)         |> filter(fn: (r) => r._measurement == "environment")     ```      The following sample JSON shows how to pass the query in the request body:      ```js     from(foo: "iot_center")     |> range(start: -90d)     |> filter(fn: (r) => r._measurement == "environment")     ```      The following code sample shows how to pass the query as JSON in the request body:      ```json     { "query": "from(foo: \\"iot_center\\")\\                     |> range(start: -90d)\\                     |> filter(fn: (r) => r._measurement == \\"environment\\")"     }     ```      Passing this to `/api/v2/query/ast` will return a successful response     with a generated AST.
         This method makes a synchronous HTTP request by default. To make an
@@ -546,7 +546,7 @@ class QueryService(_BaseService):
             return data
 
     def post_query_ast_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Generate a query Abstract Syntax Tree (AST).
+        r"""Generate a query Abstract Syntax Tree (AST).
 
         Analyzes a Flux query and returns a complete package source [Abstract Syntax Tree (AST)](https://docs.influxdata.com/influxdb/latest/reference/glossary/#abstract-syntax-tree-ast) for the query.  Use this endpoint for deep query analysis such as debugging unexpected query results.  A Flux query AST provides a semantic, tree-like representation with contextual information about the query. The AST illustrates how the query is distributed into different components for execution.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:      The following sample Flux query has correct syntax, but contains an incorrect `from()` property key:      ```js     from(foo: "iot_center")         |> range(start: -90d)         |> filter(fn: (r) => r._measurement == "environment")     ```      The following sample JSON shows how to pass the query in the request body:      ```js     from(foo: "iot_center")     |> range(start: -90d)     |> filter(fn: (r) => r._measurement == "environment")     ```      The following code sample shows how to pass the query as JSON in the request body:      ```json     { "query": "from(foo: \\"iot_center\\")\\                     |> range(start: -90d)\\                     |> filter(fn: (r) => r._measurement == \\"environment\\")"     }     ```      Passing this to `/api/v2/query/ast` will return a successful response     with a generated AST.
         This method makes a synchronous HTTP request by default. To make an
