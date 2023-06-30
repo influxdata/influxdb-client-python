@@ -24,7 +24,7 @@ This release introduces a support for new version of InfluxDB API definitions wi
 1. [#586](https://github.com/influxdata/influxdb-client-python/pull/586): Add `config_name` key argument for ``from_config_file`` function to allow loading a specific configuration from a config file
 
 ### API
-1. [#???](https://github.com/influxdata/influxdb-client-python/pull/???): Use the latest InfluxDB API definitions for generated APIs
+1. [#588](https://github.com/influxdata/influxdb-client-python/pull/588): Use the latest InfluxDB API definitions for generated APIs
 
 ### Bug Fixes
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]
