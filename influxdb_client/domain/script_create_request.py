@@ -60,7 +60,7 @@ class ScriptCreateRequest(object):
     def name(self):
         """Get the name of this ScriptCreateRequest.
 
-        The name of the script. The name must be unique within the organization.
+        Script name. The name must be unique within the organization.
 
         :return: The name of this ScriptCreateRequest.
         :rtype: str
@@ -71,7 +71,7 @@ class ScriptCreateRequest(object):
     def name(self, name):
         """Set the name of this ScriptCreateRequest.
 
-        The name of the script. The name must be unique within the organization.
+        Script name. The name must be unique within the organization.
 
         :param name: The name of this ScriptCreateRequest.
         :type: str
@@ -84,6 +84,8 @@ class ScriptCreateRequest(object):
     def description(self):
         """Get the description of this ScriptCreateRequest.
 
+        Script description. A description of the script.
+
         :return: The description of this ScriptCreateRequest.
         :rtype: str
         """  # noqa: E501
@@ -92,6 +94,8 @@ class ScriptCreateRequest(object):
     @description.setter
     def description(self, description):
         """Set the description of this ScriptCreateRequest.
+
+        Script description. A description of the script.
 
         :param description: The description of this ScriptCreateRequest.
         :type: str

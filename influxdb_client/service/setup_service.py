@@ -67,7 +67,7 @@ class SetupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_setup_prepare(**kwargs)
+            self._get_setup_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/setup', 'GET',
@@ -99,7 +99,7 @@ class SetupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_setup_prepare(**kwargs)
+            self._get_setup_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/setup', 'GET',
@@ -179,7 +179,7 @@ class SetupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_setup_prepare(onboarding_request, **kwargs)
+            self._post_setup_prepare(onboarding_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/setup', 'POST',
@@ -212,7 +212,7 @@ class SetupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_setup_prepare(onboarding_request, **kwargs)
+            self._post_setup_prepare(onboarding_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/setup', 'POST',

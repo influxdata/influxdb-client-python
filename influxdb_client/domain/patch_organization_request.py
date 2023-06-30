@@ -54,7 +54,7 @@ class PatchOrganizationRequest(object):
     def name(self):
         """Get the name of this PatchOrganizationRequest.
 
-        New name to set on the organization
+        The name of the organization.
 
         :return: The name of this PatchOrganizationRequest.
         :rtype: str
@@ -65,7 +65,7 @@ class PatchOrganizationRequest(object):
     def name(self, name):
         """Set the name of this PatchOrganizationRequest.
 
-        New name to set on the organization
+        The name of the organization.
 
         :param name: The name of this PatchOrganizationRequest.
         :type: str
@@ -76,7 +76,7 @@ class PatchOrganizationRequest(object):
     def description(self):
         """Get the description of this PatchOrganizationRequest.
 
-        New description to set on the organization
+        The description of the organization.
 
         :return: The description of this PatchOrganizationRequest.
         :rtype: str
@@ -87,7 +87,7 @@ class PatchOrganizationRequest(object):
     def description(self, description):
         """Set the description of this PatchOrganizationRequest.
 
-        New description to set on the organization
+        The description of the organization.
 
         :param description: The description of this PatchOrganizationRequest.
         :type: str

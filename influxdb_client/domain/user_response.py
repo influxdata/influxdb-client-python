@@ -31,7 +31,6 @@ class UserResponse(object):
     """
     openapi_types = {
         'id': 'str',
-        'oauth_id': 'str',
         'name': 'str',
         'status': 'str',
         'links': 'UserResponseLinks'
@@ -39,16 +38,14 @@ class UserResponse(object):
 
     attribute_map = {
         'id': 'id',
-        'oauth_id': 'oauthID',
         'name': 'name',
         'status': 'status',
         'links': 'links'
     }
 
-    def __init__(self, id=None, oauth_id=None, name=None, status='active', links=None):  # noqa: E501,D401,D403
+    def __init__(self, id=None, name=None, status='active', links=None):  # noqa: E501,D401,D403
         """UserResponse - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
-        self._oauth_id = None
         self._name = None
         self._status = None
         self._links = None
@@ -56,8 +53,6 @@ class UserResponse(object):
 
         if id is not None:
             self.id = id
-        if oauth_id is not None:
-            self.oauth_id = oauth_id
         self.name = name
         if status is not None:
             self.status = status
@@ -68,6 +63,8 @@ class UserResponse(object):
     def id(self):
         """Get the id of this UserResponse.
 
+        The user ID.
+
         :return: The id of this UserResponse.
         :rtype: str
         """  # noqa: E501
@@ -77,32 +74,18 @@ class UserResponse(object):
     def id(self, id):
         """Set the id of this UserResponse.
 
+        The user ID.
+
         :param id: The id of this UserResponse.
         :type: str
         """  # noqa: E501
         self._id = id
 
     @property
-    def oauth_id(self):
-        """Get the oauth_id of this UserResponse.
-
-        :return: The oauth_id of this UserResponse.
-        :rtype: str
-        """  # noqa: E501
-        return self._oauth_id
-
-    @oauth_id.setter
-    def oauth_id(self, oauth_id):
-        """Set the oauth_id of this UserResponse.
-
-        :param oauth_id: The oauth_id of this UserResponse.
-        :type: str
-        """  # noqa: E501
-        self._oauth_id = oauth_id
-
-    @property
     def name(self):
         """Get the name of this UserResponse.
+
+        The user name.
 
         :return: The name of this UserResponse.
         :rtype: str
@@ -112,6 +95,8 @@ class UserResponse(object):
     @name.setter
     def name(self, name):
         """Set the name of this UserResponse.
+
+        The user name.
 
         :param name: The name of this UserResponse.
         :type: str
@@ -124,7 +109,7 @@ class UserResponse(object):
     def status(self):
         """Get the status of this UserResponse.
 
-        If inactive the user is inactive.
+        The status of a user. An inactive user can't read or write resources.
 
         :return: The status of this UserResponse.
         :rtype: str
@@ -135,7 +120,7 @@ class UserResponse(object):
     def status(self, status):
         """Set the status of this UserResponse.
 
-        If inactive the user is inactive.
+        The status of a user. An inactive user can't read or write resources.
 
         :param status: The status of this UserResponse.
         :type: str

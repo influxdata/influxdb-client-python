@@ -32,6 +32,7 @@ class BandViewProperties(ViewProperties):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'adaptive_zoom_hide': 'bool',
         'time_format': 'str',
         'type': 'str',
         'queries': 'list[DashboardQuery]',
@@ -63,6 +64,7 @@ class BandViewProperties(ViewProperties):
     }
 
     attribute_map = {
+        'adaptive_zoom_hide': 'adaptiveZoomHide',
         'time_format': 'timeFormat',
         'type': 'type',
         'queries': 'queries',
@@ -93,10 +95,11 @@ class BandViewProperties(ViewProperties):
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, static_legend=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_column=None, generate_y_axis_ticks=None, y_total_ticks=None, y_tick_start=None, y_tick_step=None, upper_column=None, main_column=None, lower_column=None, hover_dimension=None, geom=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, adaptive_zoom_hide=None, time_format=None, type=None, queries=None, colors=None, shape=None, note=None, show_note_when_empty=None, axes=None, static_legend=None, x_column=None, generate_x_axis_ticks=None, x_total_ticks=None, x_tick_start=None, x_tick_step=None, y_column=None, generate_y_axis_ticks=None, y_total_ticks=None, y_tick_start=None, y_tick_step=None, upper_column=None, main_column=None, lower_column=None, hover_dimension=None, geom=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """BandViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
+        self._adaptive_zoom_hide = None
         self._time_format = None
         self._type = None
         self._queries = None
@@ -127,6 +130,8 @@ class BandViewProperties(ViewProperties):
         self._legend_orientation_threshold = None
         self.discriminator = None
 
+        if adaptive_zoom_hide is not None:
+            self.adaptive_zoom_hide = adaptive_zoom_hide
         if time_format is not None:
             self.time_format = time_format
         self.type = type
@@ -175,6 +180,24 @@ class BandViewProperties(ViewProperties):
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
             self.legend_orientation_threshold = legend_orientation_threshold
+
+    @property
+    def adaptive_zoom_hide(self):
+        """Get the adaptive_zoom_hide of this BandViewProperties.
+
+        :return: The adaptive_zoom_hide of this BandViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._adaptive_zoom_hide
+
+    @adaptive_zoom_hide.setter
+    def adaptive_zoom_hide(self, adaptive_zoom_hide):
+        """Set the adaptive_zoom_hide of this BandViewProperties.
+
+        :param adaptive_zoom_hide: The adaptive_zoom_hide of this BandViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._adaptive_zoom_hide = adaptive_zoom_hide
 
     @property
     def time_format(self):

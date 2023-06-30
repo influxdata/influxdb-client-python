@@ -67,7 +67,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_remote_connection_by_id_prepare(remote_id, **kwargs)
+            self._delete_remote_connection_by_id_prepare(remote_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'DELETE',
@@ -99,7 +99,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_remote_connection_by_id_prepare(remote_id, **kwargs)
+            self._delete_remote_connection_by_id_prepare(remote_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'DELETE',
@@ -183,7 +183,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_remote_connection_by_id_prepare(remote_id, **kwargs)
+            self._get_remote_connection_by_id_prepare(remote_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'GET',
@@ -215,7 +215,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_remote_connection_by_id_prepare(remote_id, **kwargs)
+            self._get_remote_connection_by_id_prepare(remote_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'GET',
@@ -303,7 +303,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_remote_connections_prepare(org_id, **kwargs)
+            self._get_remote_connections_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/remotes', 'GET',
@@ -337,7 +337,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_remote_connections_prepare(org_id, **kwargs)
+            self._get_remote_connections_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/remotes', 'GET',
@@ -427,7 +427,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_remote_connection_by_id_prepare(remote_id, remote_connection_update_request, **kwargs)
+            self._patch_remote_connection_by_id_prepare(remote_id, remote_connection_update_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'PATCH',
@@ -460,7 +460,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_remote_connection_by_id_prepare(remote_id, remote_connection_update_request, **kwargs)
+            self._patch_remote_connection_by_id_prepare(remote_id, remote_connection_update_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/remotes/{remoteID}', 'PATCH',
@@ -552,7 +552,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_remote_connection_prepare(remote_connection_creation_request, **kwargs)
+            self._post_remote_connection_prepare(remote_connection_creation_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/remotes', 'POST',
@@ -583,7 +583,7 @@ class RemoteConnectionsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_remote_connection_prepare(remote_connection_creation_request, **kwargs)
+            self._post_remote_connection_prepare(remote_connection_creation_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/remotes', 'POST',

@@ -48,7 +48,7 @@ class LanguageRequest(object):
     def query(self):
         """Get the query of this LanguageRequest.
 
-        Flux query script to be analyzed
+        The Flux query script to be analyzed.
 
         :return: The query of this LanguageRequest.
         :rtype: str
@@ -59,7 +59,7 @@ class LanguageRequest(object):
     def query(self, query):
         """Set the query of this LanguageRequest.
 
-        Flux query script to be analyzed
+        The Flux query script to be analyzed.
 
         :param query: The query of this LanguageRequest.
         :type: str

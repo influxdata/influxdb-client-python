@@ -48,7 +48,7 @@ class RunManually(object):
     def scheduled_for(self):
         """Get the scheduled_for of this RunManually.
 
-        Time used for run's "now" option, RFC3339.  Default is the server's now time.
+        The time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) used for the run's `now` option. Default is the server _now_ time.
 
         :return: The scheduled_for of this RunManually.
         :rtype: datetime
@@ -59,7 +59,7 @@ class RunManually(object):
     def scheduled_for(self, scheduled_for):
         """Set the scheduled_for of this RunManually.
 
-        Time used for run's "now" option, RFC3339.  Default is the server's now time.
+        The time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) used for the run's `now` option. Default is the server _now_ time.
 
         :param scheduled_for: The scheduled_for of this RunManually.
         :type: datetime

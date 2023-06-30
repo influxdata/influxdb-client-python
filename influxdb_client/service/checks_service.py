@@ -65,7 +65,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_check_prepare(post_check, **kwargs)
+            self._create_check_prepare(post_check, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks', 'POST',
@@ -96,7 +96,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_check_prepare(post_check, **kwargs)
+            self._create_check_prepare(post_check, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks', 'POST',
@@ -182,7 +182,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_checks_id_prepare(check_id, **kwargs)
+            self._delete_checks_id_prepare(check_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'DELETE',
@@ -214,7 +214,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_checks_id_prepare(check_id, **kwargs)
+            self._delete_checks_id_prepare(check_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'DELETE',
@@ -300,7 +300,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_checks_id_labels_id_prepare(check_id, label_id, **kwargs)
+            self._delete_checks_id_labels_id_prepare(check_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels/{labelID}', 'DELETE',
@@ -333,7 +333,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_checks_id_labels_id_prepare(check_id, label_id, **kwargs)
+            self._delete_checks_id_labels_id_prepare(check_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels/{labelID}', 'DELETE',
@@ -396,8 +396,8 @@ class ChecksService(_BaseService):
         :param async_req bool
         :param str org_id: Only show checks that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: Checks
                  If the method is called asynchronously,
                  returns the request thread.
@@ -420,14 +420,14 @@ class ChecksService(_BaseService):
         :param async_req bool
         :param str org_id: Only show checks that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: Checks
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_prepare(org_id, **kwargs)
+            self._get_checks_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks', 'GET',
@@ -454,14 +454,14 @@ class ChecksService(_BaseService):
         :param async_req bool
         :param str org_id: Only show checks that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: Checks
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_prepare(org_id, **kwargs)
+            self._get_checks_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks', 'GET',
@@ -555,7 +555,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_prepare(check_id, **kwargs)
+            self._get_checks_id_prepare(check_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'GET',
@@ -587,7 +587,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_prepare(check_id, **kwargs)
+            self._get_checks_id_prepare(check_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'GET',
@@ -671,7 +671,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_labels_prepare(check_id, **kwargs)
+            self._get_checks_id_labels_prepare(check_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels', 'GET',
@@ -703,7 +703,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_labels_prepare(check_id, **kwargs)
+            self._get_checks_id_labels_prepare(check_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels', 'GET',
@@ -787,7 +787,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_query_prepare(check_id, **kwargs)
+            self._get_checks_id_query_prepare(check_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}/query', 'GET',
@@ -819,7 +819,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_checks_id_query_prepare(check_id, **kwargs)
+            self._get_checks_id_query_prepare(check_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}/query', 'GET',
@@ -905,7 +905,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_checks_id_prepare(check_id, check_patch, **kwargs)
+            self._patch_checks_id_prepare(check_id, check_patch, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'PATCH',
@@ -938,7 +938,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_checks_id_prepare(check_id, check_patch, **kwargs)
+            self._patch_checks_id_prepare(check_id, check_patch, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'PATCH',
@@ -1034,7 +1034,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_checks_id_labels_prepare(check_id, label_mapping, **kwargs)
+            self._post_checks_id_labels_prepare(check_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels', 'POST',
@@ -1067,7 +1067,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_checks_id_labels_prepare(check_id, label_mapping, **kwargs)
+            self._post_checks_id_labels_prepare(check_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}/labels', 'POST',
@@ -1163,7 +1163,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_checks_id_prepare(check_id, check, **kwargs)
+            self._put_checks_id_prepare(check_id, check, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'PUT',
@@ -1196,7 +1196,7 @@ class ChecksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_checks_id_prepare(check_id, check, **kwargs)
+            self._put_checks_id_prepare(check_id, check, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/checks/{checkID}', 'PUT',

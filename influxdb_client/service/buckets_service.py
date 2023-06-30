@@ -32,13 +32,14 @@ class BucketsService(_BaseService):
     def delete_buckets_id(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a bucket.
 
+        Deletes a bucket and all associated records.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one bucket can be deleted per request.  #### Related Guides  - [Delete a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/delete-bucket/#delete-a-bucket-in-the-influxdb-ui)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The ID of the bucket to delete. (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -54,20 +55,21 @@ class BucketsService(_BaseService):
     def delete_buckets_id_with_http_info(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a bucket.
 
+        Deletes a bucket and all associated records.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one bucket can be deleted per request.  #### Related Guides  - [Delete a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/delete-bucket/#delete-a-bucket-in-the-influxdb-ui)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id_with_http_info(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The ID of the bucket to delete. (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_prepare(bucket_id, **kwargs)
+            self._delete_buckets_id_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'DELETE',
@@ -89,17 +91,18 @@ class BucketsService(_BaseService):
     async def delete_buckets_id_async(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a bucket.
 
+        Deletes a bucket and all associated records.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one bucket can be deleted per request.  #### Related Guides  - [Delete a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/delete-bucket/#delete-a-bucket-in-the-influxdb-ui)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The ID of the bucket to delete. (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_prepare(bucket_id, **kwargs)
+            self._delete_buckets_id_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'DELETE',
@@ -185,7 +188,7 @@ class BucketsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_labels_id_prepare(bucket_id, label_id, **kwargs)
+            self._delete_buckets_id_labels_id_prepare(bucket_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels/{labelID}', 'DELETE',
@@ -218,7 +221,7 @@ class BucketsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_labels_id_prepare(bucket_id, label_id, **kwargs)
+            self._delete_buckets_id_labels_id_prepare(bucket_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels/{labelID}', 'DELETE',
@@ -273,14 +276,15 @@ class BucketsService(_BaseService):
     def delete_buckets_id_members_id(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a bucket.
 
+        Removes a member from a bucket.  Use this endpoint to remove a user's member privileges from a bucket. This removes the user's `read` and `write` permissions for the bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id_members_id(user_id, bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str bucket_id: The ID of the bucket to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -296,21 +300,22 @@ class BucketsService(_BaseService):
     def delete_buckets_id_members_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a bucket.
 
+        Removes a member from a bucket.  Use this endpoint to remove a user's member privileges from a bucket. This removes the user's `read` and `write` permissions for the bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id_members_id_with_http_info(user_id, bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str bucket_id: The ID of the bucket to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_members_id_prepare(user_id, bucket_id, **kwargs)
+            self._delete_buckets_id_members_id_prepare(user_id, bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members/{userID}', 'DELETE',
@@ -332,18 +337,19 @@ class BucketsService(_BaseService):
     async def delete_buckets_id_members_id_async(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a bucket.
 
+        Removes a member from a bucket.  Use this endpoint to remove a user's member privileges from a bucket. This removes the user's `read` and `write` permissions for the bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str bucket_id: The ID of the bucket to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_members_id_prepare(user_id, bucket_id, **kwargs)
+            self._delete_buckets_id_members_id_prepare(user_id, bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members/{userID}', 'DELETE',
@@ -398,6 +404,7 @@ class BucketsService(_BaseService):
     def delete_buckets_id_owners_id(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a bucket.
 
+        Removes an owner from a bucket.  Use this endpoint to remove a user's `owner` role for a bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id_owners_id(user_id, bucket_id, async_req=True)
@@ -405,7 +412,7 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str user_id: The ID of the owner to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -421,6 +428,7 @@ class BucketsService(_BaseService):
     def delete_buckets_id_owners_id_with_http_info(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a bucket.
 
+        Removes an owner from a bucket.  Use this endpoint to remove a user's `owner` role for a bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_buckets_id_owners_id_with_http_info(user_id, bucket_id, async_req=True)
@@ -428,14 +436,14 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str user_id: The ID of the owner to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_owners_id_prepare(user_id, bucket_id, **kwargs)
+            self._delete_buckets_id_owners_id_prepare(user_id, bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners/{userID}', 'DELETE',
@@ -457,18 +465,19 @@ class BucketsService(_BaseService):
     async def delete_buckets_id_owners_id_async(self, user_id, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a bucket.
 
+        Removes an owner from a bucket.  Use this endpoint to remove a user's `owner` role for a bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str user_id: The ID of the owner to remove. (required)
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_buckets_id_owners_id_prepare(user_id, bucket_id, **kwargs)
+            self._delete_buckets_id_owners_id_prepare(user_id, bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners/{userID}', 'DELETE',
@@ -521,8 +530,9 @@ class BucketsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_buckets(self, **kwargs):  # noqa: E501,D401,D403
-        """List all buckets.
+        """List buckets.
 
+        Lists [buckets](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket).  InfluxDB retrieves buckets owned by the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) associated with the authorization ([API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)). To limit which buckets are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all buckets up to the default `limit`.  #### InfluxDB OSS  - If you use an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_   to authenticate your request, InfluxDB retrieves resources for _all   organizations_ in the instance.   To retrieve resources for only a specific organization, use the   `org` parameter or the `orgID` parameter to specify the organization.  #### Required permissions  | Action                    | Permission required | |:--------------------------|:--------------------| | Retrieve _user buckets_   | `read-buckets`      | | Retrieve [_system buckets_](https://docs.influxdata.com/influxdb/latest/reference/internals/system-buckets/) | `read-orgs`         |  #### Related Guides  - [Manage buckets](https://docs.influxdata.com/influxdb/latest/organizations/buckets/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets(async_req=True)
@@ -530,13 +540,13 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
-        :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
-        :param str org: The name of the organization.
-        :param str org_id: The organization ID.
-        :param str name: Only returns buckets with a specific name.
-        :param str id: Only returns buckets with a specific ID.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
+        :param str after: A resource ID to seek from. Returns records created after the specified record; results don't include the specified record.  Use `after` instead of the `offset` parameter. For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param str org: An organization name.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Lists buckets for the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Lists buckets for the specified organization.
+        :param str name: A bucket name. Only returns buckets with the specified name.
+        :param str id: A bucket ID. Only returns the bucket with the specified ID.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
@@ -549,8 +559,9 @@ class BucketsService(_BaseService):
             return data
 
     def get_buckets_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all buckets.
+        """List buckets.
 
+        Lists [buckets](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket).  InfluxDB retrieves buckets owned by the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) associated with the authorization ([API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)). To limit which buckets are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all buckets up to the default `limit`.  #### InfluxDB OSS  - If you use an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_   to authenticate your request, InfluxDB retrieves resources for _all   organizations_ in the instance.   To retrieve resources for only a specific organization, use the   `org` parameter or the `orgID` parameter to specify the organization.  #### Required permissions  | Action                    | Permission required | |:--------------------------|:--------------------| | Retrieve _user buckets_   | `read-buckets`      | | Retrieve [_system buckets_](https://docs.influxdata.com/influxdb/latest/reference/internals/system-buckets/) | `read-orgs`         |  #### Related Guides  - [Manage buckets](https://docs.influxdata.com/influxdb/latest/organizations/buckets/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_with_http_info(async_req=True)
@@ -558,19 +569,19 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
-        :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
-        :param str org: The name of the organization.
-        :param str org_id: The organization ID.
-        :param str name: Only returns buckets with a specific name.
-        :param str id: Only returns buckets with a specific ID.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
+        :param str after: A resource ID to seek from. Returns records created after the specified record; results don't include the specified record.  Use `after` instead of the `offset` parameter. For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param str org: An organization name.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Lists buckets for the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Lists buckets for the specified organization.
+        :param str name: A bucket name. Only returns buckets with the specified name.
+        :param str id: A bucket ID. Only returns the bucket with the specified ID.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_prepare(**kwargs)
+            self._get_buckets_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets', 'GET',
@@ -590,25 +601,26 @@ class BucketsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_buckets_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all buckets.
+        """List buckets.
 
+        Lists [buckets](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket).  InfluxDB retrieves buckets owned by the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) associated with the authorization ([API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)). To limit which buckets are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all buckets up to the default `limit`.  #### InfluxDB OSS  - If you use an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_   to authenticate your request, InfluxDB retrieves resources for _all   organizations_ in the instance.   To retrieve resources for only a specific organization, use the   `org` parameter or the `orgID` parameter to specify the organization.  #### Required permissions  | Action                    | Permission required | |:--------------------------|:--------------------| | Retrieve _user buckets_   | `read-buckets`      | | Retrieve [_system buckets_](https://docs.influxdata.com/influxdb/latest/reference/internals/system-buckets/) | `read-orgs`         |  #### Related Guides  - [Manage buckets](https://docs.influxdata.com/influxdb/latest/organizations/buckets/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
-        :param str after: Resource ID to seek from. Results are not inclusive of this ID. Use `after` instead of `offset`.
-        :param str org: The name of the organization.
-        :param str org_id: The organization ID.
-        :param str name: Only returns buckets with a specific name.
-        :param str id: Only returns buckets with a specific ID.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
+        :param str after: A resource ID to seek from. Returns records created after the specified record; results don't include the specified record.  Use `after` instead of the `offset` parameter. For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param str org: An organization name.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Lists buckets for the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Lists buckets for the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Lists buckets for the specified organization.
+        :param str name: A bucket name. Only returns buckets with the specified name.
+        :param str id: A bucket ID. Only returns the bucket with the specified ID.
         :return: Buckets
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_prepare(**kwargs)
+            self._get_buckets_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets', 'GET',
@@ -671,13 +683,14 @@ class BucketsService(_BaseService):
     def get_buckets_id(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a bucket.
 
+        Retrieves a bucket.  Use this endpoint to retrieve information for a specific bucket.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -693,20 +706,21 @@ class BucketsService(_BaseService):
     def get_buckets_id_with_http_info(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a bucket.
 
+        Retrieves a bucket.  Use this endpoint to retrieve information for a specific bucket.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_with_http_info(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'GET',
@@ -728,17 +742,18 @@ class BucketsService(_BaseService):
     async def get_buckets_id_async(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a bucket.
 
+        Retrieves a bucket.  Use this endpoint to retrieve information for a specific bucket.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'GET',
@@ -787,13 +802,14 @@ class BucketsService(_BaseService):
     def get_buckets_id_labels(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a bucket.
 
+        Lists all labels for a bucket.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering InfluxDB resources. Labels are also capable of grouping across different resources--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_labels(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -809,20 +825,21 @@ class BucketsService(_BaseService):
     def get_buckets_id_labels_with_http_info(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a bucket.
 
+        Lists all labels for a bucket.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering InfluxDB resources. Labels are also capable of grouping across different resources--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_labels_with_http_info(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_labels_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_labels_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels', 'GET',
@@ -844,17 +861,18 @@ class BucketsService(_BaseService):
     async def get_buckets_id_labels_async(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all labels for a bucket.
 
+        Lists all labels for a bucket.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering InfluxDB resources. Labels are also capable of grouping across different resources--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_labels_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_labels_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels', 'GET',
@@ -903,13 +921,14 @@ class BucketsService(_BaseService):
     def get_buckets_id_members(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a bucket.
 
+        Lists all users for a bucket.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization with access to the specified resource.  Use this endpoint to retrieve all users with access to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_members(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -925,20 +944,21 @@ class BucketsService(_BaseService):
     def get_buckets_id_members_with_http_info(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a bucket.
 
+        Lists all users for a bucket.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization with access to the specified resource.  Use this endpoint to retrieve all users with access to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_members_with_http_info(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_members_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_members_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'GET',
@@ -960,17 +980,18 @@ class BucketsService(_BaseService):
     async def get_buckets_id_members_async(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all users with member privileges for a bucket.
 
+        Lists all users for a bucket.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization with access to the specified resource.  Use this endpoint to retrieve all users with access to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_members_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_members_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'GET',
@@ -1019,13 +1040,14 @@ class BucketsService(_BaseService):
     def get_buckets_id_owners(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a bucket.
 
+        Lists all [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) of a bucket.  Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_owners(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1041,20 +1063,21 @@ class BucketsService(_BaseService):
     def get_buckets_id_owners_with_http_info(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a bucket.
 
+        Lists all [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) of a bucket.  Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_buckets_id_owners_with_http_info(bucket_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_owners_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_owners_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'GET',
@@ -1076,17 +1099,18 @@ class BucketsService(_BaseService):
     async def get_buckets_id_owners_async(self, bucket_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a bucket.
 
+        Lists all [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) of a bucket.  Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
+        :param str bucket_id: The ID of the bucket to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_buckets_id_owners_prepare(bucket_id, **kwargs)
+            self._get_buckets_id_owners_prepare(bucket_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'GET',
@@ -1172,7 +1196,7 @@ class BucketsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_buckets_prepare(source_id, **kwargs)
+            self._get_sources_id_buckets_prepare(source_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}/buckets', 'GET',
@@ -1205,7 +1229,7 @@ class BucketsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_buckets_prepare(source_id, **kwargs)
+            self._get_sources_id_buckets_prepare(source_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}/buckets', 'GET',
@@ -1256,6 +1280,7 @@ class BucketsService(_BaseService):
     def patch_buckets_id(self, bucket_id, patch_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Update a bucket.
 
+        Updates a bucket.  Use this endpoint to update properties (`name`, `description`, and `retentionRules`) of a bucket.  #### InfluxDB Cloud  - Requires the `retentionRules` property in the request body. If you don't provide `retentionRules`, InfluxDB responds with an HTTP `403` status code.  #### InfluxDB OSS  - Doesn't require `retentionRules`.  #### Related Guides  - [Update a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/update-bucket/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_buckets_id(bucket_id, patch_bucket_request, async_req=True)
@@ -1263,7 +1288,7 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str bucket_id: The bucket ID. (required)
-        :param PatchBucketRequest patch_bucket_request: Bucket update to apply (required)
+        :param PatchBucketRequest patch_bucket_request: The bucket update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1279,6 +1304,7 @@ class BucketsService(_BaseService):
     def patch_buckets_id_with_http_info(self, bucket_id, patch_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Update a bucket.
 
+        Updates a bucket.  Use this endpoint to update properties (`name`, `description`, and `retentionRules`) of a bucket.  #### InfluxDB Cloud  - Requires the `retentionRules` property in the request body. If you don't provide `retentionRules`, InfluxDB responds with an HTTP `403` status code.  #### InfluxDB OSS  - Doesn't require `retentionRules`.  #### Related Guides  - [Update a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/update-bucket/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_buckets_id_with_http_info(bucket_id, patch_bucket_request, async_req=True)
@@ -1286,14 +1312,14 @@ class BucketsService(_BaseService):
 
         :param async_req bool
         :param str bucket_id: The bucket ID. (required)
-        :param PatchBucketRequest patch_bucket_request: Bucket update to apply (required)
+        :param PatchBucketRequest patch_bucket_request: The bucket update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_buckets_id_prepare(bucket_id, patch_bucket_request, **kwargs)
+            self._patch_buckets_id_prepare(bucket_id, patch_bucket_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'PATCH',
@@ -1315,18 +1341,19 @@ class BucketsService(_BaseService):
     async def patch_buckets_id_async(self, bucket_id, patch_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Update a bucket.
 
+        Updates a bucket.  Use this endpoint to update properties (`name`, `description`, and `retentionRules`) of a bucket.  #### InfluxDB Cloud  - Requires the `retentionRules` property in the request body. If you don't provide `retentionRules`, InfluxDB responds with an HTTP `403` status code.  #### InfluxDB OSS  - Doesn't require `retentionRules`.  #### Related Guides  - [Update a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/update-bucket/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str bucket_id: The bucket ID. (required)
-        :param PatchBucketRequest patch_bucket_request: Bucket update to apply (required)
+        :param PatchBucketRequest patch_bucket_request: The bucket update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_buckets_id_prepare(bucket_id, patch_bucket_request, **kwargs)
+            self._patch_buckets_id_prepare(bucket_id, patch_bucket_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}', 'PATCH',
@@ -1385,13 +1412,14 @@ class BucketsService(_BaseService):
     def post_buckets(self, post_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Create a bucket.
 
+        Creates a [bucket](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket) and returns the bucket resource. The default data [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period) is 30 days.  #### InfluxDB OSS  - A single InfluxDB OSS instance supports active writes or queries for approximately 20 buckets across all organizations at a given time. Reading or writing to more than 20 buckets at a time can adversely affect performance.  #### Limitations  - InfluxDB Cloud Free Plan allows users to create up to two buckets. Exceeding the bucket quota will result in an HTTP `403` status code. For additional information regarding InfluxDB Cloud offerings, see [InfluxDB Cloud Pricing](https://www.influxdata.com/influxdb-cloud-pricing/).  #### Related Guides  - [Create a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/create-bucket/) - [Create bucket CLI reference](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/bucket/create)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets(post_bucket_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param PostBucketRequest post_bucket_request: Bucket to create (required)
+        :param PostBucketRequest post_bucket_request: The bucket to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
@@ -1407,20 +1435,21 @@ class BucketsService(_BaseService):
     def post_buckets_with_http_info(self, post_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Create a bucket.
 
+        Creates a [bucket](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket) and returns the bucket resource. The default data [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period) is 30 days.  #### InfluxDB OSS  - A single InfluxDB OSS instance supports active writes or queries for approximately 20 buckets across all organizations at a given time. Reading or writing to more than 20 buckets at a time can adversely affect performance.  #### Limitations  - InfluxDB Cloud Free Plan allows users to create up to two buckets. Exceeding the bucket quota will result in an HTTP `403` status code. For additional information regarding InfluxDB Cloud offerings, see [InfluxDB Cloud Pricing](https://www.influxdata.com/influxdb-cloud-pricing/).  #### Related Guides  - [Create a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/create-bucket/) - [Create bucket CLI reference](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/bucket/create)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_with_http_info(post_bucket_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param PostBucketRequest post_bucket_request: Bucket to create (required)
+        :param PostBucketRequest post_bucket_request: The bucket to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_prepare(post_bucket_request, **kwargs)
+            self._post_buckets_prepare(post_bucket_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets', 'POST',
@@ -1442,17 +1471,18 @@ class BucketsService(_BaseService):
     async def post_buckets_async(self, post_bucket_request, **kwargs):  # noqa: E501,D401,D403
         """Create a bucket.
 
+        Creates a [bucket](https://docs.influxdata.com/influxdb/latest/reference/glossary/#bucket) and returns the bucket resource. The default data [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period) is 30 days.  #### InfluxDB OSS  - A single InfluxDB OSS instance supports active writes or queries for approximately 20 buckets across all organizations at a given time. Reading or writing to more than 20 buckets at a time can adversely affect performance.  #### Limitations  - InfluxDB Cloud Free Plan allows users to create up to two buckets. Exceeding the bucket quota will result in an HTTP `403` status code. For additional information regarding InfluxDB Cloud offerings, see [InfluxDB Cloud Pricing](https://www.influxdata.com/influxdb-cloud-pricing/).  #### Related Guides  - [Create a bucket](https://docs.influxdata.com/influxdb/latest/organizations/buckets/create-bucket/) - [Create bucket CLI reference](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/bucket/create)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param PostBucketRequest post_bucket_request: Bucket to create (required)
+        :param PostBucketRequest post_bucket_request: The bucket to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Bucket
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_prepare(post_bucket_request, **kwargs)
+            self._post_buckets_prepare(post_bucket_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets', 'POST',
@@ -1505,14 +1535,15 @@ class BucketsService(_BaseService):
     def post_buckets_id_labels(self, bucket_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a bucket.
 
+        Adds a label to a bucket and returns the new label information.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering across one or more kinds of **resources**--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Limitations  - Before adding a label to a bucket, you must create the label if you   haven't already. To create a label with the InfluxDB API, send a `POST`   request to the [`/api/v2/labels` endpoint](#operation/PostLabels)).  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_labels(bucket_id, label_mapping, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -1528,21 +1559,22 @@ class BucketsService(_BaseService):
     def post_buckets_id_labels_with_http_info(self, bucket_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a bucket.
 
+        Adds a label to a bucket and returns the new label information.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering across one or more kinds of **resources**--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Limitations  - Before adding a label to a bucket, you must create the label if you   haven't already. To create a label with the InfluxDB API, send a `POST`   request to the [`/api/v2/labels` endpoint](#operation/PostLabels)).  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_labels_with_http_info(bucket_id, label_mapping, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_labels_prepare(bucket_id, label_mapping, **kwargs)
+            self._post_buckets_id_labels_prepare(bucket_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels', 'POST',
@@ -1564,18 +1596,19 @@ class BucketsService(_BaseService):
     async def post_buckets_id_labels_async(self, bucket_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a bucket.
 
+        Adds a label to a bucket and returns the new label information.  Labels are objects that contain `labelID`, `name`, `description`, and `color` key-value pairs. They may be used for grouping and filtering across one or more kinds of **resources**--for example, you can apply a label named `air_sensor` to a bucket and a task to quickly organize resources.  #### Limitations  - Before adding a label to a bucket, you must create the label if you   haven't already. To create a label with the InfluxDB API, send a `POST`   request to the [`/api/v2/labels` endpoint](#operation/PostLabels)).  #### Related guides  - Use the [`/api/v2/labels` InfluxDB API endpoint](#tag/Labels) to retrieve and manage labels. - [Manage labels in the InfluxDB UI](https://docs.influxdata.com/influxdb/latest/visualize-data/labels/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str bucket_id: Bucket ID. The ID of the bucket to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_labels_prepare(bucket_id, label_mapping, **kwargs)
+            self._post_buckets_id_labels_prepare(bucket_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/labels', 'POST',
@@ -1634,14 +1667,15 @@ class BucketsService(_BaseService):
     def post_buckets_id_members(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a bucket.
 
+        Add a user to a bucket and return the new user information.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization.  Use this endpoint to give a user member privileges to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_members(bucket_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1657,21 +1691,22 @@ class BucketsService(_BaseService):
     def post_buckets_id_members_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a bucket.
 
+        Add a user to a bucket and return the new user information.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization.  Use this endpoint to give a user member privileges to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_members_with_http_info(bucket_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_members_prepare(bucket_id, add_resource_member_request_body, **kwargs)
+            self._post_buckets_id_members_prepare(bucket_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'POST',
@@ -1693,18 +1728,19 @@ class BucketsService(_BaseService):
     async def post_buckets_id_members_async(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a bucket.
 
+        Add a user to a bucket and return the new user information.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users in an organization.  Use this endpoint to give a user member privileges to a bucket.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str bucket_id: The ID of the bucket to retrieve users for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member to the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_members_prepare(bucket_id, add_resource_member_request_body, **kwargs)
+            self._post_buckets_id_members_prepare(bucket_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/members', 'POST',
@@ -1763,14 +1799,15 @@ class BucketsService(_BaseService):
     def post_buckets_id_owners(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a bucket.
 
+        Adds an owner to a bucket and returns the [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) with role and user detail.  Use this endpoint to create a _resource owner_ for the bucket. Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID` *`INFLUX_ORG_ID`* is the ID of the organization that you want to add   an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_owners(bucket_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str bucket_id: The ID of the bucket to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner for the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1786,21 +1823,22 @@ class BucketsService(_BaseService):
     def post_buckets_id_owners_with_http_info(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a bucket.
 
+        Adds an owner to a bucket and returns the [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) with role and user detail.  Use this endpoint to create a _resource owner_ for the bucket. Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID` *`INFLUX_ORG_ID`* is the ID of the organization that you want to add   an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_buckets_id_owners_with_http_info(bucket_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str bucket_id: The ID of the bucket to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner for the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_owners_prepare(bucket_id, add_resource_member_request_body, **kwargs)
+            self._post_buckets_id_owners_prepare(bucket_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'POST',
@@ -1822,18 +1860,19 @@ class BucketsService(_BaseService):
     async def post_buckets_id_owners_async(self, bucket_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to a bucket.
 
+        Adds an owner to a bucket and returns the [owners](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) with role and user detail.  Use this endpoint to create a _resource owner_ for the bucket. Bucket owners have permission to delete buckets and remove user and member permissions from the bucket.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID` *`INFLUX_ORG_ID`* is the ID of the organization that you want to add   an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str bucket_id: The bucket ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str bucket_id: The ID of the bucket to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner for the bucket. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_buckets_id_owners_prepare(bucket_id, add_resource_member_request_body, **kwargs)
+            self._post_buckets_id_owners_prepare(bucket_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/buckets/{bucketID}/owners', 'POST',

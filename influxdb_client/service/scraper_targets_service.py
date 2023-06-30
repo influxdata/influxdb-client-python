@@ -67,7 +67,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_prepare(scraper_target_id, **kwargs)
+            self._delete_scrapers_id_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'DELETE',
@@ -99,7 +99,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_prepare(scraper_target_id, **kwargs)
+            self._delete_scrapers_id_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'DELETE',
@@ -185,7 +185,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_labels_id_prepare(scraper_target_id, label_id, **kwargs)
+            self._delete_scrapers_id_labels_id_prepare(scraper_target_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'DELETE',
@@ -218,7 +218,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_labels_id_prepare(scraper_target_id, label_id, **kwargs)
+            self._delete_scrapers_id_labels_id_prepare(scraper_target_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels/{labelID}', 'DELETE',
@@ -310,7 +310,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_members_id_prepare(user_id, scraper_target_id, **kwargs)
+            self._delete_scrapers_id_members_id_prepare(user_id, scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
@@ -343,7 +343,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_members_id_prepare(user_id, scraper_target_id, **kwargs)
+            self._delete_scrapers_id_members_id_prepare(user_id, scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members/{userID}', 'DELETE',
@@ -435,7 +435,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_owners_id_prepare(user_id, scraper_target_id, **kwargs)
+            self._delete_scrapers_id_owners_id_prepare(user_id, scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
@@ -468,7 +468,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scrapers_id_owners_id_prepare(user_id, scraper_target_id, **kwargs)
+            self._delete_scrapers_id_owners_id_prepare(user_id, scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners/{userID}', 'DELETE',
@@ -564,7 +564,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_prepare(**kwargs)
+            self._get_scrapers_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers', 'GET',
@@ -599,7 +599,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_prepare(**kwargs)
+            self._get_scrapers_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers', 'GET',
@@ -685,7 +685,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'GET',
@@ -717,7 +717,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'GET',
@@ -801,7 +801,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_labels_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_labels_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'GET',
@@ -833,7 +833,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_labels_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_labels_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'GET',
@@ -917,7 +917,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_members_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_members_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
@@ -949,7 +949,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_members_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_members_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'GET',
@@ -1033,7 +1033,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_owners_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_owners_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
@@ -1065,7 +1065,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scrapers_id_owners_prepare(scraper_target_id, **kwargs)
+            self._get_scrapers_id_owners_prepare(scraper_target_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'GET',
@@ -1151,7 +1151,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_scrapers_id_prepare(scraper_target_id, scraper_target_request, **kwargs)
+            self._patch_scrapers_id_prepare(scraper_target_id, scraper_target_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'PATCH',
@@ -1184,7 +1184,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_scrapers_id_prepare(scraper_target_id, scraper_target_request, **kwargs)
+            self._patch_scrapers_id_prepare(scraper_target_id, scraper_target_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}', 'PATCH',
@@ -1278,7 +1278,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_prepare(scraper_target_request, **kwargs)
+            self._post_scrapers_prepare(scraper_target_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers', 'POST',
@@ -1310,7 +1310,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_prepare(scraper_target_request, **kwargs)
+            self._post_scrapers_prepare(scraper_target_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers', 'POST',
@@ -1400,7 +1400,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_labels_prepare(scraper_target_id, label_mapping, **kwargs)
+            self._post_scrapers_id_labels_prepare(scraper_target_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'POST',
@@ -1433,7 +1433,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_labels_prepare(scraper_target_id, label_mapping, **kwargs)
+            self._post_scrapers_id_labels_prepare(scraper_target_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/labels', 'POST',
@@ -1529,7 +1529,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_members_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)
+            self._post_scrapers_id_members_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
@@ -1562,7 +1562,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_members_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)
+            self._post_scrapers_id_members_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/members', 'POST',
@@ -1658,7 +1658,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_owners_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)
+            self._post_scrapers_id_owners_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',
@@ -1691,7 +1691,7 @@ class ScraperTargetsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scrapers_id_owners_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)
+            self._post_scrapers_id_owners_prepare(scraper_target_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scrapers/{scraperTargetID}/owners', 'POST',

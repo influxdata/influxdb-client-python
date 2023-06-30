@@ -67,7 +67,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_prepare(telegraf_id, **kwargs)
+            self._delete_telegrafs_id_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'DELETE',
@@ -99,7 +99,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_prepare(telegraf_id, **kwargs)
+            self._delete_telegrafs_id_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'DELETE',
@@ -185,7 +185,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_labels_id_prepare(telegraf_id, label_id, **kwargs)
+            self._delete_telegrafs_id_labels_id_prepare(telegraf_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels/{labelID}', 'DELETE',
@@ -218,7 +218,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_labels_id_prepare(telegraf_id, label_id, **kwargs)
+            self._delete_telegrafs_id_labels_id_prepare(telegraf_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels/{labelID}', 'DELETE',
@@ -310,7 +310,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_members_id_prepare(user_id, telegraf_id, **kwargs)
+            self._delete_telegrafs_id_members_id_prepare(user_id, telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
@@ -343,7 +343,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_members_id_prepare(user_id, telegraf_id, **kwargs)
+            self._delete_telegrafs_id_members_id_prepare(user_id, telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members/{userID}', 'DELETE',
@@ -435,7 +435,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_owners_id_prepare(user_id, telegraf_id, **kwargs)
+            self._delete_telegrafs_id_owners_id_prepare(user_id, telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
@@ -468,7 +468,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_telegrafs_id_owners_id_prepare(user_id, telegraf_id, **kwargs)
+            self._delete_telegrafs_id_owners_id_prepare(user_id, telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners/{userID}', 'DELETE',
@@ -558,7 +558,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_prepare(**kwargs)
+            self._get_telegrafs_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs', 'GET',
@@ -590,7 +590,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_prepare(**kwargs)
+            self._get_telegrafs_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs', 'GET',
@@ -672,7 +672,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'GET',
@@ -705,7 +705,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'GET',
@@ -791,7 +791,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_labels_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_labels_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels', 'GET',
@@ -823,7 +823,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_labels_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_labels_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels', 'GET',
@@ -907,7 +907,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_members_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_members_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'GET',
@@ -939,7 +939,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_members_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_members_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'GET',
@@ -1023,7 +1023,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_owners_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_owners_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'GET',
@@ -1055,7 +1055,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegrafs_id_owners_prepare(telegraf_id, **kwargs)
+            self._get_telegrafs_id_owners_prepare(telegraf_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'GET',
@@ -1139,7 +1139,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_prepare(telegraf_plugin_request, **kwargs)
+            self._post_telegrafs_prepare(telegraf_plugin_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs', 'POST',
@@ -1171,7 +1171,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_prepare(telegraf_plugin_request, **kwargs)
+            self._post_telegrafs_prepare(telegraf_plugin_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs', 'POST',
@@ -1261,7 +1261,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_labels_prepare(telegraf_id, label_mapping, **kwargs)
+            self._post_telegrafs_id_labels_prepare(telegraf_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels', 'POST',
@@ -1294,7 +1294,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_labels_prepare(telegraf_id, label_mapping, **kwargs)
+            self._post_telegrafs_id_labels_prepare(telegraf_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/labels', 'POST',
@@ -1390,7 +1390,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_members_prepare(telegraf_id, add_resource_member_request_body, **kwargs)
+            self._post_telegrafs_id_members_prepare(telegraf_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'POST',
@@ -1423,7 +1423,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_members_prepare(telegraf_id, add_resource_member_request_body, **kwargs)
+            self._post_telegrafs_id_members_prepare(telegraf_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/members', 'POST',
@@ -1519,7 +1519,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_owners_prepare(telegraf_id, add_resource_member_request_body, **kwargs)
+            self._post_telegrafs_id_owners_prepare(telegraf_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'POST',
@@ -1552,7 +1552,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_telegrafs_id_owners_prepare(telegraf_id, add_resource_member_request_body, **kwargs)
+            self._post_telegrafs_id_owners_prepare(telegraf_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}/owners', 'POST',
@@ -1648,7 +1648,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_telegrafs_id_prepare(telegraf_id, telegraf_plugin_request, **kwargs)
+            self._put_telegrafs_id_prepare(telegraf_id, telegraf_plugin_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'PUT',
@@ -1681,7 +1681,7 @@ class TelegrafsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_telegrafs_id_prepare(telegraf_id, telegraf_plugin_request, **kwargs)
+            self._put_telegrafs_id_prepare(telegraf_id, telegraf_plugin_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegrafs/{telegrafID}', 'PUT',

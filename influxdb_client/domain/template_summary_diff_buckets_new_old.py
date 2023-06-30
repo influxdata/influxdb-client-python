@@ -95,7 +95,7 @@ class TemplateSummaryDiffBucketsNewOld(object):
     def retention_rules(self):
         """Get the retention_rules of this TemplateSummaryDiffBucketsNewOld.
 
-        Rules to expire or retain data.  No rules means data never expires.
+        Retention rules to expire or retain data. The InfluxDB `/api/v2` API uses `RetentionRules` to configure the [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period).  #### InfluxDB Cloud  - `retentionRules` is required.  #### InfluxDB OSS  - `retentionRules` isn't required.
 
         :return: The retention_rules of this TemplateSummaryDiffBucketsNewOld.
         :rtype: list[BucketRetentionRules]
@@ -106,7 +106,7 @@ class TemplateSummaryDiffBucketsNewOld(object):
     def retention_rules(self, retention_rules):
         """Set the retention_rules of this TemplateSummaryDiffBucketsNewOld.
 
-        Rules to expire or retain data.  No rules means data never expires.
+        Retention rules to expire or retain data. The InfluxDB `/api/v2` API uses `RetentionRules` to configure the [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period).  #### InfluxDB Cloud  - `retentionRules` is required.  #### InfluxDB OSS  - `retentionRules` isn't required.
 
         :param retention_rules: The retention_rules of this TemplateSummaryDiffBucketsNewOld.
         :type: list[BucketRetentionRules]

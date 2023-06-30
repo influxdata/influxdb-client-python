@@ -48,7 +48,7 @@ class ShardOwner(object):
     def node_id(self):
         """Get the node_id of this ShardOwner.
 
-        ID of the node that owns a shard.
+        The ID of the node that owns the shard.
 
         :return: The node_id of this ShardOwner.
         :rtype: int
@@ -59,7 +59,7 @@ class ShardOwner(object):
     def node_id(self, node_id):
         """Set the node_id of this ShardOwner.
 
-        ID of the node that owns a shard.
+        The ID of the node that owns the shard.
 
         :param node_id: The node_id of this ShardOwner.
         :type: int

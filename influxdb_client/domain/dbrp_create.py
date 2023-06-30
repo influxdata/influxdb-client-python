@@ -30,8 +30,8 @@ class DBRPCreate(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'org_id': 'str',
         'org': 'str',
+        'org_id': 'str',
         'bucket_id': 'str',
         'database': 'str',
         'retention_policy': 'str',
@@ -39,28 +39,28 @@ class DBRPCreate(object):
     }
 
     attribute_map = {
-        'org_id': 'orgID',
         'org': 'org',
+        'org_id': 'orgID',
         'bucket_id': 'bucketID',
         'database': 'database',
         'retention_policy': 'retention_policy',
         'default': 'default'
     }
 
-    def __init__(self, org_id=None, org=None, bucket_id=None, database=None, retention_policy=None, default=None):  # noqa: E501,D401,D403
+    def __init__(self, org=None, org_id=None, bucket_id=None, database=None, retention_policy=None, default=None):  # noqa: E501,D401,D403
         """DBRPCreate - a model defined in OpenAPI."""  # noqa: E501
-        self._org_id = None
         self._org = None
+        self._org_id = None
         self._bucket_id = None
         self._database = None
         self._retention_policy = None
         self._default = None
         self.discriminator = None
 
-        if org_id is not None:
-            self.org_id = org_id
         if org is not None:
             self.org = org
+        if org_id is not None:
+            self.org_id = org_id
         self.bucket_id = bucket_id
         self.database = database
         self.retention_policy = retention_policy
@@ -68,32 +68,10 @@ class DBRPCreate(object):
             self.default = default
 
     @property
-    def org_id(self):
-        """Get the org_id of this DBRPCreate.
-
-        ID of the organization that owns this mapping.
-
-        :return: The org_id of this DBRPCreate.
-        :rtype: str
-        """  # noqa: E501
-        return self._org_id
-
-    @org_id.setter
-    def org_id(self, org_id):
-        """Set the org_id of this DBRPCreate.
-
-        ID of the organization that owns this mapping.
-
-        :param org_id: The org_id of this DBRPCreate.
-        :type: str
-        """  # noqa: E501
-        self._org_id = org_id
-
-    @property
     def org(self):
         """Get the org of this DBRPCreate.
 
-        Name of the organization that owns this mapping.
+        An organization name. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
 
         :return: The org of this DBRPCreate.
         :rtype: str
@@ -104,7 +82,7 @@ class DBRPCreate(object):
     def org(self, org):
         """Set the org of this DBRPCreate.
 
-        Name of the organization that owns this mapping.
+        An organization name. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
 
         :param org: The org of this DBRPCreate.
         :type: str
@@ -112,10 +90,32 @@ class DBRPCreate(object):
         self._org = org
 
     @property
+    def org_id(self):
+        """Get the org_id of this DBRPCreate.
+
+        An organization ID. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
+
+        :return: The org_id of this DBRPCreate.
+        :rtype: str
+        """  # noqa: E501
+        return self._org_id
+
+    @org_id.setter
+    def org_id(self, org_id):
+        """Set the org_id of this DBRPCreate.
+
+        An organization ID. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
+
+        :param org_id: The org_id of this DBRPCreate.
+        :type: str
+        """  # noqa: E501
+        self._org_id = org_id
+
+    @property
     def bucket_id(self):
         """Get the bucket_id of this DBRPCreate.
 
-        ID of the bucket used as the target for the translation.
+        A bucket ID. Identifies the bucket used as the target for the translation.
 
         :return: The bucket_id of this DBRPCreate.
         :rtype: str
@@ -126,7 +126,7 @@ class DBRPCreate(object):
     def bucket_id(self, bucket_id):
         """Set the bucket_id of this DBRPCreate.
 
-        ID of the bucket used as the target for the translation.
+        A bucket ID. Identifies the bucket used as the target for the translation.
 
         :param bucket_id: The bucket_id of this DBRPCreate.
         :type: str
@@ -139,7 +139,7 @@ class DBRPCreate(object):
     def database(self):
         """Get the database of this DBRPCreate.
 
-        InfluxDB v1 database
+        A database name. Identifies the InfluxDB v1 database.
 
         :return: The database of this DBRPCreate.
         :rtype: str
@@ -150,7 +150,7 @@ class DBRPCreate(object):
     def database(self, database):
         """Set the database of this DBRPCreate.
 
-        InfluxDB v1 database
+        A database name. Identifies the InfluxDB v1 database.
 
         :param database: The database of this DBRPCreate.
         :type: str
@@ -163,7 +163,7 @@ class DBRPCreate(object):
     def retention_policy(self):
         """Get the retention_policy of this DBRPCreate.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :return: The retention_policy of this DBRPCreate.
         :rtype: str
@@ -174,7 +174,7 @@ class DBRPCreate(object):
     def retention_policy(self, retention_policy):
         """Set the retention_policy of this DBRPCreate.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :param retention_policy: The retention_policy of this DBRPCreate.
         :type: str
@@ -187,7 +187,7 @@ class DBRPCreate(object):
     def default(self):
         """Get the default of this DBRPCreate.
 
-        Mapping represents the default retention policy for the database specified.
+        Set to `true` to use this DBRP mapping as the default retention policy for the database (specified by the `database` property's value).
 
         :return: The default of this DBRPCreate.
         :rtype: bool
@@ -198,7 +198,7 @@ class DBRPCreate(object):
     def default(self, default):
         """Set the default of this DBRPCreate.
 
-        Mapping represents the default retention policy for the database specified.
+        Set to `true` to use this DBRP mapping as the default retention policy for the database (specified by the `database` property's value).
 
         :param default: The default of this DBRPCreate.
         :type: bool

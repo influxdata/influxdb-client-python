@@ -32,7 +32,7 @@ class SigninService(_BaseService):
     def post_signin(self, **kwargs):  # noqa: E501,D401,D403
         """Create a user session..
 
-        Authenticates ***Basic Auth*** credentials for a user. If successful, creates a new UI session for the user.
+        Authenticates [Basic authentication credentials](#section/Authentication/BasicAuthentication) for a [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user), and then, if successful, generates a user session.  To authenticate a user, pass the HTTP `Authorization` header with the `Basic` scheme and the base64-encoded username and password. For syntax and more information, see [Basic Authentication](#section/Authentication/BasicAuthentication) for syntax and more information.  If authentication is successful, InfluxDB creates a new session for the user and then returns the session cookie in the `Set-Cookie` response header.  InfluxDB stores user sessions in memory only. They expire within ten minutes and during restarts of the InfluxDB instance.  #### User sessions with authorizations  - In InfluxDB Cloud, a user session inherits all the user's permissions for   the organization. - In InfluxDB OSS, a user session inherits all the user's permissions for all   the organizations that the user belongs to.  #### Related endpoints  - [Signout](#tag/Signout)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_signin(async_req=True)
@@ -55,7 +55,7 @@ class SigninService(_BaseService):
     def post_signin_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """Create a user session..
 
-        Authenticates ***Basic Auth*** credentials for a user. If successful, creates a new UI session for the user.
+        Authenticates [Basic authentication credentials](#section/Authentication/BasicAuthentication) for a [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user), and then, if successful, generates a user session.  To authenticate a user, pass the HTTP `Authorization` header with the `Basic` scheme and the base64-encoded username and password. For syntax and more information, see [Basic Authentication](#section/Authentication/BasicAuthentication) for syntax and more information.  If authentication is successful, InfluxDB creates a new session for the user and then returns the session cookie in the `Set-Cookie` response header.  InfluxDB stores user sessions in memory only. They expire within ten minutes and during restarts of the InfluxDB instance.  #### User sessions with authorizations  - In InfluxDB Cloud, a user session inherits all the user's permissions for   the organization. - In InfluxDB OSS, a user session inherits all the user's permissions for all   the organizations that the user belongs to.  #### Related endpoints  - [Signout](#tag/Signout)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_signin_with_http_info(async_req=True)
@@ -69,7 +69,7 @@ class SigninService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_signin_prepare(**kwargs)
+            self._post_signin_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/signin', 'POST',
@@ -91,7 +91,7 @@ class SigninService(_BaseService):
     async def post_signin_async(self, **kwargs):  # noqa: E501,D401,D403
         """Create a user session..
 
-        Authenticates ***Basic Auth*** credentials for a user. If successful, creates a new UI session for the user.
+        Authenticates [Basic authentication credentials](#section/Authentication/BasicAuthentication) for a [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user), and then, if successful, generates a user session.  To authenticate a user, pass the HTTP `Authorization` header with the `Basic` scheme and the base64-encoded username and password. For syntax and more information, see [Basic Authentication](#section/Authentication/BasicAuthentication) for syntax and more information.  If authentication is successful, InfluxDB creates a new session for the user and then returns the session cookie in the `Set-Cookie` response header.  InfluxDB stores user sessions in memory only. They expire within ten minutes and during restarts of the InfluxDB instance.  #### User sessions with authorizations  - In InfluxDB Cloud, a user session inherits all the user's permissions for   the organization. - In InfluxDB OSS, a user session inherits all the user's permissions for all   the organizations that the user belongs to.  #### Related endpoints  - [Signout](#tag/Signout)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -102,7 +102,7 @@ class SigninService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_signin_prepare(**kwargs)
+            self._post_signin_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/signin', 'POST',

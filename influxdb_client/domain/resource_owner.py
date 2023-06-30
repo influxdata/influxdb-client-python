@@ -34,7 +34,6 @@ class ResourceOwner(UserResponse):
     openapi_types = {
         'role': 'str',
         'id': 'str',
-        'oauth_id': 'str',
         'name': 'str',
         'status': 'str',
         'links': 'UserResponseLinks'
@@ -43,15 +42,14 @@ class ResourceOwner(UserResponse):
     attribute_map = {
         'role': 'role',
         'id': 'id',
-        'oauth_id': 'oauthID',
         'name': 'name',
         'status': 'status',
         'links': 'links'
     }
 
-    def __init__(self, role='owner', id=None, oauth_id=None, name=None, status='active', links=None):  # noqa: E501,D401,D403
+    def __init__(self, role='owner', id=None, name=None, status='active', links=None):  # noqa: E501,D401,D403
         """ResourceOwner - a model defined in OpenAPI."""  # noqa: E501
-        UserResponse.__init__(self, id=id, oauth_id=oauth_id, name=name, status=status, links=links)  # noqa: E501
+        UserResponse.__init__(self, id=id, name=name, status=status, links=links)  # noqa: E501
 
         self._role = None
         self.discriminator = None

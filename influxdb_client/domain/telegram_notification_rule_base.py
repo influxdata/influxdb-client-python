@@ -160,7 +160,7 @@ class TelegramNotificationRuleBase(NotificationRuleDiscriminator):
     def parse_mode(self):
         """Get the parse_mode of this TelegramNotificationRuleBase.
 
-        Parse mode of the message text per https://core.telegram.org/bots/api#formatting-options . Defaults to "MarkdownV2" .
+        Parse mode of the message text per https://core.telegram.org/bots/api#formatting-options. Defaults to "MarkdownV2".
 
         :return: The parse_mode of this TelegramNotificationRuleBase.
         :rtype: str
@@ -171,7 +171,7 @@ class TelegramNotificationRuleBase(NotificationRuleDiscriminator):
     def parse_mode(self, parse_mode):
         """Set the parse_mode of this TelegramNotificationRuleBase.
 
-        Parse mode of the message text per https://core.telegram.org/bots/api#formatting-options . Defaults to "MarkdownV2" .
+        Parse mode of the message text per https://core.telegram.org/bots/api#formatting-options. Defaults to "MarkdownV2".
 
         :param parse_mode: The parse_mode of this TelegramNotificationRuleBase.
         :type: str
@@ -182,7 +182,7 @@ class TelegramNotificationRuleBase(NotificationRuleDiscriminator):
     def disable_web_page_preview(self):
         """Get the disable_web_page_preview of this TelegramNotificationRuleBase.
 
-        Disables preview of web links in the sent messages when "true". Defaults to "false" .
+        Disables preview of web links in the sent messages when "true". Defaults to "false".
 
         :return: The disable_web_page_preview of this TelegramNotificationRuleBase.
         :rtype: bool
@@ -193,7 +193,7 @@ class TelegramNotificationRuleBase(NotificationRuleDiscriminator):
     def disable_web_page_preview(self, disable_web_page_preview):
         """Set the disable_web_page_preview of this TelegramNotificationRuleBase.
 
-        Disables preview of web links in the sent messages when "true". Defaults to "false" .
+        Disables preview of web links in the sent messages when "true". Defaults to "false".
 
         :param disable_web_page_preview: The disable_web_page_preview of this TelegramNotificationRuleBase.
         :type: bool

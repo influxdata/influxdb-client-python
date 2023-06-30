@@ -32,6 +32,7 @@ class CheckViewProperties(ViewProperties):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'adaptive_zoom_hide': 'bool',
         'type': 'str',
         'shape': 'str',
         'check_id': 'str',
@@ -45,6 +46,7 @@ class CheckViewProperties(ViewProperties):
     }
 
     attribute_map = {
+        'adaptive_zoom_hide': 'adaptiveZoomHide',
         'type': 'type',
         'shape': 'shape',
         'check_id': 'checkID',
@@ -57,10 +59,11 @@ class CheckViewProperties(ViewProperties):
         'legend_orientation_threshold': 'legendOrientationThreshold'
     }
 
-    def __init__(self, type=None, shape=None, check_id=None, check=None, queries=None, colors=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
+    def __init__(self, adaptive_zoom_hide=None, type=None, shape=None, check_id=None, check=None, queries=None, colors=None, legend_colorize_rows=None, legend_hide=None, legend_opacity=None, legend_orientation_threshold=None):  # noqa: E501,D401,D403
         """CheckViewProperties - a model defined in OpenAPI."""  # noqa: E501
         ViewProperties.__init__(self)  # noqa: E501
 
+        self._adaptive_zoom_hide = None
         self._type = None
         self._shape = None
         self._check_id = None
@@ -73,6 +76,8 @@ class CheckViewProperties(ViewProperties):
         self._legend_orientation_threshold = None
         self.discriminator = None
 
+        if adaptive_zoom_hide is not None:
+            self.adaptive_zoom_hide = adaptive_zoom_hide
         self.type = type
         self.shape = shape
         self.check_id = check_id
@@ -88,6 +93,24 @@ class CheckViewProperties(ViewProperties):
             self.legend_opacity = legend_opacity
         if legend_orientation_threshold is not None:
             self.legend_orientation_threshold = legend_orientation_threshold
+
+    @property
+    def adaptive_zoom_hide(self):
+        """Get the adaptive_zoom_hide of this CheckViewProperties.
+
+        :return: The adaptive_zoom_hide of this CheckViewProperties.
+        :rtype: bool
+        """  # noqa: E501
+        return self._adaptive_zoom_hide
+
+    @adaptive_zoom_hide.setter
+    def adaptive_zoom_hide(self, adaptive_zoom_hide):
+        """Set the adaptive_zoom_hide of this CheckViewProperties.
+
+        :param adaptive_zoom_hide: The adaptive_zoom_hide of this CheckViewProperties.
+        :type: bool
+        """  # noqa: E501
+        self._adaptive_zoom_hide = adaptive_zoom_hide
 
     @property
     def type(self):

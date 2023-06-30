@@ -65,7 +65,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_notification_endpoint_prepare(post_notification_endpoint, **kwargs)
+            self._create_notification_endpoint_prepare(post_notification_endpoint, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'POST',
@@ -96,7 +96,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_notification_endpoint_prepare(post_notification_endpoint, **kwargs)
+            self._create_notification_endpoint_prepare(post_notification_endpoint, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'POST',
@@ -182,7 +182,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_endpoints_id_prepare(endpoint_id, **kwargs)
+            self._delete_notification_endpoints_id_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'DELETE',
@@ -214,7 +214,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_endpoints_id_prepare(endpoint_id, **kwargs)
+            self._delete_notification_endpoints_id_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'DELETE',
@@ -300,7 +300,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_endpoints_id_labels_id_prepare(endpoint_id, label_id, **kwargs)
+            self._delete_notification_endpoints_id_labels_id_prepare(endpoint_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
@@ -333,7 +333,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_endpoints_id_labels_id_prepare(endpoint_id, label_id, **kwargs)
+            self._delete_notification_endpoints_id_labels_id_prepare(endpoint_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels/{labelID}', 'DELETE',
@@ -396,8 +396,8 @@ class NotificationEndpointsService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification endpoints that belong to specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: NotificationEndpoints
                  If the method is called asynchronously,
                  returns the request thread.
@@ -420,14 +420,14 @@ class NotificationEndpointsService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification endpoints that belong to specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: NotificationEndpoints
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_prepare(org_id, **kwargs)
+            self._get_notification_endpoints_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'GET',
@@ -454,14 +454,14 @@ class NotificationEndpointsService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification endpoints that belong to specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :return: NotificationEndpoints
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_prepare(org_id, **kwargs)
+            self._get_notification_endpoints_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints', 'GET',
@@ -555,7 +555,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_id_prepare(endpoint_id, **kwargs)
+            self._get_notification_endpoints_id_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'GET',
@@ -587,7 +587,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_id_prepare(endpoint_id, **kwargs)
+            self._get_notification_endpoints_id_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'GET',
@@ -671,7 +671,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_id_labels_prepare(endpoint_id, **kwargs)
+            self._get_notification_endpoints_id_labels_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'GET',
@@ -703,7 +703,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_endpoints_id_labels_prepare(endpoint_id, **kwargs)
+            self._get_notification_endpoints_id_labels_prepare(endpoint_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'GET',
@@ -789,7 +789,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_notification_endpoints_id_prepare(endpoint_id, notification_endpoint_update, **kwargs)
+            self._patch_notification_endpoints_id_prepare(endpoint_id, notification_endpoint_update, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PATCH',
@@ -822,7 +822,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_notification_endpoints_id_prepare(endpoint_id, notification_endpoint_update, **kwargs)
+            self._patch_notification_endpoints_id_prepare(endpoint_id, notification_endpoint_update, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PATCH',
@@ -918,7 +918,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_notification_endpoint_id_labels_prepare(endpoint_id, label_mapping, **kwargs)
+            self._post_notification_endpoint_id_labels_prepare(endpoint_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'POST',
@@ -951,7 +951,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_notification_endpoint_id_labels_prepare(endpoint_id, label_mapping, **kwargs)
+            self._post_notification_endpoint_id_labels_prepare(endpoint_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}/labels', 'POST',
@@ -1047,7 +1047,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_notification_endpoints_id_prepare(endpoint_id, notification_endpoint, **kwargs)
+            self._put_notification_endpoints_id_prepare(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PUT',
@@ -1080,7 +1080,7 @@ class NotificationEndpointsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_notification_endpoints_id_prepare(endpoint_id, notification_endpoint, **kwargs)
+            self._put_notification_endpoints_id_prepare(endpoint_id, notification_endpoint, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationEndpoints/{endpointID}', 'PUT',

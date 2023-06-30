@@ -65,7 +65,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_notification_rule_prepare(post_notification_rule, **kwargs)
+            self._create_notification_rule_prepare(post_notification_rule, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules', 'POST',
@@ -96,7 +96,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_notification_rule_prepare(post_notification_rule, **kwargs)
+            self._create_notification_rule_prepare(post_notification_rule, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules', 'POST',
@@ -182,7 +182,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_rules_id_prepare(rule_id, **kwargs)
+            self._delete_notification_rules_id_prepare(rule_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'DELETE',
@@ -214,7 +214,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_rules_id_prepare(rule_id, **kwargs)
+            self._delete_notification_rules_id_prepare(rule_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'DELETE',
@@ -300,7 +300,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_rules_id_labels_id_prepare(rule_id, label_id, **kwargs)
+            self._delete_notification_rules_id_labels_id_prepare(rule_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels/{labelID}', 'DELETE',
@@ -333,7 +333,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_notification_rules_id_labels_id_prepare(rule_id, label_id, **kwargs)
+            self._delete_notification_rules_id_labels_id_prepare(rule_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels/{labelID}', 'DELETE',
@@ -396,8 +396,8 @@ class NotificationRulesService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification rules that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str check_id: Only show notifications that belong to the specific check ID.
         :param str tag: Only return notification rules that "would match" statuses which contain the tag key value pairs provided.
         :return: NotificationRules
@@ -422,8 +422,8 @@ class NotificationRulesService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification rules that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str check_id: Only show notifications that belong to the specific check ID.
         :param str tag: Only return notification rules that "would match" statuses which contain the tag key value pairs provided.
         :return: NotificationRules
@@ -431,7 +431,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_prepare(org_id, **kwargs)
+            self._get_notification_rules_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules', 'GET',
@@ -458,8 +458,8 @@ class NotificationRulesService(_BaseService):
         :param async_req bool
         :param str org_id: Only show notification rules that belong to a specific organization ID. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param str check_id: Only show notifications that belong to the specific check ID.
         :param str tag: Only return notification rules that "would match" statuses which contain the tag key value pairs provided.
         :return: NotificationRules
@@ -467,7 +467,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_prepare(org_id, **kwargs)
+            self._get_notification_rules_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules', 'GET',
@@ -567,7 +567,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_id_prepare(rule_id, **kwargs)
+            self._get_notification_rules_id_prepare(rule_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'GET',
@@ -599,7 +599,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_id_prepare(rule_id, **kwargs)
+            self._get_notification_rules_id_prepare(rule_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'GET',
@@ -683,7 +683,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_id_labels_prepare(rule_id, **kwargs)
+            self._get_notification_rules_id_labels_prepare(rule_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels', 'GET',
@@ -715,7 +715,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_notification_rules_id_labels_prepare(rule_id, **kwargs)
+            self._get_notification_rules_id_labels_prepare(rule_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels', 'GET',
@@ -801,7 +801,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_notification_rules_id_prepare(rule_id, notification_rule_update, **kwargs)
+            self._patch_notification_rules_id_prepare(rule_id, notification_rule_update, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'PATCH',
@@ -834,7 +834,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_notification_rules_id_prepare(rule_id, notification_rule_update, **kwargs)
+            self._patch_notification_rules_id_prepare(rule_id, notification_rule_update, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'PATCH',
@@ -930,7 +930,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_notification_rule_id_labels_prepare(rule_id, label_mapping, **kwargs)
+            self._post_notification_rule_id_labels_prepare(rule_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels', 'POST',
@@ -963,7 +963,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_notification_rule_id_labels_prepare(rule_id, label_mapping, **kwargs)
+            self._post_notification_rule_id_labels_prepare(rule_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}/labels', 'POST',
@@ -1059,7 +1059,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_notification_rules_id_prepare(rule_id, notification_rule, **kwargs)
+            self._put_notification_rules_id_prepare(rule_id, notification_rule, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'PUT',
@@ -1092,7 +1092,7 @@ class NotificationRulesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_notification_rules_id_prepare(rule_id, notification_rule, **kwargs)
+            self._put_notification_rules_id_prepare(rule_id, notification_rule, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/notificationRules/{ruleID}', 'PUT',

@@ -91,7 +91,7 @@ class Query(object):
     def query(self):
         """Get the query of this Query.
 
-        Query script to execute.
+        The query script to execute.
 
         :return: The query of this Query.
         :rtype: str
@@ -102,7 +102,7 @@ class Query(object):
     def query(self, query):
         """Set the query of this Query.
 
-        Query script to execute.
+        The query script to execute.
 
         :param query: The query of this Query.
         :type: str
@@ -137,7 +137,7 @@ class Query(object):
     def params(self):
         """Get the params of this Query.
 
-        Enumeration of key/value pairs that respresent parameters to be injected into query (can only specify either this field or extern and not both)
+        Key-value pairs passed as parameters during query execution.  To use parameters in your query, pass a _`query`_ with `params` references (in dot notation)--for example:  ```json   query: "from(bucket: params.mybucket)\\               |> range(start: params.rangeStart) |> limit(n:1)" ```  and pass _`params`_ with the key-value pairs--for example:  ```json   params: {     "mybucket": "environment",     "rangeStart": "-30d"   } ```  During query execution, InfluxDB passes _`params`_ to your script and substitutes the values.  #### Limitations  - If you use _`params`_, you can't use _`extern`_.
 
         :return: The params of this Query.
         :rtype: dict(str, object)
@@ -148,7 +148,7 @@ class Query(object):
     def params(self, params):
         """Set the params of this Query.
 
-        Enumeration of key/value pairs that respresent parameters to be injected into query (can only specify either this field or extern and not both)
+        Key-value pairs passed as parameters during query execution.  To use parameters in your query, pass a _`query`_ with `params` references (in dot notation)--for example:  ```json   query: "from(bucket: params.mybucket)\\               |> range(start: params.rangeStart) |> limit(n:1)" ```  and pass _`params`_ with the key-value pairs--for example:  ```json   params: {     "mybucket": "environment",     "rangeStart": "-30d"   } ```  During query execution, InfluxDB passes _`params`_ to your script and substitutes the values.  #### Limitations  - If you use _`params`_, you can't use _`extern`_.
 
         :param params: The params of this Query.
         :type: dict(str, object)
@@ -177,7 +177,7 @@ class Query(object):
     def now(self):
         """Get the now of this Query.
 
-        Specifies the time that should be reported as "now" in the query. Default is the server's now time.
+        Specifies the time that should be reported as `now` in the query. Default is the server `now` time.
 
         :return: The now of this Query.
         :rtype: datetime
@@ -188,7 +188,7 @@ class Query(object):
     def now(self, now):
         """Set the now of this Query.
 
-        Specifies the time that should be reported as "now" in the query. Default is the server's now time.
+        Specifies the time that should be reported as `now` in the query. Default is the server `now` time.
 
         :param now: The now of this Query.
         :type: datetime

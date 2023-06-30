@@ -30,8 +30,9 @@ class BackupService(_BaseService):
         super().__init__(api_client)
 
     def get_backup_kv(self, **kwargs):  # noqa: E501,D401,D403
-        """Download snapshot of metadata stored in the server's embedded KV store. Should not be used in versions greater than 2.1.x, as it doesn't include metadata stored in embedded SQL..
+        """Download snapshot of metadata stored in the server's embedded KV store. Don't use with InfluxDB versions greater than InfluxDB 2.1.x..
 
+        Retrieves a snapshot of metadata stored in the server's embedded KV store. InfluxDB versions greater than 2.1.x don't include metadata stored in embedded SQL; avoid using this endpoint with versions greater than 2.1.x.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_backup_kv(async_req=True)
@@ -51,8 +52,9 @@ class BackupService(_BaseService):
             return data
 
     def get_backup_kv_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Download snapshot of metadata stored in the server's embedded KV store. Should not be used in versions greater than 2.1.x, as it doesn't include metadata stored in embedded SQL..
+        """Download snapshot of metadata stored in the server's embedded KV store. Don't use with InfluxDB versions greater than InfluxDB 2.1.x..
 
+        Retrieves a snapshot of metadata stored in the server's embedded KV store. InfluxDB versions greater than 2.1.x don't include metadata stored in embedded SQL; avoid using this endpoint with versions greater than 2.1.x.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_backup_kv_with_http_info(async_req=True)
@@ -65,7 +67,7 @@ class BackupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_kv_prepare(**kwargs)
+            self._get_backup_kv_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/backup/kv', 'GET',
@@ -85,8 +87,9 @@ class BackupService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_backup_kv_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Download snapshot of metadata stored in the server's embedded KV store. Should not be used in versions greater than 2.1.x, as it doesn't include metadata stored in embedded SQL..
+        """Download snapshot of metadata stored in the server's embedded KV store. Don't use with InfluxDB versions greater than InfluxDB 2.1.x..
 
+        Retrieves a snapshot of metadata stored in the server's embedded KV store. InfluxDB versions greater than 2.1.x don't include metadata stored in embedded SQL; avoid using this endpoint with versions greater than 2.1.x.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -96,7 +99,7 @@ class BackupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_kv_prepare(**kwargs)
+            self._get_backup_kv_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/backup/kv', 'GET',
@@ -174,7 +177,7 @@ class BackupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_metadata_prepare(**kwargs)
+            self._get_backup_metadata_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/backup/metadata', 'GET',
@@ -206,7 +209,7 @@ class BackupService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_metadata_prepare(**kwargs)
+            self._get_backup_metadata_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/backup/metadata', 'GET',
@@ -260,7 +263,7 @@ class BackupService(_BaseService):
         :param int shard_id: The shard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
-        :param datetime since: Earliest time to include in the snapshot. RFC3339 format.
+        :param datetime since: The earliest time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) to include in the snapshot.
         :return: file
                  If the method is called asynchronously,
                  returns the request thread.
@@ -284,13 +287,13 @@ class BackupService(_BaseService):
         :param int shard_id: The shard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
-        :param datetime since: Earliest time to include in the snapshot. RFC3339 format.
+        :param datetime since: The earliest time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) to include in the snapshot.
         :return: file
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_shard_id_prepare(shard_id, **kwargs)
+            self._get_backup_shard_id_prepare(shard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/backup/shards/{shardID}', 'GET',
@@ -318,13 +321,13 @@ class BackupService(_BaseService):
         :param int shard_id: The shard ID. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: Indicates the content encoding (usually a compression algorithm) that the client can understand.
-        :param datetime since: Earliest time to include in the snapshot. RFC3339 format.
+        :param datetime since: The earliest time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) to include in the snapshot.
         :return: file
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_backup_shard_id_prepare(shard_id, **kwargs)
+            self._get_backup_shard_id_prepare(shard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/backup/shards/{shardID}', 'GET',

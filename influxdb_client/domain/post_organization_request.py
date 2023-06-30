@@ -53,6 +53,8 @@ class PostOrganizationRequest(object):
     def name(self):
         """Get the name of this PostOrganizationRequest.
 
+        The name of the organization.
+
         :return: The name of this PostOrganizationRequest.
         :rtype: str
         """  # noqa: E501
@@ -61,6 +63,8 @@ class PostOrganizationRequest(object):
     @name.setter
     def name(self, name):
         """Set the name of this PostOrganizationRequest.
+
+        The name of the organization.
 
         :param name: The name of this PostOrganizationRequest.
         :type: str
@@ -73,6 +77,8 @@ class PostOrganizationRequest(object):
     def description(self):
         """Get the description of this PostOrganizationRequest.
 
+        The description of the organization.
+
         :return: The description of this PostOrganizationRequest.
         :rtype: str
         """  # noqa: E501
@@ -81,6 +87,8 @@ class PostOrganizationRequest(object):
     @description.setter
     def description(self, description):
         """Set the description of this PostOrganizationRequest.
+
+        The description of the organization.
 
         :param description: The description of this PostOrganizationRequest.
         :type: str

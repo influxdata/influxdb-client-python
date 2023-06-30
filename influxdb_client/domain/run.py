@@ -35,6 +35,7 @@ class Run(object):
         'status': 'str',
         'scheduled_for': 'datetime',
         'log': 'list[LogEvent]',
+        'flux': 'str',
         'started_at': 'datetime',
         'finished_at': 'datetime',
         'requested_at': 'datetime',
@@ -47,19 +48,21 @@ class Run(object):
         'status': 'status',
         'scheduled_for': 'scheduledFor',
         'log': 'log',
+        'flux': 'flux',
         'started_at': 'startedAt',
         'finished_at': 'finishedAt',
         'requested_at': 'requestedAt',
         'links': 'links'
     }
 
-    def __init__(self, id=None, task_id=None, status=None, scheduled_for=None, log=None, started_at=None, finished_at=None, requested_at=None, links=None):  # noqa: E501,D401,D403
+    def __init__(self, id=None, task_id=None, status=None, scheduled_for=None, log=None, flux=None, started_at=None, finished_at=None, requested_at=None, links=None):  # noqa: E501,D401,D403
         """Run - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
         self._task_id = None
         self._status = None
         self._scheduled_for = None
         self._log = None
+        self._flux = None
         self._started_at = None
         self._finished_at = None
         self._requested_at = None
@@ -76,6 +79,8 @@ class Run(object):
             self.scheduled_for = scheduled_for
         if log is not None:
             self.log = log
+        if flux is not None:
+            self.flux = flux
         if started_at is not None:
             self.started_at = started_at
         if finished_at is not None:
@@ -143,7 +148,7 @@ class Run(object):
     def scheduled_for(self):
         """Get the scheduled_for of this Run.
 
-        Time used for run's "now" option, RFC3339.
+        The time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) used for the run's `now` option.
 
         :return: The scheduled_for of this Run.
         :rtype: datetime
@@ -154,7 +159,7 @@ class Run(object):
     def scheduled_for(self, scheduled_for):
         """Set the scheduled_for of this Run.
 
-        Time used for run's "now" option, RFC3339.
+        The time [RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp) used for the run's `now` option.
 
         :param scheduled_for: The scheduled_for of this Run.
         :type: datetime
@@ -184,10 +189,32 @@ class Run(object):
         self._log = log
 
     @property
+    def flux(self):
+        """Get the flux of this Run.
+
+        Flux used for the task
+
+        :return: The flux of this Run.
+        :rtype: str
+        """  # noqa: E501
+        return self._flux
+
+    @flux.setter
+    def flux(self, flux):
+        """Set the flux of this Run.
+
+        Flux used for the task
+
+        :param flux: The flux of this Run.
+        :type: str
+        """  # noqa: E501
+        self._flux = flux
+
+    @property
     def started_at(self):
         """Get the started_at of this Run.
 
-        Time run started executing, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://go.dev/src/time/format.go)) the run started executing.
 
         :return: The started_at of this Run.
         :rtype: datetime
@@ -198,7 +225,7 @@ class Run(object):
     def started_at(self, started_at):
         """Set the started_at of this Run.
 
-        Time run started executing, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://go.dev/src/time/format.go)) the run started executing.
 
         :param started_at: The started_at of this Run.
         :type: datetime
@@ -209,7 +236,7 @@ class Run(object):
     def finished_at(self):
         """Get the finished_at of this Run.
 
-        Time run finished executing, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://go.dev/src/time/format.go)) the run finished executing.
 
         :return: The finished_at of this Run.
         :rtype: datetime
@@ -220,7 +247,7 @@ class Run(object):
     def finished_at(self, finished_at):
         """Set the finished_at of this Run.
 
-        Time run finished executing, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://go.dev/src/time/format.go)) the run finished executing.
 
         :param finished_at: The finished_at of this Run.
         :type: datetime
@@ -231,7 +258,7 @@ class Run(object):
     def requested_at(self):
         """Get the requested_at of this Run.
 
-        Time run was manually requested, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339nano-timestamp)) the run was manually requested.
 
         :return: The requested_at of this Run.
         :rtype: datetime
@@ -242,7 +269,7 @@ class Run(object):
     def requested_at(self, requested_at):
         """Set the requested_at of this Run.
 
-        Time run was manually requested, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339nano-timestamp)) the run was manually requested.
 
         :param requested_at: The requested_at of this Run.
         :type: datetime

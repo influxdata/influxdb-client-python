@@ -41,16 +41,16 @@ class PatchRetentionRule(object):
         'shard_group_duration_seconds': 'shardGroupDurationSeconds'
     }
 
-    def __init__(self, type='expire', every_seconds=None, shard_group_duration_seconds=None):  # noqa: E501,D401,D403
+    def __init__(self, type='expire', every_seconds=2592000, shard_group_duration_seconds=None):  # noqa: E501,D401,D403
         """PatchRetentionRule - a model defined in OpenAPI."""  # noqa: E501
         self._type = None
         self._every_seconds = None
         self._shard_group_duration_seconds = None
         self.discriminator = None
 
-        self.type = type
-        if every_seconds is not None:
-            self.every_seconds = every_seconds
+        if type is not None:
+            self.type = type
+        self.every_seconds = every_seconds
         if shard_group_duration_seconds is not None:
             self.shard_group_duration_seconds = shard_group_duration_seconds
 
@@ -70,15 +70,13 @@ class PatchRetentionRule(object):
         :param type: The type of this PatchRetentionRule.
         :type: str
         """  # noqa: E501
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
         self._type = type
 
     @property
     def every_seconds(self):
         """Get the every_seconds of this PatchRetentionRule.
 
-        Duration in seconds for how long data will be kept in the database. 0 means infinite.
+        The number of seconds to keep data. Default duration is `2592000` (30 days). `0` represents infinite retention.
 
         :return: The every_seconds of this PatchRetentionRule.
         :rtype: int
@@ -89,11 +87,13 @@ class PatchRetentionRule(object):
     def every_seconds(self, every_seconds):
         """Set the every_seconds of this PatchRetentionRule.
 
-        Duration in seconds for how long data will be kept in the database. 0 means infinite.
+        The number of seconds to keep data. Default duration is `2592000` (30 days). `0` represents infinite retention.
 
         :param every_seconds: The every_seconds of this PatchRetentionRule.
         :type: int
         """  # noqa: E501
+        if every_seconds is None:
+            raise ValueError("Invalid value for `every_seconds`, must not be `None`")  # noqa: E501
         if every_seconds is not None and every_seconds < 0:  # noqa: E501
             raise ValueError("Invalid value for `every_seconds`, must be a value greater than or equal to `0`")  # noqa: E501
         self._every_seconds = every_seconds
@@ -102,7 +102,7 @@ class PatchRetentionRule(object):
     def shard_group_duration_seconds(self):
         """Get the shard_group_duration_seconds of this PatchRetentionRule.
 
-        Shard duration measured in seconds.
+        The [shard group duration](https://docs.influxdata.com/influxdb/latest/reference/glossary/#shard). The number of seconds that each shard group covers.  #### InfluxDB Cloud  - Doesn't use `shardGroupDurationsSeconds`.  #### InfluxDB OSS  - Default value depends on the [bucket retention period](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/#shard-group-duration).  #### Related guides  - InfluxDB [shards and shard groups](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/)
 
         :return: The shard_group_duration_seconds of this PatchRetentionRule.
         :rtype: int
@@ -113,7 +113,7 @@ class PatchRetentionRule(object):
     def shard_group_duration_seconds(self, shard_group_duration_seconds):
         """Set the shard_group_duration_seconds of this PatchRetentionRule.
 
-        Shard duration measured in seconds.
+        The [shard group duration](https://docs.influxdata.com/influxdb/latest/reference/glossary/#shard). The number of seconds that each shard group covers.  #### InfluxDB Cloud  - Doesn't use `shardGroupDurationsSeconds`.  #### InfluxDB OSS  - Default value depends on the [bucket retention period](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/#shard-group-duration).  #### Related guides  - InfluxDB [shards and shard groups](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/)
 
         :param shard_group_duration_seconds: The shard_group_duration_seconds of this PatchRetentionRule.
         :type: int

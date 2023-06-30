@@ -138,7 +138,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org_id(self):
         """Get the org_id of this Authorization.
 
-        ID of the organization that the authorization is scoped to.
+        The organization ID. Specifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that the authorization is scoped to.
 
         :return: The org_id of this Authorization.
         :rtype: str
@@ -149,7 +149,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org_id(self, org_id):
         """Set the org_id of this Authorization.
 
-        ID of the organization that the authorization is scoped to.
+        The organization ID. Specifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that the authorization is scoped to.
 
         :param org_id: The org_id of this Authorization.
         :type: str
@@ -160,7 +160,7 @@ class Authorization(AuthorizationUpdateRequest):
     def permissions(self):
         """Get the permissions of this Authorization.
 
-        List of permissions for an authorization.  An authorization must have at least one permission.
+        The list of permissions. An authorization must have at least one permission.
 
         :return: The permissions of this Authorization.
         :rtype: list[Permission]
@@ -171,7 +171,7 @@ class Authorization(AuthorizationUpdateRequest):
     def permissions(self, permissions):
         """Set the permissions of this Authorization.
 
-        List of permissions for an authorization.  An authorization must have at least one permission.
+        The list of permissions. An authorization must have at least one permission.
 
         :param permissions: The permissions of this Authorization.
         :type: list[Permission]
@@ -182,6 +182,8 @@ class Authorization(AuthorizationUpdateRequest):
     def id(self):
         """Get the id of this Authorization.
 
+        The authorization ID.
+
         :return: The id of this Authorization.
         :rtype: str
         """  # noqa: E501
@@ -190,6 +192,8 @@ class Authorization(AuthorizationUpdateRequest):
     @id.setter
     def id(self, id):
         """Set the id of this Authorization.
+
+        The authorization ID.
 
         :param id: The id of this Authorization.
         :type: str
@@ -200,7 +204,7 @@ class Authorization(AuthorizationUpdateRequest):
     def token(self):
         """Get the token of this Authorization.
 
-        Token used to authenticate API requests.
+        The API token. The token value is unique to the authorization. [API tokens](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) are used to authenticate and authorize InfluxDB API requests and `influx` CLI commands--after receiving the request, InfluxDB checks that the token is valid and that the `permissions` allow the requested action(s).
 
         :return: The token of this Authorization.
         :rtype: str
@@ -211,7 +215,7 @@ class Authorization(AuthorizationUpdateRequest):
     def token(self, token):
         """Set the token of this Authorization.
 
-        Token used to authenticate API requests.
+        The API token. The token value is unique to the authorization. [API tokens](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) are used to authenticate and authorize InfluxDB API requests and `influx` CLI commands--after receiving the request, InfluxDB checks that the token is valid and that the `permissions` allow the requested action(s).
 
         :param token: The token of this Authorization.
         :type: str
@@ -222,7 +226,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user_id(self):
         """Get the user_id of this Authorization.
 
-        ID of the user that created and owns the token.
+        The user ID. Specifies the [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) that owns the authorization. If _scoped_, the user that the authorization is scoped to; otherwise, the creator of the authorization.
 
         :return: The user_id of this Authorization.
         :rtype: str
@@ -233,7 +237,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user_id(self, user_id):
         """Set the user_id of this Authorization.
 
-        ID of the user that created and owns the token.
+        The user ID. Specifies the [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) that owns the authorization. If _scoped_, the user that the authorization is scoped to; otherwise, the creator of the authorization.
 
         :param user_id: The user_id of this Authorization.
         :type: str
@@ -244,7 +248,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user(self):
         """Get the user of this Authorization.
 
-        Name of the user that created and owns the token.
+        The user name. Specifies the [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) that owns the authorization. If the authorization is _scoped_ to a user, the user; otherwise, the creator of the authorization.
 
         :return: The user of this Authorization.
         :rtype: str
@@ -255,7 +259,7 @@ class Authorization(AuthorizationUpdateRequest):
     def user(self, user):
         """Set the user of this Authorization.
 
-        Name of the user that created and owns the token.
+        The user name. Specifies the [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) that owns the authorization. If the authorization is _scoped_ to a user, the user; otherwise, the creator of the authorization.
 
         :param user: The user of this Authorization.
         :type: str
@@ -266,7 +270,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org(self):
         """Get the org of this Authorization.
 
-        Name of the organization that the token is scoped to.
+        The organization name. Specifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that the token is scoped to.
 
         :return: The org of this Authorization.
         :rtype: str
@@ -277,7 +281,7 @@ class Authorization(AuthorizationUpdateRequest):
     def org(self, org):
         """Set the org of this Authorization.
 
-        Name of the organization that the token is scoped to.
+        The organization name. Specifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that the token is scoped to.
 
         :param org: The org of this Authorization.
         :type: str

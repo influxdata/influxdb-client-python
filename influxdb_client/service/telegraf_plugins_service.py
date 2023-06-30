@@ -67,7 +67,7 @@ class TelegrafPluginsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegraf_plugins_prepare(**kwargs)
+            self._get_telegraf_plugins_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/telegraf/plugins', 'GET',
@@ -99,7 +99,7 @@ class TelegrafPluginsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_telegraf_plugins_prepare(**kwargs)
+            self._get_telegraf_plugins_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/telegraf/plugins', 'GET',

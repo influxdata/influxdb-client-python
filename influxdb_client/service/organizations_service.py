@@ -32,6 +32,7 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an organization.
 
+        Deletes an organization.  Deleting an organization from InfluxDB Cloud can't be undone. Once deleted, all data associated with the organization is removed.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one organization can be deleted per request.  #### Related guides  - [Delete organizations](https://docs.influxdata.com/influxdb/latest/organizations/delete-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id(org_id, async_req=True)
@@ -54,6 +55,7 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id_with_http_info(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an organization.
 
+        Deletes an organization.  Deleting an organization from InfluxDB Cloud can't be undone. Once deleted, all data associated with the organization is removed.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one organization can be deleted per request.  #### Related guides  - [Delete organizations](https://docs.influxdata.com/influxdb/latest/organizations/delete-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id_with_http_info(org_id, async_req=True)
@@ -67,7 +69,7 @@ class OrganizationsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_prepare(org_id, **kwargs)
+            self._delete_orgs_id_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'DELETE',
@@ -89,6 +91,7 @@ class OrganizationsService(_BaseService):
     async def delete_orgs_id_async(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an organization.
 
+        Deletes an organization.  Deleting an organization from InfluxDB Cloud can't be undone. Once deleted, all data associated with the organization is removed.  #### InfluxDB Cloud  - Does the following when you send a delete request:    1. Validates the request and queues the delete.   2. Returns an HTTP `204` status code if queued; _error_ otherwise.   3. Handles the delete asynchronously.  #### InfluxDB OSS  - Validates the request, handles the delete synchronously, and then responds with success or failure.  #### Limitations  - Only one organization can be deleted per request.  #### Related guides  - [Delete organizations](https://docs.influxdata.com/influxdb/latest/organizations/delete-orgs/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -99,7 +102,7 @@ class OrganizationsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_prepare(org_id, **kwargs)
+            self._delete_orgs_id_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'DELETE',
@@ -148,14 +151,15 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id_members_id(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from an organization.
 
+        Removes a member from an organization.  Use this endpoint to remove a user's member privileges for an organization. Removing member privileges removes the user's `read` and `write` permissions from the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related guides  - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id_members_id(user_id, org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -171,21 +175,22 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id_members_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from an organization.
 
+        Removes a member from an organization.  Use this endpoint to remove a user's member privileges for an organization. Removing member privileges removes the user's `read` and `write` permissions from the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related guides  - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id_members_id_with_http_info(user_id, org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_members_id_prepare(user_id, org_id, **kwargs)
+            self._delete_orgs_id_members_id_prepare(user_id, org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members/{userID}', 'DELETE',
@@ -207,18 +212,19 @@ class OrganizationsService(_BaseService):
     async def delete_orgs_id_members_id_async(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from an organization.
 
+        Removes a member from an organization.  Use this endpoint to remove a user's member privileges for an organization. Removing member privileges removes the user's `read` and `write` permissions from the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related guides  - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str user_id: The ID of the member to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove a user from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_members_id_prepare(user_id, org_id, **kwargs)
+            self._delete_orgs_id_members_id_prepare(user_id, org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members/{userID}', 'DELETE',
@@ -273,14 +279,15 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id_owners_id(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from an organization.
 
+        Removes an [owner](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) from the organization.  Organization owners have permission to delete organizations and remove user and member permissions from the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id_owners_id(user_id, org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the owner to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -296,21 +303,22 @@ class OrganizationsService(_BaseService):
     def delete_orgs_id_owners_id_with_http_info(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from an organization.
 
+        Removes an [owner](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) from the organization.  Organization owners have permission to delete organizations and remove user and member permissions from the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_orgs_id_owners_id_with_http_info(user_id, org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str user_id: The ID of the owner to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_owners_id_prepare(user_id, org_id, **kwargs)
+            self._delete_orgs_id_owners_id_prepare(user_id, org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners/{userID}', 'DELETE',
@@ -332,18 +340,19 @@ class OrganizationsService(_BaseService):
     async def delete_orgs_id_owners_id_async(self, user_id, org_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from an organization.
 
+        Removes an [owner](https://docs.influxdata.com/influxdb/latest/reference/glossary/#owner) from the organization.  Organization owners have permission to delete organizations and remove user and member permissions from the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Owner permissions are separate from API token permissions. - Owner permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to remove an owner from.  #### Related endpoints - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str user_id: The ID of the owner to remove. (required)
-        :param str org_id: The organization ID. (required)
+        :param str user_id: The ID of the user to remove. (required)
+        :param str org_id: The ID of the organization to remove an owner from. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_owners_id_prepare(user_id, org_id, **kwargs)
+            self._delete_orgs_id_owners_id_prepare(user_id, org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners/{userID}', 'DELETE',
@@ -396,8 +405,9 @@ class OrganizationsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_orgs(self, **kwargs):  # noqa: E501,D401,D403
-        """List all organizations.
+        """List organizations.
 
+        Lists [organizations](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization/).  To limit which organizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all organizations up to the default `limit`.  #### InfluxDB Cloud  - Only returns the organization that owns the token passed in the request.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs(async_req=True)
@@ -405,12 +415,12 @@ class OrganizationsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str org: Filter organizations to a specific organization name.
-        :param str org_id: Filter organizations to a specific organization ID.
-        :param str user_id: Filter organizations to a specific user ID.
+        :param str org: An organization name. Only returns the specified organization.
+        :param str org_id: An organization ID. Only returns the specified organization.
+        :param str user_id: A user ID. Only returns organizations where the specified user is a member or owner.
         :return: Organizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -423,8 +433,9 @@ class OrganizationsService(_BaseService):
             return data
 
     def get_orgs_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all organizations.
+        """List organizations.
 
+        Lists [organizations](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization/).  To limit which organizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all organizations up to the default `limit`.  #### InfluxDB Cloud  - Only returns the organization that owns the token passed in the request.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_with_http_info(async_req=True)
@@ -432,18 +443,18 @@ class OrganizationsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str org: Filter organizations to a specific organization name.
-        :param str org_id: Filter organizations to a specific organization ID.
-        :param str user_id: Filter organizations to a specific user ID.
+        :param str org: An organization name. Only returns the specified organization.
+        :param str org_id: An organization ID. Only returns the specified organization.
+        :param str user_id: A user ID. Only returns organizations where the specified user is a member or owner.
         :return: Organizations
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_prepare(**kwargs)
+            self._get_orgs_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs', 'GET',
@@ -463,24 +474,25 @@ class OrganizationsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_orgs_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all organizations.
+        """List organizations.
 
+        Lists [organizations](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization/).  To limit which organizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all organizations up to the default `limit`.  #### InfluxDB Cloud  - Only returns the organization that owns the token passed in the request.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str org: Filter organizations to a specific organization name.
-        :param str org_id: Filter organizations to a specific organization ID.
-        :param str user_id: Filter organizations to a specific user ID.
+        :param str org: An organization name. Only returns the specified organization.
+        :param str org_id: An organization ID. Only returns the specified organization.
+        :param str user_id: A user ID. Only returns organizations where the specified user is a member or owner.
         :return: Organizations
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_prepare(**kwargs)
+            self._get_orgs_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs', 'GET',
@@ -541,13 +553,14 @@ class OrganizationsService(_BaseService):
     def get_orgs_id(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an organization.
 
+        Retrieves an organization.  Use this endpoint to retrieve information for a specific organization.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
+        :param str org_id: The ID of the organization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -563,20 +576,21 @@ class OrganizationsService(_BaseService):
     def get_orgs_id_with_http_info(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an organization.
 
+        Retrieves an organization.  Use this endpoint to retrieve information for a specific organization.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id_with_http_info(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
+        :param str org_id: The ID of the organization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_prepare(org_id, **kwargs)
+            self._get_orgs_id_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'GET',
@@ -598,17 +612,18 @@ class OrganizationsService(_BaseService):
     async def get_orgs_id_async(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an organization.
 
+        Retrieves an organization.  Use this endpoint to retrieve information for a specific organization.  #### Related guides  - [View organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
+        :param str org_id: The ID of the organization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_prepare(org_id, **kwargs)
+            self._get_orgs_id_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'GET',
@@ -657,13 +672,14 @@ class OrganizationsService(_BaseService):
     def get_orgs_id_members(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all members of an organization.
 
+        Lists all users that belong to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve members for.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id_members(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
@@ -679,20 +695,21 @@ class OrganizationsService(_BaseService):
     def get_orgs_id_members_with_http_info(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all members of an organization.
 
+        Lists all users that belong to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve members for.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id_members_with_http_info(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_members_prepare(org_id, **kwargs)
+            self._get_orgs_id_members_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'GET',
@@ -714,17 +731,18 @@ class OrganizationsService(_BaseService):
     async def get_orgs_id_members_async(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all members of an organization.
 
+        Lists all users that belong to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve members for.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to retrieve users for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMembers
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_members_prepare(org_id, **kwargs)
+            self._get_orgs_id_members_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'GET',
@@ -773,13 +791,14 @@ class OrganizationsService(_BaseService):
     def get_orgs_id_owners(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of an organization.
 
+        Lists all owners of an organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners from.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id_owners(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to list owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -795,20 +814,21 @@ class OrganizationsService(_BaseService):
     def get_orgs_id_owners_with_http_info(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of an organization.
 
+        Lists all owners of an organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners from.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_orgs_id_owners_with_http_info(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to list owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_owners_prepare(org_id, **kwargs)
+            self._get_orgs_id_owners_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'GET',
@@ -830,17 +850,18 @@ class OrganizationsService(_BaseService):
     async def get_orgs_id_owners_async(self, org_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of an organization.
 
+        Lists all owners of an organization.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `read-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to retrieve a list of owners from.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
+        :param str org_id: The ID of the organization to list owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_owners_prepare(org_id, **kwargs)
+            self._get_orgs_id_owners_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'GET',
@@ -889,14 +910,15 @@ class OrganizationsService(_BaseService):
     def patch_orgs_id(self, org_id, patch_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Update an organization.
 
+        Updates an organization.  Use this endpoint to update properties (`name`, `description`) of an organization.  Updating an organization’s name affects all resources that reference the organization by name, including the following:  - Queries - Dashboards - Tasks - Telegraf configurations - Templates  If you change an organization name, be sure to update the organization name in these resources as well.  #### Related Guides  - [Update an organization](https://docs.influxdata.com/influxdb/latest/organizations/update-org/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_orgs_id(org_id, patch_organization_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
-        :param PatchOrganizationRequest patch_organization_request: Organization update to apply (required)
+        :param str org_id: The ID of the organization to update. (required)
+        :param PatchOrganizationRequest patch_organization_request: The organization update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -912,21 +934,22 @@ class OrganizationsService(_BaseService):
     def patch_orgs_id_with_http_info(self, org_id, patch_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Update an organization.
 
+        Updates an organization.  Use this endpoint to update properties (`name`, `description`) of an organization.  Updating an organization’s name affects all resources that reference the organization by name, including the following:  - Queries - Dashboards - Tasks - Telegraf configurations - Templates  If you change an organization name, be sure to update the organization name in these resources as well.  #### Related Guides  - [Update an organization](https://docs.influxdata.com/influxdb/latest/organizations/update-org/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_orgs_id_with_http_info(org_id, patch_organization_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
-        :param PatchOrganizationRequest patch_organization_request: Organization update to apply (required)
+        :param str org_id: The ID of the organization to update. (required)
+        :param PatchOrganizationRequest patch_organization_request: The organization update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_orgs_id_prepare(org_id, patch_organization_request, **kwargs)
+            self._patch_orgs_id_prepare(org_id, patch_organization_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'PATCH',
@@ -948,18 +971,19 @@ class OrganizationsService(_BaseService):
     async def patch_orgs_id_async(self, org_id, patch_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Update an organization.
 
+        Updates an organization.  Use this endpoint to update properties (`name`, `description`) of an organization.  Updating an organization’s name affects all resources that reference the organization by name, including the following:  - Queries - Dashboards - Tasks - Telegraf configurations - Templates  If you change an organization name, be sure to update the organization name in these resources as well.  #### Related Guides  - [Update an organization](https://docs.influxdata.com/influxdb/latest/organizations/update-org/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The ID of the organization to get. (required)
-        :param PatchOrganizationRequest patch_organization_request: Organization update to apply (required)
+        :param str org_id: The ID of the organization to update. (required)
+        :param PatchOrganizationRequest patch_organization_request: The organization update to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_orgs_id_prepare(org_id, patch_organization_request, **kwargs)
+            self._patch_orgs_id_prepare(org_id, patch_organization_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}', 'PATCH',
@@ -1018,13 +1042,14 @@ class OrganizationsService(_BaseService):
     def post_orgs(self, post_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Create an organization.
 
+        Creates an [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) and returns the newly created organization.  #### InfluxDB Cloud  - Doesn't allow you to use this endpoint to create organizations.  #### Related guides  - [Manage organizations](https://docs.influxdata.com/influxdb/latest/organizations)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs(post_organization_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param PostOrganizationRequest post_organization_request: Organization to create (required)
+        :param PostOrganizationRequest post_organization_request: The organization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
@@ -1040,20 +1065,21 @@ class OrganizationsService(_BaseService):
     def post_orgs_with_http_info(self, post_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Create an organization.
 
+        Creates an [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) and returns the newly created organization.  #### InfluxDB Cloud  - Doesn't allow you to use this endpoint to create organizations.  #### Related guides  - [Manage organizations](https://docs.influxdata.com/influxdb/latest/organizations)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs_with_http_info(post_organization_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param PostOrganizationRequest post_organization_request: Organization to create (required)
+        :param PostOrganizationRequest post_organization_request: The organization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_prepare(post_organization_request, **kwargs)
+            self._post_orgs_prepare(post_organization_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs', 'POST',
@@ -1075,17 +1101,18 @@ class OrganizationsService(_BaseService):
     async def post_orgs_async(self, post_organization_request, **kwargs):  # noqa: E501,D401,D403
         """Create an organization.
 
+        Creates an [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) and returns the newly created organization.  #### InfluxDB Cloud  - Doesn't allow you to use this endpoint to create organizations.  #### Related guides  - [Manage organizations](https://docs.influxdata.com/influxdb/latest/organizations)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param PostOrganizationRequest post_organization_request: Organization to create (required)
+        :param PostOrganizationRequest post_organization_request: The organization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Organization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_prepare(post_organization_request, **kwargs)
+            self._post_orgs_prepare(post_organization_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs', 'POST',
@@ -1138,14 +1165,15 @@ class OrganizationsService(_BaseService):
     def post_orgs_id_members(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to an organization.
 
+        Add a user to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add a member to.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs_id_members(org_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str org_id: The ID of the organization. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add to the organization.  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -1161,21 +1189,22 @@ class OrganizationsService(_BaseService):
     def post_orgs_id_members_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to an organization.
 
+        Add a user to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add a member to.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs_id_members_with_http_info(org_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str org_id: The ID of the organization. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add to the organization.  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_members_prepare(org_id, add_resource_member_request_body, **kwargs)
+            self._post_orgs_id_members_prepare(org_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'POST',
@@ -1197,18 +1226,19 @@ class OrganizationsService(_BaseService):
     async def post_orgs_id_members_async(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to an organization.
 
+        Add a user to an organization.  InfluxDB [users](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) have permission to access InfluxDB.  [Members](https://docs.influxdata.com/influxdb/latest/reference/glossary/#member) are users within the organization.  #### InfluxDB Cloud - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Limitations  - Member permissions are separate from API token permissions. - Member permissions are used in the context of the InfluxDB UI.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add a member to.  #### Related guides  - [Manage users](https://docs.influxdata.com/influxdb/latest/users/) - [Manage members](https://docs.influxdata.com/influxdb/latest/organizations/members/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param str org_id: The ID of the organization. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add to the organization.  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_members_prepare(org_id, add_resource_member_request_body, **kwargs)
+            self._post_orgs_id_members_prepare(org_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/members', 'POST',
@@ -1267,14 +1297,15 @@ class OrganizationsService(_BaseService):
     def post_orgs_id_owners(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to an organization.
 
+        Adds an owner to an organization.  Use this endpoint to assign the organization `owner` role to a user.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs_id_owners(org_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str org_id: The ID of the organization that you want to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add as an owner of the organization. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -1290,21 +1321,22 @@ class OrganizationsService(_BaseService):
     def post_orgs_id_owners_with_http_info(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to an organization.
 
+        Adds an owner to an organization.  Use this endpoint to assign the organization `owner` role to a user.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_orgs_id_owners_with_http_info(org_id, add_resource_member_request_body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str org_id: The ID of the organization that you want to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add as an owner of the organization. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_owners_prepare(org_id, add_resource_member_request_body, **kwargs)
+            self._post_orgs_id_owners_prepare(org_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'POST',
@@ -1326,18 +1358,19 @@ class OrganizationsService(_BaseService):
     async def post_orgs_id_owners_async(self, org_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add an owner to an organization.
 
+        Adds an owner to an organization.  Use this endpoint to assign the organization `owner` role to a user.  #### InfluxDB Cloud  - Doesn't use `owner` and `member` roles.   Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  #### Required permissions  - `write-orgs INFLUX_ORG_ID`  *`INFLUX_ORG_ID`* is the ID of the organization that you want to add an owner for.  #### Related endpoints  - [Authorizations](#tag/Authorizations-(API-tokens))
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The organization ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param str org_id: The ID of the organization that you want to add an owner for. (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: The user to add as an owner of the organization. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_owners_prepare(org_id, add_resource_member_request_body, **kwargs)
+            self._post_orgs_id_owners_prepare(org_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/owners', 'POST',

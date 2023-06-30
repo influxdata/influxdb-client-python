@@ -59,6 +59,8 @@ class PatchBucketRequest(object):
     def name(self):
         """Get the name of this PatchBucketRequest.
 
+        The name of the bucket.
+
         :return: The name of this PatchBucketRequest.
         :rtype: str
         """  # noqa: E501
@@ -67,6 +69,8 @@ class PatchBucketRequest(object):
     @name.setter
     def name(self, name):
         """Set the name of this PatchBucketRequest.
+
+        The name of the bucket.
 
         :param name: The name of this PatchBucketRequest.
         :type: str
@@ -77,6 +81,8 @@ class PatchBucketRequest(object):
     def description(self):
         """Get the description of this PatchBucketRequest.
 
+        A description of the bucket.
+
         :return: The description of this PatchBucketRequest.
         :rtype: str
         """  # noqa: E501
@@ -85,6 +91,8 @@ class PatchBucketRequest(object):
     @description.setter
     def description(self, description):
         """Set the description of this PatchBucketRequest.
+
+        A description of the bucket.
 
         :param description: The description of this PatchBucketRequest.
         :type: str

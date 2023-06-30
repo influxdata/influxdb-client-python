@@ -49,6 +49,8 @@ class ScriptInvocationParams(object):
     def params(self):
         """Get the params of this ScriptInvocationParams.
 
+        The script parameters. `params` contains key-value pairs that map values to the **params.keys** in a script. When you invoke a script with `params`, InfluxDB passes the values as invocation parameters to the script.
+
         :return: The params of this ScriptInvocationParams.
         :rtype: dict(str, object)
         """  # noqa: E501
@@ -57,6 +59,8 @@ class ScriptInvocationParams(object):
     @params.setter
     def params(self, params):
         """Set the params of this ScriptInvocationParams.
+
+        The script parameters. `params` contains key-value pairs that map values to the **params.keys** in a script. When you invoke a script with `params`, InfluxDB passes the values as invocation parameters to the script.
 
         :param params: The params of this ScriptInvocationParams.
         :type: dict(str, object)

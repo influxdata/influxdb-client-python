@@ -69,7 +69,7 @@ class Dialect(object):
     def header(self):
         """Get the header of this Dialect.
 
-        If true, the results will contain a header row
+        If true, the results contain a header row.
 
         :return: The header of this Dialect.
         :rtype: bool
@@ -80,7 +80,7 @@ class Dialect(object):
     def header(self, header):
         """Set the header of this Dialect.
 
-        If true, the results will contain a header row
+        If true, the results contain a header row.
 
         :param header: The header of this Dialect.
         :type: bool
@@ -91,7 +91,7 @@ class Dialect(object):
     def delimiter(self):
         """Get the delimiter of this Dialect.
 
-        Separator between cells; the default is ,
+        The separator used between cells. Default is a comma (`,`).
 
         :return: The delimiter of this Dialect.
         :rtype: str
@@ -102,7 +102,7 @@ class Dialect(object):
     def delimiter(self, delimiter):
         """Set the delimiter of this Dialect.
 
-        Separator between cells; the default is ,
+        The separator used between cells. Default is a comma (`,`).
 
         :param delimiter: The delimiter of this Dialect.
         :type: str
@@ -117,7 +117,7 @@ class Dialect(object):
     def annotations(self):
         """Get the annotations of this Dialect.
 
-        https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns
+        Annotation rows to include in the results. An _annotation_ is metadata associated with an object (column) in the data model.  #### Related guides  - See [Annotated CSV annotations](https://docs.influxdata.com/influxdb/latest/reference/syntax/annotated-csv/#annotations) for examples and more information.  For more information about **annotations** in tabular data, see [W3 metadata vocabulary for tabular data](https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns).
 
         :return: The annotations of this Dialect.
         :rtype: list[str]
@@ -128,7 +128,7 @@ class Dialect(object):
     def annotations(self, annotations):
         """Set the annotations of this Dialect.
 
-        https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns
+        Annotation rows to include in the results. An _annotation_ is metadata associated with an object (column) in the data model.  #### Related guides  - See [Annotated CSV annotations](https://docs.influxdata.com/influxdb/latest/reference/syntax/annotated-csv/#annotations) for examples and more information.  For more information about **annotations** in tabular data, see [W3 metadata vocabulary for tabular data](https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#columns).
 
         :param annotations: The annotations of this Dialect.
         :type: list[str]
@@ -146,7 +146,7 @@ class Dialect(object):
     def comment_prefix(self):
         """Get the comment_prefix of this Dialect.
 
-        Character prefixed to comment strings
+        The character prefixed to comment strings. Default is a number sign (`#`).
 
         :return: The comment_prefix of this Dialect.
         :rtype: str
@@ -157,7 +157,7 @@ class Dialect(object):
     def comment_prefix(self, comment_prefix):
         """Set the comment_prefix of this Dialect.
 
-        Character prefixed to comment strings
+        The character prefixed to comment strings. Default is a number sign (`#`).
 
         :param comment_prefix: The comment_prefix of this Dialect.
         :type: str
@@ -172,7 +172,7 @@ class Dialect(object):
     def date_time_format(self):
         """Get the date_time_format of this Dialect.
 
-        Format of timestamps
+        The format for timestamps in results. Default is [`RFC3339` date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp). To include nanoseconds in timestamps, use `RFC3339Nano`.  #### Example formatted date/time values  | Format      | Value                       | |:------------|:----------------------------| | `RFC3339`    | `"2006-01-02T15:04:05Z07:00"` | | `RFC3339Nano` | `"2006-01-02T15:04:05.999999999Z07:00"` |
 
         :return: The date_time_format of this Dialect.
         :rtype: str
@@ -183,7 +183,7 @@ class Dialect(object):
     def date_time_format(self, date_time_format):
         """Set the date_time_format of this Dialect.
 
-        Format of timestamps
+        The format for timestamps in results. Default is [`RFC3339` date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp). To include nanoseconds in timestamps, use `RFC3339Nano`.  #### Example formatted date/time values  | Format      | Value                       | |:------------|:----------------------------| | `RFC3339`    | `"2006-01-02T15:04:05Z07:00"` | | `RFC3339Nano` | `"2006-01-02T15:04:05.999999999Z07:00"` |
 
         :param date_time_format: The date_time_format of this Dialect.
         :type: str

@@ -31,30 +31,25 @@ class User(object):
     """
     openapi_types = {
         'id': 'str',
-        'oauth_id': 'str',
         'name': 'str',
         'status': 'str'
     }
 
     attribute_map = {
         'id': 'id',
-        'oauth_id': 'oauthID',
         'name': 'name',
         'status': 'status'
     }
 
-    def __init__(self, id=None, oauth_id=None, name=None, status='active'):  # noqa: E501,D401,D403
+    def __init__(self, id=None, name=None, status='active'):  # noqa: E501,D401,D403
         """User - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
-        self._oauth_id = None
         self._name = None
         self._status = None
         self.discriminator = None
 
         if id is not None:
             self.id = id
-        if oauth_id is not None:
-            self.oauth_id = oauth_id
         self.name = name
         if status is not None:
             self.status = status
@@ -62,6 +57,8 @@ class User(object):
     @property
     def id(self):
         """Get the id of this User.
+
+        The user ID.
 
         :return: The id of this User.
         :rtype: str
@@ -72,32 +69,18 @@ class User(object):
     def id(self, id):
         """Set the id of this User.
 
+        The user ID.
+
         :param id: The id of this User.
         :type: str
         """  # noqa: E501
         self._id = id
 
     @property
-    def oauth_id(self):
-        """Get the oauth_id of this User.
-
-        :return: The oauth_id of this User.
-        :rtype: str
-        """  # noqa: E501
-        return self._oauth_id
-
-    @oauth_id.setter
-    def oauth_id(self, oauth_id):
-        """Set the oauth_id of this User.
-
-        :param oauth_id: The oauth_id of this User.
-        :type: str
-        """  # noqa: E501
-        self._oauth_id = oauth_id
-
-    @property
     def name(self):
         """Get the name of this User.
+
+        The user name.
 
         :return: The name of this User.
         :rtype: str
@@ -107,6 +90,8 @@ class User(object):
     @name.setter
     def name(self, name):
         """Set the name of this User.
+
+        The user name.
 
         :param name: The name of this User.
         :type: str
@@ -119,7 +104,7 @@ class User(object):
     def status(self):
         """Get the status of this User.
 
-        If inactive the user is inactive.
+        If `inactive`, the user is inactive. Default is `active`.
 
         :return: The status of this User.
         :rtype: str
@@ -130,7 +115,7 @@ class User(object):
     def status(self, status):
         """Set the status of this User.
 
-        If inactive the user is inactive.
+        If `inactive`, the user is inactive. Default is `active`.
 
         :param status: The status of this User.
         :type: str

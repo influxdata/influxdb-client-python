@@ -57,7 +57,7 @@ class DeletePredicateRequest(object):
     def start(self):
         """Get the start of this DeletePredicateRequest.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)).
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). The earliest time to delete from.
 
         :return: The start of this DeletePredicateRequest.
         :rtype: datetime
@@ -68,7 +68,7 @@ class DeletePredicateRequest(object):
     def start(self, start):
         """Set the start of this DeletePredicateRequest.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)).
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). The earliest time to delete from.
 
         :param start: The start of this DeletePredicateRequest.
         :type: datetime
@@ -81,7 +81,7 @@ class DeletePredicateRequest(object):
     def stop(self):
         """Get the stop of this DeletePredicateRequest.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)).
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). The latest time to delete from.
 
         :return: The stop of this DeletePredicateRequest.
         :rtype: datetime
@@ -92,7 +92,7 @@ class DeletePredicateRequest(object):
     def stop(self, stop):
         """Set the stop of this DeletePredicateRequest.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)).
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). The latest time to delete from.
 
         :param stop: The stop of this DeletePredicateRequest.
         :type: datetime
@@ -105,7 +105,7 @@ class DeletePredicateRequest(object):
     def predicate(self):
         """Get the predicate of this DeletePredicateRequest.
 
-        An expression in [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/).
+        An expression in [delete predicate syntax](https://docs.influxdata.com/influxdb/latest/reference/syntax/delete-predicate/).
 
         :return: The predicate of this DeletePredicateRequest.
         :rtype: str
@@ -116,7 +116,7 @@ class DeletePredicateRequest(object):
     def predicate(self, predicate):
         """Set the predicate of this DeletePredicateRequest.
 
-        An expression in [delete predicate syntax](https://docs.influxdata.com/influxdb/v2.2/reference/syntax/delete-predicate/).
+        An expression in [delete predicate syntax](https://docs.influxdata.com/influxdb/latest/reference/syntax/delete-predicate/).
 
         :param predicate: The predicate of this DeletePredicateRequest.
         :type: str

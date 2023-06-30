@@ -32,13 +32,14 @@ class AuthorizationsService(_BaseService):
     def delete_authorizations_id(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an authorization.
 
+        Deletes an authorization.  Use the endpoint to delete an API token.  If you want to disable an API token instead of delete it, [update the authorization's status to `inactive`](#operation/PatchAuthorizationsID).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_authorizations_id(auth_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to delete. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -54,20 +55,21 @@ class AuthorizationsService(_BaseService):
     def delete_authorizations_id_with_http_info(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an authorization.
 
+        Deletes an authorization.  Use the endpoint to delete an API token.  If you want to disable an API token instead of delete it, [update the authorization's status to `inactive`](#operation/PatchAuthorizationsID).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_authorizations_id_with_http_info(auth_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to delete. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_authorizations_id_prepare(auth_id, **kwargs)
+            self._delete_authorizations_id_prepare(auth_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'DELETE',
@@ -89,17 +91,18 @@ class AuthorizationsService(_BaseService):
     async def delete_authorizations_id_async(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Delete an authorization.
 
+        Deletes an authorization.  Use the endpoint to delete an API token.  If you want to disable an API token instead of delete it, [update the authorization's status to `inactive`](#operation/PatchAuthorizationsID).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to delete. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_authorizations_id_prepare(auth_id, **kwargs)
+            self._delete_authorizations_id_prepare(auth_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'DELETE',
@@ -146,8 +149,9 @@ class AuthorizationsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_authorizations(self, **kwargs):  # noqa: E501,D401,D403
-        """List all authorizations.
+        """List authorizations.
 
+        Lists authorizations.  To limit which authorizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all authorizations.  #### InfluxDB Cloud  - InfluxDB Cloud doesn't expose [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)   values in `GET /api/v2/authorizations` responses;   returns `token: redacted` for all authorizations.  #### Required permissions  To retrieve an authorization, the request must use an API token that has the following permissions:  - `read-authorizations` - `read-user` for the user that the authorization is scoped to  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_authorizations(async_req=True)
@@ -155,10 +159,11 @@ class AuthorizationsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str user_id: Only show authorizations that belong to a user ID.
-        :param str user: Only show authorizations that belong to a user name.
-        :param str org_id: Only show authorizations that belong to an organization ID.
-        :param str org: Only show authorizations that belong to a organization name.
+        :param str user_id: A user ID. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str user: A user name. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str org_id: An organization ID. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str token: An API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) value. Specifies an authorization by its `token` property value and returns the authorization.  #### InfluxDB OSS  - Doesn't support this parameter. InfluxDB OSS ignores the `token=` parameter,   applies other parameters, and then returns the result.  #### Limitations  - The parameter is non-repeatable. If you specify more than one,   only the first one is used. If a resource with the specified   property value doesn't exist, then the response body contains an empty list.
         :return: Authorizations
                  If the method is called asynchronously,
                  returns the request thread.
@@ -171,8 +176,9 @@ class AuthorizationsService(_BaseService):
             return data
 
     def get_authorizations_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all authorizations.
+        """List authorizations.
 
+        Lists authorizations.  To limit which authorizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all authorizations.  #### InfluxDB Cloud  - InfluxDB Cloud doesn't expose [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)   values in `GET /api/v2/authorizations` responses;   returns `token: redacted` for all authorizations.  #### Required permissions  To retrieve an authorization, the request must use an API token that has the following permissions:  - `read-authorizations` - `read-user` for the user that the authorization is scoped to  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_authorizations_with_http_info(async_req=True)
@@ -180,16 +186,17 @@ class AuthorizationsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str user_id: Only show authorizations that belong to a user ID.
-        :param str user: Only show authorizations that belong to a user name.
-        :param str org_id: Only show authorizations that belong to an organization ID.
-        :param str org: Only show authorizations that belong to a organization name.
+        :param str user_id: A user ID. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str user: A user name. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str org_id: An organization ID. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str token: An API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) value. Specifies an authorization by its `token` property value and returns the authorization.  #### InfluxDB OSS  - Doesn't support this parameter. InfluxDB OSS ignores the `token=` parameter,   applies other parameters, and then returns the result.  #### Limitations  - The parameter is non-repeatable. If you specify more than one,   only the first one is used. If a resource with the specified   property value doesn't exist, then the response body contains an empty list.
         :return: Authorizations
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_authorizations_prepare(**kwargs)
+            self._get_authorizations_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/authorizations', 'GET',
@@ -209,22 +216,24 @@ class AuthorizationsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_authorizations_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all authorizations.
+        """List authorizations.
 
+        Lists authorizations.  To limit which authorizations are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all authorizations.  #### InfluxDB Cloud  - InfluxDB Cloud doesn't expose [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token)   values in `GET /api/v2/authorizations` responses;   returns `token: redacted` for all authorizations.  #### Required permissions  To retrieve an authorization, the request must use an API token that has the following permissions:  - `read-authorizations` - `read-user` for the user that the authorization is scoped to  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str user_id: Only show authorizations that belong to a user ID.
-        :param str user: Only show authorizations that belong to a user name.
-        :param str org_id: Only show authorizations that belong to an organization ID.
-        :param str org: Only show authorizations that belong to a organization name.
+        :param str user_id: A user ID. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str user: A user name. Only returns authorizations scoped to the specified [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user).
+        :param str org_id: An organization ID. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns authorizations that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str token: An API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) value. Specifies an authorization by its `token` property value and returns the authorization.  #### InfluxDB OSS  - Doesn't support this parameter. InfluxDB OSS ignores the `token=` parameter,   applies other parameters, and then returns the result.  #### Limitations  - The parameter is non-repeatable. If you specify more than one,   only the first one is used. If a resource with the specified   property value doesn't exist, then the response body contains an empty list.
         :return: Authorizations
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_authorizations_prepare(**kwargs)
+            self._get_authorizations_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/authorizations', 'GET',
@@ -246,7 +255,7 @@ class AuthorizationsService(_BaseService):
     def _get_authorizations_prepare(self, **kwargs):  # noqa: E501,D401,D403
         local_var_params = locals()
 
-        all_params = ['zap_trace_span', 'user_id', 'user', 'org_id', 'org']  # noqa: E501
+        all_params = ['zap_trace_span', 'user_id', 'user', 'org_id', 'org', 'token']  # noqa: E501
         self._check_operation_params('get_authorizations', all_params, local_var_params)
 
         path_params = {}
@@ -260,6 +269,8 @@ class AuthorizationsService(_BaseService):
             query_params.append(('orgID', local_var_params['org_id']))  # noqa: E501
         if 'org' in local_var_params:
             query_params.append(('org', local_var_params['org']))  # noqa: E501
+        if 'token' in local_var_params:
+            query_params.append(('token', local_var_params['token']))  # noqa: E501
 
         header_params = {}
         if 'zap_trace_span' in local_var_params:
@@ -275,13 +286,14 @@ class AuthorizationsService(_BaseService):
     def get_authorizations_id(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an authorization.
 
+        Retrieves an authorization.  Use this endpoint to retrieve information about an API token, including the token's permissions and the user that the token is scoped to.  #### InfluxDB OSS  - InfluxDB OSS returns   [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) values in authorizations. - If the request uses an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_,   InfluxDB OSS returns authorizations for all organizations in the instance.  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_authorizations_id(auth_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to get. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -297,20 +309,21 @@ class AuthorizationsService(_BaseService):
     def get_authorizations_id_with_http_info(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an authorization.
 
+        Retrieves an authorization.  Use this endpoint to retrieve information about an API token, including the token's permissions and the user that the token is scoped to.  #### InfluxDB OSS  - InfluxDB OSS returns   [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) values in authorizations. - If the request uses an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_,   InfluxDB OSS returns authorizations for all organizations in the instance.  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_authorizations_id_with_http_info(auth_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to get. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_authorizations_id_prepare(auth_id, **kwargs)
+            self._get_authorizations_id_prepare(auth_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'GET',
@@ -332,17 +345,18 @@ class AuthorizationsService(_BaseService):
     async def get_authorizations_id_async(self, auth_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve an authorization.
 
+        Retrieves an authorization.  Use this endpoint to retrieve information about an API token, including the token's permissions and the user that the token is scoped to.  #### InfluxDB OSS  - InfluxDB OSS returns   [API token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token) values in authorizations. - If the request uses an _[operator token](https://docs.influxdata.com/influxdb/latest/security/tokens/#operator-token)_,   InfluxDB OSS returns authorizations for all organizations in the instance.  #### Related guides  - [View tokens](https://docs.influxdata.com/influxdb/latest/security/tokens/view-tokens/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to get. (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_authorizations_id_prepare(auth_id, **kwargs)
+            self._get_authorizations_id_prepare(auth_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'GET',
@@ -389,16 +403,17 @@ class AuthorizationsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def patch_authorizations_id(self, auth_id, authorization_update_request, **kwargs):  # noqa: E501,D401,D403
-        """Update an authorization to be active or inactive.
+        """Update an API token to be active or inactive.
 
+        Updates an authorization.  Use this endpoint to set an API token's status to be _active_ or _inactive_. InfluxDB rejects requests that use inactive API tokens.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_authorizations_id(auth_id, authorization_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to update. (required)
-        :param AuthorizationUpdateRequest authorization_update_request: Authorization to update (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to update. (required)
+        :param AuthorizationUpdateRequest authorization_update_request: In the request body, provide the authorization properties to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -412,23 +427,24 @@ class AuthorizationsService(_BaseService):
             return data
 
     def patch_authorizations_id_with_http_info(self, auth_id, authorization_update_request, **kwargs):  # noqa: E501,D401,D403
-        """Update an authorization to be active or inactive.
+        """Update an API token to be active or inactive.
 
+        Updates an authorization.  Use this endpoint to set an API token's status to be _active_ or _inactive_. InfluxDB rejects requests that use inactive API tokens.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_authorizations_id_with_http_info(auth_id, authorization_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to update. (required)
-        :param AuthorizationUpdateRequest authorization_update_request: Authorization to update (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to update. (required)
+        :param AuthorizationUpdateRequest authorization_update_request: In the request body, provide the authorization properties to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_authorizations_id_prepare(auth_id, authorization_update_request, **kwargs)
+            self._patch_authorizations_id_prepare(auth_id, authorization_update_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'PATCH',
@@ -448,20 +464,21 @@ class AuthorizationsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def patch_authorizations_id_async(self, auth_id, authorization_update_request, **kwargs):  # noqa: E501,D401,D403
-        """Update an authorization to be active or inactive.
+        """Update an API token to be active or inactive.
 
+        Updates an authorization.  Use this endpoint to set an API token's status to be _active_ or _inactive_. InfluxDB rejects requests that use inactive API tokens.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str auth_id: The ID of the authorization to update. (required)
-        :param AuthorizationUpdateRequest authorization_update_request: Authorization to update (required)
+        :param str auth_id: An authorization ID. Specifies the authorization to update. (required)
+        :param AuthorizationUpdateRequest authorization_update_request: In the request body, provide the authorization properties to update. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_authorizations_id_prepare(auth_id, authorization_update_request, **kwargs)
+            self._patch_authorizations_id_prepare(auth_id, authorization_update_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/authorizations/{authID}', 'PATCH',
@@ -520,13 +537,14 @@ class AuthorizationsService(_BaseService):
     def post_authorizations(self, authorization_post_request, **kwargs):  # noqa: E501,D401,D403
         """Create an authorization.
 
+        Creates an authorization and returns the authorization with the generated API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token).  Use this endpoint to create an authorization, which generates an API token with permissions to `read` or `write` to a specific resource or `type` of resource. The API token is the authorization's `token` property value.  To follow best practices for secure API token generation and retrieval, InfluxDB enforces access restrictions on API tokens.    - InfluxDB allows access to the API token value immediately after the authorization is created.   - You can’t change access (read/write) permissions for an API token after it’s created.   - Tokens stop working when the user who created the token is deleted.  We recommend the following for managing your tokens:    - Create a generic user to create and manage tokens for writing data.   - Store your tokens in a secure password vault for future access.  #### Required permissions  - `write-authorizations` - `write-user` for the user that the authorization is scoped to  #### Related guides  - [Create a token](https://docs.influxdata.com/influxdb/latest/security/tokens/create-token/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_authorizations(authorization_post_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param AuthorizationPostRequest authorization_post_request: Authorization to create (required)
+        :param AuthorizationPostRequest authorization_post_request: The authorization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
@@ -542,20 +560,21 @@ class AuthorizationsService(_BaseService):
     def post_authorizations_with_http_info(self, authorization_post_request, **kwargs):  # noqa: E501,D401,D403
         """Create an authorization.
 
+        Creates an authorization and returns the authorization with the generated API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token).  Use this endpoint to create an authorization, which generates an API token with permissions to `read` or `write` to a specific resource or `type` of resource. The API token is the authorization's `token` property value.  To follow best practices for secure API token generation and retrieval, InfluxDB enforces access restrictions on API tokens.    - InfluxDB allows access to the API token value immediately after the authorization is created.   - You can’t change access (read/write) permissions for an API token after it’s created.   - Tokens stop working when the user who created the token is deleted.  We recommend the following for managing your tokens:    - Create a generic user to create and manage tokens for writing data.   - Store your tokens in a secure password vault for future access.  #### Required permissions  - `write-authorizations` - `write-user` for the user that the authorization is scoped to  #### Related guides  - [Create a token](https://docs.influxdata.com/influxdb/latest/security/tokens/create-token/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_authorizations_with_http_info(authorization_post_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param AuthorizationPostRequest authorization_post_request: Authorization to create (required)
+        :param AuthorizationPostRequest authorization_post_request: The authorization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_authorizations_prepare(authorization_post_request, **kwargs)
+            self._post_authorizations_prepare(authorization_post_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/authorizations', 'POST',
@@ -577,17 +596,18 @@ class AuthorizationsService(_BaseService):
     async def post_authorizations_async(self, authorization_post_request, **kwargs):  # noqa: E501,D401,D403
         """Create an authorization.
 
+        Creates an authorization and returns the authorization with the generated API [token](https://docs.influxdata.com/influxdb/latest/reference/glossary/#token).  Use this endpoint to create an authorization, which generates an API token with permissions to `read` or `write` to a specific resource or `type` of resource. The API token is the authorization's `token` property value.  To follow best practices for secure API token generation and retrieval, InfluxDB enforces access restrictions on API tokens.    - InfluxDB allows access to the API token value immediately after the authorization is created.   - You can’t change access (read/write) permissions for an API token after it’s created.   - Tokens stop working when the user who created the token is deleted.  We recommend the following for managing your tokens:    - Create a generic user to create and manage tokens for writing data.   - Store your tokens in a secure password vault for future access.  #### Required permissions  - `write-authorizations` - `write-user` for the user that the authorization is scoped to  #### Related guides  - [Create a token](https://docs.influxdata.com/influxdb/latest/security/tokens/create-token/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param AuthorizationPostRequest authorization_post_request: Authorization to create (required)
+        :param AuthorizationPostRequest authorization_post_request: The authorization to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Authorization
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_authorizations_prepare(authorization_post_request, **kwargs)
+            self._post_authorizations_prepare(authorization_post_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/authorizations', 'POST',

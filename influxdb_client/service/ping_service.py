@@ -30,9 +30,9 @@ class PingService(_BaseService):
         super().__init__(api_client)
 
     def get_ping(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Retrieves the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_ping(async_req=True)
@@ -51,9 +51,9 @@ class PingService(_BaseService):
             return data
 
     def get_ping_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Retrieves the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_ping_with_http_info(async_req=True)
@@ -65,7 +65,7 @@ class PingService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_ping_prepare(**kwargs)
+            self._get_ping_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/ping', 'GET',
@@ -85,9 +85,9 @@ class PingService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_ping_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Retrieves the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -96,7 +96,7 @@ class PingService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_ping_prepare(**kwargs)
+            self._get_ping_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/ping', 'GET',
@@ -131,9 +131,9 @@ class PingService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def head_ping(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Returns the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.head_ping(async_req=True)
@@ -152,9 +152,9 @@ class PingService(_BaseService):
             return data
 
     def head_ping_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Returns the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.head_ping_with_http_info(async_req=True)
@@ -166,7 +166,7 @@ class PingService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._head_ping_prepare(**kwargs)
+            self._head_ping_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/ping', 'HEAD',
@@ -186,9 +186,9 @@ class PingService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def head_ping_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Get the status and version of the instance.
+        """Get the status of the instance.
 
-        Returns the status and InfluxDB version of the instance.
+        Returns the status and InfluxDB version of the instance.  Use this endpoint to monitor uptime for the InfluxDB instance. The response returns a HTTP `204` status code to inform you the instance is available.  #### InfluxDB Cloud  - Isn't versioned and doesn't return `X-Influxdb-Version` in the headers.  #### Related guides  - [Influx ping](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/ping/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -197,7 +197,7 @@ class PingService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._head_ping_prepare(**kwargs)
+            self._head_ping_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/ping', 'HEAD',

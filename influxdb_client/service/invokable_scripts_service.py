@@ -32,14 +32,14 @@ class InvokableScriptsService(_BaseService):
     def delete_scripts_id(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
 
-        Deletes a script and all associated records.
+        Deletes a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) and all associated records.  #### Limitations  - You can delete only one script per request. - If the script ID you provide doesn't exist for the organization, InfluxDB responds with an HTTP `204` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_scripts_id(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The ID of the script to delete. (required)
+        :param str script_id: A script ID. Deletes the specified script. (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -54,20 +54,24 @@ class InvokableScriptsService(_BaseService):
     def delete_scripts_id_with_http_info(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
 
-        Deletes a script and all associated records.
+        Deletes a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) and all associated records.  #### Limitations  - You can delete only one script per request. - If the script ID you provide doesn't exist for the organization, InfluxDB responds with an HTTP `204` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_scripts_id_with_http_info(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The ID of the script to delete. (required)
+        :param str script_id: A script ID. Deletes the specified script. (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scripts_id_prepare(script_id, **kwargs)
+            self._delete_scripts_id_prepare(script_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'DELETE',
@@ -89,11 +93,11 @@ class InvokableScriptsService(_BaseService):
     async def delete_scripts_id_async(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a script.
 
-        Deletes a script and all associated records.
+        Deletes a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) and all associated records.  #### Limitations  - You can delete only one script per request. - If the script ID you provide doesn't exist for the organization, InfluxDB responds with an HTTP `204` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str script_id: The ID of the script to delete. (required)
+        :param str script_id: A script ID. Deletes the specified script. (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -103,7 +107,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_scripts_id_prepare(script_id, **kwargs)
+            self._delete_scripts_id_prepare(script_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'DELETE',
@@ -141,19 +145,25 @@ class InvokableScriptsService(_BaseService):
         header_params = {}
 
         body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_scripts(self, **kwargs):  # noqa: E501,D401,D403
         """List scripts.
 
+        Lists [scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_scripts(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param int limit: The number of scripts to return.
-        :param int offset: The offset for pagination.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination]({{% INFLUXDB_DOCS_URL %}}/api/#tag/Pagination).
+        :param int limit: The maximum number of scripts to return. Default is `100`.
+        :param str name: The script name. Lists scripts with the specified name.
         :return: Scripts
                  If the method is called asynchronously,
                  returns the request thread.
@@ -168,14 +178,16 @@ class InvokableScriptsService(_BaseService):
     def get_scripts_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """List scripts.
 
+        Lists [scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_scripts_with_http_info(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param int limit: The number of scripts to return.
-        :param int offset: The offset for pagination.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination]({{% INFLUXDB_DOCS_URL %}}/api/#tag/Pagination).
+        :param int limit: The maximum number of scripts to return. Default is `100`.
+        :param str name: The script name. Lists scripts with the specified name.
         :return: Scripts
                  If the method is called asynchronously,
                  returns the request thread.
@@ -185,7 +197,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scripts_prepare(**kwargs)
+            self._get_scripts_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts', 'GET',
@@ -207,11 +219,13 @@ class InvokableScriptsService(_BaseService):
     async def get_scripts_async(self, **kwargs):  # noqa: E501,D401,D403
         """List scripts.
 
+        Lists [scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param int limit: The number of scripts to return.
-        :param int offset: The offset for pagination.
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination]({{% INFLUXDB_DOCS_URL %}}/api/#tag/Pagination).
+        :param int limit: The maximum number of scripts to return. Default is `100`.
+        :param str name: The script name. Lists scripts with the specified name.
         :return: Scripts
                  If the method is called asynchronously,
                  returns the request thread.
@@ -221,7 +235,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scripts_prepare(**kwargs)
+            self._get_scripts_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts', 'GET',
@@ -243,16 +257,24 @@ class InvokableScriptsService(_BaseService):
     def _get_scripts_prepare(self, **kwargs):  # noqa: E501,D401,D403
         local_var_params = locals()
 
-        all_params = ['limit', 'offset']  # noqa: E501
+        all_params = ['offset', 'limit', 'name']  # noqa: E501
         self._check_operation_params('get_scripts', all_params, local_var_params)
 
+        if 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
+            raise ValueError("Invalid value for parameter `offset` when calling `get_scripts`, must be a value greater than or equal to `0`")  # noqa: E501
+        if 'limit' in local_var_params and local_var_params['limit'] > 500:  # noqa: E501
+            raise ValueError("Invalid value for parameter `limit` when calling `get_scripts`, must be a value less than or equal to `500`")  # noqa: E501
+        if 'limit' in local_var_params and local_var_params['limit'] < 0:  # noqa: E501
+            raise ValueError("Invalid value for parameter `limit` when calling `get_scripts`, must be a value greater than or equal to `0`")  # noqa: E501
         path_params = {}
 
         query_params = []
-        if 'limit' in local_var_params:
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
         if 'offset' in local_var_params:
             query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+        if 'limit' in local_var_params:
+            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
+        if 'name' in local_var_params:
+            query_params.append(('name', local_var_params['name']))  # noqa: E501
 
         header_params = {}
 
@@ -266,14 +288,14 @@ class InvokableScriptsService(_BaseService):
     def get_scripts_id(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a script.
 
-        Uses script ID to retrieve details of an invokable script.
+        Retrieves a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_scripts_id(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
+        :param str script_id: A script ID. Retrieves the specified script. (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -288,14 +310,14 @@ class InvokableScriptsService(_BaseService):
     def get_scripts_id_with_http_info(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a script.
 
-        Uses script ID to retrieve details of an invokable script.
+        Retrieves a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_scripts_id_with_http_info(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
+        :param str script_id: A script ID. Retrieves the specified script. (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -305,7 +327,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scripts_id_prepare(script_id, **kwargs)
+            self._get_scripts_id_prepare(script_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'GET',
@@ -327,11 +349,11 @@ class InvokableScriptsService(_BaseService):
     async def get_scripts_id_async(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a script.
 
-        Uses script ID to retrieve details of an invokable script.
+        Retrieves a [script](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/).  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
+        :param str script_id: A script ID. Retrieves the specified script. (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -341,7 +363,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_scripts_id_prepare(script_id, **kwargs)
+            self._get_scripts_id_prepare(script_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'GET',
@@ -385,18 +407,140 @@ class InvokableScriptsService(_BaseService):
 
         return local_var_params, path_params, query_params, header_params, body_params
 
+    def get_scripts_id_params(self, script_id, **kwargs):  # noqa: E501,D401,D403
+        """Find script parameters..
+
+        Analyzes a script and determines required parameters. Find all `params` keys referenced in a script and return a list of keys. If it is possible to determine the type of the value from the context then the type is also returned -- for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  Requesting the parameters using `GET /api/v2/scripts/SCRIPT_ID/params` returns the following:  ```json {   "params": {     "mybucket": "string"   } } ```  The type name returned for a parameter will be one of:   - `any`  - `bool`  - `duration`  - `float`  - `int`  - `string`  - `time`  - `uint`  The type name `any` is used when the type of a parameter cannot be determined from the context, or the type is determined to be a structured type such as an array or record.  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_scripts_id_params(script_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str script_id: A script ID. The script to analyze for params. (required)
+        :return: Params
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_scripts_id_params_with_http_info(script_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_scripts_id_params_with_http_info(script_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_scripts_id_params_with_http_info(self, script_id, **kwargs):  # noqa: E501,D401,D403
+        """Find script parameters..
+
+        Analyzes a script and determines required parameters. Find all `params` keys referenced in a script and return a list of keys. If it is possible to determine the type of the value from the context then the type is also returned -- for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  Requesting the parameters using `GET /api/v2/scripts/SCRIPT_ID/params` returns the following:  ```json {   "params": {     "mybucket": "string"   } } ```  The type name returned for a parameter will be one of:   - `any`  - `bool`  - `duration`  - `float`  - `int`  - `string`  - `time`  - `uint`  The type name `any` is used when the type of a parameter cannot be determined from the context, or the type is determined to be a structured type such as an array or record.  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_scripts_id_params_with_http_info(script_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str script_id: A script ID. The script to analyze for params. (required)
+        :return: Params
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        if not self._is_cloud_instance():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._get_scripts_id_params_prepare(script_id, **kwargs)  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/v2/scripts/{scriptID}/params', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type='Params',  # noqa: E501
+            auth_settings=[],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    async def get_scripts_id_params_async(self, script_id, **kwargs):  # noqa: E501,D401,D403
+        """Find script parameters..
+
+        Analyzes a script and determines required parameters. Find all `params` keys referenced in a script and return a list of keys. If it is possible to determine the type of the value from the context then the type is also returned -- for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  Requesting the parameters using `GET /api/v2/scripts/SCRIPT_ID/params` returns the following:  ```json {   "params": {     "mybucket": "string"   } } ```  The type name returned for a parameter will be one of:   - `any`  - `bool`  - `duration`  - `float`  - `int`  - `string`  - `time`  - `uint`  The type name `any` is used when the type of a parameter cannot be determined from the context, or the type is determined to be a structured type such as an array or record.  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
+        This method makes an asynchronous HTTP request.
+
+        :param async_req bool
+        :param str script_id: A script ID. The script to analyze for params. (required)
+        :return: Params
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        if not await self._is_cloud_instance_async():
+            from influxdb_client.client.warnings import CloudOnlyWarning
+            CloudOnlyWarning.print_warning('InvokableScriptsService',
+                                           'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._get_scripts_id_params_prepare(script_id, **kwargs)  # noqa: E501
+
+        return await self.api_client.call_api(
+            '/api/v2/scripts/{scriptID}/params', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type='Params',  # noqa: E501
+            auth_settings=[],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    def _get_scripts_id_params_prepare(self, script_id, **kwargs):  # noqa: E501,D401,D403
+        local_var_params = locals()
+
+        all_params = ['script_id']  # noqa: E501
+        self._check_operation_params('get_scripts_id_params', all_params, local_var_params)
+        # verify the required parameter 'script_id' is set
+        if ('script_id' not in local_var_params or
+                local_var_params['script_id'] is None):
+            raise ValueError("Missing the required parameter `script_id` when calling `get_scripts_id_params`")  # noqa: E501
+
+        path_params = {}
+        if 'script_id' in local_var_params:
+            path_params['scriptID'] = local_var_params['script_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        return local_var_params, path_params, query_params, header_params, body_params
+
     def patch_scripts_id(self, script_id, script_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a script.
 
-        Updates properties (`name`, `description`, and `script`) of an invokable script.
+        Updates an invokable script.  Use this endpoint to modify values for script properties (`description` and `script`).  To update a script, pass an object that contains the updated key-value pairs.  #### Limitations  - If you send an empty request body, the script will neither update nor store an empty script, but InfluxDB will respond with an HTTP `200` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_scripts_id(script_id, script_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
-        :param ScriptUpdateRequest script_update_request: Script update to apply (required)
+        :param str script_id: A script ID. Updates the specified script. (required)
+        :param ScriptUpdateRequest script_update_request: An object that contains the updated script properties to apply.  (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -411,15 +555,15 @@ class InvokableScriptsService(_BaseService):
     def patch_scripts_id_with_http_info(self, script_id, script_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a script.
 
-        Updates properties (`name`, `description`, and `script`) of an invokable script.
+        Updates an invokable script.  Use this endpoint to modify values for script properties (`description` and `script`).  To update a script, pass an object that contains the updated key-value pairs.  #### Limitations  - If you send an empty request body, the script will neither update nor store an empty script, but InfluxDB will respond with an HTTP `200` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_scripts_id_with_http_info(script_id, script_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
-        :param ScriptUpdateRequest script_update_request: Script update to apply (required)
+        :param str script_id: A script ID. Updates the specified script. (required)
+        :param ScriptUpdateRequest script_update_request: An object that contains the updated script properties to apply.  (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -429,7 +573,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)
+            self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'PATCH',
@@ -451,12 +595,12 @@ class InvokableScriptsService(_BaseService):
     async def patch_scripts_id_async(self, script_id, script_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a script.
 
-        Updates properties (`name`, `description`, and `script`) of an invokable script.
+        Updates an invokable script.  Use this endpoint to modify values for script properties (`description` and `script`).  To update a script, pass an object that contains the updated key-value pairs.  #### Limitations  - If you send an empty request body, the script will neither update nor store an empty script, but InfluxDB will respond with an HTTP `200` status code.  #### Related Guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str script_id: The script ID. (required)
-        :param ScriptUpdateRequest script_update_request: Script update to apply (required)
+        :param str script_id: A script ID. Updates the specified script. (required)
+        :param ScriptUpdateRequest script_update_request: An object that contains the updated script properties to apply.  (required)
         :return: Script
                  If the method is called asynchronously,
                  returns the request thread.
@@ -466,7 +610,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)
+            self._patch_scripts_id_prepare(script_id, script_update_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts/{scriptID}', 'PATCH',
@@ -523,6 +667,7 @@ class InvokableScriptsService(_BaseService):
     def post_scripts(self, script_create_request, **kwargs):  # noqa: E501,D401,D403
         """Create a script.
 
+        Creates an [invokable script](https://docs.influxdata.com/resources/videos/api-invokable-scripts/) and returns the script.  #### Related guides  - [Invokable scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) - [Creating custom InfluxDB endpoints](https://docs.influxdata.com/resources/videos/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_scripts(script_create_request, async_req=True)
@@ -544,6 +689,7 @@ class InvokableScriptsService(_BaseService):
     def post_scripts_with_http_info(self, script_create_request, **kwargs):  # noqa: E501,D401,D403
         """Create a script.
 
+        Creates an [invokable script](https://docs.influxdata.com/resources/videos/api-invokable-scripts/) and returns the script.  #### Related guides  - [Invokable scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) - [Creating custom InfluxDB endpoints](https://docs.influxdata.com/resources/videos/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_scripts_with_http_info(script_create_request, async_req=True)
@@ -560,7 +706,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scripts_prepare(script_create_request, **kwargs)
+            self._post_scripts_prepare(script_create_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts', 'POST',
@@ -582,6 +728,7 @@ class InvokableScriptsService(_BaseService):
     async def post_scripts_async(self, script_create_request, **kwargs):  # noqa: E501,D401,D403
         """Create a script.
 
+        Creates an [invokable script](https://docs.influxdata.com/resources/videos/api-invokable-scripts/) and returns the script.  #### Related guides  - [Invokable scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/) - [Creating custom InfluxDB endpoints](https://docs.influxdata.com/resources/videos/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -595,7 +742,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scripts_prepare(script_create_request, **kwargs)
+            self._post_scripts_prepare(script_create_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts', 'POST',
@@ -646,16 +793,16 @@ class InvokableScriptsService(_BaseService):
     def post_scripts_id_invoke(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Invoke a script.
 
-        Invokes a script and substitutes `params` keys referenced in the script with `params` key-values sent in the request body.
+        Runs a script and returns the result. When the script runs, InfluxDB replaces `params` keys referenced in the script with `params` key-values passed in the request body--for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  The following example `POST /api/v2/scripts/SCRIPT_ID/invoke` request body passes a value for the _`mybucket`_ parameter:  ```json {   "params": {     "mybucket": "air_sensor"   } } ```  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_scripts_id_invoke(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: (required)
+        :param str script_id: A script ID. Runs the specified script. (required)
         :param ScriptInvocationParams script_invocation_params:
-        :return: str
+        :return: file
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -669,16 +816,16 @@ class InvokableScriptsService(_BaseService):
     def post_scripts_id_invoke_with_http_info(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Invoke a script.
 
-        Invokes a script and substitutes `params` keys referenced in the script with `params` key-values sent in the request body.
+        Runs a script and returns the result. When the script runs, InfluxDB replaces `params` keys referenced in the script with `params` key-values passed in the request body--for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  The following example `POST /api/v2/scripts/SCRIPT_ID/invoke` request body passes a value for the _`mybucket`_ parameter:  ```json {   "params": {     "mybucket": "air_sensor"   } } ```  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_scripts_id_invoke_with_http_info(script_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str script_id: (required)
+        :param str script_id: A script ID. Runs the specified script. (required)
         :param ScriptInvocationParams script_invocation_params:
-        :return: str
+        :return: file
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -687,7 +834,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scripts_id_invoke_prepare(script_id, **kwargs)
+            self._post_scripts_id_invoke_prepare(script_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/scripts/{scriptID}/invoke', 'POST',
@@ -697,7 +844,7 @@ class InvokableScriptsService(_BaseService):
             body=body_params,
             post_params=[],
             files={},
-            response_type='str',  # noqa: E501
+            response_type='file',  # noqa: E501
             auth_settings=[],
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -709,13 +856,13 @@ class InvokableScriptsService(_BaseService):
     async def post_scripts_id_invoke_async(self, script_id, **kwargs):  # noqa: E501,D401,D403
         """Invoke a script.
 
-        Invokes a script and substitutes `params` keys referenced in the script with `params` key-values sent in the request body.
+        Runs a script and returns the result. When the script runs, InfluxDB replaces `params` keys referenced in the script with `params` key-values passed in the request body--for example:  The following sample script contains a _`mybucket`_ parameter :  ```json "script": "from(bucket: params.mybucket)             |> range(start: -7d)             |> limit(n:1)" ```  The following example `POST /api/v2/scripts/SCRIPT_ID/invoke` request body passes a value for the _`mybucket`_ parameter:  ```json {   "params": {     "mybucket": "air_sensor"   } } ```  #### Related guides  - [Invoke custom scripts](https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str script_id: (required)
+        :param str script_id: A script ID. Runs the specified script. (required)
         :param ScriptInvocationParams script_invocation_params:
-        :return: str
+        :return: file
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
@@ -724,7 +871,7 @@ class InvokableScriptsService(_BaseService):
             CloudOnlyWarning.print_warning('InvokableScriptsService',
                                            'https://docs.influxdata.com/influxdb/cloud/api-guide/api-invokable-scripts/')  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_scripts_id_invoke_prepare(script_id, **kwargs)
+            self._post_scripts_id_invoke_prepare(script_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/scripts/{scriptID}/invoke', 'POST',
@@ -734,7 +881,7 @@ class InvokableScriptsService(_BaseService):
             body=body_params,
             post_params=[],
             files={},
-            response_type='str',  # noqa: E501
+            response_type='file',  # noqa: E501
             auth_settings=[],
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -766,7 +913,7 @@ class InvokableScriptsService(_BaseService):
             body_params = local_var_params['script_invocation_params']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            ['text/csv', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501

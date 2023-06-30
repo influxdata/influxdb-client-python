@@ -67,7 +67,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_sources_id_prepare(source_id, **kwargs)
+            self._delete_sources_id_prepare(source_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'DELETE',
@@ -99,7 +99,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_sources_id_prepare(source_id, **kwargs)
+            self._delete_sources_id_prepare(source_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'DELETE',
@@ -183,7 +183,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_prepare(**kwargs)
+            self._get_sources_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources', 'GET',
@@ -215,7 +215,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_prepare(**kwargs)
+            self._get_sources_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources', 'GET',
@@ -295,7 +295,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_prepare(source_id, **kwargs)
+            self._get_sources_id_prepare(source_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'GET',
@@ -327,7 +327,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_prepare(source_id, **kwargs)
+            self._get_sources_id_prepare(source_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'GET',
@@ -413,7 +413,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_buckets_prepare(source_id, **kwargs)
+            self._get_sources_id_buckets_prepare(source_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}/buckets', 'GET',
@@ -446,7 +446,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_buckets_prepare(source_id, **kwargs)
+            self._get_sources_id_buckets_prepare(source_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}/buckets', 'GET',
@@ -532,7 +532,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_health_prepare(source_id, **kwargs)
+            self._get_sources_id_health_prepare(source_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}/health', 'GET',
@@ -564,7 +564,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_sources_id_health_prepare(source_id, **kwargs)
+            self._get_sources_id_health_prepare(source_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}/health', 'GET',
@@ -650,7 +650,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_sources_id_prepare(source_id, source, **kwargs)
+            self._patch_sources_id_prepare(source_id, source, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'PATCH',
@@ -683,7 +683,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_sources_id_prepare(source_id, source, **kwargs)
+            self._patch_sources_id_prepare(source_id, source, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources/{sourceID}', 'PATCH',
@@ -777,7 +777,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_sources_prepare(source, **kwargs)
+            self._post_sources_prepare(source, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/sources', 'POST',
@@ -809,7 +809,7 @@ class SourcesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_sources_prepare(source, **kwargs)
+            self._post_sources_prepare(source, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/sources', 'POST',

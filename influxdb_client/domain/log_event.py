@@ -59,7 +59,7 @@ class LogEvent(object):
     def time(self):
         """Get the time of this LogEvent.
 
-        Time event occurred, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339nano-timestamp)) that the event occurred.
 
         :return: The time of this LogEvent.
         :rtype: datetime
@@ -70,7 +70,7 @@ class LogEvent(object):
     def time(self, time):
         """Set the time of this LogEvent.
 
-        Time event occurred, RFC3339Nano.
+        The time ([RFC3339Nano date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339nano-timestamp)) that the event occurred.
 
         :param time: The time of this LogEvent.
         :type: datetime
@@ -103,7 +103,7 @@ class LogEvent(object):
     def run_id(self):
         """Get the run_id of this LogEvent.
 
-        the ID of the task that logged
+        The ID of the task run that generated the event.
 
         :return: The run_id of this LogEvent.
         :rtype: str
@@ -114,7 +114,7 @@ class LogEvent(object):
     def run_id(self, run_id):
         """Set the run_id of this LogEvent.
 
-        the ID of the task that logged
+        The ID of the task run that generated the event.
 
         :param run_id: The run_id of this LogEvent.
         :type: str

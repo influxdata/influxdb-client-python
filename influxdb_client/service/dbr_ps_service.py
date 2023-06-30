@@ -32,16 +32,17 @@ class DBRPsService(_BaseService):
     def delete_dbrpid(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a database retention policy.
 
+        Deletes the specified database retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_dbrpid(dbrp_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping (required)
+        :param str dbrp_id: A DBRP mapping ID. Only returns the specified DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -56,22 +57,23 @@ class DBRPsService(_BaseService):
     def delete_dbrpid_with_http_info(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a database retention policy.
 
+        Deletes the specified database retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_dbrpid_with_http_info(dbrp_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping (required)
+        :param str dbrp_id: A DBRP mapping ID. Only returns the specified DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dbrpid_prepare(dbrp_id, **kwargs)
+            self._delete_dbrpid_prepare(dbrp_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'DELETE',
@@ -93,19 +95,20 @@ class DBRPsService(_BaseService):
     async def delete_dbrpid_async(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a database retention policy.
 
+        Deletes the specified database retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping (required)
+        :param str dbrp_id: A DBRP mapping ID. Only returns the specified DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dbrpid_prepare(dbrp_id, **kwargs)
+            self._delete_dbrpid_prepare(dbrp_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'DELETE',
@@ -158,6 +161,7 @@ class DBRPsService(_BaseService):
     def get_dbr_ps(self, **kwargs):  # noqa: E501,D401,D403
         """List database retention policy mappings.
 
+        Lists database retention policy (DBRP) mappings.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dbr_ps(async_req=True)
@@ -165,13 +169,13 @@ class DBRPsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID to filter on
-        :param str org: Specifies the organization name to filter on
-        :param str id: Specifies the mapping ID to filter on
-        :param str bucket_id: Specifies the bucket ID to filter on
+        :param str org_id: An organization ID. Only returns DBRP mappings for the specified organization.
+        :param str org: An organization name. Only returns DBRP mappings for the specified organization.
+        :param str id: A DBPR mapping ID. Only returns the specified DBRP mapping.
+        :param str bucket_id: A bucket ID. Only returns DBRP mappings that belong to the specified bucket.
         :param bool default: Specifies filtering on default
-        :param str db: Specifies the database to filter on
-        :param str rp: Specifies the retention policy to filter on
+        :param str db: A database. Only returns DBRP mappings that belong to the 1.x database.
+        :param str rp: A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp). Specifies the 1.x retention policy to filter on.
         :return: DBRPs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -186,6 +190,7 @@ class DBRPsService(_BaseService):
     def get_dbr_ps_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """List database retention policy mappings.
 
+        Lists database retention policy (DBRP) mappings.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dbr_ps_with_http_info(async_req=True)
@@ -193,19 +198,19 @@ class DBRPsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID to filter on
-        :param str org: Specifies the organization name to filter on
-        :param str id: Specifies the mapping ID to filter on
-        :param str bucket_id: Specifies the bucket ID to filter on
+        :param str org_id: An organization ID. Only returns DBRP mappings for the specified organization.
+        :param str org: An organization name. Only returns DBRP mappings for the specified organization.
+        :param str id: A DBPR mapping ID. Only returns the specified DBRP mapping.
+        :param str bucket_id: A bucket ID. Only returns DBRP mappings that belong to the specified bucket.
         :param bool default: Specifies filtering on default
-        :param str db: Specifies the database to filter on
-        :param str rp: Specifies the retention policy to filter on
+        :param str db: A database. Only returns DBRP mappings that belong to the 1.x database.
+        :param str rp: A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp). Specifies the 1.x retention policy to filter on.
         :return: DBRPs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dbr_ps_prepare(**kwargs)
+            self._get_dbr_ps_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dbrps', 'GET',
@@ -227,23 +232,24 @@ class DBRPsService(_BaseService):
     async def get_dbr_ps_async(self, **kwargs):  # noqa: E501,D401,D403
         """List database retention policy mappings.
 
+        Lists database retention policy (DBRP) mappings.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID to filter on
-        :param str org: Specifies the organization name to filter on
-        :param str id: Specifies the mapping ID to filter on
-        :param str bucket_id: Specifies the bucket ID to filter on
+        :param str org_id: An organization ID. Only returns DBRP mappings for the specified organization.
+        :param str org: An organization name. Only returns DBRP mappings for the specified organization.
+        :param str id: A DBPR mapping ID. Only returns the specified DBRP mapping.
+        :param str bucket_id: A bucket ID. Only returns DBRP mappings that belong to the specified bucket.
         :param bool default: Specifies filtering on default
-        :param str db: Specifies the database to filter on
-        :param str rp: Specifies the retention policy to filter on
+        :param str db: A database. Only returns DBRP mappings that belong to the 1.x database.
+        :param str rp: A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp). Specifies the 1.x retention policy to filter on.
         :return: DBRPs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dbr_ps_prepare(**kwargs)
+            self._get_dbr_ps_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dbrps', 'GET',
@@ -300,16 +306,17 @@ class DBRPsService(_BaseService):
     def get_dbr_ps_id(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a database retention policy mapping.
 
+        Retrieves the specified retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dbr_ps_id(dbrp_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping ID (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
@@ -324,22 +331,23 @@ class DBRPsService(_BaseService):
     def get_dbr_ps_id_with_http_info(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a database retention policy mapping.
 
+        Retrieves the specified retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dbr_ps_id_with_http_info(dbrp_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping ID (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dbr_ps_id_prepare(dbrp_id, **kwargs)
+            self._get_dbr_ps_id_prepare(dbrp_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'GET',
@@ -361,19 +369,20 @@ class DBRPsService(_BaseService):
     async def get_dbr_ps_id_async(self, dbrp_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a database retention policy mapping.
 
+        Retrieves the specified retention policy (DBRP) mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping ID (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dbr_ps_id_prepare(dbrp_id, **kwargs)
+            self._get_dbr_ps_id_prepare(dbrp_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'GET',
@@ -432,11 +441,11 @@ class DBRPsService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping. (required)
-        :param DBRPUpdate dbrp_update: Database retention policy update to apply (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
+        :param DBRPUpdate dbrp_update: Updates the database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to modify the _retention policy_ (`retention_policy` property) of a DBRP mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
@@ -457,17 +466,17 @@ class DBRPsService(_BaseService):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping. (required)
-        :param DBRPUpdate dbrp_update: Database retention policy update to apply (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
+        :param DBRPUpdate dbrp_update: Updates the database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to modify the _retention policy_ (`retention_policy` property) of a DBRP mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dbrpid_prepare(dbrp_id, dbrp_update, **kwargs)
+            self._patch_dbrpid_prepare(dbrp_id, dbrp_update, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'PATCH',
@@ -492,17 +501,17 @@ class DBRPsService(_BaseService):
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str dbrp_id: The database retention policy mapping. (required)
-        :param DBRPUpdate dbrp_update: Database retention policy update to apply (required)
+        :param str dbrp_id: A DBRP mapping ID. Specifies the DBRP mapping. (required)
+        :param DBRPUpdate dbrp_update: Updates the database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to modify the _retention policy_ (`retention_policy` property) of a DBRP mapping.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)  (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str org_id: Specifies the organization ID of the mapping
-        :param str org: Specifies the organization name of the mapping
+        :param str org_id: An organization ID. Specifies the organization that owns the DBRP mapping.
+        :param str org: An organization name. Specifies the organization that owns the DBRP mapping.
         :return: DBRPGet
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dbrpid_prepare(dbrp_id, dbrp_update, **kwargs)
+            self._patch_dbrpid_prepare(dbrp_id, dbrp_update, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dbrps/{dbrpID}', 'PATCH',
@@ -565,13 +574,14 @@ class DBRPsService(_BaseService):
     def post_dbrp(self, dbrp_create, **kwargs):  # noqa: E501,D401,D403
         """Add a database retention policy mapping.
 
+        Creates a database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to add InfluxDB 1.x API compatibility to your InfluxDB Cloud or InfluxDB OSS 2.x buckets. Your buckets must contain a DBRP mapping in order to query and write using the InfluxDB 1.x API. object.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_dbrp(dbrp_create, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param DBRPCreate dbrp_create: The database retention policy mapping to add (required)
+        :param DBRPCreate dbrp_create: The database retention policy mapping to add.  Note that _`retention_policy`_ is a required parameter in the request body. The value of _`retention_policy`_ can be any arbitrary `string` name or value, with the default value commonly set as `autogen`. The value of _`retention_policy`_ isn't a [retention_policy](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-policy-rp)  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: DBRP
                  If the method is called asynchronously,
@@ -587,20 +597,21 @@ class DBRPsService(_BaseService):
     def post_dbrp_with_http_info(self, dbrp_create, **kwargs):  # noqa: E501,D401,D403
         """Add a database retention policy mapping.
 
+        Creates a database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to add InfluxDB 1.x API compatibility to your InfluxDB Cloud or InfluxDB OSS 2.x buckets. Your buckets must contain a DBRP mapping in order to query and write using the InfluxDB 1.x API. object.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_dbrp_with_http_info(dbrp_create, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param DBRPCreate dbrp_create: The database retention policy mapping to add (required)
+        :param DBRPCreate dbrp_create: The database retention policy mapping to add.  Note that _`retention_policy`_ is a required parameter in the request body. The value of _`retention_policy`_ can be any arbitrary `string` name or value, with the default value commonly set as `autogen`. The value of _`retention_policy`_ isn't a [retention_policy](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-policy-rp)  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: DBRP
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dbrp_prepare(dbrp_create, **kwargs)
+            self._post_dbrp_prepare(dbrp_create, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dbrps', 'POST',
@@ -622,17 +633,18 @@ class DBRPsService(_BaseService):
     async def post_dbrp_async(self, dbrp_create, **kwargs):  # noqa: E501,D401,D403
         """Add a database retention policy mapping.
 
+        Creates a database retention policy (DBRP) mapping and returns the mapping.  Use this endpoint to add InfluxDB 1.x API compatibility to your InfluxDB Cloud or InfluxDB OSS 2.x buckets. Your buckets must contain a DBRP mapping in order to query and write using the InfluxDB 1.x API. object.  #### Related guide  - [Database and retention policy mapping](https://docs.influxdata.com/influxdb/latest/reference/api/influxdb-1x/dbrp/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param DBRPCreate dbrp_create: The database retention policy mapping to add (required)
+        :param DBRPCreate dbrp_create: The database retention policy mapping to add.  Note that _`retention_policy`_ is a required parameter in the request body. The value of _`retention_policy`_ can be any arbitrary `string` name or value, with the default value commonly set as `autogen`. The value of _`retention_policy`_ isn't a [retention_policy](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-policy-rp)  (required)
         :param str zap_trace_span: OpenTracing span context
         :return: DBRP
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dbrp_prepare(dbrp_create, **kwargs)
+            self._post_dbrp_prepare(dbrp_create, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dbrps', 'POST',

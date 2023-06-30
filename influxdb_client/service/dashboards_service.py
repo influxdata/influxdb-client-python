@@ -67,7 +67,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._delete_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'DELETE',
@@ -99,7 +99,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._delete_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'DELETE',
@@ -185,7 +185,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_cells_id_prepare(dashboard_id, cell_id, **kwargs)
+            self._delete_dashboards_id_cells_id_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
@@ -218,7 +218,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_cells_id_prepare(dashboard_id, cell_id, **kwargs)
+            self._delete_dashboards_id_cells_id_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'DELETE',
@@ -310,7 +310,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_labels_id_prepare(dashboard_id, label_id, **kwargs)
+            self._delete_dashboards_id_labels_id_prepare(dashboard_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels/{labelID}', 'DELETE',
@@ -343,7 +343,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_labels_id_prepare(dashboard_id, label_id, **kwargs)
+            self._delete_dashboards_id_labels_id_prepare(dashboard_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels/{labelID}', 'DELETE',
@@ -435,7 +435,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_members_id_prepare(user_id, dashboard_id, **kwargs)
+            self._delete_dashboards_id_members_id_prepare(user_id, dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members/{userID}', 'DELETE',
@@ -468,7 +468,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_members_id_prepare(user_id, dashboard_id, **kwargs)
+            self._delete_dashboards_id_members_id_prepare(user_id, dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members/{userID}', 'DELETE',
@@ -560,7 +560,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_owners_id_prepare(user_id, dashboard_id, **kwargs)
+            self._delete_dashboards_id_owners_id_prepare(user_id, dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
@@ -593,7 +593,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_dashboards_id_owners_id_prepare(user_id, dashboard_id, **kwargs)
+            self._delete_dashboards_id_owners_id_prepare(user_id, dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners/{userID}', 'DELETE',
@@ -646,8 +646,9 @@ class DashboardsService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_dashboards(self, **kwargs):  # noqa: E501,D401,D403
-        """List all dashboards.
+        """List dashboards.
 
+        Lists [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard).  #### Related guides  - [Manage dashboards](https://docs.influxdata.com/influxdb/latest/visualize-data/dashboards/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dashboards(async_req=True)
@@ -655,14 +656,14 @@ class DashboardsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str owner: A user identifier. Returns only dashboards where this user has the `owner` role.
+        :param str owner: A user ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) where the specified user has the `owner` role.
         :param str sort_by: The column to sort by.
-        :param list[str] id: A list of dashboard identifiers. Returns only the listed dashboards. If both `id` and `owner` are specified, only `id` is used.
-        :param str org_id: The identifier of the organization.
-        :param str org: The name of the organization.
+        :param list[str] id: A list of dashboard IDs. Returns only the specified [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard). If you specify `id` and `owner`, only `id` is used.
+        :param str org_id: An organization ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
         :return: Dashboards
                  If the method is called asynchronously,
                  returns the request thread.
@@ -675,8 +676,9 @@ class DashboardsService(_BaseService):
             return data
 
     def get_dashboards_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all dashboards.
+        """List dashboards.
 
+        Lists [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard).  #### Related guides  - [Manage dashboards](https://docs.influxdata.com/influxdb/latest/visualize-data/dashboards/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_dashboards_with_http_info(async_req=True)
@@ -684,20 +686,20 @@ class DashboardsService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str owner: A user identifier. Returns only dashboards where this user has the `owner` role.
+        :param str owner: A user ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) where the specified user has the `owner` role.
         :param str sort_by: The column to sort by.
-        :param list[str] id: A list of dashboard identifiers. Returns only the listed dashboards. If both `id` and `owner` are specified, only `id` is used.
-        :param str org_id: The identifier of the organization.
-        :param str org: The name of the organization.
+        :param list[str] id: A list of dashboard IDs. Returns only the specified [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard). If you specify `id` and `owner`, only `id` is used.
+        :param str org_id: An organization ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
         :return: Dashboards
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_prepare(**kwargs)
+            self._get_dashboards_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards', 'GET',
@@ -717,26 +719,27 @@ class DashboardsService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_dashboards_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all dashboards.
+        """List dashboards.
 
+        Lists [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard).  #### Related guides  - [Manage dashboards](https://docs.influxdata.com/influxdb/latest/visualize-data/dashboards/).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param int offset:
-        :param int limit:
+        :param int offset: The offset for pagination. The number of records to skip.  For more information about pagination parameters, see [Pagination](https://docs.influxdata.com/influxdb/latest/api/#tag/Pagination).
+        :param int limit: Limits the number of records returned. Default is `20`.
         :param bool descending:
-        :param str owner: A user identifier. Returns only dashboards where this user has the `owner` role.
+        :param str owner: A user ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) where the specified user has the `owner` role.
         :param str sort_by: The column to sort by.
-        :param list[str] id: A list of dashboard identifiers. Returns only the listed dashboards. If both `id` and `owner` are specified, only `id` is used.
-        :param str org_id: The identifier of the organization.
-        :param str org: The name of the organization.
+        :param list[str] id: A list of dashboard IDs. Returns only the specified [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard). If you specify `id` and `owner`, only `id` is used.
+        :param str org_id: An organization ID. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
+        :param str org: An organization name. Only returns [dashboards](https://docs.influxdata.com/influxdb/latest/reference/glossary/#dashboard) that belong to the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).
         :return: Dashboards
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_prepare(**kwargs)
+            self._get_dashboards_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards', 'GET',
@@ -838,7 +841,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'GET',
@@ -871,7 +874,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'GET',
@@ -959,7 +962,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)
+            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
@@ -992,7 +995,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)
+            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
@@ -1082,7 +1085,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_labels_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_labels_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels', 'GET',
@@ -1114,7 +1117,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_labels_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_labels_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels', 'GET',
@@ -1198,7 +1201,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_members_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_members_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'GET',
@@ -1230,7 +1233,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_members_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_members_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'GET',
@@ -1314,7 +1317,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_owners_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_owners_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'GET',
@@ -1346,7 +1349,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_owners_prepare(dashboard_id, **kwargs)
+            self._get_dashboards_id_owners_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'GET',
@@ -1432,7 +1435,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._patch_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'PATCH',
@@ -1465,7 +1468,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_prepare(dashboard_id, **kwargs)
+            self._patch_dashboards_id_prepare(dashboard_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}', 'PATCH',
@@ -1561,7 +1564,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_prepare(dashboard_id, cell_id, cell_update, **kwargs)
+            self._patch_dashboards_id_cells_id_prepare(dashboard_id, cell_id, cell_update, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
@@ -1596,7 +1599,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_prepare(dashboard_id, cell_id, cell_update, **kwargs)
+            self._patch_dashboards_id_cells_id_prepare(dashboard_id, cell_id, cell_update, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}', 'PATCH',
@@ -1700,7 +1703,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)
+            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
@@ -1734,7 +1737,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)
+            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
@@ -1834,7 +1837,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_prepare(create_dashboard_request, **kwargs)
+            self._post_dashboards_prepare(create_dashboard_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards', 'POST',
@@ -1866,7 +1869,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_prepare(create_dashboard_request, **kwargs)
+            self._post_dashboards_prepare(create_dashboard_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards', 'POST',
@@ -1956,7 +1959,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_cells_prepare(dashboard_id, create_cell, **kwargs)
+            self._post_dashboards_id_cells_prepare(dashboard_id, create_cell, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells', 'POST',
@@ -1989,7 +1992,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_cells_prepare(dashboard_id, create_cell, **kwargs)
+            self._post_dashboards_id_cells_prepare(dashboard_id, create_cell, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells', 'POST',
@@ -2085,7 +2088,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_labels_prepare(dashboard_id, label_mapping, **kwargs)
+            self._post_dashboards_id_labels_prepare(dashboard_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels', 'POST',
@@ -2118,7 +2121,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_labels_prepare(dashboard_id, label_mapping, **kwargs)
+            self._post_dashboards_id_labels_prepare(dashboard_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/labels', 'POST',
@@ -2214,7 +2217,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_members_prepare(dashboard_id, add_resource_member_request_body, **kwargs)
+            self._post_dashboards_id_members_prepare(dashboard_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'POST',
@@ -2247,7 +2250,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_members_prepare(dashboard_id, add_resource_member_request_body, **kwargs)
+            self._post_dashboards_id_members_prepare(dashboard_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/members', 'POST',
@@ -2343,7 +2346,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_owners_prepare(dashboard_id, add_resource_member_request_body, **kwargs)
+            self._post_dashboards_id_owners_prepare(dashboard_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'POST',
@@ -2376,7 +2379,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_dashboards_id_owners_prepare(dashboard_id, add_resource_member_request_body, **kwargs)
+            self._post_dashboards_id_owners_prepare(dashboard_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/owners', 'POST',
@@ -2474,7 +2477,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_dashboards_id_cells_prepare(dashboard_id, cell, **kwargs)
+            self._put_dashboards_id_cells_prepare(dashboard_id, cell, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells', 'PUT',
@@ -2508,7 +2511,7 @@ class DashboardsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_dashboards_id_cells_prepare(dashboard_id, cell, **kwargs)
+            self._put_dashboards_id_cells_prepare(dashboard_id, cell, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells', 'PUT',
