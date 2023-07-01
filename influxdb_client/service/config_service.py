@@ -32,7 +32,7 @@ class ConfigService(_BaseService):
     def get_config(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve runtime configuration.
 
-        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/latest/reference/config-options/#view-your-runtime-server-configuration)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_config(async_req=True)
@@ -54,7 +54,7 @@ class ConfigService(_BaseService):
     def get_config_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve runtime configuration.
 
-        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/latest/reference/config-options/#view-your-runtime-server-configuration)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_config_with_http_info(async_req=True)
@@ -67,7 +67,7 @@ class ConfigService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_config_prepare(**kwargs)
+            self._get_config_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/config', 'GET',
@@ -89,7 +89,7 @@ class ConfigService(_BaseService):
     async def get_config_async(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve runtime configuration.
 
-        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/v2.2/reference/config-options/#view-your-runtime-server-configuration)
+        Returns the active runtime configuration of the InfluxDB instance.  In InfluxDB v2.2+, use this endpoint to view your active runtime configuration, including flags and environment variables.  #### Related guides  - [View your runtime server configuration](https://docs.influxdata.com/influxdb/latest/reference/config-options/#view-your-runtime-server-configuration)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -99,7 +99,7 @@ class ConfigService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_config_prepare(**kwargs)
+            self._get_config_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/config', 'GET',
@@ -123,6 +123,116 @@ class ConfigService(_BaseService):
 
         all_params = ['zap_trace_span']  # noqa: E501
         self._check_operation_params('get_config', all_params, local_var_params)
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+        if 'zap_trace_span' in local_var_params:
+            header_params['Zap-Trace-Span'] = local_var_params['zap_trace_span']  # noqa: E501
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        return local_var_params, path_params, query_params, header_params, body_params
+
+    def get_flags(self, **kwargs):  # noqa: E501,D401,D403
+        """Retrieve feature flags.
+
+        Retrieves the feature flag key-value pairs configured for the InfluxDB instance. _Feature flags_ are configuration options used to develop and test experimental InfluxDB features and are intended for internal use only.  This endpoint represents the first step in the following three-step process to configure feature flags:  1. Use [token authentication](#section/Authentication/TokenAuthentication) or a [user session](#tag/Signin) with this endpoint to retrieve    feature flags and their values. 2. Follow the instructions to [enable, disable, or override values for feature flags](https://docs.influxdata.com/influxdb/latest/reference/config-options/#feature-flags). 3. **Optional**: To confirm that your change is applied, do one of the following:     - Send a request to this endpoint to retrieve the current feature flag values.    - Send a request to the [`GET /api/v2/config` endpoint](#operation/GetConfig) to retrieve the      current runtime server configuration.  #### Related guides  - [InfluxDB configuration options](https://docs.influxdata.com/influxdb/latest/reference/config-options/)
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_flags(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str zap_trace_span: OpenTracing span context
+        :return: dict(str, object)
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_flags_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_flags_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def get_flags_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
+        """Retrieve feature flags.
+
+        Retrieves the feature flag key-value pairs configured for the InfluxDB instance. _Feature flags_ are configuration options used to develop and test experimental InfluxDB features and are intended for internal use only.  This endpoint represents the first step in the following three-step process to configure feature flags:  1. Use [token authentication](#section/Authentication/TokenAuthentication) or a [user session](#tag/Signin) with this endpoint to retrieve    feature flags and their values. 2. Follow the instructions to [enable, disable, or override values for feature flags](https://docs.influxdata.com/influxdb/latest/reference/config-options/#feature-flags). 3. **Optional**: To confirm that your change is applied, do one of the following:     - Send a request to this endpoint to retrieve the current feature flag values.    - Send a request to the [`GET /api/v2/config` endpoint](#operation/GetConfig) to retrieve the      current runtime server configuration.  #### Related guides  - [InfluxDB configuration options](https://docs.influxdata.com/influxdb/latest/reference/config-options/)
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_flags_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str zap_trace_span: OpenTracing span context
+        :return: dict(str, object)
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._get_flags_prepare(**kwargs)  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/v2/flags', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type='dict(str, object)',  # noqa: E501
+            auth_settings=[],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    async def get_flags_async(self, **kwargs):  # noqa: E501,D401,D403
+        """Retrieve feature flags.
+
+        Retrieves the feature flag key-value pairs configured for the InfluxDB instance. _Feature flags_ are configuration options used to develop and test experimental InfluxDB features and are intended for internal use only.  This endpoint represents the first step in the following three-step process to configure feature flags:  1. Use [token authentication](#section/Authentication/TokenAuthentication) or a [user session](#tag/Signin) with this endpoint to retrieve    feature flags and their values. 2. Follow the instructions to [enable, disable, or override values for feature flags](https://docs.influxdata.com/influxdb/latest/reference/config-options/#feature-flags). 3. **Optional**: To confirm that your change is applied, do one of the following:     - Send a request to this endpoint to retrieve the current feature flag values.    - Send a request to the [`GET /api/v2/config` endpoint](#operation/GetConfig) to retrieve the      current runtime server configuration.  #### Related guides  - [InfluxDB configuration options](https://docs.influxdata.com/influxdb/latest/reference/config-options/)
+        This method makes an asynchronous HTTP request.
+
+        :param async_req bool
+        :param str zap_trace_span: OpenTracing span context
+        :return: dict(str, object)
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """  # noqa: E501
+        local_var_params, path_params, query_params, header_params, body_params = \
+            self._get_flags_prepare(**kwargs)  # noqa: E501
+
+        return await self.api_client.call_api(
+            '/api/v2/flags', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=[],
+            files={},
+            response_type='dict(str, object)',  # noqa: E501
+            auth_settings=[],
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats={},
+            urlopen_kw=kwargs.get('urlopen_kw', None))
+
+    def _get_flags_prepare(self, **kwargs):  # noqa: E501,D401,D403
+        local_var_params = locals()
+
+        all_params = ['zap_trace_span']  # noqa: E501
+        self._check_operation_params('get_flags', all_params, local_var_params)
 
         path_params = {}
 

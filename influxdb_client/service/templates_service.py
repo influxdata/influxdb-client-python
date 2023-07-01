@@ -32,14 +32,14 @@ class TemplatesService(_BaseService):
     def apply_template(self, template_apply, **kwargs):  # noqa: E501,D401,D403
         """Apply or dry-run a template.
 
-        Applies or performs a dry-run of template in an organization.
+        Applies a template to create or update a [stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/) of InfluxDB [resources](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/export/all/#resources). The response contains the diff of changes and the stack ID.  Use this endpoint to install an InfluxDB template to an organization. Provide template URLs or template objects in your request. To customize which template resources are installed, use the `actions` parameter.  By default, when you apply a template, InfluxDB installs the template to create and update stack resources and then generates a diff of the changes. If you pass `dryRun: true` in the request body, InfluxDB validates the template and generates the resource diff, but doesn’t make any changes to your instance.  #### Custom values for templates  - Some templates may contain [environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/create/#include-user-definable-resource-names) for custom metadata.   To provide custom values for environment references, pass the _`envRefs`_   property in the request body.   For more information and examples, see how to   [define environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#define-environment-references).  - Some templates may contain queries that use   [secrets](https://docs.influxdata.com/influxdb/latest/security/secrets/).   To provide custom secret values, pass the _`secrets`_ property   in the request body.   Don't expose secret values in templates.   For more information, see [how to pass secrets when installing a template](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#pass-secrets-when-installing-a-template).  #### Required permissions  - `write` permissions for resource types in the template.  #### Rate limits (with InfluxDB Cloud)  - Adjustable service quotas apply.   For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Use templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/) - [Stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.apply_template(template_apply, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TemplateApply template_apply: (required)
+        :param TemplateApply template_apply: Parameters for applying templates.  (required)
         :return: TemplateSummary
                  If the method is called asynchronously,
                  returns the request thread.
@@ -54,20 +54,20 @@ class TemplatesService(_BaseService):
     def apply_template_with_http_info(self, template_apply, **kwargs):  # noqa: E501,D401,D403
         """Apply or dry-run a template.
 
-        Applies or performs a dry-run of template in an organization.
+        Applies a template to create or update a [stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/) of InfluxDB [resources](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/export/all/#resources). The response contains the diff of changes and the stack ID.  Use this endpoint to install an InfluxDB template to an organization. Provide template URLs or template objects in your request. To customize which template resources are installed, use the `actions` parameter.  By default, when you apply a template, InfluxDB installs the template to create and update stack resources and then generates a diff of the changes. If you pass `dryRun: true` in the request body, InfluxDB validates the template and generates the resource diff, but doesn’t make any changes to your instance.  #### Custom values for templates  - Some templates may contain [environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/create/#include-user-definable-resource-names) for custom metadata.   To provide custom values for environment references, pass the _`envRefs`_   property in the request body.   For more information and examples, see how to   [define environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#define-environment-references).  - Some templates may contain queries that use   [secrets](https://docs.influxdata.com/influxdb/latest/security/secrets/).   To provide custom secret values, pass the _`secrets`_ property   in the request body.   Don't expose secret values in templates.   For more information, see [how to pass secrets when installing a template](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#pass-secrets-when-installing-a-template).  #### Required permissions  - `write` permissions for resource types in the template.  #### Rate limits (with InfluxDB Cloud)  - Adjustable service quotas apply.   For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Use templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/) - [Stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.apply_template_with_http_info(template_apply, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TemplateApply template_apply: (required)
+        :param TemplateApply template_apply: Parameters for applying templates.  (required)
         :return: TemplateSummary
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._apply_template_prepare(template_apply, **kwargs)
+            self._apply_template_prepare(template_apply, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/templates/apply', 'POST',
@@ -89,17 +89,17 @@ class TemplatesService(_BaseService):
     async def apply_template_async(self, template_apply, **kwargs):  # noqa: E501,D401,D403
         """Apply or dry-run a template.
 
-        Applies or performs a dry-run of template in an organization.
+        Applies a template to create or update a [stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/) of InfluxDB [resources](https://docs.influxdata.com/influxdb/latest/reference/cli/influx/export/all/#resources). The response contains the diff of changes and the stack ID.  Use this endpoint to install an InfluxDB template to an organization. Provide template URLs or template objects in your request. To customize which template resources are installed, use the `actions` parameter.  By default, when you apply a template, InfluxDB installs the template to create and update stack resources and then generates a diff of the changes. If you pass `dryRun: true` in the request body, InfluxDB validates the template and generates the resource diff, but doesn’t make any changes to your instance.  #### Custom values for templates  - Some templates may contain [environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/create/#include-user-definable-resource-names) for custom metadata.   To provide custom values for environment references, pass the _`envRefs`_   property in the request body.   For more information and examples, see how to   [define environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#define-environment-references).  - Some templates may contain queries that use   [secrets](https://docs.influxdata.com/influxdb/latest/security/secrets/).   To provide custom secret values, pass the _`secrets`_ property   in the request body.   Don't expose secret values in templates.   For more information, see [how to pass secrets when installing a template](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#pass-secrets-when-installing-a-template).  #### Required permissions  - `write` permissions for resource types in the template.  #### Rate limits (with InfluxDB Cloud)  - Adjustable service quotas apply.   For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Use templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/) - [Stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param TemplateApply template_apply: (required)
+        :param TemplateApply template_apply: Parameters for applying templates.  (required)
         :return: TemplateSummary
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._apply_template_prepare(template_apply, **kwargs)
+            self._apply_template_prepare(template_apply, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/templates/apply', 'POST',
@@ -148,8 +148,9 @@ class TemplatesService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def create_stack(self, **kwargs):  # noqa: E501,D401,D403
-        """Create a new stack.
+        """Create a stack.
 
+        Creates or initializes a stack.  Use this endpoint to _manually_ initialize a new stack with the following optional information:    - Stack name   - Stack description   - URLs for template manifest files  To automatically create a stack when applying templates, use the [/api/v2/templates/apply endpoint](#operation/ApplyTemplate).  #### Required permissions  - `write` permission for the organization  #### Related guides  - [Initialize an InfluxDB stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/init/). - [Use InfluxDB templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#apply-templates-to-an-influxdb-instance).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.create_stack(async_req=True)
@@ -169,8 +170,9 @@ class TemplatesService(_BaseService):
             return data
 
     def create_stack_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Create a new stack.
+        """Create a stack.
 
+        Creates or initializes a stack.  Use this endpoint to _manually_ initialize a new stack with the following optional information:    - Stack name   - Stack description   - URLs for template manifest files  To automatically create a stack when applying templates, use the [/api/v2/templates/apply endpoint](#operation/ApplyTemplate).  #### Required permissions  - `write` permission for the organization  #### Related guides  - [Initialize an InfluxDB stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/init/). - [Use InfluxDB templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#apply-templates-to-an-influxdb-instance).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.create_stack_with_http_info(async_req=True)
@@ -183,7 +185,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_stack_prepare(**kwargs)
+            self._create_stack_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks', 'POST',
@@ -203,8 +205,9 @@ class TemplatesService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def create_stack_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Create a new stack.
+        """Create a stack.
 
+        Creates or initializes a stack.  Use this endpoint to _manually_ initialize a new stack with the following optional information:    - Stack name   - Stack description   - URLs for template manifest files  To automatically create a stack when applying templates, use the [/api/v2/templates/apply endpoint](#operation/ApplyTemplate).  #### Required permissions  - `write` permission for the organization  #### Related guides  - [Initialize an InfluxDB stack](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/init/). - [Use InfluxDB templates](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#apply-templates-to-an-influxdb-instance).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -214,7 +217,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._create_stack_prepare(**kwargs)
+            self._create_stack_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks', 'POST',
@@ -296,7 +299,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_stack_prepare(stack_id, org_id, **kwargs)
+            self._delete_stack_prepare(stack_id, org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'DELETE',
@@ -328,7 +331,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_stack_prepare(stack_id, org_id, **kwargs)
+            self._delete_stack_prepare(stack_id, org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'DELETE',
@@ -414,7 +417,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._export_template_prepare(**kwargs)
+            self._export_template_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/templates/export', 'POST',
@@ -445,7 +448,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._export_template_prepare(**kwargs)
+            self._export_template_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/templates/export', 'POST',
@@ -490,17 +493,18 @@ class TemplatesService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def list_stacks(self, org_id, **kwargs):  # noqa: E501,D401,D403
-        """List installed templates.
+        """List installed stacks.
 
+        Lists installed InfluxDB stacks.  To limit stacks in the response, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all installed stacks for the organization.  #### Related guides  - [View InfluxDB stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.list_stacks(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID of the stacks (required)
-        :param str name: A collection of names to filter the list by.
-        :param str stack_id: A collection of stackIDs to filter the list by.
+        :param str org_id: An organization ID. Only returns stacks owned by the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).  #### InfluxDB Cloud  - Doesn't require this parameter;   InfluxDB only returns resources allowed by the API token. (required)
+        :param str name: A stack name. Finds stack `events` with this name and returns the stacks.  Repeatable. To filter for more than one stack name, repeat this parameter with each name--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&name=project-stack-0&name=project-stack-1`
+        :param str stack_id: A stack ID. Only returns the specified stack.  Repeatable. To filter for more than one stack ID, repeat this parameter with each ID--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&stackID=09bd87cd33be3000&stackID=09bef35081fe3000`
         :return: ListStacksResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -513,23 +517,24 @@ class TemplatesService(_BaseService):
             return data
 
     def list_stacks_with_http_info(self, org_id, **kwargs):  # noqa: E501,D401,D403
-        """List installed templates.
+        """List installed stacks.
 
+        Lists installed InfluxDB stacks.  To limit stacks in the response, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all installed stacks for the organization.  #### Related guides  - [View InfluxDB stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.list_stacks_with_http_info(org_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str org_id: The organization ID of the stacks (required)
-        :param str name: A collection of names to filter the list by.
-        :param str stack_id: A collection of stackIDs to filter the list by.
+        :param str org_id: An organization ID. Only returns stacks owned by the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).  #### InfluxDB Cloud  - Doesn't require this parameter;   InfluxDB only returns resources allowed by the API token. (required)
+        :param str name: A stack name. Finds stack `events` with this name and returns the stacks.  Repeatable. To filter for more than one stack name, repeat this parameter with each name--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&name=project-stack-0&name=project-stack-1`
+        :param str stack_id: A stack ID. Only returns the specified stack.  Repeatable. To filter for more than one stack ID, repeat this parameter with each ID--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&stackID=09bd87cd33be3000&stackID=09bef35081fe3000`
         :return: ListStacksResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._list_stacks_prepare(org_id, **kwargs)
+            self._list_stacks_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks', 'GET',
@@ -549,20 +554,21 @@ class TemplatesService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def list_stacks_async(self, org_id, **kwargs):  # noqa: E501,D401,D403
-        """List installed templates.
+        """List installed stacks.
 
+        Lists installed InfluxDB stacks.  To limit stacks in the response, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all installed stacks for the organization.  #### Related guides  - [View InfluxDB stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str org_id: The organization ID of the stacks (required)
-        :param str name: A collection of names to filter the list by.
-        :param str stack_id: A collection of stackIDs to filter the list by.
+        :param str org_id: An organization ID. Only returns stacks owned by the specified [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization).  #### InfluxDB Cloud  - Doesn't require this parameter;   InfluxDB only returns resources allowed by the API token. (required)
+        :param str name: A stack name. Finds stack `events` with this name and returns the stacks.  Repeatable. To filter for more than one stack name, repeat this parameter with each name--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&name=project-stack-0&name=project-stack-1`
+        :param str stack_id: A stack ID. Only returns the specified stack.  Repeatable. To filter for more than one stack ID, repeat this parameter with each ID--for example:  - `INFLUX_URL/api/v2/stacks?&orgID=INFLUX_ORG_ID&stackID=09bd87cd33be3000&stackID=09bef35081fe3000`
         :return: ListStacksResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._list_stacks_prepare(org_id, **kwargs)
+            self._list_stacks_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks', 'GET',
@@ -646,7 +652,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._read_stack_prepare(stack_id, **kwargs)
+            self._read_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'GET',
@@ -677,7 +683,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._read_stack_prepare(stack_id, **kwargs)
+            self._read_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'GET',
@@ -757,7 +763,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._uninstall_stack_prepare(stack_id, **kwargs)
+            self._uninstall_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks/{stack_id}/uninstall', 'POST',
@@ -788,7 +794,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._uninstall_stack_prepare(stack_id, **kwargs)
+            self._uninstall_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks/{stack_id}/uninstall', 'POST',
@@ -870,7 +876,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._update_stack_prepare(stack_id, **kwargs)
+            self._update_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'PATCH',
@@ -902,7 +908,7 @@ class TemplatesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._update_stack_prepare(stack_id, **kwargs)
+            self._update_stack_prepare(stack_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/stacks/{stack_id}', 'PATCH',

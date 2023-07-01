@@ -67,7 +67,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def org_id(self):
         """Get the org_id of this AuthorizationPostRequest.
 
-        ID of org that authorization is scoped to.
+        An organization ID. Specifies the organization that owns the authorization.
 
         :return: The org_id of this AuthorizationPostRequest.
         :rtype: str
@@ -78,7 +78,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def org_id(self, org_id):
         """Set the org_id of this AuthorizationPostRequest.
 
-        ID of org that authorization is scoped to.
+        An organization ID. Specifies the organization that owns the authorization.
 
         :param org_id: The org_id of this AuthorizationPostRequest.
         :type: str
@@ -89,7 +89,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def user_id(self):
         """Get the user_id of this AuthorizationPostRequest.
 
-        ID of user that authorization is scoped to.
+        A user ID. Specifies the user that the authorization is scoped to.  When a user authenticates with username and password, InfluxDB generates a _user session_ with all the permissions specified by all the user's authorizations.
 
         :return: The user_id of this AuthorizationPostRequest.
         :rtype: str
@@ -100,7 +100,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def user_id(self, user_id):
         """Set the user_id of this AuthorizationPostRequest.
 
-        ID of user that authorization is scoped to.
+        A user ID. Specifies the user that the authorization is scoped to.  When a user authenticates with username and password, InfluxDB generates a _user session_ with all the permissions specified by all the user's authorizations.
 
         :param user_id: The user_id of this AuthorizationPostRequest.
         :type: str
@@ -111,7 +111,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def permissions(self):
         """Get the permissions of this AuthorizationPostRequest.
 
-        List of permissions for an auth.  An auth must have at least one Permission.
+        A list of permissions for an authorization. In the list, provide at least one `permission` object.  In a `permission`, the `resource.type` property grants access to all resources of the specified type. To grant access to only a specific resource, specify the `resource.id` property.
 
         :return: The permissions of this AuthorizationPostRequest.
         :rtype: list[Permission]
@@ -122,7 +122,7 @@ class AuthorizationPostRequest(AuthorizationUpdateRequest):
     def permissions(self, permissions):
         """Set the permissions of this AuthorizationPostRequest.
 
-        List of permissions for an auth.  An auth must have at least one Permission.
+        A list of permissions for an authorization. In the list, provide at least one `permission` object.  In a `permission`, the `resource.type` property grants access to all resources of the specified type. To grant access to only a specific resource, specify the `resource.id` property.
 
         :param permissions: The permissions of this AuthorizationPostRequest.
         :type: list[Permission]

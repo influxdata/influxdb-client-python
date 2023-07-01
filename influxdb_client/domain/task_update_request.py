@@ -97,7 +97,7 @@ class TaskUpdateRequest(object):
     def flux(self):
         """Get the flux of this TaskUpdateRequest.
 
-        The Flux script to run for this task.
+        The Flux script that the task runs.
 
         :return: The flux of this TaskUpdateRequest.
         :rtype: str
@@ -108,7 +108,7 @@ class TaskUpdateRequest(object):
     def flux(self, flux):
         """Set the flux of this TaskUpdateRequest.
 
-        The Flux script to run for this task.
+        The Flux script that the task runs.
 
         :param flux: The flux of this TaskUpdateRequest.
         :type: str
@@ -119,7 +119,7 @@ class TaskUpdateRequest(object):
     def name(self):
         """Get the name of this TaskUpdateRequest.
 
-        Override the 'name' option in the flux script.
+        Update the 'name' option in the flux script.
 
         :return: The name of this TaskUpdateRequest.
         :rtype: str
@@ -130,7 +130,7 @@ class TaskUpdateRequest(object):
     def name(self, name):
         """Set the name of this TaskUpdateRequest.
 
-        Override the 'name' option in the flux script.
+        Update the 'name' option in the flux script.
 
         :param name: The name of this TaskUpdateRequest.
         :type: str
@@ -141,7 +141,7 @@ class TaskUpdateRequest(object):
     def every(self):
         """Get the every of this TaskUpdateRequest.
 
-        Override the 'every' option in the flux script.
+        Update the 'every' option in the flux script.
 
         :return: The every of this TaskUpdateRequest.
         :rtype: str
@@ -152,7 +152,7 @@ class TaskUpdateRequest(object):
     def every(self, every):
         """Set the every of this TaskUpdateRequest.
 
-        Override the 'every' option in the flux script.
+        Update the 'every' option in the flux script.
 
         :param every: The every of this TaskUpdateRequest.
         :type: str
@@ -163,7 +163,7 @@ class TaskUpdateRequest(object):
     def cron(self):
         """Get the cron of this TaskUpdateRequest.
 
-        Override the 'cron' option in the flux script.
+        Update the 'cron' option in the flux script.
 
         :return: The cron of this TaskUpdateRequest.
         :rtype: str
@@ -174,7 +174,7 @@ class TaskUpdateRequest(object):
     def cron(self, cron):
         """Set the cron of this TaskUpdateRequest.
 
-        Override the 'cron' option in the flux script.
+        Update the 'cron' option in the flux script.
 
         :param cron: The cron of this TaskUpdateRequest.
         :type: str
@@ -185,7 +185,7 @@ class TaskUpdateRequest(object):
     def offset(self):
         """Get the offset of this TaskUpdateRequest.
 
-        Override the 'offset' option in the flux script.
+        Update the 'offset' option in the flux script.
 
         :return: The offset of this TaskUpdateRequest.
         :rtype: str
@@ -196,7 +196,7 @@ class TaskUpdateRequest(object):
     def offset(self, offset):
         """Set the offset of this TaskUpdateRequest.
 
-        Override the 'offset' option in the flux script.
+        Update the 'offset' option in the flux script.
 
         :param offset: The offset of this TaskUpdateRequest.
         :type: str
@@ -207,7 +207,7 @@ class TaskUpdateRequest(object):
     def description(self):
         """Get the description of this TaskUpdateRequest.
 
-        An optional description of the task.
+        Update the description of the task.
 
         :return: The description of this TaskUpdateRequest.
         :rtype: str
@@ -218,7 +218,7 @@ class TaskUpdateRequest(object):
     def description(self, description):
         """Set the description of this TaskUpdateRequest.
 
-        An optional description of the task.
+        Update the description of the task.
 
         :param description: The description of this TaskUpdateRequest.
         :type: str

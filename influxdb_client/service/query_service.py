@@ -30,8 +30,9 @@ class QueryService(_BaseService):
         super().__init__(api_client)
 
     def get_query_suggestions(self, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions.
+        """List Flux query suggestions.
 
+        Lists Flux query suggestions. Each suggestion contains a [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name and parameters.  Use this endpoint to retrieve a list of Flux query suggestions used in the InfluxDB Flux Query Builder.  #### Limitations  - When writing a query, avoid using `_functionName()` helper functions exposed by this endpoint.  Helper function names have an underscore (`_`) prefix and aren't meant to be used directly in queries--for example:    - To sort on a column and keep the top n records, use the     `top(n, columns=["_value"], tables=<-)` function instead of the `_sortLimit`     helper function. `top` uses `_sortLimit`.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_query_suggestions(async_req=True)
@@ -51,8 +52,9 @@ class QueryService(_BaseService):
             return data
 
     def get_query_suggestions_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions.
+        """List Flux query suggestions.
 
+        Lists Flux query suggestions. Each suggestion contains a [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name and parameters.  Use this endpoint to retrieve a list of Flux query suggestions used in the InfluxDB Flux Query Builder.  #### Limitations  - When writing a query, avoid using `_functionName()` helper functions exposed by this endpoint.  Helper function names have an underscore (`_`) prefix and aren't meant to be used directly in queries--for example:    - To sort on a column and keep the top n records, use the     `top(n, columns=["_value"], tables=<-)` function instead of the `_sortLimit`     helper function. `top` uses `_sortLimit`.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_query_suggestions_with_http_info(async_req=True)
@@ -65,7 +67,7 @@ class QueryService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_query_suggestions_prepare(**kwargs)
+            self._get_query_suggestions_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/query/suggestions', 'GET',
@@ -85,8 +87,9 @@ class QueryService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_query_suggestions_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions.
+        """List Flux query suggestions.
 
+        Lists Flux query suggestions. Each suggestion contains a [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name and parameters.  Use this endpoint to retrieve a list of Flux query suggestions used in the InfluxDB Flux Query Builder.  #### Limitations  - When writing a query, avoid using `_functionName()` helper functions exposed by this endpoint.  Helper function names have an underscore (`_`) prefix and aren't meant to be used directly in queries--for example:    - To sort on a column and keep the top n records, use the     `top(n, columns=["_value"], tables=<-)` function instead of the `_sortLimit`     helper function. `top` uses `_sortLimit`.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -96,7 +99,7 @@ class QueryService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_query_suggestions_prepare(**kwargs)
+            self._get_query_suggestions_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/query/suggestions', 'GET',
@@ -132,20 +135,21 @@ class QueryService(_BaseService):
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            ['application/json', 'text/html'])  # noqa: E501
 
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_query_suggestions_name(self, name, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions for a branching suggestion.
+        """Retrieve a query suggestion for a branching suggestion.
 
+        Retrieves a query suggestion that contains the name and parameters of the requested function.  Use this endpoint to pass a branching suggestion (a Flux function name) and retrieve the parameters of the requested function.  #### Limitations  - Use `/api/v2/query/suggestions/{name}` (without a trailing slash). `/api/v2/query/suggestions/{name}/` (note the trailing slash) results in a HTTP `301 Moved Permanently` status.  - The function `name` must exist and must be spelled correctly.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_query_suggestions_name(name, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: The name of the branching suggestion. (required)
+        :param str name: A [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: FluxSuggestion
                  If the method is called asynchronously,
@@ -159,22 +163,23 @@ class QueryService(_BaseService):
             return data
 
     def get_query_suggestions_name_with_http_info(self, name, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions for a branching suggestion.
+        """Retrieve a query suggestion for a branching suggestion.
 
+        Retrieves a query suggestion that contains the name and parameters of the requested function.  Use this endpoint to pass a branching suggestion (a Flux function name) and retrieve the parameters of the requested function.  #### Limitations  - Use `/api/v2/query/suggestions/{name}` (without a trailing slash). `/api/v2/query/suggestions/{name}/` (note the trailing slash) results in a HTTP `301 Moved Permanently` status.  - The function `name` must exist and must be spelled correctly.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_query_suggestions_name_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str name: The name of the branching suggestion. (required)
+        :param str name: A [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: FluxSuggestion
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_query_suggestions_name_prepare(name, **kwargs)
+            self._get_query_suggestions_name_prepare(name, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/query/suggestions/{name}', 'GET',
@@ -194,19 +199,20 @@ class QueryService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_query_suggestions_name_async(self, name, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve query suggestions for a branching suggestion.
+        """Retrieve a query suggestion for a branching suggestion.
 
+        Retrieves a query suggestion that contains the name and parameters of the requested function.  Use this endpoint to pass a branching suggestion (a Flux function name) and retrieve the parameters of the requested function.  #### Limitations  - Use `/api/v2/query/suggestions/{name}` (without a trailing slash). `/api/v2/query/suggestions/{name}/` (note the trailing slash) results in a HTTP `301 Moved Permanently` status.  - The function `name` must exist and must be spelled correctly.  #### Related Guides  - [List of all Flux functions](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str name: The name of the branching suggestion. (required)
+        :param str name: A [Flux function](https://docs.influxdata.com/flux/v0.x/stdlib/all-functions/) name. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: FluxSuggestion
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_query_suggestions_name_prepare(name, **kwargs)
+            self._get_query_suggestions_name_prepare(name, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/query/suggestions/{name}', 'GET',
@@ -255,7 +261,7 @@ class QueryService(_BaseService):
     def post_query(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retrieve data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/latest/query-data/execute-queries/influx-api/) - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query(async_req=True)
@@ -265,8 +271,8 @@ class QueryService(_BaseService):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
-        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org: An organization name or ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
@@ -282,7 +288,7 @@ class QueryService(_BaseService):
     def post_query_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retrieve data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/latest/query-data/execute-queries/influx-api/) - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_with_http_info(async_req=True)
@@ -292,15 +298,15 @@ class QueryService(_BaseService):
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
-        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org: An organization name or ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_prepare(**kwargs)
+            self._post_query_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/query', 'POST',
@@ -322,22 +328,22 @@ class QueryService(_BaseService):
     async def post_query_async(self, **kwargs):  # noqa: E501,D401,D403
         """Query data.
 
-        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retreive data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/v2.2/query-data/execute-queries/influx-api/). - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
+        Retrieves data from buckets.  Use this endpoint to send a Flux query request and retrieve data from a bucket.  #### Rate limits (with InfluxDB Cloud)  `read` rate limits apply. For more information, see [limits and adjustable quotas](https://docs.influxdata.com/influxdb/cloud/account-management/limits/).  #### Related guides  - [Query with the InfluxDB API](https://docs.influxdata.com/influxdb/latest/query-data/execute-queries/influx-api/) - [Get started with Flux](https://docs.influxdata.com/flux/v0.x/get-started/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str accept_encoding: The content encoding (usually a compression algorithm) that the client can understand.
         :param str content_type:
-        :param str org: The name or ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
-        :param str org_id: The ID of the organization executing the query.  #### InfluxDB Cloud  - Doesn't use `org` or `orgID`. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either `org` or `orgID`.
+        :param str org: An organization name or ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
+        :param str org_id: An organization ID.  #### InfluxDB Cloud  - Doesn't use the `org` parameter or `orgID` parameter. - Queries the bucket in the organization associated with the authorization (API token).  #### InfluxDB OSS  - Requires either the `org` parameter or `orgID` parameter. - Queries the bucket in the specified organization.
         :param Query query: Flux query or specification to execute
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_prepare(**kwargs)
+            self._post_query_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/query', 'POST',
@@ -383,7 +389,7 @@ class QueryService(_BaseService):
             body_params = local_var_params['query']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['text/csv', 'application/json'])  # noqa: E501
+            ['application/csv', 'application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
@@ -392,8 +398,9 @@ class QueryService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_query_analyze(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
+        Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_analyze(async_req=True)
@@ -415,8 +422,9 @@ class QueryService(_BaseService):
             return data
 
     def post_query_analyze_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
+        Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_analyze_with_http_info(async_req=True)
@@ -431,7 +439,7 @@ class QueryService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_analyze_prepare(**kwargs)
+            self._post_query_analyze_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/query/analyze', 'POST',
@@ -451,8 +459,9 @@ class QueryService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_query_analyze_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Analyze a Flux query.
+        r"""Analyze a Flux query.
 
+        Analyzes a [Flux query](https://docs.influxdata.com/flux/v0.x/) for syntax errors and returns the list of errors.  In the following sample query, `from()` is missing the property key.      ```json     { "query": "from(: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```  If you pass this in a request to the `/api/v2/analyze` endpoint, InfluxDB returns an `errors` list that contains an error object for the missing key.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:    - The following sample query has correct syntax, but contains an incorrect `from()` property key:      ```json     { "query": "from(foo: \\"iot_center\\")\\                 |> range(start: -90d)\\                 |> filter(fn: (r) => r._measurement == \\"environment\\")",       "type": "flux"     }     ```      If you pass this in a request to the `/api/v2/analyze` endpoint,     InfluxDB returns an empty `errors` list.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -464,7 +473,7 @@ class QueryService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_analyze_prepare(**kwargs)
+            self._post_query_analyze_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/query/analyze', 'POST',
@@ -513,9 +522,9 @@ class QueryService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_query_ast(self, **kwargs):  # noqa: E501,D401,D403
-        """Generate an Abstract Syntax Tree (AST) from a query.
+        r"""Generate a query Abstract Syntax Tree (AST).
 
-        Analyzes flux query and generates a query specification.
+        Analyzes a Flux query and returns a complete package source [Abstract Syntax Tree (AST)](https://docs.influxdata.com/influxdb/latest/reference/glossary/#abstract-syntax-tree-ast) for the query.  Use this endpoint for deep query analysis such as debugging unexpected query results.  A Flux query AST provides a semantic, tree-like representation with contextual information about the query. The AST illustrates how the query is distributed into different components for execution.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:      The following sample Flux query has correct syntax, but contains an incorrect `from()` property key:      ```js     from(foo: "iot_center")         |> range(start: -90d)         |> filter(fn: (r) => r._measurement == "environment")     ```      The following sample JSON shows how to pass the query in the request body:      ```js     from(foo: "iot_center")     |> range(start: -90d)     |> filter(fn: (r) => r._measurement == "environment")     ```      The following code sample shows how to pass the query as JSON in the request body:      ```json     { "query": "from(foo: \\"iot_center\\")\\                     |> range(start: -90d)\\                     |> filter(fn: (r) => r._measurement == \\"environment\\")"     }     ```      Passing this to `/api/v2/query/ast` will return a successful response     with a generated AST.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_ast(async_req=True)
@@ -524,7 +533,7 @@ class QueryService(_BaseService):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param LanguageRequest language_request: Analyzed Flux query to generate abstract syntax tree.
+        :param LanguageRequest language_request: The Flux query to analyze.
         :return: ASTResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -537,9 +546,9 @@ class QueryService(_BaseService):
             return data
 
     def post_query_ast_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Generate an Abstract Syntax Tree (AST) from a query.
+        r"""Generate a query Abstract Syntax Tree (AST).
 
-        Analyzes flux query and generates a query specification.
+        Analyzes a Flux query and returns a complete package source [Abstract Syntax Tree (AST)](https://docs.influxdata.com/influxdb/latest/reference/glossary/#abstract-syntax-tree-ast) for the query.  Use this endpoint for deep query analysis such as debugging unexpected query results.  A Flux query AST provides a semantic, tree-like representation with contextual information about the query. The AST illustrates how the query is distributed into different components for execution.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:      The following sample Flux query has correct syntax, but contains an incorrect `from()` property key:      ```js     from(foo: "iot_center")         |> range(start: -90d)         |> filter(fn: (r) => r._measurement == "environment")     ```      The following sample JSON shows how to pass the query in the request body:      ```js     from(foo: "iot_center")     |> range(start: -90d)     |> filter(fn: (r) => r._measurement == "environment")     ```      The following code sample shows how to pass the query as JSON in the request body:      ```json     { "query": "from(foo: \\"iot_center\\")\\                     |> range(start: -90d)\\                     |> filter(fn: (r) => r._measurement == \\"environment\\")"     }     ```      Passing this to `/api/v2/query/ast` will return a successful response     with a generated AST.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_query_ast_with_http_info(async_req=True)
@@ -548,13 +557,13 @@ class QueryService(_BaseService):
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param LanguageRequest language_request: Analyzed Flux query to generate abstract syntax tree.
+        :param LanguageRequest language_request: The Flux query to analyze.
         :return: ASTResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_ast_prepare(**kwargs)
+            self._post_query_ast_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/query/ast', 'POST',
@@ -574,21 +583,21 @@ class QueryService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_query_ast_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Generate an Abstract Syntax Tree (AST) from a query.
+        r"""Generate a query Abstract Syntax Tree (AST).
 
-        Analyzes flux query and generates a query specification.
+        Analyzes a Flux query and returns a complete package source [Abstract Syntax Tree (AST)](https://docs.influxdata.com/influxdb/latest/reference/glossary/#abstract-syntax-tree-ast) for the query.  Use this endpoint for deep query analysis such as debugging unexpected query results.  A Flux query AST provides a semantic, tree-like representation with contextual information about the query. The AST illustrates how the query is distributed into different components for execution.  #### Limitations  -  The endpoint doesn't validate values in the query--for example:      The following sample Flux query has correct syntax, but contains an incorrect `from()` property key:      ```js     from(foo: "iot_center")         |> range(start: -90d)         |> filter(fn: (r) => r._measurement == "environment")     ```      The following sample JSON shows how to pass the query in the request body:      ```js     from(foo: "iot_center")     |> range(start: -90d)     |> filter(fn: (r) => r._measurement == "environment")     ```      The following code sample shows how to pass the query as JSON in the request body:      ```json     { "query": "from(foo: \\"iot_center\\")\\                     |> range(start: -90d)\\                     |> filter(fn: (r) => r._measurement == \\"environment\\")"     }     ```      Passing this to `/api/v2/query/ast` will return a successful response     with a generated AST.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
         :param str content_type:
-        :param LanguageRequest language_request: Analyzed Flux query to generate abstract syntax tree.
+        :param LanguageRequest language_request: The Flux query to analyze.
         :return: ASTResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_query_ast_prepare(**kwargs)
+            self._post_query_ast_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/query/ast', 'POST',

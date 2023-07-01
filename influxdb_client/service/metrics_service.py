@@ -32,7 +32,7 @@ class MetricsService(_BaseService):
     def get_metrics(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve workload performance metrics.
 
-        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/v2.2/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/v2.2write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/v2.2/reference/prometheus-metrics/).
+        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/latest/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/latest/write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/latest/reference/prometheus-metrics/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_metrics(async_req=True)
@@ -54,7 +54,7 @@ class MetricsService(_BaseService):
     def get_metrics_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve workload performance metrics.
 
-        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/v2.2/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/v2.2write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/v2.2/reference/prometheus-metrics/).
+        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/latest/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/latest/write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/latest/reference/prometheus-metrics/).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_metrics_with_http_info(async_req=True)
@@ -67,7 +67,7 @@ class MetricsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_metrics_prepare(**kwargs)
+            self._get_metrics_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/metrics', 'GET',
@@ -89,7 +89,7 @@ class MetricsService(_BaseService):
     async def get_metrics_async(self, **kwargs):  # noqa: E501,D401,D403
         """Retrieve workload performance metrics.
 
-        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/v2.2/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/v2.2write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/v2.2/reference/prometheus-metrics/).
+        Returns metrics about the workload performance of an InfluxDB instance.  Use this endpoint to get performance, resource, and usage metrics.  #### Related guides  - For the list of metrics categories, see [InfluxDB OSS metrics](https://docs.influxdata.com/influxdb/latest/reference/internals/metrics/). - Learn how to use InfluxDB to [scrape Prometheus metrics](https://docs.influxdata.com/influxdb/latest/write-data/developer-tools/scrape-prometheus-metrics/). - Learn how InfluxDB [parses the Prometheus exposition format](https://docs.influxdata.com/influxdb/latest/reference/prometheus-metrics/).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -99,7 +99,7 @@ class MetricsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_metrics_prepare(**kwargs)
+            self._get_metrics_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/metrics', 'GET',

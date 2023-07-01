@@ -118,7 +118,7 @@ class Label(object):
     def properties(self):
         """Get the properties of this Label.
 
-        Key/Value pairs associated with this label. Keys can be removed by sending an update with an empty value.
+        Key-value pairs associated with this label. To remove a property, send an update with an empty value (`""`) for the key.
 
         :return: The properties of this Label.
         :rtype: dict(str, str)
@@ -129,7 +129,7 @@ class Label(object):
     def properties(self, properties):
         """Set the properties of this Label.
 
-        Key/Value pairs associated with this label. Keys can be removed by sending an update with an empty value.
+        Key-value pairs associated with this label. To remove a property, send an update with an empty value (`""`) for the key.
 
         :param properties: The properties of this Label.
         :type: dict(str, str)

@@ -69,7 +69,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_secrets_id_prepare(org_id, secret_id, **kwargs)
+            self._delete_orgs_id_secrets_id_prepare(org_id, secret_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets/{secretID}', 'DELETE',
@@ -102,7 +102,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_orgs_id_secrets_id_prepare(org_id, secret_id, **kwargs)
+            self._delete_orgs_id_secrets_id_prepare(org_id, secret_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets/{secretID}', 'DELETE',
@@ -192,7 +192,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_secrets_prepare(org_id, **kwargs)
+            self._get_orgs_id_secrets_prepare(org_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets', 'GET',
@@ -224,7 +224,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_orgs_id_secrets_prepare(org_id, **kwargs)
+            self._get_orgs_id_secrets_prepare(org_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets', 'GET',
@@ -310,7 +310,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_orgs_id_secrets_prepare(org_id, request_body, **kwargs)
+            self._patch_orgs_id_secrets_prepare(org_id, request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets', 'PATCH',
@@ -343,7 +343,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_orgs_id_secrets_prepare(org_id, request_body, **kwargs)
+            self._patch_orgs_id_secrets_prepare(org_id, request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets', 'PATCH',
@@ -439,7 +439,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_secrets_prepare(org_id, secret_keys, **kwargs)
+            self._post_orgs_id_secrets_prepare(org_id, secret_keys, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets/delete', 'POST',
@@ -472,7 +472,7 @@ class SecretsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_orgs_id_secrets_prepare(org_id, secret_keys, **kwargs)
+            self._post_orgs_id_secrets_prepare(org_id, secret_keys, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/orgs/{orgID}/secrets/delete', 'POST',

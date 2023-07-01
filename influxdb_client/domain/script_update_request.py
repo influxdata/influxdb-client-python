@@ -30,52 +30,31 @@ class ScriptUpdateRequest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str',
         'description': 'str',
         'script': 'str'
     }
 
     attribute_map = {
-        'name': 'name',
         'description': 'description',
         'script': 'script'
     }
 
-    def __init__(self, name=None, description=None, script=None):  # noqa: E501,D401,D403
+    def __init__(self, description=None, script=None):  # noqa: E501,D401,D403
         """ScriptUpdateRequest - a model defined in OpenAPI."""  # noqa: E501
-        self._name = None
         self._description = None
         self._script = None
         self.discriminator = None
 
-        if name is not None:
-            self.name = name
         if description is not None:
             self.description = description
         if script is not None:
             self.script = script
 
     @property
-    def name(self):
-        """Get the name of this ScriptUpdateRequest.
-
-        :return: The name of this ScriptUpdateRequest.
-        :rtype: str
-        """  # noqa: E501
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Set the name of this ScriptUpdateRequest.
-
-        :param name: The name of this ScriptUpdateRequest.
-        :type: str
-        """  # noqa: E501
-        self._name = name
-
-    @property
     def description(self):
         """Get the description of this ScriptUpdateRequest.
+
+        A description of the script.
 
         :return: The description of this ScriptUpdateRequest.
         :rtype: str
@@ -86,6 +65,8 @@ class ScriptUpdateRequest(object):
     def description(self, description):
         """Set the description of this ScriptUpdateRequest.
 
+        A description of the script.
+
         :param description: The description of this ScriptUpdateRequest.
         :type: str
         """  # noqa: E501
@@ -95,7 +76,7 @@ class ScriptUpdateRequest(object):
     def script(self):
         """Get the script of this ScriptUpdateRequest.
 
-        script is script to be executed
+        The script to execute.
 
         :return: The script of this ScriptUpdateRequest.
         :rtype: str
@@ -106,7 +87,7 @@ class ScriptUpdateRequest(object):
     def script(self, script):
         """Set the script of this ScriptUpdateRequest.
 
-        script is script to be executed
+        The script to execute.
 
         :param script: The script of this ScriptUpdateRequest.
         :type: str

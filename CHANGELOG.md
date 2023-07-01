@@ -12,8 +12,19 @@ async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", or
                                client_session_kwargs={'trust_env': True}) as client:
     pass
 ```
+
+This release introduces a support for new version of InfluxDB API definitions with following breaking changes:
+
+- `User`, `UserResponse`, `ResourceMember` and `ResourceOwner` classes no longer supports `oauth_id` field
+- `Task` class no longer supports `type` field
+- `ScriptUpdateRequest` class no longer supports `name` field
+- `UsersService.get_flags` operation is moved to `ConfigService`
+
 ### Features
 1. [#586](https://github.com/influxdata/influxdb-client-python/pull/586): Add `config_name` key argument for ``from_config_file`` function to allow loading a specific configuration from a config file
+
+### API
+1. [#588](https://github.com/influxdata/influxdb-client-python/pull/588): Use the latest InfluxDB API definitions for generated APIs
 
 ### Bug Fixes
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]

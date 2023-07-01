@@ -67,7 +67,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_variables_id_prepare(variable_id, **kwargs)
+            self._delete_variables_id_prepare(variable_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'DELETE',
@@ -99,7 +99,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_variables_id_prepare(variable_id, **kwargs)
+            self._delete_variables_id_prepare(variable_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'DELETE',
@@ -185,7 +185,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_variables_id_labels_id_prepare(variable_id, label_id, **kwargs)
+            self._delete_variables_id_labels_id_prepare(variable_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels/{labelID}', 'DELETE',
@@ -218,7 +218,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_variables_id_labels_id_prepare(variable_id, label_id, **kwargs)
+            self._delete_variables_id_labels_id_prepare(variable_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels/{labelID}', 'DELETE',
@@ -310,7 +310,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_prepare(**kwargs)
+            self._get_variables_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables', 'GET',
@@ -343,7 +343,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_prepare(**kwargs)
+            self._get_variables_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables', 'GET',
@@ -425,7 +425,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_id_prepare(variable_id, **kwargs)
+            self._get_variables_id_prepare(variable_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'GET',
@@ -457,7 +457,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_id_prepare(variable_id, **kwargs)
+            self._get_variables_id_prepare(variable_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'GET',
@@ -541,7 +541,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_id_labels_prepare(variable_id, **kwargs)
+            self._get_variables_id_labels_prepare(variable_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels', 'GET',
@@ -573,7 +573,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_variables_id_labels_prepare(variable_id, **kwargs)
+            self._get_variables_id_labels_prepare(variable_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels', 'GET',
@@ -659,7 +659,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_variables_id_prepare(variable_id, variable, **kwargs)
+            self._patch_variables_id_prepare(variable_id, variable, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'PATCH',
@@ -692,7 +692,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_variables_id_prepare(variable_id, variable, **kwargs)
+            self._patch_variables_id_prepare(variable_id, variable, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'PATCH',
@@ -786,7 +786,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_variables_prepare(variable, **kwargs)
+            self._post_variables_prepare(variable, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables', 'POST',
@@ -818,7 +818,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_variables_prepare(variable, **kwargs)
+            self._post_variables_prepare(variable, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables', 'POST',
@@ -908,7 +908,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_variables_id_labels_prepare(variable_id, label_mapping, **kwargs)
+            self._post_variables_id_labels_prepare(variable_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels', 'POST',
@@ -941,7 +941,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_variables_id_labels_prepare(variable_id, label_mapping, **kwargs)
+            self._post_variables_id_labels_prepare(variable_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}/labels', 'POST',
@@ -1037,7 +1037,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_variables_id_prepare(variable_id, variable, **kwargs)
+            self._put_variables_id_prepare(variable_id, variable, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'PUT',
@@ -1070,7 +1070,7 @@ class VariablesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._put_variables_id_prepare(variable_id, variable, **kwargs)
+            self._put_variables_id_prepare(variable_id, variable, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/variables/{variableID}', 'PUT',

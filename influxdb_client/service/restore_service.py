@@ -71,7 +71,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_bucket_id_prepare(bucket_id, body, **kwargs)
+            self._post_restore_bucket_id_prepare(bucket_id, body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/restore/bucket/{bucketID}', 'POST',
@@ -105,7 +105,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_bucket_id_prepare(bucket_id, body, **kwargs)
+            self._post_restore_bucket_id_prepare(bucket_id, body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/restore/bucket/{bucketID}', 'POST',
@@ -201,7 +201,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_bucket_metadata_prepare(bucket_metadata_manifest, **kwargs)
+            self._post_restore_bucket_metadata_prepare(bucket_metadata_manifest, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/restore/bucketMetadata', 'POST',
@@ -233,7 +233,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_bucket_metadata_prepare(bucket_metadata_manifest, **kwargs)
+            self._post_restore_bucket_metadata_prepare(bucket_metadata_manifest, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/restore/bucketMetadata', 'POST',
@@ -325,7 +325,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_kv_prepare(body, **kwargs)
+            self._post_restore_kv_prepare(body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/restore/kv', 'POST',
@@ -359,7 +359,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_kv_prepare(body, **kwargs)
+            self._post_restore_kv_prepare(body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/restore/kv', 'POST',
@@ -457,7 +457,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_shard_id_prepare(shard_id, body, **kwargs)
+            self._post_restore_shard_id_prepare(shard_id, body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/restore/shards/{shardID}', 'POST',
@@ -492,7 +492,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_shard_id_prepare(shard_id, body, **kwargs)
+            self._post_restore_shard_id_prepare(shard_id, body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/restore/shards/{shardID}', 'POST',
@@ -594,7 +594,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_sql_prepare(body, **kwargs)
+            self._post_restore_sql_prepare(body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/restore/sql', 'POST',
@@ -628,7 +628,7 @@ class RestoreService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_restore_sql_prepare(body, **kwargs)
+            self._post_restore_sql_prepare(body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/restore/sql', 'POST',

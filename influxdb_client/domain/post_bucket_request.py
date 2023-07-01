@@ -47,7 +47,7 @@ class PostBucketRequest(object):
         'schema_type': 'schemaType'
     }
 
-    def __init__(self, org_id=None, name=None, description=None, rp=None, retention_rules=None, schema_type=None):  # noqa: E501,D401,D403
+    def __init__(self, org_id=None, name=None, description=None, rp='0', retention_rules=None, schema_type=None):  # noqa: E501,D401,D403
         """PostBucketRequest - a model defined in OpenAPI."""  # noqa: E501
         self._org_id = None
         self._name = None
@@ -63,13 +63,16 @@ class PostBucketRequest(object):
             self.description = description
         if rp is not None:
             self.rp = rp
-        self.retention_rules = retention_rules
+        if retention_rules is not None:
+            self.retention_rules = retention_rules
         if schema_type is not None:
             self.schema_type = schema_type
 
     @property
     def org_id(self):
         """Get the org_id of this PostBucketRequest.
+
+        The organization ID. Specifies the organization that owns the bucket.
 
         :return: The org_id of this PostBucketRequest.
         :rtype: str
@@ -79,6 +82,8 @@ class PostBucketRequest(object):
     @org_id.setter
     def org_id(self, org_id):
         """Set the org_id of this PostBucketRequest.
+
+        The organization ID. Specifies the organization that owns the bucket.
 
         :param org_id: The org_id of this PostBucketRequest.
         :type: str
@@ -91,6 +96,8 @@ class PostBucketRequest(object):
     def name(self):
         """Get the name of this PostBucketRequest.
 
+        The bucket name.
+
         :return: The name of this PostBucketRequest.
         :rtype: str
         """  # noqa: E501
@@ -99,6 +106,8 @@ class PostBucketRequest(object):
     @name.setter
     def name(self, name):
         """Set the name of this PostBucketRequest.
+
+        The bucket name.
 
         :param name: The name of this PostBucketRequest.
         :type: str
@@ -111,6 +120,8 @@ class PostBucketRequest(object):
     def description(self):
         """Get the description of this PostBucketRequest.
 
+        A description of the bucket.
+
         :return: The description of this PostBucketRequest.
         :rtype: str
         """  # noqa: E501
@@ -119,6 +130,8 @@ class PostBucketRequest(object):
     @description.setter
     def description(self, description):
         """Set the description of this PostBucketRequest.
+
+        A description of the bucket.
 
         :param description: The description of this PostBucketRequest.
         :type: str
@@ -129,6 +142,8 @@ class PostBucketRequest(object):
     def rp(self):
         """Get the rp of this PostBucketRequest.
 
+        The retention policy for the bucket. For InfluxDB 1.x, specifies the duration of time that each data point in the retention policy persists.  If you need compatibility with InfluxDB 1.x, specify a value for the `rp` property; otherwise, see the `retentionRules` property.  [Retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) is an InfluxDB 1.x concept. The InfluxDB 2.x and Cloud equivalent is [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period). The InfluxDB `/api/v2` API uses `RetentionRules` to configure the retention period.
+
         :return: The rp of this PostBucketRequest.
         :rtype: str
         """  # noqa: E501
@@ -137,6 +152,8 @@ class PostBucketRequest(object):
     @rp.setter
     def rp(self, rp):
         """Set the rp of this PostBucketRequest.
+
+        The retention policy for the bucket. For InfluxDB 1.x, specifies the duration of time that each data point in the retention policy persists.  If you need compatibility with InfluxDB 1.x, specify a value for the `rp` property; otherwise, see the `retentionRules` property.  [Retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) is an InfluxDB 1.x concept. The InfluxDB 2.x and Cloud equivalent is [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period). The InfluxDB `/api/v2` API uses `RetentionRules` to configure the retention period.
 
         :param rp: The rp of this PostBucketRequest.
         :type: str
@@ -147,7 +164,7 @@ class PostBucketRequest(object):
     def retention_rules(self):
         """Get the retention_rules of this PostBucketRequest.
 
-        Rules to expire or retain data.  No rules means data never expires.
+        Retention rules to expire or retain data. The InfluxDB `/api/v2` API uses `RetentionRules` to configure the [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period).  #### InfluxDB Cloud  - `retentionRules` is required.  #### InfluxDB OSS  - `retentionRules` isn't required.
 
         :return: The retention_rules of this PostBucketRequest.
         :rtype: list[BucketRetentionRules]
@@ -158,13 +175,11 @@ class PostBucketRequest(object):
     def retention_rules(self, retention_rules):
         """Set the retention_rules of this PostBucketRequest.
 
-        Rules to expire or retain data.  No rules means data never expires.
+        Retention rules to expire or retain data. The InfluxDB `/api/v2` API uses `RetentionRules` to configure the [retention period](https://docs.influxdata.com/influxdb/latest/reference/glossary/#retention-period).  #### InfluxDB Cloud  - `retentionRules` is required.  #### InfluxDB OSS  - `retentionRules` isn't required.
 
         :param retention_rules: The retention_rules of this PostBucketRequest.
         :type: list[BucketRetentionRules]
         """  # noqa: E501
-        if retention_rules is None:
-            raise ValueError("Invalid value for `retention_rules`, must not be `None`")  # noqa: E501
         self._retention_rules = retention_rules
 
     @property

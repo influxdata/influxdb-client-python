@@ -66,7 +66,8 @@ class RemoteConnectionCreationRequest(object):
         self.org_id = org_id
         self.remote_url = remote_url
         self.remote_api_token = remote_api_token
-        self.remote_org_id = remote_org_id
+        if remote_org_id is not None:
+            self.remote_org_id = remote_org_id
         self.allow_insecure_tls = allow_insecure_tls
 
     @property
@@ -183,8 +184,6 @@ class RemoteConnectionCreationRequest(object):
         :param remote_org_id: The remote_org_id of this RemoteConnectionCreationRequest.
         :type: str
         """  # noqa: E501
-        if remote_org_id is None:
-            raise ValueError("Invalid value for `remote_org_id`, must not be `None`")  # noqa: E501
         self._remote_org_id = remote_org_id
 
     @property

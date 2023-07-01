@@ -69,7 +69,7 @@ class ViewsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)
+            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
@@ -102,7 +102,7 @@ class ViewsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)
+            self._get_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'GET',
@@ -196,7 +196,7 @@ class ViewsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)
+            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',
@@ -230,7 +230,7 @@ class ViewsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)
+            self._patch_dashboards_id_cells_id_view_prepare(dashboard_id, cell_id, view, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/dashboards/{dashboardID}/cells/{cellID}/view', 'PATCH',

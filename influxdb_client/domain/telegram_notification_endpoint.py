@@ -102,7 +102,7 @@ class TelegramNotificationEndpoint(NotificationEndpointDiscriminator):
     def channel(self):
         """Get the channel of this TelegramNotificationEndpoint.
 
-        ID of the telegram channel, a chat_id in https://core.telegram.org/bots/api#sendmessage .
+        The ID of the telegram channel; a chat_id in https://core.telegram.org/bots/api#sendmessage .
 
         :return: The channel of this TelegramNotificationEndpoint.
         :rtype: str
@@ -113,7 +113,7 @@ class TelegramNotificationEndpoint(NotificationEndpointDiscriminator):
     def channel(self, channel):
         """Set the channel of this TelegramNotificationEndpoint.
 
-        ID of the telegram channel, a chat_id in https://core.telegram.org/bots/api#sendmessage .
+        The ID of the telegram channel; a chat_id in https://core.telegram.org/bots/api#sendmessage .
 
         :param channel: The channel of this TelegramNotificationEndpoint.
         :type: str

@@ -36,8 +36,10 @@ class ReplicationCreationRequest(object):
         'remote_id': 'str',
         'local_bucket_id': 'str',
         'remote_bucket_id': 'str',
+        'remote_bucket_name': 'str',
         'max_queue_size_bytes': 'int',
-        'drop_non_retryable_data': 'bool'
+        'drop_non_retryable_data': 'bool',
+        'max_age_seconds': 'int'
     }
 
     attribute_map = {
@@ -47,11 +49,13 @@ class ReplicationCreationRequest(object):
         'remote_id': 'remoteID',
         'local_bucket_id': 'localBucketID',
         'remote_bucket_id': 'remoteBucketID',
+        'remote_bucket_name': 'remoteBucketName',
         'max_queue_size_bytes': 'maxQueueSizeBytes',
-        'drop_non_retryable_data': 'dropNonRetryableData'
+        'drop_non_retryable_data': 'dropNonRetryableData',
+        'max_age_seconds': 'maxAgeSeconds'
     }
 
-    def __init__(self, name=None, description=None, org_id=None, remote_id=None, local_bucket_id=None, remote_bucket_id=None, max_queue_size_bytes=67108860, drop_non_retryable_data=False):  # noqa: E501,D401,D403
+    def __init__(self, name=None, description=None, org_id=None, remote_id=None, local_bucket_id=None, remote_bucket_id=None, remote_bucket_name=None, max_queue_size_bytes=67108860, drop_non_retryable_data=False, max_age_seconds=604800):  # noqa: E501,D401,D403
         """ReplicationCreationRequest - a model defined in OpenAPI."""  # noqa: E501
         self._name = None
         self._description = None
@@ -59,8 +63,10 @@ class ReplicationCreationRequest(object):
         self._remote_id = None
         self._local_bucket_id = None
         self._remote_bucket_id = None
+        self._remote_bucket_name = None
         self._max_queue_size_bytes = None
         self._drop_non_retryable_data = None
+        self._max_age_seconds = None
         self.discriminator = None
 
         self.name = name
@@ -69,10 +75,14 @@ class ReplicationCreationRequest(object):
         self.org_id = org_id
         self.remote_id = remote_id
         self.local_bucket_id = local_bucket_id
-        self.remote_bucket_id = remote_bucket_id
+        if remote_bucket_id is not None:
+            self.remote_bucket_id = remote_bucket_id
+        if remote_bucket_name is not None:
+            self.remote_bucket_name = remote_bucket_name
         self.max_queue_size_bytes = max_queue_size_bytes
         if drop_non_retryable_data is not None:
             self.drop_non_retryable_data = drop_non_retryable_data
+        self.max_age_seconds = max_age_seconds
 
     @property
     def name(self):
@@ -188,9 +198,25 @@ class ReplicationCreationRequest(object):
         :param remote_bucket_id: The remote_bucket_id of this ReplicationCreationRequest.
         :type: str
         """  # noqa: E501
-        if remote_bucket_id is None:
-            raise ValueError("Invalid value for `remote_bucket_id`, must not be `None`")  # noqa: E501
         self._remote_bucket_id = remote_bucket_id
+
+    @property
+    def remote_bucket_name(self):
+        """Get the remote_bucket_name of this ReplicationCreationRequest.
+
+        :return: The remote_bucket_name of this ReplicationCreationRequest.
+        :rtype: str
+        """  # noqa: E501
+        return self._remote_bucket_name
+
+    @remote_bucket_name.setter
+    def remote_bucket_name(self, remote_bucket_name):
+        """Set the remote_bucket_name of this ReplicationCreationRequest.
+
+        :param remote_bucket_name: The remote_bucket_name of this ReplicationCreationRequest.
+        :type: str
+        """  # noqa: E501
+        self._remote_bucket_name = remote_bucket_name
 
     @property
     def max_queue_size_bytes(self):
@@ -231,6 +257,28 @@ class ReplicationCreationRequest(object):
         :type: bool
         """  # noqa: E501
         self._drop_non_retryable_data = drop_non_retryable_data
+
+    @property
+    def max_age_seconds(self):
+        """Get the max_age_seconds of this ReplicationCreationRequest.
+
+        :return: The max_age_seconds of this ReplicationCreationRequest.
+        :rtype: int
+        """  # noqa: E501
+        return self._max_age_seconds
+
+    @max_age_seconds.setter
+    def max_age_seconds(self, max_age_seconds):
+        """Set the max_age_seconds of this ReplicationCreationRequest.
+
+        :param max_age_seconds: The max_age_seconds of this ReplicationCreationRequest.
+        :type: int
+        """  # noqa: E501
+        if max_age_seconds is None:
+            raise ValueError("Invalid value for `max_age_seconds`, must not be `None`")  # noqa: E501
+        if max_age_seconds is not None and max_age_seconds < 0:  # noqa: E501
+            raise ValueError("Invalid value for `max_age_seconds`, must be a value greater than or equal to `0`")  # noqa: E501
+        self._max_age_seconds = max_age_seconds
 
     def to_dict(self):
         """Return the model properties as a dict."""

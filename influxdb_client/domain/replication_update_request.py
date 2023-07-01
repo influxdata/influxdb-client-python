@@ -34,8 +34,10 @@ class ReplicationUpdateRequest(object):
         'description': 'str',
         'remote_id': 'str',
         'remote_bucket_id': 'str',
+        'remote_bucket_name': 'str',
         'max_queue_size_bytes': 'int',
-        'drop_non_retryable_data': 'bool'
+        'drop_non_retryable_data': 'bool',
+        'max_age_seconds': 'int'
     }
 
     attribute_map = {
@@ -43,18 +45,22 @@ class ReplicationUpdateRequest(object):
         'description': 'description',
         'remote_id': 'remoteID',
         'remote_bucket_id': 'remoteBucketID',
+        'remote_bucket_name': 'remoteBucketName',
         'max_queue_size_bytes': 'maxQueueSizeBytes',
-        'drop_non_retryable_data': 'dropNonRetryableData'
+        'drop_non_retryable_data': 'dropNonRetryableData',
+        'max_age_seconds': 'maxAgeSeconds'
     }
 
-    def __init__(self, name=None, description=None, remote_id=None, remote_bucket_id=None, max_queue_size_bytes=None, drop_non_retryable_data=None):  # noqa: E501,D401,D403
+    def __init__(self, name=None, description=None, remote_id=None, remote_bucket_id=None, remote_bucket_name=None, max_queue_size_bytes=None, drop_non_retryable_data=None, max_age_seconds=None):  # noqa: E501,D401,D403
         """ReplicationUpdateRequest - a model defined in OpenAPI."""  # noqa: E501
         self._name = None
         self._description = None
         self._remote_id = None
         self._remote_bucket_id = None
+        self._remote_bucket_name = None
         self._max_queue_size_bytes = None
         self._drop_non_retryable_data = None
+        self._max_age_seconds = None
         self.discriminator = None
 
         if name is not None:
@@ -65,10 +71,14 @@ class ReplicationUpdateRequest(object):
             self.remote_id = remote_id
         if remote_bucket_id is not None:
             self.remote_bucket_id = remote_bucket_id
+        if remote_bucket_name is not None:
+            self.remote_bucket_name = remote_bucket_name
         if max_queue_size_bytes is not None:
             self.max_queue_size_bytes = max_queue_size_bytes
         if drop_non_retryable_data is not None:
             self.drop_non_retryable_data = drop_non_retryable_data
+        if max_age_seconds is not None:
+            self.max_age_seconds = max_age_seconds
 
     @property
     def name(self):
@@ -143,6 +153,24 @@ class ReplicationUpdateRequest(object):
         self._remote_bucket_id = remote_bucket_id
 
     @property
+    def remote_bucket_name(self):
+        """Get the remote_bucket_name of this ReplicationUpdateRequest.
+
+        :return: The remote_bucket_name of this ReplicationUpdateRequest.
+        :rtype: str
+        """  # noqa: E501
+        return self._remote_bucket_name
+
+    @remote_bucket_name.setter
+    def remote_bucket_name(self, remote_bucket_name):
+        """Set the remote_bucket_name of this ReplicationUpdateRequest.
+
+        :param remote_bucket_name: The remote_bucket_name of this ReplicationUpdateRequest.
+        :type: str
+        """  # noqa: E501
+        self._remote_bucket_name = remote_bucket_name
+
+    @property
     def max_queue_size_bytes(self):
         """Get the max_queue_size_bytes of this ReplicationUpdateRequest.
 
@@ -179,6 +207,26 @@ class ReplicationUpdateRequest(object):
         :type: bool
         """  # noqa: E501
         self._drop_non_retryable_data = drop_non_retryable_data
+
+    @property
+    def max_age_seconds(self):
+        """Get the max_age_seconds of this ReplicationUpdateRequest.
+
+        :return: The max_age_seconds of this ReplicationUpdateRequest.
+        :rtype: int
+        """  # noqa: E501
+        return self._max_age_seconds
+
+    @max_age_seconds.setter
+    def max_age_seconds(self, max_age_seconds):
+        """Set the max_age_seconds of this ReplicationUpdateRequest.
+
+        :param max_age_seconds: The max_age_seconds of this ReplicationUpdateRequest.
+        :type: int
+        """  # noqa: E501
+        if max_age_seconds is not None and max_age_seconds < 0:  # noqa: E501
+            raise ValueError("Invalid value for `max_age_seconds`, must be a value greater than or equal to `0`")  # noqa: E501
+        self._max_age_seconds = max_age_seconds
 
     def to_dict(self):
         """Return the model properties as a dict."""

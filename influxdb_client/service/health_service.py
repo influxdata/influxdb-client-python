@@ -67,7 +67,7 @@ class HealthService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_health_prepare(**kwargs)
+            self._get_health_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/health', 'GET',
@@ -99,7 +99,7 @@ class HealthService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_health_prepare(**kwargs)
+            self._get_health_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/health', 'GET',

@@ -42,12 +42,13 @@ class LabelMapping(object):
         self._label_id = None
         self.discriminator = None
 
-        if label_id is not None:
-            self.label_id = label_id
+        self.label_id = label_id
 
     @property
     def label_id(self):
         """Get the label_id of this LabelMapping.
+
+        A label ID. Specifies the label to attach.
 
         :return: The label_id of this LabelMapping.
         :rtype: str
@@ -58,9 +59,13 @@ class LabelMapping(object):
     def label_id(self, label_id):
         """Set the label_id of this LabelMapping.
 
+        A label ID. Specifies the label to attach.
+
         :param label_id: The label_id of this LabelMapping.
         :type: str
         """  # noqa: E501
+        if label_id is None:
+            raise ValueError("Invalid value for `label_id`, must not be `None`")  # noqa: E501
         self._label_id = label_id
 
     def to_dict(self):

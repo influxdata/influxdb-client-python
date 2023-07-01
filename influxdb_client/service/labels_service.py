@@ -67,7 +67,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_labels_id_prepare(label_id, **kwargs)
+            self._delete_labels_id_prepare(label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'DELETE',
@@ -99,7 +99,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_labels_id_prepare(label_id, **kwargs)
+            self._delete_labels_id_prepare(label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'DELETE',
@@ -183,7 +183,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_labels_prepare(**kwargs)
+            self._get_labels_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/labels', 'GET',
@@ -215,7 +215,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_labels_prepare(**kwargs)
+            self._get_labels_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/labels', 'GET',
@@ -295,7 +295,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_labels_id_prepare(label_id, **kwargs)
+            self._get_labels_id_prepare(label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'GET',
@@ -327,7 +327,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_labels_id_prepare(label_id, **kwargs)
+            self._get_labels_id_prepare(label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'GET',
@@ -413,7 +413,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_labels_id_prepare(label_id, label_update, **kwargs)
+            self._patch_labels_id_prepare(label_id, label_update, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'PATCH',
@@ -446,7 +446,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_labels_id_prepare(label_id, label_update, **kwargs)
+            self._patch_labels_id_prepare(label_id, label_update, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/labels/{labelID}', 'PATCH',
@@ -538,7 +538,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_labels_prepare(label_create_request, **kwargs)
+            self._post_labels_prepare(label_create_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/labels', 'POST',
@@ -569,7 +569,7 @@ class LabelsService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_labels_prepare(label_create_request, **kwargs)
+            self._post_labels_prepare(label_create_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/labels', 'POST',

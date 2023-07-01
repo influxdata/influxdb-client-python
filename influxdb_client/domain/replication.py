@@ -37,8 +37,10 @@ class Replication(object):
         'remote_id': 'str',
         'local_bucket_id': 'str',
         'remote_bucket_id': 'str',
+        'remote_bucket_name': 'str',
         'max_queue_size_bytes': 'int',
         'current_queue_size_bytes': 'int',
+        'remaining_bytes_to_be_synced': 'int',
         'latest_response_code': 'int',
         'latest_error_message': 'str',
         'drop_non_retryable_data': 'bool'
@@ -52,14 +54,16 @@ class Replication(object):
         'remote_id': 'remoteID',
         'local_bucket_id': 'localBucketID',
         'remote_bucket_id': 'remoteBucketID',
+        'remote_bucket_name': 'remoteBucketName',
         'max_queue_size_bytes': 'maxQueueSizeBytes',
         'current_queue_size_bytes': 'currentQueueSizeBytes',
+        'remaining_bytes_to_be_synced': 'remainingBytesToBeSynced',
         'latest_response_code': 'latestResponseCode',
         'latest_error_message': 'latestErrorMessage',
         'drop_non_retryable_data': 'dropNonRetryableData'
     }
 
-    def __init__(self, id=None, name=None, description=None, org_id=None, remote_id=None, local_bucket_id=None, remote_bucket_id=None, max_queue_size_bytes=None, current_queue_size_bytes=None, latest_response_code=None, latest_error_message=None, drop_non_retryable_data=None):  # noqa: E501,D401,D403
+    def __init__(self, id=None, name=None, description=None, org_id=None, remote_id=None, local_bucket_id=None, remote_bucket_id=None, remote_bucket_name=None, max_queue_size_bytes=None, current_queue_size_bytes=None, remaining_bytes_to_be_synced=None, latest_response_code=None, latest_error_message=None, drop_non_retryable_data=None):  # noqa: E501,D401,D403
         """Replication - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
         self._name = None
@@ -68,8 +72,10 @@ class Replication(object):
         self._remote_id = None
         self._local_bucket_id = None
         self._remote_bucket_id = None
+        self._remote_bucket_name = None
         self._max_queue_size_bytes = None
         self._current_queue_size_bytes = None
+        self._remaining_bytes_to_be_synced = None
         self._latest_response_code = None
         self._latest_error_message = None
         self._drop_non_retryable_data = None
@@ -82,9 +88,15 @@ class Replication(object):
         self.org_id = org_id
         self.remote_id = remote_id
         self.local_bucket_id = local_bucket_id
-        self.remote_bucket_id = remote_bucket_id
+        if remote_bucket_id is not None:
+            self.remote_bucket_id = remote_bucket_id
+        if remote_bucket_name is not None:
+            self.remote_bucket_name = remote_bucket_name
         self.max_queue_size_bytes = max_queue_size_bytes
-        self.current_queue_size_bytes = current_queue_size_bytes
+        if current_queue_size_bytes is not None:
+            self.current_queue_size_bytes = current_queue_size_bytes
+        if remaining_bytes_to_be_synced is not None:
+            self.remaining_bytes_to_be_synced = remaining_bytes_to_be_synced
         if latest_response_code is not None:
             self.latest_response_code = latest_response_code
         if latest_error_message is not None:
@@ -226,9 +238,25 @@ class Replication(object):
         :param remote_bucket_id: The remote_bucket_id of this Replication.
         :type: str
         """  # noqa: E501
-        if remote_bucket_id is None:
-            raise ValueError("Invalid value for `remote_bucket_id`, must not be `None`")  # noqa: E501
         self._remote_bucket_id = remote_bucket_id
+
+    @property
+    def remote_bucket_name(self):
+        """Get the remote_bucket_name of this Replication.
+
+        :return: The remote_bucket_name of this Replication.
+        :rtype: str
+        """  # noqa: E501
+        return self._remote_bucket_name
+
+    @remote_bucket_name.setter
+    def remote_bucket_name(self, remote_bucket_name):
+        """Set the remote_bucket_name of this Replication.
+
+        :param remote_bucket_name: The remote_bucket_name of this Replication.
+        :type: str
+        """  # noqa: E501
+        self._remote_bucket_name = remote_bucket_name
 
     @property
     def max_queue_size_bytes(self):
@@ -266,9 +294,25 @@ class Replication(object):
         :param current_queue_size_bytes: The current_queue_size_bytes of this Replication.
         :type: int
         """  # noqa: E501
-        if current_queue_size_bytes is None:
-            raise ValueError("Invalid value for `current_queue_size_bytes`, must not be `None`")  # noqa: E501
         self._current_queue_size_bytes = current_queue_size_bytes
+
+    @property
+    def remaining_bytes_to_be_synced(self):
+        """Get the remaining_bytes_to_be_synced of this Replication.
+
+        :return: The remaining_bytes_to_be_synced of this Replication.
+        :rtype: int
+        """  # noqa: E501
+        return self._remaining_bytes_to_be_synced
+
+    @remaining_bytes_to_be_synced.setter
+    def remaining_bytes_to_be_synced(self, remaining_bytes_to_be_synced):
+        """Set the remaining_bytes_to_be_synced of this Replication.
+
+        :param remaining_bytes_to_be_synced: The remaining_bytes_to_be_synced of this Replication.
+        :type: int
+        """  # noqa: E501
+        self._remaining_bytes_to_be_synced = remaining_bytes_to_be_synced
 
     @property
     def latest_response_code(self):

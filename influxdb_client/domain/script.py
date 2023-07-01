@@ -162,7 +162,7 @@ class Script(object):
     def script(self):
         """Get the script of this Script.
 
-        script to be executed
+        The script to execute.
 
         :return: The script of this Script.
         :rtype: str
@@ -173,7 +173,7 @@ class Script(object):
     def script(self, script):
         """Set the script of this Script.
 
-        script to be executed
+        The script to execute.
 
         :param script: The script of this Script.
         :type: str
@@ -204,7 +204,7 @@ class Script(object):
     def url(self):
         """Get the url of this Script.
 
-        invocation endpoint address
+        The invocation endpoint address.
 
         :return: The url of this Script.
         :rtype: str
@@ -215,7 +215,7 @@ class Script(object):
     def url(self, url):
         """Set the url of this Script.
 
-        invocation endpoint address
+        The invocation endpoint address.
 
         :param url: The url of this Script.
         :type: str

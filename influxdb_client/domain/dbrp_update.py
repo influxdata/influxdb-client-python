@@ -54,7 +54,7 @@ class DBRPUpdate(object):
     def retention_policy(self):
         """Get the retention_policy of this DBRPUpdate.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :return: The retention_policy of this DBRPUpdate.
         :rtype: str
@@ -65,7 +65,7 @@ class DBRPUpdate(object):
     def retention_policy(self, retention_policy):
         """Set the retention_policy of this DBRPUpdate.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :param retention_policy: The retention_policy of this DBRPUpdate.
         :type: str
@@ -76,6 +76,8 @@ class DBRPUpdate(object):
     def default(self):
         """Get the default of this DBRPUpdate.
 
+        Set to `true` to use this DBRP mapping as the default retention policy for the database (specified by the `database` property's value). To remove the default mapping, set to `false`.
+
         :return: The default of this DBRPUpdate.
         :rtype: bool
         """  # noqa: E501
@@ -84,6 +86,8 @@ class DBRPUpdate(object):
     @default.setter
     def default(self, default):
         """Set the default of this DBRPUpdate.
+
+        Set to `true` to use this DBRP mapping as the default retention policy for the database (specified by the `database` property's value). To remove the default mapping, set to `false`.
 
         :param default: The default of this DBRPUpdate.
         :type: bool

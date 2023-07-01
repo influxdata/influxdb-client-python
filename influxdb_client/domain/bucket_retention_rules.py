@@ -41,14 +41,15 @@ class BucketRetentionRules(object):
         'shard_group_duration_seconds': 'shardGroupDurationSeconds'
     }
 
-    def __init__(self, type='expire', every_seconds=None, shard_group_duration_seconds=None):  # noqa: E501,D401,D403
+    def __init__(self, type='expire', every_seconds=2592000, shard_group_duration_seconds=None):  # noqa: E501,D401,D403
         """BucketRetentionRules - a model defined in OpenAPI."""  # noqa: E501
         self._type = None
         self._every_seconds = None
         self._shard_group_duration_seconds = None
         self.discriminator = None
 
-        self.type = type
+        if type is not None:
+            self.type = type
         self.every_seconds = every_seconds
         if shard_group_duration_seconds is not None:
             self.shard_group_duration_seconds = shard_group_duration_seconds
@@ -69,15 +70,13 @@ class BucketRetentionRules(object):
         :param type: The type of this BucketRetentionRules.
         :type: str
         """  # noqa: E501
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
         self._type = type
 
     @property
     def every_seconds(self):
         """Get the every_seconds of this BucketRetentionRules.
 
-        Duration in seconds for how long data will be kept in the database. 0 means infinite.
+        The duration in seconds for how long data will be kept in the database. The default duration is 2592000 (30 days). 0 represents infinite retention.
 
         :return: The every_seconds of this BucketRetentionRules.
         :rtype: int
@@ -88,7 +87,7 @@ class BucketRetentionRules(object):
     def every_seconds(self, every_seconds):
         """Set the every_seconds of this BucketRetentionRules.
 
-        Duration in seconds for how long data will be kept in the database. 0 means infinite.
+        The duration in seconds for how long data will be kept in the database. The default duration is 2592000 (30 days). 0 represents infinite retention.
 
         :param every_seconds: The every_seconds of this BucketRetentionRules.
         :type: int
@@ -103,7 +102,7 @@ class BucketRetentionRules(object):
     def shard_group_duration_seconds(self):
         """Get the shard_group_duration_seconds of this BucketRetentionRules.
 
-        Shard duration measured in seconds.
+        The shard group duration. The duration or interval (in seconds) that each shard group covers.  #### InfluxDB Cloud  - Does not use `shardGroupDurationsSeconds`.  #### InfluxDB OSS  - Default value depends on the [bucket retention period](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/#shard-group-duration).
 
         :return: The shard_group_duration_seconds of this BucketRetentionRules.
         :rtype: int
@@ -114,7 +113,7 @@ class BucketRetentionRules(object):
     def shard_group_duration_seconds(self, shard_group_duration_seconds):
         """Set the shard_group_duration_seconds of this BucketRetentionRules.
 
-        Shard duration measured in seconds.
+        The shard group duration. The duration or interval (in seconds) that each shard group covers.  #### InfluxDB Cloud  - Does not use `shardGroupDurationsSeconds`.  #### InfluxDB OSS  - Default value depends on the [bucket retention period](https://docs.influxdata.com/influxdb/latest/reference/internals/shards/#shard-group-duration).
 
         :param shard_group_duration_seconds: The shard_group_duration_seconds of this BucketRetentionRules.
         :type: int

@@ -31,7 +31,6 @@ class Task(object):
     """
     openapi_types = {
         'id': 'str',
-        'type': 'str',
         'org_id': 'str',
         'org': 'str',
         'name': 'str',
@@ -54,7 +53,6 @@ class Task(object):
 
     attribute_map = {
         'id': 'id',
-        'type': 'type',
         'org_id': 'orgID',
         'org': 'org',
         'name': 'name',
@@ -75,10 +73,9 @@ class Task(object):
         'links': 'links'
     }
 
-    def __init__(self, id=None, type=None, org_id=None, org=None, name=None, owner_id=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, last_run_status=None, last_run_error=None, created_at=None, updated_at=None, links=None):  # noqa: E501,D401,D403
+    def __init__(self, id=None, org_id=None, org=None, name=None, owner_id=None, description=None, status=None, labels=None, authorization_id=None, flux=None, every=None, cron=None, offset=None, latest_completed=None, last_run_status=None, last_run_error=None, created_at=None, updated_at=None, links=None):  # noqa: E501,D401,D403
         """Task - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
-        self._type = None
         self._org_id = None
         self._org = None
         self._name = None
@@ -100,8 +97,6 @@ class Task(object):
         self.discriminator = None
 
         self.id = id
-        if type is not None:
-            self.type = type
         self.org_id = org_id
         if org is not None:
             self.org = org
@@ -157,32 +152,10 @@ class Task(object):
         self._id = id
 
     @property
-    def type(self):
-        """Get the type of this Task.
-
-        The type of the task, useful for filtering a task list.
-
-        :return: The type of this Task.
-        :rtype: str
-        """  # noqa: E501
-        return self._type
-
-    @type.setter
-    def type(self, type):
-        """Set the type of this Task.
-
-        The type of the task, useful for filtering a task list.
-
-        :param type: The type of this Task.
-        :type: str
-        """  # noqa: E501
-        self._type = type
-
-    @property
     def org_id(self):
         """Get the org_id of this Task.
 
-        The ID of the organization that owns the task.
+        An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) ID. Specifies the organization that owns the task.
 
         :return: The org_id of this Task.
         :rtype: str
@@ -193,7 +166,7 @@ class Task(object):
     def org_id(self, org_id):
         """Set the org_id of this Task.
 
-        The ID of the organization that owns the task.
+        An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) ID. Specifies the organization that owns the task.
 
         :param org_id: The org_id of this Task.
         :type: str
@@ -206,7 +179,7 @@ class Task(object):
     def org(self):
         """Get the org of this Task.
 
-        The name of the organization that owns the task.
+        An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) name. Specifies the organization that owns the task.
 
         :return: The org of this Task.
         :rtype: str
@@ -217,7 +190,7 @@ class Task(object):
     def org(self, org):
         """Set the org of this Task.
 
-        The name of the organization that owns the task.
+        An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) name. Specifies the organization that owns the task.
 
         :param org: The org of this Task.
         :type: str
@@ -252,7 +225,7 @@ class Task(object):
     def owner_id(self):
         """Get the owner_id of this Task.
 
-        The ID of the user who owns this Task.
+        A [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) ID. Specifies the owner of the task.  To find a user ID, you can use the [`GET /api/v2/users` endpoint](#operation/GetUsers) to list users.
 
         :return: The owner_id of this Task.
         :rtype: str
@@ -263,7 +236,7 @@ class Task(object):
     def owner_id(self, owner_id):
         """Set the owner_id of this Task.
 
-        The ID of the user who owns this Task.
+        A [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) ID. Specifies the owner of the task.  To find a user ID, you can use the [`GET /api/v2/users` endpoint](#operation/GetUsers) to list users.
 
         :param owner_id: The owner_id of this Task.
         :type: str
@@ -274,7 +247,7 @@ class Task(object):
     def description(self):
         """Get the description of this Task.
 
-        The description of the task.
+        A description of the task.
 
         :return: The description of this Task.
         :rtype: str
@@ -285,7 +258,7 @@ class Task(object):
     def description(self, description):
         """Set the description of this Task.
 
-        The description of the task.
+        A description of the task.
 
         :param description: The description of this Task.
         :type: str
@@ -332,7 +305,7 @@ class Task(object):
     def authorization_id(self):
         """Get the authorization_id of this Task.
 
-        The ID of the authorization used when the task communicates with the query engine.
+        An authorization ID. Specifies the authorization used when the task communicates with the query engine.  To find an authorization ID, use the [`GET /api/v2/authorizations` endpoint](#operation/GetAuthorizations) to list authorizations.
 
         :return: The authorization_id of this Task.
         :rtype: str
@@ -343,7 +316,7 @@ class Task(object):
     def authorization_id(self, authorization_id):
         """Set the authorization_id of this Task.
 
-        The ID of the authorization used when the task communicates with the query engine.
+        An authorization ID. Specifies the authorization used when the task communicates with the query engine.  To find an authorization ID, use the [`GET /api/v2/authorizations` endpoint](#operation/GetAuthorizations) to list authorizations.
 
         :param authorization_id: The authorization_id of this Task.
         :type: str
@@ -354,7 +327,7 @@ class Task(object):
     def flux(self):
         """Get the flux of this Task.
 
-        The Flux script to run for this task.
+        The Flux script that the task executes.
 
         :return: The flux of this Task.
         :rtype: str
@@ -365,7 +338,7 @@ class Task(object):
     def flux(self, flux):
         """Set the flux of this Task.
 
-        The Flux script to run for this task.
+        The Flux script that the task executes.
 
         :param flux: The flux of this Task.
         :type: str
@@ -378,7 +351,7 @@ class Task(object):
     def every(self):
         """Get the every of this Task.
 
-        An interval ([duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals))) at which the task runs. `every` also determines when the task first runs, depending on the specified time.
+        The interval ([duration literal](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) at which the task runs. `every` also determines when the task first runs, depending on the specified time.
 
         :return: The every of this Task.
         :rtype: str
@@ -389,7 +362,7 @@ class Task(object):
     def every(self, every):
         """Set the every of this Task.
 
-        An interval ([duration literal](https://docs.influxdata.com/flux/v0.x/spec/lexical-elements/#duration-literals))) at which the task runs. `every` also determines when the task first runs, depending on the specified time.
+        The interval ([duration literal](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) at which the task runs. `every` also determines when the task first runs, depending on the specified time.
 
         :param every: The every of this Task.
         :type: str
@@ -400,7 +373,7 @@ class Task(object):
     def cron(self):
         """Get the cron of this Task.
 
-        [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. InfluxDB bases cron runs on the system time.
+        A [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. InfluxDB uses the system time when evaluating Cron expressions.
 
         :return: The cron of this Task.
         :rtype: str
@@ -411,7 +384,7 @@ class Task(object):
     def cron(self, cron):
         """Set the cron of this Task.
 
-        [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. InfluxDB bases cron runs on the system time.
+        A [Cron expression](https://en.wikipedia.org/wiki/Cron#Overview) that defines the schedule on which the task runs. InfluxDB uses the system time when evaluating Cron expressions.
 
         :param cron: The cron of this Task.
         :type: str
@@ -444,7 +417,7 @@ class Task(object):
     def latest_completed(self):
         """Get the latest_completed of this Task.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)) of the latest scheduled and completed run.
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) of the latest scheduled and completed run.
 
         :return: The latest_completed of this Task.
         :rtype: datetime
@@ -455,7 +428,7 @@ class Task(object):
     def latest_completed(self, latest_completed):
         """Set the latest_completed of this Task.
 
-        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/flux/v0.x/data-types/basic/time/#time-syntax)) of the latest scheduled and completed run.
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) of the latest scheduled and completed run.
 
         :param latest_completed: The latest_completed of this Task.
         :type: datetime

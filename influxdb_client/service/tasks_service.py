@@ -32,7 +32,7 @@ class TasksService(_BaseService):
     def delete_tasks_id(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a task.
 
-        Deletes a task and all associated records
+        Deletes a task and associated records.  Use this endpoint to delete a task and all associated records (task runs, logs, and labels). Once the task is deleted, InfluxDB cancels all scheduled runs of the task.  If you want to disable a task instead of delete it, [update the task status to `inactive`](#operation/PatchTasksID).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id(task_id, async_req=True)
@@ -55,7 +55,7 @@ class TasksService(_BaseService):
     def delete_tasks_id_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a task.
 
-        Deletes a task and all associated records
+        Deletes a task and associated records.  Use this endpoint to delete a task and all associated records (task runs, logs, and labels). Once the task is deleted, InfluxDB cancels all scheduled runs of the task.  If you want to disable a task instead of delete it, [update the task status to `inactive`](#operation/PatchTasksID).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_with_http_info(task_id, async_req=True)
@@ -69,7 +69,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_prepare(task_id, **kwargs)
+            self._delete_tasks_id_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'DELETE',
@@ -91,7 +91,7 @@ class TasksService(_BaseService):
     async def delete_tasks_id_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a task.
 
-        Deletes a task and all associated records
+        Deletes a task and associated records.  Use this endpoint to delete a task and all associated records (task runs, logs, and labels). Once the task is deleted, InfluxDB cancels all scheduled runs of the task.  If you want to disable a task instead of delete it, [update the task status to `inactive`](#operation/PatchTasksID).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -102,7 +102,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_prepare(task_id, **kwargs)
+            self._delete_tasks_id_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'DELETE',
@@ -151,14 +151,15 @@ class TasksService(_BaseService):
     def delete_tasks_id_labels_id(self, task_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a task.
 
+        Deletes a label from a task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_labels_id(task_id, label_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str label_id: The label ID. (required)
+        :param str task_id: The ID of the task to delete the label from. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -174,21 +175,22 @@ class TasksService(_BaseService):
     def delete_tasks_id_labels_id_with_http_info(self, task_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a task.
 
+        Deletes a label from a task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_labels_id_with_http_info(task_id, label_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str label_id: The label ID. (required)
+        :param str task_id: The ID of the task to delete the label from. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_labels_id_prepare(task_id, label_id, **kwargs)
+            self._delete_tasks_id_labels_id_prepare(task_id, label_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels/{labelID}', 'DELETE',
@@ -210,18 +212,19 @@ class TasksService(_BaseService):
     async def delete_tasks_id_labels_id_async(self, task_id, label_id, **kwargs):  # noqa: E501,D401,D403
         """Delete a label from a task.
 
+        Deletes a label from a task.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str label_id: The label ID. (required)
+        :param str task_id: The ID of the task to delete the label from. (required)
+        :param str label_id: The ID of the label to delete. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_labels_id_prepare(task_id, label_id, **kwargs)
+            self._delete_tasks_id_labels_id_prepare(task_id, label_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels/{labelID}', 'DELETE',
@@ -276,6 +279,7 @@ class TasksService(_BaseService):
     def delete_tasks_id_members_id(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Removes a member from a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_members_id(user_id, task_id, async_req=True)
@@ -299,6 +303,7 @@ class TasksService(_BaseService):
     def delete_tasks_id_members_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Removes a member from a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_members_id_with_http_info(user_id, task_id, async_req=True)
@@ -313,7 +318,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_members_id_prepare(user_id, task_id, **kwargs)
+            self._delete_tasks_id_members_id_prepare(user_id, task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members/{userID}', 'DELETE',
@@ -335,6 +340,7 @@ class TasksService(_BaseService):
     async def delete_tasks_id_members_id_async(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove a member from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Removes a member from a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -346,7 +352,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_members_id_prepare(user_id, task_id, **kwargs)
+            self._delete_tasks_id_members_id_prepare(user_id, task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members/{userID}', 'DELETE',
@@ -401,6 +407,7 @@ class TasksService(_BaseService):
     def delete_tasks_id_owners_id(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_owners_id(user_id, task_id, async_req=True)
@@ -424,6 +431,7 @@ class TasksService(_BaseService):
     def delete_tasks_id_owners_id_with_http_info(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_owners_id_with_http_info(user_id, task_id, async_req=True)
@@ -438,7 +446,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_owners_id_prepare(user_id, task_id, **kwargs)
+            self._delete_tasks_id_owners_id_prepare(user_id, task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners/{userID}', 'DELETE',
@@ -460,6 +468,7 @@ class TasksService(_BaseService):
     async def delete_tasks_id_owners_id_async(self, user_id, task_id, **kwargs):  # noqa: E501,D401,D403
         """Remove an owner from a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -471,7 +480,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_owners_id_prepare(user_id, task_id, **kwargs)
+            self._delete_tasks_id_owners_id_prepare(user_id, task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners/{userID}', 'DELETE',
@@ -524,16 +533,17 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def delete_tasks_id_runs_id(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
+        """Cancel a running task.
 
+        Cancels a running [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint with InfluxDB OSS to cancel a running task.  #### InfluxDB Cloud  - Doesn't support this operation.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_runs_id(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to cancel. (required)
+        :param str run_id: The ID of the task run to cancel. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
@@ -547,23 +557,24 @@ class TasksService(_BaseService):
             return data
 
     def delete_tasks_id_runs_id_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
+        """Cancel a running task.
 
+        Cancels a running [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint with InfluxDB OSS to cancel a running task.  #### InfluxDB Cloud  - Doesn't support this operation.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.delete_tasks_id_runs_id_with_http_info(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to cancel. (required)
+        :param str run_id: The ID of the task run to cancel. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)
+            self._delete_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}', 'DELETE',
@@ -583,20 +594,21 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def delete_tasks_id_runs_id_async(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Cancel a running task.  #### InfluxDB Cloud    - Doesn't support this operation. .
+        """Cancel a running task.
 
+        Cancels a running [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint with InfluxDB OSS to cancel a running task.  #### InfluxDB Cloud  - Doesn't support this operation.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to cancel. (required)
+        :param str run_id: The ID of the task run to cancel. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._delete_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)
+            self._delete_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}', 'DELETE',
@@ -649,8 +661,9 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_tasks(self, **kwargs):  # noqa: E501,D401,D403
-        """List all tasks.
+        """List tasks.
 
+        Retrieves a list of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  To limit which tasks are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all tasks up to the default `limit`.  #### Related guide  - [Process data with InfluxDB tasks](https://docs.influxdata.com/influxdb/latest/process-data/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks(async_req=True)
@@ -658,14 +671,14 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: Returns task with a specific name.
-        :param str after: Return tasks after a specified ID.
-        :param str user: Filter tasks to a specific user ID.
-        :param str org: Filter tasks to a specific organization name.
-        :param str org_id: Filter tasks to a specific organization ID.
-        :param str status: Filter tasks by a status--"inactive" or "active".
-        :param int limit: The number of tasks to return
-        :param str type: Type of task, unset by default.
+        :param str name: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) name. Only returns tasks with the specified name. Different tasks may have the same name.
+        :param str after: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) ID. Only returns tasks created after the specified task.
+        :param str user: A [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) ID. Only returns tasks owned by the specified user.
+        :param str org: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) name. Only returns tasks owned by the specified organization.
+        :param str org_id: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) ID. Only returns tasks owned by the specified organization.
+        :param str status: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) status. Only returns tasks that have the specified status (`active` or `inactive`).
+        :param int limit: The maximum number of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) to return. Default is `100`. The minimum is `1` and the maximum is `500`.  To reduce the payload size, combine _`type=basic`_ and _`limit`_ (see _Request samples_). For more information about the `basic` response, see the _`type`_ parameter.
+        :param str type: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) type (`basic` or `system`). Default is `system`. Specifies the level of detail for tasks in the response. The default (`system`) response contains all the metadata properties for tasks. To reduce the response size, pass `basic` to omit some task properties (`flux`, `createdAt`, `updatedAt`).
         :return: Tasks
                  If the method is called asynchronously,
                  returns the request thread.
@@ -678,8 +691,9 @@ class TasksService(_BaseService):
             return data
 
     def get_tasks_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """List all tasks.
+        """List tasks.
 
+        Retrieves a list of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  To limit which tasks are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all tasks up to the default `limit`.  #### Related guide  - [Process data with InfluxDB tasks](https://docs.influxdata.com/influxdb/latest/process-data/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_with_http_info(async_req=True)
@@ -687,20 +701,20 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: Returns task with a specific name.
-        :param str after: Return tasks after a specified ID.
-        :param str user: Filter tasks to a specific user ID.
-        :param str org: Filter tasks to a specific organization name.
-        :param str org_id: Filter tasks to a specific organization ID.
-        :param str status: Filter tasks by a status--"inactive" or "active".
-        :param int limit: The number of tasks to return
-        :param str type: Type of task, unset by default.
+        :param str name: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) name. Only returns tasks with the specified name. Different tasks may have the same name.
+        :param str after: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) ID. Only returns tasks created after the specified task.
+        :param str user: A [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) ID. Only returns tasks owned by the specified user.
+        :param str org: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) name. Only returns tasks owned by the specified organization.
+        :param str org_id: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) ID. Only returns tasks owned by the specified organization.
+        :param str status: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) status. Only returns tasks that have the specified status (`active` or `inactive`).
+        :param int limit: The maximum number of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) to return. Default is `100`. The minimum is `1` and the maximum is `500`.  To reduce the payload size, combine _`type=basic`_ and _`limit`_ (see _Request samples_). For more information about the `basic` response, see the _`type`_ parameter.
+        :param str type: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) type (`basic` or `system`). Default is `system`. Specifies the level of detail for tasks in the response. The default (`system`) response contains all the metadata properties for tasks. To reduce the response size, pass `basic` to omit some task properties (`flux`, `createdAt`, `updatedAt`).
         :return: Tasks
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_prepare(**kwargs)
+            self._get_tasks_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks', 'GET',
@@ -720,26 +734,27 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_tasks_async(self, **kwargs):  # noqa: E501,D401,D403
-        """List all tasks.
+        """List tasks.
 
+        Retrieves a list of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  To limit which tasks are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all tasks up to the default `limit`.  #### Related guide  - [Process data with InfluxDB tasks](https://docs.influxdata.com/influxdb/latest/process-data/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str zap_trace_span: OpenTracing span context
-        :param str name: Returns task with a specific name.
-        :param str after: Return tasks after a specified ID.
-        :param str user: Filter tasks to a specific user ID.
-        :param str org: Filter tasks to a specific organization name.
-        :param str org_id: Filter tasks to a specific organization ID.
-        :param str status: Filter tasks by a status--"inactive" or "active".
-        :param int limit: The number of tasks to return
-        :param str type: Type of task, unset by default.
+        :param str name: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) name. Only returns tasks with the specified name. Different tasks may have the same name.
+        :param str after: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) ID. Only returns tasks created after the specified task.
+        :param str user: A [user](https://docs.influxdata.com/influxdb/latest/reference/glossary/#user) ID. Only returns tasks owned by the specified user.
+        :param str org: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) name. Only returns tasks owned by the specified organization.
+        :param str org_id: An [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) ID. Only returns tasks owned by the specified organization.
+        :param str status: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) status. Only returns tasks that have the specified status (`active` or `inactive`).
+        :param int limit: The maximum number of [tasks](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) to return. Default is `100`. The minimum is `1` and the maximum is `500`.  To reduce the payload size, combine _`type=basic`_ and _`limit`_ (see _Request samples_). For more information about the `basic` response, see the _`type`_ parameter.
+        :param str type: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) type (`basic` or `system`). Default is `system`. Specifies the level of detail for tasks in the response. The default (`system`) response contains all the metadata properties for tasks. To reduce the response size, pass `basic` to omit some task properties (`flux`, `createdAt`, `updatedAt`).
         :return: Tasks
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_prepare(**kwargs)
+            self._get_tasks_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks', 'GET',
@@ -802,13 +817,14 @@ class TasksService(_BaseService):
     def get_tasks_id(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a task.
 
+        Retrieves a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -824,20 +840,21 @@ class TasksService(_BaseService):
     def get_tasks_id_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a task.
 
+        Retrieves a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_with_http_info(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_prepare(task_id, **kwargs)
+            self._get_tasks_id_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'GET',
@@ -859,17 +876,18 @@ class TasksService(_BaseService):
     async def get_tasks_id_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve a task.
 
+        Retrieves a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_prepare(task_id, **kwargs)
+            self._get_tasks_id_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'GET',
@@ -916,15 +934,16 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_tasks_id_labels(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """List all labels for a task.
+        """List labels for a task.
 
+        Retrieves a list of all labels for a task.  Labels may be used for grouping and filtering tasks.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_labels(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
@@ -938,22 +957,23 @@ class TasksService(_BaseService):
             return data
 
     def get_tasks_id_labels_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """List all labels for a task.
+        """List labels for a task.
 
+        Retrieves a list of all labels for a task.  Labels may be used for grouping and filtering tasks.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_labels_with_http_info(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_labels_prepare(task_id, **kwargs)
+            self._get_tasks_id_labels_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels', 'GET',
@@ -973,19 +993,20 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_tasks_id_labels_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """List all labels for a task.
+        """List labels for a task.
 
+        Retrieves a list of all labels for a task.  Labels may be used for grouping and filtering tasks.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve labels for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelsResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_labels_prepare(task_id, **kwargs)
+            self._get_tasks_id_labels_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels', 'GET',
@@ -1034,6 +1055,7 @@ class TasksService(_BaseService):
     def get_tasks_id_logs(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a task.
 
+        Retrieves a list of all logs for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  When an InfluxDB task runs, a “run” record is created in the task’s history. Logs associated with each run provide relevant log messages, timestamps, and the exit status of the run attempt.  Use this endpoint to retrieve only the log events for a task, without additional task metadata.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_logs(task_id, async_req=True)
@@ -1056,6 +1078,7 @@ class TasksService(_BaseService):
     def get_tasks_id_logs_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a task.
 
+        Retrieves a list of all logs for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  When an InfluxDB task runs, a “run” record is created in the task’s history. Logs associated with each run provide relevant log messages, timestamps, and the exit status of the run attempt.  Use this endpoint to retrieve only the log events for a task, without additional task metadata.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_logs_with_http_info(task_id, async_req=True)
@@ -1069,7 +1092,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_logs_prepare(task_id, **kwargs)
+            self._get_tasks_id_logs_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/logs', 'GET',
@@ -1091,6 +1114,7 @@ class TasksService(_BaseService):
     async def get_tasks_id_logs_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a task.
 
+        Retrieves a list of all logs for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  When an InfluxDB task runs, a “run” record is created in the task’s history. Logs associated with each run provide relevant log messages, timestamps, and the exit status of the run attempt.  Use this endpoint to retrieve only the log events for a task, without additional task metadata.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -1101,7 +1125,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_logs_prepare(task_id, **kwargs)
+            self._get_tasks_id_logs_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/logs', 'GET',
@@ -1150,6 +1174,7 @@ class TasksService(_BaseService):
     def get_tasks_id_members(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all task members.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Lists all users that have the `member` role for the specified [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_members(task_id, async_req=True)
@@ -1172,6 +1197,7 @@ class TasksService(_BaseService):
     def get_tasks_id_members_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all task members.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Lists all users that have the `member` role for the specified [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_members_with_http_info(task_id, async_req=True)
@@ -1185,7 +1211,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_members_prepare(task_id, **kwargs)
+            self._get_tasks_id_members_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'GET',
@@ -1207,6 +1233,7 @@ class TasksService(_BaseService):
     async def get_tasks_id_members_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all task members.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Lists all users that have the `member` role for the specified [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -1217,7 +1244,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_members_prepare(task_id, **kwargs)
+            self._get_tasks_id_members_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'GET',
@@ -1266,13 +1293,14 @@ class TasksService(_BaseService):
     def get_tasks_id_owners(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Retrieves all users that have owner permission for a task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_owners(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
@@ -1288,20 +1316,21 @@ class TasksService(_BaseService):
     def get_tasks_id_owners_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Retrieves all users that have owner permission for a task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_owners_with_http_info(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_owners_prepare(task_id, **kwargs)
+            self._get_tasks_id_owners_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'GET',
@@ -1323,17 +1352,18 @@ class TasksService(_BaseService):
     async def get_tasks_id_owners_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List all owners of a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Retrieves all users that have owner permission for a task.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
+        :param str task_id: The ID of the task to retrieve owners for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwners
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_owners_prepare(task_id, **kwargs)
+            self._get_tasks_id_owners_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'GET',
@@ -1382,18 +1412,19 @@ class TasksService(_BaseService):
     def get_tasks_id_runs(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List runs for a task.
 
+        Retrieves a list of runs for a [task](https://docs.influxdata.com/influxdb/latest/process-data/).  To limit which task runs are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all task runs up to the default `limit`.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The ID of the task to get runs for. (required)
+        :param str task_id: The ID of the task to get runs for. Only returns runs for this task. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str after: Returns runs after a specific ID.
-        :param int limit: The number of runs to return
-        :param datetime after_time: Filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: Filter runs to those scheduled before this time, RFC3339
+        :param str after: A task run ID. Only returns runs created after this run.
+        :param int limit: Limits the number of task runs returned. Default is `100`.
+        :param datetime after_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled after this time.
+        :param datetime before_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled before this time.
         :return: Runs
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1408,24 +1439,25 @@ class TasksService(_BaseService):
     def get_tasks_id_runs_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List runs for a task.
 
+        Retrieves a list of runs for a [task](https://docs.influxdata.com/influxdb/latest/process-data/).  To limit which task runs are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all task runs up to the default `limit`.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs_with_http_info(task_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The ID of the task to get runs for. (required)
+        :param str task_id: The ID of the task to get runs for. Only returns runs for this task. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str after: Returns runs after a specific ID.
-        :param int limit: The number of runs to return
-        :param datetime after_time: Filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: Filter runs to those scheduled before this time, RFC3339
+        :param str after: A task run ID. Only returns runs created after this run.
+        :param int limit: Limits the number of task runs returned. Default is `100`.
+        :param datetime after_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled after this time.
+        :param datetime before_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled before this time.
         :return: Runs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_prepare(task_id, **kwargs)
+            self._get_tasks_id_runs_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs', 'GET',
@@ -1447,21 +1479,22 @@ class TasksService(_BaseService):
     async def get_tasks_id_runs_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
         """List runs for a task.
 
+        Retrieves a list of runs for a [task](https://docs.influxdata.com/influxdb/latest/process-data/).  To limit which task runs are returned, pass query parameters in your request. If no query parameters are passed, InfluxDB returns all task runs up to the default `limit`.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The ID of the task to get runs for. (required)
+        :param str task_id: The ID of the task to get runs for. Only returns runs for this task. (required)
         :param str zap_trace_span: OpenTracing span context
-        :param str after: Returns runs after a specific ID.
-        :param int limit: The number of runs to return
-        :param datetime after_time: Filter runs to those scheduled after this time, RFC3339
-        :param datetime before_time: Filter runs to those scheduled before this time, RFC3339
+        :param str after: A task run ID. Only returns runs created after this run.
+        :param int limit: Limits the number of task runs returned. Default is `100`.
+        :param datetime after_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled after this time.
+        :param datetime before_time: A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)). Only returns runs scheduled before this time.
         :return: Runs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_prepare(task_id, **kwargs)
+            self._get_tasks_id_runs_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs', 'GET',
@@ -1520,16 +1553,17 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def get_tasks_id_runs_id(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a single run for a task.
+        """Retrieve a run for a task..
 
+        Retrieves a specific run for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint to retrieve detail and logs for a specific task run.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs_id(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to retrieve runs for. (required)
+        :param str run_id: The ID of the run to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
@@ -1543,23 +1577,24 @@ class TasksService(_BaseService):
             return data
 
     def get_tasks_id_runs_id_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a single run for a task.
+        """Retrieve a run for a task..
 
+        Retrieves a specific run for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint to retrieve detail and logs for a specific task run.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs_id_with_http_info(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to retrieve runs for. (required)
+        :param str run_id: The ID of the run to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)
+            self._get_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}', 'GET',
@@ -1579,20 +1614,21 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def get_tasks_id_runs_id_async(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
-        """Retrieve a single run for a task.
+        """Retrieve a run for a task..
 
+        Retrieves a specific run for a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task).  Use this endpoint to retrieve detail and logs for a specific task run.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: The ID of the task to retrieve runs for. (required)
+        :param str run_id: The ID of the run to retrieve. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Run
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)
+            self._get_tasks_id_runs_id_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}', 'GET',
@@ -1647,14 +1683,15 @@ class TasksService(_BaseService):
     def get_tasks_id_runs_id_logs(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a run.
 
+        Retrieves all logs for a task run. A log is a list of run events with `runID`, `time`, and `message` properties.  Use this endpoint to help analyze task performance and troubleshoot failed task runs.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs_id_logs(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get logs for. (required)
-        :param str run_id: ID of run to get logs for. (required)
+        :param str task_id: The ID of the task to get logs for. (required)
+        :param str run_id: The ID of the run to get logs for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Logs
                  If the method is called asynchronously,
@@ -1670,21 +1707,22 @@ class TasksService(_BaseService):
     def get_tasks_id_runs_id_logs_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a run.
 
+        Retrieves all logs for a task run. A log is a list of run events with `runID`, `time`, and `message` properties.  Use this endpoint to help analyze task performance and troubleshoot failed task runs.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_tasks_id_runs_id_logs_with_http_info(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: ID of task to get logs for. (required)
-        :param str run_id: ID of run to get logs for. (required)
+        :param str task_id: The ID of the task to get logs for. (required)
+        :param str run_id: The ID of the run to get logs for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Logs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_id_logs_prepare(task_id, run_id, **kwargs)
+            self._get_tasks_id_runs_id_logs_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}/logs', 'GET',
@@ -1706,18 +1744,19 @@ class TasksService(_BaseService):
     async def get_tasks_id_runs_id_logs_async(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retrieve all logs for a run.
 
+        Retrieves all logs for a task run. A log is a list of run events with `runID`, `time`, and `message` properties.  Use this endpoint to help analyze task performance and troubleshoot failed task runs.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: ID of task to get logs for. (required)
-        :param str run_id: ID of run to get logs for. (required)
+        :param str task_id: The ID of the task to get logs for. (required)
+        :param str run_id: The ID of the run to get logs for. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Logs
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_tasks_id_runs_id_logs_prepare(task_id, run_id, **kwargs)
+            self._get_tasks_id_runs_id_logs_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}/logs', 'GET',
@@ -1772,15 +1811,15 @@ class TasksService(_BaseService):
     def patch_tasks_id(self, task_id, task_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a task.
 
-        Update a task. This will cancel all queued runs.
+        Updates a task and then cancels all scheduled runs of the task.  Use this endpoint to set, modify, and clear task properties (for example: `cron`, `name`, `flux`, `status`). Once InfluxDB applies the update, it cancels all previously scheduled runs of the task.  To update a task, pass an object that contains the updated key-value pairs. To activate or inactivate a task, set the `status` property. _`"status": "inactive"`_ cancels scheduled runs and prevents manual runs of the task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_tasks_id(task_id, task_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param TaskUpdateRequest task_update_request: Task update to apply (required)
+        :param str task_id: The ID of the task to update. (required)
+        :param TaskUpdateRequest task_update_request: An object that contains updated task properties to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1796,22 +1835,22 @@ class TasksService(_BaseService):
     def patch_tasks_id_with_http_info(self, task_id, task_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a task.
 
-        Update a task. This will cancel all queued runs.
+        Updates a task and then cancels all scheduled runs of the task.  Use this endpoint to set, modify, and clear task properties (for example: `cron`, `name`, `flux`, `status`). Once InfluxDB applies the update, it cancels all previously scheduled runs of the task.  To update a task, pass an object that contains the updated key-value pairs. To activate or inactivate a task, set the `status` property. _`"status": "inactive"`_ cancels scheduled runs and prevents manual runs of the task.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.patch_tasks_id_with_http_info(task_id, task_update_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param TaskUpdateRequest task_update_request: Task update to apply (required)
+        :param str task_id: The ID of the task to update. (required)
+        :param TaskUpdateRequest task_update_request: An object that contains updated task properties to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_tasks_id_prepare(task_id, task_update_request, **kwargs)
+            self._patch_tasks_id_prepare(task_id, task_update_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'PATCH',
@@ -1833,19 +1872,19 @@ class TasksService(_BaseService):
     async def patch_tasks_id_async(self, task_id, task_update_request, **kwargs):  # noqa: E501,D401,D403
         """Update a task.
 
-        Update a task. This will cancel all queued runs.
+        Updates a task and then cancels all scheduled runs of the task.  Use this endpoint to set, modify, and clear task properties (for example: `cron`, `name`, `flux`, `status`). Once InfluxDB applies the update, it cancels all previously scheduled runs of the task.  To update a task, pass an object that contains the updated key-value pairs. To activate or inactivate a task, set the `status` property. _`"status": "inactive"`_ cancels scheduled runs and prevents manual runs of the task.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param TaskUpdateRequest task_update_request: Task update to apply (required)
+        :param str task_id: The ID of the task to update. (required)
+        :param TaskUpdateRequest task_update_request: An object that contains updated task properties to apply. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._patch_tasks_id_prepare(task_id, task_update_request, **kwargs)
+            self._patch_tasks_id_prepare(task_id, task_update_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}', 'PATCH',
@@ -1902,15 +1941,16 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_tasks(self, task_create_request, **kwargs):  # noqa: E501,D401,D403
-        """Create a new task.
+        """Create a task.
 
+        Creates a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  and returns the task.  #### Related guides  - [Get started with tasks](https://docs.influxdata.com/influxdb/latest/process-data/get-started/) - [Create a task](https://docs.influxdata.com/influxdb/latest/process-data/manage-tasks/create-task/) - [Common tasks](https://docs.influxdata.com/influxdb/latest/process-data/common-tasks/) - [Task configuration options](https://docs.influxdata.com/influxdb/latest/process-data/task-options/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks(task_create_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TaskCreateRequest task_create_request: Task to create (required)
+        :param TaskCreateRequest task_create_request: The task to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
@@ -1924,22 +1964,23 @@ class TasksService(_BaseService):
             return data
 
     def post_tasks_with_http_info(self, task_create_request, **kwargs):  # noqa: E501,D401,D403
-        """Create a new task.
+        """Create a task.
 
+        Creates a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  and returns the task.  #### Related guides  - [Get started with tasks](https://docs.influxdata.com/influxdb/latest/process-data/get-started/) - [Create a task](https://docs.influxdata.com/influxdb/latest/process-data/manage-tasks/create-task/) - [Common tasks](https://docs.influxdata.com/influxdb/latest/process-data/common-tasks/) - [Task configuration options](https://docs.influxdata.com/influxdb/latest/process-data/task-options/)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_with_http_info(task_create_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TaskCreateRequest task_create_request: Task to create (required)
+        :param TaskCreateRequest task_create_request: The task to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_prepare(task_create_request, **kwargs)
+            self._post_tasks_prepare(task_create_request, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks', 'POST',
@@ -1959,19 +2000,20 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_tasks_async(self, task_create_request, **kwargs):  # noqa: E501,D401,D403
-        """Create a new task.
+        """Create a task.
 
+        Creates a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  and returns the task.  #### Related guides  - [Get started with tasks](https://docs.influxdata.com/influxdb/latest/process-data/get-started/) - [Create a task](https://docs.influxdata.com/influxdb/latest/process-data/manage-tasks/create-task/) - [Common tasks](https://docs.influxdata.com/influxdb/latest/process-data/common-tasks/) - [Task configuration options](https://docs.influxdata.com/influxdb/latest/process-data/task-options/)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param TaskCreateRequest task_create_request: Task to create (required)
+        :param TaskCreateRequest task_create_request: The task to create. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: Task
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_prepare(task_create_request, **kwargs)
+            self._post_tasks_prepare(task_create_request, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks', 'POST',
@@ -2024,14 +2066,15 @@ class TasksService(_BaseService):
     def post_tasks_id_labels(self, task_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a task.
 
+        Adds a label to a task.  Use this endpoint to add a label that you can use to filter tasks in the InfluxDB UI.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_labels(task_id, label_mapping, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str task_id: The ID of the task to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
@@ -2047,21 +2090,22 @@ class TasksService(_BaseService):
     def post_tasks_id_labels_with_http_info(self, task_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a task.
 
+        Adds a label to a task.  Use this endpoint to add a label that you can use to filter tasks in the InfluxDB UI.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_labels_with_http_info(task_id, label_mapping, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str task_id: The ID of the task to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_labels_prepare(task_id, label_mapping, **kwargs)
+            self._post_tasks_id_labels_prepare(task_id, label_mapping, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels', 'POST',
@@ -2083,18 +2127,19 @@ class TasksService(_BaseService):
     async def post_tasks_id_labels_async(self, task_id, label_mapping, **kwargs):  # noqa: E501,D401,D403
         """Add a label to a task.
 
+        Adds a label to a task.  Use this endpoint to add a label that you can use to filter tasks in the InfluxDB UI.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param LabelMapping label_mapping: Label to add (required)
+        :param str task_id: The ID of the task to label. (required)
+        :param LabelMapping label_mapping: An object that contains a _`labelID`_ to add to the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: LabelResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_labels_prepare(task_id, label_mapping, **kwargs)
+            self._post_tasks_id_labels_prepare(task_id, label_mapping, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/labels', 'POST',
@@ -2153,6 +2198,7 @@ class TasksService(_BaseService):
     def post_tasks_id_members(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Adds a user to members of a task and returns the member.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_members(task_id, add_resource_member_request_body, async_req=True)
@@ -2160,7 +2206,7 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
@@ -2176,6 +2222,7 @@ class TasksService(_BaseService):
     def post_tasks_id_members_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Adds a user to members of a task and returns the member.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_members_with_http_info(task_id, add_resource_member_request_body, async_req=True)
@@ -2183,14 +2230,14 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_members_prepare(task_id, add_resource_member_request_body, **kwargs)
+            self._post_tasks_id_members_prepare(task_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'POST',
@@ -2212,18 +2259,19 @@ class TasksService(_BaseService):
     async def post_tasks_id_members_async(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
         """Add a member to a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Adds a user to members of a task and returns the member.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as member (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as a member of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceMember
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_members_prepare(task_id, add_resource_member_request_body, **kwargs)
+            self._post_tasks_id_members_prepare(task_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/members', 'POST',
@@ -2280,8 +2328,9 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_tasks_id_owners(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
-        """Add an owner to a task.
+        """Add an owner for a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Assigns a task `owner` role to a user.  Use this endpoint to create a _resource owner_ for the task. A _resource owner_ is a user with `role: owner` for a specific resource.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_owners(task_id, add_resource_member_request_body, async_req=True)
@@ -2289,7 +2338,7 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
@@ -2303,8 +2352,9 @@ class TasksService(_BaseService):
             return data
 
     def post_tasks_id_owners_with_http_info(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
-        """Add an owner to a task.
+        """Add an owner for a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Assigns a task `owner` role to a user.  Use this endpoint to create a _resource owner_ for the task. A _resource owner_ is a user with `role: owner` for a specific resource.
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_owners_with_http_info(task_id, add_resource_member_request_body, async_req=True)
@@ -2312,14 +2362,14 @@ class TasksService(_BaseService):
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_owners_prepare(task_id, add_resource_member_request_body, **kwargs)
+            self._post_tasks_id_owners_prepare(task_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'POST',
@@ -2339,20 +2389,21 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_tasks_id_owners_async(self, task_id, add_resource_member_request_body, **kwargs):  # noqa: E501,D401,D403
-        """Add an owner to a task.
+        """Add an owner for a task.
 
+        **Deprecated**: Tasks don't use `owner` and `member` roles. Use [`/api/v2/authorizations`](#tag/Authorizations-(API-tokens)) to assign user permissions.  Assigns a task `owner` role to a user.  Use this endpoint to create a _resource owner_ for the task. A _resource owner_ is a user with `role: owner` for a specific resource.
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
         :param str task_id: The task ID. (required)
-        :param AddResourceMemberRequestBody add_resource_member_request_body: User to add as owner (required)
+        :param AddResourceMemberRequestBody add_resource_member_request_body: A user to add as an owner of the task. (required)
         :param str zap_trace_span: OpenTracing span context
         :return: ResourceOwner
                  If the method is called asynchronously,
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_owners_prepare(task_id, add_resource_member_request_body, **kwargs)
+            self._post_tasks_id_owners_prepare(task_id, add_resource_member_request_body, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/owners', 'POST',
@@ -2409,8 +2460,9 @@ class TasksService(_BaseService):
         return local_var_params, path_params, query_params, header_params, body_params
 
     def post_tasks_id_runs(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """Manually start a task run, overriding the current schedule.
+        """Start a task run, overriding the schedule.
 
+        Schedules a task run to start immediately, ignoring scheduled runs.  Use this endpoint to manually start a task run. Scheduled runs will continue to run as scheduled. This may result in concurrently running tasks.  To _retry_ a previous run (and avoid creating a new run), use the [`POST /api/v2/tasks/{taskID}/runs/{runID}/retry` endpoint](#operation/PostTasksIDRunsIDRetry).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_runs(task_id, async_req=True)
@@ -2432,8 +2484,9 @@ class TasksService(_BaseService):
             return data
 
     def post_tasks_id_runs_with_http_info(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """Manually start a task run, overriding the current schedule.
+        """Start a task run, overriding the schedule.
 
+        Schedules a task run to start immediately, ignoring scheduled runs.  Use this endpoint to manually start a task run. Scheduled runs will continue to run as scheduled. This may result in concurrently running tasks.  To _retry_ a previous run (and avoid creating a new run), use the [`POST /api/v2/tasks/{taskID}/runs/{runID}/retry` endpoint](#operation/PostTasksIDRunsIDRetry).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_runs_with_http_info(task_id, async_req=True)
@@ -2448,7 +2501,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_runs_prepare(task_id, **kwargs)
+            self._post_tasks_id_runs_prepare(task_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs', 'POST',
@@ -2468,8 +2521,9 @@ class TasksService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_tasks_id_runs_async(self, task_id, **kwargs):  # noqa: E501,D401,D403
-        """Manually start a task run, overriding the current schedule.
+        """Start a task run, overriding the schedule.
 
+        Schedules a task run to start immediately, ignoring scheduled runs.  Use this endpoint to manually start a task run. Scheduled runs will continue to run as scheduled. This may result in concurrently running tasks.  To _retry_ a previous run (and avoid creating a new run), use the [`POST /api/v2/tasks/{taskID}/runs/{runID}/retry` endpoint](#operation/PostTasksIDRunsIDRetry).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -2481,7 +2535,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_runs_prepare(task_id, **kwargs)
+            self._post_tasks_id_runs_prepare(task_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs', 'POST',
@@ -2536,14 +2590,15 @@ class TasksService(_BaseService):
     def post_tasks_id_runs_id_retry(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retry a task run.
 
+        Queues a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  run to retry and returns the scheduled run.  To manually start a _new_ task run, use the [`POST /api/v2/tasks/{taskID}/runs` endpoint](#operation/PostTasksIDRuns).  #### Limitations  - The task must be _active_ (`status: "active"`).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_runs_id_retry(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  ID. Specifies the task to retry. (required)
+        :param str run_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) run ID. Specifies the task run to retry.  To find a task run ID, use the [`GET /api/v2/tasks/{taskID}/runs` endpoint](#operation/GetTasksIDRuns) to list task runs. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str body:
         :return: Run
@@ -2560,14 +2615,15 @@ class TasksService(_BaseService):
     def post_tasks_id_runs_id_retry_with_http_info(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retry a task run.
 
+        Queues a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  run to retry and returns the scheduled run.  To manually start a _new_ task run, use the [`POST /api/v2/tasks/{taskID}/runs` endpoint](#operation/PostTasksIDRuns).  #### Limitations  - The task must be _active_ (`status: "active"`).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_tasks_id_runs_id_retry_with_http_info(task_id, run_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  ID. Specifies the task to retry. (required)
+        :param str run_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) run ID. Specifies the task run to retry.  To find a task run ID, use the [`GET /api/v2/tasks/{taskID}/runs` endpoint](#operation/GetTasksIDRuns) to list task runs. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str body:
         :return: Run
@@ -2575,7 +2631,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_runs_id_retry_prepare(task_id, run_id, **kwargs)
+            self._post_tasks_id_runs_id_retry_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}/retry', 'POST',
@@ -2597,11 +2653,12 @@ class TasksService(_BaseService):
     async def post_tasks_id_runs_id_retry_async(self, task_id, run_id, **kwargs):  # noqa: E501,D401,D403
         """Retry a task run.
 
+        Queues a [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  run to retry and returns the scheduled run.  To manually start a _new_ task run, use the [`POST /api/v2/tasks/{taskID}/runs` endpoint](#operation/PostTasksIDRuns).  #### Limitations  - The task must be _active_ (`status: "active"`).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
-        :param str task_id: The task ID. (required)
-        :param str run_id: The run ID. (required)
+        :param str task_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task)  ID. Specifies the task to retry. (required)
+        :param str run_id: A [task](https://docs.influxdata.com/influxdb/latest/reference/glossary/#task) run ID. Specifies the task run to retry.  To find a task run ID, use the [`GET /api/v2/tasks/{taskID}/runs` endpoint](#operation/GetTasksIDRuns) to list task runs. (required)
         :param str zap_trace_span: OpenTracing span context
         :param str body:
         :return: Run
@@ -2609,7 +2666,7 @@ class TasksService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_tasks_id_runs_id_retry_prepare(task_id, run_id, **kwargs)
+            self._post_tasks_id_runs_id_retry_prepare(task_id, run_id, **kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/tasks/{taskID}/runs/{runID}/retry', 'POST',

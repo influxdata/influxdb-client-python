@@ -89,6 +89,8 @@ class TemplateApply(object):
     def dry_run(self):
         """Get the dry_run of this TemplateApply.
 
+        Only applies a dry run of the templates passed in the request.  - Validates the template and generates a resource diff and summary. - Doesn't install templates or make changes to the InfluxDB instance.
+
         :return: The dry_run of this TemplateApply.
         :rtype: bool
         """  # noqa: E501
@@ -97,6 +99,8 @@ class TemplateApply(object):
     @dry_run.setter
     def dry_run(self, dry_run):
         """Set the dry_run of this TemplateApply.
+
+        Only applies a dry run of the templates passed in the request.  - Validates the template and generates a resource diff and summary. - Doesn't install templates or make changes to the InfluxDB instance.
 
         :param dry_run: The dry_run of this TemplateApply.
         :type: bool
@@ -107,6 +111,8 @@ class TemplateApply(object):
     def org_id(self):
         """Get the org_id of this TemplateApply.
 
+        Organization ID. InfluxDB applies templates to this organization. The organization owns all resources created by the template.  To find your organization, see how to [view organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/).
+
         :return: The org_id of this TemplateApply.
         :rtype: str
         """  # noqa: E501
@@ -115,6 +121,8 @@ class TemplateApply(object):
     @org_id.setter
     def org_id(self, org_id):
         """Set the org_id of this TemplateApply.
+
+        Organization ID. InfluxDB applies templates to this organization. The organization owns all resources created by the template.  To find your organization, see how to [view organizations](https://docs.influxdata.com/influxdb/latest/organizations/view-orgs/).
 
         :param org_id: The org_id of this TemplateApply.
         :type: str
@@ -125,6 +133,8 @@ class TemplateApply(object):
     def stack_id(self):
         """Get the stack_id of this TemplateApply.
 
+        ID of the stack to update.  To apply templates to an existing stack in the organization, use the `stackID` parameter. If you apply templates without providing a stack ID, InfluxDB initializes a new stack with all new resources.  To find a stack ID, use the InfluxDB [`/api/v2/stacks` API endpoint](#operation/ListStacks) to list stacks.  #### Related guides  - [Stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/) - [View stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/view/)
+
         :return: The stack_id of this TemplateApply.
         :rtype: str
         """  # noqa: E501
@@ -133,6 +143,8 @@ class TemplateApply(object):
     @stack_id.setter
     def stack_id(self, stack_id):
         """Set the stack_id of this TemplateApply.
+
+        ID of the stack to update.  To apply templates to an existing stack in the organization, use the `stackID` parameter. If you apply templates without providing a stack ID, InfluxDB initializes a new stack with all new resources.  To find a stack ID, use the InfluxDB [`/api/v2/stacks` API endpoint](#operation/ListStacks) to list stacks.  #### Related guides  - [Stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/) - [View stacks](https://docs.influxdata.com/influxdb/latest/influxdb-templates/stacks/view/)
 
         :param stack_id: The stack_id of this TemplateApply.
         :type: str
@@ -161,6 +173,8 @@ class TemplateApply(object):
     def templates(self):
         """Get the templates of this TemplateApply.
 
+        A list of template objects to apply. A template object has a `contents` property with an array of InfluxDB resource configurations.  Use the `templates` parameter to apply multiple template objects. If you use `templates`, you can't use the `template` parameter.
+
         :return: The templates of this TemplateApply.
         :rtype: list[TemplateApplyTemplate]
         """  # noqa: E501
@@ -169,6 +183,8 @@ class TemplateApply(object):
     @templates.setter
     def templates(self, templates):
         """Set the templates of this TemplateApply.
+
+        A list of template objects to apply. A template object has a `contents` property with an array of InfluxDB resource configurations.  Use the `templates` parameter to apply multiple template objects. If you use `templates`, you can't use the `template` parameter.
 
         :param templates: The templates of this TemplateApply.
         :type: list[TemplateApplyTemplate]
@@ -179,6 +195,8 @@ class TemplateApply(object):
     def env_refs(self):
         """Get the env_refs of this TemplateApply.
 
+        An object with key-value pairs that map to **environment references** in templates.  Environment references in templates are `envRef` objects with an `envRef.key` property. To substitute a custom environment reference value when applying templates, pass `envRefs` with the `envRef.key` and the value.  When you apply a template, InfluxDB replaces `envRef` objects in the template with the values that you provide in the `envRefs` parameter. For more examples, see how to [define environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#define-environment-references).  The following template fields may use environment references:    - `metadata.name`   - `spec.endpointName`   - `spec.associations.name`  For more information about including environment references in template fields, see how to [include user-definable resource names](https://docs.influxdata.com/influxdb/latest/influxdb-templates/create/#include-user-definable-resource-names).
+
         :return: The env_refs of this TemplateApply.
         :rtype: dict(str, object)
         """  # noqa: E501
@@ -187,6 +205,8 @@ class TemplateApply(object):
     @env_refs.setter
     def env_refs(self, env_refs):
         """Set the env_refs of this TemplateApply.
+
+        An object with key-value pairs that map to **environment references** in templates.  Environment references in templates are `envRef` objects with an `envRef.key` property. To substitute a custom environment reference value when applying templates, pass `envRefs` with the `envRef.key` and the value.  When you apply a template, InfluxDB replaces `envRef` objects in the template with the values that you provide in the `envRefs` parameter. For more examples, see how to [define environment references](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#define-environment-references).  The following template fields may use environment references:    - `metadata.name`   - `spec.endpointName`   - `spec.associations.name`  For more information about including environment references in template fields, see how to [include user-definable resource names](https://docs.influxdata.com/influxdb/latest/influxdb-templates/create/#include-user-definable-resource-names).
 
         :param env_refs: The env_refs of this TemplateApply.
         :type: dict(str, object)
@@ -197,6 +217,8 @@ class TemplateApply(object):
     def secrets(self):
         """Get the secrets of this TemplateApply.
 
+        An object with key-value pairs that map to **secrets** in queries.  Queries may reference secrets stored in InfluxDB--for example, the following Flux script retrieves `POSTGRES_USERNAME` and `POSTGRES_PASSWORD` secrets and then uses them to connect to a PostgreSQL database:  ```js import "sql" import "influxdata/influxdb/secrets"  username = secrets.get(key: "POSTGRES_USERNAME") password = secrets.get(key: "POSTGRES_PASSWORD")  sql.from(   driverName: "postgres",   dataSourceName: "postgresql://${username}:${password}@localhost:5432",   query: "SELECT * FROM example_table", ) ```  To define secret values in your `/api/v2/templates/apply` request, pass the `secrets` parameter with key-value pairs--for example:  ```json {   ...   "secrets": {     "POSTGRES_USERNAME": "pguser",     "POSTGRES_PASSWORD": "foo"   }   ... } ```  InfluxDB stores the key-value pairs as secrets that you can access with `secrets.get()`. Once stored, you can't view secret values in InfluxDB.  #### Related guides  - [How to pass secrets when installing a template](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#pass-secrets-when-installing-a-template)
+
         :return: The secrets of this TemplateApply.
         :rtype: dict(str, str)
         """  # noqa: E501
@@ -205,6 +227,8 @@ class TemplateApply(object):
     @secrets.setter
     def secrets(self, secrets):
         """Set the secrets of this TemplateApply.
+
+        An object with key-value pairs that map to **secrets** in queries.  Queries may reference secrets stored in InfluxDB--for example, the following Flux script retrieves `POSTGRES_USERNAME` and `POSTGRES_PASSWORD` secrets and then uses them to connect to a PostgreSQL database:  ```js import "sql" import "influxdata/influxdb/secrets"  username = secrets.get(key: "POSTGRES_USERNAME") password = secrets.get(key: "POSTGRES_PASSWORD")  sql.from(   driverName: "postgres",   dataSourceName: "postgresql://${username}:${password}@localhost:5432",   query: "SELECT * FROM example_table", ) ```  To define secret values in your `/api/v2/templates/apply` request, pass the `secrets` parameter with key-value pairs--for example:  ```json {   ...   "secrets": {     "POSTGRES_USERNAME": "pguser",     "POSTGRES_PASSWORD": "foo"   }   ... } ```  InfluxDB stores the key-value pairs as secrets that you can access with `secrets.get()`. Once stored, you can't view secret values in InfluxDB.  #### Related guides  - [How to pass secrets when installing a template](https://docs.influxdata.com/influxdb/latest/influxdb-templates/use/#pass-secrets-when-installing-a-template)
 
         :param secrets: The secrets of this TemplateApply.
         :type: dict(str, str)
@@ -215,6 +239,8 @@ class TemplateApply(object):
     def remotes(self):
         """Get the remotes of this TemplateApply.
 
+        A list of URLs for template files.  To apply a template manifest file located at a URL, pass `remotes` with an array that contains the URL.
+
         :return: The remotes of this TemplateApply.
         :rtype: list[TemplateApplyRemotes]
         """  # noqa: E501
@@ -223,6 +249,8 @@ class TemplateApply(object):
     @remotes.setter
     def remotes(self, remotes):
         """Set the remotes of this TemplateApply.
+
+        A list of URLs for template files.  To apply a template manifest file located at a URL, pass `remotes` with an array that contains the URL.
 
         :param remotes: The remotes of this TemplateApply.
         :type: list[TemplateApplyRemotes]
@@ -233,6 +261,8 @@ class TemplateApply(object):
     def actions(self):
         """Get the actions of this TemplateApply.
 
+        A list of `action` objects. Actions let you customize how InfluxDB applies templates in the request.  You can use the following actions to prevent creating or updating resources:  - A `skipKind` action skips template resources of a specified `kind`. - A `skipResource` action skips template resources with a specified `metadata.name`   and `kind`.
+
         :return: The actions of this TemplateApply.
         :rtype: list[object]
         """  # noqa: E501
@@ -241,6 +271,8 @@ class TemplateApply(object):
     @actions.setter
     def actions(self, actions):
         """Set the actions of this TemplateApply.
+
+        A list of `action` objects. Actions let you customize how InfluxDB applies templates in the request.  You can use the following actions to prevent creating or updating resources:  - A `skipKind` action skips template resources of a specified `kind`. - A `skipResource` action skips template resources with a specified `metadata.name`   and `kind`.
 
         :param actions: The actions of this TemplateApply.
         :type: list[object]

@@ -30,9 +30,9 @@ class SignoutService(_BaseService):
         super().__init__(api_client)
 
     def post_signout(self, **kwargs):  # noqa: E501,D401,D403
-        """Expire the current UI session.
+        """Expire a user session.
 
-        Expires the current UI session for the user.
+        Expires a user session specified by a session cookie.  Use this endpoint to expire a user session that was generated when the user authenticated with the InfluxDB Developer Console (UI) or the `POST /api/v2/signin` endpoint.  For example, the `POST /api/v2/signout` endpoint represents the third step in the following three-step process to authenticate a user, retrieve the `user` resource, and then expire the session:  1. Send a request with the user's [Basic authentication credentials](#section/Authentication/BasicAuthentication)    to the `POST /api/v2/signin` endpoint to create a user session and    generate a session cookie. 2. Send a request to the `GET /api/v2/me` endpoint, passing the stored session cookie    from step 1 to retrieve user information. 3. Send a request to the `POST /api/v2/signout` endpoint, passing the stored session    cookie to expire the session.  _See the complete example in request samples._  InfluxDB stores user sessions in memory only. If a user doesn't sign out, then the user session automatically expires within ten minutes or during a restart of the InfluxDB instance.  To learn more about cookies in HTTP requests, see [Mozilla Developer Network (MDN) Web Docs, HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies).  #### Related endpoints  - [Signin](#tag/Signin)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_signout(async_req=True)
@@ -52,9 +52,9 @@ class SignoutService(_BaseService):
             return data
 
     def post_signout_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
-        """Expire the current UI session.
+        """Expire a user session.
 
-        Expires the current UI session for the user.
+        Expires a user session specified by a session cookie.  Use this endpoint to expire a user session that was generated when the user authenticated with the InfluxDB Developer Console (UI) or the `POST /api/v2/signin` endpoint.  For example, the `POST /api/v2/signout` endpoint represents the third step in the following three-step process to authenticate a user, retrieve the `user` resource, and then expire the session:  1. Send a request with the user's [Basic authentication credentials](#section/Authentication/BasicAuthentication)    to the `POST /api/v2/signin` endpoint to create a user session and    generate a session cookie. 2. Send a request to the `GET /api/v2/me` endpoint, passing the stored session cookie    from step 1 to retrieve user information. 3. Send a request to the `POST /api/v2/signout` endpoint, passing the stored session    cookie to expire the session.  _See the complete example in request samples._  InfluxDB stores user sessions in memory only. If a user doesn't sign out, then the user session automatically expires within ten minutes or during a restart of the InfluxDB instance.  To learn more about cookies in HTTP requests, see [Mozilla Developer Network (MDN) Web Docs, HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies).  #### Related endpoints  - [Signin](#tag/Signin)
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.post_signout_with_http_info(async_req=True)
@@ -67,7 +67,7 @@ class SignoutService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_signout_prepare(**kwargs)
+            self._post_signout_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/signout', 'POST',
@@ -87,9 +87,9 @@ class SignoutService(_BaseService):
             urlopen_kw=kwargs.get('urlopen_kw', None))
 
     async def post_signout_async(self, **kwargs):  # noqa: E501,D401,D403
-        """Expire the current UI session.
+        """Expire a user session.
 
-        Expires the current UI session for the user.
+        Expires a user session specified by a session cookie.  Use this endpoint to expire a user session that was generated when the user authenticated with the InfluxDB Developer Console (UI) or the `POST /api/v2/signin` endpoint.  For example, the `POST /api/v2/signout` endpoint represents the third step in the following three-step process to authenticate a user, retrieve the `user` resource, and then expire the session:  1. Send a request with the user's [Basic authentication credentials](#section/Authentication/BasicAuthentication)    to the `POST /api/v2/signin` endpoint to create a user session and    generate a session cookie. 2. Send a request to the `GET /api/v2/me` endpoint, passing the stored session cookie    from step 1 to retrieve user information. 3. Send a request to the `POST /api/v2/signout` endpoint, passing the stored session    cookie to expire the session.  _See the complete example in request samples._  InfluxDB stores user sessions in memory only. If a user doesn't sign out, then the user session automatically expires within ten minutes or during a restart of the InfluxDB instance.  To learn more about cookies in HTTP requests, see [Mozilla Developer Network (MDN) Web Docs, HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies).  #### Related endpoints  - [Signin](#tag/Signin)
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -99,7 +99,7 @@ class SignoutService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._post_signout_prepare(**kwargs)
+            self._post_signout_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/signout', 'POST',

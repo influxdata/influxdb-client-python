@@ -33,6 +33,7 @@ class Organization(object):
         'links': 'OrganizationLinks',
         'id': 'str',
         'name': 'str',
+        'default_storage_type': 'str',
         'description': 'str',
         'created_at': 'datetime',
         'updated_at': 'datetime',
@@ -43,17 +44,19 @@ class Organization(object):
         'links': 'links',
         'id': 'id',
         'name': 'name',
+        'default_storage_type': 'defaultStorageType',
         'description': 'description',
         'created_at': 'createdAt',
         'updated_at': 'updatedAt',
         'status': 'status'
     }
 
-    def __init__(self, links=None, id=None, name=None, description=None, created_at=None, updated_at=None, status='active'):  # noqa: E501,D401,D403
+    def __init__(self, links=None, id=None, name=None, default_storage_type=None, description=None, created_at=None, updated_at=None, status='active'):  # noqa: E501,D401,D403
         """Organization - a model defined in OpenAPI."""  # noqa: E501
         self._links = None
         self._id = None
         self._name = None
+        self._default_storage_type = None
         self._description = None
         self._created_at = None
         self._updated_at = None
@@ -65,6 +68,8 @@ class Organization(object):
         if id is not None:
             self.id = id
         self.name = name
+        if default_storage_type is not None:
+            self.default_storage_type = default_storage_type
         if description is not None:
             self.description = description
         if created_at is not None:
@@ -131,6 +136,28 @@ class Organization(object):
         self._name = name
 
     @property
+    def default_storage_type(self):
+        """Get the default_storage_type of this Organization.
+
+        Discloses whether the organization uses TSM or IOx.
+
+        :return: The default_storage_type of this Organization.
+        :rtype: str
+        """  # noqa: E501
+        return self._default_storage_type
+
+    @default_storage_type.setter
+    def default_storage_type(self, default_storage_type):
+        """Set the default_storage_type of this Organization.
+
+        Discloses whether the organization uses TSM or IOx.
+
+        :param default_storage_type: The default_storage_type of this Organization.
+        :type: str
+        """  # noqa: E501
+        self._default_storage_type = default_storage_type
+
+    @property
     def description(self):
         """Get the description of this Organization.
 
@@ -188,7 +215,7 @@ class Organization(object):
     def status(self):
         """Get the status of this Organization.
 
-        If inactive the organization is inactive.
+        If inactive, the organization is inactive.
 
         :return: The status of this Organization.
         :rtype: str
@@ -199,7 +226,7 @@ class Organization(object):
     def status(self, status):
         """Set the status of this Organization.
 
-        If inactive the organization is inactive.
+        If inactive, the organization is inactive.
 
         :param status: The status of this Organization.
         :type: str

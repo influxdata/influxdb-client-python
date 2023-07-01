@@ -26,6 +26,8 @@ class ScriptLanguage(object):
     allowed enum values
     """
     FLUX = "flux"
+    SQL = "sql"
+    INFLUXQL = "influxql"
 
     """
     Attributes:

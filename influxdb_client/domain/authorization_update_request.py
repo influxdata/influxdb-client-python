@@ -54,7 +54,7 @@ class AuthorizationUpdateRequest(object):
     def status(self):
         """Get the status of this AuthorizationUpdateRequest.
 
-        Status of the token. If `inactive`, requests using the token will be rejected.
+        Status of the token. If `inactive`, InfluxDB rejects requests that use the token.
 
         :return: The status of this AuthorizationUpdateRequest.
         :rtype: str
@@ -65,7 +65,7 @@ class AuthorizationUpdateRequest(object):
     def status(self, status):
         """Set the status of this AuthorizationUpdateRequest.
 
-        Status of the token. If `inactive`, requests using the token will be rejected.
+        Status of the token. If `inactive`, InfluxDB rejects requests that use the token.
 
         :param status: The status of this AuthorizationUpdateRequest.
         :type: str

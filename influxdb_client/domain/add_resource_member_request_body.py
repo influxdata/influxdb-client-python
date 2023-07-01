@@ -53,6 +53,8 @@ class AddResourceMemberRequestBody(object):
     def id(self):
         """Get the id of this AddResourceMemberRequestBody.
 
+        The ID of the user to add to the resource.
+
         :return: The id of this AddResourceMemberRequestBody.
         :rtype: str
         """  # noqa: E501
@@ -61,6 +63,8 @@ class AddResourceMemberRequestBody(object):
     @id.setter
     def id(self, id):
         """Set the id of this AddResourceMemberRequestBody.
+
+        The ID of the user to add to the resource.
 
         :param id: The id of this AddResourceMemberRequestBody.
         :type: str
@@ -73,6 +77,8 @@ class AddResourceMemberRequestBody(object):
     def name(self):
         """Get the name of this AddResourceMemberRequestBody.
 
+        The name of the user to add to the resource.
+
         :return: The name of this AddResourceMemberRequestBody.
         :rtype: str
         """  # noqa: E501
@@ -81,6 +87,8 @@ class AddResourceMemberRequestBody(object):
     @name.setter
     def name(self, name):
         """Set the name of this AddResourceMemberRequestBody.
+
+        The name of the user to add to the resource.
 
         :param name: The name of this AddResourceMemberRequestBody.
         :type: str

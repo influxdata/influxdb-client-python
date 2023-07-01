@@ -154,7 +154,7 @@ class NotificationRuleBase(object):
     def latest_completed(self):
         """Get the latest_completed of this NotificationRuleBase.
 
-        Timestamp (in RFC3339 date/time format](https://datatracker.ietf.org/doc/html/rfc3339)) of the latest scheduled and completed run.
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) of the latest scheduled and completed run.
 
         :return: The latest_completed of this NotificationRuleBase.
         :rtype: datetime
@@ -165,7 +165,7 @@ class NotificationRuleBase(object):
     def latest_completed(self, latest_completed):
         """Set the latest_completed of this NotificationRuleBase.
 
-        Timestamp (in RFC3339 date/time format](https://datatracker.ietf.org/doc/html/rfc3339)) of the latest scheduled and completed run.
+        A timestamp ([RFC3339 date/time format](https://docs.influxdata.com/influxdb/latest/reference/glossary/#rfc3339-timestamp)) of the latest scheduled and completed run.
 
         :param latest_completed: The latest_completed of this NotificationRuleBase.
         :type: datetime

@@ -66,7 +66,8 @@ class RemoteConnection(object):
         if description is not None:
             self.description = description
         self.remote_url = remote_url
-        self.remote_org_id = remote_org_id
+        if remote_org_id is not None:
+            self.remote_org_id = remote_org_id
         self.allow_insecure_tls = allow_insecure_tls
 
     @property
@@ -183,8 +184,6 @@ class RemoteConnection(object):
         :param remote_org_id: The remote_org_id of this RemoteConnection.
         :type: str
         """  # noqa: E501
-        if remote_org_id is None:
-            raise ValueError("Invalid value for `remote_org_id`, must not be `None`")  # noqa: E501
         self._remote_org_id = remote_org_id
 
     @property

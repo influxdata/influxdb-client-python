@@ -68,6 +68,8 @@ class PermissionResource(object):
     def type(self):
         """Get the type of this PermissionResource.
 
+        A resource type. Identifies the API resource's type (or _kind_).
+
         :return: The type of this PermissionResource.
         :rtype: str
         """  # noqa: E501
@@ -76,6 +78,8 @@ class PermissionResource(object):
     @type.setter
     def type(self, type):
         """Set the type of this PermissionResource.
+
+        A resource type. Identifies the API resource's type (or _kind_).
 
         :param type: The type of this PermissionResource.
         :type: str
@@ -88,7 +92,7 @@ class PermissionResource(object):
     def id(self):
         """Get the id of this PermissionResource.
 
-        If ID is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.
+        A resource ID. Identifies a specific resource.
 
         :return: The id of this PermissionResource.
         :rtype: str
@@ -99,7 +103,7 @@ class PermissionResource(object):
     def id(self, id):
         """Set the id of this PermissionResource.
 
-        If ID is set that is a permission for a specific resource. if it is not set it is a permission for all resources of that resource type.
+        A resource ID. Identifies a specific resource.
 
         :param id: The id of this PermissionResource.
         :type: str
@@ -110,7 +114,7 @@ class PermissionResource(object):
     def name(self):
         """Get the name of this PermissionResource.
 
-        Optional name of the resource if the resource has a name field.
+        The name of the resource. _Note: not all resource types have a `name` property_.
 
         :return: The name of this PermissionResource.
         :rtype: str
@@ -121,7 +125,7 @@ class PermissionResource(object):
     def name(self, name):
         """Set the name of this PermissionResource.
 
-        Optional name of the resource if the resource has a name field.
+        The name of the resource. _Note: not all resource types have a `name` property_.
 
         :param name: The name of this PermissionResource.
         :type: str
@@ -132,7 +136,7 @@ class PermissionResource(object):
     def org_id(self):
         """Get the org_id of this PermissionResource.
 
-        If orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.
+        An organization ID. Identifies the organization that owns the resource.
 
         :return: The org_id of this PermissionResource.
         :rtype: str
@@ -143,7 +147,7 @@ class PermissionResource(object):
     def org_id(self, org_id):
         """Set the org_id of this PermissionResource.
 
-        If orgID is set that is a permission for all resources owned my that org. if it is not set it is a permission for all resources of that resource type.
+        An organization ID. Identifies the organization that owns the resource.
 
         :param org_id: The org_id of this PermissionResource.
         :type: str
@@ -154,7 +158,7 @@ class PermissionResource(object):
     def org(self):
         """Get the org of this PermissionResource.
 
-        Optional name of the organization of the organization with orgID.
+        An organization name. The organization that owns the resource.
 
         :return: The org of this PermissionResource.
         :rtype: str
@@ -165,7 +169,7 @@ class PermissionResource(object):
     def org(self, org):
         """Set the org of this PermissionResource.
 
-        Optional name of the organization of the organization with orgID.
+        An organization name. The organization that owns the resource.
 
         :param org: The org of this PermissionResource.
         :type: str

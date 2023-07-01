@@ -72,8 +72,6 @@ class LabelUpdate(object):
     def properties(self):
         """Get the properties of this LabelUpdate.
 
-        Key/Value pairs associated with this label. Keys can be removed by sending an update with an empty value.
-
         :return: The properties of this LabelUpdate.
         :rtype: dict(str, str)
         """  # noqa: E501
@@ -82,8 +80,6 @@ class LabelUpdate(object):
     @properties.setter
     def properties(self, properties):
         """Set the properties of this LabelUpdate.
-
-        Key/Value pairs associated with this label. Keys can be removed by sending an update with an empty value.
 
         :param properties: The properties of this LabelUpdate.
         :type: dict(str, str)

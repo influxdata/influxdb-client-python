@@ -36,6 +36,7 @@ class DBRP(object):
         'database': 'str',
         'retention_policy': 'str',
         'default': 'bool',
+        'virtual': 'bool',
         'links': 'Links'
     }
 
@@ -46,10 +47,11 @@ class DBRP(object):
         'database': 'database',
         'retention_policy': 'retention_policy',
         'default': 'default',
+        'virtual': 'virtual',
         'links': 'links'
     }
 
-    def __init__(self, id=None, org_id=None, bucket_id=None, database=None, retention_policy=None, default=None, links=None):  # noqa: E501,D401,D403
+    def __init__(self, id=None, org_id=None, bucket_id=None, database=None, retention_policy=None, default=None, virtual=None, links=None):  # noqa: E501,D401,D403
         """DBRP - a model defined in OpenAPI."""  # noqa: E501
         self._id = None
         self._org_id = None
@@ -57,6 +59,7 @@ class DBRP(object):
         self._database = None
         self._retention_policy = None
         self._default = None
+        self._virtual = None
         self._links = None
         self.discriminator = None
 
@@ -66,6 +69,8 @@ class DBRP(object):
         self.database = database
         self.retention_policy = retention_policy
         self.default = default
+        if virtual is not None:
+            self.virtual = virtual
         if links is not None:
             self.links = links
 
@@ -73,7 +78,7 @@ class DBRP(object):
     def id(self):
         """Get the id of this DBRP.
 
-        ID of the DBRP mapping.
+        The resource ID that InfluxDB uses to uniquely identify the database retention policy (DBRP) mapping.
 
         :return: The id of this DBRP.
         :rtype: str
@@ -84,7 +89,7 @@ class DBRP(object):
     def id(self, id):
         """Set the id of this DBRP.
 
-        ID of the DBRP mapping.
+        The resource ID that InfluxDB uses to uniquely identify the database retention policy (DBRP) mapping.
 
         :param id: The id of this DBRP.
         :type: str
@@ -97,7 +102,7 @@ class DBRP(object):
     def org_id(self):
         """Get the org_id of this DBRP.
 
-        ID of the organization that owns this mapping.
+        An organization ID. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
 
         :return: The org_id of this DBRP.
         :rtype: str
@@ -108,7 +113,7 @@ class DBRP(object):
     def org_id(self, org_id):
         """Set the org_id of this DBRP.
 
-        ID of the organization that owns this mapping.
+        An organization ID. Identifies the [organization](https://docs.influxdata.com/influxdb/latest/reference/glossary/#organization) that owns the mapping.
 
         :param org_id: The org_id of this DBRP.
         :type: str
@@ -121,7 +126,7 @@ class DBRP(object):
     def bucket_id(self):
         """Get the bucket_id of this DBRP.
 
-        ID of the bucket used as the target for the translation.
+        A bucket ID. Identifies the bucket used as the target for the translation.
 
         :return: The bucket_id of this DBRP.
         :rtype: str
@@ -132,7 +137,7 @@ class DBRP(object):
     def bucket_id(self, bucket_id):
         """Set the bucket_id of this DBRP.
 
-        ID of the bucket used as the target for the translation.
+        A bucket ID. Identifies the bucket used as the target for the translation.
 
         :param bucket_id: The bucket_id of this DBRP.
         :type: str
@@ -145,7 +150,7 @@ class DBRP(object):
     def database(self):
         """Get the database of this DBRP.
 
-        InfluxDB v1 database
+        A database name. Identifies the InfluxDB v1 database.
 
         :return: The database of this DBRP.
         :rtype: str
@@ -156,7 +161,7 @@ class DBRP(object):
     def database(self, database):
         """Set the database of this DBRP.
 
-        InfluxDB v1 database
+        A database name. Identifies the InfluxDB v1 database.
 
         :param database: The database of this DBRP.
         :type: str
@@ -169,7 +174,7 @@ class DBRP(object):
     def retention_policy(self):
         """Get the retention_policy of this DBRP.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :return: The retention_policy of this DBRP.
         :rtype: str
@@ -180,7 +185,7 @@ class DBRP(object):
     def retention_policy(self, retention_policy):
         """Set the retention_policy of this DBRP.
 
-        InfluxDB v1 retention policy
+        A [retention policy](https://docs.influxdata.com/influxdb/v1.8/concepts/glossary/#retention-policy-rp) name. Identifies the InfluxDB v1 retention policy mapping.
 
         :param retention_policy: The retention_policy of this DBRP.
         :type: str
@@ -193,7 +198,7 @@ class DBRP(object):
     def default(self):
         """Get the default of this DBRP.
 
-        Mapping represents the default retention policy for the database specified.
+        If set to `true`, this DBRP mapping is the default retention policy for the database (specified by the `database` property's value).
 
         :return: The default of this DBRP.
         :rtype: bool
@@ -204,7 +209,7 @@ class DBRP(object):
     def default(self, default):
         """Set the default of this DBRP.
 
-        Mapping represents the default retention policy for the database specified.
+        If set to `true`, this DBRP mapping is the default retention policy for the database (specified by the `database` property's value).
 
         :param default: The default of this DBRP.
         :type: bool
@@ -212,6 +217,28 @@ class DBRP(object):
         if default is None:
             raise ValueError("Invalid value for `default`, must not be `None`")  # noqa: E501
         self._default = default
+
+    @property
+    def virtual(self):
+        """Get the virtual of this DBRP.
+
+        Indicates an autogenerated, virtual mapping based on the bucket name. Currently only available in OSS.
+
+        :return: The virtual of this DBRP.
+        :rtype: bool
+        """  # noqa: E501
+        return self._virtual
+
+    @virtual.setter
+    def virtual(self, virtual):
+        """Set the virtual of this DBRP.
+
+        Indicates an autogenerated, virtual mapping based on the bucket name. Currently only available in OSS.
+
+        :param virtual: The virtual of this DBRP.
+        :type: bool
+        """  # noqa: E501
+        self._virtual = virtual
 
     @property
     def links(self):

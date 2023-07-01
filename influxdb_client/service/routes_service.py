@@ -32,6 +32,7 @@ class RoutesService(_BaseService):
     def get_routes(self, **kwargs):  # noqa: E501,D401,D403
         """List all top level routes.
 
+        Retrieves all the top level routes for the InfluxDB API.  #### Limitations  - Only returns top level routes--for example, the response contains `"tasks":"/api/v2/tasks"`, and doesn't contain resource-specific routes for tasks (`/api/v2/tasks/TASK_ID/...`).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_routes(async_req=True)
@@ -53,6 +54,7 @@ class RoutesService(_BaseService):
     def get_routes_with_http_info(self, **kwargs):  # noqa: E501,D401,D403
         """List all top level routes.
 
+        Retrieves all the top level routes for the InfluxDB API.  #### Limitations  - Only returns top level routes--for example, the response contains `"tasks":"/api/v2/tasks"`, and doesn't contain resource-specific routes for tasks (`/api/v2/tasks/TASK_ID/...`).
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_routes_with_http_info(async_req=True)
@@ -65,7 +67,7 @@ class RoutesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_routes_prepare(**kwargs)
+            self._get_routes_prepare(**kwargs)  # noqa: E501
 
         return self.api_client.call_api(
             '/api/v2/', 'GET',
@@ -87,6 +89,7 @@ class RoutesService(_BaseService):
     async def get_routes_async(self, **kwargs):  # noqa: E501,D401,D403
         """List all top level routes.
 
+        Retrieves all the top level routes for the InfluxDB API.  #### Limitations  - Only returns top level routes--for example, the response contains `"tasks":"/api/v2/tasks"`, and doesn't contain resource-specific routes for tasks (`/api/v2/tasks/TASK_ID/...`).
         This method makes an asynchronous HTTP request.
 
         :param async_req bool
@@ -96,7 +99,7 @@ class RoutesService(_BaseService):
                  returns the request thread.
         """  # noqa: E501
         local_var_params, path_params, query_params, header_params, body_params = \
-            self._get_routes_prepare(**kwargs)
+            self._get_routes_prepare(**kwargs)  # noqa: E501
 
         return await self.api_client.call_api(
             '/api/v2/', 'GET',
