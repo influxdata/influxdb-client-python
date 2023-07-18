@@ -36,9 +36,8 @@ influxdb-client-python
    :target: https://www.influxdata.com/slack
    :alt: Slack Status
 
-This repository contains the Python client library for the InfluxDB 2.0.
+This repository contains the Python client library for use with InfluxDB 2.0 specifically with Flux. For InfluxDB 3.0 users, utilize the lightweight `v3 client library <https://github.com/InfluxCommunity/influxdb3-python>`_. 1.x users  will want to use the `v1 client library <https://github.com/influxdata/influxdb-python>`_.
 
-**Note: Use this client library with InfluxDB 2.x and InfluxDB 1.8+. For connecting to InfluxDB 1.7 or earlier instances, use the** `influxdb-python <https://github.com/influxdata/influxdb-python>`_ **client library.**
 The API of the **influxdb-client-python** is not the backwards-compatible with the old one - **influxdb-python**.
 
 Documentation
