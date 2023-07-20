@@ -1,5 +1,7 @@
 ## 1.37.0 [unreleased]
 
+1. The `Config-Encoding: identity` header will not be set by the `write` calls to the remote endpoints
+
 ### Breaking Changes
 
 This release disables using of the HTTP proxy environment variables `HTTP_PROXY` and `HTTPS_PROXY` for the asynchronous HTTP client.
