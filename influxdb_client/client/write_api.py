@@ -507,7 +507,7 @@ You can use native asynchronous version of the client:
     def _post_write(self, _async_req, bucket, org, body, precision, **kwargs):
 
         return self._write_service.post_write(org=org, bucket=bucket, body=body, precision=precision,
-                                              async_req=_async_req, content_encoding="identity",
+                                              async_req=_async_req,
                                               content_type="text/plain; charset=utf-8",
                                               **kwargs)
 
