@@ -1,6 +1,6 @@
 ## 1.37.0 [unreleased]
 
-1. The `Config-Encoding: identity` header will not be set by the `write` calls to the remote endpoints
+1. The `Config-Encoding: identity` header will no longer be set by the `write_api` calls to a remote server
 
 ### Breaking Changes
 
