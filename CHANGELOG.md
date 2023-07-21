@@ -29,6 +29,7 @@ This release introduces a support for new version of InfluxDB API definitions wi
 ### Bug Fixes
 1. [#583](https://github.com/influxdata/influxdb-client-python/pull/583): Async HTTP client doesn't always use `HTTP_PROXY`/`HTTPS_PROXY` environment variables. [async/await]
 1. [#584](https://github.com/influxdata/influxdb-client-python/pull/584): Parsing empty query result value as `numpy.NaN`
+1. [#595](https://github.com/influxdata/influxdb-client-python/pull/595): The `Config-Encoding: identity` header will no longer be set by the `write_api` calls to a remote server
 
 ## 1.36.1 [2023-02-23]
 

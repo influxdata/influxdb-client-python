@@ -120,6 +120,6 @@ class WriteApiAsync(_BaseWriteApi):
         body = b'\n'.join(payloads[write_precision])
         response = await self._write_service.post_write_async(org=org, bucket=bucket, body=body,
                                                               precision=write_precision, async_req=False,
-                                                              content_encoding="identity", _return_http_data_only=False,
+                                                              _return_http_data_only=False,
                                                               content_type="text/plain; charset=utf-8")
         return response[1] == 204
