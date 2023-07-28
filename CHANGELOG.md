@@ -1,4 +1,4 @@
-## 1.37.0 [unreleased]
+## 1.37.0 [2023-07-28]
 
 ### Breaking Changes
 
