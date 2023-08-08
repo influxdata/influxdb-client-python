@@ -1,5 +1,8 @@
 ## 1.38.0 [unreleased]
 
+### Bug Fixes
+1. [#601](https://github.com/influxdata/influxdb-client-python/pull/601): Use HTTResponse.headers to clear deprecation warning [urllib3]
+
 ### Documentation
 1. [#566](https://github.com/influxdata/influxdb-client-python/pull/566): Fix Sphinx documentation build and add support `.readthedocs.yml` V2 configuration file
 
