@@ -47,7 +47,7 @@ class RESTResponse(io.IOBase):
 
     def getheader(self, name, default=None):
         """Return a given response header."""
-        return self.urllib3_response.getheader(name, default)
+        return self.urllib3_response.headers.get(name, default)
 
 
 class RESTClientObject(object):
