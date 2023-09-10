@@ -173,7 +173,7 @@ class DataframeSerializer:
 
             if key in data_frame_tag_columns:
                 # This column is a tag column.
-                if null_columns[index]:
+                if null_columns.iloc[index]:
                     key_value = f"""{{
                             '' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
                             f',{key_format}={{str({val_format}).translate(_ESCAPE_STRING)}}'
@@ -197,12 +197,12 @@ class DataframeSerializer:
             elif issubclass(value.type, np.bool_):
                 field_value = f'{sep}{key_format}={{{val_format}}}'
             elif issubclass(value.type, np.floating):
-                if null_columns[index]:
+                if null_columns.iloc[index]:
                     field_value = f"""{{"" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"}}"""
                 else:
                     field_value = f'{sep}{key_format}={{{val_format}}}'
             else:
-                if null_columns[index]:
+                if null_columns.iloc[index]:
                     field_value = f"""{{
                             '' if type({val_format}) == float and math.isnan({val_format}) else
                             f'{sep}{key_format}="{{str({val_format}).translate(_ESCAPE_STRING)}}"'
@@ -239,7 +239,7 @@ class DataframeSerializer:
         self.data_frame = data_frame
         self.f = f
         self.field_indexes = field_indexes
-        self.first_field_maybe_null = null_columns[field_indexes[0] - 1]
+        self.first_field_maybe_null = null_columns.iloc[field_indexes[0] - 1]
 
         #
         # prepare chunks
