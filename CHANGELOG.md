@@ -1,4 +1,4 @@
-## 1.38.0 [unreleased]
+## 1.38.0 [2023-10-02]
 
 ### Bug Fixes
 1. [#601](https://github.com/influxdata/influxdb-client-python/pull/601): Use HTTResponse.headers to clear deprecation warning [urllib3]
