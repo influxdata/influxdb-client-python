@@ -14,14 +14,11 @@ class TasksIterator:
     def __init__(self, values, next) -> None:
         self.values = values
         self.next = next
-        self.no_values = False if values else True
 
     def __iter__(self):
-        return self
+        return self if self.values else (_ for _ in ())
 
     def __next__(self):
-        if self.no_values:
-            raise StopIteration
         if not self.values:
             self.values, self.next = self.next()
             if not self.values:
