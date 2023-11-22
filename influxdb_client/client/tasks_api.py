@@ -20,7 +20,8 @@ class TasksIterator:
 
     def __next__(self):
         if not self.values:
-            self.values, self.next = self.next()
+            if self.next:
+                self.values, self.next = self.next()
             if not self.values:
                 raise StopIteration
         return self.values.pop(0)
@@ -61,18 +62,18 @@ class TasksApi(object):
         :key str org: filter tasks to a specific organization name
         :key str org_id: filter tasks to a specific organization ID
         :key int limit: the number of tasks to return in one page
-        :return: Tasks, Next
+        :return: Tasks, Next or None
         """
-        tasks = self._service.get_tasks(**kwargs).tasks
+        tasks_response = self._service.get_tasks(**kwargs)
+        tasks = tasks_response.tasks
 
+        has_next = tasks_response.links.next is not None
         last_id = tasks[-1].id if tasks else None
         def next():
-            if last_id is not None:
+            if has_next and last_id is not None:
                 return self._find_tasks_paged(**{**kwargs, 'after': last_id})  
             else:
-                def func():
-                    raise Exception("There are no additional pages remaining for tasks.")
-                return [], func
+                return [], None
 
         return tasks, next
 
