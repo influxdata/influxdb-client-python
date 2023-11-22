@@ -10,7 +10,8 @@ from typing import List
 from influxdb_client import TasksService, Task, TaskCreateRequest, TaskUpdateRequest, LabelResponse, LabelMapping, \
     AddResourceMemberRequestBody, RunManually, Run, LogEvent
 
-class TasksIterator:
+
+class _TasksIterator:
     def __init__(self, values, next) -> None:
         self.values = values
         self.next = next
@@ -69,9 +70,10 @@ class TasksApi(object):
 
         has_next = tasks_response.links.next is not None
         last_id = tasks[-1].id if tasks else None
+
         def next():
             if has_next and last_id is not None:
-                return self._find_tasks_paged(**{**kwargs, 'after': last_id})  
+                return self._find_tasks_paged(**{**kwargs, 'after': last_id})
             else:
                 return [], None
 
@@ -89,8 +91,8 @@ class TasksApi(object):
         :return: Tasks iterator
         """
         tasks, next = self._find_tasks_paged(**kwargs)
-        
-        return iter(TasksIterator(tasks, next))
+
+        return iter(_TasksIterator(tasks, next))
 
     def create_task(self, task: Task = None, task_create_request: TaskCreateRequest = None) -> Task:
         """Create a new task."""
