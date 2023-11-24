@@ -210,6 +210,11 @@ class TasksApiTest(BaseTest):
         tasks = self.tasks_api.find_tasks_iter(name= task_name + "blah")
         self.assertEqual(count_unique_ids(tasks), 0)
 
+        # skip some tasks
+        *_, split_task = self.tasks_api.find_tasks(name= task_name, limit= num_of_tasks // 3)
+        tasks = self.tasks_api.find_tasks_iter(name= task_name, limit= 3, after= split_task.id)
+        self.assertEqual(count_unique_ids(tasks), num_of_tasks - num_of_tasks // 3)
+
     def test_delete_task(self):
         task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)
