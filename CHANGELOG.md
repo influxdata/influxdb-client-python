@@ -1,5 +1,8 @@
 ## 1.39.0 [unreleased]
 
+### Features
+1. [#616](https://github.com/influxdata/influxdb-client-python/pull/616): Add `find_tasks_iter` function that allow iterate through all pages of tasks.
+
 ## 1.38.0 [2023-10-02]
 
 ### Bug Fixes
