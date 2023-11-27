@@ -69,19 +69,6 @@ class TasksApi(object):
         """
         return self._service.get_tasks(**kwargs).tasks
 
-    def _find_tasks_next_page(self, page: _Page, **kwargs):
-        if not page.has_next:
-            return _Page.empty()
-
-        args = {**kwargs, 'after': page.next_after} if page.next_after is not None else kwargs
-        tasks_response = self._service.get_tasks(**args)
-
-        tasks = tasks_response.tasks
-        has_next = tasks_response.links.next is not None
-        last_id = tasks[-1].id if tasks else None
-
-        return _Page(tasks, has_next, last_id)
-
     def find_tasks_iter(self, **kwargs):
         """Iterate over all tasks with pagination.
 
@@ -272,3 +259,16 @@ class TasksApi(object):
     def find_tasks_by_user(self, task_user_id):
         """List all tasks by user."""
         return self.find_tasks(user=task_user_id)
+
+    def _find_tasks_next_page(self, page: _Page, **kwargs):
+        if not page.has_next:
+            return _Page.empty()
+
+        args = {**kwargs, 'after': page.next_after} if page.next_after is not None else kwargs
+        tasks_response = self._service.get_tasks(**args)
+
+        tasks = tasks_response.tasks
+        has_next = tasks_response.links.next is not None
+        last_id = tasks[-1].id if tasks else None
+
+        return _Page(tasks, has_next, last_id)
