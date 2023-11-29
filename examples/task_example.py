@@ -25,3 +25,9 @@ with InfluxDBClient(url=url, token=token, org=org, debug=True) as client:
     task_request = TaskCreateRequest(flux=flux, org=org, description="Task Description", status="active")
     task = tasks_api.create_task(task_create_request=task_request)
     print(task)
+
+    tasks = tasks_api.find_tasks_iter()
+
+    # print all tasks id
+    for task in tasks:
+        print(task.id)

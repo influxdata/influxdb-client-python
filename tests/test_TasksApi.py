@@ -184,6 +184,37 @@ class TasksApiTest(BaseTest):
         print(tasks)
         self.assertEqual(len(tasks), 1)
 
+    def test_find_tasks_iter(self):
+        task_name = self.generate_name("it task")
+        num_of_tasks = 10
+
+        for _ in range(num_of_tasks):
+            self.tasks_api.create_task_cron(task_name, TASK_FLUX, "0 2 * * *", self.organization.id)
+
+        def count_unique_ids(tasks):
+            return len(set(map(lambda task: task.id, tasks)))
+
+        # get tasks in 3-4 batches
+        tasks = self.tasks_api.find_tasks_iter(name= task_name, limit= num_of_tasks // 3)
+        self.assertEqual(count_unique_ids(tasks), num_of_tasks)
+
+        # get tasks in one equaly size batch
+        tasks = self.tasks_api.find_tasks_iter(name= task_name, limit= num_of_tasks)
+        self.assertEqual(count_unique_ids(tasks), num_of_tasks)
+
+        # get tasks in one batch
+        tasks = self.tasks_api.find_tasks_iter(name= task_name, limit= num_of_tasks + 1)
+        self.assertEqual(count_unique_ids(tasks), num_of_tasks)
+
+        # get no tasks
+        tasks = self.tasks_api.find_tasks_iter(name= task_name + "blah")
+        self.assertEqual(count_unique_ids(tasks), 0)
+
+        # skip some tasks
+        *_, split_task = self.tasks_api.find_tasks(name= task_name, limit= num_of_tasks // 3)
+        tasks = self.tasks_api.find_tasks_iter(name= task_name, limit= 3, after= split_task.id)
+        self.assertEqual(count_unique_ids(tasks), num_of_tasks - num_of_tasks // 3)
+
     def test_delete_task(self):
         task = self.tasks_api.create_task_cron(self.generate_name("it_task"), TASK_FLUX, "0 2 * * *",
                                                self.organization.id)
