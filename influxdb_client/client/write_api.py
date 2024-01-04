@@ -258,7 +258,8 @@ class WriteApi(_BaseWriteApi):
             self._disposable = self._subject.pipe(
                 # Split incoming data to windows by batch_size or flush_interval
                 ops.window_with_time_or_count(count=write_options.batch_size,
-                                              timespan=timedelta(milliseconds=write_options.flush_interval)),
+                                              timespan=timedelta(milliseconds=write_options.flush_interval),
+                                              scheduler=ThreadPoolScheduler(1)),
                 # Map  window into groups defined by 'organization', 'bucket' and 'precision'
                 ops.flat_map(lambda window: window.pipe(
                     # Group window by 'organization', 'bucket' and 'precision'
