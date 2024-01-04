@@ -251,6 +251,18 @@ The output Line protocol will be interpret as a comment by InfluxDB. For more in
         """Create string representation of this Point."""
         return self.to_line_protocol()
 
+    def __eq__(self, other):
+        """Return true iff other is equal to self."""
+        if not isinstance(other, Point):
+            return False
+        # assume points are equal iff their instance fields are equal
+        return (self._tags == other._tags and
+                self._fields == other._fields and
+                self._name == other._name and
+                self._time == other._time and
+                self._write_precision == other._write_precision and
+                self._field_types == other._field_types)
+
 
 def _append_tags(tags):
     _return = []
