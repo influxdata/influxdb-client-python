@@ -557,6 +557,110 @@ class PointTest(unittest.TestCase):
             self.assertEqual('#hash_start,location=europe level=2.2', point.to_line_protocol())
         self.assertEqual(1, len(warnings))
 
+    def test_equality_from_dict(self):
+        point_dict = {
+            "measurement": "h2o_feet",
+            "tags": {"location": "coyote_creek"},
+            "fields": {
+                "water_level": 1.0,
+                "some_counter": 108913123234
+            },
+            "field_types": {"some_counter": "float"},
+            "time": 1
+        }
+        point_a = Point.from_dict(point_dict)
+        point_b = Point.from_dict(point_dict)
+        self.assertEqual(point_a, point_b)
+
+    def test_equality(self):
+        # https://github.com/influxdata/influxdb-client-python/issues/623#issue-2048573579
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+
+        point_b = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        self.assertEqual(point_a, point_b)
+
+    def test_not_equal_if_tags_differ(self):
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+
+        point_b = (
+            Point("asd")
+            .tag("foo", "baz")  # not "bar"
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        self.assertNotEqual(point_a, point_b)
+
+    def test_not_equal_if_fields_differ(self):
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+
+        point_b = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 678.90)  # not 123.45
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        self.assertNotEqual(point_a, point_b)
+
+    def test_not_equal_if_measurements_differ(self):
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+
+        point_b = (
+            Point("fgh")  # not "asd"
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        self.assertNotEqual(point_a, point_b)
+
+    def test_not_equal_if_times_differ(self):
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+
+        point_b = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2024, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        self.assertNotEqual(point_a, point_b)
+    def test_not_equal_if_other_is_no_point(self):
+        point_a = (
+            Point("asd")
+            .tag("foo", "bar")
+            .field("value", 123.45)
+            .time(datetime(2023, 12, 19, 13, 27, 42, 215000, tzinfo=timezone.utc))
+        )
+        not_a_point = "not a point but a string"
+        self.assertNotEqual(point_a, not_a_point)
 
 if __name__ == '__main__':
     unittest.main()

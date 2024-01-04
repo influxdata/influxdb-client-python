@@ -1,5 +1,8 @@
 ## 1.40.0 [unreleased]
 
+### Features
+1. [#625](https://github.com/influxdata/influxdb-client-python/pull/625): Make class `Point` equatable
+
 ### Bug Fixes
 1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
 
