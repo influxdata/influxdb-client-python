@@ -1,5 +1,8 @@
 ## 1.40.0 [unreleased]
 
+### Bug Fixes
+1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
+
 ## 1.39.0 [2023-12-05]
 
 ### Features
@@ -13,9 +16,6 @@
 
 ### Documentation
 1. [#566](https://github.com/influxdata/influxdb-client-python/pull/566): Fix Sphinx documentation build and add support `.readthedocs.yml` V2 configuration file
-
-### Bug Fixes
-1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
 
 ## 1.37.0 [2023-07-28]
 
