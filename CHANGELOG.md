@@ -1,5 +1,8 @@
 ## 1.40.0 [unreleased]
 
+### Features
+1. [#625](https://github.com/influxdata/influxdb-client-python/pull/625) Make class `Point` equatable
+
 ## 1.39.0 [2023-12-05]
 
 ### Features
