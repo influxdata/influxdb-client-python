@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
+1. [#631](https://github.com/influxdata/influxdb-client-python/pull/631): Logging HTTP requests without query parameters
 
 ## 1.39.0 [2023-12-05]
 
