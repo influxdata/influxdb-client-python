@@ -170,7 +170,7 @@ class RESTClientObject(object):
             headers['Content-Type'] = 'application/json'
 
         if self.configuration.debug:
-            _BaseRESTClient.log_request(method, f"{url}?{urlencode(query_params)}")
+            _BaseRESTClient.log_request(method, f"{url}{'' if query_params is None else '?' + urlencode(query_params)}")
             _BaseRESTClient.log_headers(headers, '>>>')
             _BaseRESTClient.log_body(body, '>>>')
 
