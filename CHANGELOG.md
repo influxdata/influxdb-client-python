@@ -11,6 +11,7 @@
 
 ### Features
 1. [#625](https://github.com/influxdata/influxdb-client-python/pull/625): Make class `Point` equatable
+2. [#632](https://github.com/influxdata/influxdb-client-python/pull/632): Add support for Python 3.12 (no code changes)
 
 ### Bug Fixes
 1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
