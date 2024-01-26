@@ -626,7 +626,7 @@ Queries
 The result retrieved by `QueryApi <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/query_api.py>`_  could be formatted as a:
 
 1. Flux data structure: `FluxTable <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L5>`_, `FluxColumn <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L22>`_ and `FluxRecord <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/flux_table.py#L31>`_
-2. :class:`~influxdb_client.client.flux_table.CSVIterator` which will iterate over CSV lines
+2. :code:`influxdb_client.client.flux_table.CSVIterator` which will iterate over CSV lines
 3. Raw unprocessed results as a ``str`` iterator
 4. `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
 
@@ -1403,12 +1403,12 @@ or use the ``[async]`` extra:
 
 Async APIs
 """"""""""
-All async APIs are available via :class:`~influxdb_client.client.influxdb_client_async.InfluxDBClientAsync`.
+All async APIs are available via :code:`influxdb_client.client.influxdb_client_async.InfluxDBClientAsync`.
 The ``async`` version of the client supports following asynchronous APIs:
 
-* :class:`~influxdb_client.client.write_api_async.WriteApiAsync`
-* :class:`~influxdb_client.client.query_api_async.QueryApiAsync`
-* :class:`~influxdb_client.client.delete_api_async.DeleteApiAsync`
+* :code:`influxdb_client.client.write_api_async.WriteApiAsync`
+* :code:`influxdb_client.client.query_api_async.QueryApiAsync`
+* :code:`influxdb_client.client.delete_api_async.DeleteApiAsync`
 * Management services into ``influxdb_client.service`` supports async operation
 
 and also check to readiness of the InfluxDB via ``/ping`` endpoint:
@@ -1432,7 +1432,7 @@ and also check to readiness of the InfluxDB via ``/ping`` endpoint:
 Async Write API
 """""""""""""""
 
-The :class:`~influxdb_client.client.write_api_async.WriteApiAsync` supports ingesting data as:
+The :code:`influxdb_client.client.write_api_async.WriteApiAsync` supports ingesting data as:
 
 * ``string`` or ``bytes`` that is formatted as a InfluxDB's line protocol
 * `Data Point <https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py#L16>`__ structure
@@ -1470,13 +1470,13 @@ The :class:`~influxdb_client.client.write_api_async.WriteApiAsync` supports inge
 Async Query API
 """""""""""""""
 
-The :class:`~influxdb_client.client.query_api_async.QueryApiAsync` supports retrieve data as:
+The :code:`influxdb_client.client.query_api_async.QueryApiAsync` supports retrieve data as:
 
-* List of :class:`~influxdb_client.client.flux_table.FluxTable`
-* Stream of :class:`~influxdb_client.client.flux_table.FluxRecord` via :class:`~typing.AsyncGenerator`
+* List of :code:`influxdb_client.client.flux_table.FluxTable`
+* Stream of :code:`influxdb_client.client.flux_table.FluxRecord` via :code:`typing.AsyncGenerator`
 * `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_
-* Stream of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ via :class:`~typing.AsyncGenerator`
-* Raw :class:`~str` output
+* Stream of `Pandas DataFrame <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html>`_ via :code:`typing.AsyncGenerator`
+* Raw :code:`str` output
 
  .. code-block:: python
 
