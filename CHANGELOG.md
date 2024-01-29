@@ -7,6 +7,9 @@
 1. [#562](https://github.com/influxdata/influxdb-client-python/pull/562): Use `ThreadPoolScheduler` for `WriteApi`'s batch subject instead of `TimeoutScheduler` to prevent creating unnecessary threads repeatedly
 1. [#631](https://github.com/influxdata/influxdb-client-python/pull/631): Logging HTTP requests without query parameters
 
+### Documentation
+1. [#635](https://github.com/influxdata/influxdb-client-python/pull/635): Fix render `README.rst` at GitHub
+
 ## 1.39.0 [2023-12-05]
 
 ### Features
