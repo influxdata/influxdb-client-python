@@ -415,6 +415,18 @@ class InfluxDBClientTestMock(unittest.TestCase):
         logger = logging.getLogger('influxdb_client.client.http')
         self.assertEqual(2, len(logger.handlers))
 
+    def test_debug_request_without_query_parameters(self):
+        httpretty.register_uri(httpretty.GET, uri="http://localhost/ping", status=200, body="")
+        self.influxdb_client = InfluxDBClient("http://localhost", "my-token", debug=True)
+
+        log_stream = StringIO()
+        logger = logging.getLogger("influxdb_client.client.http")
+        logger.addHandler(logging.StreamHandler(log_stream))
+
+        self.influxdb_client.api_client.call_api('/ping', 'GET')
+
+        self.assertIn("'GET http://localhost/ping'", log_stream.getvalue())
+
 
 class ServerWithSelfSingedSSL(http.server.SimpleHTTPRequestHandler):
     def _set_headers(self, response: bytes):
