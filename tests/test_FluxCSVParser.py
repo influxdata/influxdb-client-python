@@ -1,7 +1,9 @@
 import json
 import math
 import unittest
+import pandas as pd
 from io import BytesIO
+from packaging import version
 
 import pytest
 from urllib3 import HTTPResponse
@@ -328,6 +330,7 @@ class FluxCsvParserTest(unittest.TestCase):
         df = list(parser.generator())[0]
         self.assertEqual('float64', df.dtypes['value'].name)  # pd.NA is converted to float('nan')
 
+    @pytest.mark.skipif(version.parse(pd.__version__).release < (2, 0), reason="numeric nullables require pandas>=2.0 to work correctly")
     def test_pandas_null_long_types_extension_types(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long\n" \
                "#group,false,false,true,true,true,true,true,true,false\n" \
@@ -355,6 +358,7 @@ class FluxCsvParserTest(unittest.TestCase):
         df = list(parser.generator())[0]
         self.assertEqual('float64', df.dtypes['value'].name)
 
+    @pytest.mark.skipif(version.parse(pd.__version__).release < (2, 0), reason="numeric nullables require pandas>=2.0 to work correctly")
     def test_pandas_null_double_types_extension_types(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,double\n" \
                "#group,false,false,true,true,true,true,true,true,false\n" \
