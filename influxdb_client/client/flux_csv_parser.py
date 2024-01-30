@@ -64,7 +64,8 @@ class FluxCsvParser(object):
 
     def __init__(self, response, serialization_mode: FluxSerializationMode,
                  data_frame_index: List[str] = None, query_options=None,
-                 response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full) -> None:
+                 response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full,
+                 use_extension_dtypes=False) -> None:
         """
         Initialize defaults.
 
@@ -75,6 +76,7 @@ class FluxCsvParser(object):
         self.tables = TableList()
         self._serialization_mode = serialization_mode
         self._response_metadata_mode = response_metadata_mode
+        self._use_extension_dtypes = use_extension_dtypes
         self._data_frame_index = data_frame_index
         self._data_frame_values = []
         self._profilers = query_options.profilers if query_options is not None else None
@@ -129,6 +131,8 @@ class FluxCsvParser(object):
         # Return latest DataFrame
         if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
             df = self._prepare_data_frame()
+            if self._use_extension_dtypes:
+                df = df.convert_dtypes()
             if not self._is_profiler_table(metadata.table):
                 yield df
 
@@ -143,6 +147,8 @@ class FluxCsvParser(object):
             # Return latest DataFrame
             if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
                 df = self._prepare_data_frame()
+                if self._use_extension_dtypes:
+                    df = df.convert_dtypes()
                 if not self._is_profiler_table(metadata.table):
                     yield df
         finally:
@@ -171,6 +177,8 @@ class FluxCsvParser(object):
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
                     df = self._prepare_data_frame()
+                    if self._use_extension_dtypes:
+                        df = df.convert_dtypes()
                     if not self._is_profiler_table(metadata.table):
                         yield df
 
@@ -211,7 +219,7 @@ class FluxCsvParser(object):
                         pass
                 else:
 
-                    # to int converions todo
+                    # to int conversions todo
                     current_id = int(csv[2])
                     if metadata.table_id == -1:
                         metadata.table_id = current_id
@@ -273,8 +281,10 @@ class FluxCsvParser(object):
             default_value = column.default_value
             if default_value == '' or default_value is None:
                 if self._serialization_mode is FluxSerializationMode.dataFrame:
-                    from ..extras import np
-                    return self._to_value(np.nan, column)
+                    if self._use_extension_dtypes:
+                        from ..extras import pd
+                        return pd.NA
+                    return None
                 return None
             return self._to_value(default_value, column)
 
