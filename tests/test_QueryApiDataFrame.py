@@ -4,6 +4,8 @@ import httpretty
 import pytest
 import reactivex as rx
 import pandas
+import warnings
+
 from pandas import DataFrame
 from pandas._libs.tslibs.timestamps import Timestamp
 from reactivex import operators as ops
@@ -273,7 +275,7 @@ class QueryDataFrameApi(BaseTest):
 
         self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
 
-        with pytest.warns(None) as warnings:
+        with warnings.catch_warnings(record=True) as warns:
             self.client.query_api().query_data_frame(
                 'import "influxdata/influxdb/schema"'
                 ''
@@ -282,16 +284,16 @@ class QueryDataFrameApi(BaseTest):
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> schema.fieldsAsCols() '
                 "my-org")
-        self.assertEqual(0, len(warnings))
+        self.assertEqual(0, len(warns))
 
-        with pytest.warns(None) as warnings:
+        with warnings.catch_warnings(record=True) as warns:
             self.client.query_api().query_data_frame(
                 'from(bucket: "my-bucket")'
                 '|> range(start: -5s, stop: now()) '
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")'
                 "my-org")
-        self.assertEqual(0, len(warnings))
+        self.assertEqual(0, len(warns))
 
     def test_pivoted_data(self):
         query_response = \

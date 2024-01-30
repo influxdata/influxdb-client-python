@@ -6,6 +6,7 @@ from datetime import datetime
 from io import StringIO
 
 import pytest
+import warnings
 from aioresponses import aioresponses
 
 from influxdb_client import Point, WritePrecision, BucketsService, OrganizationsService, Organizations
@@ -176,10 +177,10 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
                 '''
         query_api = self.client.query_api()
 
-        with pytest.warns(None) as warnings:
+        with warnings.catch_warnings(record=True) as warns:
             dataframe = await query_api.query_data_frame(query)
             self.assertIsNotNone(dataframe)
-        self.assertEqual(0, len(warnings))
+        self.assertEqual(0, len(warns))
 
     @async_test
     async def test_write_response_type(self):
