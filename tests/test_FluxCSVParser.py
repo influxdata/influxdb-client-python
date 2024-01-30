@@ -263,6 +263,31 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual('bool', df.dtypes['value4'].name)
         self.assertEqual('float64', df.dtypes['value5'].name)
 
+    def test_pandas_column_datatype_extension_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,unsignedLong,string,boolean,double\n" \
+               "#group,false,false,true,true,true,true,true,true,false,false,false,false,false\n" \
+               "#default,_result,,,,,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value1,value2,value3,value4,value5\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,11,test,true,6.56\n"
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full,
+                             use_extension_dtypes=True)
+        df = list(parser.generator())[0]
+        self.assertEqual(13, df.dtypes.__len__())
+        self.assertEqual('string', df.dtypes['result'].name)
+        self.assertEqual('Int64', df.dtypes['table'].name)
+        self.assertIn('datetime64[ns,', df.dtypes['_start'].name)
+        self.assertIn('datetime64[ns,', df.dtypes['_stop'].name)
+        self.assertEqual('string', df.dtypes['_field'].name)
+        self.assertEqual('string', df.dtypes['_measurement'].name)
+        self.assertEqual('string', df.dtypes['host'].name)
+        self.assertEqual('string', df.dtypes['region'].name)
+        self.assertEqual('Int64', df.dtypes['value1'].name)
+        self.assertEqual('Int64', df.dtypes['value2'].name)
+        self.assertEqual('string', df.dtypes['value3'].name)
+        self.assertEqual('boolean', df.dtypes['value4'].name)
+        self.assertEqual('Float64', df.dtypes['value5'].name)
+
     def test_pandas_null_bool_types(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,boolean\n" \
                "#group,false,false,true,true,true,true,true,true,false\n" \
@@ -274,7 +299,102 @@ class FluxCsvParserTest(unittest.TestCase):
         parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
                              response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
-        self.assertEqual('bool', df.dtypes['value'].name)
+        self.assertEqual('object', df.dtypes['value'].name)
+
+    def test_pandas_null_bool_types_extension_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,boolean\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,true\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full,
+                             use_extension_dtypes=True)
+        df = list(parser.generator())[0]
+        self.assertEqual('boolean', df.dtypes['value'].name)
+
+    def test_pandas_null_long_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,1\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
+        df = list(parser.generator())[0]
+        self.assertEqual('float64', df.dtypes['value'].name)  # pd.NA is converted to float('nan')
+
+    def test_pandas_null_long_types_extension_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,1\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full,
+                             use_extension_dtypes=True)
+        df = list(parser.generator())[0]
+        self.assertEqual('Int64', df.dtypes['value'].name)
+
+    def test_pandas_null_double_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,double\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,1\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
+        df = list(parser.generator())[0]
+        self.assertEqual('float64', df.dtypes['value'].name)
+
+    def test_pandas_null_double_types_extension_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,double\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,1\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full,
+                             use_extension_dtypes=True)
+        df = list(parser.generator())[0]
+        self.assertEqual('Float64', df.dtypes['value'].name)
+
+    def test_pandas_null_string_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,string\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,hi\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full)
+        df = list(parser.generator())[0]
+        self.assertEqual('object', df.dtypes['value'].name)
+
+    def test_pandas_null_string_types_extension_types(self):
+        data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,string\n" \
+               "#group,false,false,true,true,true,true,true,true,false\n" \
+               "#default,_result,,,,,,,,\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,value\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,hi\n" \
+               ",,0,1977-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,\n"
+
+        parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
+                             response_metadata_mode=FluxResponseMetadataMode.full,
+                             use_extension_dtypes=True)
+        df = list(parser.generator())[0]
+        self.assertEqual('string', df.dtypes['value'].name)
 
     def test_parse_without_datatype(self):
         data = ",result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str\n" \
@@ -399,7 +519,8 @@ class FluxCsvParserTest(unittest.TestCase):
         return tables
 
     @staticmethod
-    def _parse(data, serialization_mode, response_metadata_mode):
+    def _parse(data, serialization_mode, response_metadata_mode, use_extension_dtypes=False):
         fp = BytesIO(str.encode(data))
         return FluxCsvParser(response=HTTPResponse(fp, preload_content=False),
-                             serialization_mode=serialization_mode, response_metadata_mode=response_metadata_mode)
+                             serialization_mode=serialization_mode, response_metadata_mode=response_metadata_mode,
+                             use_extension_dtypes=use_extension_dtypes)
