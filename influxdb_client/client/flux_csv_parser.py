@@ -131,8 +131,6 @@ class FluxCsvParser(object):
         # Return latest DataFrame
         if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
             df = self._prepare_data_frame()
-            if self._use_extension_dtypes:
-                df = df.convert_dtypes()
             if not self._is_profiler_table(metadata.table):
                 yield df
 
@@ -147,8 +145,6 @@ class FluxCsvParser(object):
             # Return latest DataFrame
             if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
                 df = self._prepare_data_frame()
-                if self._use_extension_dtypes:
-                    df = df.convert_dtypes()
                 if not self._is_profiler_table(metadata.table):
                     yield df
         finally:
@@ -177,8 +173,6 @@ class FluxCsvParser(object):
                 # Return already parsed DataFrame
                 if (self._serialization_mode is FluxSerializationMode.dataFrame) & hasattr(self, '_data_frame'):
                     df = self._prepare_data_frame()
-                    if self._use_extension_dtypes:
-                        df = df.convert_dtypes()
                     if not self._is_profiler_table(metadata.table):
                         yield df
 
@@ -261,7 +255,11 @@ class FluxCsvParser(object):
             _temp_df = _temp_df.set_index(self._data_frame_index)
 
         # Append data
-        return pd.concat([self._data_frame.astype(_temp_df.dtypes), _temp_df])
+        df = pd.concat([self._data_frame.astype(_temp_df.dtypes), _temp_df])
+
+        if self._use_extension_dtypes:
+            return df.convert_dtypes()
+        return df
 
     def parse_record(self, table_index, table, csv):
         """Parse one record."""
