@@ -1,5 +1,8 @@
 ## 1.41.0 [unreleased]
 
+### Bug Fixes
+1. [#636](https://github.com/influxdata/influxdb-client-python/pull/636): Handle missing data in data frames
+
 ## 1.40.0 [2024-01-30]
 
 ### Features
