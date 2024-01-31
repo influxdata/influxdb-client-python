@@ -120,7 +120,8 @@ class QueryApiAsync(_BaseQueryApi):
 
         return await self._to_flux_record_stream_async(response, query_options=self._get_query_options())
 
-    async def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None):
+    async def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None,
+                               use_extension_dtypes: bool = False):
         """
         Execute asynchronous Flux query and return :class:`~pandas.core.frame.DataFrame`.
 
@@ -132,6 +133,11 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
+        :param use_extension_dtypes: set to ``True`` to use panda's extension data types.
+                                     Useful for queries with ``pivot`` function.
+                                     When data has missing values, column data type may change (to ``object`` or ``float64``).
+                                     Nullable extension types (``Int64``, ``Float64``, ``boolean``) support ``panda.NA`` value.
+                                     For more info, see https://pandas.pydata.org/docs/user_guide/missing_data.html.
         :return: :class:`~DataFrame` or :class:`~List[DataFrame]`
 
         .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
@@ -149,7 +155,7 @@ class QueryApiAsync(_BaseQueryApi):
                 - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
         """  # noqa: E501
         _generator = await self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index,
-                                                        params=params)
+                                                        params=params, use_extension_dtypes=use_extension_dtypes)
 
         dataframes = []
         async for dataframe in _generator:
@@ -158,7 +164,7 @@ class QueryApiAsync(_BaseQueryApi):
         return self._to_data_frames(dataframes)
 
     async def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None,
-                                      params: dict = None):
+                                      params: dict = None, use_extension_dtypes: bool = False):
         """
         Execute asynchronous Flux query and return stream of :class:`~pandas.core.frame.DataFrame` as an AsyncGenerator[:class:`~pandas.core.frame.DataFrame`].
 
@@ -170,6 +176,11 @@ class QueryApiAsync(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClientAsync.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
+        :param use_extension_dtypes: set to ``True`` to use panda's extension data types.
+                                     Useful for queries with ``pivot`` function.
+                                     When data has missing values, column data type may change (to ``object`` or ``float64``).
+                                     Nullable extension types (``Int64``, ``Float64``, ``boolean``) support ``panda.NA`` value.
+                                     For more info, see https://pandas.pydata.org/docs/user_guide/missing_data.html.
         :return: :class:`AsyncGenerator[:class:`DataFrame`]`
 
         .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
@@ -192,7 +203,8 @@ class QueryApiAsync(_BaseQueryApi):
                                                                             dataframe_query=True))
 
         return await self._to_data_frame_stream_async(data_frame_index=data_frame_index, response=response,
-                                                      query_options=self._get_query_options())
+                                                      query_options=self._get_query_options(),
+                                                      use_extension_dtypes=use_extension_dtypes)
 
     async def query_raw(self, query: str, org=None, dialect=_BaseQueryApi.default_dialect, params: dict = None):
         """
