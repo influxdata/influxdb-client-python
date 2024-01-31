@@ -222,7 +222,8 @@ class QueryApi(_BaseQueryApi):
                                               async_req=False, _preload_content=False, _return_http_data_only=False)
         return self._to_flux_record_stream(response, query_options=self._get_query_options())
 
-    def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None):
+    def query_data_frame(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None,
+                         use_extension_dtypes: bool = False):
         """
         Execute synchronous Flux query and return Pandas DataFrame.
 
@@ -234,6 +235,11 @@ class QueryApi(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
+        :param use_extension_dtypes: set to ``True`` to use panda's extension data types.
+                                     Useful for queries with ``pivot`` function.
+                                     When data has missing values, column data type may change (to ``object`` or ``float64``).
+                                     Nullable extension types (``Int64``, ``Float64``, ``boolean``) support ``panda.NA`` value.
+                                     For more info, see https://pandas.pydata.org/docs/user_guide/missing_data.html.
         :return: :class:`~DataFrame` or :class:`~List[DataFrame]`
 
         .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
@@ -250,10 +256,12 @@ class QueryApi(_BaseQueryApi):
                 - https://docs.influxdata.com/flux/latest/stdlib/universe/pivot/
                 - https://docs.influxdata.com/flux/latest/stdlib/influxdata/influxdb/schema/fieldsascols/
         """  # noqa: E501
-        _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index, params=params)
+        _generator = self.query_data_frame_stream(query, org=org, data_frame_index=data_frame_index, params=params,
+                                                  use_extension_dtypes=use_extension_dtypes)
         return self._to_data_frames(_generator)
 
-    def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None):
+    def query_data_frame_stream(self, query: str, org=None, data_frame_index: List[str] = None, params: dict = None,
+                                use_extension_dtypes: bool = False):
         """
         Execute synchronous Flux query and return stream of Pandas DataFrame as a :class:`~Generator[DataFrame]`.
 
@@ -265,6 +273,11 @@ class QueryApi(_BaseQueryApi):
                                       If not specified the default value from ``InfluxDBClient.org`` is used.
         :param data_frame_index: the list of columns that are used as DataFrame index
         :param params: bind parameters
+        :param use_extension_dtypes: set to ``True`` to use panda's extension data types.
+                                     Useful for queries with ``pivot`` function.
+                                     When data has missing values, column data type may change (to ``object`` or ``float64``).
+                                     Nullable extension types (``Int64``, ``Float64``, ``boolean``) support ``panda.NA`` value.
+                                     For more info, see https://pandas.pydata.org/docs/user_guide/missing_data.html.
         :return: :class:`~Generator[DataFrame]`
 
         .. warning:: For the optimal processing of the query results use the ``pivot() function`` which align results as a table.
@@ -289,7 +302,8 @@ class QueryApi(_BaseQueryApi):
 
         return self._to_data_frame_stream(data_frame_index=data_frame_index,
                                           response=response,
-                                          query_options=self._get_query_options())
+                                          query_options=self._get_query_options(),
+                                          use_extension_dtypes=use_extension_dtypes)
 
     def __del__(self):
         """Close QueryAPI."""

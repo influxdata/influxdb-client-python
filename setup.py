@@ -31,7 +31,7 @@ test_requires = [
 ]
 
 extra_requires = [
-    'pandas>=0.25.3',
+    'pandas>=1.0.0',
     'numpy'
 ]
 

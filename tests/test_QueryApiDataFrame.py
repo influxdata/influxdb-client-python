@@ -3,6 +3,9 @@ import random
 import httpretty
 import pytest
 import reactivex as rx
+import pandas
+import warnings
+
 from pandas import DataFrame
 from pandas._libs.tslibs.timestamps import Timestamp
 from reactivex import operators as ops
@@ -272,7 +275,7 @@ class QueryDataFrameApi(BaseTest):
 
         self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
 
-        with pytest.warns(None) as warnings:
+        with warnings.catch_warnings(record=True) as warns:
             self.client.query_api().query_data_frame(
                 'import "influxdata/influxdb/schema"'
                 ''
@@ -281,16 +284,87 @@ class QueryDataFrameApi(BaseTest):
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> schema.fieldsAsCols() '
                 "my-org")
-        self.assertEqual(0, len(warnings))
+        self.assertEqual(0, len(warns))
 
-        with pytest.warns(None) as warnings:
+        with warnings.catch_warnings(record=True) as warns:
             self.client.query_api().query_data_frame(
                 'from(bucket: "my-bucket")'
                 '|> range(start: -5s, stop: now()) '
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")'
                 "my-org")
-        self.assertEqual(0, len(warnings))
+        self.assertEqual(0, len(warns))
+
+    def test_pivoted_data(self):
+        query_response = \
+            '#group,false,false,true,true,false,true,false,false,false,false\n' \
+            '#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,string,double,long,string,boolean\n' \
+            '#default,_result,,,,,,,,,\n' \
+            ',result,table,_start,_stop,_time,_measurement,test_double,test_long,test_string,test_boolean\n' \
+            ',,0,2023-12-15T13:19:45Z,2023-12-15T13:20:00Z,2023-12-15T13:19:55Z,test,4,,,\n' \
+            ',,0,2023-12-15T13:19:45Z,2023-12-15T13:20:00Z,2023-12-15T13:19:56Z,test,,1,,\n' \
+            ',,0,2023-12-15T13:19:45Z,2023-12-15T13:20:00Z,2023-12-15T13:19:57Z,test,,,hi,\n' \
+            ',,0,2023-12-15T13:19:45Z,2023-12-15T13:20:00Z,2023-12-15T13:19:58Z,test,,,,true\n' \
+            '\n\n'
+
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body=query_response)
+
+        self.client = InfluxDBClient("http://localhost", "my-token", org="my-org", enable_gzip=False)
+
+        _dataFrame = self.client.query_api().query_data_frame(
+            'from(bucket: "my-bucket") '
+            '|> range(start: 2023-12-15T13:19:45Z, stop: 2023-12-15T13:20:00Z)'
+            '|> filter(fn: (r) => r["_measurement"] == "test")'
+            '|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")'
+            "my-org", use_extension_dtypes=True)
+
+        self.assertEqual(DataFrame, type(_dataFrame))
+        self.assertListEqual(
+            ["result", "table", "_start", "_stop", "_time", "_measurement",
+             "test_double", "test_long", "test_string", "test_boolean"],
+            list(_dataFrame.columns))
+        self.assertListEqual([0, 1, 2, 3], list(_dataFrame.index))
+        # self.assertEqual('Int64', _dataFrame.dtypes['test_long'].name)
+        # self.assertEqual('Float64', _dataFrame.dtypes['test_double'].name)
+        self.assertEqual('string', _dataFrame.dtypes['test_string'].name)
+        self.assertEqual('boolean', _dataFrame.dtypes['test_boolean'].name)
+        self.assertEqual(4, len(_dataFrame))
+        self.assertEqual("_result", _dataFrame['result'][0])
+        self.assertEqual("_result", _dataFrame['result'][1])
+        self.assertEqual("_result", _dataFrame['result'][2])
+        self.assertEqual("_result", _dataFrame['result'][3])
+        self.assertEqual(0, _dataFrame['table'][0], None)
+        self.assertEqual(0, _dataFrame['table'][1], None)
+        self.assertEqual(0, _dataFrame['table'][2], None)
+        self.assertEqual(0, _dataFrame['table'][3], None)
+        self.assertEqual(Timestamp('2023-12-15 13:19:45+0000'), _dataFrame['_start'][0])
+        self.assertEqual(Timestamp('2023-12-15 13:19:45+0000'), _dataFrame['_start'][1])
+        self.assertEqual(Timestamp('2023-12-15 13:19:45+0000'), _dataFrame['_start'][2])
+        self.assertEqual(Timestamp('2023-12-15 13:19:45+0000'), _dataFrame['_start'][3])
+        self.assertEqual(Timestamp('2023-12-15 13:20:00+0000'), _dataFrame['_stop'][0])
+        self.assertEqual(Timestamp('2023-12-15 13:20:00+0000'), _dataFrame['_stop'][1])
+        self.assertEqual(Timestamp('2023-12-15 13:20:00+0000'), _dataFrame['_stop'][2])
+        self.assertEqual(Timestamp('2023-12-15 13:20:00+0000'), _dataFrame['_stop'][3])
+        self.assertEqual(Timestamp('2023-12-15 13:19:55+0000'), _dataFrame['_time'][0])
+        self.assertEqual(Timestamp('2023-12-15 13:19:56+0000'), _dataFrame['_time'][1])
+        self.assertEqual(Timestamp('2023-12-15 13:19:57+0000'), _dataFrame['_time'][2])
+        self.assertEqual(Timestamp('2023-12-15 13:19:58+0000'), _dataFrame['_time'][3])
+        self.assertEqual(4, _dataFrame['test_double'][0])
+        self.assertTrue(pandas.isna(_dataFrame['test_double'][1]))
+        self.assertTrue(pandas.isna(_dataFrame['test_double'][2]))
+        self.assertTrue(pandas.isna(_dataFrame['test_double'][3]))
+        self.assertTrue(pandas.isna(_dataFrame['test_long'][0]))
+        self.assertEqual(1, _dataFrame['test_long'][1])
+        self.assertTrue(pandas.isna(_dataFrame['test_long'][2]))
+        self.assertTrue(pandas.isna(_dataFrame['test_long'][3]))
+        self.assertTrue(pandas.isna(_dataFrame['test_string'][0]))
+        self.assertTrue(pandas.isna(_dataFrame['test_string'][1]))
+        self.assertEqual('hi', _dataFrame['test_string'][2])
+        self.assertTrue(pandas.isna(_dataFrame['test_string'][3]))
+        self.assertTrue(pandas.isna(_dataFrame['test_boolean'][0]))
+        self.assertTrue(pandas.isna(_dataFrame['test_boolean'][1]))
+        self.assertTrue(pandas.isna(_dataFrame['test_boolean'][2]))
+        self.assertEqual(True, _dataFrame['test_boolean'][3])
 
 
 class QueryDataFrameIntegrationApi(BaseTest):

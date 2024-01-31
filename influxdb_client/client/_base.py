@@ -277,23 +277,27 @@ class _BaseQueryApi(object):
         return (await _parser.__aenter__()).generator_async()
 
     def _to_data_frame_stream(self, data_frame_index, response, query_options=None,
-                              response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full):
+                              response_metadata_mode: FluxResponseMetadataMode = FluxResponseMetadataMode.full,
+                              use_extension_dtypes=False):
         """
         Parse HTTP response to DataFrame stream.
 
         :param response: HTTP response from an HTTP client. Expected type: `urllib3.response.HTTPResponse`.
         """
-        _parser = self._to_data_frame_stream_parser(data_frame_index, query_options, response, response_metadata_mode)
+        _parser = self._to_data_frame_stream_parser(data_frame_index, query_options, response, response_metadata_mode,
+                                                    use_extension_dtypes)
         return _parser.generator()
 
     async def _to_data_frame_stream_async(self, data_frame_index, response, query_options=None, response_metadata_mode:
-                                          FluxResponseMetadataMode = FluxResponseMetadataMode.full):
+                                          FluxResponseMetadataMode = FluxResponseMetadataMode.full,
+                                          use_extension_dtypes=False):
         """
         Parse HTTP response to DataFrame stream.
 
         :param response: HTTP response from an HTTP client. Expected type: `aiohttp.client_reqrep.ClientResponse`.
         """
-        _parser = self._to_data_frame_stream_parser(data_frame_index, query_options, response, response_metadata_mode)
+        _parser = self._to_data_frame_stream_parser(data_frame_index, query_options, response, response_metadata_mode,
+                                                    use_extension_dtypes)
         return (await _parser.__aenter__()).generator_async()
 
     def _to_tables_parser(self, response, query_options, response_metadata_mode):
@@ -304,10 +308,12 @@ class _BaseQueryApi(object):
         return FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.stream,
                              query_options=query_options, response_metadata_mode=response_metadata_mode)
 
-    def _to_data_frame_stream_parser(self, data_frame_index, query_options, response, response_metadata_mode):
+    def _to_data_frame_stream_parser(self, data_frame_index, query_options, response, response_metadata_mode,
+                                     use_extension_dtypes):
         return FluxCsvParser(response=response, serialization_mode=FluxSerializationMode.dataFrame,
                              data_frame_index=data_frame_index, query_options=query_options,
-                             response_metadata_mode=response_metadata_mode)
+                             response_metadata_mode=response_metadata_mode,
+                             use_extension_dtypes=use_extension_dtypes)
 
     def _to_data_frames(self, _generator):
         """Parse stream of DataFrames into expected type."""
