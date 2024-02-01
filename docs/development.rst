@@ -21,8 +21,8 @@ tl;dr
     # run lint and tests
     make lint test
 
-Getting Started
-^^^^^^^^^^^^^^^
+Getting Started With Development
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. Install Python
 
@@ -111,8 +111,8 @@ and see a full report for code coverage across the whole project. Clicking
 on a specific file will show a line-by-line report of what lines were or
 were not covered.
 
-Documentation
-^^^^^^^^^^^^^
+Documentation Building
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The docs are built using Sphinx. To build all the docs run:
 

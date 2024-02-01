@@ -12,9 +12,10 @@ InfluxDB 2.0 python client
    migration
    development
 
-.. include:: ../README.rst
-  :start-after: marker-index-start
-  :end-before: marker-index-end
+.. include:: ../README.md
+  :parser: myst_parser.sphinx_
+  :start-after: <!-- marker-index-start -->
+  :end-before: <!-- marker-index-end -->
 
 Indices and tables
 ==================

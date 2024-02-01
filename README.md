@@ -1,5 +1,7 @@
 # influxdb-client-python
 
+<!-- marker-index-start -->
+
 [![CircleCI](https://circleci.com/gh/influxdata/influxdb-client-python.svg?style=svg)](https://circleci.com/gh/influxdata/influxdb-client-python)
 [![codecov](https://codecov.io/gh/influxdata/influxdb-client-python/branch/master/graph/badge.svg)](https://codecov.io/gh/influxdata/influxdb-client-python)
 [![CI status](https://img.shields.io/circleci/project/github/influxdata/influxdb-client-python/master.svg)](https://circleci.com/gh/influxdata/influxdb-client-python)
@@ -112,6 +114,8 @@ python setup.py install --user
 
 Please follow the [Installation](#installation) and then run the following:
 
+<!-- marker-query-start -->
+
 ``` python
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -143,6 +147,8 @@ for row in csv_result:
     for cell in row:
         val_count += 1
 ```
+
+<!-- marker-query-end -->
 
 ## Client configuration
 
@@ -335,9 +341,13 @@ Custom processing of profiler result: {'result': '_profiler', 'table': 0, '_meas
 Custom processing of profiler result: {'result': '_profiler', 'table': 1, '_measurement': 'profiler/operator', 'Type': '*influxdb.readFilterSource', 'Label': 'ReadRange2', 'Count': 1, 'MinDuration': 3274084, 'MaxDuration': 3274084, 'DurationSum': 3274084, 'MeanDuration': 3274084.0}
 ```
 
+<!-- marker-index-end -->
+
 ## How to use
 
 ### Writes
+
+<!-- marker-writes-start -->
 
 The [WriteApi](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write_api.py) supports synchronous, asynchronous and batching writes into InfluxDB 2.0. The data should be passed as a [InfluxDB Line Protocol](https://docs.influxdata.com/influxdb/latest/write_protocols/line_protocol_tutorial/), [Data Point](https://github.com/influxdata/influxdb-client-python/blob/master/influxdb_client/client/write/point.py) or Observable stream.
 
@@ -535,6 +545,7 @@ write_api.write(bucket="my-bucket", record=[_point1, _point2])
 
 client.close()
 ```
+<!-- marker-writes-end -->
 
 ### Queries
 
@@ -646,6 +657,8 @@ client.close()
 
 #### Pandas DataFrame
 
+<!-- marker-pandas-start -->
+
 :warning:
 
 > For DataFrame querying you should install Pandas dependency via `pip install 'influxdb-client[extra]'`.
@@ -697,7 +710,11 @@ result table  location  temperature
 1  _result     1    Prague         25.3
 ```
 
+<!-- marker-pandas-end -->
+
 ### Examples
+
+<!-- marker-examples-start -->
 
 #### How to efficiently import large dataset
 
@@ -988,9 +1005,13 @@ The second example shows how to use client capabilities to realtime visualizatio
 
 You can find all examples at GitHub: [influxdb-client-python/examples](https://github.com/influxdata/influxdb-client-python/tree/master/examples#examples).
 
+<!-- marker-examples-end -->
+
 ## Advanced Usage
 
 ### Gzip support
+
+<!-- marker-gzip-start -->
 
 `InfluxDBClient` does not enable gzip compression for http requests by default. If you want to enable gzip to reduce transfer data's size, you can call:
 
@@ -999,8 +1020,11 @@ from influxdb_client import InfluxDBClient
 
 _db_client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", enable_gzip=True)
 ```
+<!-- marker-gzip-end -->
 
 ### Authenticate to the InfluxDB
+
+<!-- marker-authenticate-start -->
 
 `InfluxDBClient` supports three options how to authorize a connection:
 
@@ -1051,7 +1075,11 @@ with InfluxDBClient(url="http://localhost:8086", auth_basic=True, token="my-prox
 
 > Don't use this when directly talking to InfluxDB 2.
 
+<!-- marker-authenticate-end -->
+
 ### Proxy configuration
+
+<!-- marker-proxy-start -->
 
 You can configure the client to tunnel requests through an HTTP proxy. The following proxy options are supported:
 
@@ -1076,8 +1104,11 @@ from urllib3 import Retry
 Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
 Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
 ```
+<!-- marker-proxy-end -->
 
 ### Delete data
+
+<!-- marker-delete-start -->
 
 The [delete_api.py](influxdb_client/client/delete_api.py) supports deletes [points](https://v2.docs.influxdata.com/v2.0/reference/glossary/#point) from an InfluxDB bucket.
 
@@ -1100,6 +1131,7 @@ Close client
 """
 client.close()
 ```
+<!-- marker-delete-end -->
 
 ### InfluxDB 1.8 API compatibility
 
@@ -1116,6 +1148,8 @@ The following forward compatible APIs are available:
 For detail info see [InfluxDB 1.8 example](examples/influxdb_18_example.py).
 
 ### Handling Errors
+
+<!-- marker-handling-errors-start -->
 
 Errors happen, and it's important that your code is prepared for them. All client related exceptions are delivered from `InfluxDBError`. 
 If the exception cannot be recovered in the client it is returned to the application. These exceptions are left for the developer to handle.
@@ -1180,7 +1214,11 @@ retries = Retry(connect=5, read=2, redirect=5)
 client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", retries=retries)
 ```
 
+<!-- marker-handling-errors-end -->
+
 ### Nanosecond precision
+
+<!-- marker-nanosecond-start -->
 
 The Python's [datetime](https://docs.python.org/3/library/datetime.html) doesn't support precision with nanoseconds so the library during writes and queries ignores everything after microseconds.
 
@@ -1240,8 +1278,11 @@ Close client
 """
 client.close()
 ```
+<!-- marker-nanosecond-end -->
 
 ### How to use Asyncio
+
+<!-- marker-asyncio-start -->
 
 Starting from version 1.27.0 for Python 3.7+ the `influxdb-client` package supports `async/await` based on [asyncio](https://docs.python.org/3/library/asyncio.html), [aiohttp](https://docs.aiohttp.org) and [aiocsv](https://pypi.org/project/aiocsv/). 
 You can install `aiohttp` and `aiocsv` directly:
@@ -1431,7 +1472,11 @@ The redirects can be configured via:
 -   `max_redirects` - Maximum number of HTTP redirects to follow. `10`
     by default.
 
+<!-- marker-asyncio-end -->
+
 ### Logging
+
+<!-- marker-logging-start -->
 
 The client uses Python's [logging](https://docs.python.org/3/library/logging.html) facility for logging the library activity. The following logger categories are
 exposed:
@@ -1469,6 +1514,8 @@ client = InfluxDBClient(url="http://localhost:8086", token="my-token", debug=Tru
 ```
 
 Both HTTP request headers and body will be logged to standard output.
+
+<!-- marker-logging-end -->
 
 ## Local tests
 
