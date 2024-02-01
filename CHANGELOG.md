@@ -4,6 +4,9 @@
 1. [#636](https://github.com/influxdata/influxdb-client-python/pull/636): Handle missing data in data frames
 2. [#638](https://github.com/influxdata/influxdb-client-python/pull/638): Refactor DataFrame operations to avoid chained assignment and resolve FutureWarning in pandas, ensuring compatibility with pandas 3.0.
 
+### Documentation
+1. [#639](https://github.com/influxdata/influxdb-client-python/pull/639): Use Markdown for `README`
+
 ## 1.40.0 [2024-01-30]
 
 ### Features
