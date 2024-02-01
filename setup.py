@@ -44,9 +44,9 @@ async_requires = [
     'aiocsv>=1.2.2'
 ]
 
-with open('README.md', 'r') as f:
-    # Remove `class` text role as it's not allowed on PyPI
-    readme = f.read()
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 NAME = "influxdb_client"
 
@@ -58,7 +58,7 @@ setup(
     name=NAME,
     version=meta['VERSION'],
     description="InfluxDB 2.0 Python client library",
-    long_description=readme,
+    long_description=long_description,
     url="https://github.com/influxdata/influxdb-client-python",
     keywords=["InfluxDB", "InfluxDB Python Client"],
     tests_require=test_requires,
