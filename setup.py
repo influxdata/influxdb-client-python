@@ -44,13 +44,9 @@ async_requires = [
     'aiocsv>=1.2.2'
 ]
 
-with open('README.rst', 'r') as f:
+with open('README.md', 'r') as f:
     # Remove `class` text role as it's not allowed on PyPI
-    lines = []
-    for line in f:
-        lines.append(line.replace(":class:`~", "`"))
-
-    readme = "".join(lines)
+    readme = f.read()
 
 NAME = "influxdb_client"
 
@@ -68,7 +64,7 @@ setup(
     tests_require=test_requires,
     install_requires=requires,
     extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'async': async_requires, 'test': test_requires},
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     packages=find_packages(exclude=('tests*',)),
     test_suite='tests',
     python_requires='>=3.7',
