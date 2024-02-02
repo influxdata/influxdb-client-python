@@ -234,7 +234,7 @@ class DataframeSerializer:
 
         for k, v in dict(data_frame.dtypes).items():
             if k in data_frame_tag_columns:
-                data_frame.replace({k: ''}, np.nan, inplace=True)
+                data_frame = data_frame.replace({k: ''}, np.nan)
 
         self.data_frame = data_frame
         self.f = f
