@@ -1,3 +1,6 @@
+### Bug Fixes
+1. Pandas 3.0 warning silenced
+
 ## 1.41.0 [unreleased]
 
 ### Bug Fixes
