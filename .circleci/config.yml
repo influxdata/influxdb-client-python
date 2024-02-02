@@ -153,6 +153,7 @@ jobs:
             pip install sphinx==1.8.5 --user
             pip install sphinx_rtd_theme --user
             pip install jinja2==3.0.3 --user
+            pip install myst_parser>=0.19.2--user
             cd docs
             python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html
   check-aws-lambda-layer:
