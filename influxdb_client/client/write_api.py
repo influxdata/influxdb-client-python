@@ -250,6 +250,7 @@ class WriteApi(_BaseWriteApi):
         self._success_callback = kwargs.get('success_callback', None)
         self._error_callback = kwargs.get('error_callback', None)
         self._retry_callback = kwargs.get('retry_callback', None)
+        self._window_scheduler = None
 
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
