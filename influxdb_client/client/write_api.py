@@ -443,8 +443,7 @@ You can use native asynchronous version of the client:
                     break
 
         if self._window_scheduler:
-            self._window_scheduler.executor.shutdown()
-            self._window_scheduler.executor = None
+            self._window_scheduler.executor.shutdown(wait=False)
             self._window_scheduler = None
 
         if self._disposable:
