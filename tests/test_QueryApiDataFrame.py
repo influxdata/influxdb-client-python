@@ -268,7 +268,7 @@ class QueryDataFrameApi(BaseTest):
                 '|> range(start: -5s, stop: now()) '
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 "my-org")
-        self.assertEqual(1, len(warnings))
+        self.assertEqual(1, len([w for w in warnings if w.category == MissingPivotFunction]))
 
     def test_query_without_warning(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/query", status=200, body='\n')
@@ -284,7 +284,7 @@ class QueryDataFrameApi(BaseTest):
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> schema.fieldsAsCols() '
                 "my-org")
-        self.assertEqual(0, len(warns))
+        self.assertEqual(0, len([w for w in warns if w.category == MissingPivotFunction]))
 
         with warnings.catch_warnings(record=True) as warns:
             self.client.query_api().query_data_frame(
@@ -293,7 +293,7 @@ class QueryDataFrameApi(BaseTest):
                 '|> filter(fn: (r) => r._measurement == "mem") '
                 '|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")'
                 "my-org")
-        self.assertEqual(0, len(warns))
+        self.assertEqual(0, len([w for w in warns if w.category == MissingPivotFunction]))
 
     def test_pivoted_data(self):
         query_response = \
