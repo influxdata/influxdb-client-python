@@ -313,7 +313,7 @@ class DataSerializerTest(unittest.TestCase):
         data_frame = pd.DataFrame(data={
                                       'value': [1, 2],
                                 },
-                                index=pd.period_range(start='2020-04-05 01:00', freq='H', periods=2))
+                                index=pd.period_range(start='2020-04-05 01:00', freq='h', periods=2))
 
         points = data_frame_to_list_of_points(data_frame=data_frame,
                                               point_settings=PointSettings(),
@@ -498,7 +498,7 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         data_frame = pd.DataFrame(data={
             'value1': [10, 20],
             'value2': [30, 40],
-        }, index=pd.period_range(start='2020-05-24 10:00', freq='H', periods=2))
+        }, index=pd.period_range(start='2020-05-24 10:00', freq='h', periods=2))
 
         print(data_frame.to_string())
 
@@ -519,7 +519,7 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
             '2value': [30.0, np.nan, np.nan, np.nan, np.nan],
             '3value': [30.0, 30.0, 30.0, np.nan, np.nan],
             'avalue': [30.0, 30.0, 30.0, 30.0, 30.0]
-        }, index=pd.period_range('2020-05-24 10:00', freq='H', periods=5))
+        }, index=pd.period_range('2020-05-24 10:00', freq='h', periods=5))
 
         points = data_frame_to_list_of_points(data_frame,
                                               PointSettings(),
@@ -536,7 +536,7 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
             '1value': [np.nan],
             'avalue': [30.0],
             'bvalue': [30.0]
-        }, index=pd.period_range('2020-05-24 10:00', freq='H', periods=1))
+        }, index=pd.period_range('2020-05-24 10:00', freq='h', periods=1))
 
         points = data_frame_to_list_of_points(data_frame,
                                               PointSettings(),
