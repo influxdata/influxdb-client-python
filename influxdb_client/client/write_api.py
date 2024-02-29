@@ -250,16 +250,18 @@ class WriteApi(_BaseWriteApi):
         self._success_callback = kwargs.get('success_callback', None)
         self._error_callback = kwargs.get('error_callback', None)
         self._retry_callback = kwargs.get('retry_callback', None)
+        self._window_scheduler = None
 
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
 
+            self._window_scheduler = ThreadPoolScheduler(1)
             self._disposable = self._subject.pipe(
                 # Split incoming data to windows by batch_size or flush_interval
                 ops.window_with_time_or_count(count=write_options.batch_size,
                                               timespan=timedelta(milliseconds=write_options.flush_interval),
-                                              scheduler=ThreadPoolScheduler(1)),
+                                              scheduler=self._window_scheduler),
                 # Map  window into groups defined by 'organization', 'bucket' and 'precision'
                 ops.flat_map(lambda window: window.pipe(
                     # Group window by 'organization', 'bucket' and 'precision'
@@ -440,6 +442,10 @@ You can use native asynchronous version of the client:
                     )
                     break
 
+        if self._window_scheduler:
+            self._window_scheduler.executor.shutdown(wait=False)
+            self._window_scheduler = None
+
         if self._disposable:
             self._disposable = None
         pass
@@ -565,6 +571,7 @@ You can use native asynchronous version of the client:
         # Remove rx
         del state['_subject']
         del state['_disposable']
+        del state['_window_scheduler']
         del state['_write_service']
         return state
 
