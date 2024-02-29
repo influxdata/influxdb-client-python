@@ -248,8 +248,9 @@ class InfluxDBClientTest(unittest.TestCase):
         urllib3.disable_warnings()
         # Configure HTTP server
         self.httpd = http.server.HTTPServer(('localhost', 0), ServerWithSelfSingedSSL)
-        self.httpd.socket = ssl.wrap_socket(self.httpd.socket, certfile=f'{os.path.dirname(__file__)}/server.pem',
-                                            server_side=True)
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain(f'{os.path.dirname(__file__)}/server.pem')
+        self.httpd.socket = context.wrap_socket(self.httpd.socket, server_side=True)
         # Start server at background
         self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
         self.httpd_thread.start()

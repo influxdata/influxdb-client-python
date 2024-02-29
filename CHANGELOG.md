@@ -1,5 +1,8 @@
 ## 1.41.0 [unreleased]
 
+### Features
+1. [#643](https://github.com/influxdata/influxdb-client-python/pull/643): Add a support for Python 3.12
+
 ### Bug Fixes
 1. [#636](https://github.com/influxdata/influxdb-client-python/pull/636): Handle missing data in data frames
 1. [#638](https://github.com/influxdata/influxdb-client-python/pull/638), [#642](https://github.com/influxdata/influxdb-client-python/pull/642): Refactor DataFrame operations to avoid chained assignment and resolve FutureWarning in pandas, ensuring compatibility with pandas 3.0.

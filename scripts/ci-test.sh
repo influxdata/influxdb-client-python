@@ -8,13 +8,13 @@ ENABLED_CISO_8601="${ENABLED_CISO_8601:-true}"
 # Install requirements
 #
 python --version
-pip install -e . --user
-pip install -e .\[extra\] --user
-pip install -e .\[test\] --user
-pip install -e .\[async\] --user
+pip install . --user
+pip install .\[extra\] --user
+pip install .\[test\] --user
+pip install .\[async\] --user
 if [ "$ENABLED_CISO_8601" = true ] ; then
   echo "ciso8601 is enabled"
-  pip install -e .\[ciso\] --user
+  pip install .\[ciso\] --user
 else
   echo "ciso8601 is disabled"
 fi

@@ -27,4 +27,5 @@ class Warnings(unittest.TestCase):
             with InfluxDBClient(url="http://localhost", token="my-token", org="my-org") as client:
                 service = BucketSchemasService(api_client=client.api_client)
                 service.get_measurement_schemas(bucket_id="01010101")
+        warnings = [w for w in warnings if w.category == CloudOnlyWarning]
         self.assertEqual(1, len(warnings))
