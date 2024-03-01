@@ -1,4 +1,4 @@
-## 1.41.0 [unreleased]
+## 1.41.0 [2024-03-01]
 
 ### Features
 1. [#643](https://github.com/influxdata/influxdb-client-python/pull/643): Add a support for Python 3.12
