@@ -193,10 +193,10 @@ class DataframeSerializer:
             # field column has no nulls, we don't run the comma-removal
             # regexp substitution step.
             sep = '' if len(field_indexes) == 0 else ','
-            if issubclass(value.type, np.integer) or issubclass(value.type, np.floating) or issubclass(value.type, np.bool_):
+            if issubclass(value.type, np.integer) or issubclass(value.type, np.floating) or issubclass(value.type, np.bool_):  # noqa: E501
                 suffix = 'i' if issubclass(value.type, np.integer) else ''
                 if null_columns.iloc[index]:
-                    field_value = f"""{{"" if pd.isna({val_format}) else f"{sep}{key_format}={{{val_format}}}{suffix}"}}"""
+                    field_value = f"""{{"" if pd.isna({val_format}) else f"{sep}{key_format}={{{val_format}}}{suffix}"}}"""  # noqa: E501
                 else:
                     field_value = f"{sep}{key_format}={{{val_format}}}{suffix}"
             else:
