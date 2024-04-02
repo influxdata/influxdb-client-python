@@ -159,6 +159,32 @@ class DataSerializerTest(unittest.TestCase):
         self.assertEqual("measurement val=2i 1586046600000000000",
                          points[1])
 
+    def test_write_missing_values(self):
+        from influxdb_client.extras import pd
+
+        data_frame = pd.DataFrame({
+            "a_bool": [True, None, False],
+            "b_int": [None, 1, 2],
+            "c_float": [1.0, 2.0, None],
+            "d_str": ["a", "b", None],
+        })
+
+        data_frame['a_bool'] = data_frame['a_bool'].astype(pd.BooleanDtype())
+        data_frame['b_int'] = data_frame['b_int'].astype(pd.Int64Dtype())
+        data_frame['c_float'] = data_frame['c_float'].astype(pd.Float64Dtype())
+        data_frame['d_str'] = data_frame['d_str'].astype(pd.StringDtype())
+
+        print(data_frame)
+        points = data_frame_to_list_of_points(
+            data_frame=data_frame,
+            point_settings=PointSettings(),
+            data_frame_measurement_name='measurement')
+
+        self.assertEqual(3, len(points))
+        self.assertEqual("measurement a_bool=True,c_float=1.0,d_str=\"a\" 0", points[0])
+        self.assertEqual("measurement b_int=1i,c_float=2.0,d_str=\"b\" 1", points[1])
+        self.assertEqual("measurement a_bool=False,b_int=2i 2", points[2])
+
     def test_write_field_bool(self):
         from influxdb_client.extras import pd
 
