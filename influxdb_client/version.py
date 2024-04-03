@@ -1,3 +1,3 @@
 """Version of the Client that is used in User-Agent header."""
 
-VERSION = '1.41.0'
+VERSION = '1.42.0dev0'
