@@ -19,15 +19,6 @@ def _itertuples(data_frame):
     return zip(data_frame.index, *cols)
 
 
-def _not_nan(x):
-    from ...extras import pd
-    return not pd.isna(x)
-
-
-def _any_not_nan(p, indexes):
-    return any(map(lambda x: _not_nan(p[x]), indexes))
-
-
 class DataframeSerializer:
     """Serialize DataFrame into LineProtocols."""
 
@@ -234,10 +225,14 @@ class DataframeSerializer:
             if k in data_frame_tag_columns:
                 data_frame = data_frame.replace({k: ''}, np.nan)
 
+        def _any_not_nan(p, indexes):
+            return any(map(lambda x: not pd.isna(p[x]), indexes))
+
         self.data_frame = data_frame
         self.f = f
         self.field_indexes = field_indexes
         self.first_field_maybe_null = null_columns.iloc[field_indexes[0] - 1]
+        self._any_not_nan = _any_not_nan
 
         #
         # prepare chunks
@@ -264,7 +259,7 @@ class DataframeSerializer:
             # When the first field is null (None/NaN), we'll have
             # a spurious leading comma which needs to be removed.
             lp = (re.sub('^(( |[^ ])* ),([a-zA-Z0-9])(.*)', '\\1\\3\\4', self.f(p))
-                  for p in filter(lambda x: _any_not_nan(x, self.field_indexes), _itertuples(chunk)))
+                  for p in filter(lambda x: self._any_not_nan(x, self.field_indexes), _itertuples(chunk)))
             return list(lp)
         else:
             return list(map(self.f, _itertuples(chunk)))
