@@ -19,14 +19,6 @@ def _itertuples(data_frame):
     return zip(data_frame.index, *cols)
 
 
-def _not_nan(x):
-    return x == x
-
-
-def _any_not_nan(p, indexes):
-    return any(map(lambda x: _not_nan(p[x]), indexes))
-
-
 class DataframeSerializer:
     """Serialize DataFrame into LineProtocols."""
 
@@ -77,7 +69,7 @@ class DataframeSerializer:
         # When NaNs are present, the expression looks like this (split
         # across two lines to satisfy the code-style checker)
         #
-        #    lambda p: f"""{measurement_name} {"" if math.isnan(p[1])
+        #    lambda p: f"""{measurement_name} {"" if pd.isna(p[1])
         #    else f"{keys[0]}={p[1]}"},{keys[1]}={p[2]}i {p[0].value}"""
         #
         # When there's a NaN value in column a, we'll end up with a comma at the start of the
@@ -175,7 +167,7 @@ class DataframeSerializer:
                 # This column is a tag column.
                 if null_columns.iloc[index]:
                     key_value = f"""{{
-                            '' if {val_format} == '' or type({val_format}) == float and math.isnan({val_format}) else
+                            '' if {val_format} == '' or pd.isna({val_format}) else
                             f',{key_format}={{str({val_format}).translate(_ESCAPE_STRING)}}'
                         }}"""
                 else:
@@ -192,19 +184,16 @@ class DataframeSerializer:
             # field column has no nulls, we don't run the comma-removal
             # regexp substitution step.
             sep = '' if len(field_indexes) == 0 else ','
-            if issubclass(value.type, np.integer):
-                field_value = f"{sep}{key_format}={{{val_format}}}i"
-            elif issubclass(value.type, np.bool_):
-                field_value = f'{sep}{key_format}={{{val_format}}}'
-            elif issubclass(value.type, np.floating):
+            if issubclass(value.type, np.integer) or issubclass(value.type, np.floating) or issubclass(value.type, np.bool_):  # noqa: E501
+                suffix = 'i' if issubclass(value.type, np.integer) else ''
                 if null_columns.iloc[index]:
-                    field_value = f"""{{"" if math.isnan({val_format}) else f"{sep}{key_format}={{{val_format}}}"}}"""
+                    field_value = f"""{{"" if pd.isna({val_format}) else f"{sep}{key_format}={{{val_format}}}{suffix}"}}"""  # noqa: E501
                 else:
-                    field_value = f'{sep}{key_format}={{{val_format}}}'
+                    field_value = f"{sep}{key_format}={{{val_format}}}{suffix}"
             else:
                 if null_columns.iloc[index]:
                     field_value = f"""{{
-                            '' if type({val_format}) == float and math.isnan({val_format}) else
+                            '' if pd.isna({val_format}) else
                             f'{sep}{key_format}="{{str({val_format}).translate(_ESCAPE_STRING)}}"'
                         }}"""
                 else:
@@ -229,17 +218,21 @@ class DataframeSerializer:
             '_ESCAPE_KEY': _ESCAPE_KEY,
             '_ESCAPE_STRING': _ESCAPE_STRING,
             'keys': keys,
-            'math': math,
+            'pd': pd,
         })
 
         for k, v in dict(data_frame.dtypes).items():
             if k in data_frame_tag_columns:
                 data_frame = data_frame.replace({k: ''}, np.nan)
 
+        def _any_not_nan(p, indexes):
+            return any(map(lambda x: not pd.isna(p[x]), indexes))
+
         self.data_frame = data_frame
         self.f = f
         self.field_indexes = field_indexes
         self.first_field_maybe_null = null_columns.iloc[field_indexes[0] - 1]
+        self._any_not_nan = _any_not_nan
 
         #
         # prepare chunks
@@ -266,7 +259,7 @@ class DataframeSerializer:
             # When the first field is null (None/NaN), we'll have
             # a spurious leading comma which needs to be removed.
             lp = (re.sub('^(( |[^ ])* ),([a-zA-Z0-9])(.*)', '\\1\\3\\4', self.f(p))
-                  for p in filter(lambda x: _any_not_nan(x, self.field_indexes), _itertuples(chunk)))
+                  for p in filter(lambda x: self._any_not_nan(x, self.field_indexes), _itertuples(chunk)))
             return list(lp)
         else:
             return list(map(self.f, _itertuples(chunk)))
