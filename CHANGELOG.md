@@ -1,4 +1,4 @@
-## 1.42.0 [unreleased]
+## 1.42.0 [2024-04-17]
 
 ### Bug Fixes
 1. [#648](https://github.com/influxdata/influxdb-client-python/pull/648): Fix `DataFrame` serialization with `NaN` values
