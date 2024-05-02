@@ -2,7 +2,7 @@ import asyncio
 import logging
 import unittest
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from io import StringIO
 
 import pytest
@@ -202,11 +202,11 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
     async def test_write_points_different_precision(self):
         measurement = generate_name("measurement")
         _point1 = Point(measurement).tag("location", "Prague").field("temperature", 25.3) \
-            .time(datetime.utcfromtimestamp(0), write_precision=WritePrecision.S)
+            .time(datetime.fromtimestamp(0, tz=timezone.utc), write_precision=WritePrecision.S)
         _point2 = Point(measurement).tag("location", "New York").field("temperature", 24.3) \
-            .time(datetime.utcfromtimestamp(1), write_precision=WritePrecision.MS)
+            .time(datetime.fromtimestamp(1, tz=timezone.utc), write_precision=WritePrecision.MS)
         _point3 = Point(measurement).tag("location", "Berlin").field("temperature", 24.3) \
-            .time(datetime.utcfromtimestamp(2), write_precision=WritePrecision.NS)
+            .time(datetime.fromtimestamp(2, tz=timezone.utc), write_precision=WritePrecision.NS)
         await self.client.write_api().write(bucket="my-bucket", record=[_point1, _point2, _point3],
                                             write_precision=WritePrecision.NS)
         query = f'''
@@ -228,7 +228,8 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         measurement = generate_name("measurement")
         await self._prepare_data(measurement)
 
-        successfully = await self.client.delete_api().delete(start=datetime.utcfromtimestamp(0), stop=datetime.utcnow(),
+        successfully = await self.client.delete_api().delete(start=datetime.fromtimestamp(0),
+                                                             stop=datetime.now(tz=timezone.utc),
                                                              predicate="location = \"Prague\"", bucket="my-bucket")
         self.assertEqual(True, successfully)
         query = f'''

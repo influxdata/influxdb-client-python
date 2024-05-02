@@ -1,6 +1,6 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -37,7 +37,7 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
                     version="2021.06.05.5874",
                     pressure=125,
                     temperature=10,
-                    timestamp=datetime.utcnow())
+                    timestamp=datetime.now(tz=timezone.utc))
     print(sensor)
 
     """

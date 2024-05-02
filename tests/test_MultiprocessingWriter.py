@@ -1,6 +1,6 @@
 import os
 import unittest
-from datetime import datetime
+from datetime import datetime, timezone
 
 from influxdb_client import WritePrecision, InfluxDBClient
 from influxdb_client.client.util.date_utils import get_date_helper
@@ -53,7 +53,7 @@ class MultiprocessingWriterTest(unittest.TestCase):
             self.assertIsNotNone(writer)
 
     def test_pass_parameters(self):
-        unique = get_date_helper().to_nanoseconds(datetime.utcnow() - datetime.utcfromtimestamp(0))
+        unique = get_date_helper().to_nanoseconds(datetime.now(tz=timezone.utc) - datetime.fromtimestamp(0, tz=timezone.utc))
 
         # write data
         with MultiprocessingWriter(url=self.url, token=self.token, org=self.org, write_options=SYNCHRONOUS) as writer:
@@ -69,4 +69,4 @@ class MultiprocessingWriterTest(unittest.TestCase):
             self.assertIsNotNone(record)
             self.assertEqual("a", record["tag"])
             self.assertEqual(5, record["_value"])
-            self.assertEqual(get_date_helper().to_utc(datetime.utcfromtimestamp(10)), record["_time"])
+            self.assertEqual(get_date_helper().to_utc(datetime.fromtimestamp(10, tz=timezone.utc)), record["_time"])

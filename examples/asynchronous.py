@@ -76,7 +76,7 @@ async def main():
         Delete data
         """
         print(f"\n------- Delete data with location = 'Prague' -------\n")
-        successfully = await client.delete_api().delete(start=datetime.utcfromtimestamp(0), stop=datetime.now(),
+        successfully = await client.delete_api().delete(start=datetime.fromtimestamp(0), stop=datetime.now(),
                                                         predicate="location = \"Prague\"", bucket="my-bucket")
         print(f" > successfully: {successfully}")
 
