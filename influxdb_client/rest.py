@@ -13,7 +13,7 @@ from __future__ import absolute_import
 
 import logging
 from typing import Dict
-
+from urllib3 import HTTPResponse
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.configuration import Configuration
 
@@ -34,7 +34,10 @@ class ApiException(InfluxDBError):
             self.status = http_resp.status
             self.reason = http_resp.reason
             self.body = http_resp.data
-            self.headers = http_resp.headers
+            if isinstance(http_resp, HTTPResponse):  # response is HTTPResponse
+                self.headers = http_resp.headers
+            else:  # response is RESTResponse
+                self.headers = http_resp.getheaders()
         else:
             self.status = status
             self.reason = reason
