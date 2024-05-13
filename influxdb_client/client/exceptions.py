@@ -34,7 +34,7 @@ class InfluxDBError(Exception):
 
         # Header
         for header_key in ["X-Platform-Error-Code", "X-Influx-Error", "X-InfluxDb-Error"]:
-            header_value = response.headers.get(header_key)
+            header_value = response.getheader(header_key)
             if header_value is not None:
                 return header_value
 
