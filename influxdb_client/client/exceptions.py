@@ -15,7 +15,7 @@ class InfluxDBError(Exception):
         if response is not None:
             self.response = response
             self.message = self._get_message(response)
-            self.retry_after = response.getheader('Retry-After')
+            self.retry_after = response.headers.get('Retry-After')
         else:
             self.response = None
             self.message = message or 'no response'
@@ -34,7 +34,7 @@ class InfluxDBError(Exception):
 
         # Header
         for header_key in ["X-Platform-Error-Code", "X-Influx-Error", "X-InfluxDb-Error"]:
-            header_value = response.getheader(header_key)
+            header_value = response.headers.get(header_key)
             if header_value is not None:
                 return header_value
 
