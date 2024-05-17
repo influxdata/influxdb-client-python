@@ -1,4 +1,4 @@
-## 1.43.0 [unreleased]
+## 1.43.0 [2024-05-17]
 
 ### Bug Fixes
 1. [#655](https://github.com/influxdata/influxdb-client-python/pull/655): Replace deprecated `urllib` calls `HTTPResponse.getheaders()` and `HTTPResponse.getheader()`.
