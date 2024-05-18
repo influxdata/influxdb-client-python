@@ -1,5 +1,6 @@
 """Utils to get right Date parsing function."""
 import datetime
+from sys import version_info
 import threading
 from datetime import timezone as tz
 
@@ -78,7 +79,8 @@ def get_date_helper() -> DateHelper:
     """
     Return DateHelper with proper implementation.
 
-    If there is a 'ciso8601' than use 'ciso8601.parse_datetime' else use 'dateutil.parse'.
+    If there is a 'ciso8601' than use 'ciso8601.parse_datetime' else
+    use 'datetime.fromisoformat' (Python >= 3.11) or 'dateutil.parse' (Python < 3.11).
     """
     global date_helper
     if date_helper is None:
@@ -90,7 +92,10 @@ def get_date_helper() -> DateHelper:
                     import ciso8601
                     _date_helper.parse_date = ciso8601.parse_datetime
                 except ModuleNotFoundError:
-                    _date_helper.parse_date = parser.parse
+                    if (version_info.major, version_info.minor) >= (3, 11):
+                        _date_helper.parse_date = datetime.datetime.fromisoformat
+                    else:
+                        _date_helper.parse_date = parser.parse
                 date_helper = _date_helper
 
     return date_helper
