@@ -8,6 +8,7 @@ import warnings
 
 from influxdb_client import BucketsService, Bucket, PostBucketRequest, PatchBucketRequest
 from influxdb_client.client.util.helpers import get_org_query_param
+from influxdb_client.client._pages import _Page, _PageIterator
 
 
 class BucketsApi(object):
@@ -117,3 +118,32 @@ class BucketsApi(object):
         :return: Buckets
         """
         return self._buckets_service.get_buckets(**kwargs)
+
+    def find_buckets_iter(self, **kwargs):
+        """Iterate over all buckets with pagination.
+
+        :key str name: Only returns buckets with the specified name
+        :key str org: The organization name.
+        :key str org_id: The organization ID.
+        :key str after: The last resource ID from which to seek from (but not including).
+        :key int limit: the maximum number of buckets in one page
+        :return: Buckets iterator
+        """
+
+        def get_next_page(page: _Page):
+            return self._find_buckets_next_page(page, **kwargs)
+
+        return iter(_PageIterator(_Page.initial(kwargs.get('after')), get_next_page))
+
+    def _find_buckets_next_page(self, page: _Page, **kwargs):
+        if not page.has_next:
+            return _Page.empty()
+
+        kw_args = {**kwargs, 'after': page.next_after} if page.next_after is not None else kwargs
+        response = self._buckets_service.get_buckets(**kw_args)
+
+        buckets = response.buckets
+        has_next = response.links.next is not None
+        last_id = buckets[-1].id if buckets else None
+
+        return _Page(buckets, has_next, last_id)

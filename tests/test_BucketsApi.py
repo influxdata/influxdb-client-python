@@ -83,26 +83,65 @@ class BucketsClientTest(BaseTest):
 
         self.delete_test_bucket(my_bucket)
 
-    def test_pagination(self):
+    def test_find_buckets(self):
         my_org = self.find_my_org()
-        buckets = self.buckets_api.find_buckets().buckets
+        buckets = self.buckets_api.find_buckets(limit=100).buckets
         size = len(buckets)
 
         # create 2 buckets
         self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org=my_org)
         self.buckets_api.create_bucket(bucket_name=generate_bucket_name(), org=my_org)
 
-        buckets = self.buckets_api.find_buckets().buckets
+        buckets = self.buckets_api.find_buckets(limit=size + 2).buckets
         self.assertEqual(size + 2, len(buckets))
 
         # offset 1
-        buckets = self.buckets_api.find_buckets(offset=1).buckets
+        buckets = self.buckets_api.find_buckets(offset=1, limit=size + 2).buckets
         self.assertEqual(size + 1, len(buckets))
 
         # count 1
         buckets = self.buckets_api.find_buckets(limit=1).buckets
         self.assertEqual(1, len(buckets))
 
+    def test_find_buckets_iter(self):
+        def count_unique_ids(items):
+          return len(set(map(lambda item: item.id, items)))
+
+        my_org = self.find_my_org()
+        more_buckets = 10
+        num_of_buckets = count_unique_ids(self.buckets_api.find_buckets_iter()) + more_buckets
+        
+        a_bucket_name = None
+        for _ in range(more_buckets):
+          bucket_name = self.generate_name("it find_buckets_iter")
+          self.buckets_api.create_bucket(bucket_name=bucket_name, org=my_org)
+          a_bucket_name = bucket_name
+
+        # get no buckets
+        buckets = self.buckets_api.find_buckets_iter(name=a_bucket_name + "blah")
+        self.assertEqual(count_unique_ids(buckets), 0)
+
+        # get bucket by name
+        buckets = self.buckets_api.find_buckets_iter(name=a_bucket_name)
+        self.assertEqual(count_unique_ids(buckets), 1)
+
+        # get buckets in 3-4 batches
+        buckets = self.buckets_api.find_buckets_iter(limit=num_of_buckets // 3)
+        self.assertEqual(count_unique_ids(buckets), num_of_buckets)
+
+        # get buckets in one batch
+        buckets = self.buckets_api.find_buckets_iter(limit=num_of_buckets)
+        self.assertEqual(count_unique_ids(buckets), num_of_buckets)
+
+        # get buckets in one batch, requesting too much
+        buckets = self.buckets_api.find_buckets_iter(limit=num_of_buckets + 1)
+        self.assertEqual(count_unique_ids(buckets), num_of_buckets)
+
+        # skip some buckets 
+        *_, skip_bucket = self.buckets_api.find_buckets(limit=num_of_buckets // 3).buckets
+        buckets = self.buckets_api.find_buckets_iter(after=skip_bucket.id)
+        self.assertEqual(count_unique_ids(buckets), num_of_buckets - num_of_buckets // 3)
+        
     def test_update_bucket(self):
         my_org = self.find_my_org()
 
