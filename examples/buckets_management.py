@@ -36,7 +36,7 @@ with InfluxDBClient(url=url, token=token) as client:
     List all Buckets
     """
     print(f"\n------- List -------\n")
-    buckets = buckets_api.find_buckets().buckets
+    buckets = buckets_api.find_buckets_iter()
     print("\n".join([f" ---\n ID: {bucket.id}\n Name: {bucket.name}\n Retention: {bucket.retention_rules}"
                      for bucket in buckets]))
     print("---")
