@@ -2,6 +2,7 @@
 
 ### Features
 1. [#657](https://github.com/influxdata/influxdb-client-python/pull/657): Prefer datetime.fromisoformat over dateutil.parse in Python 3.11+ 
+1. [#658](https://github.com/influxdata/influxdb-client-python/pull/658): Add `find_buckets_iter` function that allow iterate through all pages of buckets.
 
 ## 1.43.0 [2024-05-17]
 

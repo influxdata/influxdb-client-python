@@ -8,6 +8,7 @@ import warnings
 
 from influxdb_client import BucketsService, Bucket, PostBucketRequest, PatchBucketRequest
 from influxdb_client.client.util.helpers import get_org_query_param
+from influxdb_client.client._pages import _Paginated
 
 
 class BucketsApi(object):
@@ -117,3 +118,15 @@ class BucketsApi(object):
         :return: Buckets
         """
         return self._buckets_service.get_buckets(**kwargs)
+
+    def find_buckets_iter(self, **kwargs):
+        """Iterate over all buckets with pagination.
+
+        :key str name: Only returns buckets with the specified name
+        :key str org: The organization name.
+        :key str org_id: The organization ID.
+        :key str after: The last resource ID from which to seek from (but not including).
+        :key int limit: the maximum number of buckets in one page
+        :return: Buckets iterator
+        """
+        return _Paginated(self._buckets_service.get_buckets, lambda response: response.buckets).find_iter(**kwargs)
