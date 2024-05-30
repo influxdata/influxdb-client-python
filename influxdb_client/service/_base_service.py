@@ -9,6 +9,7 @@ class _BaseService(object):
             raise ValueError("Invalid value for `api_client`, must be defined.")
         self.api_client = api_client
         self._build_type = None
+        self._build_version = None
 
     def _check_operation_params(self, operation_id, supported_params, local_params):
         supported_params.append('async_req')
@@ -35,6 +36,16 @@ class _BaseService(object):
             self._build_type = await self.build_type_async()
         return 'cloud' in self._build_type.lower()
 
+    def _is_below_v2(self) -> bool:
+        if self._build_version is None:
+            self._build_version = self.build_version()
+        return self._build_version < '2'
+
+    async def _is_below_v2_async(self) -> bool:
+        if self._build_version is None:
+            self._build_version = await self.build_version()
+        return self._build_version < '2'
+
     def build_type(self) -> str:
         """
         Return the build type of the connected InfluxDB Server.
@@ -58,6 +69,30 @@ class _BaseService(object):
 
         response = await ping_service.get_ping_async(_return_http_data_only=False)
         return self.response_header(response, header_name='X-Influxdb-Build')
+
+    def build_version(self) -> str:
+        """
+        Return the version number of the connected InfluxDB Server.
+
+        :return: Version number of InfluxDB build.
+        """
+        from influxdb_client import PingService
+        ping_service = PingService(self.api_client)
+
+        response = ping_service.get_ping_with_http_info(_return_http_data_only=False)
+        return self.response_header(response, header_name='X-Influxdb-Version')
+
+    async def build_version_async(self) -> str:
+        """
+        Return the version number of the connected InfluxDB Server.
+
+        :return: Version number of InfluxDB build.
+        """
+        from influxdb_client import PingService
+        ping_service = PingService(self.api_client)
+
+        response = await ping_service.get_ping_async(_return_http_data_only=False)
+        return self.response_header(response, header_name='X-Influxdb-Version')
 
     def response_header(self, response, header_name='X-Influxdb-Version') -> str:
         if response is not None and len(response) >= 3:
