@@ -341,12 +341,12 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
     if isinstance(timestamp, str):
         timestamp = date_helper.parse_date(timestamp)
 
-    if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime):
+    if isinstance(timestamp, timedelta) or isinstance(timestamp, datetime) or isinstance(timestamp, Decimal):
 
         if isinstance(timestamp, datetime):
             timestamp = date_helper.to_utc(timestamp) - EPOCH
 
-        ns = date_helper.to_nanoseconds(timestamp)
+        ns = int(date_helper.to_nanoseconds(timestamp))
 
         if precision is None or precision == WritePrecision.NS:
             return ns
