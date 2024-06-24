@@ -1,4 +1,4 @@
-## 1.44.0 [unreleased]
+## 1.44.0 [2024-06-24]
 
 ### Features
 1. [#657](https://github.com/influxdata/influxdb-client-python/pull/657): Prefer datetime.fromisoformat over dateutil.parse in Python 3.11+ 
