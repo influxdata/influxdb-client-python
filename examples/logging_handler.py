@@ -45,7 +45,7 @@ def use_logger():
         Point('my-measurement')
             .tag('host', 'host1')
             .field('temperature', 25.3)
-            .time(datetime.datetime.utcnow(), WritePrecision.MS)
+            .time(datetime.datetime.now(tz=datetime.timezone.utc), WritePrecision.MS)
     )
 
 

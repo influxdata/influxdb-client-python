@@ -2,7 +2,7 @@
 Connect to InfluxDB 2.0 - write data and query them
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from influxdb_client import Point, InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -23,7 +23,8 @@ with InfluxDBClient(url=influx_cloud_url, token=influx_cloud_token) as client:
     """
     Write data by Point structure
     """
-    point = Point(kind).tag('host', host).tag('device', device).field('value', 25.3).time(time=datetime.utcnow())
+    point = Point(kind).tag('host', host).tag('device', device).field('value', 25.3) \
+        .time(time=datetime.now(tz=timezone.utc))
 
     print(f'Writing to InfluxDB cloud: {point.to_line_protocol()} ...')
 

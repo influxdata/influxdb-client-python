@@ -1,5 +1,5 @@
 import codecs
-from datetime import datetime
+from datetime import datetime, timezone
 
 from influxdb_client import WritePrecision, InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -7,8 +7,8 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org", debug=False) as client:
     query_api = client.query_api()
 
-    p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3).time(datetime.utcnow(),
-                                                                                          WritePrecision.MS)
+    p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3) \
+        .time(datetime.now(tz=timezone.utc), WritePrecision.MS)
     write_api = client.write_api(write_options=SYNCHRONOUS)
 
     # write using point structure

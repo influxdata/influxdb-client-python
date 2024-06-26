@@ -10,7 +10,7 @@ from numbers import Integral
 from influxdb_client.client.util.date_utils import get_date_helper
 from influxdb_client.domain.write_precision import WritePrecision
 
-EPOCH = datetime.utcfromtimestamp(0).replace(tzinfo=timezone.utc)
+EPOCH = datetime.fromtimestamp(0, tz=timezone.utc)
 
 DEFAULT_WRITE_PRECISION = WritePrecision.NS
 

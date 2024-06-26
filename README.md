@@ -392,7 +392,7 @@ The batching is configurable by `write_options`:
 | **exponential_base** | the base for the exponential retry delay, the next delay is computed using random exponential backoff as a random value within the interval `retry_interval * exponential_base^(attempts-1)` and `retry_interval * exponential_base^(attempts)`. Example for `retry_interval=5_000, exponential_base=2, max_retry_delay=125_000, total=5` Retry delays are random distributed values within the ranges of `[5_000-10_000, 10_000-20_000, 20_000-40_000, 40_000-80_000, 80_000-125_000]` | `2`           |
 
 ``` python
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pandas as pd
 import reactivex as rx
@@ -456,7 +456,7 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
         """
         Write Pandas DataFrame
         """
-        _now = datetime.utcnow()
+        _now = datetime.now(tz=timezone.utc)
         _data_frame = pd.DataFrame(data=[["coyote_creek", 1.0], ["coyote_creek", 2.0]],
                                    index=[_now, _now + timedelta(hours=1)],
                                    columns=["location", "water_level"])
@@ -923,7 +923,7 @@ The last step is run a python script via: `python3 influx_cloud.py`.
 Connect to InfluxDB 2.0 - write data and query them
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from influxdb_client import Point, InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -945,7 +945,7 @@ try:
     """
     Write data by Point structure
     """
-    point = Point(kind).tag('host', host).tag('device', device).field('value', 25.3).time(time=datetime.utcnow())
+    point = Point(kind).tag('host', host).tag('device', device).field('value', 25.3).time(time=datetime.now(tz=timezone.utc))
 
     print(f'Writing to InfluxDB cloud: {point.to_line_protocol()} ...')
 
@@ -1407,7 +1407,7 @@ The `influxdb_client.client.query_api_async.QueryApiAsync` supports retrieve dat
 >
 > async def main():
 >     async with InfluxDBClientAsync(url="http://localhost:8086", token="my-token", org="my-org") as client:
->         start = datetime.utcfromtimestamp(0)
+>         start = datetime.fromtimestamp(0)
 >         stop = datetime.now()
 >         # Delete data with location = 'Prague'
 >         successfully = await client.delete_api().delete(start=start, stop=stop, bucket="my-bucket",
