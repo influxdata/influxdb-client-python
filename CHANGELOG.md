@@ -1,5 +1,8 @@
 ## 1.45.0 [unreleased]
 
+### Bug Fixes
+1. [#652](https://github.com/influxdata/influxdb-client-python/pull/652): Refactor to `timezone` specific `datetime` helpers to avoid use deprecated functions
+
 ## 1.44.0 [2024-06-24]
 
 ### Features
@@ -13,9 +16,6 @@
 
 ### Others
 1. [#654](https://github.com/influxdata/influxdb-client-python/pull/654): Enable packaging type information - `py.typed`
-
-### Bug Fixes
-1. [#652](https://github.com/influxdata/influxdb-client-python/pull/652): Refactor to `timezone` specific `datetime` helpers to avoid use deprecated functions
 
 ## 1.42.0 [2024-04-17]
 
