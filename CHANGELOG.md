@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 1. [#652](https://github.com/influxdata/influxdb-client-python/pull/652): Refactor to `timezone` specific `datetime` helpers to avoid use deprecated functions
+1. [#663](https://github.com/influxdata/influxdb-client-python/pull/663): Accept HTTP 201 response to write request
 
 ## 1.44.0 [2024-06-24]
 
