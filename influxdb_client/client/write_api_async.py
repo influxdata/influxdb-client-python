@@ -122,4 +122,4 @@ class WriteApiAsync(_BaseWriteApi):
                                                               precision=write_precision, async_req=False,
                                                               _return_http_data_only=False,
                                                               content_type="text/plain; charset=utf-8")
-        return response[1] == 204
+        return response[1] in (201, 204)
