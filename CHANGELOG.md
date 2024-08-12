@@ -1,5 +1,8 @@
 ## 1.46.0 [unreleased]
 
+### Examples:
+1. [#664](https://github.com/influxdata/influxdb-client-python/pull/664/): Multiprocessing example uses new source of data
+
 ## 1.45.0 [2024-08-12]
 
 ### Bug Fixes
