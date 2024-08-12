@@ -1,4 +1,4 @@
-## 1.45.0 [unreleased]
+## 1.45.0 [2024-08-12]
 
 ### Bug Fixes
 1. [#652](https://github.com/influxdata/influxdb-client-python/pull/652): Refactor to `timezone` specific `datetime` helpers to avoid use deprecated functions
