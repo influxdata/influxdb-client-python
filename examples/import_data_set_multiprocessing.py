@@ -114,7 +114,7 @@ def parse_rows(rows, total_size):
     counter_.value += len(_parsed_rows)
     if counter_.value % 10_000 == 0:
         print('{0:8}{1}'.format(counter_.value, ' - {0:.2f} %'
-                                .format(100 * float(progress_.value) / float(int(total_size))) if total_size else ""))
+                                .format(float(progress_.value) / float(int(total_size))) if total_size else ""))
         pass
 
     queue_.put(_parsed_rows)
@@ -148,8 +148,9 @@ if __name__ == "__main__":
     Open URL and for stream data 
     """
     response = urlopen(url)
-    if response.headers:
-        content_length = response.headers['Content-length']
+    # we can't get content length from response because the gzip stream content length is unknown
+    # so we set it to this value, just for progress display
+    content_length = 23143223
 
     """
     Open GZIP stream
