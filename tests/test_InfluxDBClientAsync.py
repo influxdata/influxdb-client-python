@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import re
 import unittest
 import os
 from datetime import datetime, timezone
@@ -389,6 +390,25 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         with pytest.raises(InfluxDBError) as e:
             await self.client.query_api().query("buckets()", "my-org")
         self.assertEqual("unauthorized access", e.value.message)
+        print("DEBUG e.headers: ", e.value.headers)
+
+    @async_test
+    async def test_write_exception_propagation(self):
+        await self.client.close()
+        self.client = InfluxDBClientAsync(url="http://localhost:8086", token="wrong", org="my-org")
+
+        with pytest.raises(InfluxDBError) as e:
+            await self.client.write_api().write(bucket="my_bucket",
+                                                record="temperature,location=hic cels=")
+        self.assertEqual("unauthorized access", e.value.message)
+        headers = e.value.headers
+        self.assertIsNotNone(headers)
+        self.assertIsNotNone(headers.get("Content-Length"))
+        self.assertIsNotNone(headers.get("Date"))
+        self.assertIsNotNone(headers.get("X-Platform-Error-Code"))
+        self.assertIn("application/json", headers.get("Content-Type"))
+        self.assertTrue(re.compile("^v.*").match(headers.get("X-Influxdb-Version")))
+        self.assertEqual("OSS", headers.get("X-Influxdb-Build"))
 
     @async_test
     @aioresponses()

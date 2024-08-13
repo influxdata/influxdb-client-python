@@ -16,8 +16,10 @@ class InfluxDBError(Exception):
             self.response = response
             self.message = self._get_message(response)
             if isinstance(response, HTTPResponse):  # response is HTTPResponse
+                self.headers = response.headers
                 self.retry_after = response.headers.get('Retry-After')
             else:  # response is RESTResponse
+                self.headers = response.getheaders()
                 self.retry_after = response.getheader('Retry-After')
         else:
             self.response = None
