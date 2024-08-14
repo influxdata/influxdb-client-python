@@ -390,7 +390,6 @@ class InfluxDBClientAsyncTest(unittest.TestCase):
         with pytest.raises(InfluxDBError) as e:
             await self.client.query_api().query("buckets()", "my-org")
         self.assertEqual("unauthorized access", e.value.message)
-        print("DEBUG e.headers: ", e.value.headers)
 
     @async_test
     async def test_write_exception_propagation(self):
