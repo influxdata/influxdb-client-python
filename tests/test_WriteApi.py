@@ -3,12 +3,16 @@
 from __future__ import absolute_import
 
 import datetime
+import json
+import logging
 import os
+import re
 import sys
 import unittest
 from collections import namedtuple
 from datetime import timedelta
 from multiprocessing.pool import ApplyResult
+from types import SimpleNamespace
 
 import httpretty
 import pytest
@@ -190,6 +194,17 @@ class SynchronousWriteTest(BaseTest):
 
         self.assertEqual(400, exception.status)
         self.assertEqual("Bad Request", exception.reason)
+        # assert headers
+        self.assertIsNotNone(exception.headers)
+        self.assertIsNotNone(exception.headers.get("Content-Length"))
+        self.assertIsNotNone(exception.headers.get("Date"))
+        self.assertIsNotNone(exception.headers.get("X-Platform-Error-Code"))
+        self.assertIn("application/json", exception.headers.get("Content-Type"))
+        self.assertTrue(re.compile("^v.*").match(exception.headers.get("X-Influxdb-Version")))
+        self.assertEqual("OSS", exception.headers.get("X-Influxdb-Build"))
+        # assert body
+        b = json.loads(exception.body, object_hook=lambda d: SimpleNamespace(**d))
+        self.assertTrue(re.compile("^unable to parse.*invalid field format").match(b.message))
 
     def test_write_dictionary(self):
         _bucket = self.create_test_bucket()
@@ -608,6 +623,28 @@ class AsynchronousWriteTest(BaseTest):
         self.assertEqual(ApplyResult, type(result))
         self.assertEqual(None, result.get())
         self.delete_test_bucket(_bucket)
+
+    def test_write_error(self):
+        _bucket = self.create_test_bucket()
+
+        _record = "h2o_feet,location=coyote_creek level\\ water_level="
+        result = self.write_client.write(_bucket.name, self.org, _record)
+
+        with self.assertRaises(ApiException) as cm:
+            result.get()
+        self.assertEqual(400, cm.exception.status)
+        self.assertEqual("Bad Request", cm.exception.reason)
+        # assert headers
+        self.assertIsNotNone(cm.exception.headers)
+        self.assertIsNotNone(cm.exception.headers.get("Content-Length"))
+        self.assertIsNotNone(cm.exception.headers.get("Date"))
+        self.assertIsNotNone(cm.exception.headers.get("X-Platform-Error-Code"))
+        self.assertIn("application/json", cm.exception.headers.get("Content-Type"))
+        self.assertTrue(re.compile("^v.*").match(cm.exception.headers.get("X-Influxdb-Version")))
+        self.assertEqual("OSS", cm.exception.headers.get("X-Influxdb-Build"))
+        # assert body
+        b = json.loads(cm.exception.body, object_hook=lambda d: SimpleNamespace(**d))
+        self.assertTrue(re.compile("^unable to parse.*missing field value").match(b.message))
 
     def test_write_dictionaries(self):
         bucket = self.create_test_bucket()
