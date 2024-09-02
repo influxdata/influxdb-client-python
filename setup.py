@@ -66,6 +66,7 @@ setup(
     extras_require={'extra': extra_requires, 'ciso': ciso_requires, 'async': async_requires, 'test': test_requires},
     long_description_content_type="text/markdown",
     packages=find_packages(exclude=('tests*',)),
+    package_data={'influxdb_client': ['py.typed']},
     test_suite='tests',
     python_requires='>=3.7',
     include_package_data=True,

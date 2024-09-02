@@ -1,5 +1,8 @@
 ## 1.46.0 [unreleased]
 
+### Bug Fixes
+1. [#667](https://github.com/influxdata/influxdb-client-python/pull/667): Missing `py.typed` in distribution package
+
 ### Examples:
 1. [#664](https://github.com/influxdata/influxdb-client-python/pull/664/): Multiprocessing example uses new source of data
 1. [#665](https://github.com/influxdata/influxdb-client-python/pull/665): Shows how to leverage header fields in errors returned on write.
