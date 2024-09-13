@@ -1,4 +1,4 @@
-## 1.46.0 [unreleased]
+## 1.46.0 [2024-09-13]
 
 ### Bug Fixes
 1. [#667](https://github.com/influxdata/influxdb-client-python/pull/667): Missing `py.typed` in distribution package
