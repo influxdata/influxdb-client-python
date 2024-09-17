@@ -4,6 +4,7 @@
 
 ### Bug Fixes
 1. [#667](https://github.com/influxdata/influxdb-client-python/pull/667): Missing `py.typed` in distribution package
+2. [#670](https://github.com/influxdata/influxdb-client-python/pull/670): Adding type validation to url attribute in client object
 
 ### Examples:
 1. [#664](https://github.com/influxdata/influxdb-client-python/pull/664/): Multiprocessing example uses new source of data
