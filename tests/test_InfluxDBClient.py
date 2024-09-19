@@ -323,6 +323,35 @@ class InfluxDBClientTestIT(BaseTest):
         version = self.client.version()
         self.assertTrue(len(version) > 0)
 
+    def test_url_attribute(self):
+        # Wrong URL attribute
+        wrong_types = [
+            None,
+            True, False,
+            123, 123.5,
+            dict({"url" : "http://localhost:8086"}),
+            list(["http://localhost:8086"]),
+            tuple(("http://localhost:8086"))
+        ]
+        correct_types = [
+            "http://localhost:8086"
+        ]
+        for url_type in wrong_types:
+            try:
+                client_not_running = InfluxDBClient(url=url_type, token="my-token", debug=True)
+                status = True
+            except ValueError as e:
+                status = False
+            self.assertFalse(status)
+        for url_type in correct_types:
+            try:
+                client_not_running = InfluxDBClient(url=url_type, token="my-token", debug=True)
+                status = True
+            except ValueError as e:
+                status = False
+            self.assertTrue(status)
+
+
     def test_build(self):
         build = self.client.build()
         self.assertEqual('oss', build.lower())
