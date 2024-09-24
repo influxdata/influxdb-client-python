@@ -1,5 +1,8 @@
 ## 1.47.0 [unreleased]
 
+### Bug Fixes
+1. [#672](https://github.com/influxdata/influxdb-client-python/pull/672): Adding type validation to url attribute in client object
+
 ## 1.46.0 [2024-09-13]
 
 ### Bug Fixes

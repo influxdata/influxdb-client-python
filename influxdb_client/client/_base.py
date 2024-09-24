@@ -53,6 +53,8 @@ class _BaseClient(object):
         self.default_tags = default_tags
 
         self.conf = _Configuration()
+        if not isinstance(self.url, str):
+            raise ValueError('"url" attribute is not str instance')
         if self.url.endswith("/"):
             self.conf.host = self.url[:-1]
         else:
