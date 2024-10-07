@@ -119,15 +119,16 @@ class WriteApiAsync(_BaseWriteApi):
 
         futures = []
         for payload in payloads.items():
-            futures.append(ensure_future(self._write_service.post_write_async(org=org, bucket=bucket,
-                                                                              body=b'\n'.join(payload[1]),
-                                                                              precision=payload[0], async_req=False,
-                                                                              _return_http_data_only=False,
-                                                                              content_type="text/plain; charset=utf-8")))
+            futures.append(ensure_future
+                           (self._write_service.post_write_async(org=org, bucket=bucket,
+                                                                 body=b'\n'.join(payload[1]),
+                                                                 precision=payload[0], async_req=False,
+                                                                 _return_http_data_only=False,
+                                                                 content_type="text/plain; charset=utf-8")))
 
         results = await gather(*futures, return_exceptions=True)
         for result in results:
             if isinstance(result, Exception):
                 raise result
 
-        return False not in [re[1] in (201,204) for re in results]
+        return False not in [re[1] in (201, 204) for re in results]
