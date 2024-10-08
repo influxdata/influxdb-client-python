@@ -118,11 +118,11 @@ class WriteApiAsync(_BaseWriteApi):
         self._serialize(record, write_precision, payloads, precision_from_point=True, **kwargs)
 
         futures = []
-        for payload in payloads.items():
+        for payload_precision, payload_line in payloads.items():
             futures.append(ensure_future
                            (self._write_service.post_write_async(org=org, bucket=bucket,
-                                                                 body=b'\n'.join(payload[1]),
-                                                                 precision=payload[0], async_req=False,
+                                                                 body=b'\n'.join(payload_line),
+                                                                 precision=payload_precision, async_req=False,
                                                                  _return_http_data_only=False,
                                                                  content_type="text/plain; charset=utf-8")))
 
