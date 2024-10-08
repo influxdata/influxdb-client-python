@@ -46,8 +46,8 @@ class FluxTable(FluxStructure):
 
     def __init__(self) -> None:
         """Initialize defaults."""
-        self.columns = []
-        self.records = []
+        self.columns: List[FluxColumn] = []
+        self.records: List[FluxRecord] = []
 
     def get_group_key(self):
         """
