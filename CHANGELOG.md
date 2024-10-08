@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 1. [#672](https://github.com/influxdata/influxdb-client-python/pull/672): Adding type validation to url attribute in client object
+2. [#675](https://github.com/influxdata/influxdb-client-python/pull/675): Ensures WritePrecision in Point is preferred to `DEFAULT_PRECISION`
 
 ## 1.46.0 [2024-09-13]
 
