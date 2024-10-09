@@ -1,5 +1,6 @@
 """Collect and async write time series data to InfluxDB Cloud or InfluxDB OSS."""
 import logging
+from asyncio import ensure_future, gather
 from collections import defaultdict
 from typing import Union, Iterable, NamedTuple
 
@@ -114,12 +115,20 @@ class WriteApiAsync(_BaseWriteApi):
         self._append_default_tags(record)
 
         payloads = defaultdict(list)
-        self._serialize(record, write_precision, payloads, precision_from_point=False, **kwargs)
+        self._serialize(record, write_precision, payloads, precision_from_point=True, **kwargs)
 
-        # joint list by \n
-        body = b'\n'.join(payloads[write_precision])
-        response = await self._write_service.post_write_async(org=org, bucket=bucket, body=body,
-                                                              precision=write_precision, async_req=False,
-                                                              _return_http_data_only=False,
-                                                              content_type="text/plain; charset=utf-8")
-        return response[1] in (201, 204)
+        futures = []
+        for payload_precision, payload_line in payloads.items():
+            futures.append(ensure_future
+                           (self._write_service.post_write_async(org=org, bucket=bucket,
+                                                                 body=b'\n'.join(payload_line),
+                                                                 precision=payload_precision, async_req=False,
+                                                                 _return_http_data_only=False,
+                                                                 content_type="text/plain; charset=utf-8")))
+
+        results = await gather(*futures, return_exceptions=True)
+        for result in results:
+            if isinstance(result, Exception):
+                raise result
+
+        return False not in [re[1] in (201, 204) for re in results]
