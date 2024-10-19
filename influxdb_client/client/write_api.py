@@ -387,8 +387,8 @@ You can use native asynchronous version of the client:
 
     def flush(self):
         """Flush data."""
-        # TODO
-        pass
+        if self._subject:
+            self._subject.on_completed()
 
     def close(self):
         """Flush data and dispose a batching buffer."""
@@ -411,8 +411,8 @@ You can use native asynchronous version of the client:
 
     def __del__(self):
         """Close WriteApi."""
+        self.flush()
         if self._subject:
-            self._subject.on_completed()
             self._subject.dispose()
             self._subject = None
 
