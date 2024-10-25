@@ -1,4 +1,6 @@
-## 1.47.0 [unreleased]
+## 1.48.0 [unreleased]
+
+## 1.47.0 [2024-10-22]
 
 ### Bug Fixes
 
