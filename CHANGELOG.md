@@ -22,6 +22,10 @@
 2. [#674](https://github.com/influxdata/influxdb-client-python/pull/674): Add type linting to client.flux_table.FluxTable, remove duplicated `from pathlib import Path` at setup.py
 3. [#675](https://github.com/influxdata/influxdb-client-python/pull/675): Ensures WritePrecision in Point is preferred to `DEFAULT_PRECISION`
 
+### Features
+
+1. [#678](https://github.com/influxdata/influxdb-client-python/pull/678): Implement flush method in `Write_api`
+
 ## 1.46.0 [2024-09-13]
 
 ### Bug Fixes
