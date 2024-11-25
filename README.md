@@ -1313,6 +1313,13 @@ All async APIs are available via `influxdb_client.client.influxdb_client_async.I
 
 and also check to readiness of the InfluxDB via `/ping` endpoint:
 
+The `InfluxDBClientAsync` constructor accepts a number of __configuration properties__.  Most useful among these are:
+
+* `connection_pool_maxsize` - The total number of simultaneous connections. Defaults to `multiprocessing.cpu_count() * 5`.
+* `enable_gzip` - enable gzip compression during `write` and `query` calls.  Defaults to `false`.
+* `proxy` - URL of an HTTP proxy to be used.
+* `timeout` - The maximum number of milliseconds for handling HTTP requests from initial handshake to handling response data.  This is passed directly to the underlying transport library.  If large amounts of data are anticipated, for example from `query_api.query_stream(...)`, this should be increased to avoid `TimeoutError` or `CancelledError`.  Defaults to 10_000 ms.
+
 > ``` python
 > import asyncio
 >

@@ -1,5 +1,9 @@
 ## 1.48.0 [unreleased]
 
+### Bug Fixes
+
+1. [#679](https://github.com/influxdata/influxdb-client-python/pull/679): Add note to caught errors about need to check client timeout.
+
 ## 1.47.0 [2024-10-22]
 
 ### Bug Fixes
