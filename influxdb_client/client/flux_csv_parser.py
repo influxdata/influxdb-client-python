@@ -1,6 +1,5 @@
 """Parsing response from InfluxDB to FluxStructures or DataFrame."""
 
-import asyncio
 import base64
 import codecs
 import csv as csv_parser
@@ -147,8 +146,10 @@ class FluxCsvParser(object):
                 df = self._prepare_data_frame()
                 if not self._is_profiler_table(metadata.table):
                     yield df
-        except (asyncio.exceptions.CancelledError, asyncio.TimeoutError) as ce:
-            ce.add_note("Stream cancelled during read.  Recommended: Check Influxdb client `timeout` setting.")
+        except BaseException as e:
+            e_type = type(e).__name__
+            if "CancelledError" in e_type or "TimeoutError" in e_type:
+                e.add_note("Stream cancelled during read.  Recommended: Check Influxdb client `timeout` setting.")
             raise
         finally:
             self._close()
