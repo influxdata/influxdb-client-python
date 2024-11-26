@@ -1,4 +1,3 @@
-import codecs
 import http.server
 import json
 import logging
@@ -376,7 +375,8 @@ class InfluxDBClientTestIT(BaseTest):
         self.assertIn("my-bucket", list(map(lambda record: record["name"], results[0].records)))
         # Query RAW
         results = self.client.query_api().query_raw("buckets()", "my-org")
-        self.assertIn("my-bucket", codecs.decode(results.data))
+        self.assertIn("my-bucket", results)
+        self.assertTrue(isinstance(results, str))
         # Bucket API
         results = self.client.buckets_api().find_buckets()
         self.assertIn("my-bucket", list(map(lambda bucket: bucket.name, results.buckets)))
