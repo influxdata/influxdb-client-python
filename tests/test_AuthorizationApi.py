@@ -45,6 +45,25 @@ class AuthorizationsClientTest(BaseTest):
 
         self.assertEqual(authorization.links["user"], "/api/v2/users/" + self.user.id)
 
+    def test_AuthorizationTypeAssert(self):
+        self.assertRaisesRegex(TypeError, "org_id must be a string.", Authorization, org_id={})
+        self.assertRaisesRegex(TypeError, "permissions must be a list.", Authorization, permissions={})
+
+    def test_createAuthorizationWrongTypes(self):
+        user_resource = PermissionResource(org_id=self.organization.id, type="users")
+        read_users = Permission(action="read", resource=user_resource)
+
+        org_resource = PermissionResource(org_id=self.organization.id, type="orgs")
+        write_organizations = Permission(action="write", resource=org_resource)
+
+        permissions = [read_users, write_organizations]
+        self.assertRaisesRegex(TypeError, "org_id must be a string.",
+                               self.authorizations_api.create_authorization, permissions)
+        self.assertRaisesRegex(TypeError, "permissions must be a list",
+                               self.authorizations_api.create_authorization, "123456789ABCDEF0", "Foo")
+        self.assertRaisesRegex(TypeError, "Attempt to use non-Authorization value for authorization: Foo",
+                               self.authorizations_api.create_authorization, "123456789ABCDEF0", permissions, "Foo")
+
     def test_authorizationDescription(self):
         organization = self.my_organization
 
