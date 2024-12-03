@@ -11,7 +11,7 @@ class AuthorizationsApi(object):
         self._influxdb_client = influxdb_client
         self._authorizations_service = AuthorizationsService(influxdb_client.api_client)
 
-    def create_authorization(self, org_id=None, permissions: list = None,
+    def create_authorization(self, org_id: str = None, permissions: list = None,
                              authorization: Authorization = None) -> Authorization:
         """
         Create an authorization.
@@ -23,6 +23,8 @@ class AuthorizationsApi(object):
 
         """
         if authorization is not None:
+            if not isinstance(authorization, Authorization):
+                raise TypeError(f"Attempt to use non-Authorization value for authorization: {authorization}")
             return self._authorizations_service.post_authorizations(authorization_post_request=authorization)
 
             # if org_id is not None and permissions is not None:
