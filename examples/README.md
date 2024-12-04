@@ -28,6 +28,7 @@
 - [monitoring_and_alerting.py](monitoring_and_alerting.py) - How to create the Check with Slack notification.
 - [task_example.py](task_example.py) - How to create a Task by API
 - [templates_management.py](templates_management.py) - How to use Templates and Stack API
+- [authorizations.py](authorizations.py) - How to create and use authorizations.
 
 ## InfluxDB Cloud
 
