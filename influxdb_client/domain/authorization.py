@@ -82,8 +82,12 @@ class Authorization(AuthorizationUpdateRequest):
         if updated_at is not None:
             self.updated_at = updated_at
         if org_id is not None:
+            if not isinstance(org_id, str):
+                raise TypeError("org_id must be a string.")
             self.org_id = org_id
         if permissions is not None:
+            if not isinstance(permissions, list):
+                raise TypeError("permissions must be a list.")
             self.permissions = permissions
         if id is not None:
             self.id = id

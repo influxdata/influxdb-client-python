@@ -1,5 +1,13 @@
 ## 1.49.0 [unreleased]
 
+### Bug Fixes
+
+1. [#682](https://github.com/influxdata/influxdb-client-python/pull/682): Check core types when creating Authentication instances.
+
+### Examples
+
+1. [#682](https://github.com/influxdata/influxdb-client-python/pull/682): New example for working with Authentication API.
+
 ## 1.48.0 [2024-11-27]
 
 ### Bug Fixes
