@@ -56,4 +56,5 @@ class HelpersTest(BaseTest):
 
         with pytest.raises(InfluxDBError) as e:
             get_org_query_param("my-org", self.client, required_id=True)
-        assert "The client cannot find organization with name: 'my-org' to determine their ID" in f"{e.value} "
+        assert "The client cannot find organization with name: 'my-org' to determine their ID. Are you using token " \
+               "with sufficient permission?" in f"{e.value} "
