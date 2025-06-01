@@ -1,5 +1,9 @@
 ## 1.50.0 [unreleased]
 
+### Features
+
+1. [696](https://github.com/influxdata/influxdb-client-python/pull/696): Move "setuptools" package to build dependency.
+
 ## 1.49.0 [2025-05-22]
 
 ### Bug Fixes
