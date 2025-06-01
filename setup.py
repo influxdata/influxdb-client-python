@@ -8,7 +8,6 @@ requires = [
     'reactivex >= 4.0.4',
     'certifi >= 14.05.14',
     'python_dateutil >= 2.5.3',
-    'setuptools >= 21.0.0',
     'urllib3 >= 1.26.0'
 ]
 
