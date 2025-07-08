@@ -92,11 +92,33 @@
 ### Features
 1. [#616](https://github.com/influxdata/influxdb-client-python/pull/616): Add `find_tasks_iter` function that allow iterate through all pages of tasks.
 
+### Breaking Changes
+
+1. [#569](https://github.com/influxdata/influxdb-client-python/pull/569): Return `str` instead of `urllib3.HTTPResponse` for `InfluxDBClient.QueryAPI.query_raw`.
+
+This fixes `InfluxDBClient.query_raw` that returned the wrong type based on the documentation.
+
+The async version `InfluxDBClientAsync` is not affected.
+
+To make your code compatible with this version, you can remove the step of retrieving the response content:
+
+```diff
+from influxdb_client.client import InfluxDBClient
+
+with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org") as client:
+    query = "..."
+    result = client.query_raw(query=query)
+-   content = result.data.decode("utf8")
++   content = result
+```
+
+
 ## 1.38.0 [2023-10-02]
 
 ### Bug Fixes
 1. [#601](https://github.com/influxdata/influxdb-client-python/pull/601): Use HTTResponse.headers to clear deprecation warning [urllib3]
 1. [#610](https://github.com/influxdata/influxdb-client-python/pull/601): Use iloc to clear deprecation warning
+
 
 ### Documentation
 1. [#566](https://github.com/influxdata/influxdb-client-python/pull/566): Fix Sphinx documentation build and add support `.readthedocs.yml` V2 configuration file
