@@ -265,7 +265,7 @@ class InfluxDBClient(_BaseClient):
 
         :param write_options: Write API configuration
         :param point_settings: settings to store default tags
-        :key success_callback: The callable ``callback`` to run after successfully writen a batch.
+        :key success_callback: The callable ``callback`` to run after having successfully written a batch.
 
                                The callable must accept two arguments:
                                     - `Tuple`: ``(bucket, organization, precision)``
@@ -273,7 +273,7 @@ class InfluxDBClient(_BaseClient):
 
                                **[batching mode]**
 
-        :key error_callback: The callable ``callback`` to run after unsuccessfully writen a batch.
+        :key error_callback: The callable ``callback`` to run after having unsuccessfully written a batch.
 
                              The callable must accept three arguments:
                                 - `Tuple`: ``(bucket, organization, precision)``
