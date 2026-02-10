@@ -11,7 +11,7 @@
 [![Documentation status](https://readthedocs.org/projects/influxdb-client/badge/?version=stable)](https://influxdb-client.readthedocs.io/en/stable/)
 [![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://www.influxdata.com/slack)
 
-This repository contains the Python client library for use with InfluxDB 2.x and Flux. InfluxDB 3.x users should instead use the lightweight [v3 client library](https://github.com/InfluxCommunity/influxdb3-python).
+This repository contains the Python client library for use with InfluxDB 2.x and Flux. InfluxDB 3.x users should instead use the [v3 client library](https://github.com/InfluxCommunity/influxdb3-python).
 InfluxDB 1.x users should use the [v1 client library](https://github.com/influxdata/influxdb-python).
 
 For ease of migration and a consistent query and write experience, v2 users should consider using InfluxQL and the [v1 client library](https://github.com/influxdata/influxdb-python).
