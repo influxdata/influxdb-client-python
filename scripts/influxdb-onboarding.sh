@@ -24,7 +24,13 @@
 set -e
 
 echo "Wait to start InfluxDB 2.0"
-wget -S --spider --tries=20 --retry-connrefused --waitretry=5 http://localhost:8086/metrics
+for i in $(seq 1 20); do
+  if curl -sf -o /dev/null http://localhost:8086/metrics; then
+    break
+  fi
+  echo "Attempt $i failed, retrying in 5 seconds..."
+  sleep 5
+done
 
 echo
 echo "Post onBoarding request, to setup initial user (my-user@my-password), org (my-org) and bucketSetup (my-bucket)"
