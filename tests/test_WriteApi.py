@@ -532,8 +532,7 @@ class WriteApiTestMock(BaseTest):
         Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
         self.influxdb_client.close()
 
-        retries = Retry(redirect=2)
-        self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", org="my-org", retries=retries)
+        self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", org="my-org")
 
         httpretty.register_uri(httpretty.POST, uri="http://localhost2/api/v2/write", status=204)
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=301,
