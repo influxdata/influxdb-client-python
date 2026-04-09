@@ -384,7 +384,7 @@ class FluxCsvParserTest(unittest.TestCase):
         parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
                              response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
-        assert df.dtypes['value'].name in ['str', 'object']
+        self.assertEqual('object', df.dtypes['value'].name)
 
     def test_pandas_null_string_types_extension_types(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,string\n" \
