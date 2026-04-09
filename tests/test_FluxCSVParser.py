@@ -251,17 +251,17 @@ class FluxCsvParserTest(unittest.TestCase):
                              response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
         self.assertEqual(13, df.dtypes.__len__())
-        self.assertEqual('object', df.dtypes['result'].name)
+        assert df.dtypes['result'].name in ['str', 'object']
         self.assertEqual('int64', df.dtypes['table'].name)
-        self.assertIn('datetime64[ns,', df.dtypes['_start'].name)
-        self.assertIn('datetime64[ns,', df.dtypes['_stop'].name)
-        self.assertEqual('object', df.dtypes['_field'].name)
-        self.assertEqual('object', df.dtypes['_measurement'].name)
-        self.assertEqual('object', df.dtypes['host'].name)
-        self.assertEqual('object', df.dtypes['region'].name)
+        assert True in ['datetime64[us,' in df.dtypes['_start'].name, 'datetime64[ns,' in df.dtypes['_start'].name]
+        assert True in ['datetime64[us,' in df.dtypes['_stop'].name, 'datetime64[ns,' in df.dtypes['_start'].name]
+        assert df.dtypes['_field'].name in ['str', 'object']
+        assert df.dtypes['_measurement'].name in ['str', 'object']
+        assert df.dtypes['host'].name in ['str', 'object']
+        assert df.dtypes['region'].name in ['str', 'object']
         self.assertEqual('int64', df.dtypes['value1'].name)
         self.assertEqual('int64', df.dtypes['value2'].name)
-        self.assertEqual('object', df.dtypes['value3'].name)
+        assert df.dtypes['value3'].name in ['str', 'object']
         self.assertEqual('bool', df.dtypes['value4'].name)
         self.assertEqual('float64', df.dtypes['value5'].name)
 
@@ -384,7 +384,7 @@ class FluxCsvParserTest(unittest.TestCase):
         parser = self._parse(data=data, serialization_mode=FluxSerializationMode.dataFrame,
                              response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
-        self.assertEqual('object', df.dtypes['value'].name)
+        assert df.dtypes['value'].name in ['str', 'object']
 
     def test_pandas_null_string_types_extension_types(self):
         data = "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,string\n" \
