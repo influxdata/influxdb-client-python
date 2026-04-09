@@ -251,10 +251,12 @@ class FluxCsvParserTest(unittest.TestCase):
                              response_metadata_mode=FluxResponseMetadataMode.full)
         df = list(parser.generator())[0]
         self.assertEqual(13, df.dtypes.__len__())
+
         assert df.dtypes['result'].name in ['str', 'object']
+
         self.assertEqual('int64', df.dtypes['table'].name)
-        assert True in ['datetime64[us,' in df.dtypes['_start'].name, 'datetime64[ns,' in df.dtypes['_start'].name]
-        assert True in ['datetime64[us,' in df.dtypes['_stop'].name, 'datetime64[ns,' in df.dtypes['_start'].name]
+        self.assertIn('datetime64[us,', df.dtypes['_start'].name)
+        self.assertIn('datetime64[us,', df.dtypes['_stop'].name)
         assert df.dtypes['_field'].name in ['str', 'object']
         assert df.dtypes['_measurement'].name in ['str', 'object']
         assert df.dtypes['host'].name in ['str', 'object']
