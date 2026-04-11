@@ -251,6 +251,15 @@ class FluxCsvParser(object):
 
         # We have to create temporary DataFrame because we want to preserve default column values
         _temp_df = pd.DataFrame(self._data_frame_values)
+        # This is for backward compatibles reason
+        # In newer Pandas versions 'string' type will be 'str', in older versions 'string' will be 'object'
+        # In newer Pandas versions 'time' will be 'datetime64[us, UTC]', in older versions 'time' will be 'datetime64[ns, UTC]'
+        for column in _temp_df.columns:
+            if _temp_df[column].dtype.name == 'str':
+                _temp_df[column] = _temp_df[column].astype(object)
+            if _temp_df[column].dtype.name == 'datetime64[us, UTC]':
+                _temp_df[column] = _temp_df[column].astype('datetime64[ns, UTC]')
+
         self._data_frame_values = []
 
         # Custom DataFrame index
