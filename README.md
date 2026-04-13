@@ -1097,13 +1097,20 @@ with InfluxDBClient(url="http://localhost:8086",
 
 If your proxy notify the client with permanent redirect (`HTTP 301`) to **different host**. The client removes `Authorization` header, because otherwise the contents of `Authorization` is sent to third parties which is a security vulnerability.
 
-You can change this behaviour by:
+You can change this behavior by doing this in older urllib3 versions:
 
 ``` python
 from urllib3 import Retry
 Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
 Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
 ```
+In the newer urllib3 versions, try to use this:
+
+``` python
+retries = Retry(redirect=1, remove_headers_on_redirect=[])
+self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", org="my-org", retries=retries)
+```
+
 <!-- marker-proxy-end -->
 
 ### Delete data
