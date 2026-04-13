@@ -528,8 +528,12 @@ class WriteApiTestMock(BaseTest):
 
     def test_redirect(self):
         from urllib3 import Retry
+        Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
+        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
         self.influxdb_client.close()
 
+        # In the newer urllib3 versions we need to set `redirect` and `remove_headers_on_redirect=[]` to
+        # make it re-direct POST requests and stop it from remove the `Authorization` header.
         retries = Retry(redirect=1, remove_headers_on_redirect=[])
         self.influxdb_client = InfluxDBClient(url="http://localhost", token="my-token", org="my-org", retries=retries)
 
@@ -545,6 +549,9 @@ class WriteApiTestMock(BaseTest):
         self.assertEqual(2, len(requests))
         self.assertEqual('Token my-token', requests[0].headers['Authorization'])
         self.assertEqual('Token my-token', requests[1].headers['Authorization'])
+
+        from urllib3 import Retry
+        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
 
     def test_named_tuple(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
