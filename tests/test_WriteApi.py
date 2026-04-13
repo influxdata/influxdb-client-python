@@ -528,8 +528,6 @@ class WriteApiTestMock(BaseTest):
 
     def test_redirect(self):
         from urllib3 import Retry
-        Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT = frozenset()
-        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
         self.influxdb_client.close()
 
         retries = Retry(redirect=1, remove_headers_on_redirect=[])
@@ -547,9 +545,6 @@ class WriteApiTestMock(BaseTest):
         self.assertEqual(2, len(requests))
         self.assertEqual('Token my-token', requests[0].headers['Authorization'])
         self.assertEqual('Token my-token', requests[1].headers['Authorization'])
-
-        from urllib3 import Retry
-        Retry.DEFAULT.remove_headers_on_redirect = Retry.DEFAULT_REMOVE_HEADERS_ON_REDIRECT
 
     def test_named_tuple(self):
         httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
