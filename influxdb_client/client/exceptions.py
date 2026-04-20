@@ -34,7 +34,7 @@ class InfluxDBError(Exception):
             try:
                 return json.loads(response.data)["message"]
             except Exception as e:
-                logging.debug(f"Cannot parse error response to JSON: {response.data}, {e}")
+                logger.debug(f"Cannot parse error response to JSON: {response.data}, {e}")
                 return response.data
 
         # Header
