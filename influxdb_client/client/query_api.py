@@ -9,6 +9,7 @@ from typing import List, Generator, Any, Callable
 from influxdb_client import Dialect
 from influxdb_client.client._base import _BaseQueryApi
 from influxdb_client.client.flux_table import FluxRecord, TableList, CSVIterator
+from influxdb_client.rest import _UTF_8_encoding
 
 
 class QueryOptions(object):
@@ -121,8 +122,8 @@ class QueryApi(_BaseQueryApi):
         org = self._org_param(org)
         result = self._query_api.post_query(org=org, query=self._create_query(query, dialect, params), async_req=False,
                                             _preload_content=False)
-
-        return result
+        raw_bytes = result.data
+        return raw_bytes.decode(_UTF_8_encoding)
 
     def query(self, query: str, org=None, params: dict = None) -> TableList:
         """Execute synchronous Flux query and return result as a :class:`~influxdb_client.client.flux_table.FluxTable` list.
