@@ -17,6 +17,7 @@ from influxdb_client import WritePrecision, InfluxDBClient, VERSION
 from influxdb_client.client.exceptions import InfluxDBError
 from influxdb_client.client.write.point import Point
 from influxdb_client.client.write_api import WriteOptions, WriteApi, PointSettings
+from tests.base_test import BaseTest
 
 
 class BatchingWriteTest(unittest.TestCase):
@@ -735,6 +736,29 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertIsNotNone(callback.error)
         self.assertIsInstance(callback.error, InfluxDBError)
         self.assertEqual(429, callback.error.response.status)
+
+class BatchingWriteFlushTest(BaseTest):
+    
+    def setUp(self):
+        return super().setUp()
+
+    def test_flush(self):
+        write_client = self.client.write_api()
+
+        bucket = self.create_test_bucket()
+
+        write_client.write(bucket.name, self.org, "h2o_feet,location=coyote_creek level\\ water_level=1 1")
+
+        write_client.flush()
+        
+        time.sleep(1)
+
+        query = 'from(bucket:"' + bucket.name + '") |> range(start: 1970-01-01T00:00:00.000000001Z)'
+        flux_result = self.client.query_api().query(query)
+        
+        self.assertEqual(1, len(flux_result))
+        
+        self.delete_test_bucket(bucket)
 
 
 if __name__ == '__main__':
