@@ -32,6 +32,25 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
         self.assertIsNotNone(self.client.api_client.configuration.connection_pool_maxsize)
 
+    def test_default_tags_not_shared_between_clients(self):
+        # https://github.com/influxdata/influxdb-client-python/issues/686
+        # default_tags from one client must not leak into another client's WriteApi.
+        self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
+        write_plain_before = self.client.write_api(write_options=SYNCHRONOUS)
+
+        client_tagged = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
+                                       default_tags={"id": "client-tagged"})
+        client_tagged.write_api(write_options=SYNCHRONOUS)
+
+        write_plain_after = self.client.write_api(write_options=SYNCHRONOUS)
+
+        try:
+            self.assertEqual({}, write_plain_before._point_settings.defaultTags)
+            self.assertEqual({}, write_plain_after._point_settings.defaultTags)
+            self.assertIsNot(write_plain_before._point_settings, write_plain_after._point_settings)
+        finally:
+            client_tagged.close()
+
     def test_TrailingSlashInUrl(self):
         self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
         self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)

@@ -441,8 +441,9 @@ class _BaseQueryApi(object):
 
 class _BaseWriteApi(object):
     def __init__(self, influxdb_client, point_settings=None):
+        from influxdb_client.client.write_api import PointSettings
         self._influxdb_client = influxdb_client
-        self._point_settings = point_settings
+        self._point_settings = point_settings if point_settings is not None else PointSettings()
         self._write_service = WriteService(influxdb_client.api_client)
         if influxdb_client.default_tags:
             for key, value in influxdb_client.default_tags.items():

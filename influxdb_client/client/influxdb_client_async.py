@@ -7,7 +7,6 @@ from influxdb_client.client._base import _BaseClient
 from influxdb_client.client.delete_api_async import DeleteApiAsync
 from influxdb_client.client.query_api import QueryOptions
 from influxdb_client.client.query_api_async import QueryApiAsync
-from influxdb_client.client.write_api import PointSettings
 from influxdb_client.client.write_api_async import WriteApiAsync
 
 logger = logging.getLogger('influxdb_client.client.influxdb_client_async')
@@ -273,7 +272,7 @@ class InfluxDBClientAsync(_BaseClient):
         """
         return QueryApiAsync(self, query_options)
 
-    def write_api(self, point_settings=PointSettings()) -> WriteApiAsync:
+    def write_api(self, point_settings=None) -> WriteApiAsync:
         """
         Create an asynchronous Write API instance.
 

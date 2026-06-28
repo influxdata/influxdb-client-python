@@ -16,7 +16,7 @@ from influxdb_client.client.organizations_api import OrganizationsApi
 from influxdb_client.client.query_api import QueryApi, QueryOptions
 from influxdb_client.client.tasks_api import TasksApi
 from influxdb_client.client.users_api import UsersApi
-from influxdb_client.client.write_api import WriteApi, WriteOptions, PointSettings
+from influxdb_client.client.write_api import WriteApi, WriteOptions
 
 logger = logging.getLogger('influxdb_client.client.influxdb_client')
 
@@ -210,7 +210,7 @@ class InfluxDBClient(_BaseClient):
         """
         return InfluxDBClient._from_env_properties(debug=debug, enable_gzip=enable_gzip, **kwargs)
 
-    def write_api(self, write_options=WriteOptions(), point_settings=PointSettings(), **kwargs) -> WriteApi:
+    def write_api(self, write_options=WriteOptions(), point_settings=None, **kwargs) -> WriteApi:
         """
         Create Write API instance.
 

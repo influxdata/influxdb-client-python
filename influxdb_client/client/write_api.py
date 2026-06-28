@@ -213,7 +213,7 @@ class WriteApi(_BaseWriteApi):
     def __init__(self,
                  influxdb_client,
                  write_options: WriteOptions = WriteOptions(),
-                 point_settings: PointSettings = PointSettings(),
+                 point_settings: PointSettings = None,
                  **kwargs) -> None:
         """
         Initialize defaults.

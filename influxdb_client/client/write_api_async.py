@@ -31,7 +31,7 @@ class WriteApiAsync(_BaseWriteApi):
                 write_api = client.write_api()
     """
 
-    def __init__(self, influxdb_client, point_settings: PointSettings = PointSettings()) -> None:
+    def __init__(self, influxdb_client, point_settings: PointSettings = None) -> None:
         """
         Initialize defaults.
 
