@@ -9,7 +9,7 @@ from datetime import timedelta
 from enum import Enum
 from random import random
 from time import sleep
-from typing import Union, Any, Iterable, NamedTuple
+from typing import Union, Any, Iterable, NamedTuple, Tuple
 
 import reactivex as rx
 from reactivex import operators as ops, Observable
@@ -171,7 +171,7 @@ class _BatchItem(object):
         self.size = size
         pass
 
-    def to_key_tuple(self) -> (str, str, str):
+    def to_key_tuple(self) -> Tuple[str, str, str]:
         return self.key.bucket, self.key.org, self.key.precision
 
     def __str__(self) -> str:

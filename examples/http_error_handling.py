@@ -11,7 +11,7 @@ To test against cloud set the following environment variables:
 """
 import asyncio
 import os
-from typing import MutableMapping
+from typing import MutableMapping, Tuple
 
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.exceptions import InfluxDBError
@@ -47,14 +47,14 @@ class Config(object):
 # To encapsulate functions used in batch writing
 class BatchCB(object):
 
-    def success(self, conf: (str, str, str), data: str):
+    def success(self, conf: Tuple[str, str, str], data: str):
         print(f"Write success: {conf}, data: {data}")
 
-    def error(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+    def error(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
         print(f"\nBatch -> Write failed: {conf}, data: {data}, error: {exception.message}")
         report_headers(exception.headers)
 
-    def retry(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+    def retry(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
         print(f"Write failed but retryable: {conf}, data: {data}, error: {exception}")
 
 

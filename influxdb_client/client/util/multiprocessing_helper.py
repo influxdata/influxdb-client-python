@@ -6,6 +6,7 @@ For more information how the multiprocessing works see Python's
 """
 import logging
 import multiprocessing
+from typing import Tuple
 
 from influxdb_client import InfluxDBClient, WriteOptions
 from influxdb_client.client.exceptions import InfluxDBError
@@ -13,17 +14,17 @@ from influxdb_client.client.exceptions import InfluxDBError
 logger = logging.getLogger('influxdb_client.client.util.multiprocessing_helper')
 
 
-def _success_callback(conf: (str, str, str), data: str):
+def _success_callback(conf: Tuple[str, str, str], data: str):
     """Successfully writen batch."""
     logger.debug(f"Written batch: {conf}, data: {data}")
 
 
-def _error_callback(conf: (str, str, str), data: str, exception: InfluxDBError):
+def _error_callback(conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
     """Unsuccessfully writen batch."""
     logger.debug(f"Cannot write batch: {conf}, data: {data} due: {exception}")
 
 
-def _retry_callback(conf: (str, str, str), data: str, exception: InfluxDBError):
+def _retry_callback(conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
     """Retryable error."""
     logger.debug(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
 
@@ -81,6 +82,8 @@ class MultiprocessingWriter(multiprocessing.Process):
     How to handle batch events:
         .. code-block:: python
 
+            from typing import Tuple
+
             from influxdb_client import WriteOptions
             from influxdb_client.client.exceptions import InfluxDBError
             from influxdb_client.client.util.multiprocessing_helper import MultiprocessingWriter
@@ -88,13 +91,13 @@ class MultiprocessingWriter(multiprocessing.Process):
 
             class BatchingCallback(object):
 
-                def success(self, conf: (str, str, str), data: str):
+                def success(self, conf: Tuple[str, str, str], data: str):
                     print(f"Written batch: {conf}, data: {data}")
 
-                def error(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+                def error(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
                     print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
 
-                def retry(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+                def retry(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
                     print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
 
 

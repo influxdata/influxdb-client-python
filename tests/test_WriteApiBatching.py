@@ -6,6 +6,7 @@ import sys
 import time
 import unittest
 from collections import namedtuple
+from typing import Tuple
 
 import httpretty
 import pytest
@@ -582,7 +583,7 @@ class BatchingWriteTest(unittest.TestCase):
                 self.conf = None
                 self.data = None
 
-            def __call__(self, conf: (str, str, str), data: str):
+            def __call__(self, conf: Tuple[str, str, str], data: str):
                 self.conf = conf
                 self.data = data
 
@@ -617,7 +618,7 @@ class BatchingWriteTest(unittest.TestCase):
                 self.data = None
                 self.error = None
 
-            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+            def __call__(self, conf: Tuple[str, str, str], data: str, error: InfluxDBError):
                 self.conf = conf
                 self.data = data
                 self.error = error
@@ -657,7 +658,7 @@ class BatchingWriteTest(unittest.TestCase):
                 self.data = None
                 self.error = None
 
-            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+            def __call__(self, conf: Tuple[str, str, str], data: str, error: InfluxDBError):
                 self.conf = conf
                 self.data = data
                 self.error = error
@@ -704,7 +705,7 @@ class BatchingWriteTest(unittest.TestCase):
                 self.data = None
                 self.error = None
 
-            def __call__(self, conf: (str, str, str), data: str, error: InfluxDBError):
+            def __call__(self, conf: Tuple[str, str, str], data: str, error: InfluxDBError):
                 self.count += 1
                 self.conf = conf
                 self.data = data

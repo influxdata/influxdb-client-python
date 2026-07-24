@@ -2,6 +2,8 @@
 How to use WriteApi's callbacks to notify about state of background batches.
 """
 
+from typing import Tuple
+
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.exceptions import InfluxDBError
 
@@ -22,15 +24,15 @@ points = [Point("my-temperature").tag("location", "Prague").field("temperature",
 
 class BatchingCallback(object):
 
-    def success(self, conf: (str, str, str), data: str):
+    def success(self, conf: Tuple[str, str, str], data: str):
         """Successfully writen batch."""
         print(f"Written batch: {conf}, data: {data}")
 
-    def error(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+    def error(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
         """Unsuccessfully writen batch."""
         print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
 
-    def retry(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+    def retry(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
         """Retryable error."""
         print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
 
