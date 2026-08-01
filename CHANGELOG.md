@@ -4,6 +4,7 @@
 
 1. [#706](https://github.com/influxdata/influxdb-client-python/pull/706): Use logger instead logging.
 1. [#686](https://github.com/influxdata/influxdb-client-python/issues/686): Stop `default_tags` from one client leaking into other clients' `WriteApi` (shared mutable default `PointSettings`).
+1. [#697](https://github.com/influxdata/influxdb-client-python/issues/697): Implement `WriteApi.flush()` to force pending batch writes without disposing the API (mirrors C#/Java batch writer).
 
 ## 1.50.0 [2026-01-23]
 

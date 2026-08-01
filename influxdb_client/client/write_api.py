@@ -255,13 +255,23 @@ class WriteApi(_BaseWriteApi):
         if self._write_options.write_type is WriteType.batching:
             # Define Subject that listen incoming data and produces writes into InfluxDB
             self._subject = Subject()
+            # Flush subject forces the current batch window to close (mirrors Java/C# clients)
+            self._flush_subject = Subject()
 
             self._window_scheduler = ThreadPoolScheduler(1)
             self._disposable = self._subject.pipe(
-                # Split incoming data to windows by batch_size or flush_interval
-                ops.window_with_time_or_count(count=write_options.batch_size,
-                                              timespan=timedelta(milliseconds=write_options.flush_interval),
-                                              scheduler=self._window_scheduler),
+                # Split incoming data to windows by batch_size, flush_interval, or explicit flush().
+                # Window boundaries are the merge of time/count windows and the flush subject —
+                # same approach as the C# WriteApi batch writer.
+                ops.publish(lambda connected: connected.pipe(
+                    ops.window(
+                        rx.merge(
+                            connected.pipe(
+                                ops.window_with_time_or_count(
+                                    count=write_options.batch_size,
+                                    timespan=timedelta(milliseconds=write_options.flush_interval),
+                                    scheduler=self._window_scheduler)),
+                            self._flush_subject)))),
                 # Map  window into groups defined by 'organization', 'bucket' and 'precision'
                 ops.flat_map(lambda window: window.pipe(
                     # Group window by 'organization', 'bucket' and 'precision'
@@ -279,6 +289,7 @@ class WriteApi(_BaseWriteApi):
 
         else:
             self._subject = None
+            self._flush_subject = None
             self._disposable = None
 
         if self._write_options.write_type is WriteType.asynchronous:
@@ -386,9 +397,17 @@ You can use native asynchronous version of the client:
         return results
 
     def flush(self):
-        """Flush data."""
-        # TODO
-        pass
+        """
+        Flush data.
+
+        Forces the client to flush all pending writes from the batching buffer to InfluxDB
+        via HTTP without waiting for ``batch_size`` or ``flush_interval``. The ``WriteApi``
+        remains usable after ``flush()`` (unlike ``close()``).
+
+        Has no effect when batching is not enabled (synchronous / asynchronous write type).
+        """
+        if self._flush_subject is not None and not self._flush_subject.is_disposed:
+            self._flush_subject.on_next(None)
 
     def close(self):
         """Flush data and dispose a batching buffer."""
@@ -441,6 +460,11 @@ You can use native asynchronous version of the client:
                         max_wait_time
                     )
                     break
+
+        if self._flush_subject:
+            self._flush_subject.on_completed()
+            self._flush_subject.dispose()
+            self._flush_subject = None
 
         if self._window_scheduler:
             self._window_scheduler.executor.shutdown(wait=False)
@@ -570,6 +594,7 @@ You can use native asynchronous version of the client:
         state = self.__dict__.copy()
         # Remove rx
         del state['_subject']
+        del state['_flush_subject']
         del state['_disposable']
         del state['_window_scheduler']
         del state['_write_service']

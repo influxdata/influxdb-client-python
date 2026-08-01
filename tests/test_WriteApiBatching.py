@@ -736,6 +736,72 @@ class BatchingWriteTest(unittest.TestCase):
         self.assertIsInstance(callback.error, InfluxDBError)
         self.assertEqual(429, callback.error.response.status)
 
+    def _wait_for_requests(self, count, timeout=5.0):
+        """Poll httpretty until at least ``count`` requests are recorded."""
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            if len(httpretty.httpretty.latest_requests) >= count:
+                return
+            time.sleep(0.05)
+        self.fail("Timed out waiting for %s HTTP write(s); got %s" % (
+            count, len(httpretty.httpretty.latest_requests)))
+
+    def test_flush_partial_batch(self):
+        """flush() forces a write of buffered points below batch_size."""
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        # batch_size=2: a single point must stay buffered until flush
+        self._write_client.write("my-bucket", "my-org",
+                                 "h2o_feet,location=coyote_creek level\\ water_level=1 1")
+
+        time.sleep(0.3)
+        self.assertEqual(0, len(httpretty.httpretty.latest_requests))
+
+        self._write_client.flush()
+        self._wait_for_requests(1)
+
+        self.assertEqual(1, len(httpretty.httpretty.latest_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                         httpretty.httpretty.latest_requests[0].parsed_body)
+
+    def test_flush_allows_reuse(self):
+        """WriteApi remains usable after flush() — unlike close()."""
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 "h2o_feet,location=coyote_creek level\\ water_level=1 1")
+        self._write_client.flush()
+        self._wait_for_requests(1)
+
+        self._write_client.write("my-bucket", "my-org",
+                                 "h2o_feet,location=coyote_creek level\\ water_level=2 2")
+        self._write_client.flush()
+        self._wait_for_requests(2)
+
+        self.assertEqual(2, len(httpretty.httpretty.latest_requests))
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=1 1",
+                         httpretty.httpretty.latest_requests[0].parsed_body)
+        self.assertEqual("h2o_feet,location=coyote_creek level\\ water_level=2 2",
+                         httpretty.httpretty.latest_requests[1].parsed_body)
+
+    def test_flush_empty_is_noop(self):
+        """flush() with an empty buffer does not send an HTTP request."""
+        httpretty.register_uri(httpretty.POST, uri="http://localhost/api/v2/write", status=204)
+
+        self._write_client.flush()
+        time.sleep(0.3)
+        self.assertEqual(0, len(httpretty.httpretty.latest_requests))
+
+    def test_flush_synchronous_is_noop(self):
+        """flush() is a no-op for non-batching write types."""
+        from influxdb_client.client.write_api import SYNCHRONOUS
+
+        self._write_client.close()
+        self._write_client = WriteApi(influxdb_client=self.influxdb_client,
+                                      write_options=SYNCHRONOUS)
+        # Must not raise
+        self._write_client.flush()
+
 
 if __name__ == '__main__':
     unittest.main()
