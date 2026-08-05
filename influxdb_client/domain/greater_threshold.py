@@ -92,6 +92,7 @@ class GreaterThreshold(ThresholdBase):
         :param value: The value of this GreaterThreshold.
         :type: float
         """  # noqa: E501
+        # Identity check so numeric zero (0 / 0.0) is accepted; only None is invalid (#681).
         if value is None:
             raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
         self._value = value

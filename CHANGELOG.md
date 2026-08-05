@@ -4,6 +4,7 @@
 
 1. [#706](https://github.com/influxdata/influxdb-client-python/pull/706): Use logger instead logging.
 1. [#686](https://github.com/influxdata/influxdb-client-python/issues/686): Stop `default_tags` from one client leaking into other clients' `WriteApi` (shared mutable default `PointSettings`).
+1. [#681](https://github.com/influxdata/influxdb-client-python/issues/681): Accept numeric zero for `RangeThreshold.min`/`max` and greater/lesser `value` (identity checks vs `None`, not truthiness); cover create-check serialization.
 
 ## 1.50.0 [2026-01-23]
 
