@@ -94,12 +94,13 @@ class RangeThreshold(ThresholdBase):
         return self._min
 
     @min.setter
-    def min(self, min):
+    def min(self, min):  # noqa: A002 - OpenAPI property name
         """Set the min of this RangeThreshold.
 
         :param min: The min of this RangeThreshold.
         :type: float
         """  # noqa: E501
+        # Identity check so numeric zero (0 / 0.0) is accepted; only None is invalid (#681).
         if min is None:
             raise ValueError("Invalid value for `min`, must not be `None`")  # noqa: E501
         self._min = min
@@ -114,12 +115,13 @@ class RangeThreshold(ThresholdBase):
         return self._max
 
     @max.setter
-    def max(self, max):
+    def max(self, max):  # noqa: A002 - OpenAPI property name
         """Set the max of this RangeThreshold.
 
         :param max: The max of this RangeThreshold.
         :type: float
         """  # noqa: E501
+        # Identity check so numeric zero (0 / 0.0) is accepted; only None is invalid (#681).
         if max is None:
             raise ValueError("Invalid value for `max`, must not be `None`")  # noqa: E501
         self._max = max
@@ -140,6 +142,7 @@ class RangeThreshold(ThresholdBase):
         :param within: The within of this RangeThreshold.
         :type: bool
         """  # noqa: E501
+        # Identity check so False is accepted; only None is invalid.
         if within is None:
             raise ValueError("Invalid value for `within`, must not be `None`")  # noqa: E501
         self._within = within

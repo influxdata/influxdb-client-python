@@ -240,19 +240,21 @@ class InfluxDBClient(_BaseClient):
 
         .. code-block:: python
 
+            from typing import Tuple
+
             from influxdb_client import InfluxDBClient
             from influxdb_client.client.exceptions import InfluxDBError
 
 
             class BatchingCallback(object):
 
-                def success(self, conf: (str, str, str), data: str):
+                def success(self, conf: Tuple[str, str, str], data: str):
                     print(f"Written batch: {conf}, data: {data}")
 
-                def error(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+                def error(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
                     print(f"Cannot write batch: {conf}, data: {data} due: {exception}")
 
-                def retry(self, conf: (str, str, str), data: str, exception: InfluxDBError):
+                def retry(self, conf: Tuple[str, str, str], data: str, exception: InfluxDBError):
                     print(f"Retryable error occurs for batch: {conf}, data: {data} retry: {exception}")
 
 
