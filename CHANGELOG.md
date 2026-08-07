@@ -5,6 +5,7 @@
 1. [#706](https://github.com/influxdata/influxdb-client-python/pull/706): Use logger instead logging.
 1. [#540](https://github.com/influxdata/influxdb-client-python/issues/540): Replace invalid tuple type annotations `(str, str, str)` with `Tuple[str, str, str]` in batching callbacks, examples and docs.
 1. [#686](https://github.com/influxdata/influxdb-client-python/issues/686): Stop `default_tags` from one client leaking into other clients' `WriteApi` (shared mutable default `PointSettings`).
+1. [#697](https://github.com/influxdata/influxdb-client-python/issues/697): Implement `WriteApi.flush()` to force pending batch writes without disposing the API (mirrors C#/Java batch writer).
 1. [#681](https://github.com/influxdata/influxdb-client-python/issues/681): Accept numeric zero for `RangeThreshold.min`/`max` and greater/lesser `value` (identity checks vs `None`, not truthiness); cover create-check serialization.
 
 ## 1.50.0 [2026-01-23]
