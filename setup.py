@@ -16,7 +16,6 @@ test_requires = [
     'coverage>=4.0.3',
     'nose>=1.3.7',
     'pluggy>=0.3.1',
-    'py>=1.4.31',
     'randomize>=0.13',
     'pytest>=5.0.0',
     'pytest-cov>=3.0.0',
