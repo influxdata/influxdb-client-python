@@ -194,6 +194,11 @@ def _body_reduce(batch_items):
     return b'\n'.join(map(lambda batch_item: batch_item.data, batch_items))
 
 
+def _is_interpreter_shutdown(exception: Exception) -> bool:
+    # e.g. "cannot schedule new futures after interpreter shutdown"
+    return isinstance(exception, RuntimeError) and 'interpreter shutdown' in str(exception)
+
+
 class WriteApi(_BaseWriteApi):
     """
     Implementation for '/api/v2/write' endpoint.
@@ -548,6 +553,10 @@ You can use native asynchronous version of the client:
             ops.subscribe_on(self._write_options.write_scheduler),
             # use delay if its specified
             ops.delay(duetime=delay, scheduler=self._write_options.write_scheduler),
+            # since Python 3.9 the thread pools stop accepting work before 'atexit' handlers run,
+            # so write the batch on the current thread instead of dropping it
+            ops.catch(handler=lambda exception, source: rx.just(data) if _is_interpreter_shutdown(exception)
+                      else rx.throw(exception)),
             # invoke http call
             ops.map(lambda x: self._http(x)),
             # catch exception to fail batch response
