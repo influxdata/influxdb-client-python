@@ -81,13 +81,30 @@ class ApiClient(object):
 
     def __del__(self):
         """Dispose pools."""
-        self._signout()
-        if self._pool:
-            self._pool.close()
-            self._pool.join()
+        # During interpreter shutdown, attributes and imported services can already be cleared.
+        # A finalizer must not let those teardown details escape as an ignored exception.
+        try:
+            if getattr(self, 'configuration', None) is not None:
+                self._signout()
+        except Exception:
+            pass
+
+        pool = getattr(self, '_pool', None)
+        if pool:
+            try:
+                pool.close()
+                pool.join()
+            except Exception:
+                pass
             self._pool = None
-        if self.rest_client and self.rest_client.pool_manager and hasattr(self.rest_client.pool_manager, 'clear'):
-            self.rest_client.pool_manager.clear()
+
+        rest_client = getattr(self, 'rest_client', None)
+        pool_manager = getattr(rest_client, 'pool_manager', None)
+        if hasattr(pool_manager, 'clear'):
+            try:
+                pool_manager.clear()
+            except Exception:
+                pass
 
     @property
     def pool(self):

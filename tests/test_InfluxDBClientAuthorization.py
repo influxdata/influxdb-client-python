@@ -3,6 +3,7 @@ import unittest
 import httpretty
 
 from influxdb_client import InfluxDBClient
+from influxdb_client._sync.api_client import ApiClient
 
 
 class InfluxDBClientAuthorization(unittest.TestCase):
@@ -10,6 +11,7 @@ class InfluxDBClientAuthorization(unittest.TestCase):
     def setUp(self) -> None:
         httpretty.enable()
         httpretty.reset()
+        self.influxdb_client = None
 
     def tearDown(self) -> None:
         if self.influxdb_client:
@@ -35,7 +37,10 @@ class InfluxDBClientAuthorization(unittest.TestCase):
 
         self.assertEqual(2, len(httpretty.httpretty.latest_requests))
         # basic auth header
-        self.assertEqual('Basic bXktdXNlcm5hbWU6bXktcGFzc3dvcmQ=', httpretty.httpretty.latest_requests[0].headers['Authorization'])
+        self.assertEqual(
+            'Basic bXktdXNlcm5hbWU6bXktcGFzc3dvcmQ=',
+            httpretty.httpretty.latest_requests[0].headers['Authorization'],
+        )
         # cookie header
         self.assertEqual('session=xyz', httpretty.httpretty.latest_requests[1].headers['Cookie'])
         self.assertIsNotNone(self.influxdb_client.api_client.cookie)
@@ -44,3 +49,10 @@ class InfluxDBClientAuthorization(unittest.TestCase):
         self.influxdb_client.close()
 
         self.assertEqual(3, len(httpretty.httpretty.latest_requests))
+
+    def test_api_client_finalizer_ignores_partially_torn_down_state(self):
+        api_client = ApiClient()
+        del api_client.configuration
+        del api_client.rest_client
+
+        api_client.__del__()
