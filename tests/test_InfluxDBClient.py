@@ -15,18 +15,43 @@ from urllib3.exceptions import NewConnectionError, HTTPError
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write.retry import WritesRetry
 from influxdb_client.client.write_api import WriteOptions, WriteType, SYNCHRONOUS
+from influxdb_client.rest import ApiException
 from tests.base_test import BaseTest
 
 
 class InfluxDBClientTest(unittest.TestCase):
 
+    cert_dir = os.path.join(os.path.dirname(__file__), "test_data", "certificates")
+
+    influxdb_cert_pem = os.path.join(cert_dir, "influxdb.pem")
+    influxdb_cert = os.path.join(cert_dir, "influxdb.crt")
+    influxdb_key = os.path.join(cert_dir, "influxdb.key")
+
+    client_cert_pem = os.path.join(cert_dir, "client.pem")
+    client_cert = os.path.join(cert_dir, "client.crt")
+    client_key = os.path.join(cert_dir, "client.key")
+
+    other_server_pem = os.path.join(cert_dir, "other-server.pem")
+    other_server_cert = os.path.join(cert_dir, "other-server.crt")
+    other_server_key = os.path.join(cert_dir, "other-server.key")
+
+
+    def setUp(self) -> None:
+        self.client = None
+
     def tearDown(self) -> None:
         if self.client:
             self.client.close()
+        self._stop_https_server()
+
+    def _stop_https_server(self) -> None:
         if hasattr(self, 'httpd'):
             self.httpd.shutdown()
+            self.httpd.server_close()
+            delattr(self, 'httpd')
         if hasattr(self, 'httpd_thread'):
             self.httpd_thread.join()
+            delattr(self, 'httpd_thread')
 
     def test_default_conf(self):
         self.client = InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org")
@@ -59,7 +84,7 @@ class InfluxDBClientTest(unittest.TestCase):
         self.assertEqual('http://localhost:8086', self.client.api_client.configuration.host)
 
     def test_ConnectToSelfSignedServer(self):
-        self._start_http_server()
+        self._start_https_server()
 
         self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
                                      token="my-token", verify_ssl=False)
@@ -67,27 +92,95 @@ class InfluxDBClientTest(unittest.TestCase):
 
         self.assertTrue(ping)
 
-    def test_certificate_file(self):
-        self._start_http_server()
+    def test_tls_mtls(self):
+        test_cases = [
+            {
+                "name": "correct self-signed certificate config from client",
+                "ca_certs": self.influxdb_cert,
+                "cert_file": None,
+                "key_file": None,
+                "is_mtls": False,
+                "expect_success": True
+            },
+            {
+                "name": "correct .pem self-signed certificate config from client",
+                "ca_certs": self.influxdb_cert_pem,
+                "cert_file": None,
+                "key_file": None,
+                "is_mtls": False,
+                "expect_success": True
+            },
+            {
+                "name": "incorrect self-signed certificate config from client",
+                "ca_certs": self.other_server_pem,
+                "cert_file": None,
+                "key_file": None,
+                "is_mtls": False,
+                "expect_success": False
+            },
+            {
+                "name": "mtls correct self-signed certificate config from client",
+                "ca_certs": self.influxdb_cert,
+                "cert_file": self.client_cert,
+                "key_file": self.client_key,
+                "is_mtls": True,
+                "expect_success": True
+            },
+            {
+                "name": "mtls correct .pem self-signed certificate config from client",
+                "ca_certs": self.influxdb_cert,
+                "cert_file": self.client_cert_pem,
+                "key_file": None,
+                "is_mtls": True,
+                "expect_success": True
+            },
+            {
+                "name": "mtls incorrect self-signed certificate config from client",
+                "ca_certs": self.influxdb_cert,
+                "cert_file": self.other_server_cert,
+                "key_file": self.other_server_key,
+                "is_mtls": True,
+                "expect_success": False
+            }
+        ]
+        for test_case in test_cases:
+            with self.subTest(test_case=test_case["name"]):
+                client_cert = self.client_cert if test_case["is_mtls"] else None
+                self._start_https_server(client_cert=client_cert)
+                try:
+                    self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                                 token="my-token",
+                                                 verify_ssl=True,
+                                                 cert_file=test_case["cert_file"],
+                                                 cert_key_file=test_case["key_file"],
+                                                 ssl_ca_cert=test_case["ca_certs"])
+                    if test_case["expect_success"]:
+                        self.assertIsNotNone(self.client.version())
+                    else:
+                        with self.assertRaises(ApiException) as exc_info:
+                            self.client.version()
+                        self.assertIn("SSL", exc_info.exception.reason)
+                finally:
+                    if self.client:
+                        self.client.close()
+                        self.client = None
+                    self._stop_https_server()
 
-        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
-                                     token="my-token", verify_ssl=True,
-                                     ssl_ca_cert=f'{os.path.dirname(__file__)}/server.pem')
-        ping = self.client.ping()
-
-        self.assertTrue(ping)
-
-    def test_certificate_context(self):
-        self._start_http_server()
-
-        ssl_context = ssl.create_default_context(cafile=f"{os.path.dirname(__file__)}/server.pem")
-
-        self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
-                                     token="my-token", verify_ssl=True,
-                                     ssl_context=ssl_context)
-        ping = self.client.ping()
-
-        self.assertTrue(ping)
+    def test_mtls_ssl_context_object(self):
+        self._start_https_server(client_cert=self.client_cert)
+        ssl_context = ssl.create_default_context(cafile=self.influxdb_cert)
+        ssl_context.load_cert_chain(certfile=self.client_cert, keyfile=self.client_key)
+        try:
+            self.client = InfluxDBClient(f"https://localhost:{self.httpd.server_address[1]}",
+                                         token="my-token",
+                                         verify_ssl=True,
+                                         ssl_context=ssl_context)
+            self.client.version()
+        except Exception as e:
+            self.fail(f"Unexpected exception: {e}")
+        finally:
+            self.client.close()
+            self._stop_https_server()
 
     def test_init_from_ini_file(self):
         self.client = InfluxDBClient.from_config_file(f'{os.path.dirname(__file__)}/config.ini')
@@ -259,20 +352,37 @@ class InfluxDBClientTest(unittest.TestCase):
         self.client = InfluxDBClient.from_env_properties(retries=retry)
         self.assertEqual(self.client.retries, retry)
 
-    def _start_http_server(self):
+    def _start_https_server(self, cert_file=None, key_file=None, client_cert=None):
         import http.server
         import ssl
         # Disable unverified HTTPS requests
         import urllib3
         urllib3.disable_warnings()
+        if cert_file is not None and cert_file.endswith(".pem"):
+            if key_file is not None:
+                raise ValueError("Key file is not required for .pem certificate")
+        else:
+            if not cert_file:
+                cert_file = f'{self.cert_dir}/influxdb.crt'
+            if not key_file:
+                key_file = f'{self.cert_dir}/influxdb.key'
+
         # Configure HTTP server
-        self.httpd = http.server.HTTPServer(('localhost', 0), ServerWithSelfSingedSSL)
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.load_cert_chain(f'{os.path.dirname(__file__)}/server.pem')
-        self.httpd.socket = context.wrap_socket(self.httpd.socket, server_side=True)
-        # Start server at background
-        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
-        self.httpd_thread.start()
+        try:
+            self.httpd = http.server.HTTPServer(('localhost', 0), ServerWithSelfSingedSSL)
+            context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            context.load_cert_chain(cert_file, key_file)
+
+            if client_cert:
+                context.verify_mode = ssl.CERT_REQUIRED
+                context.load_verify_locations(cafile=client_cert)
+
+            self.httpd.socket = context.wrap_socket(self.httpd.socket, server_side=True)
+            # Start server at background
+            self.httpd_thread = threading.Thread(target=self.httpd.serve_forever)
+            self.httpd_thread.start()
+        except Exception as e:
+            raise e
 
     def test_write_context_manager(self):
 
