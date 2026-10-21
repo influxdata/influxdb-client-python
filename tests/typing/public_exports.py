@@ -1,4 +1,4 @@
-"""Check the public imports of an Python client.
+"""Check the public imports of a Python client.
 
 Run with:
     python -m mypy --no-implicit-reexport --follow-imports=silent tests/typing/public_exports.py
