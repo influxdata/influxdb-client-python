@@ -28,7 +28,7 @@ def csv_to_generator(csv_file_path):
 
 
 async def main():
-    async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org') as client:
+    async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org', timeout=30_000) as client:
         write_api = client.write_api()
 
         """
@@ -56,7 +56,7 @@ async def main():
         Write batches by subscribing to Rx generator
         """
         batches.subscribe(on_next=lambda batch: print(f'Written batch... {len(batch)}'),
-                          on_error=lambda ex: print(f'Unexpected error: {ex}'),
+                          on_error=lambda ex: done.set_exception(ex),
                           on_completed=lambda: done.set_result(0),
                           scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
         """
