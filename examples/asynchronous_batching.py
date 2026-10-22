@@ -52,17 +52,21 @@ async def main():
 
         done = asyncio.Future()
 
-        """
-        Write batches by subscribing to Rx generator
-        """
-        batches.subscribe(on_next=lambda batch: print(f'Written batch... {len(batch)}'),
-                          on_error=lambda ex: done.set_exception(ex),
-                          on_completed=lambda: done.set_result(0),
-                          scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
-        """
-        Wait to finish all writes
-        """
-        await done
+        # N.B. try block is a temporary fix for issue that this now sometimes raises `asyncio.TimeoutError`
+        try:
+            """
+            Write batches by subscribing to Rx generator
+            """
+            batches.subscribe(on_next=lambda batch: print(f'Written batch... {len(batch)}'),
+                              on_error=lambda ex: done.set_exception(ex),
+                              on_completed=lambda: done.set_result(0),
+                              scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
+            """
+            Wait to finish all writes
+            """
+            await done
+        except Exception as ex:
+            print(f"WARNING: caught exception {ex}")
 
 
 if __name__ == "__main__":
