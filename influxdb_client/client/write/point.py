@@ -351,11 +351,16 @@ def _convert_timestamp(timestamp, precision=DEFAULT_WRITE_PRECISION):
         if precision is None or precision == WritePrecision.NS:
             return ns
         elif precision == WritePrecision.US:
-            return ns / 1e3
+            divisor = 1000
         elif precision == WritePrecision.MS:
-            return ns / 1e6
+            divisor = 1000000
         elif precision == WritePrecision.S:
-            return ns / 1e9
+            divisor = 1000000000
+        else:
+            raise ValueError(timestamp)
+
+        # Keep truncation toward zero without rounding through a float.
+        return ns // divisor if ns >= 0 else -(-ns // divisor)
 
     raise ValueError(timestamp)
 
