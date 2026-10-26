@@ -269,7 +269,7 @@ class FluxCsvParser(object):
             _temp_df = _temp_df.set_index(self._data_frame_index)
 
         # Append data
-        df = pd.concat([self._data_frame.astype(_temp_df.dtypes), _temp_df])
+        df = _temp_df if self._data_frame.empty else pd.concat([self._data_frame.astype(_temp_df.dtypes), _temp_df])
 
         if self._use_extension_dtypes:
             return df.convert_dtypes()
