@@ -51,7 +51,10 @@ class WritesRetry(Retry):
         self.max_retry_delay = max_retry_delay
         self.max_retry_time = max_retry_time
         self.exponential_base = exponential_base
-        self.retry_timeout = datetime.now() + timedelta(seconds=max_retry_time)
+        # Deadline for retrying the current request. It is set when a request
+        # first fails, not here: one instance can serve many requests, e.g. when
+        # passed as ``retries`` to ``InfluxDBClient``.
+        self.retry_timeout = None
         self.retry_callback = retry_callback
 
     def new(self, **kw):
@@ -118,10 +121,15 @@ class WritesRetry(Retry):
 
     def increment(self, method=None, url=None, response=None, error=None, _pool=None, _stacktrace=None):
         """Return a new Retry object with incremented retry counters."""
-        if self.retry_timeout < datetime.now():
+        retry_timeout = self.retry_timeout
+        if retry_timeout is None:
+            # First failure of a request: its retry time starts now.
+            retry_timeout = datetime.now() + timedelta(seconds=self.max_retry_time)
+        if retry_timeout <= datetime.now():
             raise MaxRetryError(_pool, url, error or ResponseError("max_retry_time exceeded"))
 
         new_retry = super().increment(method, url, response, error, _pool, _stacktrace)
+        new_retry.retry_timeout = retry_timeout
 
         if response is not None:
             parsed_error = InfluxDBError(response=response)
