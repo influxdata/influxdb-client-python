@@ -2,6 +2,8 @@
 How to use RxPY to prepare batches for asyncio client.
 """
 import asyncio
+import logging
+from datetime import datetime
 from csv import DictReader
 
 import reactivex as rx
@@ -11,6 +13,8 @@ from reactivex.scheduler.eventloop import AsyncIOScheduler
 from influxdb_client import Point
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def csv_to_generator(csv_file_path):
     """
@@ -39,7 +43,10 @@ async def main():
             """
             Prepare async task
             """
-            await write_api.write(bucket='my-bucket', record=batch)
+            try:
+                await write_api.write(bucket='my-bucket', record=batch)
+            except (asyncio.CancelledError, asyncio.TimeoutError) as exc:
+                logger.warning(f"[{datetime.now()}] on batch write caught exception: {type(exc).__name__}")
             return batch
 
         """
@@ -55,8 +62,8 @@ async def main():
         """
         Write batches by subscribing to Rx generator
         """
-        batches.subscribe(on_next=lambda batch: print(f'Written batch... {len(batch)}'),
-                          on_error=lambda ex: print(f'Unexpected error: {ex}'),
+        batches.subscribe(on_next=lambda batch: logger.info(f'[{datetime.now()}] Written batch... {len(batch)}'),
+                          on_error=lambda ex: done.set_exception(ex),
                           on_completed=lambda: done.set_result(0),
                           scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
         """
