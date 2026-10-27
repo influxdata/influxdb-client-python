@@ -2,6 +2,8 @@
 How to use RxPY to prepare batches for asyncio client.
 """
 import asyncio
+import logging
+from datetime import datetime
 from csv import DictReader
 
 import reactivex as rx
@@ -11,6 +13,8 @@ from reactivex.scheduler.eventloop import AsyncIOScheduler
 from influxdb_client import Point
 from influxdb_client.client.influxdb_client_async import InfluxDBClientAsync
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def csv_to_generator(csv_file_path):
     """
@@ -28,7 +32,7 @@ def csv_to_generator(csv_file_path):
 
 
 async def main():
-    async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org', timeout=30_000) as client:
+    async with InfluxDBClientAsync(url='http://localhost:8086', token='my-token', org='my-org') as client:
         write_api = client.write_api()
 
         """
@@ -39,7 +43,10 @@ async def main():
             """
             Prepare async task
             """
-            await write_api.write(bucket='my-bucket', record=batch)
+            try:
+                await write_api.write(bucket='my-bucket', record=batch)
+            except (asyncio.CancelledError, asyncio.TimeoutError) as exc:
+                logger.warning(f"[{datetime.now()}] on batch write caught exception: {type(exc).__name__}")
             return batch
 
         """
@@ -52,21 +59,17 @@ async def main():
 
         done = asyncio.Future()
 
-        # N.B. try block is a temporary fix for issue that this now sometimes raises `asyncio.TimeoutError`
-        try:
-            """
-            Write batches by subscribing to Rx generator
-            """
-            batches.subscribe(on_next=lambda batch: print(f'Written batch... {len(batch)}'),
-                              on_error=lambda ex: done.set_exception(ex),
-                              on_completed=lambda: done.set_result(0),
-                              scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
-            """
-            Wait to finish all writes
-            """
-            await done
-        except Exception as ex:
-            print(f"WARNING: caught exception {ex}")
+        """
+        Write batches by subscribing to Rx generator
+        """
+        batches.subscribe(on_next=lambda batch: logger.info(f'[{datetime.now()}] Written batch... {len(batch)}'),
+                          on_error=lambda ex: done.set_exception(ex),
+                          on_completed=lambda: done.set_result(0),
+                          scheduler=AsyncIOScheduler(asyncio.get_event_loop()))
+        """
+        Wait to finish all writes
+        """
+        await done
 
 
 if __name__ == "__main__":
