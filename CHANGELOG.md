@@ -8,6 +8,7 @@
 1. [#714](https://github.com/influxdata/influxdb-client-python/pull/714): Implement `WriteApi.flush()` to force pending batch writes without disposing the API (mirrors C#/Java batch writer).
 1. [#715](https://github.com/influxdata/influxdb-client-python/pull/715): Accept numeric zero for `RangeThreshold.min`/`max` and greater/lesser `value` (identity checks vs `None`, not truthiness); cover create-check serialization.
 1. [#720](https://github.com/influxdata/influxdb-client-python/pull/720): Prevent the `api_client` class from raising exceptions while the Python interpreter clears the client state during shutdown.
+1. [#732](https://github.com/influxdata/influxdb-client-python/pull/732): Apply the `#default` annotation in `FluxCsvParser` when it comes before `#datatype`.
 
 ## 1.50.0 [2026-01-23]
 

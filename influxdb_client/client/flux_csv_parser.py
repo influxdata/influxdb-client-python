@@ -55,6 +55,7 @@ class _FluxCsvParserMetadata(object):
         self.start_new_table = False
         self.table = None
         self.groups = []
+        self.default_values = None
         self.parsing_state_error = False
 
 
@@ -185,6 +186,7 @@ class FluxCsvParser(object):
                 self._insert_table(metadata.table, metadata.table_index)
                 metadata.table_index = metadata.table_index + 1
                 metadata.table_id = -1
+                metadata.default_values = None
             elif metadata.table is None:
                 raise FluxCsvParserException("Unable to parse CSV response. FluxTable definition was not found.")
 
@@ -196,7 +198,8 @@ class FluxCsvParser(object):
                 metadata.groups = csv
 
             elif ANNOTATION_DEFAULT == token:
-                self.add_default_empty_values(metadata.table, csv)
+                # Applied with the column names: "#default" can come before "#datatype", which creates the columns
+                metadata.default_values = csv
 
             else:
                 # parse column names
@@ -207,6 +210,8 @@ class FluxCsvParser(object):
                         self.add_data_types(metadata.table, list(map(lambda column: 'string', csv)))
                         metadata.groups = list(map(lambda column: 'false', csv))
                     self.add_groups(metadata.table, metadata.groups)
+                    if metadata.default_values is not None:
+                        self.add_default_empty_values(metadata.table, metadata.default_values)
                     self.add_column_names_and_tags(metadata.table, csv)
                     metadata.start_new_table = False
                     # Create DataFrame with default values
