@@ -514,6 +514,53 @@ class FluxCsvParserTest(unittest.TestCase):
         self.assertEqual(25.3, tables[0].records[0].row[7])
 
 
+    def test_default_annotation_before_datatype(self):
+        data = "#default,_result,,,,,,,,,42,\n" \
+               "#group,false,false,true,true,true,true,true,true,false,false,false\n" \
+               "#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,string,string,string,string,long,long,string\n" \
+               ",result,table,_start,_stop,_field,_measurement,host,region,_value2,value1,value_str\n" \
+               ",,0,1677-09-21T00:12:43.145224192Z,2018-07-16T11:21:02.547596934Z,free,mem,A,west,121,,test\n"
+
+        tables = self._parse_to_tables(data=data)
+        self.assertEqual(1, tables.__len__())
+        self.assertEqual(11, tables[0].columns.__len__())
+        self.assertEqual("_result", tables[0].columns[0].default_value)
+        self.assertEqual("long", tables[0].columns[9].data_type)
+        self.assertTrue(tables[0].columns[2].group)
+        record = tables[0].records[0]
+        self.assertEqual("_result", record.values["result"])
+        self.assertEqual(42, record.values["value1"])
+        self.assertEqual(121, record.values["_value2"])
+
+    def test_default_annotation_before_datatype_more_tables(self):
+        data = "#default,first,,,\n" \
+               "#datatype,string,long,string,long\n" \
+               "#group,false,false,true,false\n" \
+               ",result,table,host,_value\n" \
+               ",,0,A,1\n" \
+               "\n" \
+               "#default,second,,,7\n" \
+               "#group,false,false,true,false\n" \
+               "#datatype,string,long,string,long\n" \
+               ",result,table,host,_value\n" \
+               ",,1,B,\n" \
+               "\n" \
+               "#datatype,string,long,string,long\n" \
+               "#group,false,false,true,false\n" \
+               ",result,table,host,_value\n" \
+               ",,2,C,\n"
+
+        tables = self._parse_to_tables(data=data)
+        self.assertEqual(3, tables.__len__())
+        self.assertEqual("first", tables[0].records[0].values["result"])
+        self.assertEqual(1, tables[0].records[0].values["_value"])
+        self.assertEqual("second", tables[1].records[0].values["result"])
+        self.assertEqual(7, tables[1].records[0].values["_value"])
+        self.assertTrue(tables[1].columns[2].group)
+        # defaults of a previous table must not leak into a table without #default
+        self.assertIsNone(tables[2].records[0].values["result"])
+        self.assertIsNone(tables[2].records[0].values["_value"])
+
     @staticmethod
     def _parse_to_tables(data: str, serialization_mode=FluxSerializationMode.tables,
                          response_metadata_mode=FluxResponseMetadataMode.full) -> TableList:
