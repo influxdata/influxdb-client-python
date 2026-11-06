@@ -9,6 +9,7 @@
 1. [#715](https://github.com/influxdata/influxdb-client-python/pull/715): Accept numeric zero for `RangeThreshold.min`/`max` and greater/lesser `value` (identity checks vs `None`, not truthiness); cover create-check serialization.
 1. [#720](https://github.com/influxdata/influxdb-client-python/pull/720): Prevent the `api_client` class from raising exceptions while the Python interpreter clears the client state during shutdown.
 1. [#723](https://github.com/influxdata/influxdb-client-python/pull/723): Export public names using generated `__all__` array in `__init__.py` as per reference documentation.
+1. [#725](https://github.com/influxdata/influxdb-client-python/pull/725): Start the `WritesRetry` `max_retry_time` at a request's first failure, so a strategy passed as `retries` to `InfluxDBClient` keeps retrying after `max_retry_time` has passed since it was created.
 
 ## 1.50.0 [2026-01-23]
 
