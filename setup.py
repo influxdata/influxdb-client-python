@@ -12,6 +12,7 @@ requires = [
 ]
 
 test_requires = [
+    'mypy>=0.991',
     'flake8>=5.0.3',
     'coverage>=4.0.3',
     'nose>=1.3.7',
