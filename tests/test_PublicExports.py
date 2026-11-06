@@ -4,6 +4,7 @@ courtesy of ac1982@no-response.github.com
 Exercise top-level imports as both runtime and typed client code.
 """
 
+import influxdb_client
 import runpy
 import subprocess
 import sys
@@ -25,3 +26,13 @@ class PublicExportsTest(unittest.TestCase):
                 cwd=str(root), capture_output=True, text=True,
             )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_all_exported(self):
+        all_symbols = [name for name in vars(influxdb_client) if not name.startswith("_") and not name[0].islower()]
+        for name in all_symbols:
+            assert name in influxdb_client.__all__, \
+                f"'{name}' follows public pattern but is not in influxdb_client.__all__"
+
+    def test_all_public_exports_valid(self):
+        for name in influxdb_client.__all__:
+            assert hasattr(influxdb_client, name), f"'{name}' in __all__ but not defined on influxdb_client"
