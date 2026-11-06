@@ -14,7 +14,9 @@ with InfluxDBClient(url="http://localhost:8086", token="my-token", org="my-org",
     # write using point structure
     write_api.write(bucket="my-bucket", record=p)
 
-    line_protocol = p.to_line_protocol()
+    plp = Point("my_measurement").tag("location", "Athens").field("temperature", 35.3) \
+        .time(datetime.now(tz=timezone.utc))
+    line_protocol = plp.to_line_protocol()
     print(line_protocol)
 
     # write using line protocol string
