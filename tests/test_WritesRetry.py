@@ -55,6 +55,33 @@ class TestWritesRetry(unittest.TestCase):
 
         self.assertEqual("max_retry_time exceeded", exception.reason.args[0])
 
+    def test_max_retry_time_starts_at_first_failure(self):
+        # A strategy passed as ``retries`` to InfluxDBClient lives as long as the client.
+        retry = NonRandomMinWritesRetry(max_retry_time=1)
+        time.sleep(1.5)
+
+        # The first failure of a request made after max_retry_time is still retried.
+        retry = retry.increment()
+        self.assertEqual(retry.is_exhausted(), False)
+        self.assertEqual(retry.total, 4)
+
+    def test_max_retry_time_is_per_request(self):
+        base = NonRandomMinWritesRetry(max_retry_time=1)
+
+        first_request = base.increment()
+        time.sleep(1.5)
+        with self.assertRaises(MaxRetryError) as cm:
+            first_request.increment()
+        self.assertEqual("max_retry_time exceeded", cm.exception.reason.args[0])
+
+        # Another request made with the same strategy gets its own max_retry_time.
+        second_request = base.increment()
+        self.assertEqual(second_request.total, 4)
+
+    def test_max_retry_time_zero_disables_retry(self):
+        with self.assertRaises(MaxRetryError):
+            WritesRetry(max_retry_time=0).increment()
+
     def test_backoff_start_range(self):
         retry = NonRandomMinWritesRetry(total=5, retry_interval=1, exponential_base=2,
                                         max_retry_delay=550)
