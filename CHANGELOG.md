@@ -15,6 +15,7 @@
 1. [#723](https://github.com/influxdata/influxdb-client-python/pull/723): Export public names using generated `__all__` array in `__init__.py` as per reference documentation.
 1. [#725](https://github.com/influxdata/influxdb-client-python/pull/725): Start the `WritesRetry` `max_retry_time` at a request's first failure, so a strategy passed as `retries` to `InfluxDBClient` keeps retrying after `max_retry_time` has passed since it was created.
 1. [#732](https://github.com/influxdata/influxdb-client-python/pull/732): Apply the `#default` annotation in `FluxCsvParser` when it comes before `#datatype`.
+1. [#733](https://github.com/influxdata/influxdb-client-python/pull/733): Write the last batch when the batching `WriteApi` is closed in an `atexit` handler instead of dropping it with "cannot schedule new futures after interpreter shutdown".
 
 ## 1.50.0 [2026-01-23]
 
