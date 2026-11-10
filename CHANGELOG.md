@@ -1,5 +1,9 @@
 ## 1.51.0 [unreleased]
 
+### Documentation
+
+1. [#721](https://github.com/influxdata/influxdb-client-python/pull/721): Add examples for configure TLS/mTLS for the Influxdb client.
+
 ### Bug Fixes
 
 1. [#706](https://github.com/influxdata/influxdb-client-python/pull/706): Use logger instead logging.
