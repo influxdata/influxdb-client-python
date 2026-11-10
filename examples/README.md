@@ -42,6 +42,7 @@
 - [influxdb_18_example.py](influxdb_18_example.py) - How to connect to InfluxDB 1.8
 - [nanosecond_precision.py](nanosecond_precision.py) - How to use nanoseconds precision
 - [connection_check.py](connection_check.py) - How to check connection configuration
+- [config_tls_mtls.py](config_tls_mtls.py) - How to configure TLS/mTLS
 
 ## Asynchronous
 - [asynchronous.py](asynchronous.py) - How to use Asyncio with InfluxDB client
