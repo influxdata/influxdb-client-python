@@ -2,6 +2,8 @@
 
 ### Bug Fixes
 
+1. Avoid floating-point timestamp rounding across microsecond, millisecond, and second boundaries.
+
 1. [#706](https://github.com/influxdata/influxdb-client-python/pull/706): Use logger instead logging.
 1. [#710](https://github.com/influxdata/influxdb-client-python/pull/710): Stop `default_tags` from one client leaking into other clients' `WriteApi` (shared mutable default `PointSettings`).
 1. [#713](https://github.com/influxdata/influxdb-client-python/pull/713): Replace invalid tuple type annotations `(str, str, str)` with `Tuple[str, str, str]` in batching callbacks, examples and docs.
