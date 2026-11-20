@@ -1535,6 +1535,28 @@ Both HTTP request headers and body will be logged to standard output.
 
 <!-- marker-logging-end -->
 
+### Config TLS/mTLS
+
+<!-- marker-configtls-start -->
+
+Configure TLS/mTLS for InfluxDBClient.
+
+Support both separated certificate and key files or certificate and key bundled in one .pem file. 
+
+-   sources - [config_tls_mtls.py](https://github.com/influxdata/influxdb-client-python/blob/master/examples/config_tls_mtls.py)
+
+``` python
+with InfluxDBClient("https://localhost:8081",
+                    token="my-token",
+                    verify_ssl=True,
+                    ssl_ca_cert="path/to/server-cert.crt",
+                    cert_file="path/to/client-cert.crt",
+                    cert_key_file="path/to/client-key.key") as client:
+    client.version()
+```
+
+<!-- marker-configtls-end -->
+
 ## Local tests
 
 ``` console
