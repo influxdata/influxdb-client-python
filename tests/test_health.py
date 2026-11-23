@@ -16,9 +16,9 @@ class TestHealth(BaseTest):
 
     def test_health(self):
         health = self.client.health()
-        self.assertEqual(health.message, 'ready for queries and writes')
-        self.assertEqual(health.status, "pass")
-        self.assertEqual(health.name, "influxdb")
+        self.assertEqual('healthy', health.message)
+        self.assertEqual("pass", health.status)
+        self.assertEqual("influxdb", health.name)
 
     def test_health_not_running_instance(self):
         client_not_running = InfluxDBClient("http://localhost:8099", token="my-token", debug=True)
