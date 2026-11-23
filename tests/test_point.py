@@ -114,6 +114,24 @@ class PointTest(unittest.TestCase):
 
         self.assertEqual("h2o,location=europe level=\"string esc\\\"ape value\"", point.to_line_protocol())
 
+    def test_field_key_rejects_odd_backslashes_before_space(self):
+        for key, value in [(r"this doesnt \ work", 666), (r"a\\\ b", 1.5),
+                           (r"a\ b", True), (r"a\ b", "value")]:
+            with self.subTest(key=key, value=value):
+                point = Point.from_dict({"measurement": "test", "fields": {key: value}})
+                with self.assertRaisesRegex(ValueError, "field key.*odd number of backslashes"):
+                    point.to_line_protocol()
+
+    def test_field_key_escapes_valid_spaces_and_backslashes(self):
+        for key, escaped in [("a b", r"a\ b"), (r"a\\ b", r"a\\\ b"), (r"a\b", r"a\b")]:
+            with self.subTest(key=key):
+                point = Point("test").field(key, 1)
+                self.assertEqual(f"test {escaped}=1i", point.to_line_protocol())
+
+    def test_invalid_field_key_is_ignored_when_value_is_omitted(self):
+        point = Point("test").field(r"a\ b", None).field(r"c\ d", float("nan")).field("valid", 1)
+        self.assertEqual("test valid=1i", point.to_line_protocol())
+
     def test_Time(self):
         point = Point.measurement("h2o") \
             .tag("location", "europe") \

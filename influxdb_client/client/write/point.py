@@ -1,6 +1,7 @@
 """Point data structure to represent LineProtocol."""
 
 import math
+import re
 import warnings
 from builtins import int
 from datetime import datetime, timedelta, timezone
@@ -35,6 +36,8 @@ _ESCAPE_STRING = str.maketrans({
     '"': r'\"',
     '\\': r'\\',
 })
+
+_ODD_BACKSLASHES_BEFORE_SPACE = re.compile(r"(?<!\\)(?:\\\\)*\\ ")
 
 try:
     import numpy as np
@@ -220,6 +223,7 @@ class Point(object):
         Create LineProtocol.
 
          :param precision: required precision of LineProtocol. If it's not set then use the precision from ``Point``.
+         :raises ValueError: if a field key being written has an odd number of backslashes immediately before a space.
         """
         _measurement = _escape_key(self._name, _ESCAPE_MEASUREMENT)
         if _measurement.startswith("#"):
@@ -296,16 +300,18 @@ def _append_fields(fields, field_types):
             # and takes more space than needed, so trim it off.
             if s.endswith('.0'):
                 s = s[:-2]
-            _return.append(f'{_escape_key(field)}={s}')
+            encoded_value = s
         elif (isinstance(value, int) or _np_is_subtype(value, 'int')) and not isinstance(value, bool):
             _type = field_types.get(field, "i")
-            _return.append(f'{_escape_key(field)}={str(value)}{_type}')
+            encoded_value = f'{str(value)}{_type}'
         elif isinstance(value, bool):
-            _return.append(f'{_escape_key(field)}={str(value).lower()}')
+            encoded_value = str(value).lower()
         elif isinstance(value, str):
-            _return.append(f'{_escape_key(field)}="{_escape_string(value)}"')
+            encoded_value = f'"{_escape_string(value)}"'
         else:
             raise ValueError(f'Type: "{type(value)}" of field: "{field}" is not supported.')
+
+        _return.append(f'{_escape_field_key(field)}={encoded_value}')
 
     return f"{','.join(_return)}"
 
@@ -320,6 +326,16 @@ def _escape_key(tag, escape_list=None) -> str:
     if escape_list is None:
         escape_list = _ESCAPE_KEY
     return str(tag).translate(escape_list)
+
+
+def _escape_field_key(field) -> str:
+    key = str(field)
+    # Escaping the space adds a backslash. If the original run is odd, the
+    # server consumes the resulting backslashes in pairs and sees a delimiter.
+    if "\\ " in key and _ODD_BACKSLASHES_BEFORE_SPACE.search(key):
+        raise ValueError(f"Cannot serialize field key {key!r}: an odd number of backslashes before a space "
+                         "is not supported by InfluxDB line protocol.")
+    return _escape_key(key)
 
 
 def _escape_tag_value(value) -> str:
