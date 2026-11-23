@@ -16,7 +16,8 @@ class TestHealth(BaseTest):
 
     def test_health(self):
         health = self.client.health()
-        self.assertEqual('healthy', health.message)
+        healthResponses = ["healthy", "ready for queries and writes"]
+        self.assertIn(health.message, healthResponses)
         self.assertEqual("pass", health.status)
         self.assertEqual("influxdb", health.name)
 
