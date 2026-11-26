@@ -23,6 +23,10 @@ class FluxCsvParserAsyncExceptionTest(unittest.TestCase):
             if hasattr(error, "add_note") and isinstance(error, (asyncio.CancelledError, asyncio.TimeoutError)):
                 self.assertTrue(any("timeout" in note for note in error.__notes__))
 
-        for error in (asyncio.CancelledError(), asyncio.TimeoutError(), ValueError("invalid row")):
-            with self.subTest(error=type(error).__name__):
-                asyncio.run(check(error))
+        loop = asyncio.new_event_loop()
+        try:
+            for error in (asyncio.CancelledError(), asyncio.TimeoutError(), ValueError("invalid row")):
+                with self.subTest(error=type(error).__name__):
+                    loop.run_until_complete(check(error))
+        finally:
+            loop.close()
