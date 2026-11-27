@@ -101,7 +101,7 @@ class AuthorizationsClientTest(BaseTest):
         organization = self.client.organizations_api().create_organization(self.generate_name("Auth Organization"))
         bucket = self.client.buckets_api().create_bucket(bucket_name=self.generate_name("Auth Bucket"),
                                                          retention_rules=BaseTest.retention_rule(),
-                                                         org=self.organization)
+                                                         org=organization)
         resource = PermissionResource(org_id=organization.id, type="buckets", id=bucket.id)
         create_bucket = Permission(action="read", resource=resource)
         delete_bucket = Permission(action="write", resource=resource)
@@ -118,6 +118,7 @@ class AuthorizationsClientTest(BaseTest):
         self.assertEqual(authorization.permissions[1].resource.type, "buckets")
         self.assertEqual(authorization.permissions[1].action, "write")
         self.delete_test_bucket(bucket)
+
 
     def test_findAuthorizationsByID(self):
         with pytest.raises(ApiException) as e:
