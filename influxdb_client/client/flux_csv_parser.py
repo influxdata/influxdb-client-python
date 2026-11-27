@@ -149,7 +149,7 @@ class FluxCsvParser(object):
                     yield df
         except BaseException as e:
             e_type = type(e).__name__
-            if "CancelledError" in e_type or "TimeoutError" in e_type:
+            if ("CancelledError" in e_type or "TimeoutError" in e_type) and hasattr(e, "add_note"):
                 e.add_note("Stream cancelled during read.  Recommended: Check Influxdb client `timeout` setting.")
             raise
         finally:
