@@ -2,7 +2,12 @@
 
 from __future__ import absolute_import
 
+import http.server
+import os
+import subprocess
 import sys
+import textwrap
+import threading
 import time
 import unittest
 from collections import namedtuple
@@ -802,6 +807,89 @@ class BatchingWriteTest(unittest.TestCase):
                                       write_options=SYNCHRONOUS)
         # Must not raise
         self._write_client.flush()
+
+
+class BatchingWriteInterpreterShutdownTest(unittest.TestCase):
+    """
+    Closing the batching WriteApi in an ``atexit`` handler writes the last batch.
+
+    Since Python 3.9 the thread pools used by the batching pipeline stop accepting work before ``atexit``
+    handlers run, so the scenario runs in a separate interpreter against a local HTTP server.
+    """
+
+    def setUp(self) -> None:
+        self.requests = []
+        requests = self.requests
+
+        class WriteHandler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):
+                requests.append(self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8'))
+                self.send_response(204)
+                self.end_headers()
+
+            def log_message(self, format, *args):
+                pass
+
+        self.httpd = http.server.ThreadingHTTPServer(('127.0.0.1', 0), WriteHandler)
+        self.httpd_thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
+        self.httpd_thread.start()
+
+    def tearDown(self) -> None:
+        self.httpd.shutdown()
+        self.httpd.server_close()
+
+    def _run_script(self, script):
+        return subprocess.run([sys.executable, '-c', textwrap.dedent(script),
+                               'http://127.0.0.1:%d' % self.httpd.server_address[1]],
+                              cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=60)
+
+    def test_close_in_atexit(self):
+        result = self._run_script("""
+            import atexit
+            import sys
+
+            from influxdb_client import InfluxDBClient
+
+            client = InfluxDBClient(url=sys.argv[1], token="my-token", org="my-org")
+            write_api = client.write_api()
+
+            @atexit.register
+            def close():
+                print("closing")
+                write_api.close()
+                client.close()
+
+            write_api.write("my-bucket", record="h2o_feet,location=coyote_creek water_level=1 1")
+        """)
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual(["h2o_feet,location=coyote_creek water_level=1 1"], self.requests, result.stderr)
+        self.assertIn("closing", result.stdout)
+        self.assertNotIn("cannot schedule new futures", result.stderr)
+
+    def test_write_and_close_in_atexit(self):
+        result = self._run_script("""
+            import atexit
+            import sys
+
+            from influxdb_client import InfluxDBClient
+
+            client = InfluxDBClient(url=sys.argv[1], token="my-token", org="my-org")
+            write_api = client.write_api()
+
+            @atexit.register
+            def close():
+                print("closing")
+                write_api.write("my-bucket", record="h2o_feet,location=coyote_creek water_level=2 2")
+                write_api.close()
+                client.close()
+        """)
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual(["h2o_feet,location=coyote_creek water_level=2 2"], self.requests, result.stderr)
+        self.assertIn("closing", result.stdout)
+        self.assertNotIn("cannot schedule new futures", result.stderr)
 
 
 if __name__ == '__main__':
