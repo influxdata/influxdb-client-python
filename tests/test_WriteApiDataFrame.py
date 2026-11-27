@@ -459,6 +459,23 @@ Date;Entry Type;Value;Currencs;Category;Person;Account;Counter Account;Group;Not
         self.assertEqual('test value1=10i,value2=30i 1586044800000000000', points[0])
         self.assertEqual('test value1=20i,value2=40i 1588636800000000000', points[1])
 
+    def test_timestamp_column_name_contains_field_name(self):
+        from influxdb_client.extras import pd
+        data_frame = pd.DataFrame(data={
+            'OpenTime': ['2020-04-05', '2020-05-05'],
+            'Open': [10, 20],
+            'Time': [30, 40],
+        }, index=['A', 'B'])
+
+        points = data_frame_to_list_of_points(data_frame=data_frame,
+                                              data_frame_measurement_name="test",
+                                              data_frame_timestamp_column="OpenTime",
+                                              point_settings=PointSettings())
+
+        self.assertEqual(2, len(points))
+        self.assertEqual('test Open=10i,Time=30i 1586044800000000000', points[0])
+        self.assertEqual('test Open=20i,Time=40i 1588636800000000000', points[1])
+
     def test_str_format_for_timestamp(self):
         from influxdb_client.extras import pd
 

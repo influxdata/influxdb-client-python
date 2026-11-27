@@ -174,7 +174,7 @@ class DataframeSerializer:
                     key_value = f',{key_format}={{str({val_format}).translate(_ESCAPE_KEY)}}'
                 tags.append(key_value)
                 continue
-            elif timestamp_column is not None and key in timestamp_column:
+            elif timestamp_column is not None and key == timestamp_column:
                 timestamp_index = field_index
                 continue
 
